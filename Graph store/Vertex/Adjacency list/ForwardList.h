@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "ForwardListIterator.h"
+#include <utility>
 #include <assert.h>
 #include <stdexcept>
 
@@ -11,9 +12,11 @@ class ForwardList
 {
 public:
 	ForwardList();
+	ForwardList(ForwardList<T>&&);
 	ForwardList(const ForwardList<T>&);
 	~ForwardList();
 
+	ForwardList<T>& operator=(ForwardList<T>&&);
 	ForwardList<T>& operator=(const ForwardList<T>&);
 
 	int getCount()const;                             
@@ -22,6 +25,7 @@ public:
 	ForwardListIterator<T> getHead();                         
 	ForwardListIterator<T> getTail();
 
+	void appendList(ForwardList<T>&&);
 	void appendList(const ForwardList<T>&);          
 
 	void removeAll();
@@ -37,12 +41,11 @@ public:
 	void removeTail();                          
 
 	void removeAt(ForwardListIterator<T>& it); 
-
 	void removeBefore(ForwardListIterator<T>& it);
 	void removeAfter(ForwardListIterator<T>& it);
 
 	void insertAfter(ForwardListIterator<T>& it, const T&);          
-	void insertBefore(ForwardListIterator<T>& it, const T&);                
+	void insertBefore(ForwardListIterator<T>& it, const T&);      
 
 private:
 	int count;                                         
@@ -51,6 +54,7 @@ private:
 
 private:
 	void checkIsEmtpy()const;    
+	void nullMembers();
 
 	Node<T>* findNodeBefore(const Node<T>* node)const; 
 
@@ -58,12 +62,14 @@ private:
 	void insertAfter(Node<T>* node, const T&);
 	void insertBefore(Node<T>* node, const T&);
 
+	void appendChain(Node<T>* first, Node<T>* last, int count);
+
+	void swapContentsWith(ForwardList<T>);
+
 private:
-	static Node<T>* findEndOfChain(Node<T>* firstNode); 
-	static Node<T>* cloneChain(const Node<T>* firstNode, Node<T>** lastNode = NULL);
+	static Node<T>* cloneChain(const Node<T>* firstNode, Node<T>** lastNode = nullptr);
 	static void clearChain(const Node<T>* firstNode);  
 };
 
 #include "ForwardListImpl.hpp"
-
 #endif //__SINGLY_LINKED_LIST_H_INCLUDED__

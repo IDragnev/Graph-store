@@ -33,7 +33,7 @@ bool ForwardListIterator<Key>::operator!()const
 
 
 //
-//advance to the next node in the list
+//advance to the next node in the list (if not null)
 //
 template <typename Key>
 ForwardListIterator<Key>& ForwardListIterator<Key>::operator++()
@@ -71,7 +71,14 @@ Key& ForwardListIterator<Key>::operator*()
 //owner and current should be the same
 //
 template <typename Key>
-bool ForwardListIterator<Key>::operator==(const ForwardListIterator<Key>& iter)const
+bool operator==(const ForwardListIterator<Key>& lhs, const ForwardListIterator<Key>& rhs)
 {
-	return (this->current == iter.current && this->owner == iter.owner);
+	return (lhs.current == rhs.current && lhs.owner == rhs.owner);
+}
+
+
+template <typename Key>
+bool operator!=(const ForwardListIterator<Key>& lhs, const ForwardListIterator<Key>& rhs)
+{
+	return !(lhs == rhs);
 }

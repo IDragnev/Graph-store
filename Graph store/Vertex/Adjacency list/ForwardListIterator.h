@@ -20,7 +20,10 @@ public:
 	bool operator!()const;             
 	operator bool()const;             
 	
-	bool operator==(const ForwardListIterator<Key>&)const;
+	template <typename Key>
+	friend bool operator==(const ForwardListIterator<Key>&, const ForwardListIterator<Key>&);
+	template <typename Key>
+	friend bool operator!=(const ForwardListIterator<Key>&, const ForwardListIterator<Key>&);
 
 private:
 	Node<Key>* current;            

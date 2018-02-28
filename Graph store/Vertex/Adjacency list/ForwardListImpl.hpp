@@ -54,10 +54,19 @@ ForwardListIterator<T> ForwardList<T>::getTail()
 //
 
 
+template <typename T>
+void ForwardList<T>::nullMembers()
+{
+	head = nullptr;
+	tail = nullptr;
+	count = 0;
+}
+
+
 //
-//sets the value of the head node with the passed value
+//sets the data of the head node with the passed value
 //
-//if the list is empty, an exception is thrown
+// \ if the list is empty, an exception is thrown
 //
 template <typename T>
 void ForwardList<T>::setHead(const T& value)
@@ -68,10 +77,11 @@ void ForwardList<T>::setHead(const T& value)
 }
 
 
+
 //
-//sets the value of the tail node with the passed value
+//sets the data of the tail node with the passed value
 //
-//if the list is empty, an exception is thrown
+// \ if the list is empty, an exception is thrown
 //
 template <typename T>
 void ForwardList<T>::setTail(const T& value)
@@ -89,31 +99,10 @@ void ForwardList<T>::setTail(const T& value)
 //
 
 
-
-//
-//move forward in the chain while possible
-//and return the address of the last node
-//
-template <typename T>
-Node<T>* ForwardList<T>::findEndOfChain(Node<T>* firstNode)
-{
-	assert(firstNode);
-
-	Node<T>* current = firstNode;
-
-	//while there is an actual successor
-	//move forward in the chain
-	while (current->next)
-		current = current->next;
-
-	return current;
-}
-
-
 //
 //free each node in the chain
 //
-//if the sent address is NULL the function does nothing
+// \ if the sent address is nullptr the function does nothing
 //
 template <typename T>
 void ForwardList<T>::clearChain(const Node<T>* firstNode)
@@ -141,24 +130,24 @@ void ForwardList<T>::clearChain(const Node<T>* firstNode)
 
 
 //
-//free the chain
-//and set members back to 0
+//free the chain of nodes
+//and null the members
 //
 template <typename T>
 void ForwardList<T>::removeAll()
 {
 	clearChain(head);
 
-	head = NULL;
-	tail = NULL;
-	count = 0;
+	nullMembers();
 }
 
 
 
 
 //
-//clone the chain by the address of its first node
+//clone a chain by the address of its first node
+//
+//the function assumes firstNode is a valid pointer
 //
 // \ if endOfChain points to a valid pointer
 //   it is set to point to the address of the
@@ -167,7 +156,7 @@ void ForwardList<T>::removeAll()
 template <typename T>
 Node<T>* ForwardList<T>::cloneChain(const Node<T>* firstNode, Node<T>** endOfChain)
 {
-	Node<T>* newChain = NULL;
+	Node<T>* newChain = nullptr;
 	assert(firstNode);
 
 	try
@@ -198,7 +187,7 @@ Node<T>* ForwardList<T>::cloneChain(const Node<T>* firstNode, Node<T>** endOfCha
 			*endOfChain = connectTo;
 
 		return newChain;
-	} //in case of bad allocation
+	} 
 	catch (std::bad_alloc& ex)
 	{		
 		clearChain(newChain);
@@ -209,8 +198,7 @@ Node<T>* ForwardList<T>::cloneChain(const Node<T>* firstNode, Node<T>** endOfCha
 
 
 //
-//append other list's chain of nodes
-//to this
+//append other list's chain of nodes to this
 //
 template <typename T>
 void ForwardList<T>::appendList(const ForwardList<T>& other)
@@ -220,52 +208,82 @@ void ForwardList<T>::appendList(const ForwardList<T>& other)
 		return;
 
 	//a pointer to save the end of the new chain
-	Node<T>* endOfChain = NULL;
+	Node<T>* endOfChain = nullptr;
 
 	//clone other list's chain of nodes
 	Node<T>* newChain = cloneChain(other.head, &endOfChain);
 
+	//append the cloned chain to the current one
+	appendChain(newChain, endOfChain, other.count);
+}
+
+
+
+//
+//append source's chain of nodes to this directly, 
+//leaving source in a valid empty state
+//
+template <typename T>
+void ForwardList<T>::appendList(ForwardList<T>&& source)
+{
+	//if source is empty, leave
+	if (source.isEmpty())
+		return;
+
+	//append source's chain
+	appendChain(source.head, source.tail, source.count);
+
+	//and null it
+	source.nullMembers();
+}
+
+
+
+
+//
+//append the sent chain to the current chain and update count
+//
+template <typename T>
+void ForwardList<T>::appendChain(Node<T>* first, Node<T>* last, int count)
+{
+	assert(first && last);
+
 	//if the list is empty, attach the chain to the head pointer
 	if (isEmpty())
 	{
-		this->head = newChain;
+		this->head = first;
 	}
-	else //else attach it to the tail node
+	else //attach it to the tail node
 	{
-		this->tail->next = newChain;
+		this->tail->next = first;
 	}
 
-	assert(endOfChain);
-
-	//update tail
-	this->tail = endOfChain;    
-
-	//increase count
-	this->count += other.count;
+	//update tail and count
+	this->tail = last;
+	this->count += count;
 }
+
+
 
 //
 //returns the node before the passed one 
 //
-//if node is the actual head
-//no matching node is found and NULL is returned
+// \ if no matching node is found, nullptr is returned
+//
+// \ if the list is empty, nullptr is returned
 //
 template <typename T>
 Node<T>* ForwardList<T>::findNodeBefore(const Node<T>* node)const
 {
-	//start from head
 	Node<T>* current = head;
 
-	//while there is an actual node and its sucessor is not the one 
+	//while there is an actual node and its successor is not the one 
 	//we are searching for, move forward in the list
 	while (current && current->next != node)
 	{
 		current = current->next;
 	}
 
-	//if the list was empty, NULL is returned
-	//if the passed node is not in the list,
-	//the end of list is reached, where current points to NULL
 	return current;
 }
 
@@ -280,14 +298,14 @@ Node<T>* ForwardList<T>::findNodeBefore(const Node<T>* node)const
 
 
 //
-//the list is empty when constructed
+//the list is empty when default-constructed
 //
 template <typename T>
 ForwardList<T>::ForwardList()
 	:
 	count(0),
-	head(NULL),
-	tail(NULL)
+	head(nullptr),
+	tail(nullptr)
 {
 	;
 }
@@ -295,14 +313,14 @@ ForwardList<T>::ForwardList()
 
 //
 //initialize members as 0
-//and append other's chain of nodes 
+//and append other's chain of nodes (copied) 
 //
 template <typename T>
 ForwardList<T>::ForwardList(const ForwardList<T>& other)
 	:
 	count(0),
-	head(NULL),
-	tail(NULL)
+	head(nullptr),
+	tail(nullptr)
 {
 	appendList(other);
 	assert(count == other.count);
@@ -310,20 +328,19 @@ ForwardList<T>::ForwardList(const ForwardList<T>& other)
 
 
 
+//
+//copy assignment
+//
+//copy-construct 'swapContentsWith' parameter from 'other'
+//and let it do the work
+//
 template <typename T>
 ForwardList<T>& ForwardList<T>::operator=(const ForwardList<T>& other)
 {
 	if (this != &other)
 	{
-		//copy other's chain in a temp. object
-		ForwardList<T> temp(other);
-
-		//swap this' chain with temp's chain
-		std::swap(this->head, temp.head);
-		std::swap(this->tail, temp.tail);
-		
-		//swap the count and leave temp destroy the old chain
-		std::swap(this->count, temp.count);
+		//parameter is copy-constructed from other
+		swapContentsWith(other);
 	}
 
 	return *this;
@@ -341,6 +358,65 @@ ForwardList<T>::~ForwardList()
 
 
 
+//
+//move constructor
+//
+//'steal' source's data and then null source 
+//(source is left in a valid empty state)
+//
+template <typename T>
+ForwardList<T>::ForwardList(ForwardList<T>&& source)
+	:
+	head(source.head),
+	tail(source.tail),
+	count(source.count)
+{
+	source.nullMembers();
+}
+
+
+
+//
+//move assignment
+//
+//move source in the 'swapContentsWith' parameter (which is a temporary object)
+//and let it do the work
+//
+template <typename T>
+ForwardList<T>& ForwardList<T>::operator=(ForwardList<T>&& source)
+{
+	if (this != &source)
+	{
+		//source is moved into parameter
+		swapContentsWith(std::move(source));
+	}
+
+	return *this;
+}
+
+
+
+
+//
+// construct temp (parameter) with the passed argument,
+// swap contents with this and let temp destroy old data
+//
+// \ if the argument is an rvalue, temp will be move-constructed from it
+// 
+// \ if the argument is an lvalue, temp will be copy-constructed from it
+//
+template <typename T>
+void ForwardList<T>::swapContentsWith(ForwardList<T> temp)
+{
+	std::swap(this->head, temp.head);
+	std::swap(this->tail, temp.tail);
+	std::swap(this->count, temp.count);
+
+	//temp dies here...
+}
+
+
+
 //-------------------------------------------------------------------------------------
 //
 //INSERTION AND REMOVAL
@@ -348,14 +424,12 @@ ForwardList<T>::~ForwardList()
 
 
 //
-//add a node with the passed value 
-//as head node
+//add a node with the passed data as a head node
 //
 template <typename T>
 void ForwardList<T>::addAsHead(const T& value)
 {
-	//make a new node and set its successor 
-	//to be the current head node
+	//the new node's successor is the current head node
 	Node<T>* newHead = new Node<T>(value, this->head);
 
 	//if the list is emtpy, set tail
@@ -364,17 +438,16 @@ void ForwardList<T>::addAsHead(const T& value)
 		this->tail = newHead;
 	}
 
-	//update head
+	//update head and count
 	this->head = newHead;
 
-	//update count
 	++count;
 }
 
 
+
 //
-//add a node with the passed value
-//as the new tail
+//add a node with the passed data as the new tail
 //
 template <typename T>
 void ForwardList<T>::addAsTail(const T& value)
@@ -382,30 +455,29 @@ void ForwardList<T>::addAsTail(const T& value)
 	//has no successor as a tail
 	Node<T>* newTail = new Node<T>(value);
 
-	//if the list is empty
+	//if the list is empty, update head
 	if (isEmpty())
 	{
-		//update head
 		this->head = newTail;
 	}
-	else
+	else //update the successor of current tail
 	{	
-		//update the successor of current tail
 		this->tail->next = newTail;
 	}
 
-	//update tail
+	//update tail and count
 	this->tail = newTail;
 
-	//update count
 	++count;
 }
+
+
 
 
 //
 //remove the head node
 //
-//if the list is empty, an exception is thrown
+// \ if the list is empty, an exception is thrown
 //
 template <typename T>
 void ForwardList<T>::removeHead()
@@ -417,20 +489,19 @@ void ForwardList<T>::removeHead()
 	//keep the address of the old head node
 	Node<T>* oldHead = head;
 
-	//move to the next node in the list
+	//move head to the next node in the list
 	head = head->next;
 
 	//if this was the only node in the list
-	if(head == NULL)
+	//update tail to nullptr 
+	if(head == nullptr)
 	{
-		//update tail to be NULL too
-		tail = NULL;
+		tail = nullptr;
 	}
 
-	//free old head
+	//free old head and update count
 	delete oldHead;
 
-	//update count 
 	--count;
 }
 
@@ -440,7 +511,7 @@ void ForwardList<T>::removeHead()
 //
 //remove the specified node from the list
 //
-//if the pointer is NULL, the function does nothing
+// \ if the pointer is nullptr, the function does nothing
 //
 template <typename T>
 void ForwardList<T>::removeAt(Node<T>* node)
@@ -460,7 +531,7 @@ void ForwardList<T>::removeAt(Node<T>* node)
 
 			assert(nodeBefore);
 
-			//if the node we are about to delete is the tail 
+			//if the node we are about to delete is the tail, update tail
 			if (node == tail)
 			{
 				tail = nodeBefore;
@@ -469,10 +540,9 @@ void ForwardList<T>::removeAt(Node<T>* node)
 			//update the successor of the previous node
 			nodeBefore->next = node->next;
 
-			//free node
+			//free node and update count
 			delete node;
 
-			//update count
 			--count;
 		}
 	}
@@ -480,20 +550,20 @@ void ForwardList<T>::removeAt(Node<T>* node)
 
 
 //
-//if the iterator is not from this list
-//an exception is thrown
+//remove the node the sent iterator is pointing to
+//
+// \ if the iterator is not from this list an exception is thrown
 //
 template <typename T>
-void ForwardList<T>::removeAt(ForwardListIterator<T>& it)
+void ForwardList<T>::removeAt(ForwardListIterator<T>& iterator)
 {
-	if (it.owner != this)
+	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
 
-	//remove it
-	removeAt(it.current);
+	removeAt(iterator.current);
 
 	//invalidate iterator
-	it.current = NULL;
+	iterator.current = nullptr;
 }
 
 
@@ -507,56 +577,53 @@ void ForwardList<T>::removeTail()
 
 
 //
-//insert a node with the sent value
+//insert a node with the sent data
 //exactly after the sent node
 //
-// \ if the pointer is NULL
+// \ if the pointer is nullptr
 //   or it points to the tail node
 //   addAsTail is called 
 //
 template <typename T>
 void ForwardList<T>::insertAfter(Node<T>* node, const T& data)
 {
-	//if NULL or tail
 	if (!node || node == tail)
 	{
 		addAsTail(data);
 	}
-	else //else insert after it
+	else //insert after it
 	{
-		//if it does not point to the tail (and is not NULL) it has a successor
-		assert(node->hasSuccessor());
+		//if it does not point to the tail (and is not nullptr), it has a successor
+		assert(node->next);
 
-		//insert it exactly after the node
+		//newNode's successor is node's current successor
 		Node<T>* newNode = new Node<T>(data, node->next);
 
 		//update node's successor as the new node
 		node->next = newNode;
 
-		//increment count
 		++count;
 	}
 }
 
 
 
+
 //
 //add a new node with the sent data
-//exactly after the iterator's current
+//exactly after the sent iterator's current
 //
 // \ if the iterator is not from this list
 //   std::invalid_arg is thrown
 //
 template <typename T>
-void ForwardList<T>::insertAfter(ForwardListIterator<T>& it, const T& data)
+void ForwardList<T>::insertAfter(ForwardListIterator<T>& iterator, const T& data)
 {
-	if (it.owner != this)
+	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
 
-	//insert it
-	insertAfter(it.current, data);
+	insertAfter(iterator.current, data);
 }
-
 
 
 
@@ -564,20 +631,19 @@ void ForwardList<T>::insertAfter(ForwardListIterator<T>& it, const T& data)
 //insert a node with the sent data 
 //exactly before the sent node
 //
-// \ if the pointer is NULL or points to the head
+// \ if the pointer is nullptr or points to the head,
 //    addAsHead is called
 //
 template <typename T>
 void ForwardList<T>::insertBefore(Node<T>* node, const T& data)
 {
-	//if NULL or points to the head node, insert before the head
 	if (!node || node == head)
 	{
 		addAsHead(data);
 	}
 	else
 	{
-		//it has a predecessor, because it is not the head node
+		//it has a predecessor, because it is not the head node (and is not null)
 		Node<T>* previous = findNodeBefore(node);
 		
 		assert(previous);
@@ -591,22 +657,19 @@ void ForwardList<T>::insertBefore(Node<T>* node, const T& data)
 
 //
 //insert a new node with the sent data
-//exactly before it.current
+//exactly before the sent iterator's current
 //
 // \ if the iterator is not from this list
 //   std::invalid_arg is thrown
 //
 template <typename T>
-void ForwardList<T>::insertBefore(ForwardListIterator<T>& it, const T& data)
+void ForwardList<T>::insertBefore(ForwardListIterator<T>& iterator, const T& data)
 {
-	if (it.owner != this)
+	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
 
-	//insert before it
-	insertBefore(it.current, data);
+	insertBefore(iterator.current, data);
 }
-
-
 
 
 
@@ -617,13 +680,12 @@ void ForwardList<T>::insertBefore(ForwardListIterator<T>& it, const T& data)
 //   std::invalid_arg is thrown
 //
 template <typename T>
-void ForwardList<T>::removeAfter(ForwardListIterator<T>& it)
+void ForwardList<T>::removeAfter(ForwardListIterator<T>& iterator)
 {
-	if (it.owner != this)
+	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
 
-	//remove the one after it
-	removeAt(it.current->next);
+	removeAt(iterator.current->next);
 }
 
 
@@ -636,14 +698,11 @@ void ForwardList<T>::removeAfter(ForwardListIterator<T>& it)
 //   std::invalid_arg is thrown
 //
 template <typename T>
-void ForwardList<T>::removeBefore(ForwardListIterator<T>& it)
+void ForwardList<T>::removeBefore(ForwardListIterator<T>& iterator)
 {
-	if (it.owner != this)
+	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
 
-	//find the one before it 
-	Node<T>* previous = findNodeBefore(it.current);
-
-	//remove the one before it
-	removeAt(previous);
+	//find the one before it and remove it
+	remoteAt( findNodeBefore(iterator.current) );
 }
