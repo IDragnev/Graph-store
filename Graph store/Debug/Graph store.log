@@ -1,3 +1,21 @@
 ﻿  main.cpp
+d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(191): warning C4101: 'ex': unreferenced local variable
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(158): note: while compiling class template member function 'Node<T> *ForwardList<T>::cloneChain(const Node<T> *,Node<T> **)'
+          with
+          [
+              T=String
+          ]
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(214): note: see reference to function template instantiation 'Node<T> *ForwardList<T>::cloneChain(const Node<T> *,Node<T> **)' being compiled
+          with
+          [
+              T=String
+          ]
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(205): note: while compiling class template member function 'void ForwardList<String>::appendList(const ForwardList<String> &)'
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(325): note: see reference to function template instantiation 'void ForwardList<String>::appendList(const ForwardList<String> &)' being compiled
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(320): note: while compiling class template member function 'ForwardList<String>::ForwardList(const ForwardList<String> &)'
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(343): note: see reference to function template instantiation 'ForwardList<String>::ForwardList(const ForwardList<String> &)' being compiled
+  d:\graph store\graph store\vertex\adjacency list\forwardlistimpl.hpp(305): note: while compiling class template member function 'ForwardList<String>::ForwardList(void)'
+  d:\graph store\graph store\main.cpp(16): note: see reference to function template instantiation 'ForwardList<String>::ForwardList(void)' being compiled
+  d:\graph store\graph store\main.cpp(16): note: see reference to class template instantiation 'ForwardList<String>' being compiled
   Graph store.vcxproj -> D:\Graph store\Debug\Graph store.exe
   Graph store.vcxproj -> D:\Graph store\Debug\Graph store.pdb (Full PDB)

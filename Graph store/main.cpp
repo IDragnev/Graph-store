@@ -10,6 +10,7 @@ void fillListAddingTail(ForwardList<int>& list,int count, int first = 0, int ste
 
 int main()
 {
+
 	ForwardList<int> list;
 
 	fillListAddingTail(list, 10, 0, 1);
@@ -20,10 +21,10 @@ int main()
 
 	for (; iterator; ++iterator)
 		std::cout << *iterator << ' ';
-	
+
 	std::cout << std::endl;
 
-	if ( ! list.isEmpty())
+	if (!list.isEmpty())
 		std::cout << "ERROR!" << std::endl;
 
 	return 0;

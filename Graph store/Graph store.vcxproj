@@ -147,8 +147,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="String\String.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardListImpl.hpp" />
     <ClInclude Include="Vertex\Adjacency list\ForwardListIterator.h" />
