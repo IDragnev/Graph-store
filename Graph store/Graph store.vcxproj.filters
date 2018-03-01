@@ -15,6 +15,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Hash Functions">
+      <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\HashFunction.h">
+      <Filter>Hash Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

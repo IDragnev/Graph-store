@@ -150,6 +150,7 @@
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardListImpl.hpp" />
