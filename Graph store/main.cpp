@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../Graph store/Vertex/Adjacency list/ForwardList.h"
+#include "Vertex/Adjacency list/ForwardList.h"
 
 void fillListAddingTail(ForwardList<int>& list,int count, int first = 0, int step = 1)
 {

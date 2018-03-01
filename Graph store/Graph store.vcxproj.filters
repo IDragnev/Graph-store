@@ -21,6 +21,9 @@
     <Filter Include="Dynamic Array">
       <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linear Probing Hash">
+      <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,6 +63,9 @@
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp">
       <Filter>Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash.h">
+      <Filter>Linear Probing Hash</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
