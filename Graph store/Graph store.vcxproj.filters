@@ -18,6 +18,9 @@
     <Filter Include="Hash Functions">
       <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dynamic Array">
+      <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="Hash\HashFunction.h">
       <Filter>Hash Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic Array\DArray.h">
+      <Filter>Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Dynamic Array\DArrayImpl.hpp">
+      <Filter>Dynamic Array</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

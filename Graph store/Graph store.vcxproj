@@ -150,6 +150,8 @@
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dynamic Array\DArray.h" />
+    <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />
