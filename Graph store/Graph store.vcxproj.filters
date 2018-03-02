@@ -64,7 +64,10 @@
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
-    <ClInclude Include="Hash.h">
+    <ClInclude Include="Hash\Hash.h">
+      <Filter>Linear Probing Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\HashImpl.hpp">
       <Filter>Linear Probing Hash</Filter>
     </ClInclude>
   </ItemGroup>

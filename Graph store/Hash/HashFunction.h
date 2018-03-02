@@ -1,5 +1,5 @@
-#ifndef __HASH_H_INCLUDED__
-#define __HASH_H_INCLUDED__
+#ifndef __HASH_FUNC_H_INCLUDED__
+#define __HASH_FUNC_H_INCLUDED__
 
 #include "../String/String.h"
 
@@ -16,4 +16,4 @@ inline size_t HashFunction<Key>::operator()(const Key& key)const
 {
 	return static_cast<size_t>(key);
 }
-#endif //__HASH_H_INCLUDED__
+#endif //__HASH_FUNC_H_INCLUDED__

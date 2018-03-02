@@ -152,8 +152,9 @@
   <ItemGroup>
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
+    <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />
-    <ClInclude Include="Hash.h" />
+    <ClInclude Include="Hash\HashImpl.hpp" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardListImpl.hpp" />

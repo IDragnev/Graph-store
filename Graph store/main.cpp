@@ -7,6 +7,7 @@ void fillListAddingTail(ForwardList<int>& list,int count, int first = 0, int ste
 		list.addAsTail(i);
 }
 
+#include "Hash\Hash.h"
 
 int main()
 {
