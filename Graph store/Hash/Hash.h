@@ -1,7 +1,7 @@
 #ifndef __MY_HASH_HEADER_INCLUDED__
 #define __MY_HASH_HEADER_INCLUDED__
 
-#include "Dynamic Array\DArray.h"
+#include "../Dynamic Array/DArray.h"
 #include "Hash\HashFunction.h"
 #include <assert.h>
 
@@ -48,8 +48,8 @@ private:
 private:
 	int getIndexByKey(const Key&); 
 
-	void expand();
-	void shrink();
+	void resize(int newSize);
+	void nullTable();
 };
 
 #include "HashImpl.hpp"
