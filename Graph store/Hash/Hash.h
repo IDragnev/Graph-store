@@ -47,9 +47,9 @@ private:
 
 private:
 	int getIndexByKey(const Key&); 
-
 	void resize(int newSize);
 	void nullTable();
+	void rehashCluster(int start);
 };
 
 #include "HashImpl.hpp"

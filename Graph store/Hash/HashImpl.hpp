@@ -60,37 +60,6 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 
 
 //
-//remove an item from the table by its key and return its address to the caller
-//
-// \ if there is no item with such key, the table is not modified and nullptr is returned
-//
-template <typename Item, typename Key, typename KeyExtractor>
-Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
-{
-	const int pos = getIndexByKey(key);
-
-	if (pos >= 0)
-	{
-		Item* result =  table[pos];
-
-		assert(result);
-
-		table[pos] = nullptr;
-
-		//REHASH ALL AFTER IT....................................................................................................
-		
-		//SHRINK IF..............................................................................................................
-
-		return result;
-	}
-
-	return nullptr;
-}
-
-
-
-
-//
 //search for an item by a key
 //
 // \ if the item is found, its address is returned
@@ -127,18 +96,20 @@ void Hash<Item, Key, KeyExtractor>::nullTable()
 
 
 
-
+//
+//make a new table with the sent size and rehash all items in it
+//
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 {
 	//must have at least one empty pos. after resize
-	assert(newSize > 0 && newSize > count);
+	assert(newSize - count > 0);
 	
 	const int oldSize = table.getCount();
 
 	DArray<Item*> temp(newSize, newSize);
 
-	//after the swap the table holds random pointers
+	//after the swap the table holds randomly initialized pointers
 	std::swap(table, temp);
 	
 	nullTable();
@@ -166,4 +137,70 @@ void Hash<Item, Key, KeyExtractor>::empty()
 	assert(table.getCount() == 0);
 
 	count = 0;
+}
+
+
+
+//
+//remove an item from the table by its key and return its address to the caller
+//
+// \ if there is no item with such key, the table is not modified and nullptr is returned
+//
+// \ else the item is removed from the table and:
+//    - if the table is 1/6 Full after the removal, it is halved and all the items are rehashed
+//    - else all the items after it in the same cluster are rehashed  
+//
+template <typename Item, typename Key, typename KeyExtractor>
+Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
+{
+	int pos = getIndexByKey(key);
+
+	if (pos >= 0)
+	{
+		const int tableSize = table.getCount();
+
+		assert(pos < tableSize);
+
+		Item* result =  table[pos];
+		assert(result);
+
+		table[pos] = nullptr;
+		--count; 
+
+		if (6 * count <= tableSize)
+			resize(tableSize / 2);
+		else
+			rehashCluster( (pos + 1) % tableSize );
+		
+		return result;
+	}
+
+	return nullptr;
+}
+
+
+
+
+//
+//rehash all the items from the cluster whose start is passed
+//
+template <typename Item, typename Key, typename KeyExtractor>
+void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
+{
+	const int tableSize = table.getCount();
+
+	Item* current = table[start];
+
+	//until the end of the cluster is reached
+	while (current != nullptr)
+	{
+		//remove current from the table
+		table[start] = nullptr;
+		--count;
+
+		insert(*current);
+
+		start = (start + 1) % tableSize;
+		current = table[start];
+	}
 }
