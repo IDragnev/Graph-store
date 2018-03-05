@@ -220,3 +220,46 @@ void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 		current = table[start];
 	}
 }
+
+
+
+
+
+//
+//insert an item in the hash table using its key
+//
+// \ if the table is at least 2/3 full, it is doubled (which handles count = 0 && size = 0)
+//
+template <typename Item, typename Key, typename KeyExtractor>
+void Hash<Item, Key, KeyExtractor>::insert(Item& item)
+{
+	int tableSize = table.getCount();
+
+	if (3 * count >= 2 * tableSize)
+		resize( tableSize = tableSize > 0 ? (2 * tableSize) : 10 );
+
+	int hash = hashFunction( keyExtractor(item) ) % tableSize;
+
+	while(table[hash] != nullptr)
+		hash = (hash + 1) % tableSize;
+
+	table[hash] = &item;
+	++count;
+}
+
+
+
+//***********
+//   TO DO
+//***********
+//template <typename Item, typename Key, typename KeyExtractor>
+//Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
+//	:
+//	count(0),
+//	table() //??????????????????????
+//{
+//	if (expectedSize <= 0)
+//		throw std::invalid_argument("Expected size must be positive");
+//
+//	nullTable();
+//}
