@@ -38,19 +38,25 @@ inline bool Hash<Item, Key, KeyExtractor>::isFull()const
 // (!) the function is not const because keyExtractor and hashFunction
 //   could have non-const operator()
 //
+// (!!) the function handles the case where table.getCount() == 0
+//
 template <typename Item, typename Key, typename KeyExtractor>
 int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 {
-	const int size = table.getCount();
-
-	int hash = hashFunction(key) % size;
-
-	while (table[hash] != nullptr)
+	if (!isEmpty()) // (!!) size = 0 -> count = 0 , so it will handle this case too
 	{
-		if (keyExtractor( *(table[hash]) ) == key)
-			return hash;
+		const int size = table.getCount();
 
-		hash = (hash + 1) % size;
+		int hash = hashFunction(key) % size; // (!!) size != 0 
+
+		while (table[hash] != nullptr)
+		{
+			if (keyExtractor( *(table[hash]) ) == key)
+				return hash;
+
+			hash = (hash + 1) % size;
+		}
+
 	}
 
 	return -1;
@@ -68,10 +74,14 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 //
 // (!) the function is not const because getIndexByKey is not const
 //
+// (!!) getIndexByKey handles the case where table.getCount() == 0 (table.size == 0)
+//
 template <typename Item, typename Key, typename KeyExtractor>
 Item* Hash<Item, Key, KeyExtractor>::search(const Key& key)
 {
 	const int pos = getIndexByKey(key);
+
+	assert(pos < table.getCount());
 
 	if (pos >= 0)
 		return table[pos];
@@ -110,6 +120,7 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 	DArray<Item*> temp(newSize, newSize);
 
 	//after the swap the table holds randomly initialized pointers
+	//and temp holds currently registered objects
 	std::swap(table, temp);
 	
 	nullTable();
@@ -128,6 +139,9 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 //
 //possibly free the table memory (do not depend on DArray impl.)
 //and update count 
+//
+// (!) all registered objects' addresses are lost, the caller is responsible
+//     for saving them elsewhere
 //
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::empty()
@@ -150,10 +164,12 @@ void Hash<Item, Key, KeyExtractor>::empty()
 //    - if the table is 1/6 Full after the removal, it is halved and all the items are rehashed
 //    - else all the items after it in the same cluster are rehashed  
 //
+// (!) getIndexByKey handles the case where table.getCount() == 0 (table.size == 0)
+//
 template <typename Item, typename Key, typename KeyExtractor>
 Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
 {
-	int pos = getIndexByKey(key);
+	const int pos = getIndexByKey(key);
 
 	if (pos >= 0)
 	{
