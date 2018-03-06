@@ -46,6 +46,9 @@ private:
 	KeyExtractor keyExtractor;
 
 private:
+	static const int MIN_SIZE = 3;
+
+private:
 	int getIndexByKey(const Key&); 
 	void resize(int newSize);
 	void nullTable();
