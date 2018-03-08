@@ -47,16 +47,19 @@ inline bool Hash<Item, Key, KeyExtractor>::isFull()const
 template <typename Item, typename Key, typename KeyExtractor>
 int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 {
-	const int tableSize = table.getSize();
-
-	int hash = hashFunction(key) % tableSize;
-
-	while (table[hash] != nullptr)
+	if (!isEmpty())
 	{
-		if (keyExtractor( *(table[hash]) ) == key)
-			return hash;
+		const int TABLE_SIZE = table.getSize();
 
-		hash = (hash + 1) % tableSize;
+		int hash = hashFunction(key) % TABLE_SIZE;
+
+		while (table[hash] != nullptr)
+		{
+			if (keyExtractor( *(table[hash]) ) == key)
+				return hash;
+
+			hash = (hash + 1) % TABLE_SIZE;
+		}
 	}
 
 	return -1;
@@ -67,8 +70,6 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 
 
 //
-//search for an item by a key
-//
 // \ if the item is found, its address is returned
 //
 // \ if there is no item with such key, nullptr is returned
@@ -78,12 +79,12 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 template <typename Item, typename Key, typename KeyExtractor>
 Item* Hash<Item, Key, KeyExtractor>::search(const Key& key)
 {
-	const int pos = getIndexByKey(key);
+	const int INDEX = getIndexByKey(key);
 
-	assert(pos < table.getSize());
+	assert(INDEX < table.getSize());
 
-	if (pos >= 0)
-		return table[pos];
+	if (INDEX >= 0)
+		return table[INDEX];
 	else
 		return nullptr;
 }
@@ -91,15 +92,12 @@ Item* Hash<Item, Key, KeyExtractor>::search(const Key& key)
 
 
 
-//
-//null all pointers in the table (count is not touched)
-//
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::nullTable()
 {
-	const int tableSize = table.getSize();
+	const int TABLE_SIZE = table.getSize();
 
-	for (int i = 0; i < tableSize; ++i)
+	for (int i = 0; i < TABLE_SIZE; ++i)
 		table[i] = nullptr;
 }
 
@@ -114,7 +112,7 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 	//must have at least one empty pos. after resize
 	assert(newSize >= MIN_SIZE && newSize > count);
 	
-	const int oldSize = table.getSize();
+	const int OLD_TABLE_SIZE = table.getSize();
 
 	DArray<Item*> temp(newSize, newSize);
 
@@ -124,8 +122,7 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 	
 	nullTable();
 
-	//rehash items
-	for (int i = 0; i < oldSize; ++i)
+	for (int i = 0; i < OLD_TABLE_SIZE; ++i)
 	{
 		if (temp[i] != nullptr)
 			insert(*temp[i]);
@@ -134,13 +131,6 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 
 
 
-
-//
-//shrink the table to minimum size, null pointers and count
-//
-// (!) all registered objects' addresses are lost, the caller is responsible
-//     for saving them elsewhere
-//
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::empty()
 {
@@ -166,24 +156,24 @@ void Hash<Item, Key, KeyExtractor>::empty()
 template <typename Item, typename Key, typename KeyExtractor>
 Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
 {
-	const int pos = getIndexByKey(key);
+	const int INDEX = getIndexByKey(key);
 
-	if (pos >= 0)
+	if (INDEX >= 0)
 	{
-		const int tableSize = table.getSize();
+		const int TABLE_SIZE = table.getSize();
 
-		assert(pos < tableSize);
+		assert(INDEX < TABLE_SIZE);
 
-		Item* result =  table[pos];
+		Item* result =  table[INDEX];
 		assert(result);
 
-		table[pos] = nullptr;
+		table[INDEX] = nullptr;
 		--count; 
 
-		if (6 * count <= tableSize && tableSize / 2 >= MIN_SIZE)
-			resize(tableSize / 2);
+		if (6 * count <= TABLE_SIZE && TABLE_SIZE / 2 >= MIN_SIZE)
+			resize(TABLE_SIZE / 2);
 		else
-			rehashCluster( (pos + 1) % tableSize );
+			rehashCluster( (INDEX + 1) % TABLE_SIZE);
 		
 		return result;
 	}
@@ -194,37 +184,31 @@ Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
 
 
 
-//
-//rehash all the items from the cluster whose start is passed
-//
+
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 {
-	const int tableSize = table.getSize();
+	const int TABLE_SIZE = table.getSize();
 
 	Item* current = table[start];
 
 	//until the end of the cluster is reached
 	while (current != nullptr)
 	{
-		//remove current from the table
 		table[start] = nullptr;
 		--count;
 
 		insert(*current);
 
-		start = (start + 1) % tableSize;
+		start = (start + 1) % TABLE_SIZE;
 		current = table[start];
 	}
 }
 
 
 
-
 //
-//insert an item in the hash table using its key
-//
-// \ if the table is at least 2/3 full, it is doubled
+// if the table is at least 2/3 full, it is doubled
 //
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::insert(Item& item)
@@ -247,26 +231,21 @@ void Hash<Item, Key, KeyExtractor>::insert(Item& item)
 
 
 //
-//construct the table and null it
-//
-// \ if the expected size is less than the minimum size, the table holds
-//   MIN_SIZE number of pointers ( MIN_SIZE will be small )
-//
-// \ else ( 3 * expectedSize ) / 2 is used, this way if all the expected 
-//   items are inserted, the table will be 2/3 full and will work nicely
-//
-// \ if the expected size is not positive, std::invalid_arg is thrown
-//
-// (!) MIN_SIZE is positive, so the table constructor will never throw an exception
+// ( 3 * expectedSize ) / 2 is used because if all the expected 
+//  items are inserted, the table will be 2/3 full and will work nicely
 //
 template <typename Item, typename Key, typename KeyExtractor>
 Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
 	:
 	count(0),
-	table(expectedSize < MIN_SIZE ? MIN_SIZE : (3 * expectedSize) / 2)     
+	table(0)     
 {
 	if (expectedSize <= 0)
 		throw std::invalid_argument("Expected size must be positive!");
+
+	int actualSize = (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
+
+	table = std::move(DArray<Item*>(actualSize, actualSize));
 
 	nullTable();
 }
