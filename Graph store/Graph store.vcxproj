@@ -154,6 +154,7 @@
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />
+    <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\HashImpl.hpp" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />

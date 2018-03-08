@@ -70,5 +70,8 @@
     <ClInclude Include="Hash\HashImpl.hpp">
       <Filter>Linear Probing Hash</Filter>
     </ClInclude>
+    <ClInclude Include="Hash\HashFunctionStringSpecialization.h">
+      <Filter>Hash Functions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

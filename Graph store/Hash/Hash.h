@@ -17,7 +17,7 @@ const Key& operator()(const Item&); (optionally const)
 In order to use the Hash class, the template class HashFunction
 must be specialised for the correspondig (user-defined) Key class.
 Its operator()'s signature should be:
-size_t operator()(const Key&); (optionally const)
+unsigned operator()(const Key&); (optionally const)
 
 The Key class/struct must support operator==.
 */

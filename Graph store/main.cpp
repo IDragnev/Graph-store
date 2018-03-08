@@ -8,25 +8,51 @@ void fillListAddingTail(ForwardList<int>& list,int count, int first = 0, int ste
 }
 
 #include "Hash\Hash.h"
+#include "Hash\HashFunctionStringSpecialization.h"
+
+
+#include "String\String.h"
+
+
+class Item
+{
+public:
+	Item(const char* key = "asd" ) : key(key) {}
+
+	bool operator==(const Item& other) { return key == other.key; }
+
+	const String& getKey()const { return key; }
+
+private:
+	String key;
+};
+
+
+class KeyExtractor
+{
+public:
+	const String& operator()(const Item& item)
+	{
+		return item.getKey();
+	}
+};
+
+
 
 int main()
 {
+	Hash<Item, String, KeyExtractor> hash(10);
+	
+	Item item("asd");
 
-	ForwardList<int> list;
+	hash.insert(item);
 
-	fillListAddingTail(list, 10, 0, 1);
+	Item* address = hash.search("asd");
+	
+	if (address == &item)
+		std::cout << "YES!!!" << std::endl;
+	else
+		std::cout << "NO!!!" << std::endl;
 
-	ForwardList<int> list2(std::move(list));
-
-	ForwardListIterator<int> iterator = list2.getHead();
-
-	for (; iterator; ++iterator)
-		std::cout << *iterator << ' ';
-
-	std::cout << std::endl;
-
-	if (!list.isEmpty())
-		std::cout << "ERROR!" << std::endl;
-
-	return 0;
+ 	return 0;
 }
