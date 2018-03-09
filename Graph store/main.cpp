@@ -1,11 +1,6 @@
 #include <iostream>
 #include "Vertex/Adjacency list/ForwardList.h"
 
-void fillListAddingTail(ForwardList<int>& list,int count, int first = 0, int step = 1)
-{
-	for (int i = first; i < count; i += step)
-		list.addAsTail(i);
-}
 
 #include "Hash\Hash.h"
 #include "Hash\HashFunctionStringSpecialization.h"
