@@ -31,7 +31,6 @@ public:
 
 	int getCount()const;
 	bool isEmpty()const;
-	bool isFull()const;
 
 	void empty();
 

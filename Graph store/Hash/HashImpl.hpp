@@ -20,19 +20,6 @@ inline bool Hash<Item, Key, KeyExtractor>::isEmpty()const
 }
 
 
-
-//
-//the hash is full when there is exactly one vacant position left
-//in the table
-//
-template <typename Item, typename Key, typename KeyExtractor>
-inline bool Hash<Item, Key, KeyExtractor>::isFull()const
-{
-	return count + 1 == table.getSize();
-}
-
-
-
 //
 //search the table until an empty position or the sought item is found
 //(going to the beginning if the end is reached)
