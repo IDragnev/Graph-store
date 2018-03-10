@@ -2,7 +2,7 @@
 #define __MY_HASH_HEADER_INCLUDED__
 
 #include "../Dynamic Array/DArray.h"
-#include "Hash\HashFunction.h"
+#include "HashFunction.h"
 #include <assert.h>
 
 /*
