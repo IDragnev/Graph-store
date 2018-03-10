@@ -108,6 +108,7 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 	std::swap(table, temp);
 	
 	nullTable();
+	count = 0;
 
 	for (int i = 0; i < OLD_TABLE_SIZE; ++i)
 	{
