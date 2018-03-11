@@ -47,27 +47,27 @@ public:
 private:
 	int count;
 	int size;
-	T* data;
+	T* items;
 
 protected:
 	void setSize(int);
 	void setCount(int);
 
-	void checkSpace();
+	void resizeIfNeeded();
 
-	void shiftLeft(int beg, int end);
-	void shiftRight(int beg, int end);
+	void shiftOnePositionLeft(int start, int end);
+	void shiftOnePositionRight(int start, int end);
 
-	T* getData();
-	const T* getData()const;
+	T* getItems();
+	const T* getItems()const;
 
 private:
 	void copyFrom(const DArray<T>&);
 	void resize(int);
-	void clear();
-	void destroy();
+	void destroyAndNullAll();
+	void destroyItems();
 	void nullMembers();
-	void directInit(T*, int count, int size);
+	void directInit(T* items, int count, int size);
 };
 
 #include "DArrayImpl.hpp"

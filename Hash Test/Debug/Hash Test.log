@@ -1,3 +1,5 @@
 ﻿  HashTest.cpp
+  LINK : D:\Graph store\Debug\Hash Test.dll not found or not built by the last incremental link; performing full link
+     Creating library D:\Graph store\Debug\Hash Test.lib and object D:\Graph store\Debug\Hash Test.exp
   Hash Test.vcxproj -> D:\Graph store\Debug\Hash Test.dll
   Hash Test.vcxproj -> D:\Graph store\Debug\Hash Test.pdb (Partial PDB)
