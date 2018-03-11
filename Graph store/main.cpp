@@ -68,16 +68,22 @@ int main()
 
 	insertItemsToHash(hash, items);
 
-	const int itemsCount = items.getCount();
+	const int ITEMS_COUNT = items.getCount();
 
-	for (int i = 0; i < itemsCount; ++i)
+	for (int i = 0; i < ITEMS_COUNT; ++i)
 	{
-		if (!(hash.getCount() == itemsCount - i))
+		if (!(hash.getCount() == ITEMS_COUNT - i))
 			std::cout << "ERROR!!!!!\n";
 
 		if (hash.remove(items[i].getKey()) == &items[i])
 			std::cout << "OKAY!\n";
 	}
+
+	hash.empty();
+
+	for (int i = 0; i < ITEMS_COUNT; ++i)
+		if (hash.search(items[i].getKey()) != nullptr)
+			std::cout << "ERROR!\n";
 
  	return 0;
 }

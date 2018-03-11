@@ -212,13 +212,17 @@ inline void DArray<T>::ensureSize(int newSize)
 template <typename T>
 inline void DArray<T>::shrink(int newSize)
 {
-	if (newSize < 0 || newSize >= size)
+	if (newSize < 0 || newSize > size)
 		throw std::invalid_argument("Invalid size sent");
 
 	if (newSize == 0)
+	{
 		destroyAndNullAll();
-	else
+	}
+	else if (newSize != size)
+	{
 		resize(newSize);
+	}
 }
 
 

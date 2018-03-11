@@ -41,18 +41,18 @@ namespace HashTest
 								      "another key", "key 5", "123" , "123123", "running out of ideas", 
 									  "Sofia", "IBN", "Word", "Testing", "Tired" };
 
-		const int itemsCount = items.getCount();
+		const int ITEMS_COUNT = items.getCount();
 
-		for (int i = 0; i < itemsCount && i < keysCount; ++i)
+		for (int i = 0; i < ITEMS_COUNT && i < keysCount; ++i)
 			items[i].setKey(keys[i]);
 	}
 
 
 	void insertItemsToHash(ItemHash& hash, DArray<Item>& items)
 	{
-		const int itemsCount = items.getCount();
+		const int ITEMS_COUNT = items.getCount();
 
-		for (int i = 0; i < itemsCount; ++i)
+		for (int i = 0; i < ITEMS_COUNT; ++i)
 			hash.insert(items[i]);
 	}
 
@@ -76,9 +76,9 @@ namespace HashTest
 			DArray<Item> items(15, 10);
 			setItemsWithKeys(items);
 
-			const int itemsCount = items.getCount();
+			const int ITEMS_COUNT = items.getCount();
 
-			for (int i = 0; i < itemsCount; ++i)
+			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.getCount() == i, L"Insertion does not update count");
 				hash.insert(items[i]);
@@ -101,13 +101,42 @@ namespace HashTest
 
 			insertItemsToHash(hash, items);
 
-			const int itemsCount = items.getCount();
+			const int ITEMS_COUNT = items.getCount();
 
-			for (int i = 0; i < itemsCount; ++i)
+			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
-				Assert::IsTrue(hash.getCount() == itemsCount - i, L"Remove does not update count");
+				Assert::IsTrue(hash.getCount() == ITEMS_COUNT - i, L"Remove does not update count");
 				Assert::IsTrue(hash.remove(items[i].getKey()) == &items[i], L"Remove is not returning the correct address");
 			}
+
+			hash.empty();
+
+			for (int i = 0; i < ITEMS_COUNT; ++i)
+				Assert::IsTrue(hash.remove(items[i].getKey()) == nullptr, L"Remove returns non-null address after calling empty");
+		}
+
+
+		TEST_METHOD(SearchingTest)
+		{
+			ItemHash hash(10);
+
+			DArray<Item> items(15, 10);
+			setItemsWithKeys(items);
+
+			insertItemsToHash(hash, items);
+
+			const int ITEMS_COUNT = items.getCount();
+
+			for (int i = 0; i < ITEMS_COUNT; ++i)
+			{
+				Assert::IsTrue(hash.search(items[i].getKey()) == &items[i], L"Search is not returning the correct address");
+				Assert::IsTrue(hash.getCount() == ITEMS_COUNT, L"Search modifies count");
+			}
+
+			hash.empty();
+
+			for (int i = 0; i < ITEMS_COUNT; ++i)
+				Assert::IsTrue(hash.search(items[i].getKey()) == nullptr, L"Search returns non-null address after calling empty");
 		}
 	};
 }
