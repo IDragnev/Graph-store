@@ -18,9 +18,6 @@ public:
 	DArray<T>& operator=(DArray<T>&&);
 	DArray<T>& operator=(const DArray<T>&);
 
-	void append(DArray<T>&&);
-	void append(const DArray<T>&);
-
 public:
 	int getSize()const;
 	int getCount()const;
@@ -34,7 +31,10 @@ public:
 	virtual void add(T&&);
 	virtual void add(const T&);
 	virtual void remove(int position);
-	virtual int find(const T&)const;
+	virtual int search(const T&)const;
+
+	void add(DArray<T>&&);
+	void add(const DArray<T>&);
 
 public:
 	void addAt(int, const T&);

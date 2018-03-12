@@ -406,7 +406,7 @@ void DArray<T>::remove(int position)
 
 
 template <typename T>
-int DArray<T>::find(const T& searchedItem)const
+int DArray<T>::search(const T& searchedItem)const
 {
 	for (int i = 0; i < count; ++i)
 	{
@@ -441,7 +441,7 @@ const T& DArray<T>::operator[](int index)const
 
 
 template <typename T>
-void DArray<T>::append(const DArray<T>& other)
+void DArray<T>::add(const DArray<T>& other)
 {
 	for (int i = 0; i < other.count; ++i)
 		add(other[i]);
@@ -449,7 +449,7 @@ void DArray<T>::append(const DArray<T>& other)
 
 
 template <typename T>
-void DArray<T>::append(DArray<T>&& other)
+void DArray<T>::add(DArray<T>&& other)
 {
 	for (int i = 0; i < other.count; ++i)
 		add(std::move(other[i]));
