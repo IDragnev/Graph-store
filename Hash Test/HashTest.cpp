@@ -59,22 +59,30 @@ namespace HashTest
 
 	TEST_CLASS(HashTest)
 	{
+	private:
+		static DArray<Item> items;
+
 	public:
-
-		TEST_METHOD(EmptyHashTest)
+		TEST_CLASS_INITIALIZE(ItemsInitialization)
 		{
-			ItemHash hash(10);
-
-			Assert::IsTrue(hash.isEmpty(), L"isEmpty returns false directy after construction");
-			Assert::IsTrue(hash.getCount() == 0, L"Count is not zero before inserting any object");
+			setItemsWithKeys(items);
 		}
+
+
+		TEST_METHOD(ConstructorTest)
+		{
+			for (int i = 1; i < 50; ++i)
+			{
+				ItemHash hash(i);
+				Assert::IsTrue(hash.isEmpty(), L"isEmpty returns false directy after construction");
+				Assert::IsTrue(hash.getCount() == 0, L"Count is not zero before inserting any object");
+			}
+		}
+
 
 		TEST_METHOD(InsertionTest)
 		{
 			ItemHash hash(10);
-
-			DArray<Item> items(15, 10);
-			setItemsWithKeys(items);
 
 			const int ITEMS_COUNT = items.getCount();
 
@@ -95,9 +103,6 @@ namespace HashTest
 		TEST_METHOD(RemovalTest)
 		{
 			ItemHash hash(10);
-
-			DArray<Item> items(15, 10);
-			setItemsWithKeys(items);
 
 			insertItemsToHash(hash, items);
 
@@ -120,9 +125,6 @@ namespace HashTest
 		{
 			ItemHash hash(10);
 
-			DArray<Item> items(15, 10);
-			setItemsWithKeys(items);
-
 			insertItemsToHash(hash, items);
 
 			const int ITEMS_COUNT = items.getCount();
@@ -139,4 +141,7 @@ namespace HashTest
 				Assert::IsTrue(hash.search(items[i].getKey()) == nullptr, L"Search returns non-null address after calling empty");
 		}
 	};
+
+	DArray<Item> HashTest::items(15, 10);
+
 }
