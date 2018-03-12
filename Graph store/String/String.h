@@ -18,30 +18,27 @@ public:
 
 	size_t len()const;                          
 
-	String& operator+=(const char*);          
-	String& operator+=(char);
+	String& operator+=(const String&);          
 
 private:
-	char* str;
+	char* theRealString;
 
 private:
 	const char* getValue()const;           
 	void setValue(const char*);  
-	void append(const char*);
+	void appendToValue(const char*);
 };
 
 
-String operator+(const String&, char);
 String operator+(char, const String&);
-String operator+(const String&, const String&);
 String operator+(const char*, const String&);
-String operator+(const String&, const char*);
+String operator+(const String&, const String&);
 
-bool operator==(const String& s1, const String& s2); 
-bool operator!=(const String& s1, const String& s2);
-bool operator>(const String& s1, const String& s2);  
-bool operator>=(const String& s1, const String& s2);
-bool operator<(const String& s1, const String& s2); 
-bool operator<=(const String& s1, const String& s2);
+bool operator==(const String& lhs, const String& rhs); 
+bool operator!=(const String& lhs, const String& rhs);
+bool operator>(const String& lhs, const String& rhs);
+bool operator>=(const String& lhs, const String& rhs);
+bool operator<(const String& lhs, const String& rhs);
+bool operator<=(const String& lhs, const String& rhs);
 
 #endif // __STRING_H_INCLUDED__

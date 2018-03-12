@@ -7,13 +7,9 @@
 //
 
 
-//
-//if str is nullptr return an empty string
-//else return str
-//
 const char* String::getValue()const
 {
-	return (str) ? str : "";
+	return (theRealString != nullptr) ? theRealString : "";
 }
 
 
@@ -24,18 +20,12 @@ String::operator const char *()const
 
 
 
-//
-//if the sent value is nullptr 
-//free the pointer and set str as nullptr
-//
-//else reconstruct str with the sent value
-//
 void String::setValue(const char* value)
 {
 	if (!value)
 	{
-		delete[] str;
-		str = nullptr;
+		delete[] theRealString;
+		theRealString = nullptr;
 	}
 	else
 	{
@@ -43,29 +33,21 @@ void String::setValue(const char* value)
 		char* buffer = new char[size];
 		strcpy_s(buffer, size, value);
 
-		delete[] str;
-		str = buffer;
+		delete[] theRealString;
+		theRealString = buffer;
 	}
 }
 
 
 
-//
-//get the length of the string
-//
-// 0 if nullptr, strlen else
-//
 size_t String::len()const
 {
-	return (str) ? strlen(str) : 0;
+	return (theRealString != nullptr) ? strlen(theRealString) : 0;
 }
 
 
-//
-//if the sent value is null, do nothing
-//else reconstruct str with a concatenated string
-//
-void String::append(const char* value)
+
+void String::appendToValue(const char* value)
 {
 	if (value)
 	{
@@ -77,90 +59,75 @@ void String::append(const char* value)
 			size += (this->len() + 1);
 			char* buffer = new char[size];
 
-			//copy this->str (could be null) and 'append' value
+			//getValue() because theRealString could be null
 			strcpy_s(buffer, size, getValue());
 			strcat_s(buffer, size, value);
 
-			delete[] str;
-			str = buffer;
+			delete[] theRealString;
+			theRealString = buffer;
 		}
 	}
 }
+
 
 //----------------------------------------------------------------------------------------------
 //
 //CTORS
 //
 
-//
-//holds a null value by default
-//
+
+
 String::String()
 	:
-	str(nullptr)
+	theRealString(nullptr)
 {
 	;
 }
 
 
-
-//
-//constructs str with the sent value
-//
 String::String(const char* value)
 	:
-	str(nullptr)
+	theRealString(nullptr)
 {
 	setValue(value);
 }
 
 
-//
-//reconstructs str with other's str
-//
 String::String(const String& other)
 	:
-	str(nullptr)
+	theRealString(nullptr)
 {
-	setValue(other.str);
+	setValue(other.theRealString);
 }
 
 
 
-//
-//makes a new string with two 'boxes'
-//one of which is the symbol
-//and the other is '\0'
-//
 String::String(char c)
 	:
-	str(nullptr)
+	theRealString(nullptr)
 {
-	str = new char[2];
-	str[0] = c;
-	str[1] = '\0';
+	theRealString = new char[2];
+	theRealString[0] = c;
+	theRealString[1] = '\0';
 }
 
 
-//
-//free str
-//
+
 String::~String()
 {
-	delete[] str;
+	delete[] theRealString;
 }
+
 
 
 //
 //move constructor
 //
-//transfers source's string to this object
-//
 String::String(String&& source)
 	:
-	str(source.str)
+	theRealString(source.theRealString)
 {
-	source.str = nullptr;
+	source.theRealString = nullptr;
 }
 
 
@@ -172,16 +139,16 @@ String::String(String&& source)
 // \ if rhs is an rvalue, 'other' will be initialized with move c-tor
 //
 // \ if rhs is an lvalue, 'other' will be copy-constructed which is fine
-//   because we would have to reconstruct other's str anyway
+//   because we would have to reconstruct other's theRealString anyway
 //
 // \ if rhs is const char*, 'other' will be constructed with String(const char*)
-//   which is fine again, because we would have to reconstruct this->str anyway
+//   which is fine again, because we would have to reconstruct this->theRealString anyway
 //
 // After constructing 'other' with rhs, data is swapped and 'other' destroys old data.
 //
 //String& String::operator=(String other)
 //{
-//	std::swap(this->str, other.str);
+//	std::swap(this->theRealString, other.theRealString);
 //
 //	return *this;
 //}
@@ -190,15 +157,13 @@ String::String(String&& source)
 
 
 //
-//copy assignment, can be called for lvalues only
-//
-// setValue frees old memory (if any)
+// (!) setValue frees old memory (if any)
 //
 String& String::operator=(const String& other)
 {
 	if (this != &other)
 	{
-		setValue(other.str);
+		setValue(other.theRealString);
 	}
 
 	return *this;
@@ -208,19 +173,17 @@ String& String::operator=(const String& other)
 
 //
 //move assignment, can be called for rvalues only 
-//(including const char* which will move-construct a rvalue object)
-//
-//moves the argument's resource to the current object, freeing the old resource
+//(including const char* which will move-construct an rvalue object)
 //
 String& String::operator=(String&& other)
 {
 	if (this != &other)
 	{
-		delete[] str;
+		delete[] theRealString;
 
-		str = other.str;
+		theRealString = other.theRealString;
 
-		other.str = nullptr;
+		other.theRealString = nullptr;
 	}
 
 	return *this;
@@ -234,114 +197,79 @@ String& String::operator=(String&& other)
 //
 
 
-bool operator==(const String& s1, const String& s2)
+bool operator==(const String& lhs, const String& rhs)
 {
-	return strcmp(s1, s2) == 0;
+	return strcmp(lhs, rhs) == 0;
 }
 
-bool operator!=(const String& s1, const String& s2)
+bool operator!=(const String& lhs, const String& rhs)
 {
-	return !(s1 == s2);
+	return !(lhs == rhs);
 }
 
-bool operator>(const String& s1, const String& s2)
+bool operator>(const String& lhs, const String& rhs)
 {
-	return strcmp(s1, s2) > 0;
-}
-
-
-bool operator>=(const String& s1, const String& s2)
-{
-	return (s1 > s2) || (s1 == s2);
+	return strcmp(lhs, rhs) > 0;
 }
 
 
-bool operator<(const String& s1, const String& s2)
+bool operator>=(const String& lhs, const String& rhs)
 {
-	return !(s1 >= s2);
+	return (lhs > rhs) || (lhs == rhs);
 }
 
 
-bool operator<=(const String& s1, const String& s2)
+bool operator<(const String& lhs, const String& rhs)
 {
-	return !(s1 > s2);
+	return !(lhs >= rhs);
+}
+
+
+bool operator<=(const String& lhs, const String& rhs)
+{
+	return !(lhs > rhs);
 }
 
 
 
 
-
-String& String::operator+=(const char* value)
+String& String::operator+=(const String& other)
 {
-	append(value);
+	appendToValue(other);
 
 	return *this;
 }
 
 
-String operator+(const String& string1, const String& string2)
+String operator+(const String& lhs, const String& rhs)
 {
-	String temp(string1);
+	String result(lhs);
 
-	temp += string2;
+	result += rhs;
 
-	return temp;
-}
-
-
-String operator+(const String& string, const char* str)
-{
-	String temp(string);
-
-	temp += str;
-
-	return temp;
+	return result;
 }
 
 
 
-String& String::operator+=(char c)
+String operator+(char lhs, const String& rhs)
 {
-	static char temp[2];
+	String result(lhs);
 
-	temp[0] = c;
-	temp[1] = '\0';
-	
-	append(temp);
+	result += rhs;
 
-	return *this;
+	return result;
 }
 
 
 
-String operator+(const String& string, char c)
+String operator+(const char* lhs, const String& rhs)
 {
-	String temp(string);
+	String result(lhs);
 
-	temp += c;
+	result += rhs;
 
-	return temp;
-}
-
-
-String operator+(char c, const String& string)
-{
-	String str(c);
-
-	str += string;
-
-	return str;
-}
-
-
-
-String operator+(const char* str, const String& string)
-{
-	String temp(str);
-
-	temp += string;                                         
-
-	return temp;
+	return result;
 }
 
 
