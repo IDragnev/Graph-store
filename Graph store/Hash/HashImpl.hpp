@@ -237,3 +237,84 @@ Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
 
 	nullTable();
 }
+
+
+
+
+template <typename Item, typename Key, typename KeyExtractor>
+Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
+	:
+	count(source.count),
+	table(),
+	hashFunction(std::move(source.hashFunction)),
+	keyExtractor(std::move(source.keyExtractor))
+{
+	safeTableStealFrom(source);
+	assert(source.isEmpty());
+}
+
+
+
+template <typename Item, typename Key, typename KeyExtractor>
+void Hash<Item, Key, KeyExtractor>::safeTableStealFrom(Hash&& source)
+{
+	this->table = std::move(source.table);
+
+	try
+	{
+		source.empty();
+	}
+	catch (std::bad_alloc&)
+	{
+		source.count = this->count;
+		source.table = std::move(this->table);
+		source.hashFunction = std::move(this->hashFunction);
+		source.keyExtractor = std::move(this->keyExtractor);
+
+		throw;
+	}
+}
+
+
+
+
+
+//
+// \ if the function is passed an rvalue, 'other' will be move-constructed with the argument
+//
+// \ if the function is passed an lvalue, 'other' will be copy-constructed from the argument
+//
+template <typename Item, typename Key, typename KeyExtractor>
+void Hash<Item, Key, KeyExtractor>::swapContentsWithATemporary(Hash<Item, Key, KeyExtractor> other)
+{
+	std::swap(this->count, other.count);
+	std::swap(this->table, other.table);
+	std::swap(this->hashFunction, other.hashFunction);
+	std::swap(this->keyExtractor, other.keyExtractor);
+}
+
+
+
+template <typename Item, typename Key, typename KeyExtractor>
+Hash<Item, Key, KeyExtractor>& Hash<Item, Key, KeyExtractor>::operator=(Hash<Item, Key, KeyExtractor>&& other)
+{
+	if (this != &other)
+	{
+		swapContentsWithATemporary(std::move(other));
+	}
+
+	return *this;
+}
+
+
+
+template <typename Item, typename Key, typename KeyExtractor>
+Hash<Item, Key, KeyExtractor>& Hash<Item, Key, KeyExtractor>::operator=(const Hash<Item, Key, KeyExtractor>& other)
+{
+	if (this != &other)
+	{
+		swapContentsWithATemporary(other);
+	}
+
+	return *this;
+}

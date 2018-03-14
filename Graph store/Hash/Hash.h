@@ -20,6 +20,9 @@ Its operator()'s signature should be:
 unsigned operator()(const Key&); (optionally const)
 
 The Key class/struct must support operator==.
+
+The HashFunction specialization and KeyExtractor's special members must not
+throw exceptions!
 */
 
 
@@ -28,6 +31,12 @@ class Hash
 {
 public:
 	Hash(int expectedSize);
+	Hash(Hash&&);
+	Hash(const Hash&) = default;
+	~Hash() = default;
+
+	Hash& operator=(Hash&&);
+	Hash& operator=(const Hash& other);
 
 	int getCount()const;
 	bool isEmpty()const;
@@ -52,6 +61,8 @@ private:
 	void resize(int newSize);
 	void nullTable();
 	void rehashCluster(int start);
+	void safeTableStealFrom(Hash&& source);
+	void swapContentsWithATemporary(Hash other);
 };
 
 #include "HashImpl.hpp"
