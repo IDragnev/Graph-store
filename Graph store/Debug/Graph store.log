@@ -1,2 +1,6 @@
-﻿  Graph store.vcxproj -> D:\Graph store\Debug\Graph store.exe
+﻿  main.cpp
+  String.cpp
+  Generating Code...
+  LINK : D:\Graph store\Debug\Graph store.exe not found or not built by the last incremental link; performing full link
+  Graph store.vcxproj -> D:\Graph store\Debug\Graph store.exe
   Graph store.vcxproj -> D:\Graph store\Debug\Graph store.pdb (Full PDB)

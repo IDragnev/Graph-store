@@ -20,13 +20,7 @@ inline bool Hash<Item, Key, KeyExtractor>::isEmpty()const
 }
 
 
-//
-//search the table until an empty position or the sought item is found
-//(going to the beginning if the end is reached)
-//
-// \ if the item is found, its index is returned 
-// 
-// \ if there is no item with such key, -1 is returned
+
 //
 // (!) the function is not const because keyExtractor and hashFunction
 //   could have non-const operator()
@@ -38,14 +32,14 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 	{
 		const int TABLE_SIZE = table.getSize();
 
-		int hash = hashFunction(key) % TABLE_SIZE;
+		int index = hashFunction(key) % TABLE_SIZE;
 
-		while (table[hash] != nullptr)
+		while (table[index] != nullptr)
 		{
-			if (keyExtractor( *(table[hash]) ) == key)
-				return hash;
+			if (keyExtractor( *(table[index]) ) == key)
+				return index;
 
-			hash = (hash + 1) % TABLE_SIZE;
+			index = (index + 1) % TABLE_SIZE;
 		}
 	}
 
@@ -55,11 +49,6 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 
 
 
-
-//
-// \ if the item is found, its address is returned
-//
-// \ if there is no item with such key, nullptr is returned
 //
 // (!) the function is not const because getIndexByKey is not const
 //
@@ -171,8 +160,6 @@ Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
 
 
 
-
-
 template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 {
@@ -180,7 +167,6 @@ void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 
 	Item* current = table[start];
 
-	//until the end of the cluster is reached
 	while (current != nullptr)
 	{
 		table[start] = nullptr;
@@ -206,12 +192,12 @@ void Hash<Item, Key, KeyExtractor>::insert(Item& item)
 	if (3 * count >= 2 * tableSize)
 		resize( tableSize *= 2 );
 
-	int hash = hashFunction( keyExtractor(item) ) % tableSize;
+	int index = hashFunction( keyExtractor(item) ) % tableSize;
 
-	while(table[hash] != nullptr)
-		hash = (hash + 1) % tableSize;
+	while(table[index] != nullptr)
+		index = (index + 1) % tableSize;
 
-	table[hash] = &item;
+	table[index] = &item;
 	++count;
 }
 
