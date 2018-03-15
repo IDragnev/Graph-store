@@ -242,7 +242,7 @@ Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
 
 
 template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::safeTableStealFrom(Hash&& source)
+void Hash<Item, Key, KeyExtractor>::safeTableStealFrom(Hash& source)
 {
 	this->table = std::move(source.table);
 
