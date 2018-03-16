@@ -55,6 +55,7 @@ private:
 
 private:
 	static const int MIN_SIZE = 3;
+	static int calculateAppropriateSize(int expectedSize);
 
 private:
 	int getIndexByKey(const Key&); 

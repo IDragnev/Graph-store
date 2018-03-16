@@ -204,21 +204,28 @@ void Hash<Item, Key, KeyExtractor>::insert(Item& item)
 
 
 
-
 //
 // ( 3 * expectedSize ) / 2 is used because if all the expected 
 //  items are inserted, the table will be 2/3 full and will work nicely
 //
+template <typename Item, typename Key, typename KeyExtractor>
+int Hash<Item, Key, KeyExtractor>::calculateAppropriateSize(int expectedSize)
+{
+	if (expectedSize <= 0)
+		throw std::invalid_argument("Expected size must be positive!");
+
+	return (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
+}
+
+
+
 template <typename Item, typename Key, typename KeyExtractor>
 Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
 	:
 	count(0),
 	table(0, 0)
 {
-	if (expectedSize <= 0)
-		throw std::invalid_argument("Expected size must be positive!");
-
-	int actualSize = (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
+	int actualSize = calculateAppropriateSize(expectedSize);
 
 	table = std::move(DArray<Item*>(actualSize, actualSize));
 

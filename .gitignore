@@ -4,3 +4,4 @@ Hash\ Test/Debug/
 *.suo
 *.filters
 *.db
+*.ipch
