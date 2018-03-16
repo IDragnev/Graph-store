@@ -55,8 +55,8 @@ protected:
 
 	void resizeIfNeeded();
 
-	void shiftOnePositionLeft(int start, int end);
-	void shiftOnePositionRight(int start, int end);
+	void shiftItemsOnePositionLeft(int start, int end);
+	void shiftItemsOnePositionRight(int start, int end);
 
 	T* getItems();
 	const T* getItems()const;
@@ -64,7 +64,7 @@ protected:
 private:
 	void copyFrom(const DArray<T>&);
 	void resize(int);
-	void destroyAndNullAll();
+	void destroyAndNullMembers();
 	void destroyItems();
 	void nullMembers();
 	void directInit(T* items, int count, int size);

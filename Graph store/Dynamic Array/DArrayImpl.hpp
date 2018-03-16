@@ -93,7 +93,7 @@ inline void DArray<T>::destroyItems()
 
 
 template <typename T>
-inline void DArray<T>::destroyAndNullAll()
+inline void DArray<T>::destroyAndNullMembers()
 {
 	destroyItems();
 	nullMembers();
@@ -117,7 +117,7 @@ void DArray<T>::copyFrom(const DArray<T>& other)
 	}
 	else 
 	{
-		destroyAndNullAll();
+		destroyAndNullMembers();
 	}
 }
 
@@ -153,7 +153,7 @@ inline void DArray<T>::resizeIfNeeded()
 
 
 template <typename T>
-inline void DArray<T>::shiftOnePositionLeft(int start, int end)
+inline void DArray<T>::shiftItemsOnePositionLeft(int start, int end)
 {
 	assert(start > 0);
 
@@ -171,7 +171,7 @@ inline void DArray<T>::shiftOnePositionLeft(int start, int end)
 //     item to the right will not write outside the array
 //
 template <typename T>
-inline void DArray<T>::shiftOnePositionRight(int start, int end)
+inline void DArray<T>::shiftItemsOnePositionRight(int start, int end)
 {
 	assert(end < count && count < size);
 
@@ -195,7 +195,7 @@ inline void DArray<T>::shiftOnePositionRight(int start, int end)
 template <typename T>
 inline void DArray<T>::empty()
 {
-	count = 0;
+	destroyAndNullMembers();
 }
 
 
@@ -217,7 +217,7 @@ inline void DArray<T>::shrink(int newSize)
 
 	if (newSize == 0)
 	{
-		destroyAndNullAll();
+		destroyAndNullMembers();
 	}
 	else if (newSize != size)
 	{
@@ -261,9 +261,6 @@ DArray<T>::DArray(int Size, int Count)
 
 
 
-//
-//move constructor
-//
 template <typename T>
 DArray<T>::DArray(DArray<T>&& source)
 	:
@@ -285,9 +282,6 @@ DArray<T>::DArray(const DArray<T>& other)
 }
 
 
-
-//
-//copy assignment
 //
 // (!) copyFrom() frees old memory (if any)
 //
@@ -304,9 +298,6 @@ DArray<T>& DArray<T>::operator=(const DArray<T>& other)
 
 
 
-//
-//move assignment
-//
 template <typename T>
 DArray<T>& DArray<T>::operator=(DArray<T>&& source)
 {
@@ -366,7 +357,7 @@ void DArray<T>::addAt(int position, const T& newItem)
 	resizeIfNeeded();
 
 	//empty the position
-	shiftOnePositionRight(position, count - 1);
+	shiftItemsOnePositionRight(position, count - 1);
 
 	items[position] = newItem;
 	++count;
@@ -383,7 +374,7 @@ void DArray<T>::addAt(int position, T&& newItem)
 	resizeIfNeeded();
 
 	//empty the position
-	shiftOnePositionRight(position, count - 1);
+	shiftItemsOnePositionRight(position, count - 1);
 
 	items[position] = std::move(newItem);
 	++count;
@@ -398,7 +389,7 @@ void DArray<T>::remove(int position)
 		throw std::out_of_range("Index out of range");
 
 	//shift items after it one pos. to the left
-	shiftOnePositionLeft(position + 1, count - 1);
+	shiftItemsOnePositionLeft(position + 1, count - 1);
 
 	--count;
 }
