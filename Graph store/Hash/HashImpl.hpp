@@ -240,8 +240,6 @@ Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
 
 	std::swap(this->table, source.table);
 	source.count = 0;
-
-	assert(source.isEmpty());
 }
 
 

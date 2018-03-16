@@ -60,12 +60,12 @@ namespace HashTest
 	TEST_CLASS(HashTest)
 	{
 	private:
-		static DArray<Item> items;
+		static DArray<Item> testClassItems;
 
 	public:
 		TEST_CLASS_INITIALIZE(ItemsInitialization)
 		{
-			setItemsWithKeys(items);
+			setItemsWithKeys(testClassItems);
 		}
 
 
@@ -84,12 +84,12 @@ namespace HashTest
 		{
 			ItemHash hash(10);
 
-			const int ITEMS_COUNT = items.getCount();
+			const int ITEMS_COUNT = testClassItems.getCount();
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.getCount() == i, L"Insertion does not update count");
-				hash.insert(items[i]);
+				hash.insert(testClassItems[i]);
 				Assert::IsFalse(hash.isEmpty(), L"isEmpty returns true after insertion");
 			}
 
@@ -104,20 +104,20 @@ namespace HashTest
 		{
 			ItemHash hash(10);
 
-			insertItemsToHash(hash, items);
+			insertItemsToHash(hash, testClassItems);
 
-			const int ITEMS_COUNT = items.getCount();
+			const int ITEMS_COUNT = testClassItems.getCount();
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.getCount() == ITEMS_COUNT - i, L"Remove does not update count");
-				Assert::IsTrue(hash.remove(items[i].getKey()) == &items[i], L"Remove is not returning the correct address");
+				Assert::IsTrue(hash.remove(testClassItems[i].getKey()) == &testClassItems[i], L"Remove is not returning the correct address");
 			}
 
 			hash.empty();
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
-				Assert::IsTrue(hash.remove(items[i].getKey()) == nullptr, L"Remove returns non-null address after calling empty");
+				Assert::IsTrue(hash.remove(testClassItems[i].getKey()) == nullptr, L"Remove returns non-null address after calling empty");
 		}
 
 
@@ -125,23 +125,49 @@ namespace HashTest
 		{
 			ItemHash hash(10);
 
-			insertItemsToHash(hash, items);
+			insertItemsToHash(hash, testClassItems);
 
-			const int ITEMS_COUNT = items.getCount();
+			const int ITEMS_COUNT = testClassItems.getCount();
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
-				Assert::IsTrue(hash.search(items[i].getKey()) == &items[i], L"Search is not returning the correct address");
+				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == &testClassItems[i], L"Search is not returning the correct address");
 				Assert::IsTrue(hash.getCount() == ITEMS_COUNT, L"Search modifies count");
 			}
 
 			hash.empty();
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
-				Assert::IsTrue(hash.search(items[i].getKey()) == nullptr, L"Search returns non-null address after calling empty");
+				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == nullptr, L"Search returns non-null address after calling empty");
+		}
+
+
+		TEST_METHOD(MoveConstructorTest)
+		{
+			ItemHash source(10);
+			ItemHash hash(std::move(source));
+
+			Assert::IsTrue(hash.isEmpty(), L"Move constructed object with an empty hash is not empty");
+			Assert::IsTrue(hash.getCount() == 0, L"Count is not zero after move-construction from an empty object");
+			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
+			Assert::IsTrue(source.getCount() == 0, L"Moved object's count is not zero");
+
+			insertItemsToHash(source, testClassItems);
+
+			ItemHash destination(std::move(source));
+
+			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
+			Assert::IsTrue(source.getCount() == 0, L"Moved object's count is not zero");
+
+			const int ITEMS_COUNT = testClassItems.getCount();
+
+			Assert::IsTrue(destination.getCount() == ITEMS_COUNT, L"Move construction is not handling count properly");
+
+			for (int i = 0; i < ITEMS_COUNT; ++i)
+				Assert::IsTrue(destination.search(testClassItems[i].getKey()) == &testClassItems[i], L"Move construction is not moving items properly");
 		}
 	};
 
-	DArray<Item> HashTest::items(15, 10);
+	DArray<Item> HashTest::testClassItems(15, 10);
 
 }
