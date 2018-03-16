@@ -212,7 +212,7 @@ template <typename Item, typename Key, typename KeyExtractor>
 Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
 	:
 	count(0),
-	table(0)     
+	table(0, 0)
 {
 	if (expectedSize <= 0)
 		throw std::invalid_argument("Expected size must be positive!");
@@ -231,37 +231,17 @@ template <typename Item, typename Key, typename KeyExtractor>
 Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
 	:
 	count(source.count),
-	table(),
+	table(MIN_SIZE, MIN_SIZE), 
 	hashFunction(std::move(source.hashFunction)),
 	keyExtractor(std::move(source.keyExtractor))
 {
-	safeTableStealFrom(source);
+	this->nullTable();
+
+	std::swap(this->table, source.table);
+	source.count = 0;
+
 	assert(source.isEmpty());
 }
-
-
-
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::safeTableStealFrom(Hash& source)
-{
-	this->table = std::move(source.table);
-
-	try
-	{
-		source.empty();
-	}
-	catch (std::bad_alloc&)
-	{
-		source.count = this->count;
-		source.table = std::move(this->table);
-		source.hashFunction = std::move(this->hashFunction);
-		source.keyExtractor = std::move(this->keyExtractor);
-
-		throw;
-	}
-}
-
-
 
 
 

@@ -61,7 +61,6 @@ private:
 	void resize(int newSize);
 	void nullTable();
 	void rehashCluster(int start);
-	void safeTableStealFrom(Hash& source);
 	void swapContentsWithATemporary(Hash other);
 };
 
