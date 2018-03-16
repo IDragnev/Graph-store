@@ -1,0 +1,6 @@
+Debug/
+Graph\ store/Debug/
+Hash\ Test/Debug/
+*.suo
+*.filters
+*.db
