@@ -164,19 +164,19 @@ template <typename Item, typename Key, typename KeyExtractor>
 void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 {
 	const int TABLE_SIZE = table.getSize();
-	int currentIndex = start;
+	int positionToEmpty = start;
 
-	Item* toBeRehashed = table[currentIndex];
+	Item* toBeRehashed = table[positionToEmpty];
 
 	while (toBeRehashed != nullptr)
 	{
-		table[currentIndex] = nullptr;
+		table[positionToEmpty] = nullptr;
 		--count;
 
 		insert(*toBeRehashed);
 
-		currentIndex = (currentIndex + 1) % TABLE_SIZE;
-		toBeRehashed = table[currentIndex];
+		positionToEmpty = (positionToEmpty + 1) % TABLE_SIZE;
+		toBeRehashed = table[positionToEmpty];
 	}
 }
 
