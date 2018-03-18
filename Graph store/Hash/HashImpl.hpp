@@ -6,15 +6,15 @@
 */
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-inline int Hash<Item, Key, KeyExtractor>::getCount()const
+template <typename Item, typename Key, typename KeyAccessor>
+inline int Hash<Item, Key, KeyAccessor>::getCount()const
 {
 	return count;
 }
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-inline bool Hash<Item, Key, KeyExtractor>::isEmpty()const
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
 {
 	return count == 0;
 }
@@ -22,11 +22,11 @@ inline bool Hash<Item, Key, KeyExtractor>::isEmpty()const
 
 
 //
-// (!) the function is not const because keyExtractor and hashFunction
+// (!) the function is not const because KeyAccessor and hashFunction
 //   could have non-const operator()
 //
-template <typename Item, typename Key, typename KeyExtractor>
-int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor>
+int Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
 {
 	if (!isEmpty())
 	{
@@ -36,7 +36,7 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 
 		while (table[index] != nullptr)
 		{
-			if (keyExtractor( *(table[index]) ) == key)
+			if (keyAccessor( *(table[index]) ) == key)
 				return index;
 
 			index = (index + 1) % TABLE_SIZE;
@@ -52,8 +52,8 @@ int Hash<Item, Key, KeyExtractor>::getIndexByKey(const Key& key)
 //
 // (!) the function is not const because getIndexByKey is not const
 //
-template <typename Item, typename Key, typename KeyExtractor>
-Item* Hash<Item, Key, KeyExtractor>::search(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	const int INDEX = getIndexByKey(key);
 
@@ -68,8 +68,8 @@ Item* Hash<Item, Key, KeyExtractor>::search(const Key& key)
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::nullTable()
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::nullTable()
 {
 	const int TABLE_SIZE = table.getSize();
 
@@ -82,8 +82,8 @@ void Hash<Item, Key, KeyExtractor>::nullTable()
 //
 //make a new table with the sent size and rehash all items in it
 //
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::resize(int newSize)
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::resize(int newSize)
 {
 	//must have at least one empty pos. after resize
 	assert(newSize >= MIN_SIZE && newSize > count);
@@ -108,8 +108,8 @@ void Hash<Item, Key, KeyExtractor>::resize(int newSize)
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::empty()
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::empty()
 {
 	table.shrink(MIN_SIZE);
 
@@ -130,8 +130,8 @@ void Hash<Item, Key, KeyExtractor>::empty()
 //      it is halved and all the items are rehashed
 //    - else all the items after it in the same cluster are rehashed  
 //
-template <typename Item, typename Key, typename KeyExtractor>
-Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	const int INDEX = getIndexByKey(key);
 
@@ -160,8 +160,8 @@ Item* Hash<Item, Key, KeyExtractor>::remove(const Key& key)
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::rehashCluster(int start)
 {
 	const int TABLE_SIZE = table.getSize();
 	int positionToEmpty = start;
@@ -185,15 +185,15 @@ void Hash<Item, Key, KeyExtractor>::rehashCluster(int start)
 //
 // if the table is at least 2/3 full, it is doubled
 //
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::insert(Item& item)
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	int tableSize = table.getSize();
 
 	if (3 * count >= 2 * tableSize)
 		resize( tableSize *= 2 );
 
-	int index = hashFunction( keyExtractor(item) ) % tableSize;
+	int index = hashFunction( keyAccessor(item) ) % tableSize;
 
 	while(table[index] != nullptr)
 		index = (index + 1) % tableSize;
@@ -208,8 +208,8 @@ void Hash<Item, Key, KeyExtractor>::insert(Item& item)
 // ( 3 * expectedSize ) / 2 is used because if all the expected 
 //  items are inserted, the table will be 2/3 full and will work nicely
 //
-template <typename Item, typename Key, typename KeyExtractor>
-int Hash<Item, Key, KeyExtractor>::calculateAppropriateSize(int expectedSize)
+template <typename Item, typename Key, typename KeyAccessor>
+int Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(int expectedSize)
 {
 	if (expectedSize <= 0)
 		throw std::invalid_argument("Expected size must be positive!");
@@ -219,8 +219,8 @@ int Hash<Item, Key, KeyExtractor>::calculateAppropriateSize(int expectedSize)
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(int expectedSize)
 	:
 	count(0),
 	table(0, 0)
@@ -235,13 +235,13 @@ Hash<Item, Key, KeyExtractor>::Hash(int expectedSize)
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 	:
 	count(source.count),
 	table(MIN_SIZE, MIN_SIZE), 
 	hashFunction(std::move(source.hashFunction)),
-	keyExtractor(std::move(source.keyExtractor))
+	keyAccessor(std::move(source.keyAccessor))
 {
 	this->nullTable();
 
@@ -256,19 +256,19 @@ Hash<Item, Key, KeyExtractor>::Hash(Hash<Item, Key, KeyExtractor>&& source)
 //
 // \ if the function is passed an lvalue, 'other' will be copy-constructed from the argument
 //
-template <typename Item, typename Key, typename KeyExtractor>
-void Hash<Item, Key, KeyExtractor>::swapContentsWithATemporary(Hash<Item, Key, KeyExtractor> other)
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWithATemporary(Hash<Item, Key, KeyAccessor> other)
 {
 	std::swap(this->count, other.count);
 	std::swap(this->table, other.table);
 	std::swap(this->hashFunction, other.hashFunction);
-	std::swap(this->keyExtractor, other.keyExtractor);
+	std::swap(this->keyAccessor, other.keyAccessor);
 }
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-Hash<Item, Key, KeyExtractor>& Hash<Item, Key, KeyExtractor>::operator=(Hash<Item, Key, KeyExtractor>&& other)
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
 {
 	if (this != &other)
 	{
@@ -280,8 +280,8 @@ Hash<Item, Key, KeyExtractor>& Hash<Item, Key, KeyExtractor>::operator=(Hash<Ite
 
 
 
-template <typename Item, typename Key, typename KeyExtractor>
-Hash<Item, Key, KeyExtractor>& Hash<Item, Key, KeyExtractor>::operator=(const Hash<Item, Key, KeyExtractor>& other)
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
 {
 	if (this != &other)
 	{
