@@ -62,7 +62,7 @@ namespace HashTest
 	private:
 		static DArray<Item> testClassItems;
 
-		void testAreAllTestItemsInAHash(ItemHash& hash, const wchar_t* message)
+		static void testAreAllTestItemsInAHash(ItemHash& hash, const wchar_t* message)
 		{
 			const int ITEMS_COUNT = testClassItems.getCount();
 
@@ -70,12 +70,12 @@ namespace HashTest
 				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == &testClassItems[i], message);
 		}
 
-		void assertCountEqualsValue(const ItemHash& hash, int value, const wchar_t* message)
+		static void assertHashCountEqualsValue(const ItemHash& hash, int value, const wchar_t* message)
 		{
 			Assert::IsTrue(hash.getCount() == value, message);
 		}
 
-		void assertHashIsEmpty(const ItemHash& hash, const wchar_t* message)
+		static void assertHashIsEmpty(const ItemHash& hash, const wchar_t* message)
 		{
 			Assert::IsTrue(hash.isEmpty(), message);
 		}
@@ -94,7 +94,7 @@ namespace HashTest
 			{
 				ItemHash hash(i);
 				assertHashIsEmpty(hash, L"isEmpty returns false directy after construction");
-				assertCountEqualsValue(hash, 0, L"Count is not zero before inserting any object");
+				assertHashCountEqualsValue(hash, 0, L"Count is not zero before inserting any object");
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace HashTest
 			hash.empty();
 
 			assertHashIsEmpty(hash, L"isEmpty() returns false after calling empty()");
-			assertCountEqualsValue(hash, 0, L"Count is not 0 after calling empty()");
+			assertHashCountEqualsValue(hash, 0, L"Count is not 0 after calling empty()");
 		}
 
 		TEST_METHOD(RemovalTest)
@@ -135,7 +135,7 @@ namespace HashTest
 
 			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
-				assertCountEqualsValue(hash, ITEMS_COUNT - i, L"Remove does not update count");
+				assertHashCountEqualsValue(hash, ITEMS_COUNT - i, L"Remove does not update count");
 				Assert::IsTrue(hash.remove(testClassItems[i].getKey()) == &testClassItems[i], L"Remove is not returning the correct address");
 			}
 
@@ -157,7 +157,7 @@ namespace HashTest
 			for (int i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == &testClassItems[i], L"Search is not returning the correct address");
-				assertCountEqualsValue(hash, ITEMS_COUNT, L"Search modifies count");
+				assertHashCountEqualsValue(hash, ITEMS_COUNT, L"Search modifies count");
 			}
 
 			hash.empty();
@@ -173,19 +173,19 @@ namespace HashTest
 			ItemHash hash(std::move(source));
 
 			assertHashIsEmpty(hash, L"Move constructed object with an empty hash is not empty");
-			assertCountEqualsValue(hash, 0, L"Count is not zero after move-construction from an empty object");
+			assertHashCountEqualsValue(hash, 0, L"Count is not zero after move-construction from an empty object");
 
 			assertHashIsEmpty(source, L"Moved object is not empty");
-			assertCountEqualsValue(source, 0, L"Moved object's count is not zero");
+			assertHashCountEqualsValue(source, 0, L"Moved object's count is not zero");
 
 			insertItemsToHash(source, testClassItems);
 
 			ItemHash destination(std::move(source));
 
 			assertHashIsEmpty(source, L"Moved object is not empty");
-			assertCountEqualsValue(source, 0, L"Moved object's count is not zero");
+			assertHashCountEqualsValue(source, 0, L"Moved object's count is not zero");
 
-			assertCountEqualsValue(destination, testClassItems.getCount(), L"Move construction is not handling count properly");
+			assertHashCountEqualsValue(destination, testClassItems.getCount(), L"Move construction is not handling count properly");
 
 			testAreAllTestItemsInAHash(destination, L"Move construction is not moving items properly");
 		}
@@ -199,7 +199,7 @@ namespace HashTest
 			destination = source;
 
 			assertHashIsEmpty(destination, L"LHS is not empty after copy assignment from an empty object");
-			assertCountEqualsValue(destination, 0, L"LHS' count is not zero after copy assignment from an empty object");
+			assertHashCountEqualsValue(destination, 0, L"LHS' count is not zero after copy assignment from an empty object");
 
 			//empty to non empty
 			insertItemsToHash(destination, testClassItems);
@@ -207,7 +207,7 @@ namespace HashTest
 			destination = source;
 
 			assertHashIsEmpty(destination, L"LHS is not empty after copy assignment from an empty object");
-			assertCountEqualsValue(destination, 0, L"LHS' count is not zero after copy assignment from an empty object");
+			assertHashCountEqualsValue(destination, 0, L"LHS' count is not zero after copy assignment from an empty object");
 
 		}
 
@@ -221,7 +221,7 @@ namespace HashTest
 			//non empty to empty
 			destination = source;
 
-			assertCountEqualsValue(destination, source.getCount(), L"Copy assignment is not handling count properly");
+			assertHashCountEqualsValue(destination, source.getCount(), L"Copy assignment is not handling count properly");
 			testAreAllTestItemsInAHash(destination, L"Copy assignment is not copying tables properly");
 
 			//non empty to non empty
@@ -230,7 +230,7 @@ namespace HashTest
 
 			destination = source;
 
-			assertCountEqualsValue(destination, source.getCount(), L"Copy assignment is not handling count properly");
+			assertHashCountEqualsValue(destination, source.getCount(), L"Copy assignment is not handling count properly");
 			testAreAllTestItemsInAHash(destination, L"Copy assignment is not copying tables properly");
 		}
 
@@ -243,10 +243,10 @@ namespace HashTest
 			destination = std::move(source);
 
 			assertHashIsEmpty(destination, L"LHS is not empty after move assignment from an empty object");
-			assertCountEqualsValue(destination, 0, L"LHS' count is not zero after move assignment from an empty object");
+			assertHashCountEqualsValue(destination, 0, L"LHS' count is not zero after move assignment from an empty object");
 
 			assertHashIsEmpty(source, L"RHS is not empty after move assignment");
-			assertCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
+			assertHashCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
 
 			//empty to non-empty
 			insertItemsToHash(destination, testClassItems);
@@ -254,10 +254,10 @@ namespace HashTest
 			destination = std::move(source);
 
 			assertHashIsEmpty(destination, L"LHS is not empty after move assignment from an empty object");
-			assertCountEqualsValue(destination, 0, L"LHS' count is not zero after move assignment from an empty object");
+			assertHashCountEqualsValue(destination, 0, L"LHS' count is not zero after move assignment from an empty object");
 			
 			assertHashIsEmpty(source, L"RHS is not empty after move assignment");
-			assertCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
+			assertHashCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
 
 		}
 
@@ -271,11 +271,11 @@ namespace HashTest
 
 			destination = std::move(source);
 
-			assertCountEqualsValue(destination, testClassItems.getCount(), L"Move assignment is not handling count properly");
+			assertHashCountEqualsValue(destination, testClassItems.getCount(), L"Move assignment is not handling count properly");
 			testAreAllTestItemsInAHash(destination, L"Move assignment is not moving the table properly");
 
 			assertHashIsEmpty(source, L"RHS is not empty after move assignment");
-			assertCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
+			assertHashCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
 
 			//non empty to non empty
 			insertItemsToHash(source, testClassItems);
@@ -285,11 +285,11 @@ namespace HashTest
 
 			destination = std::move(source);
 
-			assertCountEqualsValue(destination, testClassItems.getCount(), L"Move assignment is not handling count properly");
+			assertHashCountEqualsValue(destination, testClassItems.getCount(), L"Move assignment is not handling count properly");
 			testAreAllTestItemsInAHash(destination, L"Move assignment is not moving the table properly");
 
 			assertHashIsEmpty(source, L"RHS is not empty after move assignment");
-			assertCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
+			assertHashCountEqualsValue(source, 0, L"RHS' count is not zero after move assignment");
 		}
 
 		TEST_METHOD(CopyConstructorTest)
@@ -299,14 +299,14 @@ namespace HashTest
 			ItemHash hash(source);
 
 			assertHashIsEmpty(hash, L"Copy-constructed object with an empty hash is not empty");
-			assertCountEqualsValue(hash, 0, L"Count is not zero after copy-construction from an empty object");
+			assertHashCountEqualsValue(hash, 0, L"Count is not zero after copy-construction from an empty object");
 			
 			//from non empty
 			insertItemsToHash(source, testClassItems);
 
 			ItemHash destination(source);
 
-			assertCountEqualsValue(destination, source.getCount(), L"Copy construction is not handling count properly");
+			assertHashCountEqualsValue(destination, source.getCount(), L"Copy construction is not handling count properly");
 			testAreAllTestItemsInAHash(destination, L"Copy-construction is not copying item tables properly");
 		}
 		
