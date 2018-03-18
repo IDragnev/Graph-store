@@ -1,9 +1,103 @@
-
 /*
      MIN_SIZE is 3 because it should be small enough to be rarely used in the constructor,
 	 big enough to have empty boxes for smaller counts ( when the table holds 1 or 2 items ),
 	 and small enough to be able to halve small tables after removal ( when size is 6,7,8 )
 */
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(int expectedSize)
+	:
+	count(0),
+	table(0, 0)
+{
+	int actualSize = calculateAppropriateSize(expectedSize);
+
+	table = std::move(DArray<Item*>(actualSize, actualSize));
+
+	nullTable();
+}
+
+
+//
+// ( 3 * expectedSize ) / 2 is used because if all the expected 
+//  items are inserted, the table will be 2/3 full and will work nicely
+//
+template <typename Item, typename Key, typename KeyAccessor>
+int Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(int expectedSize)
+{
+	if (expectedSize <= 0)
+		throw std::invalid_argument("Expected size must be positive!");
+
+	return (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
+}
+
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
+	:
+	count(source.count),
+	table(MIN_SIZE, MIN_SIZE), 
+	hashFunction(std::move(source.hashFunction)),
+	keyAccessor(std::move(source.keyAccessor))
+{
+	this->nullTable();
+
+	std::swap(this->table, source.table);
+	source.count = 0;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::nullTable()
+{
+	const int TABLE_SIZE = table.getSize();
+
+	for (int i = 0; i < TABLE_SIZE; ++i)
+		table[i] = nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
+{
+	if (this != &other)
+	{
+		swapContentsWithATemporary(std::move(other));
+	}
+
+	return *this;
+}
+
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
+{
+	if (this != &other)
+	{
+		swapContentsWithATemporary(other);
+	}
+
+	return *this;
+}
+
+
+//
+// \ if the function is passed an rvalue, 'other' will be move-constructed with the argument
+//
+// \ if the function is passed an lvalue, 'other' will be copy-constructed from the argument
+//
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWithATemporary(Hash<Item, Key, KeyAccessor> other)
+{
+	std::swap(this->count, other.count);
+	std::swap(this->table, other.table);
+	std::swap(this->hashFunction, other.hashFunction);
+	std::swap(this->keyAccessor, other.keyAccessor);
+}
+
 
 
 template <typename Item, typename Key, typename KeyAccessor>
@@ -13,12 +107,23 @@ inline int Hash<Item, Key, KeyAccessor>::getCount()const
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
-{
-	return count == 0;
-}
 
+
+//
+// (!) the function is not const because getIndexByKey is not const
+//
+template <typename Item, typename Key, typename KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+{
+	const int INDEX = getIndexByKey(key);
+
+	assert(INDEX < table.getSize());
+
+	if (INDEX >= 0)
+		return table[INDEX];
+	else
+		return nullptr;
+}
 
 
 //
@@ -48,75 +153,12 @@ int Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
 
 
 
-
-//
-// (!) the function is not const because getIndexByKey is not const
-//
 template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
 {
-	const int INDEX = getIndexByKey(key);
-
-	assert(INDEX < table.getSize());
-
-	if (INDEX >= 0)
-		return table[INDEX];
-	else
-		return nullptr;
+	return count == 0;
 }
 
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullTable()
-{
-	const int TABLE_SIZE = table.getSize();
-
-	for (int i = 0; i < TABLE_SIZE; ++i)
-		table[i] = nullptr;
-}
-
-
-
-//
-//make a new table with the sent size and rehash all items in it
-//
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::resize(int newSize)
-{
-	//must have at least one empty pos. after resize
-	assert(newSize >= MIN_SIZE && newSize > count);
-	
-	const int OLD_TABLE_SIZE = table.getSize();
-
-	DArray<Item*> temp(newSize, newSize);
-
-	//after the swap the table holds randomly initialized pointers
-	//and temp holds currently registered objects
-	std::swap(table, temp);
-	
-	nullTable();
-	count = 0;
-
-	for (int i = 0; i < OLD_TABLE_SIZE; ++i)
-	{
-		if (temp[i] != nullptr)
-			insert(*temp[i]);
-	}
-}
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::empty()
-{
-	table.shrink(MIN_SIZE);
-
-	nullTable();
-
-	count = 0;
-}
 
 
 
@@ -160,6 +202,36 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 
 
+//
+//make a new table with the sent size and rehash all items in it
+//
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::resize(int newSize)
+{
+	//must have at least one empty pos. after resize
+	assert(newSize >= MIN_SIZE && newSize > count);
+	
+	const int OLD_TABLE_SIZE = table.getSize();
+
+	DArray<Item*> temp(newSize, newSize);
+
+	//after the swap the table holds randomly initialized pointers
+	//and temp holds currently registered objects
+	std::swap(table, temp);
+	
+	nullTable();
+	count = 0;
+
+	for (int i = 0; i < OLD_TABLE_SIZE; ++i)
+	{
+		if (temp[i] != nullptr)
+			insert(*temp[i]);
+	}
+}
+
+
+
+
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::rehashCluster(int start)
 {
@@ -179,6 +251,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(int start)
 		toBeRehashed = table[positionToEmpty];
 	}
 }
+
 
 
 
@@ -204,89 +277,13 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 
 
-//
-// ( 3 * expectedSize ) / 2 is used because if all the expected 
-//  items are inserted, the table will be 2/3 full and will work nicely
-//
 template <typename Item, typename Key, typename KeyAccessor>
-int Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(int expectedSize)
+void Hash<Item, Key, KeyAccessor>::empty()
 {
-	if (expectedSize <= 0)
-		throw std::invalid_argument("Expected size must be positive!");
-
-	return (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
-}
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(int expectedSize)
-	:
-	count(0),
-	table(0, 0)
-{
-	int actualSize = calculateAppropriateSize(expectedSize);
-
-	table = std::move(DArray<Item*>(actualSize, actualSize));
+	table.shrink(MIN_SIZE);
 
 	nullTable();
+
+	count = 0;
 }
 
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
-	:
-	count(source.count),
-	table(MIN_SIZE, MIN_SIZE), 
-	hashFunction(std::move(source.hashFunction)),
-	keyAccessor(std::move(source.keyAccessor))
-{
-	this->nullTable();
-
-	std::swap(this->table, source.table);
-	source.count = 0;
-}
-
-
-
-//
-// \ if the function is passed an rvalue, 'other' will be move-constructed with the argument
-//
-// \ if the function is passed an lvalue, 'other' will be copy-constructed from the argument
-//
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWithATemporary(Hash<Item, Key, KeyAccessor> other)
-{
-	std::swap(this->count, other.count);
-	std::swap(this->table, other.table);
-	std::swap(this->hashFunction, other.hashFunction);
-	std::swap(this->keyAccessor, other.keyAccessor);
-}
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
-{
-	if (this != &other)
-	{
-		swapContentsWithATemporary(std::move(other));
-	}
-
-	return *this;
-}
-
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
-{
-	if (this != &other)
-	{
-		swapContentsWithATemporary(other);
-	}
-
-	return *this;
-}
