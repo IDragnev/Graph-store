@@ -155,12 +155,6 @@
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\HashImpl.hpp" />
     <ClInclude Include="String\String.h" />
-    <ClInclude Include="Vertex\Adjacency list\ForwardList.h" />
-    <ClInclude Include="Vertex\Adjacency list\ForwardListImpl.hpp" />
-    <ClInclude Include="Vertex\Adjacency list\ForwardListIterator.h" />
-    <ClInclude Include="Vertex\Adjacency list\ForwardListIteratorImpl.hpp" />
-    <ClInclude Include="Vertex\Adjacency list\Node.h" />
-    <ClInclude Include="Vertex\Adjacency list\NodeImpl.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Vertex\Adjacency list">
-      <UniqueIdentifier>{6e1d151a-d996-495c-84cd-6d206e3b569f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="String">
       <UniqueIdentifier>{76b3ab0d-a167-47de-b1da-c6427dbc0a73}</UniqueIdentifier>
     </Filter>
@@ -34,24 +31,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Vertex\Adjacency list\ForwardList.h">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex\Adjacency list\ForwardListImpl.hpp">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex\Adjacency list\ForwardListIterator.h">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex\Adjacency list\ForwardListIteratorImpl.hpp">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex\Adjacency list\Node.h">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex\Adjacency list\NodeImpl.hpp">
-      <Filter>Vertex\Adjacency list</Filter>
-    </ClInclude>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
