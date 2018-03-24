@@ -31,7 +31,7 @@ template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
 public:
-	Hash(int expectedSize);
+	Hash(size_t expectedSize);
 	Hash(Hash&&);
 	Hash(const Hash&) = default;
 	~Hash() = default;
@@ -39,7 +39,7 @@ public:
 	Hash& operator=(Hash&&);
 	Hash& operator=(const Hash& other);
 
-	int getCount()const;
+	size_t getCount()const;
 	bool isEmpty()const;
 
 	void empty();
@@ -49,21 +49,24 @@ public:
 	Item* search(const Key&);
 
 private:
-	int count;
+	size_t tableSize;
+	size_t insertedCount;
 	DArray<Item*> table;
 	HashFunction<Key> hashFunction;
 	KeyAccessor keyAccessor;
 
 private:
-	static const int MIN_SIZE = 3;
-	static int calculateAppropriateSize(int expectedSize);
+	static const size_t MIN_SIZE = 3;
+	static size_t calculateAppropriateSize(size_t expectedSize);
 
 private:
-	int getIndexByKey(const Key&); 
-	void resize(int newSize);
+	long getIndexByKey(const Key&); 
+	void resize(size_t newSize);
 	void nullTable();
-	void rehashCluster(int start);
-	void swapContentsWithATemporary(Hash other);
+	void rehashCluster(size_t start);
+	void swapContentsWithReconstructedParameter(Hash other);
+	bool shouldHalveTable()const;
+	bool shouldDoubleTable()const;
 };
 
 #include "HashImpl.hpp"

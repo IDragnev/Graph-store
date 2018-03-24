@@ -36,23 +36,23 @@ namespace HashTest
 
 	void setItemsWithKeys(DArray<Item>& items)
 	{
-		static const int keysCount = 15;
+		static const size_t keysCount = 15;
 		static const char* keys[] = { "some key" , "other key", "@asd" , "not very creative", "New York"
 								      "another key", "key 5", "123" , "123123", "running out of ideas", 
 									  "Sofia", "IBN", "Word", "Testing", "Tired" };
 
-		const int ITEMS_COUNT = items.getCount();
+		const size_t ITEMS_COUNT = items.getCount();
 
-		for (int i = 0; i < ITEMS_COUNT && i < keysCount; ++i)
+		for (size_t i = 0; i < ITEMS_COUNT && i < keysCount; ++i)
 			items[i].setKey(keys[i]);
 	}
 
 
 	void insertItemsToHash(ItemHash& hash, DArray<Item>& items)
 	{
-		const int ITEMS_COUNT = items.getCount();
+		const size_t ITEMS_COUNT = items.getCount();
 
-		for (int i = 0; i < ITEMS_COUNT; ++i)
+		for (size_t i = 0; i < ITEMS_COUNT; ++i)
 			hash.insert(items[i]);
 	}
 
@@ -64,13 +64,13 @@ namespace HashTest
 
 		static void testAreAllTestItemsInAHash(ItemHash& hash, const wchar_t* message)
 		{
-			const int ITEMS_COUNT = testClassItems.getCount();
+			const size_t ITEMS_COUNT = testClassItems.getCount();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == &testClassItems[i], message);
 		}
 
-		static void assertHashCountEqualsValue(const ItemHash& hash, int value, const wchar_t* message)
+		static void assertHashCountEqualsValue(const ItemHash& hash, size_t value, const wchar_t* message)
 		{
 			Assert::IsTrue(hash.getCount() == value, message);
 		}
@@ -90,7 +90,7 @@ namespace HashTest
 
 		TEST_METHOD(ConstructorTest)
 		{
-			for (int i = 1; i < 50; ++i)
+			for (size_t i = 1; i < 50; ++i)
 			{
 				ItemHash hash(i);
 				assertHashIsEmpty(hash, L"isEmpty returns false directy after construction");
@@ -103,9 +103,9 @@ namespace HashTest
 		{
 			ItemHash hash(10);
 
-			const int ITEMS_COUNT = testClassItems.getCount();
+			const size_t ITEMS_COUNT = testClassItems.getCount();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.getCount() == i, L"Insertion does not update count");
 				hash.insert(testClassItems[i]);
@@ -131,9 +131,9 @@ namespace HashTest
 
 			insertItemsToHash(hash, testClassItems);
 
-			const int ITEMS_COUNT = testClassItems.getCount();
+			const size_t ITEMS_COUNT = testClassItems.getCount();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 			{
 				assertHashCountEqualsValue(hash, ITEMS_COUNT - i, L"Remove does not update count");
 				Assert::IsTrue(hash.remove(testClassItems[i].getKey()) == &testClassItems[i], L"Remove is not returning the correct address");
@@ -141,7 +141,7 @@ namespace HashTest
 
 			hash.empty();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 				Assert::IsTrue(hash.remove(testClassItems[i].getKey()) == nullptr, L"Remove returns non-null address after calling empty");
 		}
 
@@ -152,9 +152,9 @@ namespace HashTest
 
 			insertItemsToHash(hash, testClassItems);
 
-			const int ITEMS_COUNT = testClassItems.getCount();
+			const size_t ITEMS_COUNT = testClassItems.getCount();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == &testClassItems[i], L"Search is not returning the correct address");
 				assertHashCountEqualsValue(hash, ITEMS_COUNT, L"Search modifies count");
@@ -162,7 +162,7 @@ namespace HashTest
 
 			hash.empty();
 
-			for (int i = 0; i < ITEMS_COUNT; ++i)
+			for (size_t i = 0; i < ITEMS_COUNT; ++i)
 				Assert::IsTrue(hash.search(testClassItems[i].getKey()) == nullptr, L"Search returns non-null address after calling empty");
 		}
 
