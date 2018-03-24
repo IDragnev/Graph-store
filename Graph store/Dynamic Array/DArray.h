@@ -2,7 +2,6 @@
 #define __D_ARRAY_M_SEMANT_H_INCLDUED__
 
 #include <assert.h>
-#include <utility>
 #include <stdexcept>
 
 template <typename T>
@@ -28,17 +27,12 @@ public:
 	void shrink(int size);
 
 public:
-	virtual void add(T&&);
-	virtual void add(const T&);
+	virtual void insert(const T&);
 	virtual void remove(int position);
 	virtual int search(const T&)const;
 
-	void add(DArray<T>&&);
-	void add(const DArray<T>&);
-
-public:
-	void addAt(int, const T&);
-	void addAt(int, T&&);
+	void insert(const DArray<T>&);
+	void insertAt(int, const T&);
 
 public:
 	T& operator[](int position);
@@ -53,7 +47,7 @@ protected:
 	void setSize(int);
 	void setCount(int);
 
-	void resizeIfNeeded();
+	void enlargeIfFull();
 
 	void shiftItemsOnePositionLeft(int start, int end);
 	void shiftItemsOnePositionRight(int start, int end);
@@ -67,7 +61,9 @@ private:
 	void destroyAndNullMembers();
 	void destroyItems();
 	void nullMembers();
-	void directInit(T* items, int count, int size);
+	void directlySetItemsCountAndSize(T* items, int count, int size);
+	void throwExceptionIfInvalidIndex(int index)const;
+	void moveSourceInThis(DArray& source);
 };
 
 #include "DArrayImpl.hpp"
