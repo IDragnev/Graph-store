@@ -58,6 +58,7 @@ private:
 private:
 	static const size_t MIN_SIZE = 3;
 	static size_t calculateAppropriateSize(size_t expectedSize);
+	static bool isValidPosition(long index);
 
 private:
 	long getIndexByKey(const Key&); 

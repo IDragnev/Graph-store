@@ -49,6 +49,8 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 }
 
 
+
+
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::nullTable()
 {
@@ -107,9 +109,7 @@ Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	const long INDEX = getIndexByKey(key);
 
-	assert(INDEX < tableSize);
-
-	if (INDEX >= 0)
+	if ( isValidPosition(INDEX) )
 		return table[INDEX];
 	else
 		return nullptr;
@@ -141,7 +141,6 @@ long Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
 }
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
 {
@@ -149,16 +148,20 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
 }
 
 
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
+{
+	return index >= 0;
+}
+
 
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	const long INDEX = getIndexByKey(key);
 
-	if (INDEX >= 0)
+	if ( isValidPosition(INDEX) )
 	{
-		assert(INDEX < tableSize);
-
 		Item* result =  table[INDEX];
 		assert(result);
 
@@ -185,7 +188,6 @@ inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable()const
 
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
@@ -198,16 +200,15 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 
 	std::swap(table, temp);
 	
-	nullTable();
-	insertedCount = 0;
 	tableSize = newSize;
+	insertedCount = 0;
+	nullTable();
 
 	for (size_t i = 0; i < OLD_TABLE_SIZE; ++i)
 	{
 		if (temp[i] != nullptr)
 			insert( *temp[i] );
 	}
-
 }
 
 
