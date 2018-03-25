@@ -155,6 +155,7 @@ inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
 }
 
 
+
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
@@ -162,11 +163,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 	if ( isValidPosition(INDEX) )
 	{
-		Item* result =  table[INDEX];
-		assert(result);
-
-		table[INDEX] = nullptr;
-		--insertedCount; 
+		Item* result = extractItemFromTable(INDEX);
 
 		if ( shouldHalveTable() )
 			resize(tableSize / 2);
@@ -178,6 +175,21 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 	return nullptr;
 }
+
+
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
+{
+	Item* result = table[index];
+
+	table[index] = nullptr;
+	--insertedCount;
+
+	return result;
+}
+
 
 
 template <typename Item,typename Key, typename KeyAccessor>
@@ -219,17 +231,11 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 {
 	size_t positionToEmpty = start;
 
-	Item* toBeRehashed = table[positionToEmpty];
-
-	while (toBeRehashed != nullptr)
+	while ( table[positionToEmpty] != nullptr )
 	{
-		table[positionToEmpty] = nullptr;
-		--insertedCount;
-
-		insert( *toBeRehashed );
+		insert( *extractItemFromTable(positionToEmpty) );
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
-		toBeRehashed = table[positionToEmpty];
 	}
 }
 
