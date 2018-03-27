@@ -21,12 +21,22 @@ public:
 	String& operator+=(const String&);          
 
 private:
-	char* theRealString;
+	char* value;
 
 private:
 	const char* getValue()const;           
 	void setValue(const char*);  
 	void appendToValue(const char*);
+
+	bool isNotNull()const;
+	void nullValue();
+	void destroyValue();
+
+	void moveSourceInThis(String&);
+
+private:
+	static char* cloneCString(const char*);
+	static char* cloneCString(char);
 };
 
 
