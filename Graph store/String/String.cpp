@@ -43,16 +43,16 @@ String& String::operator=(const String& other)
 
 void String::setValue(const char* newValue)
 {
-	if (newValue == nullptr)
-	{
-		destroyValue();
-		nullValue();
-	}
-	else
+	if (newValue != nullptr)
 	{
 		char* buffer = cloneCString(newValue);
 		destroyValue();
 		value = buffer;
+	}
+	else
+	{
+		destroyValue();
+		nullValue();
 	}
 }
 
@@ -80,17 +80,17 @@ void String::destroyValue()
 String::String(char symbol)
 {
 	nullValue();
-	value = cloneCString(symbol);
+	setValue(symbol);
 }
 
 
-char* String::cloneCString(char symbol)
-{
-	char* result = new char[2];
-	result[0] = symbol;
-	result[1] = '\0';
 
-	return result;
+void String::setValue(char symbol)
+{
+	char buffer[2] = "";
+	buffer[0] = symbol;
+
+	setValue(buffer);
 }
 
 
@@ -128,20 +128,29 @@ void String::moveSourceInThis(String& source)
 
 
 
-void String::appendToValue(const char* newValue)
+String& String::operator+=(const char* string)
 {
-	if (newValue != nullptr)
+	append(string);
+
+	return *this;
+}
+
+
+
+void String::append(const char* string)
+{
+	if (string != nullptr)
 	{
-		size_t size = strlen(newValue);
+		size_t size = strlen(string);
 
 		if (size > 0)
 		{
-			size += (this->len() + 1);
+			size += (this->getLength() + 1);
 			char* buffer = new char[size];
 
 			//getValue() because this->value could be null
 			strcpy_s(buffer, size, this->getValue());
-			strcat_s(buffer, size, newValue);
+			strcat_s(buffer, size, string);
 
 			destroyValue();
 			value = buffer;
@@ -151,15 +160,28 @@ void String::appendToValue(const char* newValue)
 
 
 
-const char* String::getValue()const
+String& String::operator+=(char symbol)
 {
-	return isNotNull() ? value : "";
+	append(symbol);
+
+	return *this;
 }
 
 
-bool String::isNotNull()const
+
+void String::append(char symbol)
 {
-	return value != nullptr;
+	char buffer[2] = "";
+	buffer[0] = symbol;
+
+	append(buffer);
+}
+
+
+
+const char* String::getValue()const
+{
+	return (value != nullptr) ? value : "";
 }
 
 
@@ -169,9 +191,9 @@ String::operator const char *()const
 }
 
 
-size_t String::len()const
+size_t String::getLength()const
 {
-	return isNotNull() ? strlen(value) : 0;
+	return strlen(getValue());
 }
 
 
@@ -208,14 +230,6 @@ bool operator<=(const String& lhs, const String& rhs)
 	return !(lhs > rhs);
 }
 
-
-
-String& String::operator+=(const String& other)
-{
-	appendToValue(other);
-
-	return *this;
-}
 
 
 String operator+(const String& lhs, const String& rhs)

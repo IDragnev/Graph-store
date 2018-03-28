@@ -6,7 +6,7 @@ class String
 public:
 	String();                                 
 	String(char);                            
-	String(const char* value);
+	String(const char*);
 	String(const String&);
 	String(String&&);
 	~String();
@@ -16,9 +16,13 @@ public:
 
 	operator const char*()const;
 
-	size_t len()const;                          
+	size_t getLength()const;                          
 
-	String& operator+=(const String&);          
+	void append(const char*);
+	void append(char);
+
+	String& operator+=(const char*);
+	String& operator+=(char);
 
 private:
 	char* value;
@@ -26,17 +30,13 @@ private:
 private:
 	const char* getValue()const;           
 	void setValue(const char*);  
-	void appendToValue(const char*);
-
-	bool isNotNull()const;
+	void setValue(char);
 	void nullValue();
 	void destroyValue();
 
 	void moveSourceInThis(String&);
 
-private:
 	static char* cloneCString(const char*);
-	static char* cloneCString(char);
 };
 
 
