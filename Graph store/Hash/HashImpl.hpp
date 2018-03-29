@@ -52,7 +52,7 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullTable()
+inline void Hash<Item, Key, KeyAccessor>::nullTable()
 {
 	for (size_t i = 0; i < tableSize; ++i)
 		table[i] = nullptr;
@@ -61,7 +61,7 @@ void Hash<Item, Key, KeyAccessor>::nullTable()
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
+inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
 {
 	if (this != &other)
 	{
@@ -74,7 +74,7 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item,
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
+inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
 {
 	if (this != &other)
 	{
@@ -86,11 +86,7 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash
 
 
 
-//
-// \ if the function is passed an rvalue, 'other' will be move-constructed with the argument
-//
-// \ if the function is passed an lvalue, 'other' will be copy-constructed from the argument
-//
+
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> other)
 {
@@ -118,8 +114,8 @@ Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 
 
 //
-// (!) the function is not const because KeyAccessor and hashFunction
-//   could have non-const operator()
+// the function is not const because KeyAccessor and hashFunction
+// could have non-const operator()
 //
 template <typename Item, typename Key, typename KeyAccessor>
 long Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
@@ -180,7 +176,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
+inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
 {
 	Item* result = table[index];
 
