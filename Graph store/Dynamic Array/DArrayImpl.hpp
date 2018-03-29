@@ -15,7 +15,7 @@ inline void DArray<T>::nullMembers()
 
 
 template <typename T>
-inline void DArray<T>::directlySetItemsCountAndSize(T* newItems, size_type newCount, size_type newSize)
+inline void DArray<T>::directlySetItemsCountAndSize(T* newItems, sizeType newCount, sizeType newSize)
 {
 	items = newItems;
 	count = newCount;
@@ -25,11 +25,11 @@ inline void DArray<T>::directlySetItemsCountAndSize(T* newItems, size_type newCo
 
 
 template <typename T>
-DArray<T>::DArray(size_type size, size_type count)
+DArray<T>::DArray(sizeType size, sizeType count)
 	:
+	size(size),
 	items(nullptr)
 {
-	setSize(size);
 	setCount(count);
 
 	if (this->size > 0)
@@ -39,15 +39,7 @@ DArray<T>::DArray(size_type size, size_type count)
 
 
 template <typename T>
-inline void DArray<T>::setSize(size_type newSize)
-{
-	size = newSize;
-}
-
-
-
-template <typename T>
-void DArray<T>::setCount(size_type newCount)
+inline void DArray<T>::setCount(sizeType newCount)
 {
 	if (newCount <= size)
 	{
@@ -60,12 +52,12 @@ void DArray<T>::setCount(size_type newCount)
 
 
 template <typename T>
-DArray<T>& DArray<T>::operator=(DArray<T>&& source)
+inline DArray<T>& DArray<T>::operator=(DArray<T>&& source)
 {
 	if (this != &source)
 	{
 		destroyItems();
-		moveSourceInThis(source);
+		moveParameterInThis(source);
 	}
 
 	return *this;
@@ -76,7 +68,7 @@ DArray<T>& DArray<T>::operator=(DArray<T>&& source)
 template <typename T>
 inline DArray<T>::DArray(DArray<T>&& source)
 {
-	moveSourceInThis(source);
+	moveParameterInThis(source);
 }
 
 
@@ -90,7 +82,7 @@ inline void DArray<T>::destroyItems()
 
 
 template <typename T>
-inline void DArray<T>::moveSourceInThis(DArray<T>& source)
+inline void DArray<T>::moveParameterInThis(DArray<T>& source)
 {
 	directlySetItemsCountAndSize(source.items, source.count, source.size);
 	source.nullMembers();
@@ -100,9 +92,8 @@ inline void DArray<T>::moveSourceInThis(DArray<T>& source)
 
 template <typename T>
 inline DArray<T>::DArray(const DArray<T>& other)
-	:
-	items(nullptr)
 {
+	nullMembers();
 	copyFrom(other);
 }
 
@@ -126,14 +117,12 @@ void DArray<T>::copyFrom(const DArray<T>& other)
 {
 	if ( ! other.isEmpty() )
 	{
-		T* buffer = new T[other.size];
+		DArray<T> temporary(other.size, other.count);
 
-		for (size_type i = 0; i < other.count; ++i)
-			buffer[i] = other.items[i];
+		for (sizeType i = 0; i < other.count; ++i)
+			temporary.items[i] = other.items[i];
 
-		destroyItems();
-
-		directlySetItemsCountAndSize(buffer, other.count, other.size);
+		std::swap(*this, temporary);
 	}
 	else 
 	{
@@ -185,45 +174,43 @@ inline void DArray<T>::enlargeIfFull()
 
 
 
-//
-// (!) if items == nullptr, then count will be 0 
-//   and the null pointer will not be touched
-//
 template <typename T>
-void DArray<T>::resize(size_type newSize)
+void DArray<T>::resize(sizeType newSize)
 {
-	T* newItems = new T[newSize];
+	sizeType newCount = (count <= newSize) ? count : newSize;
 
-	size_type newCount = (count <= newSize) ? count : newSize;
+	DArray<T> temporary(newSize, newCount);
 
-	for (size_type i = 0; i < newCount; ++i)
-		newItems[i] = items[i];
+	for (sizeType i = 0; i < newCount; ++i)
+		temporary.items[i] = items[i];
 
-	destroyItems();
-
-	directlySetItemsCountAndSize(newItems, newCount, newSize);
+	std::swap(*this, temporary);
 }
  
 
 
-
 template <typename T>
-void DArray<T>::insertAt(size_type position, const T& newItem)
+void DArray<T>::insertAt(sizeType position, const T& newItem)
 {
-	throwExceptionIfInvalidIndex(position);
+	if (position == count)
+		insert(newItem);
+	else
+	{
+		throwExceptionIfInvalidIndex(position);
 
-	enlargeIfFull();
+		enlargeIfFull();
 
-	shiftItemsOnePositionRight(position, count - 1);
+		shiftItemsOnePositionRight(position, count - 1);
 
-	items[position] = newItem;
-	++count;
+		items[position] = newItem;
+		++count;
+	}
 }
 
 
 
 template <typename T>
-inline void DArray<T>::throwExceptionIfInvalidIndex(size_type index)const
+inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index)const
 {
 	if (index >= count)
 		throw std::out_of_range("Index out of range");
@@ -232,33 +219,27 @@ inline void DArray<T>::throwExceptionIfInvalidIndex(size_type index)const
 
 
 //
-// (!) the function assumes that count < size, so that shifting the last 
-//     item to the right will not write outside the array
+//  the function assumes that count < size, so that shifting the last 
+//  item to the right will not write outside the array
 //
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionRight(size_type start, size_type end)
+inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 {
 	assert(end < count && count < size);
 
-	while (end >= start)
-	{
-		items[end + 1] = items[end];
-		--end;
-	}
+	for (sizeType i = end + 1; i > start; --i)
+		items[i] = items[i - 1];
 }
 
 
 
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionLeft(size_type start, size_type end)
+inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 {
 	assert(start > 0);
 
-	while (start <= end)
-	{
-		items[start - 1] = items[start];
-		++start;
-	}
+	for (sizeType i = start - 1; i < end; ++i)
+		items[i] = items[i + 1];
 }
 
 
@@ -272,7 +253,7 @@ inline void DArray<T>::empty()
 
 
 template <typename T>
-inline void DArray<T>::ensureSize(size_type newSize)
+inline void DArray<T>::ensureSize(sizeType newSize)
 {
 	if (newSize > size)
 		resize(newSize);
@@ -281,7 +262,7 @@ inline void DArray<T>::ensureSize(size_type newSize)
 
 
 template <typename T>
-inline void DArray<T>::shrink(size_type newSize)
+inline void DArray<T>::shrink(sizeType newSize)
 {
 	if (newSize > size)
 		throw std::invalid_argument("Cannot shrink to bigger size");
@@ -299,7 +280,7 @@ inline void DArray<T>::shrink(size_type newSize)
 
 
 template <typename T>
-inline void DArray<T>::remove(size_type position)
+inline void DArray<T>::remove(sizeType position)
 {
 	throwExceptionIfInvalidIndex(position);
 
@@ -311,7 +292,7 @@ inline void DArray<T>::remove(size_type position)
 
 
 template <typename T>
-inline T& DArray<T>::operator[](size_type position)
+inline T& DArray<T>::operator[](sizeType position)
 {
 	throwExceptionIfInvalidIndex(position);
 
@@ -321,7 +302,7 @@ inline T& DArray<T>::operator[](size_type position)
 
 
 template <typename T>
-inline const T& DArray<T>::operator[](size_type position)const
+inline const T& DArray<T>::operator[](sizeType position)const
 {
 	throwExceptionIfInvalidIndex(position);
 
@@ -333,21 +314,21 @@ inline const T& DArray<T>::operator[](size_type position)const
 template <typename T>
 inline void DArray<T>::insert(const DArray<T>& other)
 {
-	for (size_type i = 0; i < other.count; ++i)
+	for (sizeType i = 0; i < other.count; ++i)
 		insert(other[i]);
 }
 
 
 
 template <typename T>
-inline typename DArray<T>::size_type DArray<T>::getCount()const
+inline typename DArray<T>::sizeType DArray<T>::getCount()const
 {
 	return count;
 }
 
 
 template <typename T>
-inline typename DArray<T>::size_type DArray<T>::getSize()const
+inline typename DArray<T>::sizeType DArray<T>::getSize()const
 {
 	return size;
 }

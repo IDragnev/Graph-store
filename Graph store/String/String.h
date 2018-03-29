@@ -34,7 +34,7 @@ private:
 	void nullValue();
 	void destroyValue();
 
-	void moveSourceInThis(String&);
+	void moveParameterInThis(String&);
 
 	static char* cloneCString(const char*);
 };

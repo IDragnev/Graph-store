@@ -4,29 +4,28 @@
 
 
 String::String()
+	:
+	value(nullptr)
 {
-	nullValue();
+	;
 }
 
 
 String::String(const char* newValue)
+	:
+	value(nullptr)
 {
-	nullValue();
 	setValue(newValue);
 }
 
 
 String::String(const String& other)
+	:
+	value(nullptr)
 {
-	nullValue();
 	setValue(other.value);
 }
 
-
-void String::nullValue()
-{
-	value = nullptr;
-}
 
 
 String& String::operator=(const String& other)
@@ -76,10 +75,17 @@ void String::destroyValue()
 }
 
 
+void String::nullValue()
+{
+	value = nullptr;
+}  
+
+ 
 
 String::String(char symbol)
+	:
+	value(nullptr)
 {
-	nullValue();
 	setValue(symbol);
 }
 
@@ -104,7 +110,7 @@ String::~String()
 
 String::String(String&& source)
 {
-	moveSourceInThis(source);
+	moveParameterInThis(source);
 }
 
 
@@ -113,14 +119,14 @@ String& String::operator=(String&& source)
 	if (this != &source)
 	{
 		destroyValue();
-		moveSourceInThis(source);
+		moveParameterInThis(source);
 	}
 
 	return *this;
 }
 
 
-void String::moveSourceInThis(String& source)
+void String::moveParameterInThis(String& source)
 {
 	value = source.value;
 	source.nullValue();
