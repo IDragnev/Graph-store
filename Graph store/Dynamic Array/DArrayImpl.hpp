@@ -25,8 +25,7 @@ inline void DArray<T>::directlySetItemsCountAndSize(T* newItems, sizeType newCou
 
 
 template <typename T>
-DArray<T>::DArray(sizeType size, sizeType count)
-	:
+DArray<T>::DArray(sizeType size, sizeType count) :
 	size(size),
 	items(nullptr)
 {

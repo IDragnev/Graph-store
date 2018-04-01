@@ -13,12 +13,12 @@ private:
 public:
 	DArray();
 	explicit DArray(sizeType size, sizeType count = 0);
-	DArray(DArray<T>&&);
-	DArray(const DArray<T>&);
+	DArray(DArray<T>&& source);
+	DArray(const DArray<T>& source);
 	virtual ~DArray();
 
-	DArray<T>& operator=(DArray<T>&&);
-	DArray<T>& operator=(const DArray<T>&);
+	DArray<T>& operator=(DArray<T>&& rhs);
+	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
 	sizeType getSize()const;
@@ -30,11 +30,11 @@ public:
 	void shrink(sizeType size);
 
 public:
-	virtual void insert(const T&);
+	virtual void insert(const T& item);
 	virtual void remove(sizeType position);
 
-	void insert(const DArray<T>&);
-	void insertAt(sizeType, const T&);
+	void insert(const DArray<T>& other);
+	void insertAt(sizeType position, const T& item);
 
 public:
 	T& operator[](sizeType position);
@@ -46,7 +46,7 @@ private:
 	T* items;
 
 protected:
-	void setCount(sizeType);
+	void setCount(sizeType count);
 	void enlargeIfFull();
 
 	void shiftItemsOnePositionLeft(sizeType start, sizeType end);
@@ -56,8 +56,8 @@ protected:
 	const T* getItems()const;
 
 private:
-	void resize(sizeType);
-	void copyFrom(const DArray<T>&);
+	void resize(sizeType newSize);
+	void copyFrom(const DArray<T>& other);
 	void destroyAndNullMembers();
 	void destroyItems();
 	void nullMembers();

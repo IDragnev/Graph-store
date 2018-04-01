@@ -32,21 +32,21 @@ class Hash
 {
 public:
 	Hash(size_t expectedSize);
-	Hash(Hash&&);
-	Hash(const Hash&) = default;
+	Hash(Hash&& source);
+	Hash(const Hash& source) = default;
 	~Hash() = default;
 
-	Hash& operator=(Hash&&);
-	Hash& operator=(const Hash& other);
+	Hash& operator=(Hash&& rhs);
+	Hash& operator=(const Hash& rhs);
 
 	size_t getCount()const;
 	bool isEmpty()const;
 
 	void empty();
 
-	void insert(Item&);
-	Item* remove(const Key&);
-	Item* search(const Key&);
+	void insert(Item& item);
+	Item* remove(const Key& key);
+	Item* search(const Key& key);
 
 private:
 	size_t tableSize;
@@ -61,7 +61,7 @@ private:
 	static bool isValidPosition(long index);
 
 private:
-	long getIndexByKey(const Key&); 
+	long getIndexByKey(const Key& key); 
 	void resize(size_t newSize);
 	void nullTable();
 	void rehashCluster(size_t start);
