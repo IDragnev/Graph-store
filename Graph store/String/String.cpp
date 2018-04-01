@@ -3,36 +3,33 @@
 
 
 
-String::String()
-	:
-	value(nullptr)
+String::String() :
+	actualString(nullptr)
 {
 	;
 }
 
 
-String::String(const char* newValue)
-	:
-	value(nullptr)
+String::String(const char* string) :
+	actualString(nullptr)
 {
-	setValue(newValue);
+	setActualString(string);
 }
 
 
-String::String(const String& other)
-	:
-	value(nullptr)
+String::String(const String& other) :
+	actualString(nullptr)
 {
-	setValue(other.value);
+	setActualString(other.actualString);
 }
 
 
 
-String& String::operator=(const String& other)
+String& String::operator=(const String& rhs)
 {
-	if (this != &other)
+	if (this != &rhs)
 	{
-		setValue(other.value);
+		setActualString(rhs.actualString);
 	}
 
 	return *this;
@@ -40,18 +37,18 @@ String& String::operator=(const String& other)
 
 
 
-void String::setValue(const char* newValue)
+void String::setActualString(const char* cString)
 {
-	if (newValue != nullptr)
+	if (cString != nullptr)
 	{
-		char* buffer = cloneCString(newValue);
-		destroyValue();
-		value = buffer;
+		char* buffer = cloneCString(cString);
+		destroyActualString();
+		actualString = buffer;
 	}
 	else
 	{
-		destroyValue();
-		nullValue();
+		destroyActualString();
+		nullActualString();
 	}
 }
 
@@ -69,41 +66,40 @@ char* String::cloneCString(const char* cString)
 
 
 
-void String::destroyValue()
+void String::destroyActualString()
 {
-	delete[] value;
+	delete[] actualString;
 }
 
 
-void String::nullValue()
+void String::nullActualString()
 {
-	value = nullptr;
+	actualString = nullptr;
 }  
 
  
 
-String::String(char symbol)
-	:
-	value(nullptr)
+String::String(char symbol) :
+	actualString(nullptr)
 {
-	setValue(symbol);
+	setActualString(symbol);
 }
 
 
 
-void String::setValue(char symbol)
+void String::setActualString(char symbol)
 {
 	char buffer[2] = "";
 	buffer[0] = symbol;
 
-	setValue(buffer);
+	setActualString(buffer);
 }
 
 
 
 String::~String()
 {
-	destroyValue();
+	destroyActualString();
 }
 
 
@@ -118,7 +114,7 @@ String& String::operator=(String&& source)
 {
 	if (this != &source)
 	{
-		destroyValue();
+		destroyActualString();
 		moveParameterInThis(source);
 	}
 
@@ -128,8 +124,8 @@ String& String::operator=(String&& source)
 
 void String::moveParameterInThis(String& source)
 {
-	value = source.value;
-	source.nullValue();
+	actualString = source.actualString;
+	source.nullActualString();
 }
 
 
@@ -154,12 +150,12 @@ void String::append(const char* string)
 			size += (this->getLength() + 1);
 			char* buffer = new char[size];
 
-			//getValue() because this->value could be null
-			strcpy_s(buffer, size, this->getValue());
+			//getActualString() because this->actualString could be null
+			strcpy_s(buffer, size, this->getActualString());
 			strcat_s(buffer, size, string);
 
-			destroyValue();
-			value = buffer;
+			destroyActualString();
+			actualString = buffer;
 		}
 	}
 }
@@ -185,21 +181,21 @@ void String::append(char symbol)
 
 
 
-const char* String::getValue()const
+const char* String::getActualString()const
 {
-	return (value != nullptr) ? value : "";
+	return (actualString != nullptr) ? actualString : "";
 }
 
 
 String::operator const char *()const
 {
-	return getValue();
+	return getActualString();
 }
 
 
 size_t String::getLength()const
 {
-	return strlen(getValue());
+	return strlen(getActualString());
 }
 
 
@@ -213,27 +209,28 @@ bool operator!=(const String& lhs, const String& rhs)
 	return !(lhs == rhs);
 }
 
-bool operator>(const String& lhs, const String& rhs)
-{
-	return strcmp(lhs, rhs) > 0;
-}
-
-
-bool operator>=(const String& lhs, const String& rhs)
-{
-	return (lhs > rhs) || (lhs == rhs);
-}
-
 
 bool operator<(const String& lhs, const String& rhs)
 {
-	return !(lhs >= rhs);
+	return strcmp(lhs, rhs) < 0;
 }
 
 
 bool operator<=(const String& lhs, const String& rhs)
 {
-	return !(lhs > rhs);
+	return (lhs < rhs) || (lhs == rhs);
+}
+
+
+bool operator>(const String& lhs, const String& rhs)
+{
+	return !(lhs <= rhs);
+}
+
+
+bool operator>=(const String& lhs, const String& rhs)
+{
+	return !(lhs < rhs);
 }
 
 
@@ -248,7 +245,6 @@ String operator+(const String& lhs, const String& rhs)
 }
 
 
-
 String operator+(char lhs, const String& rhs)
 {
 	String result(lhs);
@@ -259,8 +255,7 @@ String operator+(char lhs, const String& rhs)
 }
 
 
-
-String operator+(const char* lhs, const String& rhs)
+String operator+(const String& lhs, char rhs)
 {
 	String result(lhs);
 
@@ -268,5 +263,4 @@ String operator+(const char* lhs, const String& rhs)
 
 	return result;
 }
-
 
