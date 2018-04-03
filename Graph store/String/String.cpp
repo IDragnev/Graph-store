@@ -1,28 +1,24 @@
 #include "String.h"
-#include <utility>
-
+#include <cstring>
 
 
 String::String() :
 	actualString(nullptr)
-{
-	;
+{ 
 }
 
 
 String::String(const char* string) :
-	actualString(nullptr)
+	String()
 {
 	setActualString(string);
 }
 
 
 String::String(const String& other) :
-	actualString(nullptr)
+	String(other.actualString)
 {
-	setActualString(other.actualString);
 }
-
 
 
 String& String::operator=(const String& rhs)
@@ -41,9 +37,9 @@ void String::setActualString(const char* cString)
 {
 	if (cString != nullptr)
 	{
-		char* buffer = cloneCString(cString);
+		char* copy = cloneCString(cString);
 		destroyActualString();
-		actualString = buffer;
+		actualString = copy;
 	}
 	else
 	{
@@ -78,13 +74,11 @@ void String::nullActualString()
 }  
 
  
-
 String::String(char symbol) :
-	actualString(nullptr)
+	String()
 {
 	setActualString(symbol);
 }
-
 
 
 void String::setActualString(char symbol)
@@ -96,12 +90,10 @@ void String::setActualString(char symbol)
 }
 
 
-
 String::~String()
 {
 	destroyActualString();
 }
-
 
 
 String::String(String&& source)
@@ -129,14 +121,12 @@ void String::moveParameterInThis(String& source)
 }
 
 
-
 String& String::operator+=(const char* string)
 {
 	append(string);
 
 	return *this;
 }
-
 
 
 void String::append(const char* string)
@@ -161,14 +151,12 @@ void String::append(const char* string)
 }
 
 
-
 String& String::operator+=(char symbol)
 {
 	append(symbol);
 
 	return *this;
 }
-
 
 
 void String::append(char symbol)
@@ -178,7 +166,6 @@ void String::append(char symbol)
 
 	append(buffer);
 }
-
 
 
 const char* String::getActualString()const
@@ -204,6 +191,7 @@ bool operator==(const String& lhs, const String& rhs)
 	return strcmp(lhs, rhs) == 0;
 }
 
+
 bool operator!=(const String& lhs, const String& rhs)
 {
 	return !(lhs == rhs);
@@ -216,15 +204,15 @@ bool operator<(const String& lhs, const String& rhs)
 }
 
 
-bool operator<=(const String& lhs, const String& rhs)
+bool operator>(const String& lhs, const String& rhs)
 {
-	return (lhs < rhs) || (lhs == rhs);
+	return rhs < lhs;
 }
 
 
-bool operator>(const String& lhs, const String& rhs)
+bool operator<=(const String& lhs, const String& rhs)
 {
-	return !(lhs <= rhs);
+	return !(lhs > rhs);
 }
 
 
@@ -232,7 +220,6 @@ bool operator>=(const String& lhs, const String& rhs)
 {
 	return !(lhs < rhs);
 }
-
 
 
 String operator+(const String& lhs, const String& rhs)
