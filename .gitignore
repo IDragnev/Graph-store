@@ -5,3 +5,4 @@ Hash\ Test/Debug/
 *.filters
 *.db
 *.ipch
+*.vcxproj
