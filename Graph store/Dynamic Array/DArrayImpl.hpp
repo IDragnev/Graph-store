@@ -157,8 +157,10 @@ inline void DArray<T>::insert(const T& newItem)
 template <typename T>
 inline void DArray<T>::enlargeIfFull()
 {
+	assert(count <= size);
+
 	if (count == size)
-		resize((2 * size) > 0 ? (2 * size) : 8);
+		resize(size > 0 ? (2 * size) : 8);
 }
 
 
