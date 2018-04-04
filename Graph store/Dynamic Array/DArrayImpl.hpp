@@ -222,7 +222,7 @@ inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 template <typename T>
 inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 {
-	assert(start > 0);
+	assert(start > 0 && end < count);
 
 	for (sizeType i = start - 1; i < end; ++i)
 		items[i] = items[i + 1];
@@ -318,9 +318,3 @@ inline T* DArray<T>::getItems()
 	return items;
 }
 
-
-template <typename T>
-inline const T* DArray<T>::getItems()const
-{
-	return items;
-}

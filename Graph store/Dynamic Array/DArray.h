@@ -8,6 +8,9 @@ template <typename T>
 class DArray
 {
 private:
+	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible.");
+	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable.");
+
 	typedef size_t sizeType;
 
 public:
@@ -53,7 +56,6 @@ protected:
 	void shiftItemsOnePositionRight(sizeType start, sizeType end);
 
 	T* getItems();
-	const T* getItems()const;
 
 private:
 	void resize(sizeType newSize);
