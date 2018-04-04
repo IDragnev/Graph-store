@@ -1,14 +1,14 @@
 /*
-     MIN_SIZE is 3 because it should be small enough to be rarely used in the constructor,
-	 big enough to have empty boxes for smaller counts ( when the table holds 1 or 2 items ),
+     MIN_TABLE_SIZE is 3 because it should be small enough to be rarely used in the constructor,
+	 big enough to have empty slots for smaller counts ( when the table holds 1 or 2 items ),
 	 and small enough to be able to halve small tables after removal ( when size is 6,7,8 )
 */
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(size_t expectedSize)
+Hash<Item, Key, KeyAccessor>::Hash(size_t expectedCount)
 	:
-	tableSize( calculateAppropriateSize(expectedSize) ),
+	tableSize( calculateAppropriateSize(expectedCount) ),
 	insertedCount(0),
 	table(tableSize, tableSize)
 {
@@ -16,28 +16,26 @@ Hash<Item, Key, KeyAccessor>::Hash(size_t expectedSize)
 }
 
 
-
 //
-// ( 3 * expectedSize ) / 2 is used because if all the expected 
-//  items are inserted, the table will be 2/3 full and will work nicely
-//
+// ( 3 * expectedSize ) / 2 is used because if all the expected items
+// are inserted, the load factor will be 2/3 
+// 
 template <typename Item, typename Key, typename KeyAccessor>
-size_t Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(size_t expectedSize)
+size_t Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(size_t expectedCount)
 {
-	if (expectedSize == 0)
+	if (expectedCount == 0)
 		throw std::invalid_argument("Expected size must be positive!");
 
-	return (expectedSize < MIN_SIZE) ? MIN_SIZE : (3 * expectedSize) / 2;
+	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
 }
-
 
 
 template <typename Item, typename Key, typename KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 	:
-	tableSize(MIN_SIZE),
+	tableSize(MIN_TABLE_SIZE),
 	insertedCount(0),
-	table(MIN_SIZE, MIN_SIZE), 
+	table(MIN_TABLE_SIZE, MIN_TABLE_SIZE), 
 	hashFunction(std::move(source.hashFunction)),
 	keyAccessor(std::move(source.keyAccessor))
 {
@@ -49,15 +47,12 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 }
 
 
-
-
 template <typename Item, typename Key, typename KeyAccessor>
 inline void Hash<Item, Key, KeyAccessor>::nullTable()
 {
 	for (size_t i = 0; i < tableSize; ++i)
 		table[i] = nullptr;
 }
-
 
 
 template <typename Item, typename Key, typename KeyAccessor>
@@ -72,7 +67,6 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Has
 }
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
 {
@@ -85,32 +79,24 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(con
 }
 
 
-
-
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> other)
+void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
 {
-	std::swap(this->tableSize, other.tableSize);
-	std::swap(this->insertedCount, other.insertedCount);
-	std::swap(this->table, other.table);
-	std::swap(this->hashFunction, other.hashFunction);
-	std::swap(this->keyAccessor, other.keyAccessor);
+	std::swap(this->tableSize, temporary.tableSize);
+	std::swap(this->insertedCount, temporary.insertedCount);
+	std::swap(this->table, temporary.table);
+	std::swap(this->hashFunction, temporary.hashFunction);
+	std::swap(this->keyAccessor, temporary.keyAccessor);
 }
 
 
-
-
 template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	const long INDEX = getIndexByKey(key);
 
-	if ( isValidPosition(INDEX) )
-		return table[INDEX];
-	else
-		return nullptr;
+	return isValidPosition(INDEX) ? table[INDEX] : nullptr;
 }
-
 
 
 //
@@ -151,7 +137,6 @@ inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
 }
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
@@ -173,8 +158,6 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 }
 
 
-
-
 template <typename Item, typename Key, typename KeyAccessor>
 inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
 {
@@ -191,16 +174,15 @@ inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
 template <typename Item,typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable()const
 {
-	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_SIZE);
+	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_TABLE_SIZE);
 }
-
 
 
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
 	//must have at least one empty pos. after resize
-	assert(newSize >= MIN_SIZE && newSize > insertedCount);
+	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
 	const size_t OLD_TABLE_SIZE = tableSize;
 
@@ -253,7 +235,6 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 }
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable()const
 {
@@ -261,18 +242,16 @@ inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable()const
 }
 
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::empty()
 {
-	table.shrink(MIN_SIZE);
+	table.shrink(MIN_TABLE_SIZE);
 
-	tableSize = MIN_SIZE;
+	tableSize = MIN_TABLE_SIZE;
 	insertedCount = 0;
 
 	nullTable();
 }
-
 
 
 template <typename Item, typename Key, typename KeyAccessor>

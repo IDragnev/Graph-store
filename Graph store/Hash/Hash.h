@@ -31,7 +31,7 @@ template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
 public:
-	Hash(size_t expectedSize);
+	explicit Hash(size_t expectedCount);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
 	~Hash() = default;
@@ -56,7 +56,7 @@ private:
 	KeyAccessor keyAccessor;
 
 private:
-	static const size_t MIN_SIZE = 3;
+	static const size_t MIN_TABLE_SIZE = 3;
 	static size_t calculateAppropriateSize(size_t expectedSize);
 	static bool isValidPosition(long index);
 
