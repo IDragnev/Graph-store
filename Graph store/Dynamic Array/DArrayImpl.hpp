@@ -64,12 +64,12 @@ template <typename T>
 inline void DArray<T>::moveParameterInThis(DArray<T>& source)
 {
 	directlySetItemsCountAndSize(source.items, source.count, source.size);
-	source.nullMembers();
+	source.nullifyMembers();
 }
 
 
 template <typename T>
-inline void DArray<T>::nullMembers()
+inline void DArray<T>::nullifyMembers()
 {
 	directlySetItemsCountAndSize(nullptr, 0, 0);
 }
@@ -134,7 +134,7 @@ template <typename T>
 inline void DArray<T>::destroyAndNullMembers()
 {
 	destroyItems();
-	nullMembers();
+	nullifyMembers();
 }   
 
 

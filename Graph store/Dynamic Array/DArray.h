@@ -62,7 +62,7 @@ private:
 	void copyFrom(const DArray<T>& other);
 	void destroyAndNullMembers();
 	void destroyItems();
-	void nullMembers();
+	void nullifyMembers();
 	void directlySetItemsCountAndSize(T* items, sizeType count, sizeType size);
 	void throwExceptionIfInvalidIndex(sizeType index)const;
 	void moveParameterInThis(DArray& source);
