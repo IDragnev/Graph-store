@@ -60,12 +60,11 @@ protected:
 private:
 	void resize(sizeType newSize);
 	void copyFrom(const DArray<T>& other);
+	void swapContentsWithReconstructedParameter(DArray<T> temp);
 	void destroyAndNullMembers();
 	void destroyItems();
 	void nullifyMembers();
-	void directlySetItemsCountAndSize(T* items, sizeType count, sizeType size);
 	void throwExceptionIfInvalidIndex(sizeType index)const;
-	void moveParameterInThis(DArray& source);
 };
 
 #include "DArrayImpl.hpp"

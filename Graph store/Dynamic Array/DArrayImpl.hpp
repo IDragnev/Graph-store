@@ -22,6 +22,90 @@ DArray<T>::DArray(sizeType size, sizeType count) :
 
 
 template <typename T>
+DArray<T>::DArray(DArray<T>&& source) :
+	count(source.count),
+	size(source.size),
+	items(source.items)
+{
+	source.nullifyMembers();
+}
+
+
+template <typename T>
+DArray<T>::DArray(const DArray<T>& source) :
+	DArray<T>()
+{
+	copyFrom(source);
+}
+
+
+template <typename T>
+DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWithReconstructedParameter(rhs);
+	}
+
+	return *this;
+}
+
+
+template <typename T>
+DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWithReconstructedParameter(std::move(rhs));
+	}
+
+	return *this;
+}
+
+
+template <typename T>
+inline DArray<T>::~DArray()
+{
+	destroyItems();
+}
+
+
+template <typename T>
+void DArray<T>::copyFrom(const DArray<T>& source)
+{
+	DArray<T> temporary(source.size, source.count);
+
+	for (sizeType i = 0; i < source.count; ++i)
+		temporary.items[i] = source.items[i];
+
+	swapContentsWithReconstructedParameter(std::move(temporary));
+}
+
+
+template <typename T>
+void DArray<T>::resize(sizeType newSize)
+{
+	sizeType newCount = (count <= newSize) ? count : newSize;
+
+	DArray<T> temporary(newSize, newCount);
+
+	for (sizeType i = 0; i < newCount; ++i)
+		temporary.items[i] = items[i];
+
+	swapContentsWithReconstructedParameter(std::move(temporary));
+}
+
+
+template <typename T>
+inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary)
+{
+	std::swap(size, temporary.size);
+	std::swap(count, temporary.count);
+	std::swap(items, temporary.items);
+}
+
+
+template <typename T>
 inline void DArray<T>::setCount(sizeType newCount)
 {
 	if (newCount <= size)
@@ -34,26 +118,6 @@ inline void DArray<T>::setCount(sizeType newCount)
 
 
 template <typename T>
-inline DArray<T>& DArray<T>::operator=(DArray<T>&& source)
-{
-	if (this != &source)
-	{
-		destroyItems();
-		moveParameterInThis(source);
-	}
-
-	return *this;
-}
-
-
-template <typename T>
-inline DArray<T>::DArray(DArray<T>&& source)
-{
-	moveParameterInThis(source);
-}
-
-
-template <typename T>
 inline void DArray<T>::destroyItems()
 {
 	delete[] items;
@@ -61,65 +125,11 @@ inline void DArray<T>::destroyItems()
 
 
 template <typename T>
-inline void DArray<T>::moveParameterInThis(DArray<T>& source)
-{
-	directlySetItemsCountAndSize(source.items, source.count, source.size);
-	source.nullifyMembers();
-}
-
-
-template <typename T>
 inline void DArray<T>::nullifyMembers()
 {
-	directlySetItemsCountAndSize(nullptr, 0, 0);
-}
-
-
-template <typename T>
-inline void DArray<T>::directlySetItemsCountAndSize(T* newItems, sizeType newCount, sizeType newSize)
-{
-	items = newItems;
-	count = newCount;
-	size = newSize;
-}
-
-
-template <typename T>
-inline DArray<T>::DArray(const DArray<T>& other) :
-	DArray<T>()
-{
-	copyFrom(other);
-}
-
-
-template <typename T>
-inline DArray<T>& DArray<T>::operator=(const DArray<T>& other)
-{
-	if (this != &other)
-	{
-		copyFrom(other);
-	}
-
-	return *this;
-}
-
-
-template <typename T>
-void DArray<T>::copyFrom(const DArray<T>& other)
-{
-	if ( ! other.isEmpty() )
-	{
-		DArray<T> temporary(other.size, other.count);
-
-		for (sizeType i = 0; i < other.count; ++i)
-			temporary.items[i] = other.items[i];
-
-		std::swap(*this, temporary);
-	}
-	else 
-	{
-		destroyAndNullMembers();
-	}
+	size = 0;
+	count = 0;
+	items = nullptr;
 }
 
 
@@ -136,13 +146,6 @@ inline void DArray<T>::destroyAndNullMembers()
 	destroyItems();
 	nullifyMembers();
 }   
-
-
-template <typename T>
-inline DArray<T>::~DArray()
-{
-	destroyItems();
-}
 
 
 template <typename T>
@@ -163,20 +166,6 @@ inline void DArray<T>::enlargeIfFull()
 		resize(size > 0 ? (2 * size) : 8);
 }
 
-
-template <typename T>
-void DArray<T>::resize(sizeType newSize)
-{
-	sizeType newCount = (count <= newSize) ? count : newSize;
-
-	DArray<T> temporary(newSize, newCount);
-
-	for (sizeType i = 0; i < newCount; ++i)
-		temporary.items[i] = items[i];
-
-	std::swap(*this, temporary);
-}
- 
 
 template <typename T>
 void DArray<T>::insertAt(sizeType position, const T& newItem)
@@ -241,7 +230,7 @@ inline void DArray<T>::ensureSize(sizeType newSize)
 
 
 template <typename T>
-inline void DArray<T>::shrink(sizeType newSize)
+void DArray<T>::shrink(sizeType newSize)
 {
 	if (newSize > size)
 		throw std::invalid_argument("Cannot shrink to bigger size");
