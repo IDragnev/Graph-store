@@ -106,6 +106,113 @@ inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporar
 
 
 template <typename T>
+inline void DArray<T>::empty()
+{
+	destroyItems();
+	nullifyMembers();
+}
+
+
+template <typename T>
+void DArray<T>::shrink(sizeType newSize)
+{
+	if (newSize > size)
+		throw std::invalid_argument("Cannot shrink to bigger size");
+
+	if (newSize == 0)
+	{
+		destroyItems();
+		nullifyMembers();
+	}
+	else if (newSize != size)
+	{
+		resize(newSize);
+	}
+}
+
+
+template <typename T>
+inline void DArray<T>::ensureSize(sizeType newSize)
+{
+	if (newSize > size)
+		resize(newSize);
+}
+
+
+template <typename T>
+inline void DArray<T>::insert(const T& newItem)
+{
+	enlargeIfFull();
+
+	items[count++] = newItem;
+}
+
+
+template <typename T>
+void DArray<T>::insertAt(sizeType position, const T& newItem)
+{
+	if (position == count)
+		insert(newItem);
+	else
+	{
+		throwExceptionIfInvalidIndex(position);
+
+		enlargeIfFull();
+
+		shiftItemsOnePositionRight(position, count - 1);
+
+		items[position] = newItem;
+		++count;
+	}
+}
+
+
+template <typename T>
+inline void DArray<T>::insert(const DArray<T>& other)
+{
+	for (sizeType i = 0; i < other.count; ++i)
+		insert(other[i]);
+}
+
+
+template <typename T>
+inline void DArray<T>::enlargeIfFull()
+{
+	assert(count <= size);
+
+	if (count == size)
+		resize(size > 0 ? (2 * size) : 8);
+}
+
+
+template <typename T>
+inline void DArray<T>::remove(sizeType position)
+{
+	throwExceptionIfInvalidIndex(position);
+
+	shiftItemsOnePositionLeft(position + 1, --count);
+}
+
+
+template <typename T>
+inline T& DArray<T>::operator[](sizeType position)
+{
+	throwExceptionIfInvalidIndex(position);
+
+	return items[position];
+}
+
+
+template <typename T>
+inline const T& DArray<T>::operator[](sizeType position)const
+{
+	throwExceptionIfInvalidIndex(position);
+
+	return items[position];
+}
+
+
+template <typename T>
 inline void DArray<T>::setCount(sizeType newCount)
 {
 	if (newCount <= size)
@@ -141,44 +248,6 @@ inline bool DArray<T>::isEmpty()const
 
 
 template <typename T>
-inline void DArray<T>::insert(const T& newItem)
-{
-	enlargeIfFull();
-
-	items[count++] = newItem;
-}
-
-
-template <typename T>
-inline void DArray<T>::enlargeIfFull()
-{
-	assert(count <= size);
-
-	if (count == size)
-		resize(size > 0 ? (2 * size) : 8);
-}
-
-
-template <typename T>
-void DArray<T>::insertAt(sizeType position, const T& newItem)
-{
-	if (position == count)
-		insert(newItem);
-	else
-	{
-		throwExceptionIfInvalidIndex(position);
-
-		enlargeIfFull();
-
-		shiftItemsOnePositionRight(position, count - 1);
-
-		items[position] = newItem;
-		++count;
-	}
-}
-
-
-template <typename T>
 inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index)const
 {
 	if (index >= count)
@@ -203,75 +272,6 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 
 	for (sizeType i = start - 1; i < end; ++i)
 		items[i] = items[i + 1];
-}
-
-
-template <typename T>
-inline void DArray<T>::empty()
-{
-	destroyItems();
-	nullifyMembers();
-}
-
-
-template <typename T>
-inline void DArray<T>::ensureSize(sizeType newSize)
-{
-	if (newSize > size)
-		resize(newSize);
-}
-
-
-template <typename T>
-void DArray<T>::shrink(sizeType newSize)
-{
-	if (newSize > size)
-		throw std::invalid_argument("Cannot shrink to bigger size");
-
-	if (newSize == 0)
-	{
-		destroyItems();
-		nullifyMembers();
-	}
-	else if (newSize != size)
-	{
-		resize(newSize);
-	}
-}
-
-
-template <typename T>
-inline void DArray<T>::remove(sizeType position)
-{
-	throwExceptionIfInvalidIndex(position);
-
-	shiftItemsOnePositionLeft(position + 1, --count);
-}
-
-
-template <typename T>
-inline T& DArray<T>::operator[](sizeType position)
-{
-	throwExceptionIfInvalidIndex(position);
-
-	return items[position];
-}
-
-
-template <typename T>
-inline const T& DArray<T>::operator[](sizeType position)const
-{
-	throwExceptionIfInvalidIndex(position);
-
-	return items[position];
-}
-
-
-template <typename T>
-inline void DArray<T>::insert(const DArray<T>& other)
-{
-	for (sizeType i = 0; i < other.count; ++i)
-		insert(other[i]);
 }
 
 
