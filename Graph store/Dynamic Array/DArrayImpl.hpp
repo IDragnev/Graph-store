@@ -141,14 +141,6 @@ inline bool DArray<T>::isEmpty()const
 
 
 template <typename T>
-inline void DArray<T>::destroyAndNullMembers()
-{
-	destroyItems();
-	nullifyMembers();
-}   
-
-
-template <typename T>
 inline void DArray<T>::insert(const T& newItem)
 {
 	enlargeIfFull();
@@ -217,7 +209,8 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 template <typename T>
 inline void DArray<T>::empty()
 {
-	destroyAndNullMembers();
+	destroyItems();
+	nullifyMembers();
 }
 
 
@@ -237,7 +230,8 @@ void DArray<T>::shrink(sizeType newSize)
 
 	if (newSize == 0)
 	{
-		destroyAndNullMembers();
+		destroyItems();
+		nullifyMembers();
 	}
 	else if (newSize != size)
 	{
