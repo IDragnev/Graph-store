@@ -205,14 +205,10 @@ inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index)const
 }
 
 
-//
-//  the function assumes that count < size, so that shifting the last 
-//  item to the right will not write outside the array
-//
 template <typename T>
 inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 {
-	assert(end < count && count < size);
+	assert(end + 1 < size);
 
 	for (sizeType i = end + 1; i > start; --i)
 		items[i] = items[i - 1];
@@ -222,7 +218,7 @@ inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 template <typename T>
 inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 {
-	assert(start > 0 && end < count);
+	assert(start > 0 && end < size);
 
 	for (sizeType i = start - 1; i < end; ++i)
 		items[i] = items[i + 1];
@@ -266,9 +262,7 @@ inline void DArray<T>::remove(sizeType position)
 {
 	throwExceptionIfInvalidIndex(position);
 
-	shiftItemsOnePositionLeft(position + 1, count - 1);
-
-	--count;
+	shiftItemsOnePositionLeft(position + 1, --count);
 }
 
 
