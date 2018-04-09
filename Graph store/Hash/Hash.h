@@ -30,6 +30,7 @@ HashFunction and KeyAccessor must be copy constructible and copy assignable.
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
+	//TODO : write compile-time asserts
 	typedef size_t sizeType;
 
 public:

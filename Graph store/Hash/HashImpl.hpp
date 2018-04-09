@@ -15,20 +15,6 @@ Hash<Item, Key, KeyAccessor>::Hash(sizeType expectedCount) :
 }
 
 
-//
-// ( 3 * expectedSize ) / 2 is used because if all the expected items
-// are inserted, the load factor will be 2/3 
-// 
-template <typename Item, typename Key, typename KeyAccessor>
-typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(sizeType expectedCount)
-{
-	if (expectedCount == 0)
-		throw std::invalid_argument("Expected size must be positive!");
-
-	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
-}
-
-
 template <typename Item, typename Key, typename KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	tableSize(MIN_TABLE_SIZE),
@@ -42,14 +28,6 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
 	std::swap(insertedCount, source.insertedCount);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::nullTable()
-{
-	for (sizeType i = 0; i < tableSize; ++i)
-		table[i] = nullptr;
 }
 
 
@@ -89,49 +67,27 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<I
 
 
 template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::insert(Item& item)
+{
+	if ( shouldDoubleTable() )
+		resize(tableSize * 2);
+
+	sizeType index = hashFunction( keyAccessor(item) ) % tableSize;
+
+	while(table[index] != nullptr)
+		index = (index + 1) % tableSize;
+
+	table[index] = &item;
+	++insertedCount;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
 inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	const long INDEX = getIndexByKey(key);
 
 	return isValidPosition(INDEX) ? table[INDEX] : nullptr;
-}
-
-
-//
-// the function is not const because KeyAccessor and hashFunction
-// could have non-const operator()
-//
-template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
-{
-	if ( ! isEmpty() )
-	{
-		sizeType index = hashFunction(key) % tableSize;
-
-		while (table[index] != nullptr)
-		{
-			if (keyAccessor( *(table[index]) ) == key)
-				return index;
-
-			index = (index + 1) % tableSize;
-		}
-	}
-
-	return -1;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
-{
-	return insertedCount == 0;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
-{
-	return index >= 0;
 }
 
 
@@ -156,22 +112,27 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 }
 
 
+//
+// the function is not const because KeyAccessor and hashFunction
+// could have non-const operator()
+//
 template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(sizeType index)
+long Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
 {
-	Item* result = table[index];
+	if ( ! isEmpty() )
+	{
+		sizeType index = hashFunction(key) % tableSize;
 
-	table[index] = nullptr;
-	--insertedCount;
+		while (table[index] != nullptr)
+		{
+			if (keyAccessor( *(table[index]) ) == key)
+				return index;
 
-	return result;
-}
+			index = (index + 1) % tableSize;
+		}
+	}
 
-
-template <typename Item,typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable()const
-{
-	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_TABLE_SIZE);
+	return -1;
 }
 
 
@@ -214,25 +175,14 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(sizeType start)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::insert(Item& item)
+inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(sizeType index)
 {
-	if ( shouldDoubleTable() )
-		resize(tableSize * 2);
+	Item* result = table[index];
 
-	sizeType index = hashFunction( keyAccessor(item) ) % tableSize;
+	table[index] = nullptr;
+	--insertedCount;
 
-	while(table[index] != nullptr)
-		index = (index + 1) % tableSize;
-
-	table[index] = &item;
-	++insertedCount;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable()const
-{
-	return (3 * insertedCount >= 2 * tableSize);
+	return result;
 }
 
 
@@ -245,6 +195,56 @@ void Hash<Item, Key, KeyAccessor>::empty()
 	insertedCount = 0;
 
 	nullTable();
+}
+
+
+//
+// ( 3 * expectedSize ) / 2 is used because if all the expected items
+// are inserted, the load factor will be 2/3 
+// 
+template <typename Item, typename Key, typename KeyAccessor>
+typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(sizeType expectedCount)
+{
+	if (expectedCount == 0)
+		throw std::invalid_argument("Expected size must be positive!");
+
+	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline void Hash<Item, Key, KeyAccessor>::nullTable()
+{
+	for (sizeType i = 0; i < tableSize; ++i)
+		table[i] = nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
+{
+	return insertedCount == 0;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
+{
+	return index >= 0;
+}
+
+
+template <typename Item,typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable()const
+{
+	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_TABLE_SIZE);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable()const
+{
+	return (3 * insertedCount >= 2 * tableSize);
 }
 
 
