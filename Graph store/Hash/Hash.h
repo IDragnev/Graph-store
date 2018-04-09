@@ -30,8 +30,10 @@ HashFunction and KeyAccessor must be copy constructible and copy assignable.
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
+	typedef size_t sizeType;
+
 public:
-	explicit Hash(size_t expectedCount);
+	explicit Hash(sizeType expectedCount);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
 	~Hash() = default;
@@ -39,7 +41,7 @@ public:
 	Hash& operator=(Hash&& rhs);
 	Hash& operator=(const Hash& rhs);
 
-	size_t getCount()const;
+	sizeType getCount()const;
 	bool isEmpty()const;
 
 	void empty();
@@ -49,26 +51,26 @@ public:
 	Item* search(const Key& key);
 
 private:
-	size_t tableSize;
-	size_t insertedCount;
+	sizeType tableSize;
+	sizeType insertedCount;
 	DArray<Item*> table;
 	HashFunction<Key> hashFunction;
 	KeyAccessor keyAccessor;
 
 private:
-	static const size_t MIN_TABLE_SIZE = 3;
-	static size_t calculateAppropriateSize(size_t expectedSize);
+	static const sizeType MIN_TABLE_SIZE = 3;
+	static sizeType calculateAppropriateSize(sizeType expectedSize);
 	static bool isValidPosition(long index);
 
 private:
 	long getIndexByKey(const Key& key); 
-	void resize(size_t newSize);
+	void resize(sizeType newSize);
 	void nullTable();
-	void rehashCluster(size_t start);
+	void rehashCluster(sizeType start);
 	void swapContentsWithReconstructedParameter(Hash other);
 	bool shouldHalveTable()const;
 	bool shouldDoubleTable()const;
-	Item* extractItemFromTableAt(size_t index);
+	Item* extractItemFromTableAt(sizeType index);
 };
 
 #include "HashImpl.hpp"
