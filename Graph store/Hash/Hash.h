@@ -68,7 +68,7 @@ private:
 	void swapContentsWithReconstructedParameter(Hash other);
 	bool shouldHalveTable()const;
 	bool shouldDoubleTable()const;
-	Item* extractItemFromTable(size_t index);
+	Item* extractItemFromTableAt(size_t index);
 };
 
 #include "HashImpl.hpp"

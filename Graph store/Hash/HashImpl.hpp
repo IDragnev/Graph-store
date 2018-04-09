@@ -6,8 +6,7 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(size_t expectedCount)
-	:
+Hash<Item, Key, KeyAccessor>::Hash(size_t expectedCount) :
 	tableSize( calculateAppropriateSize(expectedCount) ),
 	insertedCount(0),
 	table(tableSize, tableSize)
@@ -31,19 +30,18 @@ size_t Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(size_t expectedCou
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
-	:
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	tableSize(MIN_TABLE_SIZE),
 	insertedCount(0),
 	table(MIN_TABLE_SIZE, MIN_TABLE_SIZE), 
 	hashFunction(std::move(source.hashFunction)),
 	keyAccessor(std::move(source.keyAccessor))
 {
-	this->nullTable();
+	nullTable();
 
-	std::swap(this->table, source.table);
-	std::swap(this->tableSize, source.tableSize);
-	std::swap(this->insertedCount, source.insertedCount);
+	std::swap(table, source.table);
+	std::swap(tableSize, source.tableSize);
+	std::swap(insertedCount, source.insertedCount);
 }
 
 
@@ -82,11 +80,11 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(con
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
 {
-	std::swap(this->tableSize, temporary.tableSize);
-	std::swap(this->insertedCount, temporary.insertedCount);
-	std::swap(this->table, temporary.table);
-	std::swap(this->hashFunction, temporary.hashFunction);
-	std::swap(this->keyAccessor, temporary.keyAccessor);
+	std::swap(tableSize, temporary.tableSize);
+	std::swap(insertedCount, temporary.insertedCount);
+	std::swap(table, temporary.table);
+	std::swap(hashFunction, temporary.hashFunction);
+	std::swap(keyAccessor, temporary.keyAccessor);
 }
 
 
@@ -144,7 +142,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 	if ( isValidPosition(INDEX) )
 	{
-		Item* result = extractItemFromTable(INDEX);
+		Item* result = extractItemFromTableAt(INDEX);
 
 		if ( shouldHalveTable() )
 			resize(tableSize / 2);
@@ -159,7 +157,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
+inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(size_t index)
 {
 	Item* result = table[index];
 
@@ -168,7 +166,6 @@ inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTable(size_t index)
 
 	return result;
 }
-
 
 
 template <typename Item,typename Key, typename KeyAccessor>
@@ -202,8 +199,6 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 }
 
 
-
-
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 {
@@ -211,12 +206,11 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 
 	while ( table[positionToEmpty] != nullptr )
 	{
-		insert( *extractItemFromTable(positionToEmpty) );
+		insert( *extractItemFromTableAt(positionToEmpty) );
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
 	}
 }
-
 
 
 template <typename Item, typename Key, typename KeyAccessor>
