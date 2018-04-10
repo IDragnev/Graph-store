@@ -30,7 +30,6 @@ HashFunction and KeyAccessor must be copy constructible and copy assignable.
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
-	//TODO : write compile-time asserts
 	typedef size_t sizeType;
 
 public:
@@ -61,10 +60,10 @@ private:
 private:
 	static const sizeType MIN_TABLE_SIZE = 3;
 	static sizeType calculateAppropriateSize(sizeType expectedSize);
-	static bool isValidPosition(long index);
+	static bool isValidSlot(long index);
 
 private:
-	long getIndexByKey(const Key& key); 
+	long searchTableAndGetIndex(const Key& key); 
 	void resize(sizeType newSize);
 	void nullTable();
 	void rehashCluster(sizeType start);

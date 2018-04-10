@@ -85,18 +85,18 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 template <typename Item, typename Key, typename KeyAccessor>
 inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
-	const long INDEX = getIndexByKey(key);
+	const long INDEX = searchTableAndGetIndex(key);
 
-	return isValidPosition(INDEX) ? table[INDEX] : nullptr;
+	return isValidSlot(INDEX) ? table[INDEX] : nullptr;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
-	const long INDEX = getIndexByKey(key);
+	const long INDEX = searchTableAndGetIndex(key);
 
-	if ( isValidPosition(INDEX) )
+	if ( isValidSlot(INDEX) )
 	{
 		Item* result = extractItemFromTableAt(INDEX);
 
@@ -117,7 +117,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 // could have non-const operator()
 //
 template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::getIndexByKey(const Key& key)
+long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 {
 	if ( ! isEmpty() )
 	{
@@ -228,7 +228,7 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isValidPosition(long index)
+inline bool Hash<Item, Key, KeyAccessor>::isValidSlot(long index)
 {
 	return index >= 0;
 }
