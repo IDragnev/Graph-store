@@ -2,18 +2,18 @@
 #define __HASH_FUNCTION_FOR_STRING__
 
 #include "HashFunction.h"
+#include "../String/String.h"
 
 /*
 The Fowler–Noll–Vo hash function:
 http://www.isthe.com/chongo/tech/comp/fnv/
 */
 
-
 template <>
 class HashFunction<String>
 {
 public:
-	unsigned operator()(const String&)const;
+	unsigned operator()(const String& key)const;
 
 private:
 	static const unsigned FNV_PRIME = 16777619;
@@ -25,17 +25,17 @@ unsigned HashFunction<String>::operator()(const String& key)const
 {
 	const char* input = key;
 
-	unsigned hash = FNV_OFFSET_BASIS;
+	unsigned hashValue = FNV_OFFSET_BASIS;
 
 	while (*input)
 	{
-		hash *= FNV_PRIME;
-		hash ^= *input;
+		hashValue *= FNV_PRIME;
+		hashValue ^= *input;
 
 		++input;
 	}
 
-	return hash;
+	return hashValue;
 }
 
 #endif //__HASH_FUNCTION_FOR_STRING__
