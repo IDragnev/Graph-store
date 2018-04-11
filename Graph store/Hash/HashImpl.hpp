@@ -139,7 +139,7 @@ long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(sizeType newSize)
 {
-	//must have at least one empty pos. after resize
+	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
 	const sizeType OLD_TABLE_SIZE = tableSize;

@@ -6,8 +6,7 @@
 #include <assert.h>
 
 /*
-The Hash class represents a hash table. It stores the Items' addresses only, NOT values.
-It is a template of Item, Key and KeyAccessor.
+The Hash class stores the Items' addresses only, NOT copies.
 
 The KeyAccessor template parameter must be a function or a Function object
 whose purpose is to access the key from each Item.
@@ -17,7 +16,7 @@ const Key& operator()(const Item&); (optionally const)
 In order to use the Hash class, the template class HashFunction
 must be specialised for the corresponding (user-defined) Key class.
 Its operator()'s signature should be:
-unsigned operator()(const Key&); (optionally const)
+size_t operator()(const Key&); (optionally const)
 
 The Key class must support operator==.
 
