@@ -32,14 +32,12 @@ public:
 	void ensureSize(sizeType size);
 	void shrink(sizeType size);
 
-public:
 	virtual void insert(const T& item);
 	virtual void remove(sizeType position);
 
 	void insert(const DArray<T>& other);
 	void insertAt(sizeType position, const T& item);
 
-public:
 	T& operator[](sizeType position);
 	const T& operator[](sizeType position)const;
 
@@ -57,13 +55,14 @@ protected:
 
 	T* getItems();
 
+	void throwExceptionIfInvalidIndex(sizeType index)const;
+
 private:
 	void resize(sizeType newSize);
 	void copyFrom(const DArray<T>& other);
 	void swapContentsWithReconstructedParameter(DArray<T> temp);
 	void destroyItems();
 	void nullifyMembers();
-	void throwExceptionIfInvalidIndex(sizeType index)const;
 };
 
 #include "DArrayImpl.hpp"
