@@ -14,10 +14,10 @@ public:
 	T& operator*();
 
 	Iterator<T>& operator++();
-	Iterator<T> operator++(int);
 
 	bool operator!() const;
 	operator bool() const;
 };
 
+#include "IteratorImpl.hpp"
 #endif //__ITERATOR_ABSTRACTION_H_INCLUDED__

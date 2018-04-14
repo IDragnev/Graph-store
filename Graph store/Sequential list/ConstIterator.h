@@ -14,11 +14,11 @@ public:
 	const T& operator*() const;
 
 	ConstIterator<T>& operator++();
-	ConstIterator<T> operator++(int);
 
 	bool operator!() const;
 	operator bool() const;
 };
 
+#include "ConstIteratorImpl.hpp"
 #endif // __CONST_ITERATOR_INTERFACE_H_INCLUDED__
 

@@ -1,11 +1,8 @@
 #ifndef __SEQUENTIAL_LIST_H_INCLUDED__
 #define __SEQUENTIAL_LIST_H_INCLUDED__
 
-template <typename T>
-class Iterator;
-
-template <typename T>
-class ConstIterator;
+#include "Iterator.h"
+#include "ConstIterator.h"
 
 template <typename T>
 class SequentialList
