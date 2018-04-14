@@ -21,6 +21,9 @@
     <Filter Include="Linear Probing Hash">
       <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sequential list">
+      <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h">
       <Filter>Hash Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequential list\Iterator.h">
+      <Filter>Sequential list</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequential list\SequentialList.h">
+      <Filter>Sequential list</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
