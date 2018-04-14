@@ -47,15 +47,14 @@ private:
 	T* items;
 
 protected:
-	void setCount(sizeType count);
+	void throwExceptionIfInvalidIndex(sizeType index)const;
 	void enlargeIfFull();
+	
+	void setCount(sizeType count);
 
 	void shiftItemsOnePositionLeft(sizeType start, sizeType end);
 	void shiftItemsOnePositionRight(sizeType start, sizeType end);
-
 	T* getItems();
-
-	void throwExceptionIfInvalidIndex(sizeType index)const;
 
 private:
 	void resize(sizeType newSize);

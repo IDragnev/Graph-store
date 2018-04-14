@@ -151,9 +151,7 @@ inline void DArray<T>::insert(const T& newItem)
 template <typename T>
 void DArray<T>::insertAt(sizeType position, const T& newItem)
 {
-	if (position == count)
-		insert(newItem);
-	else
+	if (position != count)
 	{
 		throwExceptionIfInvalidIndex(position);
 
@@ -163,6 +161,10 @@ void DArray<T>::insertAt(sizeType position, const T& newItem)
 
 		items[position] = newItem;
 		++count;
+	}
+	else
+	{
+		insert(newItem);
 	}
 }
 
