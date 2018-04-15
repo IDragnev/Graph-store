@@ -70,11 +70,5 @@
     <ClInclude Include="Sequential list\ConstIterator.h">
       <Filter>Sequential list\Const Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="Sequential list\IteratorImpl.hpp">
-      <Filter>Sequential list\Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="Sequential list\ConstIteratorImpl.hpp">
-      <Filter>Sequential list\Const Iterator</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
