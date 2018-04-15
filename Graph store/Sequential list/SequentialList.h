@@ -18,9 +18,6 @@ public:
 	virtual Iterator<T>* getIterator() = 0;
 	virtual ConstIterator<T>* getConstIterator() const = 0;
 
-	virtual void setFirst(const T& item) = 0;
-	virtual void setLast(const T& item) = 0;
-
 	virtual void insertFirst(const T& item) = 0;
 	virtual void insertLast(const T& item) = 0;
 
