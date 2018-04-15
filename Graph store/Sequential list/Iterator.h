@@ -10,6 +10,7 @@ public:
 	virtual T& getCurrent() = 0;
 	virtual void goToNext() = 0;
 	virtual bool isFinished() const = 0;
+	virtual Iterator* clone() const = 0;
 
 	T& operator*();
 
