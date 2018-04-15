@@ -11,8 +11,10 @@ public:
 	virtual void goToNext() = 0;
 	virtual bool isFinished() const = 0;
 	virtual ConstIterator* clone() const = 0;
+
+protected:
+	ConstIterator<T>& operator=(const ConstIterator<T>&) = default;
 };
 
-#include "ConstIteratorImpl.hpp"
 #endif // __CONST_ITERATOR_INTERFACE_H_INCLUDED__
 

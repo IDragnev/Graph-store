@@ -11,7 +11,9 @@ public:
 	virtual void goToNext() = 0;
 	virtual bool isFinished() const = 0;
 	virtual Iterator* clone() const = 0;
+
+protected:
+	Iterator<T>& operator=(const Iterator<T>&) = default;
 };
 
-#include "IteratorImpl.hpp"
 #endif //__ITERATOR_ABSTRACTION_H_INCLUDED__
