@@ -5,7 +5,6 @@
 
 #include "Iterator abstraction\Iterator.h"
 
-
 class SomeIterator : public Iterator<int>
 {
 	virtual ~SomeIterator() = default;
@@ -18,8 +17,6 @@ class SomeIterator : public Iterator<int>
 private:
 	int theMember;
 };
-
-
 
 int main()
 {

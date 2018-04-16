@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <stdexcept>
+#include "../Iterator abstraction/Iterator.h"
 
 template <typename T>
 class DArray
@@ -12,6 +13,26 @@ private:
 	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable.");
 
 	typedef size_t sizeType;
+
+public:
+	template <typename Item>
+	class DArrayIterator : public Iterator<Item>
+	{
+	private:
+		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
+
+	public:
+		virtual ~DArrayIterator() = default;
+
+		virtual Item& getCurrent() override;
+		virtual void goToNext() override;
+		virtual bool isFinished() const override;
+		virtual DArrayIterator<Item>* clone() const override;
+
+	private:
+		DArray<Item>* owner;
+		sizeType current;
+	};
 
 public:
 	DArray();
