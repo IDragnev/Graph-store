@@ -297,3 +297,9 @@ inline T* DArray<T>::getItems()
 	return items;
 }
 
+
+template <typename T>
+inline typename DArray<T>::DArrayIterator<T>* DArray<T>::getHeadIterator()
+{
+	return new DArrayIterator<T>(0, this);
+}

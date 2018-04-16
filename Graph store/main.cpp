@@ -5,6 +5,10 @@
 
 #include "Iterator abstraction\Iterator.h"
 
+
+#include "Dynamic Array\DArray.h"
+#include <memory>
+
 class SomeIterator : public Iterator<int>
 {
 	virtual ~SomeIterator() = default;
@@ -25,5 +29,18 @@ int main()
 
 	*A = *B;*/
 
- 	return 0;
+	DArray<int> darray;
+
+	for (int i = 0; i < 10; ++i)
+		darray.insert(i);
+
+	std::unique_ptr< Iterator<int> > iterator( darray.getHeadIterator() );
+
+	while (!iterator->isFinished())
+	{
+		std::cout << iterator->getCurrent() << std::endl;
+		iterator->goToNext();
+	}
+
+	return 0;
 }

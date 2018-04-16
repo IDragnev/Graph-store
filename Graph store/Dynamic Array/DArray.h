@@ -18,6 +18,8 @@ public:
 	template <typename Item>
 	class DArrayIterator : public Iterator<Item>
 	{
+		template <typename Q>
+		friend class DArray;
 	private:
 		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
 
@@ -45,6 +47,7 @@ public:
 	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
+	DArrayIterator<T>* getHeadIterator();
 	sizeType getSize()const;
 	sizeType getCount()const;
 	bool isEmpty()const;
