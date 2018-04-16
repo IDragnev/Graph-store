@@ -86,4 +86,5 @@ private:
 };
 
 #include "DArrayImpl.hpp"
+#include "DArrayIteratorImpl.hpp"
 #endif //__D_ARRAY_M_SEMANT_H_INCLDUED__

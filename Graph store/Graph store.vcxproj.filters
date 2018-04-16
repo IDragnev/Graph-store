@@ -64,5 +64,8 @@
     <ClInclude Include="Iterator abstraction\Iterator.h">
       <Filter>Iterator abstraction</Filter>
     </ClInclude>
+    <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
+      <Filter>Dynamic Array</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

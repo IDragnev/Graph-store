@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
+    <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
