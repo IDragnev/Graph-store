@@ -3,7 +3,7 @@
 #include "Hash\Hash.h"
 #include "Hash\HashFunctionStringSpecialization.h"
 
-#include "Sequential list\Iterator.h"
+#include "Iterator abstraction\Iterator.h"
 
 
 class SomeIterator : public Iterator<int>

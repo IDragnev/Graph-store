@@ -24,8 +24,8 @@
     <Filter Include="Sequential list">
       <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sequential list\Iterator">
-      <UniqueIdentifier>{e651ef32-b0b2-4907-a8df-66dbe519a89d}</UniqueIdentifier>
+    <Filter Include="Iterator abstraction">
+      <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,8 +61,8 @@
     <ClInclude Include="Sequential list\SequentialList.h">
       <Filter>Sequential list</Filter>
     </ClInclude>
-    <ClInclude Include="Sequential list\Iterator.h">
-      <Filter>Sequential list\Iterator</Filter>
+    <ClInclude Include="Iterator abstraction\Iterator.h">
+      <Filter>Iterator abstraction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
