@@ -27,9 +27,6 @@
     <Filter Include="Sequential list\Iterator">
       <UniqueIdentifier>{e651ef32-b0b2-4907-a8df-66dbe519a89d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sequential list\Const Iterator">
-      <UniqueIdentifier>{fc10023c-5065-4a49-b911-7ed5b34a267d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,9 +63,6 @@
     </ClInclude>
     <ClInclude Include="Sequential list\Iterator.h">
       <Filter>Sequential list\Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="Sequential list\ConstIterator.h">
-      <Filter>Sequential list\Const Iterator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

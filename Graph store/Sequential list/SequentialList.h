@@ -12,11 +12,9 @@ public:
 
 	virtual size_t getCount() const = 0;
 	virtual bool isEmpty() const = 0;
-	
 	virtual void empty() = 0;
 
 	virtual Iterator<T>* getIterator() = 0;
-	virtual ConstIterator<T>* getConstIterator() const = 0;
 
 	virtual void insertFirst(const T& item) = 0;
 	virtual void insertLast(const T& item) = 0;
