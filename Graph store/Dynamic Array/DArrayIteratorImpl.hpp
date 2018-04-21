@@ -12,7 +12,7 @@ template <typename T>
 template <typename Item>
 inline void DArray<T>::DArrayIterator<Item>::goToNext()
 {
-	if ( ! isFinished() )
+	if (!isFinished())
 		++current;
 }
 

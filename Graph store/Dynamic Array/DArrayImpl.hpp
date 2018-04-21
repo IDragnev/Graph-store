@@ -5,7 +5,7 @@ DArray<T>::DArray() :
 	size(0),
 	count(0),
 	items(nullptr)
-{
+{ 
 }
 
 
@@ -206,7 +206,7 @@ inline T& DArray<T>::operator[](sizeType position)
 
 
 template <typename T>
-inline const T& DArray<T>::operator[](sizeType position)const
+inline const T& DArray<T>::operator[](sizeType position) const
 {
 	throwExceptionIfInvalidIndex(position);
 
@@ -243,14 +243,14 @@ inline void DArray<T>::nullifyMembers()
 
 
 template <typename T>
-inline bool DArray<T>::isEmpty()const
+inline bool DArray<T>::isEmpty() const
 {
 	return count == 0;
 }
 
 
 template <typename T>
-inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index)const
+inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index) const
 {
 	if (index >= count)
 		throw std::out_of_range("Index out of range");
@@ -278,14 +278,14 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 
 
 template <typename T>
-inline typename DArray<T>::sizeType DArray<T>::getCount()const
+inline typename DArray<T>::sizeType DArray<T>::getCount() const
 {
 	return count;
 }
 
 
 template <typename T>
-inline typename DArray<T>::sizeType DArray<T>::getSize()const
+inline typename DArray<T>::sizeType DArray<T>::getSize() const
 {
 	return size;
 }

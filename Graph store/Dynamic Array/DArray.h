@@ -24,7 +24,7 @@ public:
 		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
 
 	public:
-		virtual ~DArrayIterator() = default;
+		virtual ~DArrayIterator() override = default;
 
 		virtual Item& getCurrent() override;
 		virtual void goToNext() override;
@@ -48,9 +48,9 @@ public:
 
 public:
 	DArrayIterator<T>* getHeadIterator();
-	sizeType getSize()const;
-	sizeType getCount()const;
-	bool isEmpty()const;
+	sizeType getSize() const;
+	sizeType getCount() const;
+	bool isEmpty() const;
 
 	void empty();
 	void ensureSize(sizeType size);
@@ -63,7 +63,7 @@ public:
 	void insertAt(sizeType position, const T& item);
 
 	T& operator[](sizeType position);
-	const T& operator[](sizeType position)const;
+	const T& operator[](sizeType position) const;
 
 private:
 	sizeType count;
@@ -71,7 +71,7 @@ private:
 	T* items;
 
 protected:
-	void throwExceptionIfInvalidIndex(sizeType index)const;
+	void throwExceptionIfInvalidIndex(sizeType index) const;
 	void enlargeIfFull();
 	
 	void setCount(sizeType count);
