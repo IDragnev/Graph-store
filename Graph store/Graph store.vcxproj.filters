@@ -15,17 +15,23 @@
     <Filter Include="Hash Functions">
       <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dynamic Array">
-      <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Linear Probing Hash">
       <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sequential list">
-      <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Iterator abstraction">
       <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequential Lists">
+      <UniqueIdentifier>{437e7bdb-8b84-4ff3-8e87-6adc19a695b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequential Lists\Dynamic Array">
+      <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequential Lists\Singly Linked List">
+      <UniqueIdentifier>{d5adffaf-6800-4dac-aca8-841279eb7cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sequential Lists\Sequential list abstraction">
+      <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,10 +50,10 @@
       <Filter>Hash Functions</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArray.h">
-      <Filter>Dynamic Array</Filter>
+      <Filter>Sequential Lists\Dynamic Array</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp">
-      <Filter>Dynamic Array</Filter>
+      <Filter>Sequential Lists\Dynamic Array</Filter>
     </ClInclude>
     <ClInclude Include="Hash\Hash.h">
       <Filter>Linear Probing Hash</Filter>
@@ -59,13 +65,13 @@
       <Filter>Hash Functions</Filter>
     </ClInclude>
     <ClInclude Include="Sequential list\SequentialList.h">
-      <Filter>Sequential list</Filter>
+      <Filter>Sequential Lists\Sequential list abstraction</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
       <Filter>Iterator abstraction</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
-      <Filter>Dynamic Array</Filter>
+      <Filter>Sequential Lists\Dynamic Array</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
