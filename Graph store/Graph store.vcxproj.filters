@@ -73,5 +73,20 @@
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
       <Filter>Sequential Lists\Dynamic Array</Filter>
     </ClInclude>
+    <ClInclude Include="Singly Linked List\Node.h">
+      <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Singly Linked List\SinglyLinkedList.h">
+      <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp">
+      <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Singly Linked List\SinglyLinkedListIterator.h">
+      <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
+      <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
