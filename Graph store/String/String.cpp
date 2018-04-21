@@ -168,19 +168,19 @@ void String::append(char symbol)
 }
 
 
-const char* String::getActualString()const
+const char* String::getActualString() const
 {
 	return (actualString != nullptr) ? actualString : "";
 }
 
 
-String::operator const char *()const
+String::operator const char *() const
 {
 	return getActualString();
 }
 
 
-size_t String::getLength()const
+size_t String::getLength() const
 {
 	return strlen(getActualString());
 }

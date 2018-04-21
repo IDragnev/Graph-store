@@ -25,9 +25,6 @@ public:
 	String& operator+=(char rhs);
 
 private:
-	char* actualString;
-
-private:
 	const char* getActualString() const;           
 	void setActualString(const char* cString);  
 	void setActualString(char symbol);
@@ -37,6 +34,9 @@ private:
 	void moveParameterInThis(String& source);
 
 	static char* cloneCString(const char* cString);
+
+private:
+	char* actualString;
 };
 
 String operator+(const String& lhs, char rhs);
