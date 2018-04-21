@@ -40,8 +40,8 @@ public:
 	Hash& operator=(Hash&& rhs);
 	Hash& operator=(const Hash& rhs);
 
-	sizeType getCount()const;
-	bool isEmpty()const;
+	sizeType getCount() const;
+	bool isEmpty() const;
 
 	void empty();
 
@@ -67,8 +67,8 @@ private:
 	void nullTable();
 	void rehashCluster(sizeType start);
 	void swapContentsWithReconstructedParameter(Hash other);
-	bool shouldHalveTable()const;
-	bool shouldDoubleTable()const;
+	bool shouldHalveTable() const;
+	bool shouldDoubleTable() const;
 	Item* extractItemFromTableAt(sizeType index);
 };
 

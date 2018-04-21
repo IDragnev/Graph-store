@@ -69,10 +69,10 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<I
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
-	if ( shouldDoubleTable() )
+	if (shouldDoubleTable())
 		resize(tableSize * 2);
 
-	sizeType index = hashFunction( keyAccessor(item) ) % tableSize;
+	sizeType index = hashFunction(keyAccessor(item)) % tableSize;
 
 	while(table[index] != nullptr)
 		index = (index + 1) % tableSize;
@@ -96,11 +96,11 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	const long INDEX = searchTableAndGetIndex(key);
 
-	if ( isValidSlot(INDEX) )
+	if (isValidSlot(INDEX))
 	{
 		Item* result = extractItemFromTableAt(INDEX);
 
-		if ( shouldHalveTable() )
+		if (shouldHalveTable())
 			resize(tableSize / 2);
 		else
 			rehashCluster( (INDEX + 1) % tableSize );
@@ -119,7 +119,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor>
 long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 {
-	if ( ! isEmpty() )
+	if (!isEmpty())
 	{
 		sizeType index = hashFunction(key) % tableSize;
 
@@ -165,7 +165,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(sizeType start)
 {
 	sizeType positionToEmpty = start;
 
-	while ( table[positionToEmpty] != nullptr )
+	while (table[positionToEmpty] != nullptr)
 	{
 		insert( *extractItemFromTableAt(positionToEmpty) );
 
@@ -221,7 +221,7 @@ inline void Hash<Item, Key, KeyAccessor>::nullTable()
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty()const
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 {
 	return insertedCount == 0;
 }
@@ -235,21 +235,21 @@ inline bool Hash<Item, Key, KeyAccessor>::isValidSlot(long index)
 
 
 template <typename Item,typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable()const
+inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable() const
 {
 	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_TABLE_SIZE);
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable()const
+inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable() const
 {
-	return (3 * insertedCount >= 2 * tableSize);
+	return 3 * insertedCount >= 2 * tableSize;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::getCount()const
+inline typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::getCount() const
 {
 	return insertedCount;
 }
