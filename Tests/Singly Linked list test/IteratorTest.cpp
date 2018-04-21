@@ -1,11 +1,14 @@
 #include "CppUnitTest.h"
 
 #include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
+#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 typedef SinglyLinkedListIterator<int> ListIterator;
 typedef SinglyLinkedList<int> List;
+typedef std::unique_ptr<ListIterator> IteratorPtr;
+
 
 namespace SinglyLinkedListTest
 {		
@@ -24,11 +27,14 @@ namespace SinglyLinkedListTest
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 			
-			ListIterator iterator = list.getHeadIterator();
-			int count = 0;
+			IteratorPtr iterator(list.getHeadIterator());
 
-			for (; iterator; ++iterator)
+			int count = 0;
+			while (!iterator->isFinished())
+			{
+				iterator->goToNext();
 				++count;
+			}
 
 			Assert::IsTrue(count == NUMBER_OF_ITEMS_TO_INSERT);
 		}
@@ -38,10 +44,13 @@ namespace SinglyLinkedListTest
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-			ListIterator iterator = list.getHeadIterator();
-
-			for (int i = 0; iterator; ++iterator, ++i)
-				Assert::AreEqual(*iterator, i);
+			IteratorPtr iterator(list.getHeadIterator());
+			int i = 0;
+			for (; !iterator->isFinished(); iterator->goToNext())
+			{
+				Assert::AreEqual(iterator->getCurrent(), i);
+				++i;
+			}
 		}
 
 		TEST_METHOD(IteratorEqualtyOperatorsTest)
@@ -49,24 +58,24 @@ namespace SinglyLinkedListTest
 				List list;
 				fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-				ListIterator head = list.getHeadIterator();
-				ListIterator tail = list.getTailIterator();
+				IteratorPtr head(list.getHeadIterator());
+				IteratorPtr tail(list.getTailIterator());
 
-				Assert::IsFalse(head == tail);
-				Assert::IsTrue(head != tail);
+				Assert::IsFalse(*head == *tail);
+				Assert::IsTrue(*head != *tail);
 
-				tail = list.getHeadIterator();
+				tail.reset(list.getHeadIterator());
 
-				Assert::IsTrue(head == tail);
-				Assert::IsFalse(head != tail);
+				Assert::IsTrue(*head == *tail);
+				Assert::IsFalse(*head != *tail);
 
 				list.empty();
 
-				head = list.getHeadIterator();
-				tail = list.getTailIterator();
+				head.reset(list.getHeadIterator());
+				tail.reset(list.getTailIterator());
 
-				Assert::IsTrue(head == tail);
-				Assert::IsFalse(head != tail);
+				Assert::IsTrue(*head == *tail);
+				Assert::IsFalse(*head != *tail);
 		}
 	};
 }
