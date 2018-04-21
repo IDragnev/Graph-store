@@ -65,11 +65,6 @@ public:
 	T& operator[](sizeType position);
 	const T& operator[](sizeType position) const;
 
-private:
-	sizeType count;
-	sizeType size;
-	T* items;
-
 protected:
 	void throwExceptionIfInvalidIndex(sizeType index) const;
 	void enlargeIfFull();
@@ -86,6 +81,11 @@ private:
 	void swapContentsWithReconstructedParameter(DArray<T> temp);
 	void destroyItems();
 	void nullifyMembers();
+
+private:
+	sizeType count;
+	sizeType size;
+	T* items;
 };
 
 #include "DArrayImpl.hpp"
