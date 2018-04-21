@@ -13,6 +13,7 @@ public:
 	virtual Iterator* clone() const = 0;
 
 protected:
+	Iterator() = default;
 	Iterator<T>& operator=(const Iterator<T>&) = default;
 };
 
