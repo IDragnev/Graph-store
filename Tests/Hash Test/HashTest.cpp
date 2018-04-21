@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
-#include "../Graph store/String/String.h"
-#include "../Graph store/Hash/Hash.h"
-#include "../Graph store/Hash/HashFunctionStringSpecialization.h"
+#include "../../Graph store/String/String.h"
+#include "../../Graph store/Hash/Hash.h"
+#include "../../Graph store/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

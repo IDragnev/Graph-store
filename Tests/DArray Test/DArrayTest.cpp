@@ -2,7 +2,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../Graph store/Dynamic Array/DArray.h"
+#include "../../Graph store/Dynamic Array/DArray.h"
 
 namespace DArraytest
 {		

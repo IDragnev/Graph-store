@@ -14,10 +14,10 @@ public:
 
 
 template <typename Key>
-Node<Key>::Node(const Key& data, Node<Key>* next)
-	:
+Node<Key>::Node(const Key& data, Node<Key>* next) :
 	next(next),
 	data(data)
 {
 }
+
 #endif // __NODE_H_INCLUDED__

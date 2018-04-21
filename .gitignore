@@ -6,3 +6,6 @@ Hash\ Test/Debug/
 *.db
 *.ipch
 *.vcxproj
+*.sln
+*.playlist
+*.user
