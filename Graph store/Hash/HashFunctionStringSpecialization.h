@@ -13,7 +13,7 @@ template <>
 class HashFunction<String>
 {
 public:
-	unsigned operator()(const String& key)const;
+	unsigned operator()(const String& key) const;
 
 private:
 	static const unsigned FNV_PRIME = 16777619;
@@ -21,7 +21,7 @@ private:
 };
 
 
-unsigned HashFunction<String>::operator()(const String& key)const
+unsigned HashFunction<String>::operator()(const String& key) const
 {
 	const char* input = key;
 

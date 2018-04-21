@@ -50,18 +50,6 @@ public:
 	Item* search(const Key& key);
 
 private:
-	sizeType tableSize;
-	sizeType insertedCount;
-	DArray<Item*> table;
-	HashFunction<Key> hashFunction;
-	KeyAccessor keyAccessor;
-
-private:
-	static const sizeType MIN_TABLE_SIZE = 3;
-	static sizeType calculateAppropriateSize(sizeType expectedSize);
-	static bool isValidSlot(long index);
-
-private:
 	long searchTableAndGetIndex(const Key& key); 
 	void resize(sizeType newSize);
 	void nullTable();
@@ -70,6 +58,18 @@ private:
 	bool shouldHalveTable() const;
 	bool shouldDoubleTable() const;
 	Item* extractItemFromTableAt(sizeType index);
+
+private:
+	static const sizeType MIN_TABLE_SIZE = 3;
+	static sizeType calculateAppropriateSize(sizeType expectedSize);
+	static bool isValidSlot(long index);
+
+private:
+	sizeType tableSize;
+	sizeType insertedCount;
+	DArray<Item*> table;
+	HashFunction<Key> hashFunction;
+	KeyAccessor keyAccessor;
 };
 
 #include "HashImpl.hpp"

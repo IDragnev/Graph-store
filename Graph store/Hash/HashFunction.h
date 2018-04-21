@@ -5,7 +5,7 @@ template <typename Key>
 class HashFunction
 {
 public:
-	size_t operator()(const Key& key)const
+	size_t operator()(const Key& key) const
 	{
 		return static_cast<size_t>(key);
 	}
