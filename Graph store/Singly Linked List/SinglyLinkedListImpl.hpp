@@ -120,6 +120,24 @@ inline void SinglyLinkedList<T>::empty()
 
 
 template <typename T>
+inline const T& SinglyLinkedList<T>::getHead() const
+{
+	throwExceptionIfEmpty();
+
+	return head->data;
+}
+
+
+template <typename T>
+inline const T& SinglyLinkedList<T>::getTail() const
+{
+	throwExceptionIfEmpty();
+
+	return tail->data;
+}
+
+
+template <typename T>
 inline void SinglyLinkedList<T>::setHead(const T& data)
 {
 	throwExceptionIfEmpty();

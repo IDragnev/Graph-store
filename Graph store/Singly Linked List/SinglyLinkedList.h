@@ -33,6 +33,9 @@ public:
 	void appendList(const SinglyLinkedList<T>& other);          
 
 public:
+	const T& getHead() const;
+	const T& getTail() const;
+
 	void setHead(const T& item);                           
 	void setTail(const T& item);                          
 
