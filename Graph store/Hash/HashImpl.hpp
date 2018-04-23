@@ -11,7 +11,7 @@ Hash<Item, Key, KeyAccessor>::Hash(sizeType expectedCount) :
 	insertedCount(0),
 	table(tableSize, tableSize)
 {
-	nullTable();
+	nullifyTable();
 }
 
 
@@ -23,7 +23,7 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	hashFunction(std::move(source.hashFunction)),
 	keyAccessor(std::move(source.keyAccessor))
 {
-	nullTable();
+	nullifyTable();
 
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
@@ -157,7 +157,7 @@ void Hash<Item, Key, KeyAccessor>::resize(sizeType newSize)
 	
 	tableSize = newSize;
 	insertedCount = 0;
-	nullTable();
+	nullifyTable();
 
 	for (sizeType i = 0; i < oldTableSize; ++i)
 	{
@@ -201,7 +201,7 @@ void Hash<Item, Key, KeyAccessor>::empty()
 	tableSize = MIN_TABLE_SIZE;
 	insertedCount = 0;
 
-	nullTable();
+	nullifyTable();
 }
 
 
@@ -220,7 +220,7 @@ typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::calc
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::nullTable()
+inline void Hash<Item, Key, KeyAccessor>::nullifyTable()
 {
 	for (sizeType i = 0; i < tableSize; ++i)
 		table[i] = nullptr;

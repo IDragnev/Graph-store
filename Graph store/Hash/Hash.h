@@ -52,7 +52,7 @@ public:
 private:
 	long searchTableAndGetIndex(const Key& key); 
 	void resize(sizeType newSize);
-	void nullTable();
+	void nullifyTable();
 	void rehashCluster(sizeType start);
 	void swapContentsWithReconstructedParameter(Hash other);
 	bool shouldHalveTable() const;
