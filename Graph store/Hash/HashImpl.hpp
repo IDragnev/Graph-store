@@ -85,25 +85,25 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 template <typename Item, typename Key, typename KeyAccessor>
 inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
-	const long INDEX = searchTableAndGetIndex(key);
+	const long index = searchTableAndGetIndex(key);
 
-	return isValidSlot(INDEX) ? table[INDEX] : nullptr;
+	return isValidSlotPosition(index) ? table[index] : nullptr;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
-	const long INDEX = searchTableAndGetIndex(key);
+	const long index = searchTableAndGetIndex(key);
 
-	if (isValidSlot(INDEX))
+	if (isValidSlotPosition(index))
 	{
-		Item* result = extractItemFromTableAt(INDEX);
+		Item* result = extractItemFromTableAt(index);
 
 		if (shouldHalveTable())
 			resize(tableSize / 2);
 		else
-			rehashCluster( (INDEX + 1) % tableSize );
+			rehashCluster((index + 1) % tableSize);
 		
 		return result;
 	}
@@ -137,12 +137,19 @@ long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isValidSlotPosition(long index)
+{
+	return index >= 0;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(sizeType newSize)
 {
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	const sizeType OLD_TABLE_SIZE = tableSize;
+	const sizeType oldTableSize = tableSize;
 
 	DArray<Item*> temp(newSize, newSize);
 
@@ -152,7 +159,7 @@ void Hash<Item, Key, KeyAccessor>::resize(sizeType newSize)
 	insertedCount = 0;
 	nullTable();
 
-	for (sizeType i = 0; i < OLD_TABLE_SIZE; ++i)
+	for (sizeType i = 0; i < oldTableSize; ++i)
 	{
 		if (temp[i] != nullptr)
 			insert( *temp[i] );
@@ -167,7 +174,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(sizeType start)
 
 	while (table[positionToEmpty] != nullptr)
 	{
-		insert( *extractItemFromTableAt(positionToEmpty) );
+		insert(*extractItemFromTableAt(positionToEmpty));
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
 	}
@@ -224,13 +231,6 @@ template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 {
 	return insertedCount == 0;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isValidSlot(long index)
-{
-	return index >= 0;
 }
 
 
