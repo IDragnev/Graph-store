@@ -7,38 +7,18 @@
 #include "Dynamic Array\DArray.h"
 #include <memory>
 
-class SomeIterator : public Iterator<int>
-{
-	virtual ~SomeIterator() = default;
+#include "Queue\Queue.h"
 
-	virtual int& getCurrent() { return theMember; }
-	virtual void goToNext() { ; }
-	virtual bool isFinished() const { return false; }
-	virtual Iterator* clone() const { return new SomeIterator(*this); }
-
-private:
-	int theMember;
-};
 
 int main()
 {
-	/*Iterator<int>* A = new SomeIterator;
-	Iterator<int>* B = new SomeIterator;
+	Queue<int> queue;
+	
+	for (int i = 10; i >= 0; --i)
+		queue.enqueue(i);
 
-	*A = *B;*/
-
-	DArray<int> darray;
-
-	for (int i = 0; i < 10; ++i)
-		darray.insert(i);
-
-	std::unique_ptr< Iterator<int> > iterator( darray.getHeadIterator() );
-
-	while (!iterator->isFinished())
-	{
-		std::cout << iterator->getCurrent() << std::endl;
-		iterator->goToNext();
-	}
+	while (!queue.isEmpty())
+		std::cout << queue.dequeue() << std::endl;
 
 	return 0;
 }
