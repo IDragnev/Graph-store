@@ -55,8 +55,9 @@ private:
 	void nullifyTable();
 	void rehashCluster(sizeType start);
 	void swapContentsWithReconstructedParameter(Hash other);
-	bool shouldHalveTable() const;
-	bool shouldDoubleTable() const;
+	bool isTooEmpty() const;
+	bool canBeHalved() const;
+	bool isFillingUp() const;
 	Item* extractItemFromTableAt(sizeType index);
 
 private:

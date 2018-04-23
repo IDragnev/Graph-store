@@ -69,7 +69,7 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<I
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
-	if (shouldDoubleTable())
+	if (isFillingUp())
 		resize(tableSize * 2);
 
 	sizeType index = hashFunction(keyAccessor(item)) % tableSize;
@@ -100,7 +100,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	{
 		Item* result = extractItemFromTableAt(index);
 
-		if (shouldHalveTable())
+		if (isTooEmpty() && canBeHalved())
 			resize(tableSize / 2);
 		else
 			rehashCluster((index + 1) % tableSize);
@@ -235,14 +235,21 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 
 
 template <typename Item,typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldHalveTable() const
+inline bool Hash<Item, Key, KeyAccessor>::isTooEmpty() const
 {
-	return (6 * insertedCount <= tableSize) && (tableSize / 2 >= MIN_TABLE_SIZE);
+	return (6 * insertedCount <= tableSize);
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::shouldDoubleTable() const
+inline bool Hash<Item, Key, KeyAccessor>::canBeHalved() const
+{
+	return (tableSize / 2 >= MIN_TABLE_SIZE);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
 {
 	return 3 * insertedCount >= 2 * tableSize;
 }
