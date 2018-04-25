@@ -156,12 +156,16 @@
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\HashImpl.hpp" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
+    <ClInclude Include="Queue\Queue.h" />
+    <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Sequential list\SequentialList.h" />
     <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListIterator.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp" />
+    <ClInclude Include="Special Integer\specialInteger.h" />
+    <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

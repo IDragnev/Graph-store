@@ -33,6 +33,12 @@
     <Filter Include="Sequential Lists\Sequential list abstraction">
       <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Queue">
+      <UniqueIdentifier>{8ab142a6-9d3b-4cdf-9f61-94e966803401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Special Integer">
+      <UniqueIdentifier>{e9332475-f4c7-4056-960b-0751001e82b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -87,6 +93,18 @@
     </ClInclude>
     <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
       <Filter>Sequential Lists\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue\Queue.h">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue\QueueImpl.hpp">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Special Integer\specialInteger.h">
+      <Filter>Special Integer</Filter>
+    </ClInclude>
+    <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
+      <Filter>Special Integer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
