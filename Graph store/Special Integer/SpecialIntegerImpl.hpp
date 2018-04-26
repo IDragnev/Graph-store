@@ -18,7 +18,7 @@ specialInteger<Integer>::specialInteger(Integer value) :
 //
 //this overload of operator= cannot be called with an object (it will choose the defaulted overload)
 //so isInfinity must be made false
-//(isInfinity can be made true only through the defaulted overload with an obejct which is equal to MY_INFINITY)
+//(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
 //
 template <typename Integer>
 specialInteger<Integer>& specialInteger<Integer>::operator=(Integer newValue)
@@ -74,7 +74,7 @@ specialInteger<Integer> operator+(const specialInteger<Integer>& lhs, const spec
 {
 	specialInteger<Integer> temporary(lhs);
 
-	lhs += rhs;
+	temporary += rhs;
 
 	return temporary;
 }
@@ -84,18 +84,24 @@ template <typename Integer>
 bool operator<(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
 {
 	if (!lhs.isInfinity && !rhs.isInfinity)
+	{
 		return lhs.value < rhs.value;
+	}
 	else if (!lhs.isInfinity && rhs.isInfinity)
+	{
 		return true;
-	else // INF < INF or INF < !INF
+	}
+	else // INF < INF or INF < INTEGER ( < INF ) 
+	{
 		return false;
+	}
 }
 
 
 template <typename Integer>
 bool operator==(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
 {
-	return (!lhs.isInfinity && !rhs.isInfinity);
+	return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
 }
 
 
