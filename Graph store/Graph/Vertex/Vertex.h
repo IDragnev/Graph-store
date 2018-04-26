@@ -15,17 +15,17 @@ class Vertex
 	friend class Graph;
 
 private:
-	Vertex(size_t index, String ID);
+	Vertex(String ID, size_t index);
 
 public:
 	const String& getID() const;
 	EdgesIterator* getEdgesIterator();
 
 	bool isVisited() const;
-	void markVisited();
-	void markNotVisited();
+	void markAsVisited();
+	void markAsNotVisited();
 
-	Vertex* getParentInAlgorithmTree();  // TODO: const Vertex* and const-qualified function?
+	Vertex* getParentInAlgorithmTree();
 	void setParentInAlgorithmTree(Vertex* parent);
 
 	const Distance& getDistance() const;
@@ -35,8 +35,8 @@ private:
 	size_t index;
 	String id;
 	AdjacencyList edges;
-	Distance distanceToSource;
 	Vertex* parentInAlgorithmTree;
+	Distance distanceToSource;
 	bool isVisited;
 };
 
