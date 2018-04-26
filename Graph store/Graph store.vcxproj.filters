@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Vertex">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="String">
       <UniqueIdentifier>{76b3ab0d-a167-47de-b1da-c6427dbc0a73}</UniqueIdentifier>
     </Filter>
@@ -38,6 +34,13 @@
     </Filter>
     <Filter Include="Special Integer">
       <UniqueIdentifier>{e9332475-f4c7-4056-960b-0751001e82b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph">
+      <UniqueIdentifier>{d8714b06-cb9b-4664-b3f6-e86ca4c74925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Vertex">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
       <Filter>Special Integer</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Vertex\Vertex.h">
+      <Filter>Graph\Vertex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
