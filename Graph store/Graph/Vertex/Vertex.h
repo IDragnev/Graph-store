@@ -4,40 +4,46 @@
 #include "../../Special Integer/specialInteger.h"
 #include "../../String/String.h"
 #include "../../Singly Linked List/SinglyLinkedList.h"
+#include "../Edge/Edge.h"
 
 typedef specialInteger<unsigned> Distance;
-class Edge;
 
 class Vertex
 {
-	typedef SinglyLinkedList<Edge> AdjacencyList;
-	typedef Iterator<Edge> EdgesIterator;
+private:
+	typedef size_t Handle;
+	typedef SinglyLinkedList<Edge> EdgeList;
+	typedef Iterator<Edge> EdgeIterator;
+
 	friend class Graph;
 
 private:
-	Vertex(String ID, size_t index);
+	Vertex(String ID, Handle index);
 
 public:
-	const String& getID() const;
-	EdgesIterator* getEdgesIterator();
-
 	bool isVisited() const;
 	void markAsVisited();
 	void markAsNotVisited();
 
+	const String& getID() const;
+	EdgeIterator* getEdgeIterator();
+
 	Vertex* getParentInAlgorithmTree();
 	void setParentInAlgorithmTree(Vertex* parent);
 
-	const Distance& getDistance() const;
-	void setDistance(const Distance& distance);
+	const Distance& getDistanceToSource() const;
+	void setDistanceToSource(const Distance& distance);
 
 private:
-	size_t index;
+	void setID(String newID);
+
+private:
+	Handle index;
 	String id;
-	AdjacencyList edges;
+	EdgeList edges;
 	Vertex* parentInAlgorithmTree;
 	Distance distanceToSource;
-	bool isVisited;
+	bool visited;
 };
 
 #endif // __VERTEX_H_INCLUDED__
