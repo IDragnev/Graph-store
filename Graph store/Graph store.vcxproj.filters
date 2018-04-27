@@ -42,6 +42,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Graph\Edge">
+      <UniqueIdentifier>{1b2ae734-78e0-4873-aa2c-bd8b00abc457}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="String\String.cpp">
       <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Edge\Edge.cpp">
+      <Filter>Graph\Edge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="Graph\Vertex\Vertex.h">
       <Filter>Graph\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Edge\Edge.h">
+      <Filter>Graph\Edge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
