@@ -20,6 +20,9 @@ private:
 private:
 	Vertex(String ID, Handle index);
 
+	Vertex(const Vertex& source) = delete;
+	Vertex& operator=(const Vertex& rhs) = delete;
+
 public:
 	bool isVisited() const;
 	void markAsVisited();
