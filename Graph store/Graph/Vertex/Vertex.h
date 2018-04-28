@@ -17,12 +17,6 @@ private:
 
 	friend class Graph;
 
-private:
-	Vertex(String ID, Handle index);
-
-	Vertex(const Vertex& source) = delete;
-	Vertex& operator=(const Vertex& rhs) = delete;
-
 public:
 	bool isVisited() const;
 	void markAsVisited();
@@ -38,6 +32,11 @@ public:
 	void setDistanceToSource(const Distance& distance);
 
 private:
+	Vertex(String ID, Handle index);
+
+	Vertex(const Vertex& source) = delete;
+	Vertex& operator=(const Vertex& rhs) = delete;
+
 	void setID(String ID);
 
 private:
