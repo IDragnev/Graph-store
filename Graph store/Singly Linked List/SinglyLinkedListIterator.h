@@ -9,9 +9,6 @@ class SinglyLinkedListIterator: public Iterator<Key>
 {
 	template <typename T>
 	friend class SinglyLinkedList;
-private:
-	SinglyLinkedListIterator(Node<Key>* startNode, const SinglyLinkedList<Key>* owner);
-
 public:
 	virtual ~SinglyLinkedListIterator() override = default;
 
@@ -24,6 +21,9 @@ public:
 	friend bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
 	template <typename Key>
 	friend bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
+
+private:
+	SinglyLinkedListIterator(Node<Key>* startNode, const SinglyLinkedList<Key>* owner);
 
 private:
 	Node<Key>* current;            

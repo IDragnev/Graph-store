@@ -20,9 +20,6 @@ public:
 	{
 		template <typename Q>
 		friend class DArray;
-	private:
-		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
-
 	public:
 		virtual ~DArrayIterator() override = default;
 
@@ -30,6 +27,9 @@ public:
 		virtual void goToNext() override;
 		virtual bool isFinished() const override;
 		virtual DArrayIterator<Item>* clone() const override;
+
+	private:
+		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
 
 	private:
 		DArray<Item>* owner;
