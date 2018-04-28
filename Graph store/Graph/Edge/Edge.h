@@ -8,17 +8,17 @@ class Edge
 public:
 	typedef unsigned Weight;
 
-	Edge(Vertex* adjacentVertex, Weight weight = 1);
+	Edge(Vertex* incidentVertex, Weight weight = 1);
 
-	Vertex* getAdjacentVertex();
+	Vertex* getIncidentVertex();
+	void setIncidentVertex(Vertex* vertex);
+
 	Weight getWeight() const;
-
-	void setAdjacentVertex(Vertex* vertex);
 	void setWeight(Weight weight);
 
 private:
 	Weight weight;
-	Vertex* adjacentVertex;
+	Vertex* incidentVertex;
 };
 
 #endif // __VERTEX_EDGE_H_INCLUDED__

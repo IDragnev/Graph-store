@@ -2,17 +2,17 @@
 #include "../Vertex/Vertex.h"
 
 
-Edge::Edge(Vertex* adjacentVertex, Weight weight) :
+Edge::Edge(Vertex* incidentVertex, Weight weight) :
 	weight(weight),
-	adjacentVertex(nullptr)
+	incidentVertex(nullptr)
 {
-	setAdjacentVertex(adjacentVertex);
+	setIncidentVertex(incidentVertex);
 }
 
 
-Vertex* Edge::getAdjacentVertex() 
+Vertex* Edge::getIncidentVertex() 
 {
-	return adjacentVertex;
+	return incidentVertex;
 }
 
 
@@ -28,15 +28,15 @@ void Edge::setWeight(Weight newWeight)
 }
 
 
-void Edge::setAdjacentVertex(Vertex* vertex)
+void Edge::setIncidentVertex(Vertex* vertex)
 {
 	if (vertex != nullptr)
 	{
-		adjacentVertex = vertex;
+		incidentVertex = vertex;
 	}
 	else
 	{
-		throw std::invalid_argument("Cannot set adjacent vertex to nullptr");
+		throw std::invalid_argument("Cannot set incident vertex to nullptr");
 	}
 }
 
