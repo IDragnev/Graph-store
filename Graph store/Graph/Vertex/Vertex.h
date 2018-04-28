@@ -38,7 +38,7 @@ public:
 	void setDistanceToSource(const Distance& distance);
 
 private:
-	void setID(String newID);
+	void setID(String ID);
 
 private:
 	Handle index;
