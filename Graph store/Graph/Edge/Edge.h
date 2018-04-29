@@ -5,16 +5,15 @@ class Vertex;
 
 class Edge
 {
+	friend class Graph;
 public:
 	typedef unsigned Weight;
 
-	Edge(Vertex* incidentVertex, Weight weight = 1);
-
 	Vertex* getIncidentVertex();
-	void setIncidentVertex(Vertex* vertex);
-
 	Weight getWeight() const;
-	void setWeight(Weight weight);
+
+private:
+	Edge(Vertex* incidentVertex, Weight weight = 1);
 
 private:
 	Weight weight;
