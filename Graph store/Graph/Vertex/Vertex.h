@@ -23,9 +23,9 @@ public:
 	void markAsNotVisited();
 
 	const String& getID() const;
-	EdgeIterator* getEdgeIterator();
 
 	Vertex* getParentInAlgorithmTree();
+	const Vertex* getParentInAlgorithmTree() const;
 	void setParentInAlgorithmTree(Vertex* parent);
 
 	const Distance& getDistanceToSource() const;
@@ -36,6 +36,8 @@ private:
 
 	Vertex(const Vertex& source) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
+
+	EdgeIterator* getEdgeIterator();
 
 	void setID(String ID);
 

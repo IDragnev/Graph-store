@@ -62,6 +62,12 @@ Vertex* Vertex::getParentInAlgorithmTree()
 }
 
 
+const Vertex* Vertex::getParentInAlgorithmTree() const
+{
+	return parentInAlgorithmTree;
+}
+
+
 void Vertex::setParentInAlgorithmTree(Vertex* vertex)
 {
 	parentInAlgorithmTree = vertex;
