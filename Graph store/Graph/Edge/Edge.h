@@ -10,6 +10,7 @@ public:
 	typedef unsigned Weight;
 
 	Vertex* getIncidentVertex();
+	const Vertex* getIncidentVertex() const;
 	Weight getWeight() const;
 
 private:

@@ -17,6 +17,12 @@ Vertex* Edge::getIncidentVertex()
 }
 
 
+const Vertex* Edge::getIncidentVertex() const
+{
+	return incidentVertex;
+}
+
+
 Edge::Weight Edge::getWeight() const
 {
 	return weight;
