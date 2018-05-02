@@ -8,6 +8,47 @@ SinglyLinkedListIterator<Key>::SinglyLinkedListIterator(Node<Key>* startNode, co
 
 
 template <typename Key>
+Key& SinglyLinkedListIterator<Key>::operator*()
+{
+	return getCurrent();
+}
+
+
+template <typename Key>
+SinglyLinkedListIterator<Key>& SinglyLinkedListIterator<Key>::operator++()
+{
+	goToNext();
+
+	return *this;
+}
+
+
+template <typename Key>
+SinglyLinkedListIterator<Key> SinglyLinkedListIterator<Key>::operator++(int)
+{
+	SinglyLinkedListIterator<Key> temporary(*this);
+
+	++(*this);
+
+	return temporary;
+}
+
+
+template <typename Key>
+SinglyLinkedListIterator<Key>::operator bool() const
+{
+	return !isFinished();
+}
+
+
+template <typename Key>
+bool SinglyLinkedListIterator<Key>::operator!() const
+{
+	return isFinished();
+}
+
+
+template <typename Key>
 inline bool SinglyLinkedListIterator<Key>::isFinished() const
 {
 	return current == nullptr;
