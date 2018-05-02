@@ -35,9 +35,9 @@ inline bool DArray<T>::DArrayIterator<Item>::isFinished() const
 
 template <typename T>
 template <typename Item>
-inline typename DArray<T>::DArrayIterator<Item>* DArray<T>::DArrayIterator<Item>::clone() const
+inline Iterator<Item>* DArray<T>::DArrayIterator<Item>::clone() const
 {
-	return new DArrayIterator<Item>(current, owner);
+	return new DArrayIterator<Item>(*this);
 }
 
 
