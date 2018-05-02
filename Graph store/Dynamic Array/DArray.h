@@ -28,6 +28,14 @@ public:
 		virtual bool isFinished() const override;
 		virtual Iterator<Item>* clone() const override;
 
+		Item& operator*();
+
+		DArrayIterator<Item>& operator++();
+		DArrayIterator<Item> operator++(int);
+
+		operator bool() const;
+		bool operator!() const;
+
 	private:
 		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
 
