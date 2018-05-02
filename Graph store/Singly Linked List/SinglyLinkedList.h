@@ -26,8 +26,8 @@ public:
 	bool isEmpty() const;                              
 	void empty();
 
-	SinglyLinkedListIterator<T>* getHeadIterator();                         
-	SinglyLinkedListIterator<T>* getTailIterator();
+	SinglyLinkedListIterator<T> getHeadIterator();                         
+	SinglyLinkedListIterator<T> getTailIterator();
 
 	void appendList(SinglyLinkedList<T>&& other);
 	void appendList(const SinglyLinkedList<T>& other);          

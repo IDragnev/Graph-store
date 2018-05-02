@@ -30,7 +30,7 @@ inline Key& SinglyLinkedListIterator<Key>::getCurrent()
 
 
 template <typename Key>
-inline SinglyLinkedListIterator<Key>* SinglyLinkedListIterator<Key>::clone() const
+inline Iterator<Key>* SinglyLinkedListIterator<Key>::clone() const
 {
 	return new SinglyLinkedListIterator<Key>(*this);
 }

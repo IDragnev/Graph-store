@@ -15,7 +15,7 @@ public:
 	virtual Key& getCurrent() override;
 	virtual void goToNext() override;
 	virtual bool isFinished() const override;
-	virtual SinglyLinkedListIterator<Key>* clone() const override;
+	virtual Iterator<Key>* clone() const override;
 
 	template <typename Key>
 	friend bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
