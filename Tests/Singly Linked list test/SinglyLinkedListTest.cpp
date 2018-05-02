@@ -1,14 +1,11 @@
 #include "CppUnitTest.h"
-#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 #include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
-#include <algorithm>
 
 typedef SinglyLinkedListIterator<int> ListIterator;
 typedef SinglyLinkedList<int> List;
-typedef std::unique_ptr<ListIterator> IteratorPtr;
 
 namespace SinglyLinkedListTest
 {
@@ -26,29 +23,21 @@ namespace SinglyLinkedListTest
 
 	bool doIteratorsPointToEqualLists(ListIterator& lhsHead, ListIterator& rhsHead)
 	{
-		while (!lhsHead.isFinished())
+		while (lhsHead)
 		{
-			if (lhsHead.getCurrent() != rhsHead.getCurrent())
+			if (*lhsHead != *rhsHead)
 				return false;
 
-			lhsHead.goToNext();
-			rhsHead.goToNext();
+			++lhsHead;
+			++rhsHead;
 		}
 
-		return lhsHead.isFinished() && rhsHead.isFinished();
+		return !lhsHead && !rhsHead;
 	}
 
 	bool areEqual(List& lhs, List& rhs)
 	{
-		if (lhs.getCount() != rhs.getCount())
-			return false;
-		else
-		{
-			IteratorPtr lhsHead(lhs.getHeadIterator());
-			IteratorPtr rhsHead(rhs.getHeadIterator());
-
-			return doIteratorsPointToEqualLists(*lhsHead, *rhsHead);
-		}
+		return (lhs.getCount() == rhs.getCount()) && doIteratorsPointToEqualLists(lhs.getHeadIterator(), rhs.getHeadIterator());
 	}
 
 
@@ -65,13 +54,13 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list.getCount() == 0, L"List is not empty when constructed");
 			Assert::IsTrue(list.isEmpty(), L"IsEmpty returns false after construction");
 
-			IteratorPtr iteratorPtr(list.getHeadIterator());
-			Assert::IsTrue(iteratorPtr->isFinished());
+			ListIterator iterator = list.getHeadIterator();
+			Assert::IsFalse(iterator);
 
-			iteratorPtr.reset(list.getTailIterator());
-			Assert::IsTrue(iteratorPtr->isFinished());
+			iterator = list.getTailIterator();
+			Assert::IsFalse(iterator);
 		}
-		
+	
 		TEST_METHOD(InsertTailTest)
 		{
 			List list;
@@ -136,15 +125,15 @@ namespace SinglyLinkedListTest
 
 			Assert::IsTrue(areEqual(destination, source));
 
-			IteratorPtr destinationTail(destination.getTailIterator());
+			ListIterator destinationTail = destination.getTailIterator();
 			destination.appendList(source);
 
-			destinationTail->goToNext();
-			Assert::IsFalse(destinationTail->isFinished(), L"The node after tail is null after appending non-empty list");
+			++destinationTail;
+			Assert::IsTrue(destinationTail, L"The node after tail is null after appending non-empty list");
 
-			IteratorPtr sourceHead(source.getHeadIterator());
+			ListIterator sourceHead = source.getHeadIterator();
 
-			Assert::IsTrue(doIteratorsPointToEqualLists(*destinationTail, *sourceHead));
+			Assert::IsTrue(doIteratorsPointToEqualLists(destinationTail, sourceHead));
 		}
 
 		TEST_METHOD(RemovingHeadTest)
@@ -176,37 +165,34 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(InsertionAfterNullIterator)
 		{
 			List list;
-			IteratorPtr iteratorPtr(nullptr);
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				iteratorPtr.reset(list.getTailIterator());
+				ListIterator iterator = list.getTailIterator();
 				//forse null
-				iteratorPtr->goToNext();
+				++iterator;
 
 				//should insert it as tail
-				list.insertAfter(*iteratorPtr, i);
+				list.insertAfter(iterator, i);
 
-				Assert::IsTrue(list.getTail() == i); 
+				Assert::IsTrue(list.getTail() == i);
 			}
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION !
 		TEST_METHOD(InsertingAfterHeadIterator)
 		{
 			List list;
 			list.insertAsHead(1);
 
-			IteratorPtr headIteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				headIteratorPtr.reset(list.getHeadIterator());
+				ListIterator headIterator = list.getHeadIterator();
+				list.insertAfter(headIterator, i);
 
-				list.insertAfter(*headIteratorPtr, i);
-				headIteratorPtr->goToNext();
+				++headIterator;
 
-				Assert::IsFalse(headIteratorPtr->isFinished(), L"Insertion after iterator does not update its successor");
-				Assert::IsTrue(headIteratorPtr->getCurrent() == i, L"Insertion after iterator does not construct with the value passed");
+				Assert::IsTrue(headIterator, L"Insertion after iterator does not update its successor");
+				Assert::IsTrue(*headIterator == i, L"Insertion after iterator does not construct with the value passed");
 			}
 		}
 
@@ -217,67 +203,61 @@ namespace SinglyLinkedListTest
 			list.insertAsHead(1);
 			list.insertAsTail(3);
 
-			IteratorPtr headIteratorPtr(list.getHeadIterator());
-			list.insertAfter(*headIteratorPtr, 2);
+			ListIterator headIterator = list.getHeadIterator();
+			list.insertAfter(headIterator, 2);
 
 			for (int i = 1; i < 4; ++i)
 			{
-				Assert::IsTrue(headIteratorPtr->getCurrent() == i, L"Inserting between two nodes with iterator is not working properly");
-				headIteratorPtr->goToNext();
+				Assert::IsTrue(*headIterator == i, L"Inserting between two nodes with iterator is not working properly");
+				++headIterator;
 			}
 
-			Assert::IsTrue(headIteratorPtr->isFinished());
+			Assert::IsFalse(headIterator);
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION !
 		TEST_METHOD(InsertingAfterTailIterator)
 		{
 			List list;
 			list.insertAsTail(1);
 
-			IteratorPtr tailIteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				tailIteratorPtr.reset(list.getTailIterator());
+				ListIterator tailIterator = list.getTailIterator();
+				list.insertAfter(tailIterator, i);
 
-				list.insertAfter(*tailIteratorPtr, i);
-				tailIteratorPtr->goToNext();
+				++tailIterator;
 
-				Assert::IsFalse(tailIteratorPtr->isFinished());
-				Assert::IsTrue(tailIteratorPtr->getCurrent() == i, L"Insertion after tail iterator does not construct with the value passed");
+				Assert::IsTrue(tailIterator);
+				Assert::IsTrue(*tailIterator == i, L"Insertion after tail iterator does not construct with the value passed");
 			}
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION !
 		TEST_METHOD(InsertionBeforeNullIterator)
 		{
 			List list;
 
-			IteratorPtr iteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				iteratorPtr.reset(list.getTailIterator());
+				ListIterator iterator = list.getTailIterator();
 				//forse null
-				iteratorPtr->goToNext();
+				++iterator;
 
 				//should insert it as head
-				list.insertBefore(*iteratorPtr, i);
+				list.insertBefore(iterator, i);
 
 				Assert::IsTrue(list.getHead() == i);
 			}
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION !
 		TEST_METHOD(InsertingBeforeHeadIterator)
 		{
 			List list;
 			list.insertAsHead(1);
 
-			IteratorPtr headIteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				headIteratorPtr.reset(list.getHeadIterator());
-				list.insertBefore(*headIteratorPtr, i);
+				ListIterator headIterator = list.getHeadIterator();
+				list.insertBefore(headIterator, i);
 
 				Assert::IsTrue(list.getHead() == i);
 			}
@@ -290,19 +270,20 @@ namespace SinglyLinkedListTest
 			list.insertAsHead(1);
 			list.insertAsTail(3);
 
-			IteratorPtr iteratorPtr(list.getTailIterator());
-			list.insertBefore(*iteratorPtr, 2);
+			ListIterator iterator = list.getTailIterator();
+			list.insertBefore(iterator, 2);
 
-			iteratorPtr.reset(list.getHeadIterator());
+			iterator = list.getHeadIterator();
 			for (int i = 1; i < 4; ++i)
 			{
-				Assert::IsTrue(iteratorPtr->getCurrent() == i);
-				iteratorPtr->goToNext();
+				Assert::IsTrue(*iterator == i);
+				++iterator;
 			}
 
-			Assert::IsTrue(iteratorPtr->isFinished());
+			Assert::IsFalse(iterator);
 		}
 
+		//LEFT FROM HERE *****************************************************************************
 		TEST_METHOD(RemovingAtNullIterator)
 		{
 			List emptyList;
