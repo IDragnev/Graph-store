@@ -21,6 +21,13 @@ String::String(const String& other) :
 }
 
 
+String::String(char symbol) :
+	String()
+{
+	setActualString(symbol);
+}
+
+
 String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
@@ -31,6 +38,52 @@ String& String::operator=(const String& rhs)
 	return *this;
 }
 
+
+String& String::operator=(String&& source)
+{
+	if (this != &source)
+	{
+		destroyActualString();
+		moveParameterInThis(source);
+	}
+
+	return *this;
+}
+
+
+String::String(String&& source)
+{
+	moveParameterInThis(source);
+}
+
+
+String::~String()
+{
+	destroyActualString();
+}
+
+
+String& String::operator+=(const char* string)
+{
+	append(string);
+
+	return *this;
+}
+
+
+String& String::operator+=(char symbol)
+{
+	append(symbol);
+
+	return *this;
+}
+
+
+void String::moveParameterInThis(String& source)
+{
+	actualString = source.actualString;
+	source.nullActualString();
+}
 
 
 void String::setActualString(const char* cString)
@@ -49,38 +102,6 @@ void String::setActualString(const char* cString)
 }
 
 
-
-char* String::cloneCString(const char* cString)
-{
-	size_t size = strlen(cString) + 1;
-
-	char* result = new char[size];
-	strcpy_s(result, size, cString);
-
-	return result;
-}
-
-
-
-void String::destroyActualString()
-{
-	delete[] actualString;
-}
-
-
-void String::nullActualString()
-{
-	actualString = nullptr;
-}  
-
- 
-String::String(char symbol) :
-	String()
-{
-	setActualString(symbol);
-}
-
-
 void String::setActualString(char symbol)
 {
 	char buffer[2] = "";
@@ -90,42 +111,14 @@ void String::setActualString(char symbol)
 }
 
 
-String::~String()
+char* String::cloneCString(const char* cString)
 {
-	destroyActualString();
-}
+	size_t size = strlen(cString) + 1;
 
+	char* result = new char[size];
+	strcpy_s(result, size, cString);
 
-String::String(String&& source)
-{
-	moveParameterInThis(source);
-}
-
-
-String& String::operator=(String&& source)
-{
-	if (this != &source)
-	{
-		destroyActualString();
-		moveParameterInThis(source);
-	}
-
-	return *this;
-}
-
-
-void String::moveParameterInThis(String& source)
-{
-	actualString = source.actualString;
-	source.nullActualString();
-}
-
-
-String& String::operator+=(const char* string)
-{
-	append(string);
-
-	return *this;
+	return result;
 }
 
 
@@ -151,14 +144,6 @@ void String::append(const char* string)
 }
 
 
-String& String::operator+=(char symbol)
-{
-	append(symbol);
-
-	return *this;
-}
-
-
 void String::append(char symbol)
 {
 	char buffer[2] = "";
@@ -166,6 +151,18 @@ void String::append(char symbol)
 
 	append(buffer);
 }
+
+
+void String::destroyActualString()
+{
+	delete[] actualString;
+}
+
+
+void String::nullActualString()
+{
+	actualString = nullptr;
+}  
 
 
 const char* String::getActualString() const
