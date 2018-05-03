@@ -1,13 +1,10 @@
 #include "CppUnitTest.h"
-
 #include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
-#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 typedef SinglyLinkedListIterator<int> ListIterator;
 typedef SinglyLinkedList<int> List;
-
 
 namespace SinglyLinkedListTest
 {		

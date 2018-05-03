@@ -1,8 +1,7 @@
 #include "CppUnitTest.h"
+#include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-#include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
 
 typedef SinglyLinkedListIterator<int> ListIterator;
 typedef SinglyLinkedList<int> List;
@@ -283,55 +282,50 @@ namespace SinglyLinkedListTest
 			Assert::IsFalse(iterator);
 		}
 
-		//LEFT FROM HERE *****************************************************************************
 		TEST_METHOD(RemovingAtNullIterator)
 		{
 			List emptyList;
 
-			IteratorPtr nullIteratorPtr(emptyList.getHeadIterator());
-			emptyList.removeAt(*nullIteratorPtr);
+			ListIterator nullIterator = emptyList.getHeadIterator();
+			emptyList.removeAt(nullIterator);
 
 			Assert::IsTrue(emptyList.getCount() == 0);
 			Assert::IsTrue(emptyList.isEmpty());
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION!
 		TEST_METHOD(RemovingAtHeadIterator)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-			IteratorPtr headIteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				Assert::IsTrue(list.getHead() == i, L"Removing at head iterator does not manage head properly");
 				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing at head iterator does not manage count properly");
 
-				headIteratorPtr.reset(list.getHeadIterator());
-				list.removeAt(*headIteratorPtr);
+				ListIterator headIterator = list.getHeadIterator();
+				list.removeAt(headIterator);
 
-				Assert::IsTrue(headIteratorPtr->isFinished(), L"Removing at head iterator does not null the iterator");
+				Assert::IsFalse(headIterator, L"Removing at head iterator does not null the iterator");
 			}
 
 			Assert::IsTrue(list.isEmpty());
 		}
 
-		//ALLOCATES A NEW OBJECT ON EACH ITERATION!
 		TEST_METHOD(RemovingAtTailIterator)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-			IteratorPtr tailIteratorPtr(nullptr);
 			for (int i = NUMBER_OF_ITEMS_TO_INSERT - 1; i >= 0; --i)
 			{
 				Assert::IsTrue(list.getTail() == i, L"Removing at tail iterator does not manage tail properly");
 				Assert::IsTrue(list.getCount() == i + 1, L"Removing at tail iterator does not manage count properly");
 
-				tailIteratorPtr.reset(list.getTailIterator());
-				list.removeAt(*tailIteratorPtr);
+				ListIterator tailIterator = list.getTailIterator();
+				list.removeAt(tailIterator);
 
-				Assert::IsTrue(tailIteratorPtr->isFinished(), L"Removing at iterator does not null iterator");
+				Assert::IsFalse(tailIterator, L"Removing at iterator does not null iterator");
 			}
 
 			Assert::IsTrue(list.isEmpty());
@@ -342,31 +336,28 @@ namespace SinglyLinkedListTest
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-			IteratorPtr secondNoteIteratorPtr(nullptr);
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				secondNoteIteratorPtr.reset(list.getHeadIterator());
-				secondNoteIteratorPtr->goToNext();
-
 				//head stays 0 after removing its successor
-				Assert::IsTrue( list.getHead() == 0, L"Removing between nodes with iterator does not manage predecessor properly");
-			
+				Assert::IsTrue(list.getHead() == 0, L"Removing between nodes with iterator does not manage predecessor properly");
+				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing between nodes with iterator does not manage count properly");
+
+				ListIterator secondNodeIterator = list.getHeadIterator();
+				++secondNodeIterator;
+
 				//if at least two nodes in the list
 				if (i < NUMBER_OF_ITEMS_TO_INSERT - 1)
 				{
-					Assert::IsTrue(secondNoteIteratorPtr->getCurrent() == i + 1, L"Removing between nodes with iterator does not manage successor properly");
+					Assert::IsTrue(*secondNodeIterator == i + 1, L"Removing between nodes with iterator does not manage successor properly");
 				}
 
-				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing between nodes with iterator does not manage count properly");
-
-				list.removeAt(*secondNoteIteratorPtr);
-				Assert::IsTrue(secondNoteIteratorPtr->isFinished(), L"Removing at iterator does not null iterator");
+				list.removeAt(secondNodeIterator);
+				Assert::IsFalse(secondNodeIterator, L"Removing at iterator does not null iterator");
 			}
 
 			Assert::IsTrue(list.getCount() == 1);
 			Assert::IsTrue(list.getHead() == 0);
 		}
-
 
 		TEST_METHOD(CopyCtorTest)
 		{
