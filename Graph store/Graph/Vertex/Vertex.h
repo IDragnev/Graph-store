@@ -6,14 +6,14 @@
 #include "../../Singly Linked List/SinglyLinkedList.h"
 #include "../Edge/Edge.h"
 
-typedef specialInteger<unsigned> Distance;
+typedef specialInteger<unsigned> Distance; //TODO: move this typedef to the Graph class ?
 
 class Vertex
 {
 private:
 	typedef size_t Handle;
 	typedef SinglyLinkedList<Edge> EdgeList;
-	typedef Iterator<Edge> EdgeIterator;
+	typedef SinglyLinkedListIterator<Edge> EdgeIterator;
 
 	friend class Graph;
 
@@ -37,7 +37,7 @@ private:
 	Vertex(const Vertex& source) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
 
-	EdgeIterator* getEdgeIterator();
+	EdgeIterator getEdgeIterator();
 
 	void setID(String ID);
 

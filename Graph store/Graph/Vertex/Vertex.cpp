@@ -50,7 +50,7 @@ void Vertex::markAsVisited()
 }
 
 
-typename Vertex::EdgeIterator* Vertex::getEdgeIterator()
+typename Vertex::EdgeIterator Vertex::getEdgeIterator()
 {
 	return edges.getHeadIterator();
 }
