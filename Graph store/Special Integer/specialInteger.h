@@ -28,9 +28,6 @@ public:
 	friend bool operator==(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs);
 
 private:
-	static const specialInteger<Integer> MY_INFINITY;
-
-private:
 	Integer value;
 	bool isInfinity;
 };
