@@ -11,11 +11,11 @@ typedef specialInteger<unsigned> Distance; //TODO: move this typedef to the Grap
 class Vertex
 {
 private:
+	friend class Graph;
+
 	typedef size_t Handle;
 	typedef SinglyLinkedList<Edge> EdgeList;
 	typedef SinglyLinkedListIterator<Edge> EdgeIterator;
-
-	friend class Graph;
 
 public:
 	bool isVisited() const;
@@ -33,6 +33,7 @@ public:
 
 private:
 	Vertex(String ID, Handle index);
+	~Vertex() = default;
 
 	Vertex(const Vertex& source) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
