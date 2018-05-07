@@ -154,6 +154,7 @@
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="Graph\Edge\Edge.h" />
+    <ClInclude Include="Graph\Graph.h" />
     <ClInclude Include="Graph\Vertex\Vertex.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />

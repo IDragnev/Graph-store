@@ -124,5 +124,8 @@
     <ClInclude Include="Graph\Edge\Edge.h">
       <Filter>Graph\Edge</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\Graph.h">
+      <Filter>Graph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
