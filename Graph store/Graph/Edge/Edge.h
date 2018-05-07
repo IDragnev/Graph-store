@@ -15,6 +15,10 @@ public:
 
 private:
 	Edge(Vertex* incidentVertex, Weight weight = 1);
+	Edge(const Edge& source) = default;
+	Edge(Edge&& source) = default;
+	Edge& operator=(const Edge& rhs) = default;
+	Edge& operator=(Edge&& rhs) = default;
 
 private:
 	Weight weight;
