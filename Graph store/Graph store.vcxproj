@@ -173,6 +173,8 @@
     <ClInclude Include="Special Integer\specialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
+    <ClInclude Include="Type selector\selectBaseIterator.h" />
+    <ClInclude Include="Type selector\typeSelector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

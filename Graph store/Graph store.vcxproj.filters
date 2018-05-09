@@ -45,6 +45,9 @@
     <Filter Include="Graph\Edge">
       <UniqueIdentifier>{1b2ae734-78e0-4873-aa2c-bd8b00abc457}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Type selector">
+      <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,6 +132,12 @@
     </ClInclude>
     <ClInclude Include="Iterator abstraction\ConstIterator.h">
       <Filter>Iterator abstraction</Filter>
+    </ClInclude>
+    <ClInclude Include="Type selector\typeSelector.h">
+      <Filter>Type selector</Filter>
+    </ClInclude>
+    <ClInclude Include="Type selector\selectBaseIterator.h">
+      <Filter>Type selector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
