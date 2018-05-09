@@ -2,39 +2,46 @@
 #define __SINGLY_LINKED_LIST_ITERATOR_H_INCLUDED__
 
 #include "Node.h"
-#include "../Iterator abstraction/Iterator.h"
+#include "../Type selector/selectBaseIterator.h"
 
-template <typename Key>
-class SinglyLinkedListIterator: public Iterator<Key>
+template <typename Key, bool isConst = false>
+class SinglyLinkedListIterator : public selectBaseIterator<isConst, Key>::result
 {
+private:
 	template <typename T>
 	friend class SinglyLinkedList;
+
+	typedef typename typeSelector<isConst, const Key&, Key&>::result reference;
+	typedef typename typeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
+	typedef typename selectBaseIterator<isConst, Key>::result baseIterator;
+
 public:
+	SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source);
 	virtual ~SinglyLinkedListIterator() override = default;
 
-	virtual Key& getCurrent() const override;
+	virtual reference getCurrent() const override;
 	virtual void goToNext() override;
 	virtual bool isFinished() const override;
-	virtual Iterator<Key>* clone() const override;
+	virtual baseIterator* clone() const override;
 
-	Key& operator*() const;
+	reference operator*() const;
 
-	SinglyLinkedListIterator<Key>& operator++();
-	SinglyLinkedListIterator<Key> operator++(int);
+	SinglyLinkedListIterator<Key, isConst>& operator++();
+	SinglyLinkedListIterator<Key, isConst> operator++(int);
 
 	bool operator!() const;
 	operator bool() const;
 
-	template <typename Key>
+	/*template <typename Key>
 	friend bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
 	template <typename Key>
-	friend bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
+	friend bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);*/
 
 private:
-	SinglyLinkedListIterator(Node<Key>* startNode, const SinglyLinkedList<Key>* owner);
+	SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner);
 
 private:
-	Node<Key>* current;            
+	nodePtr current;            
 	const SinglyLinkedList<Key>* owner;
 };
 

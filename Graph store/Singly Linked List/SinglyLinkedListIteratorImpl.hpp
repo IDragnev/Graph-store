@@ -1,21 +1,29 @@
 
-template <typename Key>
-SinglyLinkedListIterator<Key>::SinglyLinkedListIterator(Node<Key>* startNode, const SinglyLinkedList<Key>* owner) :
+template <typename Key, bool isConst>
+SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner) :
 	current(startNode),
 	owner(owner)
 {
 }
 
 
-template <typename Key>
-Key& SinglyLinkedListIterator<Key>::operator*() const
+template <typename Key, bool isConst>
+SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source) :
+	current(source.current),
+	owner(source.owner)
+{
+}
+
+
+template <typename Key, bool isConst>
+inline typename SinglyLinkedListIterator<Key, isConst>::reference SinglyLinkedListIterator<Key, isConst>::operator*() const
 {
 	return getCurrent();
 }
 
 
-template <typename Key>
-SinglyLinkedListIterator<Key>& SinglyLinkedListIterator<Key>::operator++()
+template <typename Key, bool isConst>
+inline SinglyLinkedListIterator<Key, isConst>& SinglyLinkedListIterator<Key, isConst>::operator++()
 {
 	goToNext();
 
@@ -23,10 +31,10 @@ SinglyLinkedListIterator<Key>& SinglyLinkedListIterator<Key>::operator++()
 }
 
 
-template <typename Key>
-SinglyLinkedListIterator<Key> SinglyLinkedListIterator<Key>::operator++(int)
+template <typename Key, bool isConst>
+inline SinglyLinkedListIterator<Key, isConst> SinglyLinkedListIterator<Key, isConst>::operator++(int)
 {
-	SinglyLinkedListIterator<Key> temporary(*this);
+	SinglyLinkedListIterator<Key, isConst> temporary(*this);
 
 	++(*this);
 
@@ -34,58 +42,60 @@ SinglyLinkedListIterator<Key> SinglyLinkedListIterator<Key>::operator++(int)
 }
 
 
-template <typename Key>
-SinglyLinkedListIterator<Key>::operator bool() const
+template <typename Key, bool isConst>
+inline SinglyLinkedListIterator<Key, isConst>::operator bool() const
 {
 	return !isFinished();
 }
 
 
-template <typename Key>
-bool SinglyLinkedListIterator<Key>::operator!() const
+template <typename Key, bool isConst>
+inline bool SinglyLinkedListIterator<Key, isConst>::operator!() const
 {
 	return isFinished();
 }
 
 
-template <typename Key>
-inline bool SinglyLinkedListIterator<Key>::isFinished() const
+template <typename Key, bool isConst>
+inline bool SinglyLinkedListIterator<Key, isConst>::isFinished() const
 {
 	return current == nullptr;
 }
 
 
-template <typename Key>
-inline void SinglyLinkedListIterator<Key>::goToNext()
+template <typename Key, bool isConst>
+inline void SinglyLinkedListIterator<Key, isConst>::goToNext()
 {
 	if (!isFinished())
+	{
 		current = current->next;
+	}
 }
 
 
-template <typename Key>
-inline Key& SinglyLinkedListIterator<Key>::getCurrent() const
+template <typename Key, bool isConst>
+inline typename SinglyLinkedListIterator<Key, isConst>::reference SinglyLinkedListIterator<Key, isConst>::getCurrent() const
 {
 	return current->data;
 }
 
 
-template <typename Key>
-inline Iterator<Key>* SinglyLinkedListIterator<Key>::clone() const
+template <typename Key, bool isConst>
+inline typename SinglyLinkedListIterator<Key, isConst>::baseIterator* SinglyLinkedListIterator<Key, isConst>::clone() const
 {
-	return new SinglyLinkedListIterator<Key>(*this);
+	return new SinglyLinkedListIterator<Key, isConst>(*this);
 }
 
 
-template <typename Key>
-inline bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
-{
-	return (lhs.current == rhs.current && lhs.owner == rhs.owner);
-}
-
-
-template <typename Key>
-inline bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
-{
-	return !(lhs == rhs);
-}
+//template <typename Key, bool isConst>
+//inline bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
+//{
+//	return (lhs.current == rhs.current && lhs.owner == rhs.owner);
+//}
+//
+//
+//template <typename Key, bool isConst>
+//inline bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
+//{
+//	return !(lhs == rhs);
+//}

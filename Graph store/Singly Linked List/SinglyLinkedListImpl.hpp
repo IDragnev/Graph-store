@@ -224,7 +224,7 @@ inline void SinglyLinkedList<T>::removeTail()
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeAt(SinglyLinkedListIterator<T>& iterator)
+inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
 {
 	throwExceptionIfInvalid(iterator);
 
@@ -234,7 +234,7 @@ inline void SinglyLinkedList<T>::removeAt(SinglyLinkedListIterator<T>& iterator)
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeAfter(SinglyLinkedListIterator<T>& iterator)
+inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
 {
 	throwExceptionIfInvalid(iterator);
 
@@ -243,16 +243,16 @@ inline void SinglyLinkedList<T>::removeAfter(SinglyLinkedListIterator<T>& iterat
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeBefore(SinglyLinkedListIterator<T>& iterator)
+inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 {
 	throwExceptionIfInvalid(iterator);
 
-	removeAt( findNodeBefore(iterator.current) );
+	removeAt(findNodeBefore(iterator.current));
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertAfter(SinglyLinkedListIterator<T>& iterator, const T& item)
+void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 {
 	throwExceptionIfInvalid(iterator);
 
@@ -261,7 +261,7 @@ void SinglyLinkedList<T>::insertAfter(SinglyLinkedListIterator<T>& iterator, con
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::insertBefore(SinglyLinkedListIterator<T>& iterator, const T& item)
+inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
 {
 	throwExceptionIfInvalid(iterator);
 
@@ -336,7 +336,7 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& ite
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::throwExceptionIfInvalid(const SinglyLinkedListIterator<T>& iterator) const 
+inline void SinglyLinkedList<T>::throwExceptionIfInvalid(const Iterator& iterator) const
 {
 	if (iterator.owner != this)
 		throw std::invalid_argument("Invalid iterator passed!");
@@ -366,16 +366,16 @@ inline typename SinglyLinkedList<T>::countType SinglyLinkedList<T>::getCount() c
 
 
 template <typename T>
-inline SinglyLinkedListIterator<T> SinglyLinkedList<T>::getHeadIterator()
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
 {
-	return SinglyLinkedListIterator<T>(head, this);
+	return Iterator(head, this);
 }
 
 
 template <typename T>
-inline SinglyLinkedListIterator<T> SinglyLinkedList<T>::getTailIterator()
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getTailIterator()
 {
-	return SinglyLinkedListIterator<T>(tail, this);
+	return Iterator(tail, this);
 }
 
 

@@ -12,8 +12,12 @@ class SinglyLinkedList
 {
 private:
 	typedef unsigned countType;
+	//TODO : insert static asserts for copy_constructable and copy_assignable
 
 public:
+	typedef SinglyLinkedListIterator<T, false> Iterator;
+	typedef SinglyLinkedListIterator<T, true> ConstIterator;
+
 	SinglyLinkedList();
 	SinglyLinkedList(SinglyLinkedList<T>&& source);
 	SinglyLinkedList(const SinglyLinkedList<T>& source);
@@ -26,8 +30,9 @@ public:
 	bool isEmpty() const;                              
 	void empty();
 
-	SinglyLinkedListIterator<T> getHeadIterator();                         
-	SinglyLinkedListIterator<T> getTailIterator();
+	//TODO: add getConstHeadIterator() and getConstTailIterator()
+	Iterator getHeadIterator();
+	Iterator getTailIterator();
 
 	void appendList(SinglyLinkedList<T>&& other);
 	void appendList(const SinglyLinkedList<T>& other);          
@@ -46,16 +51,16 @@ public:
 	void removeHead();                                
 	void removeTail();                          
 
-	void removeAt(SinglyLinkedListIterator<T>& iterator); 
-	void removeBefore(SinglyLinkedListIterator<T>& iterator);
-	void removeAfter(SinglyLinkedListIterator<T>& iterator);
+	void removeAt(Iterator& iterator);
+	void removeBefore(Iterator& iterator);
+	void removeAfter(Iterator& iterator);
 
-	void insertAfter(SinglyLinkedListIterator<T>& iterator, const T& item);
-	void insertBefore(SinglyLinkedListIterator<T>& iterator, const T& item);
+	void insertAfter(Iterator& iterator, const T& item);
+	void insertBefore(Iterator& iterator, const T& item);
 
 private:
 	void throwExceptionIfEmpty() const; 
-	void throwExceptionIfInvalid(const SinglyLinkedListIterator<T>& iterator) const;
+	void throwExceptionIfInvalid(const Iterator& iterator) const;
 
 	void nullifyMembers();
 

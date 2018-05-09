@@ -8,7 +8,7 @@
 template <bool isConst, typename T>
 struct selectBaseIterator
 {
-	typedef typeSelector<isConst, ConstIterator<T>, Iterator<T>>::result result;
+	typedef typename typeSelector<isConst, ConstIterator<T>, Iterator<T>>::result result;
 };
 
 #endif //__SELECT_ITERATOR_BASE_H_INCLUDED__

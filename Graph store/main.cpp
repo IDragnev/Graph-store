@@ -6,20 +6,22 @@
 #include "Iterator abstraction\Iterator.h"
 #include "Dynamic Array\DArray.h"
 
+#include "Singly Linked List\SinglyLinkedList.h"
+
 int main()
 {
-	DArray<int> darr;
+	
+	SinglyLinkedList<int> list;
 
 	for (int i = 0; i < 10; ++i)
-		darr.insert(i);
+		list.insert(i);
 
-	DArray<int>::DArrayIterator<int> iterator = darr.getHeadIterator();
+	SinglyLinkedList<int>::Iterator iterator = list.getHeadIterator();
 
 	while (iterator)
 	{
 		std::cout << *iterator << ' ';
 		++iterator;
-		iterator++;
 	}
 	std::cout << std::endl;
 
