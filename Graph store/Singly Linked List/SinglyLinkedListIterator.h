@@ -12,12 +12,12 @@ class SinglyLinkedListIterator: public Iterator<Key>
 public:
 	virtual ~SinglyLinkedListIterator() override = default;
 
-	virtual Key& getCurrent() override;
+	virtual Key& getCurrent() const override;
 	virtual void goToNext() override;
 	virtual bool isFinished() const override;
 	virtual Iterator<Key>* clone() const override;
 
-	Key& operator*();
+	Key& operator*() const;
 
 	SinglyLinkedListIterator<Key>& operator++();
 	SinglyLinkedListIterator<Key> operator++(int);

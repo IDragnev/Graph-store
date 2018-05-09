@@ -7,7 +7,7 @@ class Iterator
 public:
 	virtual ~Iterator() = default;
 
-	virtual T& getCurrent() = 0;
+	virtual T& getCurrent() const = 0;
 	virtual void goToNext() = 0;
 	virtual bool isFinished() const = 0;
 	virtual Iterator<T>* clone() const = 0;

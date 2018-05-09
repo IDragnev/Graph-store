@@ -23,12 +23,12 @@ public:
 	public:
 		virtual ~DArrayIterator() override = default;
 
-		virtual Item& getCurrent() override;
+		virtual Item& getCurrent() const override;
 		virtual void goToNext() override;
 		virtual bool isFinished() const override;
 		virtual Iterator<Item>* clone() const override;
 
-		Item& operator*();
+		Item& operator*() const;
 
 		DArrayIterator<Item>& operator++();
 		DArrayIterator<Item> operator++(int);

@@ -10,7 +10,7 @@ DArray<T>::DArrayIterator<Item>::DArrayIterator(typename DArray<T>::sizeType sta
 
 template <typename T>
 template <typename Item>
-inline Item& DArray<T>::DArrayIterator<Item>::operator*()
+inline Item& DArray<T>::DArrayIterator<Item>::operator*() const
 {
 	return getCurrent();
 }
@@ -65,7 +65,7 @@ inline void DArray<T>::DArrayIterator<Item>::goToNext()
 
 template <typename T>
 template <typename Item>
-inline Item& DArray<T>::DArrayIterator<Item>::getCurrent()
+inline Item& DArray<T>::DArrayIterator<Item>::getCurrent() const
 {
 	return (*owner)[current];
 }

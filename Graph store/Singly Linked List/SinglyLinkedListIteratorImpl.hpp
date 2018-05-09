@@ -8,7 +8,7 @@ SinglyLinkedListIterator<Key>::SinglyLinkedListIterator(Node<Key>* startNode, co
 
 
 template <typename Key>
-Key& SinglyLinkedListIterator<Key>::operator*()
+Key& SinglyLinkedListIterator<Key>::operator*() const
 {
 	return getCurrent();
 }
@@ -64,7 +64,7 @@ inline void SinglyLinkedListIterator<Key>::goToNext()
 
 
 template <typename Key>
-inline Key& SinglyLinkedListIterator<Key>::getCurrent()
+inline Key& SinglyLinkedListIterator<Key>::getCurrent() const
 {
 	return current->data;
 }
