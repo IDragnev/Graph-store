@@ -127,5 +127,8 @@
     <ClInclude Include="Graph\Graph.h">
       <Filter>Graph</Filter>
     </ClInclude>
+    <ClInclude Include="Iterator abstraction\ConstIterator.h">
+      <Filter>Iterator abstraction</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -160,6 +160,7 @@
     <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\HashImpl.hpp" />
+    <ClInclude Include="Iterator abstraction\ConstIterator.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
