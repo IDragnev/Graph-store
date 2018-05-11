@@ -32,10 +32,7 @@ public:
 	bool operator!() const;
 	operator bool() const;
 
-	/*template <typename Key>
-	friend bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);
-	template <typename Key>
-	friend bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs);*/
+	//TODO: equality operators
 
 private:
 	SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner);

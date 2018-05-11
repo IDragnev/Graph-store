@@ -366,6 +366,20 @@ inline typename SinglyLinkedList<T>::countType SinglyLinkedList<T>::getCount() c
 
 
 template <typename T>
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getHeadConstIterator() const
+{
+	return ConstIterator(head, this);
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getTailConstIterator() const
+{
+	return ConstIterator(tail, this);
+}
+
+
+template <typename T>
 inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
 {
 	return Iterator(head, this);

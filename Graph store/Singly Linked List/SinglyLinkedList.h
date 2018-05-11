@@ -30,7 +30,8 @@ public:
 	bool isEmpty() const;                              
 	void empty();
 
-	//TODO: add getConstHeadIterator() and getConstTailIterator()
+	ConstIterator getHeadConstIterator() const;
+	ConstIterator getTailConstIterator() const;
 	Iterator getHeadIterator();
 	Iterator getTailIterator();
 
