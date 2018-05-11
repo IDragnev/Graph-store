@@ -15,32 +15,38 @@ private:
 	typedef size_t sizeType;
 
 public:
-	template <typename Item>
-	class DArrayIterator : public Iterator<Item>
+	template <typename Item, bool isConst>
+	class DArrayIterator : public selectBaseIterator<isConst, Item>::result
 	{
-		template <typename Q>
-		friend class DArray;
+	private:
+		friend class DArray<Item>;
+
+		typedef typename selectBaseIterator<isConst, Item>::result baseIterator;
+		typedef typename typeSelector<isConst, const Item&, Item&>::result reference;
+		typedef typename typeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
+
 	public:
+		DArrayIterator(const DArrayIterator<Item, false>& source);
 		virtual ~DArrayIterator() override = default;
 
-		virtual Item& getCurrent() const override;
+		virtual reference getCurrent() const override;
 		virtual void goToNext() override;
 		virtual bool isFinished() const override;
-		virtual Iterator<Item>* clone() const override;
+		virtual baseIterator* clone() const override;
 
-		Item& operator*() const;
+		reference operator*() const;
 
-		DArrayIterator<Item>& operator++();
-		DArrayIterator<Item> operator++(int);
+		DArrayIterator<Item, isConst>& operator++();
+		DArrayIterator<Item, isConst> operator++(int);
 
 		operator bool() const;
 		bool operator!() const;
 
 	private:
-		DArrayIterator(sizeType startPosition, DArray<Item>* owner);
+		DArrayIterator(sizeType startPosition, ownerPtr owner);
 
 	private:
-		DArray<Item>* owner;
+		ownerPtr owner;
 		sizeType current;
 	};
 
@@ -55,7 +61,7 @@ public:
 	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
-	DArrayIterator<T> getHeadIterator();
+	DArrayIterator<T> getHeadIterator(); //TODO : typedef DArrayIterator<T> Iterator;
 	sizeType getSize() const;
 	sizeType getCount() const;
 	bool isEmpty() const;
