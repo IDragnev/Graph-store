@@ -11,8 +11,9 @@ template <typename T>
 class SinglyLinkedList
 {
 private:
+	static_assert(std::is_copy_constructible<T>::value, "SinglyLinkedList<T> requires T to be copy constructible");
+
 	typedef unsigned countType;
-	//TODO : insert static asserts for copy_constructable and copy_assignable
 
 public:
 	typedef SinglyLinkedListIterator<T, false> Iterator;
