@@ -3,7 +3,8 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-typedef SinglyLinkedListIterator<int> ListIterator;
+typedef SinglyLinkedList<int>::Iterator ListIterator;
+typedef SinglyLinkedList<int>::ConstIterator ListConstIterator;
 typedef SinglyLinkedList<int> List;
 
 namespace SinglyLinkedListTest
@@ -20,7 +21,7 @@ namespace SinglyLinkedListTest
 			list.insertAsHead(i);
 	}
 
-	bool doIteratorsPointToEqualLists(ListIterator& lhsHead, ListIterator& rhsHead)
+	bool doIteratorsPointToEqualLists(ListConstIterator& lhsHead, ListConstIterator& rhsHead)
 	{
 		while (lhsHead)
 		{
@@ -34,9 +35,9 @@ namespace SinglyLinkedListTest
 		return !lhsHead && !rhsHead;
 	}
 
-	bool areEqual(List& lhs, List& rhs)
+	bool areEqual(const List& lhs, const List& rhs)
 	{
-		return (lhs.getCount() == rhs.getCount()) && doIteratorsPointToEqualLists(lhs.getHeadIterator(), rhs.getHeadIterator());
+		return (lhs.getCount() == rhs.getCount()) && doIteratorsPointToEqualLists(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
 	}
 
 
@@ -53,10 +54,10 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list.getCount() == 0, L"List is not empty when constructed");
 			Assert::IsTrue(list.isEmpty(), L"IsEmpty returns false after construction");
 
-			ListIterator iterator = list.getHeadIterator();
+			ListConstIterator iterator = list.getHeadConstIterator();
 			Assert::IsFalse(iterator);
 
-			iterator = list.getTailIterator();
+			iterator = list.getTailConstIterator();
 			Assert::IsFalse(iterator);
 		}
 	
@@ -124,13 +125,13 @@ namespace SinglyLinkedListTest
 
 			Assert::IsTrue(areEqual(destination, source));
 
-			ListIterator destinationTail = destination.getTailIterator();
+			ListConstIterator destinationTail = destination.getTailConstIterator();
 			destination.appendList(source);
 
 			++destinationTail;
 			Assert::IsTrue(destinationTail, L"The node after tail is null after appending non-empty list");
 
-			ListIterator sourceHead = source.getHeadIterator();
+			ListConstIterator sourceHead = source.getHeadConstIterator();
 
 			Assert::IsTrue(doIteratorsPointToEqualLists(destinationTail, sourceHead));
 		}
