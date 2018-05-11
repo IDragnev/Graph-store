@@ -9,8 +9,7 @@ class SinglyLinkedListIterator : public selectBaseIterator<isConst, Key>::result
 {
 private:
 	friend class SinglyLinkedListIterator<Key, true>;
-	template <typename T>
-	friend class SinglyLinkedList;
+	friend class SinglyLinkedList<Key>;
 
 	typedef typename typeSelector<isConst, const Key&, Key&>::result reference;
 	typedef typename typeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
