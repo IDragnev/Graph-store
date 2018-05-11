@@ -8,6 +8,7 @@ template <typename Key, bool isConst = false>
 class SinglyLinkedListIterator : public selectBaseIterator<isConst, Key>::result
 {
 private:
+	friend class SinglyLinkedListIterator<Key, true>;
 	template <typename T>
 	friend class SinglyLinkedList;
 
