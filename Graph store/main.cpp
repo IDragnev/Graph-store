@@ -10,13 +10,12 @@
 
 int main()
 {
-	
 	SinglyLinkedList<int> list;
 
 	for (int i = 0; i < 10; ++i)
 		list.insert(i);
 
-	SinglyLinkedList<int>::Iterator iterator = list.getHeadIterator();
+	SinglyLinkedList<int>::ConstIterator iterator = list.getHeadIterator();
 
 	while (iterator)
 	{

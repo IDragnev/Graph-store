@@ -4,6 +4,9 @@
 #include "Node.h"
 #include "../Type selector/selectBaseIterator.h"
 
+template <typename T>
+class SinglyLinkedList;
+
 template <typename Key, bool isConst = false>
 class SinglyLinkedListIterator : public selectBaseIterator<isConst, Key>::result
 {
