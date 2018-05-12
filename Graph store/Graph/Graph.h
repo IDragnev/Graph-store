@@ -16,9 +16,9 @@ class Graph
 private:
 	class KeyAccessor; //TODO: remove this declaration afterwards
 
-	typedef Hash<Vertex*, String, KeyAccessor> VertexHashTable;
+	typedef Hash<Vertex, String, KeyAccessor> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
-	typedef DArray<Vertex*>::DArrayIterator<Vertex*> VertexIterator;
+	typedef DArray<Vertex*>::Iterator VertexIterator;
 
 protected:
 	typedef Iterator<Vertex*> AbstractVertexIterator;
