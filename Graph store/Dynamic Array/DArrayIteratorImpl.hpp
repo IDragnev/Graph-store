@@ -1,7 +1,7 @@
 
 template <typename T>
-template <typename Item>
-DArray<T>::DArrayIterator<Item>::DArrayIterator(typename DArray<T>::sizeType startPosition, DArray<Item>* owner) :
+template <typename Item, bool isConst>
+DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(typename DArray<T>::sizeType startPosition, ownerPtr owner) :
 	current(startPosition),
 	owner(owner)
 {
@@ -9,16 +9,27 @@ DArray<T>::DArrayIterator<Item>::DArrayIterator(typename DArray<T>::sizeType sta
 
 
 template <typename T>
-template <typename Item>
-inline Item& DArray<T>::DArrayIterator<Item>::operator*() const
+template <typename Item, bool isConst>
+DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIterator<Item, false>& source) :
+	current(source.current),
+	owner(source.owner)
+{
+}
+
+
+template <typename T>
+template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>::reference 
+DArray<T>::DArrayIterator<Item, isConst>::operator*() const
 {
 	return getCurrent();
 }
 
 
 template <typename T>
-template <typename Item>
-inline typename DArray<T>::DArrayIterator<Item>& DArray<T>::DArrayIterator<Item>::operator++()
+template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>& 
+DArray<T>::DArrayIterator<Item, isConst>::operator++()
 {
 	goToNext();
 
@@ -27,10 +38,11 @@ inline typename DArray<T>::DArrayIterator<Item>& DArray<T>::DArrayIterator<Item>
 
 
 template <typename T>
-template <typename Item>
-inline typename DArray<T>::DArrayIterator<Item> DArray<T>::DArrayIterator<Item>::operator++(int)
+template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>
+DArray<T>::DArrayIterator<Item, isConst>::operator++(int)
 {
-	DArrayIterator<Item> temporary(*this);
+	DArrayIterator<Item, isConst> temporary(*this);
 
 	++(*this);
 
@@ -39,51 +51,55 @@ inline typename DArray<T>::DArrayIterator<Item> DArray<T>::DArrayIterator<Item>:
 
 
 template <typename T>
-template <typename Item>
-inline DArray<T>::DArrayIterator<Item>::operator bool() const
+template <typename Item, bool isConst>
+inline DArray<T>::DArrayIterator<Item, isConst>::operator bool() const
 {
 	return !isFinished();
 }
 
 
 template <typename T>
-template <typename Item>
-inline bool DArray<T>::DArrayIterator<Item>::operator!() const
+template <typename Item, bool isConst>
+inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const
 {
 	return isFinished();
 }
 
 
 template <typename T>
-template <typename Item>
-inline void DArray<T>::DArrayIterator<Item>::goToNext()
+template <typename Item, bool isConst>
+inline void DArray<T>::DArrayIterator<Item, isConst>::goToNext()
 {
 	if (!isFinished())
+	{
 		++current;
+	}
 }
 
 
 template <typename T>
-template <typename Item>
-inline Item& DArray<T>::DArrayIterator<Item>::getCurrent() const
+template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>::reference 
+DArray<T>::DArrayIterator<Item, isConst>::getCurrent() const
 {
 	return (*owner)[current];
 }
 
 
 template <typename T>
-template <typename Item>
-inline bool DArray<T>::DArrayIterator<Item>::isFinished() const
+template <typename Item, bool isConst>
+inline bool DArray<T>::DArrayIterator<Item, isConst>::isFinished() const
 {
 	return current >= owner->count;
 }
 
 
 template <typename T>
-template <typename Item>
-inline Iterator<Item>* DArray<T>::DArrayIterator<Item>::clone() const
+template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>::baseIterator* 
+DArray<T>::DArrayIterator<Item, isConst>::clone() const
 {
-	return new DArrayIterator<Item>(*this);
+	return new DArrayIterator<Item, isConst>(*this);
 }
 
 
