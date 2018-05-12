@@ -6,9 +6,9 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace DArraytest
 {		
-	void fillArray(DArray<int>& arr, int count, int first = 0, int step = 1)
+	void fillArrayWithNItemsAndStep(DArray<int>& arr, int count, int step = 1)
 	{
-		for (int i = first; i < count; i += step)
+		for (int i = 0; i < count; i += step)
 			arr.insert(i);
 	}
 
@@ -61,7 +61,7 @@ namespace DArraytest
 		TEST_METHOD(GlobalSizeModifyingFunctions)
 		{
 			DArray<int> dArray(INITIAL_SIZE);
-			fillArray(dArray, INITIAL_SIZE + 1);
+			fillArrayWithNItemsAndStep(dArray, INITIAL_SIZE + 1);
 
 			Assert::IsTrue(dArray.getSize() > INITIAL_SIZE);
 			Assert::IsTrue(dArray.getCount() == INITIAL_SIZE + 1);
@@ -90,7 +90,7 @@ namespace DArraytest
 		TEST_METHOD(CopyCtorFromNonEmptyArgument)
 		{
 			DArray<int> source(INITIAL_SIZE);
-			fillArray(source, INITIAL_SIZE + 10);
+			fillArrayWithNItemsAndStep(source, INITIAL_SIZE + 10);
 
 			DArray<int> destination(source);
 
@@ -114,7 +114,7 @@ namespace DArraytest
 			DArray<int> source(INITIAL_SIZE);
 
 			const size_t insertedItems = INITIAL_SIZE - 5;
-			fillArray(source, insertedItems);
+			fillArrayWithNItemsAndStep(source, insertedItems);
 
 			DArray<int> destination(std::move(source));
 
@@ -144,7 +144,7 @@ namespace DArraytest
 		TEST_METHOD(CopyAssignmentEmptyToNonEmpty)
 		{
 			DArray<int> destination;
-			fillArray(destination, INITIAL_SIZE);
+			fillArrayWithNItemsAndStep(destination, INITIAL_SIZE);
 
 			DArray<int> source;
 
@@ -157,7 +157,7 @@ namespace DArraytest
 		TEST_METHOD(CopyAssignmentNonEmptyToEmpty)
 		{
 			DArray<int> source(INITIAL_SIZE);
-			fillArray(source, INITIAL_SIZE);
+			fillArrayWithNItemsAndStep(source, INITIAL_SIZE);
 
 			DArray<int> destination;
 			destination = source;
@@ -168,10 +168,10 @@ namespace DArraytest
 		TEST_METHOD(CopyAssignmentNonEmptyToNonEmpty)
 		{
 			DArray<int> source(INITIAL_SIZE);
-			fillArray(source, INITIAL_SIZE);
+			fillArrayWithNItemsAndStep(source, INITIAL_SIZE);
 
 			DArray<int> destination;
-			fillArray(destination, INITIAL_SIZE - 5, 0, 5);
+			fillArrayWithNItemsAndStep(destination, INITIAL_SIZE - 5, 5);
 
 			destination = source;
 
@@ -194,7 +194,7 @@ namespace DArraytest
 		TEST_METHOD(MoveAssignmentEmptyToNonEmpty)
 		{
 			DArray<int> destination;
-			fillArray(destination, INITIAL_SIZE);
+			fillArrayWithNItemsAndStep(destination, INITIAL_SIZE);
 
 			DArray<int> source;
 
@@ -209,7 +209,7 @@ namespace DArraytest
 			DArray<int> source(INITIAL_SIZE);
 
 			const size_t insertedItemsCount = INITIAL_SIZE - 5;
-			fillArray(source, insertedItemsCount);
+			fillArrayWithNItemsAndStep(source, insertedItemsCount);
 
 			DArray<int> destination;
 			destination = std::move(source);
@@ -229,10 +229,10 @@ namespace DArraytest
 			DArray<int> source(INITIAL_SIZE);
 
 			const size_t insertedItemsToSourceCount = INITIAL_SIZE - 5;
-			fillArray(source, insertedItemsToSourceCount);
+			fillArrayWithNItemsAndStep(source, insertedItemsToSourceCount);
 
 			DArray<int> destination;
-			fillArray(destination, INITIAL_SIZE, 0, 5);
+			fillArrayWithNItemsAndStep(destination, INITIAL_SIZE, 5);
 
 			destination = std::move(source);
 
@@ -253,7 +253,7 @@ namespace DArraytest
 	
 			DArray<int> source(INITIAL_SIZE);
 			const size_t insertedItemsToSourceCount = INITIAL_SIZE - 5;
-			fillArray(source, insertedItemsToSourceCount);
+			fillArrayWithNItemsAndStep(source, insertedItemsToSourceCount);
 
 			destination.insert(source);
 
@@ -311,6 +311,39 @@ namespace DArraytest
 					dArray.insertAt(position, i);
 					Assert::IsTrue(dArray[position] == i);
 				}
+			}
+		}
+
+		TEST_METHOD(IteratorTest)
+		{
+			DArray<int> darr;
+			fillArrayWithNItemsAndStep(darr, INITIAL_SIZE, 1);
+
+			DArray<int>::Iterator iterator = darr.getHeadIterator();
+
+			int i = 0;
+			while (iterator)
+			{
+				Assert::IsTrue(*iterator == i);
+				++i;
+				++iterator;
+			}
+		}
+
+
+		TEST_METHOD(ConstIteratorTest)
+		{
+			DArray<int> darr;
+			fillArrayWithNItemsAndStep(darr, INITIAL_SIZE, 1);
+
+			DArray<int>::ConstIterator iterator = darr.getHeadConstIterator();
+
+			int i = 0;
+			while (iterator)
+			{
+				Assert::IsTrue(*iterator == i);
+				++i;
+				++iterator;
 			}
 		}
 	};
