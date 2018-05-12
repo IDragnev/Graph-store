@@ -10,13 +10,7 @@ typedef specialInteger<unsigned> Distance; //TODO: move this typedef to the Grap
 
 class Vertex
 {
-private:
 	friend class Graph;
-
-	typedef size_t Handle;
-	typedef SinglyLinkedList<Edge> EdgeList;
-	typedef SinglyLinkedListIterator<Edge> EdgeIterator;
-
 public:
 	bool isVisited() const;
 	void markAsVisited();
@@ -32,20 +26,18 @@ public:
 	void setDistanceToSource(const Distance& distance);
 
 private:
-	Vertex(String ID, Handle index);
+	Vertex(String ID, size_t index);
 	~Vertex() = default;
 
 	Vertex(const Vertex& source) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
 
-	EdgeIterator getEdgeIterator();
-
 	void setID(String ID);
 
 private:
-	Handle index;
+	size_t index;
 	String id;
-	EdgeList edges;
+	SinglyLinkedList<Edge> edges;
 	Vertex* parentInAlgorithmTree;
 	Distance distanceToSource;
 	bool visited;

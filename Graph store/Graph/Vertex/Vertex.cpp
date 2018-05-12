@@ -1,7 +1,7 @@
 #include "Vertex.h"
 
 
-Vertex::Vertex(String ID, Handle index) :
+Vertex::Vertex(String ID, size_t index) :
 	index(index),
 	id(),
 	edges(),
@@ -47,12 +47,6 @@ void Vertex::markAsNotVisited()
 void Vertex::markAsVisited()
 {
 	visited = true;
-}
-
-
-typename Vertex::EdgeIterator Vertex::getEdgeIterator()
-{
-	return edges.getHeadIterator();
 }
 
 
