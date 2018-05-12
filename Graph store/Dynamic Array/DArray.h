@@ -15,7 +15,7 @@ private:
 	typedef size_t sizeType;
 
 public:
-	template <typename Item, bool isConst>
+	template <typename Item, bool isConst = false>
 	class DArrayIterator : public selectBaseIterator<isConst, Item>::result
 	{
 	private:
@@ -51,6 +51,9 @@ public:
 	};
 
 public:
+	typedef DArrayIterator<T, false> Iterator;
+	typedef DArrayIterator<T, true> ConstIterator;
+
 	DArray();
 	explicit DArray(sizeType size, sizeType count = 0);
 	DArray(DArray<T>&& source);
@@ -61,7 +64,8 @@ public:
 	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
-	DArrayIterator<T> getHeadIterator(); //TODO : typedef DArrayIterator<T> Iterator;
+	Iterator getHeadIterator();
+	ConstIterator getHeadConstIterator() const;
 	sizeType getSize() const;
 	sizeType getCount() const;
 	bool isEmpty() const;

@@ -299,7 +299,14 @@ inline T* DArray<T>::getItems()
 
 
 template <typename T>
-inline typename DArray<T>::DArrayIterator<T> DArray<T>::getHeadIterator()
+inline typename DArray<T>::Iterator DArray<T>::getHeadIterator()
 {
-	return DArrayIterator<T>(0, this);
+	return Iterator(0, this);
+}
+
+
+template <typename T>
+inline typename DArray<T>::ConstIterator DArray<T>::getHeadConstIterator() const
+{
+	return ConstIterator(0, this);
 }
