@@ -12,7 +12,7 @@ namespace DArraytest
 			arr.insert(i);
 	}
 
-	bool areEqual(DArray<int>& lhs, DArray<int>& rhs)
+	bool areEqual(const DArray<int>& lhs, const DArray<int>& rhs)
 	{
 		if (lhs.getSize() != rhs.getSize()) 
 			return false;
@@ -32,7 +32,7 @@ namespace DArraytest
 	}
 
 
-	bool areSizeAndCountZero(DArray<int>& dArray)
+	bool areSizeAndCountZero(const DArray<int>& dArray)
 	{
 		return dArray.getCount() == 0 && dArray.getSize() == 0;
 	}
@@ -40,11 +40,14 @@ namespace DArraytest
 
 	TEST_CLASS(DArrayTest)
 	{
+	private:
+		static const size_t INITIAL_SIZE = 50;
+
 	public:
 		
 		TEST_METHOD(ConstructorTest)
 		{
-			for (size_t size = 0; size < 50; ++size)
+			for (size_t size = 0; size < INITIAL_SIZE; ++size)
 			{
 				for (size_t count = 0; count <= size; ++count)
 				{
@@ -57,21 +60,21 @@ namespace DArraytest
 
 		TEST_METHOD(GlobalSizeModifyingFunctions)
 		{
-			DArray<int> dArray(16);
-			fillArray(dArray, 17);
+			DArray<int> dArray(INITIAL_SIZE);
+			fillArray(dArray, INITIAL_SIZE + 1);
 
-			Assert::IsTrue(dArray.getSize() > 16);
-			Assert::IsTrue(dArray.getCount() == 17);
+			Assert::IsTrue(dArray.getSize() > INITIAL_SIZE);
+			Assert::IsTrue(dArray.getCount() == INITIAL_SIZE + 1);
 
 			dArray.empty();
 			Assert::IsTrue(dArray.isEmpty());
 			Assert::IsTrue(dArray.getSize() == 0);
 
-			dArray.ensureSize(64);
-			Assert::IsTrue(dArray.getSize() == 64);
+			dArray.ensureSize(INITIAL_SIZE + 30);
+			Assert::IsTrue(dArray.getSize() == (INITIAL_SIZE + 30));
 
-			dArray.shrink(32);
-			Assert::IsTrue(dArray.getSize() == 32);
+			dArray.shrink(INITIAL_SIZE);
+			Assert::IsTrue(dArray.getSize() == INITIAL_SIZE);
 		}
 
 
@@ -84,11 +87,10 @@ namespace DArraytest
 		}
 
 
-
 		TEST_METHOD(CopyCtorFromNonEmptyArgument)
 		{
-			DArray<int> source(16);
-			fillArray(source, 10);
+			DArray<int> source(INITIAL_SIZE);
+			fillArray(source, INITIAL_SIZE + 10);
 
 			DArray<int> destination(source);
 
@@ -109,18 +111,20 @@ namespace DArraytest
 
 		TEST_METHOD(MoveConstructorFromNonEmpty)
 		{
-			DArray<int> source(35);
-			fillArray(source, 30);
+			DArray<int> source(INITIAL_SIZE);
+
+			const size_t insertedItems = INITIAL_SIZE - 5;
+			fillArray(source, insertedItems);
 
 			DArray<int> destination(std::move(source));
 
 			Assert::IsTrue(areSizeAndCountZero(source));
 
-			Assert::IsTrue(destination.getCount() == 30);
-			Assert::IsTrue(destination.getSize() == 35);
+			Assert::IsTrue(destination.getCount() == insertedItems);
+			Assert::IsTrue(destination.getSize() == INITIAL_SIZE);
 			Assert::IsFalse(destination.isEmpty());
 
-			for (int i = 0; i < 30; ++i)
+			for (int i = 0; i < insertedItems; ++i)
 				Assert::IsTrue(destination[i] == i);
 
 		}
@@ -140,7 +144,7 @@ namespace DArraytest
 		TEST_METHOD(CopyAssignmentEmptyToNonEmpty)
 		{
 			DArray<int> destination;
-			fillArray(destination, 20);
+			fillArray(destination, INITIAL_SIZE);
 
 			DArray<int> source;
 
@@ -152,8 +156,8 @@ namespace DArraytest
 
 		TEST_METHOD(CopyAssignmentNonEmptyToEmpty)
 		{
-			DArray<int> source(30);
-			fillArray(source, 27);
+			DArray<int> source(INITIAL_SIZE);
+			fillArray(source, INITIAL_SIZE);
 
 			DArray<int> destination;
 			destination = source;
@@ -163,11 +167,11 @@ namespace DArraytest
 
 		TEST_METHOD(CopyAssignmentNonEmptyToNonEmpty)
 		{
-			DArray<int> source(30);
-			fillArray(source, 27);
+			DArray<int> source(INITIAL_SIZE);
+			fillArray(source, INITIAL_SIZE);
 
 			DArray<int> destination;
-			fillArray(destination, 20, 0, 5);
+			fillArray(destination, INITIAL_SIZE - 5, 0, 5);
 
 			destination = source;
 
@@ -190,7 +194,7 @@ namespace DArraytest
 		TEST_METHOD(MoveAssignmentEmptyToNonEmpty)
 		{
 			DArray<int> destination;
-			fillArray(destination, 40);
+			fillArray(destination, INITIAL_SIZE);
 
 			DArray<int> source;
 
@@ -202,68 +206,72 @@ namespace DArraytest
 
 		TEST_METHOD(MoveAssignmentNonEmptyToEmpty)
 		{
-			DArray<int> source(30);
-			fillArray(source, 27);
+			DArray<int> source(INITIAL_SIZE);
+
+			const size_t insertedItemsCount = INITIAL_SIZE - 5;
+			fillArray(source, insertedItemsCount);
 
 			DArray<int> destination;
 			destination = std::move(source);
 
 			Assert::IsTrue(areSizeAndCountZero(source));
 
-			Assert::IsTrue(destination.getCount() == 27);
-			Assert::IsTrue(destination.getSize() == 30);
+			Assert::IsTrue(destination.getCount() == insertedItemsCount);
+			Assert::IsTrue(destination.getSize() == INITIAL_SIZE);
 			Assert::IsFalse(destination.isEmpty());
 
-			for (int i = 0; i < 27; ++i)
+			for (int i = 0; i < insertedItemsCount; ++i)
 				Assert::IsTrue(destination[i] == i);
 		}
 
 		TEST_METHOD(MoveAssignmentNonEmptyToNonEmpty)
 		{
-			DArray<int> source(30);
-			fillArray(source, 27);
+			DArray<int> source(INITIAL_SIZE);
+
+			const size_t insertedItemsToSourceCount = INITIAL_SIZE - 5;
+			fillArray(source, insertedItemsToSourceCount);
 
 			DArray<int> destination;
-			fillArray(destination, 7, 0, 5);
+			fillArray(destination, INITIAL_SIZE, 0, 5);
 
 			destination = std::move(source);
 
 			Assert::IsTrue(areSizeAndCountZero(source));
 
-			Assert::IsTrue(destination.getCount() == 27);
-			Assert::IsTrue(destination.getSize() == 30);
+			Assert::IsTrue(destination.getCount() == insertedItemsToSourceCount);
+			Assert::IsTrue(destination.getSize() == INITIAL_SIZE);
 			Assert::IsFalse(destination.isEmpty());
 
-			for (int i = 0; i < 27; ++i)
+			for (int i = 0; i < insertedItemsToSourceCount; ++i)
 				Assert::IsTrue(destination[i] == i);
 		}
 
 
 		TEST_METHOD(ArrayInsertionTest)
 		{
-			DArray<int> destination(8);
-			fillArray(destination, 5);
-
-			DArray<int> source(10);
-			fillArray(source, 10, 5, 1);
+			DArray<int> destination(INITIAL_SIZE);
+	
+			DArray<int> source(INITIAL_SIZE);
+			const size_t insertedItemsToSourceCount = INITIAL_SIZE - 5;
+			fillArray(source, insertedItemsToSourceCount);
 
 			destination.insert(source);
 
-			Assert::IsTrue(destination.getCount() == 5 + source.getCount());
+			Assert::IsTrue(destination.getCount() == source.getCount());
 		
-			for (int i = 0; i < 10; ++i)
+			for (int i = 0; i < insertedItemsToSourceCount; ++i)
 				Assert::IsTrue(destination[i] == i);
 		}
 
 
 		TEST_METHOD(AddingAndRemoval)
 		{
-			DArray<int> dArray(16);
+			DArray<int> dArray(INITIAL_SIZE);
 
-			for (int i = 1; i < 11; ++i)
+			for (int i = 1; i < INITIAL_SIZE; ++i)
 			{
 				dArray.insert(i);
-				Assert::IsTrue(dArray.getSize() == 16);
+				Assert::IsTrue(dArray.getSize() == INITIAL_SIZE);
 				Assert::IsTrue(dArray.getCount() == i);
 				Assert::IsFalse(dArray.isEmpty());
 				Assert::IsTrue(dArray[i - 1] == i);
@@ -271,7 +279,7 @@ namespace DArraytest
 
 			int count = dArray.getCount();
 
-			for (int i = 1; i < 11; ++i)
+			for (int i = 1; i < INITIAL_SIZE; ++i)
 			{
 				dArray.remove(0);
 				Assert::IsTrue(dArray.getCount() == --count);
@@ -283,10 +291,10 @@ namespace DArraytest
 
 		TEST_METHOD(InsertAtTest)
 		{
-			DArray<int> dArray(16);
+			DArray<int> dArray(INITIAL_SIZE);
 
 			//inserting back
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < INITIAL_SIZE; ++i)
 			{
 				dArray.insertAt(i, i);
 				Assert::IsTrue(dArray.getCount() == i + 1);
@@ -296,12 +304,12 @@ namespace DArraytest
 			int count = dArray.getCount();
 
 			//inserting between the elements
-			for (int i = 0; i < 10; ++i)
+			for (int i = 0; i < INITIAL_SIZE; ++i)
 			{
-				for (int j = count; j >= 0; --j)
+				for (int position = count; position >= 0; --position)
 				{
-					dArray.insertAt(j, i);
-					Assert::IsTrue(dArray[j] == i);
+					dArray.insertAt(position, i);
+					Assert::IsTrue(dArray[position] == i);
 				}
 			}
 		}
