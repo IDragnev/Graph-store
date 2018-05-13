@@ -56,6 +56,12 @@ protected:
 	static bool existsAnEdgeFromTo(const Vertex& lhs, const Vertex& rhs);
 
 private:
+	Graph(const Graph& source) = delete;
+	Graph(Graph&& source) = delete;
+	Graph& operator=(Graph&& rhs) = delete;
+	Graph& operator=(const Graph& rhs) = delete;
+
+private:
 	String id;
 	VertexArray vertices;
 	VertexHashTable verticesSearchTable;
