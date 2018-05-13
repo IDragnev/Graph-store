@@ -27,13 +27,22 @@ protected:
 	typedef ConstIterator<Edge> AbstractEdgeConstIterator;
 
 public:
-	/*
-	.
-	.
-	.
-	.
-	.
-	*/
+	virtual ~Graph(); // (!) must free vertices
+
+	const String& getID() const;
+
+	AbstractVertexIterator* getVerticesIterator();
+	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);
+	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;
+
+	Vertex& getVertexWithID(const char* ID);
+	const Vertex& getVertexWithID(const char* ID) const;
+
+	void removeVertex(const char* ID);
+	void insertVertex(const char* ID);
+
+	virtual void insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight = 1) = 0;
+	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
 
 private:
 	String id;
