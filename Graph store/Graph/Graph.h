@@ -19,10 +19,12 @@ private:
 	typedef Hash<Vertex, String, KeyAccessor> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
 	typedef DArray<Vertex*>::Iterator VertexIterator;
+	typedef size_t VertexHandle;
 
 protected:
 	typedef Iterator<Vertex*> AbstractVertexIterator;
 	typedef Iterator<Edge> AbstractEdgeIterator;
+	typedef ConstIterator<Edge> AbstractEdgeConstIterator;
 
 public:
 	/*
