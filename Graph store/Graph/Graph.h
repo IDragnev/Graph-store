@@ -32,8 +32,8 @@ public:
 	const String& getID() const;
 
 	AbstractVertexIterator* getVerticesIterator();
-	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);
-	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;
+	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);   // OWNERSHIP : VALIDATE THE VERTEX (!)
+	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;   // OWNERSHIP : VALIDATE THE VERTEX (!)
 
 	Vertex& getVertexWithID(const char* ID);
 	const Vertex& getVertexWithID(const char* ID) const;
@@ -43,6 +43,17 @@ public:
 
 	virtual void insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight = 1) = 0;
 	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
+
+protected:
+	Graph(String ID);
+
+	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
+
+	static void removeEdgeFromToNoThrow(Vertex& lhs, Vertex& rhs);
+	static void removeEdgeFromTo(Vertex& lhs, Vertex& rhs);
+
+	bool existsVertexWithID(const char* ID) const;
+	static bool existsAnEdgeFromTo(const Vertex& lhs, const Vertex& rhs);
 
 private:
 	String id;
