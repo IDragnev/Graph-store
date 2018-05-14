@@ -1,5 +1,5 @@
 #include "Graph.h"
-
+#include <assert.h>
 
 Graph::Graph(String ID) :
 	id(),
@@ -118,3 +118,38 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 	return vertexFromEdgesIterator;
 }
 
+
+//
+//not const becase the search table's search method is not const
+//
+bool Graph::existsVertexWithID(const char* ID) 
+{
+	return verticesSearchTable.search(ID) != nullptr;
+}
+
+
+void Graph::insertToVertices(Vertex& vertex)
+{
+	assert(vertex.index == vertices.getCount());
+
+	vertices.insert(&vertex);
+}
+
+
+void Graph::insertToVerticesSearchTable(Vertex& vertex)
+{
+	verticesSearchTable.insert(vertex);
+}
+
+
+//void Graph::removeFromVertices(Vertex& vertexToRemove)
+//{
+//	size_t lastVertexIndex = vertices.getCount();
+//
+//	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
+//
+//	vertices.remove(lastVertexIndex);
+//
+//	Vertex* vertexAtThisPosition = vertices[vertexToRemove.index];
+//	vertexAtThisPosition->index = vertexToRemove.index;
+//}

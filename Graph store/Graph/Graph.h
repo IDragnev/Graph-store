@@ -54,7 +54,7 @@ protected:
 	static void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
-	bool existsVertexWithID(const char* ID) const;
+	bool existsVertexWithID(const char* ID);
 	static bool existsAnEdgeFromTo(const Vertex& vertexFrom, const Vertex& vertexTo);
 
 private:
