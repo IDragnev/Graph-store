@@ -32,18 +32,18 @@ public:
 
 	const String& getID() const;
 
-	AbstractVertexIterator* getVerticesIterator();
-	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);   // OWNERSHIP : VALIDATE THE VERTEX (!)
-	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;   // OWNERSHIP : VALIDATE THE VERTEX (!)
+	void insertVertexWithID(const char* ID);
+	void removeVertexWithID(const char* ID);
+
+	virtual void insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight = 1) = 0;
+	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
 	const Vertex& getVertexWithID(const char* ID) const;
 
-	void removeVertex(const char* ID);
-	void insertVertex(const char* ID);
-
-	virtual void insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight = 1) = 0;
-	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
+	AbstractVertexIterator* getVerticesIterator();
+	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);   // OWNERSHIP : VALIDATE THE VERTEX (!)
+	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;   // OWNERSHIP : VALIDATE THE VERTEX (!)
 
 protected:
 	Graph(String ID);
@@ -62,8 +62,9 @@ private:
 	Graph& operator=(Graph&& rhs) = delete;
 	Graph& operator=(const Graph& rhs) = delete;
 
-	void setID(String ID);
-
+	static EdgeIterator getEdgeFromTo(Vertex& lhs, Vertex& rhs);
+	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
+	
 	void insertToVertices(Vertex& vertex);
 	void removeFromVertices(Vertex& vertex);
 	void insertToVerticesSearchTable(Vertex& vertex);
@@ -74,8 +75,7 @@ private:
 	static Vertex* createVertex(const char* ID);
 	static void deleteVertex(Vertex* vertex);
 
-	static EdgeIterator getEdgeFromTo(Vertex& lhs, Vertex& rhs);
-	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
+	void setID(String ID);
 
 private:
 	static const size_t LEAST_VERTICES_EXPECTED = 32;
