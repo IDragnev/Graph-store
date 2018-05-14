@@ -19,6 +19,7 @@ private:
 	typedef Hash<Vertex, String, KeyAccessor> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
 	typedef DArray<Vertex*>::Iterator VertexIterator;
+	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef size_t VertexHandle;
 
 protected:
@@ -60,6 +61,21 @@ private:
 	Graph(Graph&& source) = delete;
 	Graph& operator=(Graph&& rhs) = delete;
 	Graph& operator=(const Graph& rhs) = delete;
+
+	void setID(String ID);
+
+	void insertToVertices(Vertex& vertex);
+	void removeFromVertices(Vertex& vertex);
+	void insertToVerticesSearchTable(Vertex& vertex);
+	void removeFromVerticesSearchTable(Vertex& vertex);
+
+	VertexHandle getAppropriateVertexHandle() const;
+
+	static Vertex* createVertex(const char* ID);
+	static void deleteVertex(Vertex* vertex);
+
+	static EdgeIterator getEdgeFromTo(Vertex& lhs, Vertex& rhs);
+	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 
 private:
 	String id;
