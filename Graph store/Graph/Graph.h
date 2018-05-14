@@ -20,6 +20,7 @@ private:
 	typedef DArray<Vertex*> VertexArray;
 	typedef DArray<Vertex*>::Iterator VertexIterator;
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
+	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
 	typedef size_t VertexHandle;
 
 protected:
@@ -50,11 +51,11 @@ protected:
 
 	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
 
-	static void removeEdgeFromToNoThrow(Vertex& lhs, Vertex& rhs);
-	static void removeEdgeFromTo(Vertex& lhs, Vertex& rhs);
+	static void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
+	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
 	bool existsVertexWithID(const char* ID) const;
-	static bool existsAnEdgeFromTo(const Vertex& lhs, const Vertex& rhs);
+	static bool existsAnEdgeFromTo(const Vertex& vertexFrom, const Vertex& vertexTo);
 
 private:
 	Graph(const Graph& source) = delete;
@@ -62,7 +63,7 @@ private:
 	Graph& operator=(Graph&& rhs) = delete;
 	Graph& operator=(const Graph& rhs) = delete;
 
-	static EdgeIterator getEdgeFromTo(Vertex& lhs, Vertex& rhs);
+	static EdgeIterator getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 	
 	void insertToVertices(Vertex& vertex);
