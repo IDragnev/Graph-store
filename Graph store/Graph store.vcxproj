@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graph\Edge\Edge.cpp" />
+    <ClCompile Include="Graph\Graph.cpp" />
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="String\String.cpp" />

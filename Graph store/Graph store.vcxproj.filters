@@ -62,6 +62,9 @@
     <ClCompile Include="Graph\Vertex\Vertex.cpp">
       <Filter>Graph\Vertex</Filter>
     </ClCompile>
+    <ClCompile Include="Graph\Graph.cpp">
+      <Filter>Graph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">

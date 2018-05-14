@@ -28,7 +28,7 @@ protected:
 	typedef ConstIterator<Edge> AbstractEdgeConstIterator;
 
 public:
-	virtual ~Graph(); // (!) must free vertices
+	virtual ~Graph();
 
 	const String& getID() const;
 
