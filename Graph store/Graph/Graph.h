@@ -78,6 +78,9 @@ private:
 	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 
 private:
+	static const size_t LEAST_VERTICES_EXPECTED = 32;
+
+private:
 	String id;
 	VertexArray vertices;
 	VertexHashTable verticesSearchTable;
