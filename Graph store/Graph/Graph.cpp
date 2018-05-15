@@ -168,3 +168,21 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 		vertices.remove(vertexToRemove.index);
 	}
 }
+
+
+Vertex* Graph::createVertex(const char* ID) const
+{
+	return new Vertex(ID, getAppropriateVertexHandle());
+}
+
+
+Graph::VertexHandle Graph::getAppropriateVertexHandle() const
+{
+	return vertices.getCount();
+}
+
+
+void Graph::deleteVertex(Vertex* vertex)
+{
+	delete vertex;
+}
