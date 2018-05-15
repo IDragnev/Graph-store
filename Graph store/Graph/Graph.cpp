@@ -34,7 +34,7 @@ void Graph::insertVertexWithID(const char* ID)
 	}
 	else
 	{
-		//TODO: Graph exception class?
+		//TODO: Graph exception class
 		throw std::invalid_argument("A vertex with such ID already exists in " + this->id);
 	}
 }
@@ -93,7 +93,7 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 	}
 	else if (throwIfEdgeDoesNotExist)
 	{
-		//TODO: Graph exception class?
+		//TODO: Graph exception class
 		throw std::invalid_argument("There is no edge from " + vertexFrom.id + " to " + vertexTo.id);
 	}
 }
@@ -142,14 +142,29 @@ void Graph::insertToVerticesSearchTable(Vertex& vertex)
 }
 
 
-//void Graph::removeFromVertices(Vertex& vertexToRemove)
-//{
-//	size_t lastVertexIndex = vertices.getCount();
-//
-//	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
-//
-//	vertices.remove(lastVertexIndex);
-//
-//	Vertex* vertexAtThisPosition = vertices[vertexToRemove.index];
-//	vertexAtThisPosition->index = vertexToRemove.index;
-//}
+void Graph::removeFromVerticesSearchTable(const Vertex& vertex)
+{
+	verticesSearchTable.remove(vertex.id);
+}
+
+
+void Graph::removeFromVertices(const Vertex& vertexToRemove)
+{
+	assert(vertexToRemove.index < vertices.getCount());
+
+	const size_t lastVertexIndex = vertices.getCount() - 1;
+
+	if (vertexToRemove.index != lastVertexIndex)
+	{
+		std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
+
+		vertices.remove(lastVertexIndex);
+
+		Vertex* vertexAtItsPlace = vertices[vertexToRemove.index];
+		vertexAtItsPlace->index = vertexToRemove.index;
+	}
+	else
+	{
+		vertices.remove(vertexToRemove.index);
+	}
+}

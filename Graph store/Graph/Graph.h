@@ -42,7 +42,7 @@ public:
 	Vertex& getVertexWithID(const char* ID);
 	const Vertex& getVertexWithID(const char* ID) const;
 
-	AbstractVertexIterator* getVerticesIterator();
+	AbstractVertexIterator* getVerticesIterator(); //const iterator because it iterates on pointer references????
 	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);   // OWNERSHIP : VALIDATE THE VERTEX (!)
 	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;   // OWNERSHIP : VALIDATE THE VERTEX (!)
 
@@ -67,9 +67,9 @@ private:
 	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 	
 	void insertToVertices(Vertex& vertex);
-	void removeFromVertices(Vertex& vertex);
 	void insertToVerticesSearchTable(Vertex& vertex);
-	void removeFromVerticesSearchTable(Vertex& vertex);
+	void removeFromVertices(const Vertex& vertex);
+	void removeFromVerticesSearchTable(const Vertex& vertex);
 
 	VertexHandle getAppropriateVertexHandle() const;
 
