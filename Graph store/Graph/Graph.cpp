@@ -99,6 +99,22 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 }
 
 
+void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
+{
+	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
+
+	if (!iteratorToEdge)
+	{
+		vertexFrom.edges.insert(Edge(&vertexTo, weight));
+	}
+	else
+	{
+		//TODO: Graph exception class
+		throw std::invalid_argument("There already is an edge from " + vertexFrom.id + " to " + vertexTo.id);
+	}
+}
+
+
 Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 {
 	EdgeIterator vertexFromEdgesIterator = vertexFrom.edges.getHeadIterator();
