@@ -72,8 +72,7 @@ private:
 	void removeFromVerticesSearchTable(const Vertex& vertex);
 
 	VertexHandle getAppropriateVertexHandle() const;
-
-	static Vertex* createVertex(const char* ID);
+	Vertex* createVertex(const char* ID) const;
 	static void deleteVertex(Vertex* vertex);
 
 	void setID(String ID);
