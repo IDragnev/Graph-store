@@ -40,11 +40,10 @@ public:
 	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
-	const Vertex& getVertexWithID(const char* ID) const;
 
-	AbstractVertexIterator* getVerticesIterator(); //const iterator because it iterates on pointer references????
-	AbstractEdgeIterator* getIncidentEdgesOf(Vertex* vertex);   // OWNERSHIP : VALIDATE THE VERTEX (!)
-	AbstractEdgeConstIterator* getIncidentEdgesOf(const Vertex* vertex) const;   // OWNERSHIP : VALIDATE THE VERTEX (!)
+	AbstractVertexIterator* getVerticesIterator(); //const iterator because it iterates on pointer references?
+	AbstractEdgeIterator* getIteratorToIncidentEdgesOf(Vertex* vertex);  
+	AbstractEdgeConstIterator* getConstIteratorToIncidentEdgesOf(const Vertex* vertex) const;  
 
 protected:
 	Graph(String ID);

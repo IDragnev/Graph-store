@@ -21,6 +21,7 @@ void Vertex::setID(String ID)
 	}
 	else
 	{
+		//TODO: Graph exception class 
 		throw std::invalid_argument("Vertex ID must be a valid string");
 	}
 }

@@ -202,3 +202,59 @@ void Graph::deleteVertex(Vertex* vertex)
 {
 	delete vertex;
 }
+
+
+Vertex& Graph::getVertexWithID(const char* ID)
+{
+	Vertex* result = verticesSearchTable.search(ID);
+
+	if (result != nullptr)
+	{
+		return *result;
+	}
+	else
+	{
+		//TODO: Graph exception class
+		throw std::invalid_argument("No vertex with ID " + (String)ID + " in " + this->id);
+	}
+}
+
+
+Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex* vertex)
+{
+	assert(vertices[vertex->index] == vertex);
+
+	EdgeIterator iteratorToEdges = vertex->edges.getHeadIterator();
+	
+	return iteratorToEdges.clone();
+}
+
+
+Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const Vertex* vertex) const
+{
+	assert(vertices[vertex->index] == vertex);
+
+	EdgeConstIterator iteratorToEdges = vertex->edges.getHeadConstIterator();
+
+	return iteratorToEdges.clone();
+}
+
+
+const String& Graph::getID() const
+{
+	return id;
+}
+
+
+void Graph::setID(String ID)
+{
+	if (ID != String(""))
+	{
+		this->id = std::move(ID);
+	}
+	else
+	{
+		//TODO: Graph exception class 
+		throw std::invalid_argument("Graph ID must be a valid string");
+	}
+}
