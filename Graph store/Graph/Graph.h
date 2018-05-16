@@ -55,8 +55,7 @@ protected:
 	static void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight);
 
 	bool existsVertexWithID(const char* ID);
-	static bool existsAnEdgeFromTo(const Vertex& vertexFrom, const Vertex& vertexTo);
-
+	
 private:
 	Graph(const Graph& source) = delete;
 	Graph(Graph&& source) = delete;
