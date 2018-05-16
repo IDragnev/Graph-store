@@ -3,8 +3,8 @@
 
 Graph::Graph(String ID) :
 	id(),
-	vertices(LEAST_VERTICES_EXPECTED),
-	verticesSearchTable(LEAST_VERTICES_EXPECTED)
+	vertices(FEWEST_VERTICES_EXPECTED),
+	verticesSearchTable(FEWEST_VERTICES_EXPECTED)
 {
 	setID(ID);
 }

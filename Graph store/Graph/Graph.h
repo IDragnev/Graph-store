@@ -1,12 +1,10 @@
 #ifndef __BASE_GRAPH_H_INCLUDED__
 #define __BASE_GRAPH_H_INCLUDED__
 
-//members
 #include "../Hash/Hash.h"
 #include "../Dynamic Array/DArray.h"
 #include "../String/String.h"
 
-//nested types
 #include "Vertex\Vertex.h"
 #include "Edge\Edge.h"
 
@@ -77,7 +75,7 @@ private:
 	void setID(String ID);
 
 private:
-	static const size_t LEAST_VERTICES_EXPECTED = 32;
+	static const size_t FEWEST_VERTICES_EXPECTED = 32;
 
 private:
 	String id;
