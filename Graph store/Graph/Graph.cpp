@@ -192,7 +192,7 @@ Vertex* Graph::createVertex(const char* ID) const
 }
 
 
-Graph::VertexHandle Graph::getAppropriateVertexHandle() const
+size_t Graph::getAppropriateVertexHandle() const
 {
 	return vertices.getCount();
 }

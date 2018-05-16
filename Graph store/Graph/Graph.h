@@ -19,7 +19,6 @@ private:
 	typedef DArray<Vertex*>::ConstIterator VertexConstIterator;
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
-	typedef size_t VertexHandle;
 
 protected:
 	typedef ConstIterator<Vertex*> AbstractVertexConstIterator;
@@ -68,7 +67,7 @@ private:
 	void removeFromVertices(const Vertex& vertex);
 	void removeFromVerticesSearchTable(const Vertex& vertex);
 
-	VertexHandle getAppropriateVertexHandle() const;
+	size_t getAppropriateVertexHandle() const;
 	Vertex* createVertex(const char* ID) const;
 	static void deleteVertex(Vertex* vertex);
 
