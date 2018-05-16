@@ -240,6 +240,15 @@ Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const
 }
 
 
+Graph::AbstractVertexConstIterator* Graph::getIteratorToVertices()
+{
+	//ConstIterator because the actual pointers are iterated
+	VertexConstIterator constIterator = vertices.getHeadConstIterator();
+
+	return constIterator.clone();
+}
+
+
 const String& Graph::getID() const
 {
 	return id;
