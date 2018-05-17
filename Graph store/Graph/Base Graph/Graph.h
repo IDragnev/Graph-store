@@ -1,12 +1,12 @@
 #ifndef __BASE_GRAPH_H_INCLUDED__
 #define __BASE_GRAPH_H_INCLUDED__
 
-#include "../Hash/Hash.h"
-#include "../Dynamic Array/DArray.h"
-#include "../String/String.h"
+#include "../../Hash/Hash.h"
+#include "../../Dynamic Array/DArray.h"
+#include "../../String/String.h"
 
-#include "Vertex\Vertex.h"
-#include "Edge\Edge.h"
+#include "../Vertex/Vertex.h"
+#include "../Edge/Edge.h"
 
 
 class Graph
