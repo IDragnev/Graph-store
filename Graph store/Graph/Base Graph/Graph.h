@@ -40,8 +40,8 @@ public:
 	Vertex& getVertexWithID(const char* ID);
 
 	AbstractVertexConstIterator* getIteratorToVertices(); 
-	AbstractEdgeIterator* getIteratorToIncidentEdgesOf(Vertex* vertex);  
-	AbstractEdgeConstIterator* getConstIteratorToIncidentEdgesOf(const Vertex* vertex) const;  
+	AbstractEdgeIterator* getIteratorToIncidentEdgesOf(Vertex& vertex);  
+	AbstractEdgeConstIterator* getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  
 
 protected:
 	Graph(String ID);

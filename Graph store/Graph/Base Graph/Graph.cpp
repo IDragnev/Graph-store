@@ -220,21 +220,21 @@ Vertex& Graph::getVertexWithID(const char* ID)
 }
 
 
-Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex* vertex)
+Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 {
-	assert(vertices[vertex->index] == vertex);
+	assert(vertices[vertex.index] == &vertex);
 
-	EdgeIterator iteratorToEdges = vertex->edges.getHeadIterator();
+	EdgeIterator iteratorToEdges = vertex.edges.getHeadIterator();
 	
 	return iteratorToEdges.clone();
 }
 
 
-Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const Vertex* vertex) const
+Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
 {
-	assert(vertices[vertex->index] == vertex);
+	assert(vertices[vertex.index] == &vertex);
 
-	EdgeConstIterator iteratorToEdges = vertex->edges.getHeadConstIterator();
+	EdgeConstIterator iteratorToEdges = vertex.edges.getHeadConstIterator();
 
 	return iteratorToEdges.clone();
 }
