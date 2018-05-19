@@ -34,8 +34,7 @@ inline T Queue<T>::dequeue()
 template <typename T>
 inline T Queue<T>::peekHead() const
 {
-	if (isEmpty())
-		throw std::logic_error("Queue is empty");
+	assert(!isEmpty());
 
 	return theUnderlyingList.getHead();
 }
