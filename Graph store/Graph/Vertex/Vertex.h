@@ -6,7 +6,7 @@
 #include "../../Singly Linked List/SinglyLinkedList.h"
 #include "../Edge/Edge.h"
 
-typedef specialInteger<unsigned> Distance; //TODO: move this typedef to the Graph class ?
+typedef specialInteger<unsigned> Distance; 
 
 class Vertex
 {

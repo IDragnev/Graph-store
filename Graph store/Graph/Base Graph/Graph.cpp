@@ -54,7 +54,7 @@ void Graph::removeVertexWithID(const char* ID)
 
 
 //
-//the default implementation is for an unoriented graph:
+//the default implementation is for an undirected graph:
 //each of the vertex' neighbours has an edge to it
 //
 void Graph::removeFromAdjacencyLists(Vertex& vertex)

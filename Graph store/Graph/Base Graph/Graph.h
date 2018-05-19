@@ -16,12 +16,12 @@ private:
 
 	typedef Hash<Vertex, String, KeyAccessor> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
+
 	typedef DArray<Vertex*>::Iterator VertexIterator;
 	typedef DArray<Vertex*>::ConstIterator VertexConstIterator;
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
 
-protected:
 	typedef ConstIterator<Vertex*> AbstractVertexConstIterator;
 	typedef Iterator<Edge> AbstractEdgeIterator;
 	typedef ConstIterator<Edge> AbstractEdgeConstIterator;

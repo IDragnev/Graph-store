@@ -144,8 +144,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Graph\Base Graph\Graph.cpp" />
+    <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
     <ClCompile Include="Graph\Edge\Edge.cpp" />
-    <ClCompile Include="Graph\Graph.cpp" />
+    <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="String\String.cpp" />
@@ -154,8 +156,10 @@
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
+    <ClInclude Include="Graph\Base Graph\Graph.h" />
+    <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Edge\Edge.h" />
-    <ClInclude Include="Graph\Graph.h" />
+    <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Graph\Vertex\Vertex.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />

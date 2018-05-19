@@ -48,6 +48,15 @@
     <Filter Include="Type selector">
       <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\Base Graph">
+      <UniqueIdentifier>{b124285f-686f-476f-a3ed-ed840ec5f6f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Directed Graph">
+      <UniqueIdentifier>{d2dc9907-5c2b-415f-811f-5f902457ba3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Undirected Graph">
+      <UniqueIdentifier>{584e4b4f-481d-40f5-a2ff-49b320f0e11d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -62,8 +71,14 @@
     <ClCompile Include="Graph\Vertex\Vertex.cpp">
       <Filter>Graph\Vertex</Filter>
     </ClCompile>
-    <ClCompile Include="Graph\Graph.cpp">
-      <Filter>Graph</Filter>
+    <ClCompile Include="Graph\Base Graph\Graph.cpp">
+      <Filter>Graph\Base Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +145,6 @@
     <ClInclude Include="Graph\Edge\Edge.h">
       <Filter>Graph\Edge</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\Graph.h">
-      <Filter>Graph</Filter>
-    </ClInclude>
     <ClInclude Include="Iterator abstraction\ConstIterator.h">
       <Filter>Iterator abstraction</Filter>
     </ClInclude>
@@ -141,6 +153,15 @@
     </ClInclude>
     <ClInclude Include="Type selector\selectBaseIterator.h">
       <Filter>Type selector</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Directed Graph\DirectedGraph.h">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Base Graph\Graph.h">
+      <Filter>Graph\Base Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
