@@ -55,7 +55,7 @@ void Graph::removeVertexWithID(const char* ID)
 
 void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
 {
-	assert((vertices[vertexFrom.index] == &vertexFrom) && (vertices[vertexTo.index] == &vertexTo));
+	assert(isFromThisGraph(vertexFrom) && isFromThisGraph(vertexTo));
 
 	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
 
@@ -85,7 +85,7 @@ void Graph::removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo)
 
 void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist)
 {
-	assert((vertices[vertexFrom.index] == &vertexFrom) && (vertices[vertexTo.index] == &vertexTo));
+	assert(isFromThisGraph(vertexFrom) && isFromThisGraph(vertexTo));
 
 	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
 
@@ -107,6 +107,8 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 //
 void Graph::removeFromAdjacencyLists(Vertex& vertex)
 {
+	assert(isFromThisGraph(vertex));
+
 	EdgeConstIterator adjacentEdgesIterator = vertex.edges.getHeadConstIterator();
 
 	while (adjacentEdgesIterator)
@@ -145,6 +147,12 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 bool Graph::existsVertexWithID(const char* ID) 
 {
 	return verticesSearchTable.search(ID) != nullptr;
+}
+
+
+bool Graph::isFromThisGraph(const Vertex& vertex) const
+{
+	return vertices[vertex.index] == &vertex;
 }
 
 
@@ -226,7 +234,7 @@ Vertex& Graph::getVertexWithID(const char* ID)
 
 Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 {
-	assert(vertices[vertex.index] == &vertex);
+	assert(isFromThisGraph(vertex));
 
 	EdgeIterator iteratorToEdges = vertex.edges.getHeadIterator();
 	
@@ -236,7 +244,7 @@ Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 
 Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
 {
-	assert(vertices[vertex.index] == &vertex);
+	assert(isFromThisGraph(vertex));
 
 	EdgeConstIterator iteratorToEdges = vertex.edges.getHeadConstIterator();
 

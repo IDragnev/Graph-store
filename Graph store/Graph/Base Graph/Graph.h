@@ -50,7 +50,8 @@ protected:
 	void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 
 	bool existsVertexWithID(const char* ID);
-	
+	bool isFromThisGraph(const Vertex& vertex) const;
+
 private:
 	Graph(const Graph& source) = delete;
 	Graph(Graph&& source) = delete;
