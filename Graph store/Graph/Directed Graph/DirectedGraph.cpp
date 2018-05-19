@@ -10,20 +10,14 @@ DirectedGraph::DirectedGraph(const char* ID) :
 }
 
 
-void DirectedGraph::insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight)
+void DirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
 {
-	Vertex& vertexFrom = getVertexWithID(vertexFromID);
-	Vertex& vertexTo = getVertexWithID(vertexToID);
-
 	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
 }
 
 
-void DirectedGraph::removeEdgeFromTo(const char* vertexFromID, const char* vertexToID)
+void DirectedGraph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 {
-	Vertex& vertexFrom = getVertexWithID(vertexFromID);
-	Vertex& vertexTo = getVertexWithID(vertexToID);
-
 	Graph::removeEdgeFromTo(vertexFrom, vertexTo);
 }
 
