@@ -152,7 +152,7 @@ bool Graph::existsVertexWithID(const char* ID)
 
 bool Graph::isFromThisGraph(const Vertex& vertex) const
 {
-	return vertices[vertex.index] == &vertex;
+	return (vertex.index < vertices.getCount()) && (vertices[vertex.index] == &vertex);
 }
 
 
