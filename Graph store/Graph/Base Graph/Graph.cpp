@@ -172,13 +172,16 @@ void Graph::insertToVerticesSearchTable(Vertex& vertex)
 
 void Graph::removeFromVerticesSearchTable(const Vertex& vertex)
 {
+	//must first be removed from the search table!
+	assert(isFromThisGraph(vertex));
+
 	verticesSearchTable.remove(vertex.id);
 }
 
 
 void Graph::removeFromVertices(const Vertex& vertexToRemove)
 {
-	assert(vertexToRemove.index < vertices.getCount());
+	assert(isFromThisGraph(vertexToRemove));
 
 	const size_t lastVertexIndex = vertices.getCount() - 1;
 
