@@ -7,21 +7,15 @@ UndirectedGraph::UndirectedGraph(const char* ID) :
 }
 
 
-void UndirectedGraph::insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight)
+void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
 {
-	Vertex& vertexFrom = getVertexWithID(vertexFromID);
-	Vertex& vertexTo = getVertexWithID(vertexToID);
-
 	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
 	Graph::insertEdgeFromToWithWeight(vertexTo, vertexFrom, weight);
 }
 
 
-void UndirectedGraph::removeEdgeFromTo(const char* vertexFromID, const char* vertexToID)
+void UndirectedGraph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 {
-	Vertex& vertexFrom = getVertexWithID(vertexFromID);
-	Vertex& vertexTo = getVertexWithID(vertexToID);
-
 	Graph::removeEdgeFromTo(vertexFrom, vertexTo);
 	Graph::removeEdgeFromTo(vertexTo, vertexFrom);
 }
