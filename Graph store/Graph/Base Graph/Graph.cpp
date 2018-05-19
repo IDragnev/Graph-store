@@ -53,6 +53,24 @@ void Graph::removeVertexWithID(const char* ID)
 }
 
 
+void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
+{
+	assert((vertices[vertexFrom.index] == &vertexFrom) && (vertices[vertexTo.index] == &vertexTo));
+
+	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
+
+	if (!iteratorToEdge)
+	{
+		vertexFrom.edges.insert(Edge(&vertexTo, weight));
+	}
+	else
+	{
+		//TODO: Graph exception class
+		throw std::invalid_argument("There already is an edge from " + vertexFrom.id + " to " + vertexTo.id);
+	}
+}
+
+
 //
 //the default implementation is for an undirected graph:
 //each of the vertex' neighbours has an edge to it
@@ -95,22 +113,6 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 	{
 		//TODO: Graph exception class
 		throw std::invalid_argument("There is no edge from " + vertexFrom.id + " to " + vertexTo.id);
-	}
-}
-
-
-void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
-{
-	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
-
-	if (!iteratorToEdge)
-	{
-		vertexFrom.edges.insert(Edge(&vertexTo, weight));
-	}
-	else
-	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("There already is an edge from " + vertexFrom.id + " to " + vertexTo.id);
 	}
 }
 

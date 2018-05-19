@@ -34,7 +34,7 @@ public:
 	void insertVertexWithID(const char* ID);
 	void removeVertexWithID(const char* ID);
 
-	virtual void insertEdgeFromToWithWeight(const char* vertexFromID, const char* vertexToID, Edge::Weight weight = 1) = 0;
+	virtual void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight = 1) = 0;
 	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
@@ -50,7 +50,6 @@ protected:
 
 	static void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
-	static void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight);
 
 	bool existsVertexWithID(const char* ID);
 	
