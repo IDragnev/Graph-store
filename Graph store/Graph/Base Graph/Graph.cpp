@@ -71,6 +71,36 @@ void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edg
 }
 
 
+void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+{
+	removeEdgeFromTo(vertexFrom, vertexTo, true);
+}
+
+
+void Graph::removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo)
+{
+	removeEdgeFromTo(vertexFrom, vertexTo, false);
+}
+
+
+void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist)
+{
+	assert((vertices[vertexFrom.index] == &vertexFrom) && (vertices[vertexTo.index] == &vertexTo));
+
+	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
+
+	if (iteratorToEdge)
+	{
+		vertexFrom.edges.removeAt(iteratorToEdge);
+	}
+	else if (throwIfEdgeDoesNotExist)
+	{
+		//TODO: Graph exception class
+		throw std::invalid_argument("There is no edge from " + vertexFrom.id + " to " + vertexTo.id);
+	}
+}
+
+
 //
 //the default implementation is for an undirected graph:
 //each of the vertex' neighbours has an edge to it
@@ -85,34 +115,6 @@ void Graph::removeFromAdjacencyLists(Vertex& vertex)
 		Vertex* neighbour = currentEdge.incidentVertex;
 
 		removeEdgeFromToNoThrow(*neighbour, vertex);
-	}
-}
-
-
-void Graph::removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo)
-{
-	removeEdgeFromTo(vertexFrom, vertexTo, false);
-}
-
-
-void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
-{
-	removeEdgeFromTo(vertexFrom, vertexTo, true);
-}
-
-
-void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist)
-{
-	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
-
-	if (iteratorToEdge)
-	{
-		vertexFrom.edges.removeAt(iteratorToEdge);
-	}
-	else if (throwIfEdgeDoesNotExist)
-	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("There is no edge from " + vertexFrom.id + " to " + vertexTo.id);
 	}
 }
 

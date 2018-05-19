@@ -35,7 +35,7 @@ public:
 	void removeVertexWithID(const char* ID);
 
 	virtual void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight = 1) = 0;
-	virtual void removeEdgeFromTo(const char* vertexFromID, const char* vertexToID) = 0;
+	virtual void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
 
@@ -47,9 +47,7 @@ protected:
 	Graph(String ID);
 
 	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
-
-	static void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
-	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
+	void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 
 	bool existsVertexWithID(const char* ID);
 	
@@ -59,8 +57,8 @@ private:
 	Graph& operator=(Graph&& rhs) = delete;
 	Graph& operator=(const Graph& rhs) = delete;
 
+	void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 	static EdgeIterator getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
-	static void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 	
 	void insertToVertices(Vertex& vertex);
 	void insertToVerticesSearchTable(Vertex& vertex);
