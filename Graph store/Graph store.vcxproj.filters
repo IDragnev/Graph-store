@@ -83,6 +83,9 @@
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\ShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">

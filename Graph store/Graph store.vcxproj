@@ -150,6 +150,7 @@
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
