@@ -170,6 +170,7 @@
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Sequential list\SequentialList.h" />
+    <ClInclude Include="Shortest Path Algorithms\ShortestPathAlgorithm.h" />
     <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />

@@ -57,6 +57,9 @@
     <Filter Include="Graph\Undirected Graph">
       <UniqueIdentifier>{584e4b4f-481d-40f5-a2ff-49b320f0e11d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms">
+      <UniqueIdentifier>{77363cfc-fa42-4ff9-a877-24d24d68a3f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -162,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
       <Filter>Graph\Undirected Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\ShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
