@@ -60,6 +60,9 @@
     <Filter Include="Shortest Path Algorithms">
       <UniqueIdentifier>{77363cfc-fa42-4ff9-a877-24d24d68a3f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Base">
+      <UniqueIdentifier>{6e3b36e8-b437-46ed-8641-38f79efc4b51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -83,8 +86,8 @@
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\ShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms</Filter>
+    <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,8 +172,8 @@
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
       <Filter>Graph\Undirected Graph</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\ShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms</Filter>
+    <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #ifndef __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 #define __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 
-#include "../String/String.h"
+#include "../../String/String.h"
 
 class Graph;
 class Vertex;

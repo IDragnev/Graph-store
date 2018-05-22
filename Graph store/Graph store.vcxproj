@@ -150,7 +150,7 @@
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\ShortestPathAlgorithm.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +171,7 @@
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Sequential list\SequentialList.h" />
-    <ClInclude Include="Shortest Path Algorithms\ShortestPathAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />
