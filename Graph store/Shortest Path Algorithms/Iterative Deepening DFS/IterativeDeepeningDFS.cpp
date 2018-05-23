@@ -3,6 +3,7 @@
 #include <memory>
 #include <assert.h>
 
+typedef std::unique_ptr<Iterator<Edge>> EdgeIteratorPtr;
 typedef std::unique_ptr<ConstIterator<Vertex*>> VertexIteratorPtr;
 
 IterativeDeepeningDFS IterativeDeepeningDFS::theOnlyInstance;
@@ -36,8 +37,44 @@ void IterativeDeepeningDFS::findShortestPathToGoal(Vertex& source)
 
 	for (unsigned depthBound = 0; depthBound <= maxDepth && !isPathFound; ++depthBound)
 	{
-		findPathWithRestrictedDepth(&source, depthBound);
+		findPathWithRestrictedDepth(source, depthBound);
 	}
+}
+
+
+void IterativeDeepeningDFS::findPathWithRestrictedDepth(Vertex& vertex, unsigned depth)
+{
+	vertex.markAsVisited();
+
+	if (depth == 0 && isTheGoal(vertex))
+	{
+		isPathFound = true;
+	}
+	else if (depth > 0)
+	{
+		EdgeIteratorPtr iterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+
+		while (!iterator->isFinished())
+		{
+			Edge& edge = iterator->getCurrent();
+			Vertex& child = edge.getIncidentVertex();
+
+			if (!child.isVisited())
+			{
+				child.setParentInAlgorithmTree(&vertex);
+				child.setDistanceToSource(vertex.getDistanceToSource() + Distance(1));
+
+				findPathWithRestrictedDepth(child, depth - 1);
+
+				if (isPathFound)
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	vertex.markAsNotVisited();
 }
 
 
@@ -60,9 +97,9 @@ void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 }
 
 
-bool IterativeDeepeningDFS::isTheGoal(const Vertex* const vertex) const
+bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
 {
-	return vertex == goal;
+	return &vertex == goal;
 }
 
 
