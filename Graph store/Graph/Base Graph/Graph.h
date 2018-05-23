@@ -39,6 +39,7 @@ public:
 
 	Vertex& getVertexWithID(const char* ID);
 
+	unsigned getVerticesCount() const;
 	AbstractVertexConstIterator* getIteratorToVertices(); 
 	AbstractEdgeIterator* getIteratorToIncidentEdgesOf(Vertex& vertex);  
 	AbstractEdgeConstIterator* getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  

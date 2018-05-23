@@ -270,6 +270,12 @@ const String& Graph::getID() const
 }
 
 
+unsigned Graph::getVerticesCount() const
+{
+	return vertices.getCount();
+}
+
+
 void Graph::setID(String ID)
 {
 	if (ID != String(""))
