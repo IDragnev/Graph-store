@@ -24,7 +24,7 @@ private:
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
 
-	bool isTheGoal(const Vertex* vertex) const;
+	bool isTheGoal(const Vertex* const vertex) const;
 
 private:
 	IterativeDeepeningDFS(IterativeDeepeningDFS&& source) = delete;
