@@ -16,11 +16,15 @@ public:
 private:
 	IterativeDeepeningDFS();
 
-	/*
-	.
-	.
-	.
-	*/
+	static void initializeSingleSource(Graph& graph, Vertex& source);
+
+	void findShortestPathToGoal(Vertex& source);
+	void findPathWithRestrictedDepth(Vertex* vertex, unsigned depth);
+
+	void initializeState(Graph& graph, const Vertex& goal);
+	void clearState();
+
+	bool isTheGoal(const Vertex* vertex) const;
 
 private:
 	IterativeDeepeningDFS(IterativeDeepeningDFS&& source) = delete;
@@ -30,7 +34,7 @@ private:
 
 private:
 	Graph* searchedGraph;
-	Vertex* goal;
+	const Vertex* goal;
 	bool isPathFound;
 };
 
