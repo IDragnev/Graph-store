@@ -1,6 +1,7 @@
 #include "IterativeDeepeningDFS.h"
 #include "../../Graph/Base Graph/Graph.h"
 #include <memory>
+#include <assert.h>
 
 typedef std::unique_ptr<ConstIterator<Vertex*>> VertexIteratorPtr;
 
@@ -23,6 +24,20 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 	initializeSingleSource(graph, source);
 	findShortestPathToGoal(source);
 	clearState();
+}
+
+
+void IterativeDeepeningDFS::findShortestPathToGoal(Vertex& source)
+{
+	assert(!isPathFound && searchedGraph);
+
+	//maxDepth = |V| - 1 since shortest paths are unique
+	unsigned maxDepth = searchedGraph->getVerticesCount() - 1;
+
+	for (unsigned depthBound = 0; depthBound <= maxDepth && !isPathFound; ++depthBound)
+	{
+		findPathWithRestrictedDepth(&source, depthBound);
+	}
 }
 
 
