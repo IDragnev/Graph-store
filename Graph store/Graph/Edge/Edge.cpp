@@ -7,19 +7,23 @@ Edge::Edge(Vertex* incidentVertex, Weight weight) :
 	weight(weight),
 	incidentVertex(incidentVertex)
 {
-	assert(this->incidentVertex != nullptr);
+	assert(this->incidentVertex);
 }
 
 
-Vertex* Edge::getIncidentVertex() 
+Vertex& Edge::getIncidentVertex() 
 {
-	return incidentVertex;
+	assert(incidentVertex);
+
+	return *incidentVertex;
 }
 
 
-const Vertex* Edge::getIncidentVertex() const
+const Vertex& Edge::getIncidentVertex() const
 {
-	return incidentVertex;
+	assert(incidentVertex);
+
+	return *incidentVertex;
 }
 
 
