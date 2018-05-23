@@ -170,7 +170,6 @@
     <ClInclude Include="Iterator abstraction\Iterator.h" />
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
-    <ClInclude Include="Sequential list\SequentialList.h" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
     <ClInclude Include="Singly Linked List\Node.h" />

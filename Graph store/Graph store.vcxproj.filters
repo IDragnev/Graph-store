@@ -26,9 +26,6 @@
     <Filter Include="Sequential Lists\Singly Linked List">
       <UniqueIdentifier>{d5adffaf-6800-4dac-aca8-841279eb7cd2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sequential Lists\Sequential list abstraction">
-      <UniqueIdentifier>{df371349-9345-4e9f-8457-e1e8dde2c508}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Queue">
       <UniqueIdentifier>{8ab142a6-9d3b-4cdf-9f61-94e966803401}</UniqueIdentifier>
     </Filter>
@@ -114,9 +111,6 @@
     </ClInclude>
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h">
       <Filter>Hash Functions</Filter>
-    </ClInclude>
-    <ClInclude Include="Sequential list\SequentialList.h">
-      <Filter>Sequential Lists\Sequential list abstraction</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
       <Filter>Iterator abstraction</Filter>
