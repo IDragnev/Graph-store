@@ -19,7 +19,8 @@ private:
 	static void initializeSingleSource(Graph& graph, Vertex& source);
 
 	void findShortestPathToGoal(Vertex& source);
-	void depthLimitedSearch(Vertex& vertex, unsigned depth);
+	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
+	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
 
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
