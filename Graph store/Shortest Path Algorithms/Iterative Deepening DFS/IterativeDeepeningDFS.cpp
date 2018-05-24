@@ -37,12 +37,12 @@ void IterativeDeepeningDFS::findShortestPathToGoal(Vertex& source)
 
 	for (unsigned depthBound = 0; depthBound <= maxDepth && !isPathFound; ++depthBound)
 	{
-		findPathWithRestrictedDepth(source, depthBound);
+		depthLimitedSearch(source, depthBound);
 	}
 }
 
 
-void IterativeDeepeningDFS::findPathWithRestrictedDepth(Vertex& vertex, unsigned depth)
+void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 {
 	vertex.markAsVisited();
 
@@ -52,19 +52,19 @@ void IterativeDeepeningDFS::findPathWithRestrictedDepth(Vertex& vertex, unsigned
 	}
 	else if (depth > 0)
 	{
-		EdgeIteratorPtr iterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+		EdgeIteratorPtr edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
 
-		while (!iterator->isFinished())
+		while (!edgeIterator->isFinished())
 		{
-			Edge& edge = iterator->getCurrent();
-			Vertex& child = edge.getIncidentVertex();
+			Edge& edge = edgeIterator->getCurrent();
+			Vertex& neighbour = edge.getIncidentVertex();
 
-			if (!child.isVisited())
+			if (!neighbour.isVisited())
 			{
-				child.setParentInAlgorithmTree(&vertex);
-				child.setDistanceToSource(vertex.getDistanceToSource() + Distance(1));
+				neighbour.setParentInAlgorithmTree(&vertex);
+				neighbour.setDistanceToSource(vertex.getDistanceToSource() + Distance(1));
 
-				findPathWithRestrictedDepth(child, depth - 1);
+				depthLimitedSearch(neighbour, depth - 1);
 
 				if (isPathFound)
 				{
@@ -99,7 +99,7 @@ void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 
 bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
 {
-	return &vertex == goal;
+	return vertex == *goal;
 }
 
 
