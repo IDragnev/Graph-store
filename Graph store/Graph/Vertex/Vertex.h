@@ -43,4 +43,7 @@ private:
 	bool visited;
 };
 
+bool operator==(const Vertex& lhs, const Vertex& rhs);
+bool operator!=(const Vertex& lhs, const Vertex& rhs);
+
 #endif // __VERTEX_H_INCLUDED__

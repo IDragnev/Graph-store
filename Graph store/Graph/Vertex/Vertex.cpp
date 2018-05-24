@@ -79,3 +79,17 @@ void Vertex::setDistanceToSource(const Distance& distance)
 {
 	distanceToSource = distance;
 }
+
+
+bool operator==(const Vertex& lhs, const Vertex& rhs)
+{
+	//vertices are equal if and only if 
+	//they are the same object
+	return &lhs == &rhs;
+}
+
+
+bool operator!=(const Vertex& lhs, const Vertex& rhs)
+{
+	return !(lhs == rhs);
+}
