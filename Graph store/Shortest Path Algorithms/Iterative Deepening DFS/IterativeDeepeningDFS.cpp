@@ -78,6 +78,12 @@ void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 }
 
 
+bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
+{
+	return vertex == *goal;
+}
+
+
 void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 {
 	VertexIteratorPtr iterator(graph.getIteratorToVertices());
@@ -97,9 +103,11 @@ void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 }
 
 
-bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
+void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
 {
-	return vertex == *goal;
+	this->searchedGraph = &graph;
+	this->goal = &goal;
+	this->isPathFound = false;
 }
 
 
@@ -108,12 +116,4 @@ void IterativeDeepeningDFS::clearState()
 	searchedGraph = nullptr;
 	goal = nullptr;
 	isPathFound = false;
-}
-
-
-void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
-{
-	this->searchedGraph = &graph;
-	this->goal = &goal;
-	this->isPathFound = false;
 }
