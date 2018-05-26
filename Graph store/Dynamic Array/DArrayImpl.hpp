@@ -153,7 +153,7 @@ void DArray<T>::insertAt(sizeType position, const T& newItem)
 {
 	if (position != count)
 	{
-		throwExceptionIfInvalidIndex(position);
+		assert(hasItemAt(position));
 
 		enlargeIfFull();
 
@@ -190,7 +190,7 @@ inline void DArray<T>::enlargeIfFull()
 template <typename T>
 inline void DArray<T>::remove(sizeType position)
 {
-	throwExceptionIfInvalidIndex(position);
+	assert(hasItemAt(position));
 
 	shiftItemsOnePositionLeft(position + 1, --count);
 }
@@ -206,7 +206,7 @@ inline T& DArray<T>::operator[](sizeType position)
 template <typename T>
 inline const T& DArray<T>::operator[](sizeType position) const
 {
-	throwExceptionIfInvalidIndex(position);
+	assert(hasItemAt(position));
 
 	return items[position];
 }
@@ -244,14 +244,6 @@ template <typename T>
 inline bool DArray<T>::isEmpty() const
 {
 	return count == 0;
-}
-
-
-template <typename T>
-inline void DArray<T>::throwExceptionIfInvalidIndex(sizeType index) const
-{
-	if (index >= count)
-		throw std::out_of_range("Index out of range");
 }
 
 
@@ -307,4 +299,11 @@ template <typename T>
 inline typename DArray<T>::ConstIterator DArray<T>::getHeadConstIterator() const
 {
 	return ConstIterator(0, this);
+}
+
+
+template <typename T>
+inline bool DArray<T>::hasItemAt(sizeType position) const
+{
+	return position < count;
 }

@@ -84,7 +84,7 @@ public:
 	const T& operator[](sizeType position) const;
 
 protected:
-	void throwExceptionIfInvalidIndex(sizeType index) const;
+	bool hasItemAt(sizeType position) const;
 	void enlargeIfFull();
 	
 	void setCount(sizeType count);
