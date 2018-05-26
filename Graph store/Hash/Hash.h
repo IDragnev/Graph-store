@@ -38,25 +38,24 @@ public:
 	Hash& operator=(Hash&& rhs);
 	Hash& operator=(const Hash& rhs);
 
-	sizeType getCount() const;
-	bool isEmpty() const;
-
-	void empty();
-
 	void insert(Item& item);
 	Item* remove(const Key& key);
 	Item* search(const Key& key);
 
+	void empty();
+	bool isEmpty() const;
+	sizeType getCount() const;
+
 private:
-	long searchTableAndGetIndex(const Key& key); 
 	void resize(sizeType newSize);
-	void nullifyTable();
-	void rehashCluster(sizeType start);
 	void swapContentsWithReconstructedParameter(Hash other);
+	void nullifyTable();
+	long searchTableAndGetIndex(const Key& key); 
+	void rehashCluster(sizeType start);
+	Item* extractItemFromTableAt(sizeType index);
 	bool isTooEmpty() const;
 	bool canBeHalved() const;
 	bool isFillingUp() const;
-	Item* extractItemFromTableAt(sizeType index);
 
 private:
 	static const sizeType MIN_TABLE_SIZE = 3;
