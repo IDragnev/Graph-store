@@ -13,9 +13,7 @@ Edge::Edge(Vertex* incidentVertex, Weight weight) :
 
 Vertex& Edge::getIncidentVertex() 
 {
-	assert(incidentVertex);
-
-	return *incidentVertex;
+	return const_cast<Vertex&>( static_cast<const Edge&>(*this).getIncidentVertex() );
 }
 
 

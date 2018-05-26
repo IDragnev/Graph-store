@@ -53,7 +53,7 @@ void Vertex::markAsVisited()
 
 Vertex* Vertex::getParentInAlgorithmTree()
 {
-	return parentInAlgorithmTree;
+	return const_cast<Vertex*>( static_cast<const Vertex&>(*this).getParentInAlgorithmTree() );
 }
 
 
