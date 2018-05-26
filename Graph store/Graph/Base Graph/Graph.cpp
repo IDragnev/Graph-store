@@ -216,19 +216,25 @@ void Graph::deleteVertex(Vertex* vertex)
 }
 
 
-Vertex& Graph::getVertexWithID(const char* ID)
+const Vertex& Graph::getVertexWithID(const char* ID) const
 {
-	Vertex* result = verticesSearchTable.search(ID);
+	const Vertex* result = verticesSearchTable.search(ID);
 
-	if (result != nullptr)
+	if (result)
 	{
 		return *result;
 	}
 	else
 	{
 		//TODO: Graph exception class
-		throw std::invalid_argument("No vertex with ID " + (String)ID + " in " + this->id);
+		throw std::invalid_argument("No vertex with ID " + String(ID) + " in " + this->id);
 	}
+}
+
+
+Vertex& Graph::getVertexWithID(const char* ID)
+{
+	return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertexWithID(ID) );
 }
 
 

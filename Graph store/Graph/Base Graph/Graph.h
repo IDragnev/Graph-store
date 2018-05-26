@@ -38,6 +38,7 @@ public:
 	virtual void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
+	const Vertex& getVertexWithID(const char* ID) const;
 
 	unsigned getVerticesCount() const;
 	AbstractVertexConstIterator* getIteratorToVertices(); 
