@@ -216,8 +216,7 @@ void Hash<Item, Key, KeyAccessor>::empty()
 template <typename Item, typename Key, typename KeyAccessor>
 typename Hash<Item,Key,KeyAccessor>::sizeType Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(sizeType expectedCount)
 {
-	if (expectedCount == 0)
-		throw std::invalid_argument("Expected size must be positive!");
+	assert(expectedCount > 0);
 
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
 }
