@@ -141,10 +141,7 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 }
 
 
-//
-//not const becase the search table's search method is not const
-//
-bool Graph::existsVertexWithID(const char* ID) 
+bool Graph::existsVertexWithID(const char* ID) const
 {
 	return verticesSearchTable.search(ID) != nullptr;
 }

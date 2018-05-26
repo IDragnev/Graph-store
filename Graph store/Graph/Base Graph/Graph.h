@@ -50,7 +50,7 @@ protected:
 	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
 	void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 
-	bool existsVertexWithID(const char* ID);
+	bool existsVertexWithID(const char* ID) const;
 	bool isFromThisGraph(const Vertex& vertex) const;
 
 private:
