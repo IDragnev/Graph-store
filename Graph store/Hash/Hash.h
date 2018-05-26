@@ -61,7 +61,6 @@ private:
 private:
 	static const sizeType MIN_TABLE_SIZE = 3;
 	static sizeType calculateAppropriateSize(sizeType expectedSize);
-	static bool isValidSlotPosition(long index);
 
 private:
 	sizeType tableSize;

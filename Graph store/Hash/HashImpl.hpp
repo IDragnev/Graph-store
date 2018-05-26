@@ -89,7 +89,7 @@ inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	const long index = searchTableAndGetIndex(key);
 
-	return isValidSlotPosition(index) ? table[index] : nullptr;
+	return index >= 0 ? table[index] : nullptr;
 }
 
 
@@ -98,7 +98,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	const long index = searchTableAndGetIndex(key);
 
-	if (isValidSlotPosition(index))
+	if (index >= 0)
 	{
 		Item* result = extractItemFromTableAt(index);
 
@@ -135,13 +135,6 @@ long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 	}
 
 	return -1;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isValidSlotPosition(long index)
-{
-	return index >= 0;
 }
 
 
