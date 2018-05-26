@@ -7,7 +7,7 @@
 
 template <typename Item, typename Key, typename KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(sizeType expectedCount) :
-	tableSize( calculateAppropriateSize(expectedCount) ),
+	tableSize(calculateAppropriateSize(expectedCount)), 
 	insertedCount(0),
 	table(tableSize, tableSize)
 {
@@ -114,12 +114,8 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 }
 
 
-//
-// the function is not const because KeyAccessor and hashFunction
-// could have non-const operator()
-//
 template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
+long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key) const
 {
 	if (!isEmpty())
 	{
@@ -219,7 +215,9 @@ template <typename Item, typename Key, typename KeyAccessor>
 inline void Hash<Item, Key, KeyAccessor>::nullifyTable()
 {
 	for (sizeType i = 0; i < tableSize; ++i)
+	{
 		table[i] = nullptr;
+	}
 }
 
 

@@ -50,7 +50,7 @@ private:
 	void resize(sizeType newSize);
 	void swapContentsWithReconstructedParameter(Hash other);
 	void nullifyTable();
-	long searchTableAndGetIndex(const Key& key); 
+	long searchTableAndGetIndex(const Key& key) const; 
 	void rehashCluster(sizeType start);
 	Item* extractItemFromTableAt(sizeType index);
 	bool isTooEmpty() const;
@@ -65,8 +65,9 @@ private:
 	sizeType tableSize;
 	sizeType insertedCount;
 	DArray<Item*> table;
-	HashFunction<Key> hashFunction;
-	KeyAccessor keyAccessor;
+
+	mutable HashFunction<Key> hashFunction;
+	mutable KeyAccessor keyAccessor;
 };
 
 #include "HashImpl.hpp"
