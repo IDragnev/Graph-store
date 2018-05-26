@@ -41,7 +41,7 @@ namespace SinglyLinkedListTest
 	}
 
 
-	TEST_CLASS(ForwardListTest)
+	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
 		static const int NUMBER_OF_ITEMS_TO_INSERT = 100;

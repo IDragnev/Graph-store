@@ -74,8 +74,10 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 	sizeType index = hashFunction(keyAccessor(item)) % tableSize;
 
-	while(table[index] != nullptr)
+	while (table[index])
+	{
 		index = (index + 1) % tableSize;
+	}
 
 	table[index] = &item;
 	++insertedCount;
@@ -123,7 +125,7 @@ long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key)
 	{
 		sizeType index = hashFunction(key) % tableSize;
 
-		while (table[index] != nullptr)
+		while (table[index])
 		{
 			if (keyAccessor( *(table[index]) ) == key)
 				return index;
@@ -161,8 +163,10 @@ void Hash<Item, Key, KeyAccessor>::resize(sizeType newSize)
 
 	for (sizeType i = 0; i < oldTableSize; ++i)
 	{
-		if (temp[i] != nullptr)
-			insert( *temp[i] );
+		if (temp[i])
+		{
+			insert(*temp[i]);
+		}
 	}
 }
 
@@ -172,7 +176,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(sizeType start)
 {
 	sizeType positionToEmpty = start;
 
-	while (table[positionToEmpty] != nullptr)
+	while (table[positionToEmpty])
 	{
 		insert(*extractItemFromTableAt(positionToEmpty));
 

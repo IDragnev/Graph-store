@@ -6,8 +6,6 @@
 #include <assert.h>
 
 /*
-The Hash class stores the Items' addresses only, NOT copies.
-
 The KeyAccessor template parameter must be a function or a Function object
 whose purpose is to access the key from each Item.
 Its operator()'s signature should be: 
