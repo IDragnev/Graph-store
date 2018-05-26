@@ -85,11 +85,18 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
 {
 	const long index = searchTableAndGetIndex(key);
 
 	return index >= 0 ? table[index] : nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+{
+	return const_cast<Item*>( static_cast<const Hash<Item, Key, KeyAccessor>&>(*this).search(key) );
 }
 
 

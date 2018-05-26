@@ -41,6 +41,7 @@ public:
 	void insert(Item& item);
 	Item* remove(const Key& key);
 	Item* search(const Key& key);
+	const Item* search(const Key& key) const;
 
 	void empty();
 	bool isEmpty() const;
