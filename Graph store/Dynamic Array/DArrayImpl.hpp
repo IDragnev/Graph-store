@@ -116,8 +116,7 @@ inline void DArray<T>::empty()
 template <typename T>
 void DArray<T>::shrink(sizeType newSize)
 {
-	if (newSize > size)
-		throw std::invalid_argument("Cannot shrink to bigger size");
+	assert(newSize <= size);
 
 	if (newSize == 0)
 	{
@@ -215,12 +214,9 @@ inline const T& DArray<T>::operator[](sizeType position) const
 template <typename T>
 inline void DArray<T>::setCount(sizeType newCount)
 {
-	if (newCount <= size)
-	{
-		count = newCount;
-	}
-	else
-		throw std::invalid_argument("Count cannot exceed size");
+	assert(newCount <= size);
+
+	count = newCount;
 }
 
 
@@ -268,6 +264,13 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 
 
 template <typename T>
+inline bool DArray<T>::hasItemAt(sizeType position) const
+{
+	return position < count;
+}
+
+
+template <typename T>
 inline typename DArray<T>::sizeType DArray<T>::getCount() const
 {
 	return count;
@@ -299,11 +302,4 @@ template <typename T>
 inline typename DArray<T>::ConstIterator DArray<T>::getHeadConstIterator() const
 {
 	return ConstIterator(0, this);
-}
-
-
-template <typename T>
-inline bool DArray<T>::hasItemAt(sizeType position) const
-{
-	return position < count;
 }
