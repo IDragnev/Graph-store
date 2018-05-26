@@ -61,8 +61,7 @@ public:
 	void insertBefore(Iterator& iterator, const T& item);
 
 private:
-	void throwExceptionIfEmpty() const; 
-	void throwExceptionIfInvalid(const Iterator& iterator) const;
+	bool validateOwnershipOf(const Iterator& iterator) const;
 
 	void nullifyMembers();
 

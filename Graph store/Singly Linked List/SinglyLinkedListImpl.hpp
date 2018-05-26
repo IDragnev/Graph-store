@@ -94,7 +94,7 @@ void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 template <typename T>
 void SinglyLinkedList<T>::appendChainAndUpdateCount(Node<T>* first, Node<T>* last, countType count)
 {
-	assert(first != nullptr && last != nullptr);
+	assert(first && last);
 
 	if (this->isEmpty())
 	{
@@ -122,7 +122,7 @@ inline void SinglyLinkedList<T>::empty()
 template <typename T>
 inline const T& SinglyLinkedList<T>::getHead() const
 {
-	throwExceptionIfEmpty();
+	assert(!isEmpty());
 
 	return head->data;
 }
@@ -131,7 +131,7 @@ inline const T& SinglyLinkedList<T>::getHead() const
 template <typename T>
 inline const T& SinglyLinkedList<T>::getTail() const
 {
-	throwExceptionIfEmpty();
+	assert(!isEmpty());
 
 	return tail->data;
 }
@@ -140,7 +140,7 @@ inline const T& SinglyLinkedList<T>::getTail() const
 template <typename T>
 inline void SinglyLinkedList<T>::setHead(const T& data)
 {
-	throwExceptionIfEmpty();
+	assert(!isEmpty());
 
 	head->data = data;
 }
@@ -149,7 +149,7 @@ inline void SinglyLinkedList<T>::setHead(const T& data)
 template <typename T>
 inline void SinglyLinkedList<T>::setTail(const T& data)
 {
-	throwExceptionIfEmpty();
+	assert(!isEmpty());
 
 	tail->data = data;
 }
@@ -199,8 +199,7 @@ void SinglyLinkedList<T>::insertAsTail(const T& item)
 template <typename T>
 void SinglyLinkedList<T>::removeHead()
 {
-	throwExceptionIfEmpty();
-	assert(head != nullptr);
+	assert(!isEmpty());
 
 	Node<T>* oldHead = head;
 	
@@ -226,7 +225,7 @@ inline void SinglyLinkedList<T>::removeTail()
 template <typename T>
 inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
 {
-	throwExceptionIfInvalid(iterator);
+	assert(validateOwnershipOf(iterator));
 
 	removeAt(iterator.current);
 	iterator.current = nullptr;
@@ -236,7 +235,7 @@ inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
 template <typename T>
 inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
 {
-	throwExceptionIfInvalid(iterator);
+	assert(validateOwnershipOf(iterator));
 
 	removeAt(iterator.current->next);
 }
@@ -245,7 +244,7 @@ inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
 template <typename T>
 inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 {
-	throwExceptionIfInvalid(iterator);
+	assert(validateOwnershipOf(iterator));
 
 	removeAt(findNodeBefore(iterator.current));
 }
@@ -254,7 +253,7 @@ inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 template <typename T>
 void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 {
-	throwExceptionIfInvalid(iterator);
+	assert(validateOwnershipOf(iterator));
 
 	insertAfter(iterator.current, item);
 }
@@ -263,7 +262,7 @@ void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 template <typename T>
 inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
 {
-	throwExceptionIfInvalid(iterator);
+	assert(validateOwnershipOf(iterator));
 
 	insertBefore(iterator.current, item);
 }
@@ -336,18 +335,9 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& ite
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::throwExceptionIfInvalid(const Iterator& iterator) const
+inline bool SinglyLinkedList<T>::validateOwnershipOf(const Iterator& iterator) const
 {
-	if (iterator.owner != this)
-		throw std::invalid_argument("Invalid iterator passed!");
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::throwExceptionIfEmpty()const
-{
-	if (isEmpty())
-		throw std::logic_error("List is empty!");
+	return iterator.owner == this;
 }
 
 
