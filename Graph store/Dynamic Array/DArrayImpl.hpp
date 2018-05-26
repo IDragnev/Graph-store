@@ -199,9 +199,7 @@ inline void DArray<T>::remove(sizeType position)
 template <typename T>
 inline T& DArray<T>::operator[](sizeType position)
 {
-	throwExceptionIfInvalidIndex(position);
-
-	return items[position];
+	return const_cast<T&>( static_cast<const DArray<T>&>(*this)[position] );
 }
 
 
