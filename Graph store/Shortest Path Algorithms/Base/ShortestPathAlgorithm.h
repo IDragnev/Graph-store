@@ -11,7 +11,7 @@ class ShortestPathAlgorithm
 public:
 	virtual ~ShortestPathAlgorithm() = default;
 
-	virtual void findShortestPathInGraphFromTo(Graph& G, Vertex& vertexFrom, Vertex& vertexTo) = 0;
+	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) = 0;
 
 	const String& getID() const;
 
