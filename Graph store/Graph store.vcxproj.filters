@@ -63,6 +63,9 @@
     <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
       <UniqueIdentifier>{908a4b4d-e4b0-4b9d-86b1-17a948d1f77d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\BFS Shortest">
+      <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.h">
+      <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
