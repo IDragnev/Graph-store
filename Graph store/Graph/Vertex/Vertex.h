@@ -16,14 +16,14 @@ public:
 	void markAsVisited();
 	void markAsNotVisited();
 
-	const String& getID() const;
-
-	Vertex* getParentInAlgorithmTree();
-	const Vertex* getParentInAlgorithmTree() const;
-	void setParentInAlgorithmTree(Vertex* parent);
+	Vertex* getPredecessor();
+	const Vertex* getPredecessor() const;
+	void setPredecessor(Vertex* predecessor);
 
 	const Distance& getDistanceToSource() const;
 	void setDistanceToSource(const Distance& distance);
+
+	const String& getID() const;
 
 private:
 	Vertex(String ID, size_t index);
@@ -38,7 +38,7 @@ private:
 	size_t index;
 	String id;
 	SinglyLinkedList<Edge> edges;
-	Vertex* parentInAlgorithmTree;
+	Vertex* predecessor;
 	Distance distanceToSource;
 	bool visited;
 };

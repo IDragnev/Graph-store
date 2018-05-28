@@ -5,7 +5,7 @@ Vertex::Vertex(String ID, size_t index) :
 	index(index),
 	id(),
 	edges(),
-	parentInAlgorithmTree(nullptr),
+	predecessor(nullptr),
 	distanceToSource(Distance::getInfinity()),
 	visited(false)
 {
@@ -51,21 +51,21 @@ void Vertex::markAsVisited()
 }
 
 
-Vertex* Vertex::getParentInAlgorithmTree()
+Vertex* Vertex::getPredecessor()
 {
-	return const_cast<Vertex*>( static_cast<const Vertex&>(*this).getParentInAlgorithmTree() );
+	return const_cast<Vertex*>( static_cast<const Vertex&>(*this).getPredecessor() );
 }
 
 
-const Vertex* Vertex::getParentInAlgorithmTree() const
+const Vertex* Vertex::getPredecessor() const
 {
-	return parentInAlgorithmTree;
+	return predecessor;
 }
 
 
-void Vertex::setParentInAlgorithmTree(Vertex* vertex)
+void Vertex::setPredecessor(Vertex* vertex)
 {
-	parentInAlgorithmTree = vertex;
+	predecessor = vertex;
 }
 
 
