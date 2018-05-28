@@ -35,7 +35,7 @@ void IterativeDeepeningDFS::findShortestPathToGoal(Vertex& source)
 	//maxDepth = |V| - 1 since shortest paths are unique
 	unsigned maxDepth = searchedGraph->getVerticesCount() - 1;
 
-	for (unsigned depthBound = 0; depthBound <= maxDepth && !isPathFound; ++depthBound)
+	for (unsigned depthBound = 0; !isPathFound && depthBound <= maxDepth; ++depthBound)
 	{
 		startDepthLimitedSearchFromWithBound(source, depthBound);
 	}
