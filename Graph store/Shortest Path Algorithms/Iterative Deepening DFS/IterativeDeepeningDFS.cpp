@@ -70,7 +70,7 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 
 		if (!neighbour.isVisited())
 		{
-			neighbour.setParentInAlgorithmTree(&vertex);
+			neighbour.setPredecessor(&vertex);
 			neighbour.setDistanceToSource(vertex.getDistanceToSource() + Distance(1));
 
 			startDepthLimitedSearchFromWithBound(neighbour, depthBound);
@@ -98,7 +98,7 @@ void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 	{
 		Vertex* vertex = iterator->getCurrent();
 
-		vertex->setParentInAlgorithmTree(nullptr);
+		vertex->setPredecessor(nullptr);
 		vertex->setDistanceToSource(Distance::getInfinity());
 		vertex->markAsNotVisited();
 
