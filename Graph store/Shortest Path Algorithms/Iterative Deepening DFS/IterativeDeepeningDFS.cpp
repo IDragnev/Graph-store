@@ -80,6 +80,8 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 				return;
 			}
 		}
+
+		edgeIterator->goToNext();
 	}
 }
 
