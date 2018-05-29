@@ -25,7 +25,7 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 	{
 		initializeState(graph, goal);
 		initializeSingleSource(graph, source);
-		findShortestPathToGoal(source);
+		findShortestPathToGoalFrom(source);
 		clearState();
 	}
 	else
@@ -35,7 +35,7 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 }
 
 
-void IterativeDeepeningDFS::findShortestPathToGoal(Vertex& source)
+void IterativeDeepeningDFS::findShortestPathToGoalFrom(Vertex& source)
 {
 	assert(!isPathFound && searchedGraph);
 

@@ -16,7 +16,7 @@ public:
 private:
 	IterativeDeepeningDFS();
 
-	void findShortestPathToGoal(Vertex& source);
+	void findShortestPathToGoalFrom(Vertex& source);
 	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
 
