@@ -21,10 +21,17 @@ IterativeDeepeningDFS::IterativeDeepeningDFS() :
 
 void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal)
 {
-	initializeState(graph, goal);
-	initializeSingleSource(graph, source);
-	findShortestPathToGoal(source);
-	clearState();
+	if (source != goal)
+	{
+		initializeState(graph, goal);
+		initializeSingleSource(graph, source);
+		findShortestPathToGoal(source);
+		clearState();
+	}
+	else
+	{
+		buildTrivialPathFromTo(source, goal);
+	}
 }
 
 
