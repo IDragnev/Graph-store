@@ -16,16 +16,16 @@ public:
 private:
 	IterativeDeepeningDFS();
 
-	static void initializeSingleSource(Graph& graph, Vertex& source);
-
 	void findShortestPathToGoal(Vertex& source);
 	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
 
+	bool isTheGoal(const Vertex& vertex) const;
+
+	static void initializeSingleSource(Graph& graph, Vertex& source);
+	
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
-
-	bool isTheGoal(const Vertex& vertex) const;
 
 private:
 	IterativeDeepeningDFS(IterativeDeepeningDFS&& source) = delete;
