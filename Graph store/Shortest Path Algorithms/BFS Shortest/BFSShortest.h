@@ -27,10 +27,10 @@ private:
 	bool isFrontierEmpty() const;
 	static bool isOnFrontier(const Vertex& vertex);
 
+	bool isTheGoal(const Vertex& vertex) const;
+
 	bool isAShortestPathFound() const;
 	void notifyAShortestPathWasFound();
-
-	bool isTheGoal(const Vertex& vertex) const;
 
 	static void initializeSingleSource(Graph& graph, Vertex& source);
 

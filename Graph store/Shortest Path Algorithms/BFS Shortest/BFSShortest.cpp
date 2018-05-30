@@ -118,3 +118,22 @@ bool BFSShortest::isFrontierEmpty() const
 	return verticesQueue.isEmpty();
 }
 
+
+bool BFSShortest::isTheGoal(const Vertex& vertex) const
+{
+	return vertex == *goal;
+}
+
+
+bool BFSShortest::isAShortestPathFound() const
+{
+	return isPathFound;
+}
+
+
+void BFSShortest::notifyAShortestPathWasFound()
+{
+	assert(!isPathFound);
+
+	isPathFound = true;
+}
