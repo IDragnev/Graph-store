@@ -1,7 +1,10 @@
 #include "BFSShortest.h"
 #include "../../Graph/Base Graph/Graph.h"
 #include <assert.h>
+#include <memory>
 
+typedef std::unique_ptr<Iterator<Edge>> EdgeIteratorPtr;
+typedef std::unique_ptr<ConstIterator<Vertex*>> VertexIteratorPtr;
 
 BFSShortest BFSShortest::theOnlyInstance;
 
@@ -46,4 +49,42 @@ void BFSShortest::findShortestPathFrom(Vertex& source)
 
 		exploreNeighboursOf(vertex);
 	}
+}
+
+
+void BFSShortest::exploreNeighboursOf(Vertex& vertex)
+{
+	EdgeIteratorPtr edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+
+	while (!edgeIterator->isFinished())
+	{
+		Edge& currentEdge = edgeIterator->getCurrent();
+		Vertex& neighbour = currentEdge.getIncidentVertex();
+
+		if (!isOnFrontier(neighbour))
+		{
+			processNeighbourDiscoveredFrom(neighbour, vertex);
+			addToFrontier(neighbour);
+		}
+
+		edgeIterator->goToNext();
+	}
+}
+
+
+void BFSShortest::processNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom)
+{
+	extendCurrentPathFromTo(vertexFrom, neighbour);
+
+	if (isTheGoal(neighbour))
+	{
+		notifyAShortestPathWasFound();
+	}
+}
+
+
+void BFSShortest::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+{
+	vertexTo.setPredecessor(&vertexFrom);
+	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
 }
