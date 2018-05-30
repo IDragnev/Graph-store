@@ -17,13 +17,22 @@ public:
 private:
 	BFSShortest();
 
+	void findShortestPathFrom(Vertex& source);
+	void exploreNeighboursOf(Vertex& vertex);
+	void processVertexDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
+	static void extendCurrentPath(Vertex& vertexFrom, Vertex& vertexTo);
+
+	void addToFrontier(Vertex& vertex);
+	Vertex& getVertexFromTheFrontier();
+	bool isFrontierEmpty() const;
+	static bool isOnFrontier(const Vertex& vertex);
+
+	bool isTheGoal(const Vertex& vertex) const;
+
 	static void initializeSingleSource(Graph& graph, Vertex& source);
 
-	/*
-	.
-	.
-	.
-	*/
+	void initializeState(Graph& graph, const Vertex& goal);
+	void clearState();
 
 private:
 	BFSShortest(BFSShortest&& source) = delete;
