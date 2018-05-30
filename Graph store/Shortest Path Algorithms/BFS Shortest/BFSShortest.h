@@ -23,7 +23,7 @@ private:
 	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
 	void addToFrontier(Vertex& vertex);
-	Vertex& getVertexFromTheFrontier();
+	Vertex& extractVertexFromTheFrontier();
 	bool isFrontierEmpty() const;
 	static bool isOnFrontier(const Vertex& vertex);
 
