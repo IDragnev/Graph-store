@@ -45,7 +45,7 @@ void BFSShortest::findShortestPathFrom(Vertex& source)
 
 	while (!(isAShortestPathFound() || isFrontierEmpty()))
 	{
-		Vertex& vertex = getVertexFromTheFrontier();
+		Vertex& vertex = extractVertexFromTheFrontier();
 
 		exploreNeighboursOf(vertex);
 	}
@@ -88,3 +88,33 @@ void BFSShortest::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 	vertexTo.setPredecessor(&vertexFrom);
 	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
 }
+
+
+void BFSShortest::addToFrontier(Vertex& vertex)
+{
+	assert(!isOnFrontier(vertex));
+
+	vertex.markAsVisited();
+	verticesQueue.enqueue(&vertex);
+}
+
+
+bool BFSShortest::isOnFrontier(const Vertex& vertex)
+{
+	return vertex.isVisited();
+}
+
+
+Vertex& BFSShortest::extractVertexFromTheFrontier()
+{
+	Vertex* vertex = verticesQueue.dequeue();
+
+	return *vertex;
+}
+
+
+bool BFSShortest::isFrontierEmpty() const
+{
+	return verticesQueue.isEmpty();
+}
+
