@@ -19,8 +19,8 @@ private:
 
 	void findShortestPathFrom(Vertex& source);
 	void exploreNeighboursOf(Vertex& vertex);
-	void processVertexDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
-	static void extendCurrentPath(Vertex& vertexFrom, Vertex& vertexTo);
+	void processNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
+	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
 	void addToFrontier(Vertex& vertex);
 	Vertex& getVertexFromTheFrontier();
