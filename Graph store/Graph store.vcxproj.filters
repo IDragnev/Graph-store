@@ -95,6 +95,9 @@
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp">
+      <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
