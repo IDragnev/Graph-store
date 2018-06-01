@@ -26,7 +26,7 @@ void BFSShortest::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Ve
 	{
 		initializeState(graph, goal);
 		initializeSingleSource(graph, source);
-		findShortestPathFrom(source);
+		findShortestPathToGoalFrom(source);
 		clearState();
 	}
 	else
@@ -36,7 +36,7 @@ void BFSShortest::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Ve
 }
 
 
-void BFSShortest::findShortestPathFrom(Vertex& source)
+void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 {
 	assert(!isAShortestPathFound());
 	assert(isFrontierEmpty());

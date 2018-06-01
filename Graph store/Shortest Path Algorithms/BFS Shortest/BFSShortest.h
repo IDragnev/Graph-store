@@ -17,7 +17,7 @@ public:
 private:
 	BFSShortest();
 
-	void findShortestPathFrom(Vertex& source);
+	void findShortestPathToGoalFrom(Vertex& source);
 	void exploreNeighboursOf(Vertex& vertex);
 	void visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
 	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
