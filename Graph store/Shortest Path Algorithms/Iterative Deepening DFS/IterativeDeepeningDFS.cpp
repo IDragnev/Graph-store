@@ -77,8 +77,7 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 
 		if (!neighbour.isVisited())
 		{
-			neighbour.setPredecessor(&vertex);
-			neighbour.setDistanceToSource(vertex.getDistanceToSource() + Distance(1));
+			extendCurrentPathFromTo(vertex, neighbour);
 
 			startDepthLimitedSearchFromWithBound(neighbour, depthBound);
 
@@ -90,6 +89,13 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 
 		edgeIterator->goToNext();
 	}
+}
+
+
+void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+{
+	vertexTo.setPredecessor(&vertexFrom);
+	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
 }
 
 

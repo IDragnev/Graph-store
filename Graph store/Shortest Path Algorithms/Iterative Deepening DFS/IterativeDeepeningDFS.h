@@ -19,6 +19,7 @@ private:
 	void findShortestPathToGoalFrom(Vertex& source);
 	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
+	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
 	bool isTheGoal(const Vertex& vertex) const;
 
