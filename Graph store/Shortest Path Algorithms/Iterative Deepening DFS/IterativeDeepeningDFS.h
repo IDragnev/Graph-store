@@ -22,6 +22,9 @@ private:
 
 	bool isTheGoal(const Vertex& vertex) const;
 
+	bool isAShortestPathFound() const;
+	void notifyAShortestPathWasFound();
+
 	static void initializeSingleSource(Graph& graph, Vertex& source);
 	
 	void initializeState(Graph& graph, const Vertex& goal);

@@ -37,12 +37,12 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 
 void IterativeDeepeningDFS::findShortestPathToGoalFrom(Vertex& source)
 {
-	assert(!isPathFound && searchedGraph);
+	assert(!isAShortestPathFound() && searchedGraph);
 
 	//maxDepth = |V| - 1 since shortest paths are unique
 	unsigned maxDepth = searchedGraph->getVerticesCount() - 1;
 
-	for (unsigned depthBound = 0; !isPathFound && depthBound <= maxDepth; ++depthBound)
+	for (unsigned depthBound = 0; !isAShortestPathFound() && depthBound <= maxDepth; ++depthBound)
 	{
 		startDepthLimitedSearchFromWithBound(source, depthBound);
 	}
@@ -55,7 +55,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 	if (depthBound == 0 && isTheGoal(vertex))
 	{
-		isPathFound = true;
+		notifyAShortestPathWasFound();
 	}
 	else if (depthBound > 0)
 	{
@@ -82,7 +82,7 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 
 			startDepthLimitedSearchFromWithBound(neighbour, depthBound);
 
-			if (isPathFound)
+			if (isAShortestPathFound())
 			{
 				return;
 			}
@@ -96,6 +96,20 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
 {
 	return vertex == *goal;
+}
+
+
+bool IterativeDeepeningDFS::isAShortestPathFound() const
+{
+	return isPathFound;
+}
+
+
+void IterativeDeepeningDFS::notifyAShortestPathWasFound()
+{
+	assert(!isPathFound);
+
+	isPathFound = true;
 }
 
 
