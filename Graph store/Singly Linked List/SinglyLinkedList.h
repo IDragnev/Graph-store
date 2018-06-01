@@ -27,9 +27,18 @@ public:
 	SinglyLinkedList<T>& operator=(SinglyLinkedList<T>&& rhs);
 	SinglyLinkedList<T>& operator=(const SinglyLinkedList<T>& rhs);
 
-	countType getCount() const;                             
-	bool isEmpty() const;                              
-	void empty();
+public:
+	void insert(const T& item);
+	void insertAsHead(const T& item);                         
+	void insertAsTail(const T& item);                         
+	void insertAfter(Iterator& iterator, const T& item);
+	void insertBefore(Iterator& iterator, const T& item);
+
+	void removeHead();                                
+	void removeTail();                          
+	void removeAt(Iterator& iterator);
+	void removeBefore(Iterator& iterator);
+	void removeAfter(Iterator& iterator);
 
 	ConstIterator getHeadConstIterator() const;
 	ConstIterator getTailConstIterator() const;
@@ -37,28 +46,16 @@ public:
 	Iterator getTailIterator();
 
 	void appendList(SinglyLinkedList<T>&& other);
-	void appendList(const SinglyLinkedList<T>& other);          
+	void appendList(const SinglyLinkedList<T>& other);    
 
-public:
+	void empty();
+	bool isEmpty() const;                              
+	countType getCount() const;                             
+	
+	void setHead(const T& item);                           
+	void setTail(const T& item);  
 	const T& getHead() const;
 	const T& getTail() const;
-
-	void setHead(const T& item);                           
-	void setTail(const T& item);                          
-
-	void insert(const T& item);
-	void insertAsHead(const T& item);                         
-	void insertAsTail(const T& item);                         
-
-	void removeHead();                                
-	void removeTail();                          
-
-	void removeAt(Iterator& iterator);
-	void removeBefore(Iterator& iterator);
-	void removeAfter(Iterator& iterator);
-
-	void insertAfter(Iterator& iterator, const T& item);
-	void insertBefore(Iterator& iterator, const T& item);
 
 private:
 	void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
