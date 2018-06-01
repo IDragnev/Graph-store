@@ -132,11 +132,13 @@ void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 }
 
 
-void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
+void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& Goal)
 {
-	this->searchedGraph = &graph;
-	this->goal = &goal;
-	this->isPathFound = false;
+	assert(!searchedGraph && !goal);
+
+	searchedGraph = &graph;
+	goal = &Goal;
+	isPathFound = false;
 }
 
 
