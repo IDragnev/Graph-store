@@ -61,11 +61,7 @@ public:
 	void insertBefore(Iterator& iterator, const T& item);
 
 private:
-	bool validateOwnershipOf(const Iterator& iterator) const;
-
-	void nullifyMembers();
-
-	Node<T>* findNodeBefore(const Node<T>* node) const; 
+	void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
 
 	void removeAt(Node<T>* node);
 	void insertAfter(Node<T>* node, const T& item);
@@ -73,7 +69,11 @@ private:
 
 	void appendChainAndUpdateCount(Node<T>* first, Node<T>* last, countType count);
 
-	void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
+	void nullifyMembers();
+	
+	bool validateOwnershipOf(const Iterator& iterator) const;
+
+	Node<T>* findNodeBefore(const Node<T>* node) const; 
 
 private:
 	static Node<T>* cloneChainStartingAt(const Node<T>* firstNode, Node<T>** lastNode = nullptr);
