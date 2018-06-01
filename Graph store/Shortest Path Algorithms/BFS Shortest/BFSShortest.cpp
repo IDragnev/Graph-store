@@ -137,3 +137,42 @@ void BFSShortest::notifyAShortestPathWasFound()
 
 	isPathFound = true;
 }
+
+
+void BFSShortest::initializeSingleSource(Graph& graph, Vertex& source)
+{
+	VertexIteratorPtr iterator(graph.getIteratorToVertices());
+
+	while (!iterator->isFinished())
+	{
+		Vertex* vertex = iterator->getCurrent();
+
+		vertex->setPredecessor(nullptr);
+		vertex->setDistanceToSource(Distance::getInfinity());
+		vertex->markAsNotVisited();
+
+		iterator->goToNext();
+	}
+
+	source.setDistanceToSource(0);
+}
+
+
+void BFSShortest::initializeState(Graph& graph, const Vertex& Goal)
+{
+	assert(!searchedGraph && !goal);
+	assert(verticesQueue.isEmpty());
+
+	searchedGraph = &graph;
+	goal = &Goal;
+	isPathFound = false;
+}
+
+
+void BFSShortest::clearState()
+{
+	searchedGraph = nullptr;
+	goal = nullptr;
+	isPathFound = false;
+	verticesQueue.empty();
+}
