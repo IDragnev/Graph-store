@@ -19,13 +19,12 @@ private:
 
 	void findShortestPathFrom(Vertex& source);
 	void exploreNeighboursOf(Vertex& vertex);
-	void processNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
+	void visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
 	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
 	void addToFrontier(Vertex& vertex);
 	Vertex& extractVertexFromTheFrontier();
 	bool isFrontierEmpty() const;
-	static bool isOnFrontier(const Vertex& vertex);
 
 	bool isTheGoal(const Vertex& vertex) const;
 

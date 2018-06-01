@@ -61,9 +61,10 @@ void BFSShortest::exploreNeighboursOf(Vertex& vertex)
 		Edge& currentEdge = edgeIterator->getCurrent();
 		Vertex& neighbour = currentEdge.getIncidentVertex();
 
-		if (!isOnFrontier(neighbour))
+		if (!neighbour.isVisited())
 		{
-			processNeighbourDiscoveredFrom(neighbour, vertex);
+			neighbour.markAsVisited();
+			visitNeighbourDiscoveredFrom(neighbour, vertex);
 			addToFrontier(neighbour);
 		}
 
@@ -72,7 +73,7 @@ void BFSShortest::exploreNeighboursOf(Vertex& vertex)
 }
 
 
-void BFSShortest::processNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom)
+void BFSShortest::visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom)
 {
 	extendCurrentPathFromTo(vertexFrom, neighbour);
 
@@ -92,16 +93,9 @@ void BFSShortest::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 
 void BFSShortest::addToFrontier(Vertex& vertex)
 {
-	assert(!isOnFrontier(vertex));
+	assert(vertex.isVisited());
 
-	vertex.markAsVisited();
 	verticesQueue.enqueue(&vertex);
-}
-
-
-bool BFSShortest::isOnFrontier(const Vertex& vertex)
-{
-	return vertex.isVisited();
 }
 
 
@@ -154,6 +148,7 @@ void BFSShortest::initializeSingleSource(Graph& graph, Vertex& source)
 		iterator->goToNext();
 	}
 
+	source.markAsVisited();
 	source.setDistanceToSource(0);
 }
 
