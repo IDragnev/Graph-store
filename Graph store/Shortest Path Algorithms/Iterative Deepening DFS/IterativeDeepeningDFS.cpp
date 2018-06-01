@@ -30,7 +30,7 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 	}
 	else
 	{
-		buildTrivialPathFromTo(source, goal);
+		findTrivialPathFromTo(source, goal);
 	}
 }
 

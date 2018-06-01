@@ -10,7 +10,7 @@ ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
 }
 
 
-void ShortestPathAlgorithm::buildTrivialPathFromTo(Vertex& source, Vertex& goal)
+void ShortestPathAlgorithm::findTrivialPathFromTo(Vertex& source, Vertex& goal)
 {
 	assert(source == goal);
 

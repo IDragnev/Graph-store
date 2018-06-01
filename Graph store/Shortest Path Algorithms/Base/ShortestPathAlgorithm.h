@@ -18,7 +18,7 @@ public:
 protected:
 	ShortestPathAlgorithm(const char* ID);
 
-	static void buildTrivialPathFromTo(Vertex& source, Vertex& goal);
+	static void findTrivialPathFromTo(Vertex& source, Vertex& goal);
 
 	void registerInstance();
 

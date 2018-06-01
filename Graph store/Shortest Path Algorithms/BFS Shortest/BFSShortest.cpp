@@ -31,7 +31,7 @@ void BFSShortest::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Ve
 	}
 	else
 	{
-		buildTrivialPathFromTo(source, goal);
+		findTrivialPathFromTo(source, goal);
 	}
 }
 
