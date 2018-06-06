@@ -66,6 +66,9 @@
     <Filter Include="Shortest Path Algorithms\BFS Shortest">
       <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\ID Accessor">
+      <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -186,6 +189,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.h">
       <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
+      <Filter>Graph\ID Accessor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

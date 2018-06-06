@@ -7,14 +7,12 @@
 
 #include "../Vertex/Vertex.h"
 #include "../Edge/Edge.h"
-
+#include "../ID Accessor/IDAccessor.h"
 
 class Graph
 {
 private:
-	class KeyAccessor; //TODO: remove this declaration afterwards
-
-	typedef Hash<Vertex, String, KeyAccessor> VertexHashTable;
+	typedef Hash<Vertex, String, IDAccessor<Vertex>> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
 
 	typedef DArray<Vertex*>::Iterator VertexIterator;
