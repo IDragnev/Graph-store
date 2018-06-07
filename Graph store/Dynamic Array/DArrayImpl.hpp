@@ -134,7 +134,9 @@ template <typename T>
 inline void DArray<T>::ensureSize(sizeType newSize)
 {
 	if (newSize > size)
+	{
 		resize(newSize);
+	}
 }
 
 
@@ -172,7 +174,9 @@ template <typename T>
 inline void DArray<T>::insert(const DArray<T>& other)
 {
 	for (sizeType i = 0; i < other.count; ++i)
+	{
 		insert(other[i]);
+	}
 }
 
 
@@ -182,7 +186,9 @@ inline void DArray<T>::enlargeIfFull()
 	assert(count <= size);
 
 	if (count == size)
+	{
 		resize(size > 0 ? (2 * size) : 8);
+	}
 }
 
 
@@ -249,7 +255,9 @@ inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 	assert(end + 1 < size);
 
 	for (sizeType i = end + 1; i > start; --i)
+	{
 		items[i] = items[i - 1];
+	}
 }
 
 
@@ -259,7 +267,9 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 	assert(start > 0 && end < size);
 
 	for (sizeType i = start - 1; i < end; ++i)
+	{
 		items[i] = items[i + 1];
+	}
 }
 
 
@@ -281,13 +291,6 @@ template <typename T>
 inline typename DArray<T>::sizeType DArray<T>::getSize() const
 {
 	return size;
-}
-
-
-template <typename T>
-inline T* DArray<T>::getItems()
-{
-	return items;
 }
 
 
