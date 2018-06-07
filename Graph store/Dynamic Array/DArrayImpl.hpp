@@ -17,7 +17,9 @@ DArray<T>::DArray(sizeType size, sizeType count) :
 	setCount(count);
 
 	if (this->size > 0)
+	{
 		items = new T[this->size];
+	}
 }
 
 
@@ -76,7 +78,9 @@ void DArray<T>::copyFrom(const DArray<T>& source)
 	DArray<T> temporary(source.size, source.count);
 
 	for (sizeType i = 0; i < source.count; ++i)
+	{
 		temporary.items[i] = source.items[i];
+	}
 
 	swapContentsWithReconstructedParameter(std::move(temporary));
 }
@@ -90,7 +94,9 @@ void DArray<T>::resize(sizeType newSize)
 	DArray<T> temporary(newSize, newCount);
 
 	for (sizeType i = 0; i < newCount; ++i)
+	{
 		temporary.items[i] = items[i];
+	}
 
 	swapContentsWithReconstructedParameter(std::move(temporary));
 }
