@@ -64,24 +64,24 @@ public:
 	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
-	Iterator getHeadIterator();
-	ConstIterator getHeadConstIterator() const;
-	sizeType getSize() const;
-	sizeType getCount() const;
-	bool isEmpty() const;
-
-	void empty();
-	void ensureSize(sizeType size);
-	void shrink(sizeType size);
-
 	void insert(const T& item);
-	void remove(sizeType position);
-
 	void insert(const DArray<T>& other);
 	void insertAt(sizeType position, const T& item);
+	void remove(sizeType position);
 
 	T& operator[](sizeType position);
 	const T& operator[](sizeType position) const;
+
+	bool isEmpty() const;
+	void empty();
+	void shrink(sizeType size);
+	void ensureSize(sizeType size);
+
+	Iterator getHeadIterator();
+	ConstIterator getHeadConstIterator() const;
+
+	sizeType getSize() const;
+	sizeType getCount() const;
 
 private:
 	bool hasItemAt(sizeType position) const;
