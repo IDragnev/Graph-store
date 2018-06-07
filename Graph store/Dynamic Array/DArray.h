@@ -84,18 +84,16 @@ public:
 	sizeType getCount() const;
 
 private:
-	bool hasItemAt(sizeType position) const;
+	void copyFrom(const DArray<T>& source);
 	void enlargeIfFull();
+	void resize(sizeType newSize);
+	void swapContentsWithReconstructedParameter(DArray<T> temp);
 	
-	void setCount(sizeType count);
-
+	bool hasItemAt(sizeType position) const;
 	void shiftItemsOnePositionLeft(sizeType start, sizeType end);
 	void shiftItemsOnePositionRight(sizeType start, sizeType end);
 
-private:
-	void resize(sizeType newSize);
-	void copyFrom(const DArray<T>& other);
-	void swapContentsWithReconstructedParameter(DArray<T> temp);
+	void setCount(sizeType count);
 	void destroyItems();
 	void nullifyMembers();
 
