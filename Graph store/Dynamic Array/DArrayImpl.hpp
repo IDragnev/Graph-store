@@ -193,7 +193,7 @@ inline void DArray<T>::enlargeIfFull()
 
 	if (count == size)
 	{
-		resize(size > 0 ? (2 * size) : 8);
+		resize(size > 0 ? (GROWTH_FACTOR * size) : DEFAULT_SIZE);
 	}
 }
 

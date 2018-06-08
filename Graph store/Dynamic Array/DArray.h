@@ -98,6 +98,10 @@ private:
 	void nullifyMembers();
 
 private:
+	static const sizeType GROWTH_FACTOR = 2;
+	static const sizeType DEFAULT_SIZE = 8;
+
+private:
 	sizeType count;
 	sizeType size;
 	T* items;
