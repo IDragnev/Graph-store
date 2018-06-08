@@ -10,7 +10,7 @@ DArray<T>::DArray() :
 
 
 template <typename T>
-DArray<T>::DArray(sizeType size, sizeType count) :
+DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
 	size(size),
 	items(nullptr)
 {
@@ -77,7 +77,7 @@ void DArray<T>::copyFrom(const DArray<T>& source)
 {
 	DArray<T> temporary(source.size, source.count);
 
-	for (sizeType i = 0; i < source.count; ++i)
+	for (unsignedInteger i = 0; i < source.count; ++i)
 	{
 		temporary.items[i] = source.items[i];
 	}
@@ -87,13 +87,13 @@ void DArray<T>::copyFrom(const DArray<T>& source)
 
 
 template <typename T>
-void DArray<T>::resize(sizeType newSize)
+void DArray<T>::resize(unsignedInteger newSize)
 {
-	sizeType newCount = (count <= newSize) ? count : newSize;
+	unsignedInteger newCount = (count <= newSize) ? count : newSize;
 
 	DArray<T> temporary(newSize, newCount);
 
-	for (sizeType i = 0; i < newCount; ++i)
+	for (unsignedInteger i = 0; i < newCount; ++i)
 	{
 		temporary.items[i] = items[i];
 	}
@@ -120,7 +120,7 @@ inline void DArray<T>::empty()
 
 
 template <typename T>
-void DArray<T>::shrink(sizeType newSize)
+void DArray<T>::shrink(unsignedInteger newSize)
 {
 	assert(newSize <= size);
 
@@ -137,7 +137,7 @@ void DArray<T>::shrink(sizeType newSize)
 
 
 template <typename T>
-inline void DArray<T>::ensureSize(sizeType newSize)
+inline void DArray<T>::ensureSize(unsignedInteger newSize)
 {
 	if (newSize > size)
 	{
@@ -156,7 +156,7 @@ inline void DArray<T>::insert(const T& newItem)
 
 
 template <typename T>
-void DArray<T>::insertAt(sizeType position, const T& newItem)
+void DArray<T>::insertAt(unsignedInteger position, const T& newItem)
 {
 	if (position != count)
 	{
@@ -179,7 +179,7 @@ void DArray<T>::insertAt(sizeType position, const T& newItem)
 template <typename T>
 inline void DArray<T>::insert(const DArray<T>& other)
 {
-	for (sizeType i = 0; i < other.count; ++i)
+	for (unsignedInteger i = 0; i < other.count; ++i)
 	{
 		insert(other[i]);
 	}
@@ -199,7 +199,7 @@ inline void DArray<T>::enlargeIfFull()
 
 
 template <typename T>
-inline void DArray<T>::remove(sizeType position)
+inline void DArray<T>::remove(unsignedInteger position)
 {
 	assert(hasItemAt(position));
 
@@ -208,14 +208,14 @@ inline void DArray<T>::remove(sizeType position)
 
 
 template <typename T>
-inline T& DArray<T>::operator[](sizeType position)
+inline T& DArray<T>::operator[](unsignedInteger position)
 {
 	return const_cast<T&>( static_cast<const DArray<T>&>(*this)[position] );
 }
 
 
 template <typename T>
-inline const T& DArray<T>::operator[](sizeType position) const
+inline const T& DArray<T>::operator[](unsignedInteger position) const
 {
 	assert(hasItemAt(position));
 
@@ -224,7 +224,7 @@ inline const T& DArray<T>::operator[](sizeType position) const
 
 
 template <typename T>
-inline void DArray<T>::setCount(sizeType newCount)
+inline void DArray<T>::setCount(unsignedInteger newCount)
 {
 	assert(newCount <= size);
 
@@ -256,11 +256,11 @@ inline bool DArray<T>::isEmpty() const
 
 
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
+inline void DArray<T>::shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end)
 {
 	assert(end + 1 < size);
 
-	for (sizeType i = end + 1; i > start; --i)
+	for (unsignedInteger i = end + 1; i > start; --i)
 	{
 		items[i] = items[i - 1];
 	}
@@ -268,11 +268,11 @@ inline void DArray<T>::shiftItemsOnePositionRight(sizeType start, sizeType end)
 
 
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
+inline void DArray<T>::shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end)
 {
 	assert(start > 0 && end < size);
 
-	for (sizeType i = start - 1; i < end; ++i)
+	for (unsignedInteger i = start - 1; i < end; ++i)
 	{
 		items[i] = items[i + 1];
 	}
@@ -280,21 +280,21 @@ inline void DArray<T>::shiftItemsOnePositionLeft(sizeType start, sizeType end)
 
 
 template <typename T>
-inline bool DArray<T>::hasItemAt(sizeType position) const
+inline bool DArray<T>::hasItemAt(unsignedInteger position) const
 {
 	return position < count;
 }
 
 
 template <typename T>
-inline typename DArray<T>::sizeType DArray<T>::getCount() const
+inline typename DArray<T>::unsignedInteger DArray<T>::getCount() const
 {
 	return count;
 }
 
 
 template <typename T>
-inline typename DArray<T>::sizeType DArray<T>::getSize() const
+inline typename DArray<T>::unsignedInteger DArray<T>::getSize() const
 {
 	return size;
 }
