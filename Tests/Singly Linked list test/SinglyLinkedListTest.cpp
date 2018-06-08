@@ -12,13 +12,17 @@ namespace SinglyLinkedListTest
 	void fillListAddingTail(List& list, int count)
 	{
 		for (int i = 0; i < count; ++i)
+		{
 			list.insertAsTail(i);
+		}
 	}
 
 	void fillListAddingHead(List& list, int count)
 	{
 		for (int i = 0; i < count; ++i)
+		{
 			list.insertAsHead(i);
+		}
 	}
 
 	bool doIteratorsPointToEqualLists(ListConstIterator& lhsHead, ListConstIterator& rhsHead)
@@ -26,7 +30,9 @@ namespace SinglyLinkedListTest
 		while (lhsHead)
 		{
 			if (*lhsHead != *rhsHead)
+			{
 				return false;
+			}
 
 			++lhsHead;
 			++rhsHead;
@@ -47,139 +53,126 @@ namespace SinglyLinkedListTest
 		static const int NUMBER_OF_ITEMS_TO_INSERT = 100;
 
 	public:
-		TEST_METHOD(EmptyListTest)
+		TEST_METHOD(testDefaultConstructedListIsEmpty)
 		{
 			List list;
 
-			Assert::IsTrue(list.getCount() == 0, L"List is not empty when constructed");
-			Assert::IsTrue(list.isEmpty(), L"IsEmpty returns false after construction");
+			Assert::IsTrue(list.isEmpty());
+		}
 
-			ListConstIterator iterator = list.getHeadConstIterator();
-			Assert::IsFalse(iterator);
+		TEST_METHOD(testEmptyListReturnsNullIterators)
+		{
+			List list;
 
-			iterator = list.getTailConstIterator();
-			Assert::IsFalse(iterator);
+			ListConstIterator head = list.getHeadConstIterator();
+			ListConstIterator tail = list.getTailConstIterator();
+
+			Assert::IsFalse(head);
+			Assert::IsFalse(tail);
 		}
 	
-		TEST_METHOD(InsertTailTest)
+		TEST_METHOD(testTailInsertionUpdatesCountAndTail)
 		{
 			List list;
-
-			list.insertAsTail(1);
-
-			Assert::AreEqual(list.getHead(), list.getTail());
-
-			list.removeHead();
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				list.insertAsTail(i);
-				Assert::IsTrue(list.getCount() == i + 1, L"Count is not set properly when inserting as tail");
-				Assert::IsTrue(list.getTail() == i);
+				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as tail");
+				Assert::IsTrue(list.getTail() == i, L"Tail is not updated when inserting as tail");
 			}
 		}
 
-		TEST_METHOD(InsertHeadTest)
+		TEST_METHOD(testInsertionAsHeadUpdatesCountAndHead)
 		{
 			List list;
-
-			list.insertAsHead(1);
-
-			Assert::AreEqual(list.getHead(), list.getTail());
-
-			list.removeHead();
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				list.insertAsHead(i);
-				Assert::IsTrue(list.getCount() == i + 1, L"Count is not set properly when inserting as head");
-				Assert::IsTrue(list.getHead() == i);
+				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as head");
+				Assert::IsTrue(list.getHead() == i, L"Head is not updated when inserting as head");
 			}
 		}
 
-		TEST_METHOD(AppendingToListCountTest)
+		TEST_METHOD(testAppendListUpdatesCount)
 		{
-			List destination;
-			fillListAddingTail(destination, NUMBER_OF_ITEMS_TO_INSERT);
-
-			const int destInitialCount = destination.getCount();
-
 			List source;
-			destination.appendList(source);
+			List destination;
 
-			Assert::IsTrue(destination.getCount() == destInitialCount, L"Appending an empty list changes count");
+			fillListAddingTail(destination, NUMBER_OF_ITEMS_TO_INSERT);
+			const int destInitialCount = destination.getCount();
 
 			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT / 2);
 			destination.appendList(source);
 
-			Assert::IsTrue(destination.getCount() == (destInitialCount + source.getCount()), L"Appending a non-empty list changes count incorrectly");
+			Assert::IsTrue(destination.getCount() == (destInitialCount + source.getCount()));
 		}
 		
-		TEST_METHOD(AppendingToListReconstruction)
+		TEST_METHOD(testAppendList)
 		{
-			List destination;
 			List source;
+			List destination;
 
 			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT);
+			
+			destination.appendList(source);
+			ListConstIterator destinationIterator = destination.getTailConstIterator();
+
 			destination.appendList(source);
 
-			Assert::IsTrue(areEqual(destination, source));
+			++destinationIterator;
+			Assert::IsTrue(destinationIterator, L"There is no item after tail after appending non-empty list");
 
-			ListConstIterator destinationTail = destination.getTailConstIterator();
-			destination.appendList(source);
+			ListConstIterator sourceIterator = source.getHeadConstIterator();
 
-			++destinationTail;
-			Assert::IsTrue(destinationTail, L"The node after tail is null after appending non-empty list");
-
-			ListConstIterator sourceHead = source.getHeadConstIterator();
-
-			Assert::IsTrue(doIteratorsPointToEqualLists(destinationTail, sourceHead));
+			Assert::IsTrue(doIteratorsPointToEqualLists(destinationIterator, sourceIterator));
 		}
 
-		TEST_METHOD(RemovingHeadTest)
+		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
 		{
 			List list;
 			fillListAddingHead(list, NUMBER_OF_ITEMS_TO_INSERT);
 
 			for (int i = NUMBER_OF_ITEMS_TO_INSERT; i > 0; --i)
 			{
-				Assert::IsTrue(list.getHead() == i - 1, L"Removing head does not manage head properly");
-				Assert::IsTrue(list.getCount() == i, L"Removing head does not manage count properly");
+				Assert::IsTrue(list.getHead() == i - 1, L"Removing head does not update head");
+				Assert::IsTrue(list.getCount() == i, L"Removing head does not update count");
 				list.removeHead();
 			}
 		}
 		
-		TEST_METHOD(RemovingTailTest)
+		TEST_METHOD(testRemoveTailUpdatesCoundAndTail)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
 			for (int i = NUMBER_OF_ITEMS_TO_INSERT; i > 0; --i)
 			{
-				Assert::IsTrue(list.getTail() == i - 1, L"Removing tail does not manage tail properly");
-				Assert::IsTrue(list.getCount() == i, L"Removing tail does not manage count properly");
+				Assert::IsTrue(list.getTail() == i - 1, L"Removing tail does not update tail");
+				Assert::IsTrue(list.getCount() == i, L"Removing tail does not update count");
 				list.removeTail();
 			}
 		}
 
-		TEST_METHOD(InsertionAfterNullIterator)
+		TEST_METHOD(testInsertionAfterNullIteratorInsertsAsTail)
 		{
 			List list;
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
+
 				//forse null
 				++iterator;
 
-				//should insert it as tail
 				list.insertAfter(iterator, i);
 
 				Assert::IsTrue(list.getTail() == i);
 			}
 		}
 
-		TEST_METHOD(InsertingAfterHeadIterator)
+		TEST_METHOD(testInsertionAfterHeadIterator)
 		{
 			List list;
 			list.insertAsHead(1);
@@ -187,16 +180,17 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				ListIterator headIterator = list.getHeadIterator();
+
 				list.insertAfter(headIterator, i);
 
 				++headIterator;
 
-				Assert::IsTrue(headIterator, L"Insertion after iterator does not update its successor");
-				Assert::IsTrue(*headIterator == i, L"Insertion after iterator does not construct with the value passed");
+				Assert::IsTrue(headIterator, L"There is no object after the object we inserted after");
+				Assert::IsTrue(*headIterator == i, L"The inserted object is not the one passed as argument");
 			}
 		}
 
-		TEST_METHOD(InsertingBetweenNodesWithInsertAfterIterator)
+		TEST_METHOD(testInsertionBetweenElementsWithInsertAfterIterator)
 		{
 			List list;
 
@@ -206,16 +200,16 @@ namespace SinglyLinkedListTest
 			ListIterator headIterator = list.getHeadIterator();
 			list.insertAfter(headIterator, 2);
 
-			for (int i = 1; i < 4; ++i)
+			int i = 1;
+			while(headIterator)
 			{
-				Assert::IsTrue(*headIterator == i, L"Inserting between two nodes with iterator is not working properly");
+				Assert::IsTrue(*headIterator == i);
 				++headIterator;
+				++i;
 			}
-
-			Assert::IsFalse(headIterator);
 		}
 
-		TEST_METHOD(InsertingAfterTailIterator)
+		TEST_METHOD(testInsertionAfterTailIterator)
 		{
 			List list;
 			list.insertAsTail(1);
@@ -223,47 +217,50 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				ListIterator tailIterator = list.getTailIterator();
+
 				list.insertAfter(tailIterator, i);
 
 				++tailIterator;
 
-				Assert::IsTrue(tailIterator);
-				Assert::IsTrue(*tailIterator == i, L"Insertion after tail iterator does not construct with the value passed");
+				Assert::IsTrue(tailIterator, L"There is no object after the object we inserted after");
+				Assert::IsTrue(*tailIterator == i, L"The inserted object is not the one passed as argument");
 			}
 		}
 
-		TEST_METHOD(InsertionBeforeNullIterator)
+		TEST_METHOD(testInsertionBeforeNullIteratorInsertsAsHead)
 		{
 			List list;
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
+
 				//forse null
 				++iterator;
 
-				//should insert it as head
 				list.insertBefore(iterator, i);
 
 				Assert::IsTrue(list.getHead() == i);
 			}
 		}
 
-		TEST_METHOD(InsertingBeforeHeadIterator)
+		TEST_METHOD(testInsertionBeforeHeadIterator)
 		{
 			List list;
+
 			list.insertAsHead(1);
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
 				ListIterator headIterator = list.getHeadIterator();
+
 				list.insertBefore(headIterator, i);
 
 				Assert::IsTrue(list.getHead() == i);
 			}
 		}
 
-		TEST_METHOD(InsertingBetweenNodesWithInsertBeforeIterator)
+		TEST_METHOD(testInsertionBetweenElementsWithInsertBeforeIterator)
 		{
 			List list;
 
@@ -271,93 +268,91 @@ namespace SinglyLinkedListTest
 			list.insertAsTail(3);
 
 			ListIterator iterator = list.getTailIterator();
+
 			list.insertBefore(iterator, 2);
 
 			iterator = list.getHeadIterator();
-			for (int i = 1; i < 4; ++i)
+			int i = 1;
+			while(iterator)
 			{
 				Assert::IsTrue(*iterator == i);
-				++iterator;
-			}
 
-			Assert::IsFalse(iterator);
+				++iterator;
+				++i;
+			}
 		}
 
-		TEST_METHOD(RemovingAtNullIterator)
+		TEST_METHOD(testRemovalAtNullIteratorDoesNothing)
 		{
 			List emptyList;
-
 			ListIterator nullIterator = emptyList.getHeadIterator();
+
 			emptyList.removeAt(nullIterator);
 
-			Assert::IsTrue(emptyList.getCount() == 0);
 			Assert::IsTrue(emptyList.isEmpty());
 		}
 
-		TEST_METHOD(RemovingAtHeadIterator)
+		TEST_METHOD(testRemovalAtHeadIterator)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				Assert::IsTrue(list.getHead() == i, L"Removing at head iterator does not manage head properly");
-				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing at head iterator does not manage count properly");
+				Assert::IsTrue(list.getHead() == i, L"Removing at head iterator does not update head");
+				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing at head iterator does not update count");
 
 				ListIterator headIterator = list.getHeadIterator();
 				list.removeAt(headIterator);
 
-				Assert::IsFalse(headIterator, L"Removing at head iterator does not null the iterator");
+				Assert::IsFalse(headIterator, L"Removing at head iterator does not invalidate the iterator");
 			}
-
-			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(RemovingAtTailIterator)
+		TEST_METHOD(testRemovalAtTailIterator)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
 			for (int i = NUMBER_OF_ITEMS_TO_INSERT - 1; i >= 0; --i)
 			{
-				Assert::IsTrue(list.getTail() == i, L"Removing at tail iterator does not manage tail properly");
-				Assert::IsTrue(list.getCount() == i + 1, L"Removing at tail iterator does not manage count properly");
+				Assert::IsTrue(list.getTail() == i, L"Removing at tail iterator does not update tail");
+				Assert::IsTrue(list.getCount() == i + 1, L"Removing at tail iterator does not update count");
 
 				ListIterator tailIterator = list.getTailIterator();
 				list.removeAt(tailIterator);
 
-				Assert::IsFalse(tailIterator, L"Removing at iterator does not null iterator");
+				Assert::IsFalse(tailIterator, L"Removing at iterator does not invalidate the iterator");
 			}
-
-			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(RemovingBetweenNodesWithIterator)
+		TEST_METHOD(testRemovalBetweenElementsWithIterator)
 		{
 			List list;
 			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			const int insertedItemsCount = NUMBER_OF_ITEMS_TO_INSERT;
+			const int headElement = list.getHead();
+
+			for (int i = 0; i < insertedItemsCount; ++i)
 			{
-				//head stays 0 after removing its successor
-				Assert::IsTrue(list.getHead() == 0, L"Removing between nodes with iterator does not manage predecessor properly");
-				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing between nodes with iterator does not manage count properly");
+				Assert::IsTrue(list.getHead() == headElement, L"Removing between first and third modifies first element");
+				Assert::IsTrue(list.getCount() == insertedItemsCount - i, L"Removing between element with iterator does not update count");
 
-				ListIterator secondNodeIterator = list.getHeadIterator();
-				++secondNodeIterator;
+				ListIterator secondElementIterator = list.getHeadIterator();
+				++secondElementIterator;
 
-				//if at least two nodes in the list
-				if (i < NUMBER_OF_ITEMS_TO_INSERT - 1)
+				if (insertedItemsCount - i > 1)
 				{
-					Assert::IsTrue(*secondNodeIterator == i + 1, L"Removing between nodes with iterator does not manage successor properly");
+					Assert::IsTrue(*secondElementIterator == i + 1, L"Removing between nodes with iterator does not manage successor properly");
 				}
 
-				list.removeAt(secondNodeIterator);
-				Assert::IsFalse(secondNodeIterator, L"Removing at iterator does not null iterator");
+				list.removeAt(secondElementIterator);
+				Assert::IsFalse(secondElementIterator, L"Removing at iterator does not invalidate iterator");
 			}
 
 			Assert::IsTrue(list.getCount() == 1);
-			Assert::IsTrue(list.getHead() == 0);
+			Assert::IsTrue(list.getHead() == headElement);
 		}
 
 		TEST_METHOD(CopyCtorTest)
