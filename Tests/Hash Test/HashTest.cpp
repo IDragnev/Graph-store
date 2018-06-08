@@ -87,11 +87,8 @@ namespace HashTest
 
 		TEST_METHOD(testConstructorMakesEmptyHash)
 		{
-			for (size_t i = 1; i < 50; ++i)
-			{
-				ItemHash hash(i);
-				Assert::IsTrue(hash.isEmpty());
-			}
+			ItemHash hash(EXPECTED_COUNT);
+			Assert::IsTrue(hash.isEmpty());
 		}
 
 		TEST_METHOD(testInsertionUpdatesCount)
