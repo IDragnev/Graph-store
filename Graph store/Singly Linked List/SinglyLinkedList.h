@@ -13,7 +13,7 @@ class SinglyLinkedList
 private:
 	static_assert(std::is_copy_constructible<T>::value, "SinglyLinkedList<T> requires T to be copy constructible");
 
-	typedef unsigned countType;
+	typedef unsigned unsignedInteger;
 
 public:
 	typedef SinglyLinkedListIterator<T, false> Iterator;
@@ -50,7 +50,7 @@ public:
 
 	void empty();
 	bool isEmpty() const;                              
-	countType getCount() const;                             
+	unsignedInteger getCount() const;                             
 	
 	void setHead(const T& item);                           
 	void setTail(const T& item);  
@@ -64,7 +64,7 @@ private:
 	void insertAfter(Node<T>* node, const T& item);
 	void insertBefore(Node<T>* node, const T& item);
 
-	void appendChainAndUpdateCount(Node<T>* first, Node<T>* last, countType count);
+	void appendChainAndUpdateCount(Node<T>* first, Node<T>* last, unsignedInteger count);
 
 	void nullifyMembers();
 	
@@ -77,7 +77,7 @@ private:
 	static void clearChainStartingAt(const Node<T>* firstNode);  
 
 private:
-	countType count;                                         
+	unsignedInteger count;                                         
 	Node<T>* head;                                  
 	Node<T>* tail;                                    
 };

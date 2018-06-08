@@ -35,8 +35,6 @@ public:
 	bool operator!() const;
 	operator bool() const;
 
-	//TODO: equality operators
-
 private:
 	SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner);
 

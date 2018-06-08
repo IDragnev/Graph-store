@@ -46,31 +46,5 @@ namespace SinglyLinkedListTest
 				++i;
 			}
 		}
-
-		//TODO: remove comments when equality operators are supplied
-		/*TEST_METHOD(IteratorEqualtyOperatorsTest)
-		{
-			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
-
-			ListIterator head = list.getHeadIterator();
-			ListIterator tail = list.getTailIterator();
-
-			Assert::IsFalse(head == tail);
-			Assert::IsTrue(head != tail);
-
-			tail = list.getHeadIterator();
-
-			Assert::IsTrue(head == tail);
-			Assert::IsFalse(head != tail);
-
-			list.empty();
-
-			head = list.getHeadIterator();
-			tail = list.getTailIterator();
-
-			Assert::IsTrue(head == tail);
-			Assert::IsFalse(head != tail);
-		}*/
 	};
 }

@@ -92,7 +92,7 @@ void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 
 
 template <typename T>
-void SinglyLinkedList<T>::appendChainAndUpdateCount(Node<T>* first, Node<T>* last, countType count)
+void SinglyLinkedList<T>::appendChainAndUpdateCount(Node<T>* first, Node<T>* last, unsignedInteger count)
 {
 	assert(first && last);
 
@@ -349,7 +349,7 @@ inline bool SinglyLinkedList<T>::isEmpty() const
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::countType SinglyLinkedList<T>::getCount() const
+inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCount() const
 {
 	return count;
 }
