@@ -70,7 +70,9 @@ template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	if (isFillingUp())
+	{
 		resize(tableSize * 2);
+	}
 
 	sizeType index = hashFunction(keyAccessor(item)) % tableSize;
 
@@ -110,9 +112,13 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		Item* result = extractItemFromTableAt(index);
 
 		if (isTooEmpty() && canBeHalved())
+		{
 			resize(tableSize / 2);
+		}
 		else
+		{
 			rehashCluster((index + 1) % tableSize);
+		}
 		
 		return result;
 	}
@@ -131,7 +137,9 @@ long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key) const
 		while (table[index])
 		{
 			if (keyAccessor( *(table[index]) ) == key)
+			{
 				return index;
+			}
 
 			index = (index + 1) % tableSize;
 		}
@@ -174,7 +182,9 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(sizeType start)
 
 	while (table[positionToEmpty])
 	{
-		insert(*extractItemFromTableAt(positionToEmpty));
+		Item* extractedItem = extractItemFromTableAt(positionToEmpty);
+
+		insert(*extractedItem);
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
 	}
@@ -238,14 +248,14 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 template <typename Item,typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isTooEmpty() const
 {
-	return (6 * insertedCount <= tableSize);
+	return 6 * insertedCount <= tableSize;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::canBeHalved() const
 {
-	return (tableSize / 2 >= MIN_TABLE_SIZE);
+	return tableSize / 2 >= MIN_TABLE_SIZE;
 }
 
 
