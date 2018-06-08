@@ -6,34 +6,20 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace StringTest
 {		
-
-	bool areEqualAsCStrings(const char* lhs, const char* rhs)
+	bool haveSameContents(const char* lhs, const char* rhs)
 	{
 		return strcmp(lhs, rhs) == 0;
 	}
 
-	bool areStringsEqual(const String& lhs, const String& rhs)
-	{
-		return (lhs.getLength() == rhs.getLength()) && areEqualAsCStrings(lhs, rhs);
-	}
-
 	bool isTheEmptyString(const String& string)
 	{
-		return (string.getLength() == 0) && areEqualAsCStrings(string, "");
+		return haveSameContents(string, "");
 	}
-
 
 	TEST_CLASS(StringTest)
 	{
 	private:
 		static const char C_STRING_PROTOTYPE[];
-		static const size_t PROTOTYPE_LENGTH;
-
-		static bool isExactCopyOfThePrototype(const String& string)
-		{
-			return string.getLength() == PROTOTYPE_LENGTH &&
-				   areEqualAsCStrings(string, C_STRING_PROTOTYPE);
-		}
 
 	public:
 		TEST_METHOD(testDefaultConstructedStringIsEmpty)
@@ -46,7 +32,7 @@ namespace StringTest
 		{
 			String string(C_STRING_PROTOTYPE);
 
-			Assert::IsTrue(isExactCopyOfThePrototype(string));
+			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
 		}
 
 		TEST_METHOD(testCStringConstructorWithEmptyCStringConstructsEmptyString)
@@ -64,8 +50,7 @@ namespace StringTest
 		TEST_METHOD(testSingleCharConstructor)
 		{
 			String str('C');
-			Assert::IsTrue(areEqualAsCStrings(str, "C"));
-			Assert::IsTrue(str.getLength() == 1);
+			Assert::IsTrue(haveSameContents(str, "C"));
 		}
 
 		TEST_METHOD(testCopyCtorWithEmptyString)
@@ -73,8 +58,7 @@ namespace StringTest
 			String emptySource;
 			String destination(emptySource);
 			
-			Assert::IsTrue(isTheEmptyString(destination));
-			Assert::IsTrue(areStringsEqual(emptySource, destination));
+			Assert::IsTrue(haveSameContents(destination, emptySource));
 		}
 
 		TEST_METHOD(testCopyCtorWithNonEmptyString)
@@ -82,7 +66,7 @@ namespace StringTest
 			String source(C_STRING_PROTOTYPE);
 			String destination(source);
 
-			Assert::IsTrue(areStringsEqual(source, destination));
+			Assert::IsTrue(haveSameContents(source, destination));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
@@ -92,8 +76,7 @@ namespace StringTest
 
 			lhs = rhs;
 
-			Assert::IsTrue(isTheEmptyString(lhs));
-			Assert::IsTrue(areStringsEqual(lhs, rhs));
+			Assert::IsTrue(haveSameContents(lhs, rhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
@@ -103,7 +86,7 @@ namespace StringTest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areStringsEqual(lhs, rhs));
+			Assert::IsTrue(haveSameContents(lhs, rhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
@@ -113,7 +96,7 @@ namespace StringTest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areStringsEqual(lhs, rhs));
+			Assert::IsTrue(haveSameContents(lhs, rhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
@@ -123,19 +106,19 @@ namespace StringTest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areStringsEqual(lhs, rhs));
+			Assert::IsTrue(haveSameContents(lhs, rhs));
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmptyLeavesSourceEmpty)
+		TEST_METHOD(testMoveCtorFromNonEmptySourceLeavesSourceEmpty)
 		{
 			String source(C_STRING_PROTOTYPE);
 			String destination(std::move(source));
 
-			Assert::IsTrue(isExactCopyOfThePrototype(destination));
+			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE));
 			Assert::IsTrue(isTheEmptyString(source));
 		}
 
-		TEST_METHOD(testMoveCtorFromEmptyDoesNotModifySource)
+		TEST_METHOD(testMoveCtorFromEmptySourceDoesNotModifySource)
 		{
 			String emptySource;
 			String destination(std::move(emptySource));
@@ -162,7 +145,7 @@ namespace StringTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(isExactCopyOfThePrototype(lhs));
+			Assert::IsTrue(haveSameContents(lhs, C_STRING_PROTOTYPE));
 			Assert::IsTrue(isTheEmptyString(rhs));
 		}
 
@@ -181,7 +164,7 @@ namespace StringTest
 
 			string.append(C_STRING_PROTOTYPE);
 
-			Assert::IsTrue(isExactCopyOfThePrototype(string));
+			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
 		}
 
 		TEST_METHOD(testAppendingNonEmptyStringToNonEmptyString)
@@ -190,8 +173,7 @@ namespace StringTest
 
 			string.append("6789");
 			
-			Assert::IsTrue(areEqualAsCStrings(string, "0123456789"));
-			Assert::IsTrue(string.getLength() == 10);
+			Assert::IsTrue(haveSameContents(string, "0123456789"));
 		}
 
 		TEST_METHOD(testAppendingEmptyStringToNonEmptyDestinationDoesNotModifyDestination)
@@ -200,10 +182,9 @@ namespace StringTest
 
 			string.append("");
 
-			Assert::IsTrue(isExactCopyOfThePrototype(string));
+			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
 		}
 	};
 
 	const char StringTest::C_STRING_PROTOTYPE[] = { "PROTOTYPE" };
-	const size_t StringTest::PROTOTYPE_LENGTH = 9;
 }
