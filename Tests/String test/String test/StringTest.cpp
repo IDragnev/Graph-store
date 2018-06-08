@@ -125,21 +125,8 @@ namespace StringTest
 
 			Assert::IsTrue(areStringsEqual(lhs, rhs));
 		}
-		
-		TEST_METHOD(testMoveCtorFromNonEmptyPRValue)
-		{
-			String string(String("val"));
-			Assert::IsTrue(areEqualAsCStrings(string, "val"));
-			Assert::IsTrue(string.getLength() == 3);
-		}
-		
-		TEST_METHOD(testMoveCtorFromEmptyPRValueConstructsEmptyString)
-		{
-			String string(String(nullptr));
-			Assert::IsTrue(isTheEmptyString(string));
-		}
 
-		TEST_METHOD(testMoveCtorFromNonEmptyXValueLeavesArgumentEmpty)
+		TEST_METHOD(testMoveCtorFromNonEmptyLeavesSourceEmpty)
 		{
 			String source(C_STRING_PROTOTYPE);
 			String destination(std::move(source));
@@ -148,7 +135,7 @@ namespace StringTest
 			Assert::IsTrue(isTheEmptyString(source));
 		}
 
-		TEST_METHOD(testMoveCtorFromEmptyXValueDoesNotModifySource)
+		TEST_METHOD(testMoveCtorFromEmptyDoesNotModifySource)
 		{
 			String emptySource;
 			String destination(std::move(emptySource));
@@ -156,26 +143,8 @@ namespace StringTest
 			Assert::IsTrue(isTheEmptyString(destination));
 			Assert::IsTrue(isTheEmptyString(emptySource));
 		}
-		
-		TEST_METHOD(testMoveAssignmentFromEmptyPRValueLeavesLHSEmpty)
-		{
-			String lhs(C_STRING_PROTOTYPE);
 
-			lhs = String(nullptr);
-
-			Assert::IsTrue(isTheEmptyString(lhs));
-		}
-
-		TEST_METHOD(testMoveAssignmentFromNonEmptyPRValue)
-		{
-			String lhs(nullptr);
-
-			lhs = String(C_STRING_PROTOTYPE);
-
-			Assert::IsTrue(isExactCopyOfThePrototype(lhs));
-		}
-
-		TEST_METHOD(testMoveAssignmentFromEmptyXValueLeavesLhsAndRhsEmpty)
+		TEST_METHOD(testMoveAssignmentFromEmptyRhsLeavesLhsAndRhsEmpty)
 		{
 			String lhs(C_STRING_PROTOTYPE);
 			String emptyRHS;
@@ -186,7 +155,7 @@ namespace StringTest
 			Assert::IsTrue(isTheEmptyString(emptyRHS));
 		}
 
-		TEST_METHOD(testMoveAssignmentFromNonEmptyXValueLeavesRhsEmpty)
+		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsLeavesRhsEmpty)
 		{
 			String lhs;
 			String rhs(C_STRING_PROTOTYPE);
