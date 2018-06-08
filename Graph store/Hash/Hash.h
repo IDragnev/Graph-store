@@ -27,10 +27,10 @@ HashFunction and KeyAccessor must be copy constructible and copy assignable.
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
-	typedef size_t sizeType;
+	typedef size_t unsignedInteger;
 
 public:
-	explicit Hash(sizeType expectedCount);
+	explicit Hash(unsignedInteger expectedCount);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
 	~Hash() = default;
@@ -45,26 +45,26 @@ public:
 
 	void empty();
 	bool isEmpty() const;
-	sizeType getCount() const;
+	unsignedInteger getCount() const;
 
 private:
-	void resize(sizeType newSize);
+	void resize(unsignedInteger newSize);
 	void swapContentsWithReconstructedParameter(Hash other);
 	void nullifyTable();
 	long searchTableAndGetIndex(const Key& key) const; 
-	void rehashCluster(sizeType start);
-	Item* extractItemFromTableAt(sizeType index);
+	void rehashCluster(unsignedInteger start);
+	Item* extractItemFromTableAt(unsignedInteger index);
 	bool isTooEmpty() const;
 	bool canBeHalved() const;
 	bool isFillingUp() const;
 
 private:
-	static const sizeType MIN_TABLE_SIZE = 3;
-	static sizeType calculateAppropriateSize(sizeType expectedSize);
+	static const unsignedInteger MIN_TABLE_SIZE = 3;
+	static unsignedInteger calculateAppropriateSize(unsignedInteger expectedSize);
 
 private:
-	sizeType tableSize;
-	sizeType insertedCount;
+	unsignedInteger tableSize;
+	unsignedInteger insertedCount;
 	DArray<Item*> table;
 
 	mutable HashFunction<Key> hashFunction;
