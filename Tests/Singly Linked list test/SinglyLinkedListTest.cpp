@@ -46,6 +46,25 @@ namespace SinglyLinkedListTest
 		return (lhs.getCount() == rhs.getCount()) && doIteratorsPointToEqualLists(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
 	}
 
+	bool containsAllIntegersFromZeroTo(const List& list, const int integer)
+	{
+		ListConstIterator constIterator = list.getHeadConstIterator();
+
+		int currentInteger = 0;
+		while (constIterator)
+		{
+			if (*constIterator != currentInteger)
+			{
+				return false;
+			}
+
+			++constIterator;
+			++currentInteger;
+		}
+
+		return currentInteger - 1 == integer;
+	}
+
 
 	TEST_CLASS(SinglyLinkedListTest)
 	{
@@ -299,13 +318,17 @@ namespace SinglyLinkedListTest
 
 			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
 			{
-				Assert::IsTrue(list.getHead() == i, L"Removing at head iterator does not update head");
-				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - i, L"Removing at head iterator does not update count");
-
 				ListIterator headIterator = list.getHeadIterator();
 				list.removeAt(headIterator);
 
 				Assert::IsFalse(headIterator, L"Removing at head iterator does not invalidate the iterator");
+
+				if (!list.isEmpty())
+				{
+					Assert::IsTrue(list.getHead() == i + 1, L"Removing at head iterator does not update head");
+				}
+
+				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - (i + 1), L"Removing at head iterator does not update count");
 			}
 		}
 
@@ -316,13 +339,17 @@ namespace SinglyLinkedListTest
 
 			for (int i = NUMBER_OF_ITEMS_TO_INSERT - 1; i >= 0; --i)
 			{
-				Assert::IsTrue(list.getTail() == i, L"Removing at tail iterator does not update tail");
-				Assert::IsTrue(list.getCount() == i + 1, L"Removing at tail iterator does not update count");
-
 				ListIterator tailIterator = list.getTailIterator();
 				list.removeAt(tailIterator);
 
 				Assert::IsFalse(tailIterator, L"Removing at iterator does not invalidate the iterator");
+
+				if (!list.isEmpty())
+				{
+					Assert::IsTrue(list.getTail() == i - 1, L"Removing at tail iterator does not update tail");
+				}
+
+				Assert::IsTrue(list.getCount() == i, L"Removing at tail iterator does not update count");
 			}
 		}
 
@@ -355,47 +382,48 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list.getHead() == headElement);
 		}
 
-		TEST_METHOD(CopyCtorTest)
+		TEST_METHOD(testCopyCtorFromEmpty)
 		{
 			List source;
 
-			List destinationOne(source);
-			Assert::IsTrue(areEqual(source, destinationOne));
+			List destination(source);
+
+			Assert::IsTrue(areEqual(source, destination));
+		}
+
+		TEST_METHOD(testCopyCtorFromNonEmpty)
+		{
+			List source;
 
 			fillListAddingHead(source, NUMBER_OF_ITEMS_TO_INSERT);
 
-			List destinationTwo(source);
-			Assert::IsTrue(areEqual(source, destinationTwo));
+			List destination(source);
+
+			Assert::IsTrue(areEqual(source, destination));
 		}
 
-		TEST_METHOD(MoveCtorFromEmpty)
+		TEST_METHOD(testMoveCtorFromEmptySource)
 		{
 			List source;
+
 			List destination(std::move(source));
 
-			Assert::IsTrue(destination.getCount() == 0);
 			Assert::IsTrue(destination.isEmpty());
-
-			Assert::IsTrue(source.getCount() == 0);
 			Assert::IsTrue(source.isEmpty());
 		}
 
-		TEST_METHOD(MoveCtorFromNonEmpty)
+		TEST_METHOD(testMoveCtorFromNonEmpty)
 		{
 			List source;
 			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT);
 
-			List initialSourceCopy(source);
-
 			List destination(std::move(source));
 
-			Assert::IsTrue(areEqual(destination, initialSourceCopy));
-
-			Assert::IsTrue(source.getCount() == 0);
+			Assert::IsTrue(containsAllIntegersFromZeroTo(destination, NUMBER_OF_ITEMS_TO_INSERT - 1));
 			Assert::IsTrue(source.isEmpty());
 		}
 
-		TEST_METHOD(CopyAssignmentEmptyToEmpty)
+		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
 		{
 			List lhs;
 			List rhs;
@@ -405,7 +433,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(areEqual(lhs, rhs));
 		}
 
-		TEST_METHOD(CopyAssignmentNonEmptyToEmpty)
+		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
 		{
 			List lhs;
 			List rhs;
@@ -417,7 +445,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(areEqual(lhs, rhs));
 		}
 
-		TEST_METHOD(CopyAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
 		{
 			List lhs;
 			List rhs;
@@ -430,7 +458,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(areEqual(lhs, rhs));
 		}
 
-		TEST_METHOD(CopyAssignmentEmptyToNonEmpty)
+		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
 		{
 			List lhs;
 			List rhs;
@@ -442,36 +470,31 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(areEqual(lhs, rhs));
 		}
 		
-		TEST_METHOD(MoveAssignmentEmptyToEmpty)
+		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
 		{
 			List lhs;
 			List rhs;
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs.getCount() == 0);
 			Assert::IsTrue(lhs.isEmpty());
-			Assert::IsTrue(rhs.getCount() == 0);
 			Assert::IsTrue(rhs.isEmpty());
 		}
 
-		TEST_METHOD(MoveAssignmentNonEmptyToEmpty)
+		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(rhs, NUMBER_OF_ITEMS_TO_INSERT);
-
-			List initialRhsCopy(rhs);
+			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT);
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(areEqual(lhs, initialRhsCopy));
-			Assert::IsTrue(rhs.getCount() == 0);
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, NUMBER_OF_ITEMS_TO_INSERT - 1));
 			Assert::IsTrue(rhs.isEmpty());
 		}
 		
-		TEST_METHOD(MoveAssignmentEmptyToNonEmpty)
+		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
 		{
 			List lhs;
 			List rhs;
@@ -480,27 +503,21 @@ namespace SinglyLinkedListTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs.getCount() == 0);
 			Assert::IsTrue(lhs.isEmpty());
-			Assert::IsTrue(rhs.getCount() == 0);
 			Assert::IsTrue(rhs.isEmpty());
 		}
 
-
-		TEST_METHOD(MoveAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
 		{
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT);
-			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT / 2);
-
-			List initialRhsCopy(rhs);
+			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT - 5);
+			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT);
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(areEqual(lhs, initialRhsCopy));
-			Assert::IsTrue(rhs.getCount() == 0);
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, NUMBER_OF_ITEMS_TO_INSERT - 1));
 			Assert::IsTrue(rhs.isEmpty());
 		}
 	};
