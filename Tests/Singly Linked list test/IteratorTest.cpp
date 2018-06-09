@@ -9,19 +9,19 @@ typedef SinglyLinkedList<int> List;
 
 namespace SinglyLinkedListTest
 {		
-	void fillListAddingTail(List& list, int count);
-	void fillListAddingHead(List& list, int count);
+	void fillListWithIntegersFromZeroTo(List& list, const int integer);
+	void fillListWithIntegersFromZeroToInReverse(List& list, const int integer);
 
 	TEST_CLASS(IteratorTest)
 	{
 	private:
-		static const int NUMBER_OF_ITEMS_TO_INSERT = 50;
+		static const int BIG_INTEGER = 50;
 
 	public:
 		TEST_METHOD(IteratorBoundariesTest)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
 			ListConstIterator iterator = list.getHeadConstIterator();
 			int count = 0;
@@ -29,13 +29,13 @@ namespace SinglyLinkedListTest
 			for (; iterator; ++iterator)
 				++count;
 
-			Assert::IsTrue(count == NUMBER_OF_ITEMS_TO_INSERT);
+			Assert::IsTrue(count == BIG_INTEGER);
 		}
 
 		TEST_METHOD(IteratorDerrefTest)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
 			ListConstIterator iterator = list.getHeadConstIterator();
 

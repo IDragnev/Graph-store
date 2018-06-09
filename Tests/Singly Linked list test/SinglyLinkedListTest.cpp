@@ -9,17 +9,17 @@ typedef SinglyLinkedList<int> List;
 
 namespace SinglyLinkedListTest
 {
-	void fillListAddingTail(List& list, int count)
+	void fillListWithIntegersFromZeroTo(List& list, const int integer)
 	{
-		for (int i = 0; i < count; ++i)
+		for (int i = 0; i <= integer; ++i)
 		{
 			list.insertAsTail(i);
 		}
 	}
 
-	void fillListAddingHead(List& list, int count)
+	void fillListWithIntegersFromZeroToInReverse(List& list, const int integer)
 	{
-		for (int i = 0; i < count; ++i)
+		for (int i = 0; i <= integer; ++i)
 		{
 			list.insertAsHead(i);
 		}
@@ -69,7 +69,7 @@ namespace SinglyLinkedListTest
 	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
-		static const int NUMBER_OF_ITEMS_TO_INSERT = 100;
+		static const int BIG_INTEGER = 100;
 
 	public:
 		TEST_METHOD(testDefaultConstructedListIsEmpty)
@@ -94,7 +94,7 @@ namespace SinglyLinkedListTest
 		{
 			List list;
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				list.insertAsTail(i);
 				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as tail");
@@ -106,7 +106,7 @@ namespace SinglyLinkedListTest
 		{
 			List list;
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				list.insertAsHead(i);
 				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as head");
@@ -119,10 +119,10 @@ namespace SinglyLinkedListTest
 			List source;
 			List destination;
 
-			fillListAddingTail(destination, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(destination, BIG_INTEGER);
 			const int destInitialCount = destination.getCount();
 
-			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT / 2);
+			fillListWithIntegersFromZeroTo(source, BIG_INTEGER / 2);
 			destination.appendList(source);
 
 			Assert::IsTrue(destination.getCount() == (destInitialCount + source.getCount()));
@@ -133,7 +133,7 @@ namespace SinglyLinkedListTest
 			List source;
 			List destination;
 
-			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 			
 			destination.appendList(source);
 			ListConstIterator destinationIterator = destination.getTailConstIterator();
@@ -151,9 +151,9 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
 		{
 			List list;
-			fillListAddingHead(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroToInReverse(list, BIG_INTEGER - 1);
 
-			for (int i = NUMBER_OF_ITEMS_TO_INSERT; i > 0; --i)
+			for (int i = BIG_INTEGER; i > 0; --i)
 			{
 				Assert::IsTrue(list.getHead() == i - 1, L"Removing head does not update head");
 				Assert::IsTrue(list.getCount() == i, L"Removing head does not update count");
@@ -164,9 +164,9 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemoveTailUpdatesCoundAndTail)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
-			for (int i = NUMBER_OF_ITEMS_TO_INSERT; i > 0; --i)
+			for (int i = BIG_INTEGER; i > 0; --i)
 			{
 				Assert::IsTrue(list.getTail() == i - 1, L"Removing tail does not update tail");
 				Assert::IsTrue(list.getCount() == i, L"Removing tail does not update count");
@@ -178,7 +178,7 @@ namespace SinglyLinkedListTest
 		{
 			List list;
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
 
@@ -196,7 +196,7 @@ namespace SinglyLinkedListTest
 			List list;
 			list.insertAsHead(1);
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator headIterator = list.getHeadIterator();
 
@@ -233,7 +233,7 @@ namespace SinglyLinkedListTest
 			List list;
 			list.insertAsTail(1);
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator tailIterator = list.getTailIterator();
 
@@ -250,7 +250,7 @@ namespace SinglyLinkedListTest
 		{
 			List list;
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
 
@@ -269,7 +269,7 @@ namespace SinglyLinkedListTest
 
 			list.insertAsHead(1);
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator headIterator = list.getHeadIterator();
 
@@ -314,9 +314,9 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemovalAtHeadIterator)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
-			for (int i = 0; i < NUMBER_OF_ITEMS_TO_INSERT; ++i)
+			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator headIterator = list.getHeadIterator();
 				list.removeAt(headIterator);
@@ -328,16 +328,16 @@ namespace SinglyLinkedListTest
 					Assert::IsTrue(list.getHead() == i + 1, L"Removing at head iterator does not update head");
 				}
 
-				Assert::IsTrue(list.getCount() == NUMBER_OF_ITEMS_TO_INSERT - (i + 1), L"Removing at head iterator does not update count");
+				Assert::IsTrue(list.getCount() == BIG_INTEGER - (i + 1), L"Removing at head iterator does not update count");
 			}
 		}
 
 		TEST_METHOD(testRemovalAtTailIterator)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
-			for (int i = NUMBER_OF_ITEMS_TO_INSERT - 1; i >= 0; --i)
+			for (int i = BIG_INTEGER - 1; i >= 0; --i)
 			{
 				ListIterator tailIterator = list.getTailIterator();
 				list.removeAt(tailIterator);
@@ -356,9 +356,9 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemovalBetweenElementsWithIterator)
 		{
 			List list;
-			fillListAddingTail(list, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
-			const int insertedItemsCount = NUMBER_OF_ITEMS_TO_INSERT;
+			const int insertedItemsCount = BIG_INTEGER;
 			const int headElement = list.getHead();
 
 			for (int i = 0; i < insertedItemsCount; ++i)
@@ -395,7 +395,7 @@ namespace SinglyLinkedListTest
 		{
 			List source;
 
-			fillListAddingHead(source, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 
 			List destination(source);
 
@@ -415,11 +415,11 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testMoveCtorFromNonEmpty)
 		{
 			List source;
-			fillListAddingTail(source, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 
 			List destination(std::move(source));
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(destination, NUMBER_OF_ITEMS_TO_INSERT - 1));
+			Assert::IsTrue(containsAllIntegersFromZeroTo(destination, BIG_INTEGER));
 			Assert::IsTrue(source.isEmpty());
 		}
 
@@ -438,7 +438,7 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
 			lhs = rhs;
 
@@ -450,8 +450,8 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT);
-			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT / 2);
+			fillListWithIntegersFromZeroToInReverse(lhs, BIG_INTEGER);
+			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER / 2);
 
 			lhs = rhs;
 
@@ -463,7 +463,7 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(lhs, BIG_INTEGER);
 
 			lhs = rhs;
 
@@ -486,11 +486,11 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, NUMBER_OF_ITEMS_TO_INSERT - 1));
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER));
 			Assert::IsTrue(rhs.isEmpty());
 		}
 		
@@ -499,7 +499,7 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroTo(lhs, BIG_INTEGER);
 
 			lhs = std::move(rhs);
 
@@ -512,12 +512,12 @@ namespace SinglyLinkedListTest
 			List lhs;
 			List rhs;
 
-			fillListAddingHead(lhs, NUMBER_OF_ITEMS_TO_INSERT - 5);
-			fillListAddingTail(rhs, NUMBER_OF_ITEMS_TO_INSERT);
+			fillListWithIntegersFromZeroToInReverse(lhs, BIG_INTEGER - 5);
+			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, NUMBER_OF_ITEMS_TO_INSERT - 1));
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER));
 			Assert::IsTrue(rhs.isEmpty());
 		}
 	};
