@@ -25,25 +25,25 @@ namespace SinglyLinkedListTest
 		}
 	}
 
-	bool doIteratorsPointToEqualLists(ListConstIterator& lhsHead, ListConstIterator& rhsHead)
+	bool iterateSameContents(ListConstIterator& lhs, ListConstIterator& rhs)
 	{
-		while (lhsHead)
+		while (lhs)
 		{
-			if (*lhsHead != *rhsHead)
+			if (*lhs != *rhs)
 			{
 				return false;
 			}
 
-			++lhsHead;
-			++rhsHead;
+			++lhs;
+			++rhs;
 		}
 
-		return !lhsHead && !rhsHead;
+		return !lhs && !rhs;
 	}
 
 	bool areEqual(const List& lhs, const List& rhs)
 	{
-		return (lhs.getCount() == rhs.getCount()) && doIteratorsPointToEqualLists(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
+		return (lhs.getCount() == rhs.getCount()) && iterateSameContents(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
 	}
 
 	bool containsAllIntegersFromZeroTo(const List& list, const int integer)
@@ -145,7 +145,7 @@ namespace SinglyLinkedListTest
 
 			ListConstIterator sourceIterator = source.getHeadConstIterator();
 
-			Assert::IsTrue(doIteratorsPointToEqualLists(destinationIterator, sourceIterator));
+			Assert::IsTrue(iterateSameContents(destinationIterator, sourceIterator));
 		}
 
 		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
