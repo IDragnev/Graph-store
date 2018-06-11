@@ -114,8 +114,8 @@ namespace StringTest
 			String source(C_STRING_PROTOTYPE);
 			String destination(std::move(source));
 
-			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE));
-			Assert::IsTrue(isTheEmptyString(source));
+			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE), L"Moved-in object has wrong contents");
+			Assert::IsTrue(isTheEmptyString(source), L"Moved-from object is not empty");
 		}
 
 		TEST_METHOD(testMoveCtorFromEmptySourceDoesNotModifySource)
@@ -123,8 +123,8 @@ namespace StringTest
 			String emptySource;
 			String destination(std::move(emptySource));
 
-			Assert::IsTrue(isTheEmptyString(destination));
-			Assert::IsTrue(isTheEmptyString(emptySource));
+			Assert::IsTrue(isTheEmptyString(destination), L"Moved-in object is not empty");
+			Assert::IsTrue(isTheEmptyString(emptySource), L"Moved-from object is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyRhsLeavesLhsAndRhsEmpty)
@@ -134,8 +134,8 @@ namespace StringTest
 
 			lhs = std::move(emptyRHS);
 
-			Assert::IsTrue(isTheEmptyString(lhs));
-			Assert::IsTrue(isTheEmptyString(emptyRHS));
+			Assert::IsTrue(isTheEmptyString(lhs), L"Moved-in object is not empty");
+			Assert::IsTrue(isTheEmptyString(emptyRHS), L"Moved-from object is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsLeavesRhsEmpty)
@@ -145,8 +145,8 @@ namespace StringTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(haveSameContents(lhs, C_STRING_PROTOTYPE));
-			Assert::IsTrue(isTheEmptyString(rhs));
+			Assert::IsTrue(haveSameContents(lhs, C_STRING_PROTOTYPE), L"Moved-in object has wrong contents");
+			Assert::IsTrue(isTheEmptyString(rhs), L"Moved-from object is not empty");
 		}
 
 		TEST_METHOD(testAppendingEmptyStringToEmptyDestinationLeavesTheDestinationEmpty)
