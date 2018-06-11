@@ -340,7 +340,7 @@ namespace SinglyLinkedListTest
 			}
 		}
 
-		TEST_METHOD(testRemovalBetweenElementsWithIteratorInvalidatesIterator)
+		TEST_METHOD(testRemovalBetweenElementsWithIterator)
 		{
 			List list;
 
@@ -351,36 +351,9 @@ namespace SinglyLinkedListTest
 
 			list.removeAt(iterator);
 
-			Assert::IsFalse(iterator);
-		}
-
-		TEST_METHOD(testRemovalBetweenElementsWithIterator)
-		{
-			List list;
-			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
-
-			const int insertedItemsCount = BIG_INTEGER;
-			const int headElement = list.getHead();
-
-			for (int i = 0; i < insertedItemsCount; ++i)
-			{
-				Assert::IsTrue(list.getHead() == headElement, L"Removing between first and third modifies first element");
-				Assert::IsTrue(list.getCount() == insertedItemsCount - i, L"Removing between element with iterator does not update count");
-
-				ListIterator secondElementIterator = list.getHeadIterator();
-				++secondElementIterator;
-
-				if (insertedItemsCount - i > 1)
-				{
-					Assert::IsTrue(*secondElementIterator == i + 1, L"Removing between nodes with iterator does not manage successor properly");
-				}
-
-				list.removeAt(secondElementIterator);
-				Assert::IsFalse(secondElementIterator, L"Removing at iterator does not invalidate iterator");
-			}
-
-			Assert::IsTrue(list.getCount() == 1);
-			Assert::IsTrue(list.getHead() == headElement);
+			Assert::IsFalse(iterator, L"Iterator is not invalidated after removing at it");
+			Assert::AreEqual(list.getCount(), 2U, L"Removing at iterator does not update count");
+			Assert::AreEqual(list.getTail(), 2, L"Removing between elements does not update successor");
 		}
 
 		TEST_METHOD(testCopyCtorFromEmptySource)
