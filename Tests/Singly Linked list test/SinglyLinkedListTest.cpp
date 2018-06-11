@@ -86,8 +86,8 @@ namespace SinglyLinkedListTest
 			ListConstIterator head = list.getHeadConstIterator();
 			ListConstIterator tail = list.getTailConstIterator();
 
-			Assert::IsFalse(head);
-			Assert::IsFalse(tail);
+			Assert::IsFalse(head, L"Head iterator of empty list is not null");
+			Assert::IsFalse(tail, L"Tail iterator of empty list is not null");
 		}
 	
 		TEST_METHOD(testTailInsertionUpdatesCountAndTail)
