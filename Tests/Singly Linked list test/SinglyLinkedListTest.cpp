@@ -340,6 +340,20 @@ namespace SinglyLinkedListTest
 			}
 		}
 
+		TEST_METHOD(testRemovalBetweenElementsWithIteratorInvalidatesIterator)
+		{
+			List list;
+
+			fillListWithIntegersFromZeroTo(list, 2);
+
+			ListIterator iterator = list.getHeadIterator();
+			++iterator;
+
+			list.removeAt(iterator);
+
+			Assert::IsFalse(iterator);
+		}
+
 		TEST_METHOD(testRemovalBetweenElementsWithIterator)
 		{
 			List list;
