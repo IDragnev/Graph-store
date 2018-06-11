@@ -113,20 +113,6 @@ namespace SinglyLinkedListTest
 				Assert::IsTrue(list.getHead() == i, L"Head is not updated when inserting as head");
 			}
 		}
-
-		TEST_METHOD(testAppendListUpdatesCount)
-		{
-			List source;
-			List destination;
-
-			fillListWithIntegersFromZeroTo(destination, BIG_INTEGER);
-			const int destInitialCount = destination.getCount();
-
-			fillListWithIntegersFromZeroTo(source, BIG_INTEGER / 2);
-			destination.appendList(source);
-
-			Assert::IsTrue(destination.getCount() == (destInitialCount + source.getCount()));
-		}
 		
 		TEST_METHOD(testAppendList)
 		{
@@ -134,18 +120,19 @@ namespace SinglyLinkedListTest
 			List destination;
 
 			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
-			
-			destination.appendList(source);
+			fillListWithIntegersFromZeroTo(destination, BIG_INTEGER / 2);
+
 			ListConstIterator destinationIterator = destination.getTailConstIterator();
-
-			destination.appendList(source);
-
-			++destinationIterator;
-			Assert::IsTrue(destinationIterator, L"There is no item after tail after appending non-empty list");
+			const int destinationInitialCount = destination.getCount();
 
 			ListConstIterator sourceIterator = source.getHeadConstIterator();
 
-			Assert::IsTrue(iterateSameContents(destinationIterator, sourceIterator));
+			destination.appendList(source);
+			++destinationIterator;
+
+			Assert::IsTrue(destinationIterator, L"There is no item after tail after appending non-empty list");
+			Assert::AreEqual(destination.getCount(), destinationInitialCount + source.getCount(), L"Appending list does not update count");
+			Assert::IsTrue(iterateSameContents(destinationIterator, sourceIterator), L"Appended list is not the same in destination");
 		}
 
 		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
