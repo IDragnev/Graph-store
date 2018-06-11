@@ -369,7 +369,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list.getHead() == headElement);
 		}
 
-		TEST_METHOD(testCopyCtorFromEmpty)
+		TEST_METHOD(testCopyCtorFromEmptySource)
 		{
 			List source;
 
@@ -378,7 +378,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(areEqual(source, destination));
 		}
 
-		TEST_METHOD(testCopyCtorFromNonEmpty)
+		TEST_METHOD(testCopyCtorFromNonEmptySource)
 		{
 			List source;
 
@@ -395,19 +395,19 @@ namespace SinglyLinkedListTest
 
 			List destination(std::move(source));
 
-			Assert::IsTrue(destination.isEmpty());
-			Assert::IsTrue(source.isEmpty());
+			Assert::IsTrue(destination.isEmpty(), L"Destination is not empty after moving an empty source in it");
+			Assert::IsTrue(source.isEmpty(), L"Source is not empty after moving it");
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmpty)
+		TEST_METHOD(testMoveCtorFromNonEmptySource)
 		{
 			List source;
 			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 
 			List destination(std::move(source));
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(destination, BIG_INTEGER));
-			Assert::IsTrue(source.isEmpty());
+			Assert::IsTrue(containsAllIntegersFromZeroTo(destination, BIG_INTEGER), L"Destination has different contents from the moved-in source");
+			Assert::IsTrue(source.isEmpty(), L"Source is not empty after moving it");
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
@@ -464,8 +464,8 @@ namespace SinglyLinkedListTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs.isEmpty());
-			Assert::IsTrue(rhs.isEmpty());
+			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after move-assigning it an empty rhs");
+			Assert::IsTrue(rhs.isEmpty(), L"Rhs is not empty after move-assigning it");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
@@ -477,8 +477,8 @@ namespace SinglyLinkedListTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER));
-			Assert::IsTrue(rhs.isEmpty());
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER), L"Lhs has different contents from the move-assignmed-from Rhs");
+			Assert::IsTrue(rhs.isEmpty(), L"Rhs is not empty after move-assigning it");
 		}
 		
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
@@ -490,8 +490,8 @@ namespace SinglyLinkedListTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs.isEmpty());
-			Assert::IsTrue(rhs.isEmpty());
+			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after move-assigning it an empty rhs");
+			Assert::IsTrue(rhs.isEmpty(), L"Rhs is not empty after move-assigning it");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
@@ -504,8 +504,8 @@ namespace SinglyLinkedListTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER));
-			Assert::IsTrue(rhs.isEmpty());
+			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER), L"Lhs has different contents from the move-assignmed-from Rhs");
+			Assert::IsTrue(rhs.isEmpty(), L"Rhs is not empty after move-assigning it");
 		}
 	};
 }
