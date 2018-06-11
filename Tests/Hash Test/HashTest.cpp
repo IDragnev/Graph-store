@@ -191,118 +191,117 @@ namespace HashTest
 
 		TEST_METHOD(testCopyAssignmentFromEmptyToEmptyTest)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			destination = source;
+			lhs = rhs;
 
-			Assert::IsTrue(destination.isEmpty());
-			Assert::IsTrue(source.isEmpty());
+			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after assigning it an empty rhs");
 		}
 
 		TEST_METHOD(testCopyAssignmentFromEmptyToNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 			
-			insertTestItemsTo(destination);
-			destination = source;
+			insertTestItemsTo(lhs);
+			lhs = rhs;
 
-			Assert::IsTrue(destination.isEmpty());
+			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after assigning it an empty rhs");
 		}
 
 		TEST_METHOD(testCopyAssignmentFromNonEmptyToEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			insertTestItemsTo(source);
+			insertTestItemsTo(rhs);
 
-			destination = source;
+			lhs = rhs;
 
-			Assert::AreEqual(destination.getCount(), source.getCount(), L"Copy assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Copy assignment is not copying tables properly");
+			Assert::AreEqual(lhs.getCount(), rhs.getCount(), L"Copy assignment is not handling count properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Copy assignment is not copying tables properly");
 		}
 
 		TEST_METHOD(testCopyAssignmentFromNonEmptyToNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			insertTestItemsTo(source);
-			insertTestItemsTo(destination);
+			insertTestItemsTo(lhs);
+			insertTestItemsTo(rhs);
 			
-			destination.remove(testItems[0].getKey());
-			destination.remove(testItems[1].getKey());
+			lhs.remove(testItems[0].getKey());
+			lhs.remove(testItems[1].getKey());
 
-			destination = source;
+			lhs = rhs;
 
-			Assert::AreEqual(destination.getCount(), source.getCount(), L"Copy assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Copy assignment is not copying tables properly");
+			Assert::AreEqual(lhs.getCount(), rhs.getCount(), L"Copy assignment is not handling count properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Copy assignment is not copying tables properly");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyToEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			destination = std::move(source);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-			Assert::IsTrue(destination.isEmpty(), L"Moved-into object is not empty");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::IsTrue(lhs.isEmpty(), L"Moved-into object is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyToNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			insertTestItemsTo(destination);
+			insertTestItemsTo(lhs);
 
-			destination = std::move(source);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-			Assert::IsTrue(destination.isEmpty(), L"Moved-into object is not empty");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::IsTrue(lhs.isEmpty(), L"Moved-into object is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyToEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			insertTestItemsTo(source);
+			insertTestItemsTo(rhs);
 
-			destination = std::move(source);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-			Assert::AreEqual(destination.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Move assignment is not moving the table properly");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::AreEqual(lhs.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Move assignment is not moving the table properly");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyToNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(EXPECTED_COUNT);
+			ItemHash lhs(EXPECTED_COUNT);
+			ItemHash rhs(EXPECTED_COUNT);
 
-			insertTestItemsTo(source);
-			insertTestItemsTo(destination);
+			insertTestItemsTo(lhs);
+			insertTestItemsTo(rhs);
 
-			destination.remove(testItems[0].getKey());
-			destination.remove(testItems[1].getKey());
+			lhs.remove(testItems[0].getKey());
+			lhs.remove(testItems[1].getKey());
 
-			destination = std::move(source);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-			Assert::AreEqual(destination.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Move assignment is not moving the table properly");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::AreEqual(lhs.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Move assignment is not moving the table properly");
 		}
 
 		TEST_METHOD(testCopyCtorFromEmpty)
 		{
 			ItemHash source(EXPECTED_COUNT);
-			ItemHash hash(source);
+			ItemHash destination(source);
 
-			Assert::IsTrue(hash.isEmpty());
+			Assert::IsTrue(destination.isEmpty());
 		}
 
 		TEST_METHOD(testCopyCtorFromNonEmpty)
