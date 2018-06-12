@@ -111,7 +111,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	{
 		Item* result = extractItemFromTableAt(index);
 
-		if (isTooEmpty() && canBeHalved())
+		if (hasTooManyEmptySlots() && canBeHalved())
 		{
 			resize(tableSize / 2);
 		}
@@ -250,7 +250,7 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 
 
 template <typename Item,typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isTooEmpty() const
+inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
 {
 	return 6 * insertedCount <= tableSize;
 }

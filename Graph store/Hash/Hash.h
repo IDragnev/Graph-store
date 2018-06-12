@@ -54,7 +54,7 @@ private:
 	long searchTableAndGetIndex(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
 	Item* extractItemFromTableAt(unsignedInteger index);
-	bool isTooEmpty() const;
+	bool hasTooManyEmptySlots() const;
 	bool canBeHalved() const;
 	bool isFillingUp() const;
 
