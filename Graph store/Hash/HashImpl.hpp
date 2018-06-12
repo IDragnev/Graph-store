@@ -13,18 +13,16 @@ Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
-	tableSize(MIN_TABLE_SIZE),
-	insertedCount(0),
-	table(MIN_TABLE_SIZE, MIN_TABLE_SIZE), 
-	hashFunction(std::move(source.hashFunction)),
-	keyAccessor(std::move(source.keyAccessor))
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 {
-	nullify(table);
+	toEmptyStateOfSize(MIN_TABLE_SIZE);
 
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
 	std::swap(insertedCount, source.insertedCount);
+
+	hashFunction = std::move(source.hashFunction);
+	keyAccessor = std::move(source.keyAccessor);
 }
 
 
