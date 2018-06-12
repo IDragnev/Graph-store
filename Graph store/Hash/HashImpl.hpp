@@ -232,12 +232,7 @@ inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedIntege
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::empty()
 {
-	table.shrink(MIN_TABLE_SIZE);
-
-	tableSize = MIN_TABLE_SIZE;
-	insertedCount = 0;
-
-	nullifyTable();
+	toEmptyStateOfSize(MIN_TABLE_SIZE);
 }
 
 
