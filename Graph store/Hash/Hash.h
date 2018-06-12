@@ -50,13 +50,13 @@ public:
 private:
 	void swapContentsWithReconstructedParameter(Hash other);
 	void resize(unsignedInteger newSize);
-
 	void toEmptyStateOfSize(unsignedInteger size);
 	void insertAllItemsFrom(DArray<Item*>& table);
 
 	long searchTableAndGetIndex(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
 	Item* extractItemFromTableAt(unsignedInteger index);
+	
 	bool hasTooManyEmptySlots() const;
 	bool canBeHalved() const;
 	bool isFillingUp() const;
