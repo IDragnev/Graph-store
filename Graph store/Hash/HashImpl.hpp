@@ -178,6 +178,8 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 {
+	assert(start < tableSize);
+
 	unsignedInteger positionToEmpty = start;
 
 	while (table[positionToEmpty])
@@ -194,6 +196,8 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 template <typename Item, typename Key, typename KeyAccessor>
 inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index)
 {
+	assert(index < tableSize && table[index]);
+
 	Item* result = table[index];
 
 	table[index] = nullptr;
