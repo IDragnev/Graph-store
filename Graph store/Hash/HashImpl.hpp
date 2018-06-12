@@ -155,21 +155,43 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	const unsignedInteger oldTableSize = tableSize;
-
-	DArray<Item*> temp(newSize, newSize);
-
-	std::swap(table, temp);
+	DArray<Item*> oldTable(std::move(table));
 	
-	tableSize = newSize;
+	try
+	{
+		toEmptyStateOfSize(newSize);
+		insertAllItemsFrom(oldTable);
+	}
+	catch (std::bad_alloc&)
+	{
+		table = std::move(oldTable);
+		throw;
+	}
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
+{
+	assert(size >= MIN_TABLE_SIZE);
+
+	table = DArray<Item*>(size, size);
+	tableSize = size;
 	insertedCount = 0;
 	nullifyTable();
+}
 
-	for (unsignedInteger i = 0; i < oldTableSize; ++i)
+
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(DArray<Item*>& table)
+{
+	unsignedInteger count = table.getCount();
+
+	for (unsignedInteger i = 0; i < count; ++i)
 	{
-		if (temp[i])
+		if (table[i])
 		{
-			insert(*temp[i]);
+			insert(*table[i]);
 		}
 	}
 }

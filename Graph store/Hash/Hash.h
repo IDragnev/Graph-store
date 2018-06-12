@@ -48,8 +48,12 @@ public:
 	unsignedInteger getCount() const;
 
 private:
-	void resize(unsignedInteger newSize);
 	void swapContentsWithReconstructedParameter(Hash other);
+	void resize(unsignedInteger newSize);
+
+	void toEmptyStateOfSize(unsignedInteger size);
+	void insertAllItemsFrom(DArray<Item*>& table);
+
 	void nullifyTable();
 	long searchTableAndGetIndex(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
