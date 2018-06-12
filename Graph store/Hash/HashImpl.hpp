@@ -6,12 +6,9 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) :
-	tableSize(calculateAppropriateSize(expectedCount)), 
-	insertedCount(0),
-	table(tableSize, tableSize)
+Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
 {
-	nullify(table);
+	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
 
 
