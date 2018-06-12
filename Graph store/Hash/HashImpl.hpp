@@ -11,7 +11,7 @@ Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) :
 	insertedCount(0),
 	table(tableSize, tableSize)
 {
-	nullifyTable();
+	nullify(table);
 }
 
 
@@ -23,7 +23,7 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	hashFunction(std::move(source.hashFunction)),
 	keyAccessor(std::move(source.keyAccessor))
 {
-	nullifyTable();
+	nullify(table);
 
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
@@ -178,7 +178,7 @@ void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 	table = DArray<Item*>(size, size);
 	tableSize = size;
 	insertedCount = 0;
-	nullifyTable();
+	nullify(table);
 }
 
 
@@ -250,14 +250,15 @@ typename Hash<Item,Key,KeyAccessor>::unsignedInteger Hash<Item, Key, KeyAccessor
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::nullifyTable()
+inline void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
 {
-	for (unsignedInteger i = 0; i < tableSize; ++i)
+	const unsignedInteger count = table.getCount();
+
+	for (unsignedInteger i = 0; i < count; ++i)
 	{
 		table[i] = nullptr;
 	}
 }
-
 
 template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const

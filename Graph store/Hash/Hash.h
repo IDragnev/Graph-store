@@ -54,7 +54,6 @@ private:
 	void toEmptyStateOfSize(unsignedInteger size);
 	void insertAllItemsFrom(DArray<Item*>& table);
 
-	void nullifyTable();
 	long searchTableAndGetIndex(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
 	Item* extractItemFromTableAt(unsignedInteger index);
@@ -65,6 +64,8 @@ private:
 private:
 	static const unsignedInteger MIN_TABLE_SIZE = 3;
 	static unsignedInteger calculateAppropriateSize(unsignedInteger expectedSize);
+
+	static void nullify(DArray<Item*>& table);
 
 private:
 	unsignedInteger tableSize;
