@@ -6,7 +6,7 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
+inline Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
 {
 	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
@@ -185,7 +185,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index)
+Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index)
 {
 	assert(index < tableSize && table[index]);
 
@@ -199,7 +199,7 @@ inline Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedIntege
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::empty()
+inline void Hash<Item, Key, KeyAccessor>::empty()
 {
 	toEmptyStateOfSize(MIN_TABLE_SIZE);
 }
@@ -233,7 +233,8 @@ void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 // are inserted, the load factor will be 2/3 
 // 
 template <typename Item, typename Key, typename KeyAccessor>
-typename Hash<Item,Key,KeyAccessor>::unsignedInteger Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
+inline typename Hash<Item, Key, KeyAccessor>::unsignedInteger
+Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
 {
 	assert(expectedCount > 0);
 
@@ -242,7 +243,7 @@ typename Hash<Item,Key,KeyAccessor>::unsignedInteger Hash<Item, Key, KeyAccessor
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
+void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
 {
 	const unsignedInteger count = table.getCount();
 
