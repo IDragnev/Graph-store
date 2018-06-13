@@ -66,7 +66,7 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	if (isFillingUp())
 	{
-		resize(tableSize * 2);
+		resize(tableSize * GROWTH_FACTOR);
 	}
 
 	unsignedInteger index = hashFunction(keyAccessor(item)) % tableSize;
@@ -106,9 +106,9 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	{
 		Item* result = extractItemFromTableAt(index);
 
-		if (hasTooManyEmptySlots() && canBeHalved())
+		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
-			resize(tableSize / 2);
+			resize(tableSize / GROWTH_FACTOR);
 		}
 		else
 		{
@@ -270,9 +270,9 @@ inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::canBeHalved() const
+inline bool Hash<Item, Key, KeyAccessor>::canBeShrinked() const
 {
-	return tableSize / 2 >= MIN_TABLE_SIZE;
+	return tableSize / GROWTH_FACTOR >= MIN_TABLE_SIZE;
 }
 
 

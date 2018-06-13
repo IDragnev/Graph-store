@@ -58,10 +58,11 @@ private:
 	Item* extractItemFromTableAt(unsignedInteger index);
 	
 	bool hasTooManyEmptySlots() const;
-	bool canBeHalved() const;
+	bool canBeShrinked() const;
 	bool isFillingUp() const;
 
 private:
+	static const unsignedInteger GROWTH_FACTOR = 2;
 	static const unsignedInteger MIN_TABLE_SIZE = 3;
 	static unsignedInteger calculateAppropriateSize(unsignedInteger expectedSize);
 
