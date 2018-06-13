@@ -51,17 +51,6 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(con
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
-{
-	std::swap(tableSize, temporary.tableSize);
-	std::swap(insertedCount, temporary.insertedCount);
-	std::swap(table, temporary.table);
-	std::swap(hashFunction, temporary.hashFunction);
-	std::swap(keyAccessor, temporary.keyAccessor);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	if (isFillingUp())
@@ -163,18 +152,6 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
-{
-	assert(size >= MIN_TABLE_SIZE);
-
-	table = DArray<Item*>(size, size);
-	tableSize = size;
-	insertedCount = 0;
-	nullify(table);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(DArray<Item*>& table)
 {
 	unsignedInteger count = table.getCount();
@@ -228,6 +205,29 @@ void Hash<Item, Key, KeyAccessor>::empty()
 }
 
 
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
+{
+	std::swap(tableSize, temporary.tableSize);
+	std::swap(insertedCount, temporary.insertedCount);
+	std::swap(table, temporary.table);
+	std::swap(hashFunction, temporary.hashFunction);
+	std::swap(keyAccessor, temporary.keyAccessor);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
+{
+	assert(size >= MIN_TABLE_SIZE);
+
+	table = DArray<Item*>(size, size);
+	tableSize = size;
+	insertedCount = 0;
+	nullify(table);
+}
+
+
 //
 // ( 3 * expectedSize ) / 2 is used because if all the expected items
 // are inserted, the load factor will be 2/3 
@@ -251,6 +251,7 @@ inline void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
 		table[i] = nullptr;
 	}
 }
+
 
 template <typename Item, typename Key, typename KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
