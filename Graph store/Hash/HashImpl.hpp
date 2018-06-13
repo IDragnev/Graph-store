@@ -125,19 +125,16 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor>
 long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key) const
 {
-	if (!isEmpty())
+	unsignedInteger index = hashFunction(key) % tableSize;
+
+	while (table[index])
 	{
-		unsignedInteger index = hashFunction(key) % tableSize;
-
-		while (table[index])
+		if (keyAccessor( *(table[index]) ) == key)
 		{
-			if (keyAccessor( *(table[index]) ) == key)
-			{
-				return index;
-			}
-
-			index = (index + 1) % tableSize;
+			return index;
 		}
+
+		index = (index + 1) % tableSize;
 	}
 
 	return -1;
