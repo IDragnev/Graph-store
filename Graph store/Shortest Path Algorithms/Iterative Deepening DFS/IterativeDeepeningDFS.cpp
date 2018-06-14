@@ -3,8 +3,6 @@
 #include <memory>
 #include <assert.h>
 
-typedef std::unique_ptr<Iterator<Edge>> EdgeIteratorPtr;
-typedef std::unique_ptr<ConstIterator<Vertex*>> VertexIteratorPtr;
 
 IterativeDeepeningDFS IterativeDeepeningDFS::theOnlyInstance;
 
@@ -68,7 +66,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound)
 {
-	EdgeIteratorPtr edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+	std::unique_ptr<Iterator<Edge>> edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
 
 	while (!edgeIterator->isFinished())
 	{
@@ -121,7 +119,7 @@ void IterativeDeepeningDFS::notifyAShortestPathWasFound()
 
 void IterativeDeepeningDFS::initializeSingleSource(Graph& graph, Vertex& source)
 {
-	VertexIteratorPtr iterator(graph.getIteratorToVertices());
+	std::unique_ptr<ConstIterator<Vertex*>> iterator(graph.getIteratorToVertices());
 
 	while (!iterator->isFinished())
 	{

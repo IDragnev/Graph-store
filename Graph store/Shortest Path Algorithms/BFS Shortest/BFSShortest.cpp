@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <memory>
 
-typedef std::unique_ptr<Iterator<Edge>> EdgeIteratorPtr;
-typedef std::unique_ptr<ConstIterator<Vertex*>> VertexIteratorPtr;
 
 BFSShortest BFSShortest::theOnlyInstance;
 
@@ -54,7 +52,7 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 
 void BFSShortest::exploreNeighboursOf(Vertex& vertex)
 {
-	EdgeIteratorPtr edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+	std::unique_ptr<Iterator<Edge>> edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
 
 	while (!edgeIterator->isFinished())
 	{
@@ -135,7 +133,7 @@ void BFSShortest::notifyAShortestPathWasFound()
 
 void BFSShortest::initializeSingleSource(Graph& graph, Vertex& source)
 {
-	VertexIteratorPtr iterator(graph.getIteratorToVertices());
+	std::unique_ptr<ConstIterator<Vertex*>> iterator(graph.getIteratorToVertices());
 
 	while (!iterator->isFinished())
 	{
