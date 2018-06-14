@@ -22,7 +22,7 @@ private:
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
 
-public:
+protected:
 	typedef std::unique_ptr<ConstIterator<Vertex*>> AbstractVertexConstIterator;
 	typedef std::unique_ptr<Iterator<Edge>> AbstractEdgeIterator;
 	typedef std::unique_ptr<ConstIterator<Edge>> AbstractEdgeConstIterator;
