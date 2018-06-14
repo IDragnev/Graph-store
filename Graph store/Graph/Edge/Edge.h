@@ -5,10 +5,11 @@ class Vertex;
 
 class Edge
 {
+private:
 	friend class Graph;
-public:
 	typedef unsigned Weight;
 
+public:
 	Vertex& getIncidentVertex();
 	const Vertex& getIncidentVertex() const;
 	Weight getWeight() const;
