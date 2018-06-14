@@ -45,9 +45,13 @@ specialInteger<Integer>& specialInteger<Integer>::operator+=(const specialIntege
 	if (!isInfinity)
 	{
 		if (!rhs.isInfinity)
+		{
 			value += rhs.value;
+		}
 		else
+		{
 			*this = getInfinity();
+		}
 	}
 
 	return *this;
@@ -65,9 +69,13 @@ template <typename Integer>
 void specialInteger<Integer>::print(std::ostream& outputStream) const
 {
 	if (isInfinity)
+	{
 		outputStream << "INFINITY";
+	}
 	else
+	{
 		outputStream << value;
+	}
 }
 
 
@@ -93,7 +101,7 @@ bool operator<(const specialInteger<Integer>& lhs, const specialInteger<Integer>
 	{
 		return true;
 	}
-	else // INF < INF or INF < INTEGER ( < INF ) 
+	else // INF < INF or INF < INTEGER
 	{
 		return false;
 	}
