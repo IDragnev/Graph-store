@@ -238,32 +238,32 @@ Vertex& Graph::getVertexWithID(const char* ID)
 }
 
 
-Graph::AbstractEdgeIterator* Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
+Graph::AbstractEdgeIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 {
 	assert(isFromThisGraph(vertex));
 
 	EdgeIterator iteratorToEdges = vertex.edges.getHeadIterator();
 	
-	return iteratorToEdges.clone();
+	return AbstractEdgeIterator(iteratorToEdges.clone());
 }
 
 
-Graph::AbstractEdgeConstIterator* Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
+Graph::AbstractEdgeConstIterator Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
 {
 	assert(isFromThisGraph(vertex));
 
 	EdgeConstIterator iteratorToEdges = vertex.edges.getHeadConstIterator();
 
-	return iteratorToEdges.clone();
+	return AbstractEdgeConstIterator(iteratorToEdges.clone());
 }
 
 
-Graph::AbstractVertexConstIterator* Graph::getIteratorToVertices()
+Graph::AbstractVertexConstIterator Graph::getIteratorToVertices()
 {
 	//ConstIterator because the actual pointers are iterated
 	VertexConstIterator constIterator = vertices.getHeadConstIterator();
 
-	return constIterator.clone();
+	return AbstractVertexConstIterator(constIterator.clone());
 }
 
 

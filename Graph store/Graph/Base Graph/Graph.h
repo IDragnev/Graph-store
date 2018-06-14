@@ -9,6 +9,8 @@
 #include "../Edge/Edge.h"
 #include "../ID Accessor/IDAccessor.h"
 
+#include <memory>
+
 class Graph
 {
 private:
@@ -20,10 +22,11 @@ private:
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
 
-	typedef ConstIterator<Vertex*> AbstractVertexConstIterator;
-	typedef Iterator<Edge> AbstractEdgeIterator;
-	typedef ConstIterator<Edge> AbstractEdgeConstIterator;
-
+public:
+	typedef std::unique_ptr<ConstIterator<Vertex*>> AbstractVertexConstIterator;
+	typedef std::unique_ptr<Iterator<Edge>> AbstractEdgeIterator;
+	typedef std::unique_ptr<ConstIterator<Edge>> AbstractEdgeConstIterator;
+	
 public:
 	virtual ~Graph();
 
@@ -39,9 +42,9 @@ public:
 	const Vertex& getVertexWithID(const char* ID) const;
 
 	unsigned getVerticesCount() const;
-	AbstractVertexConstIterator* getIteratorToVertices(); 
-	AbstractEdgeIterator* getIteratorToIncidentEdgesOf(Vertex& vertex);  
-	AbstractEdgeConstIterator* getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  
+	AbstractVertexConstIterator getIteratorToVertices(); 
+	AbstractEdgeIterator getIteratorToIncidentEdgesOf(Vertex& vertex);  
+	AbstractEdgeConstIterator getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  
 
 protected:
 	Graph(String ID);
