@@ -182,19 +182,12 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 
 	const size_t lastVertexIndex = vertices.getCount() - 1;
 
-	if (vertexToRemove.index != lastVertexIndex)
-	{
-		std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
+	Vertex* lastVertex = vertices[lastVertexIndex];
+	lastVertex->index = vertexToRemove.index;
 
-		vertices.remove(lastVertexIndex);
+	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
 
-		Vertex* vertexAtItsPlace = vertices[vertexToRemove.index];
-		vertexAtItsPlace->index = vertexToRemove.index;
-	}
-	else
-	{
-		vertices.remove(vertexToRemove.index);
-	}
+	vertices.remove(lastVertexIndex);
 }
 
 
