@@ -131,26 +131,6 @@ void BFSShortest::notifyAShortestPathWasFound()
 }
 
 
-void BFSShortest::initializeSingleSource(Graph& graph, Vertex& source)
-{
-	std::unique_ptr<ConstIterator<Vertex*>> iterator(graph.getIteratorToVertices());
-
-	while (!iterator->isFinished())
-	{
-		Vertex* vertex = iterator->getCurrent();
-
-		vertex->setPredecessor(nullptr);
-		vertex->setDistanceToSource(Distance::getInfinity());
-		vertex->markAsNotVisited();
-
-		iterator->goToNext();
-	}
-
-	source.markAsVisited();
-	source.setDistanceToSource(0);
-}
-
-
 void BFSShortest::initializeState(Graph& graph, const Vertex& Goal)
 {
 	assert(!searchedGraph && !goal);

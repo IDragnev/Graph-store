@@ -25,8 +25,6 @@ private:
 
 	bool isAShortestPathFound() const;
 	void notifyAShortestPathWasFound();
-
-	static void initializeSingleSource(Graph& graph, Vertex& source);
 	
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();

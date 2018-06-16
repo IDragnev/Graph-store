@@ -20,6 +20,10 @@ protected:
 
 	static void findTrivialPathFromTo(Vertex& source, Vertex& goal);
 
+	void initializeSingleSource(Graph& graph, Vertex& source) const;
+	virtual void initializeVertex(Vertex& vertex) const;
+	virtual void initializeSource(Vertex& source) const;
+
 	void registerInstance();
 
 private:
