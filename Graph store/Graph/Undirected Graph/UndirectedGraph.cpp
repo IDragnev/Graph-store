@@ -7,7 +7,7 @@ UndirectedGraph::UndirectedGraph(const char* ID) :
 }
 
 
-void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
+void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, unsigned weight)
 {
 	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
 	Graph::insertEdgeFromToWithWeight(vertexTo, vertexFrom, weight);

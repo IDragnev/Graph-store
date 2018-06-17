@@ -7,7 +7,7 @@ DirectedGraph::DirectedGraph(const char* ID) :
 }
 
 
-void DirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
+void DirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, unsigned weight)
 {
 	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
 }
