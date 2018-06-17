@@ -129,7 +129,7 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 	{
 		const Edge& currentEdge = *vertexFromEdgesIterator;
 
-		if (currentEdge.incidentVertex == &vertexTo)
+		if (currentEdge.getIncidentVertex() == vertexTo)
 		{
 			break;
 		}
