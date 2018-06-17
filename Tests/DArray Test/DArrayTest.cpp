@@ -14,21 +14,16 @@ namespace DArraytest
 		}
 	}
 
-	bool areEqual(const DArray<int>& lhs, const DArray<int>& rhs)
+	bool haveSameContents(const DArray<int>& lhs, const DArray<int>& rhs)
 	{
-		if (lhs.getSize() != rhs.getSize())
+		const int lhsCount = lhs.getCount();
+
+		if (lhsCount != rhs.getCount())
 		{
 			return false;
 		}
 
-		const int count = lhs.getCount();
-
-		if (count != rhs.getCount())
-		{
-			return false;
-		}
-
-		for (int i = 0; i < count; ++i)
+		for (int i = 0; i < lhsCount; ++i)
 		{
 			if (lhs[i] != rhs[i])
 			{
@@ -38,7 +33,6 @@ namespace DArraytest
 
 		return true;
 	}
-
 
 	bool areSizeAndCountZero(const DArray<int>& dArray)
 	{
@@ -112,7 +106,8 @@ namespace DArraytest
 			DArray<int> source;
 			DArray<int> destination(source);
 
-			Assert::IsTrue(areEqual(source, destination));
+			Assert::AreEqual(source.getSize(), destination.getSize(), L"Copy ctor does not manage size properly");
+			Assert::IsTrue(haveSameContents(source, destination), L"Destination has different contents from source");
 		}
 
 		TEST_METHOD(testCopyCtorFromNonEmptySource)
@@ -122,7 +117,8 @@ namespace DArraytest
 
 			DArray<int> destination(source);
 
-			Assert::IsTrue(areEqual(source, destination));
+			Assert::AreEqual(source.getSize(), destination.getSize(), L"Copy ctor does not manage size properly");
+			Assert::IsTrue(haveSameContents(source, destination), L"Destination has different contents from source");
 		}
 
 		TEST_METHOD(testMoveCtorFromEmptySource)
@@ -145,9 +141,7 @@ namespace DArraytest
 
 			Assert::IsTrue(areSizeAndCountZero(source), L"Moved-from object is not empty");
 
-			Assert::IsTrue(destination.getCount() == greatestInteger + 1, L"Count is not set properly in move ctor");
 			Assert::IsTrue(destination.getSize() == INITIAL_SIZE, L"Size is not set properly in move ctor");
-			Assert::IsFalse(destination.isEmpty(), L"Destination is empty after moving a non-empty source in it");
 			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(destination, greatestInteger), L"Destination has different contents from the moved-from object");
 		}
 
@@ -170,7 +164,8 @@ namespace DArraytest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areEqual(rhs, lhs));
+			Assert::AreEqual(lhs.getSize(), rhs.getSize(), L"Rhs and Lhs have different sizes");
+			Assert::IsTrue(haveSameContents(lhs, rhs), L"Rhs has different contents from Lhs");
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
@@ -182,7 +177,8 @@ namespace DArraytest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areEqual(rhs, lhs));
+			Assert::AreEqual(lhs.getSize(), rhs.getSize(), L"Rhs and Lhs have different sizes");
+			Assert::IsTrue(haveSameContents(lhs, rhs), L"Rhs has different contents from Lhs");
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
@@ -195,7 +191,8 @@ namespace DArraytest
 
 			lhs = rhs;
 
-			Assert::IsTrue(areEqual(rhs, lhs));
+			Assert::AreEqual(lhs.getSize(), rhs.getSize(), L"Rhs and Lhs have different sizes");
+			Assert::IsTrue(haveSameContents(lhs, rhs), L"Rhs has different contents from Lhs");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
@@ -233,7 +230,6 @@ namespace DArraytest
 			lhs = std::move(rhs);
 
 			Assert::IsTrue(areSizeAndCountZero(rhs), L"Moved-from object is not empty");
-			Assert::IsTrue(lhs.getCount() == greatestInteger + 1, L"Count is not set properly in move assignment");
 			Assert::IsTrue(lhs.getSize() == INITIAL_SIZE, L"Size is not set properly in move assignment");
 			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(lhs, greatestInteger), L"Lhs has different contents from the moved-in contents");
 		}
@@ -251,7 +247,6 @@ namespace DArraytest
 			lhs = std::move(rhs);
 
 			Assert::IsTrue(areSizeAndCountZero(rhs), L"Moved-from object is not empty");
-			Assert::IsTrue(lhs.getCount() == greatestInteger + 1, L"Count is not set properly in move assignment");
 			Assert::IsTrue(lhs.getSize() == INITIAL_SIZE, L"Size is not set properly in move assignment");
 			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(lhs, greatestInteger), L"Lhs has different contents from the moved-in contents");
 		}
