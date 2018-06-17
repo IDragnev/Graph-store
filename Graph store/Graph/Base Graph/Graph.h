@@ -30,8 +30,6 @@ protected:
 public:
 	virtual ~Graph();
 
-	const String& getID() const;
-
 	void insertVertexWithID(const char* ID);
 	void removeVertexWithID(const char* ID);
 
@@ -45,6 +43,8 @@ public:
 	AbstractVertexConstIterator getIteratorToVertices(); 
 	AbstractEdgeIterator getIteratorToIncidentEdgesOf(Vertex& vertex);  
 	AbstractEdgeConstIterator getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  
+
+	const String& getID() const;
 
 protected:
 	Graph(String ID);
