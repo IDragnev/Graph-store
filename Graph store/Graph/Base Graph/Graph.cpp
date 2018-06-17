@@ -109,14 +109,14 @@ void Graph::removeFromAdjacencyLists(Vertex& vertex)
 {
 	assert(isFromThisGraph(vertex));
 
-	EdgeConstIterator adjacentEdgesIterator = vertex.edges.getHeadConstIterator();
+	EdgeIterator adjacentEdgesIterator = vertex.edges.getHeadIterator();
 
 	while (adjacentEdgesIterator)
 	{
-		const Edge& currentEdge = *adjacentEdgesIterator;
-		Vertex* neighbour = currentEdge.incidentVertex;
+		Edge& currentEdge = *adjacentEdgesIterator;
+		Vertex& neighbour = currentEdge.getIncidentVertex();
 
-		removeEdgeFromToNoThrow(*neighbour, vertex);
+		removeEdgeFromToNoThrow(neighbour, vertex);
 	}
 }
 
