@@ -27,7 +27,7 @@ void Graph::insertVertexWithID(const char* ID)
 {
 	if (!existsVertexWithID(ID))
 	{
-		Vertex* newVertex = createVertex(ID);
+		std::unique_ptr<Vertex> newVertex = createVertex(ID);
 
 		insertToVertices(*newVertex);
 		insertToVerticesSearchTable(*newVertex);
@@ -191,9 +191,9 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 }
 
 
-Vertex* Graph::createVertex(const char* ID) const
+std::unique_ptr<Vertex> Graph::createVertex(const char* ID) const
 {
-	return new Vertex(ID, getAppropriateVertexHandle());
+	return std::unique_ptr<Vertex>(new Vertex(ID, getAppropriateVertexHandle()));
 }
 
 

@@ -70,7 +70,7 @@ private:
 	void removeFromVerticesSearchTable(const Vertex& vertex);
 
 	size_t getAppropriateVertexHandle() const;
-	Vertex* createVertex(const char* ID) const;
+	std::unique_ptr<Vertex> createVertex(const char* ID) const;
 	static void deleteVertex(Vertex* vertex);
 
 	void setID(String ID);
