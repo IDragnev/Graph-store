@@ -337,55 +337,6 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& ite
 
 
 template <typename T>
-inline bool SinglyLinkedList<T>::validateOwnershipOf(const Iterator& iterator) const
-{
-	return iterator.owner == this;
-}
-
-
-template <typename T>
-inline bool SinglyLinkedList<T>::isEmpty() const
-{
-	return count == 0;
-}
-
-
-template <typename T>
-inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCount() const
-{
-	return count;
-}
-
-
-template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getHeadConstIterator() const
-{
-	return ConstIterator(head, this);
-}
-
-
-template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getTailConstIterator() const
-{
-	return ConstIterator(tail, this);
-}
-
-
-template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
-{
-	return Iterator(head, this);
-}
-
-
-template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getTailIterator()
-{
-	return Iterator(tail, this);
-}
-
-
-template <typename T>
 inline void SinglyLinkedList<T>::nullifyMembers()
 {
 	count = 0;
@@ -459,4 +410,53 @@ Node<T>* SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
 	}
 
 	return current;
+}
+
+
+template <typename T>
+inline bool SinglyLinkedList<T>::validateOwnershipOf(const Iterator& iterator) const
+{
+	return iterator.owner == this;
+}
+
+
+template <typename T>
+inline bool SinglyLinkedList<T>::isEmpty() const
+{
+	return count == 0;
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCount() const
+{
+	return count;
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getHeadConstIterator() const
+{
+	return ConstIterator(head, this);
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getTailConstIterator() const
+{
+	return ConstIterator(tail, this);
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
+{
+	return Iterator(head, this);
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getTailIterator()
+{
+	return Iterator(tail, this);
 }
