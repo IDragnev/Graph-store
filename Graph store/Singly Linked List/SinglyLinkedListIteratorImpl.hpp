@@ -16,7 +16,8 @@ SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLin
 
 
 template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::reference SinglyLinkedListIterator<Key, isConst>::operator*() const
+inline typename SinglyLinkedListIterator<Key, isConst>::reference 
+SinglyLinkedListIterator<Key, isConst>::operator*() const
 {
 	return getCurrent();
 }
@@ -59,7 +60,7 @@ inline bool SinglyLinkedListIterator<Key, isConst>::operator!() const
 template <typename Key, bool isConst>
 inline bool SinglyLinkedListIterator<Key, isConst>::isFinished() const
 {
-	return current == nullptr;
+	return !current;
 }
 
 
@@ -74,28 +75,16 @@ inline void SinglyLinkedListIterator<Key, isConst>::goToNext()
 
 
 template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::reference SinglyLinkedListIterator<Key, isConst>::getCurrent() const
+inline typename SinglyLinkedListIterator<Key, isConst>::reference
+SinglyLinkedListIterator<Key, isConst>::getCurrent() const
 {
 	return current->data;
 }
 
 
 template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::baseIterator* SinglyLinkedListIterator<Key, isConst>::clone() const
+inline typename SinglyLinkedListIterator<Key, isConst>::baseIterator*
+SinglyLinkedListIterator<Key, isConst>::clone() const
 {
 	return new SinglyLinkedListIterator<Key, isConst>(*this);
 }
-
-
-//template <typename Key, bool isConst>
-//inline bool operator==(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
-//{
-//	return (lhs.current == rhs.current && lhs.owner == rhs.owner);
-//}
-//
-//
-//template <typename Key, bool isConst>
-//inline bool operator!=(const SinglyLinkedListIterator<Key>& lhs, const SinglyLinkedListIterator<Key>& rhs)
-//{
-//	return !(lhs == rhs);
-//}
