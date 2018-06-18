@@ -1,9 +1,6 @@
 #ifndef __SINGLY_LINKED_LIST_H_INCLUDED__
 #define __SINGLY_LINKED_LIST_H_INCLUDED__
 
-#include <utility>
-#include <assert.h>
-#include <stdexcept>
 #include "Node.h"
 #include "SinglyLinkedListIterator.h"
 

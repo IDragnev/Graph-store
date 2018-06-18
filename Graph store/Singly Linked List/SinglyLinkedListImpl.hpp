@@ -1,3 +1,6 @@
+#include <utility>
+#include <assert.h>
+
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() :
