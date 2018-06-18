@@ -40,17 +40,17 @@ public:
 	void removeBefore(Iterator& iterator);
 	void removeAfter(Iterator& iterator);
 
-	ConstIterator getHeadConstIterator() const;
-	ConstIterator getTailConstIterator() const;
-	Iterator getHeadIterator();
-	Iterator getTailIterator();
-
 	void appendList(SinglyLinkedList<T>&& other);
 	void appendList(const SinglyLinkedList<T>& other);    
 
 	void empty();
 	bool isEmpty() const;                              
-	unsignedInteger getCount() const;                             
+	unsignedInteger getCount() const;  
+
+	ConstIterator getHeadConstIterator() const;
+	ConstIterator getTailConstIterator() const;
+	Iterator getHeadIterator();
+	Iterator getTailIterator();
 	
 	void setHead(const T& item);                           
 	void setTail(const T& item);  
