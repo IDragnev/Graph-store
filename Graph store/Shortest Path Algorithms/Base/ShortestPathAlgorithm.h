@@ -24,6 +24,13 @@ protected:
 	virtual void initializeVertex(Vertex& vertex) const;
 	virtual void initializeSource(Vertex& source) const;
 
+	bool isTheGoal(const Vertex& vertex) const;
+	bool isAShortestPathFound() const;
+	void notifyAShortestPathWasFound();
+
+	void initializeState(Graph& graph, const Vertex& goal);
+	void clearState();
+
 	void registerInstance();
 
 private:
@@ -34,6 +41,10 @@ private:
 
 private:
 	const String id;
+
+	Graph* searchedGraph;
+	const Vertex* goal;
+	bool isPathFound;
 };
 
 #endif //__SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
