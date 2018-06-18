@@ -402,6 +402,8 @@ Node<T>* SinglyLinkedList<T>::cloneChainStartingAt(const Node<T>* firstNode, Nod
 template <typename T>
 Node<T>* SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
 {
+	assert(node);
+
 	Node<T>* current = head;
 
 	while (current && current->next != node)
