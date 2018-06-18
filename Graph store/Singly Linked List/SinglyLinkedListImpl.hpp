@@ -279,14 +279,15 @@ void SinglyLinkedList<T>::removeAt(Node<T>* nodeToRemove)
 	{
 		removeHead();
 	}
-	//if it is not the head node, there are at least two nodes in the list
 	else
 	{
 		Node<T>* nodeBefore = findNodeBefore(nodeToRemove);
 		assert(nodeBefore);
 
 		if (nodeToRemove == tail)
+		{
 			tail = nodeBefore;
+		}
 
 		nodeBefore->next = nodeToRemove->next;
 
@@ -305,7 +306,6 @@ void SinglyLinkedList<T>::insertAfter(Node<T>* nodeToInsertAfter, const T& item)
 	}
 	else 
 	{
-		//if it is not the tail and is not null, it has a successor
 		assert(nodeToInsertAfter->next);
 
 		Node<T>* newNode = new Node<T>(item, nodeToInsertAfter->next);
@@ -325,7 +325,6 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& ite
 	}
 	else
 	{
-		//it has a predecessor, because it is not the head node and is not null
 		Node<T>* previous = findNodeBefore(nodeToInsertBefore);
 		assert(previous);
 
