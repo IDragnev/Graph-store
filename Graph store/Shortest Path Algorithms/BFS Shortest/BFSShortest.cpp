@@ -49,7 +49,7 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 
 void BFSShortest::exploreNeighboursOf(Vertex& vertex)
 {
-	std::unique_ptr<Iterator<Edge>> edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
 
 	while (!edgeIterator->isFinished())
 	{
