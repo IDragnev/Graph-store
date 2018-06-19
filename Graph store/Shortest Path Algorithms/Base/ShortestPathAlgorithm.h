@@ -20,13 +20,13 @@ protected:
 
 	static void findTrivialPathFromTo(Vertex& source, Vertex& goal);
 
+	bool isAShortestPathFound() const;
+	void notifyAShortestPathWasFound();
+	bool isTheGoal(const Vertex& vertex) const;
+	
 	void initializeSingleSource(Graph& graph, Vertex& source) const;
 	virtual void initializeVertex(Vertex& vertex) const;
 	virtual void initializeSource(Vertex& source) const;
-
-	bool isTheGoal(const Vertex& vertex) const;
-	bool isAShortestPathFound() const;
-	void notifyAShortestPathWasFound();
 
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
