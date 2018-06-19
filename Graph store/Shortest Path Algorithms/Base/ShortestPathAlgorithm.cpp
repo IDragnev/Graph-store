@@ -77,19 +77,8 @@ void ShortestPathAlgorithm::notifyAShortestPathWasFound()
 
 void ShortestPathAlgorithm::initializeState(Graph& graph, const Vertex& Goal)
 {
-	assert(!searchedGraph);
-	assert(!goal);
-
 	searchedGraph = &graph;
 	goal = &Goal;
-	isPathFound = false;
-}
-
-
-void ShortestPathAlgorithm::clearState()
-{
-	searchedGraph = nullptr;
-	goal = nullptr;
 	isPathFound = false;
 }
 

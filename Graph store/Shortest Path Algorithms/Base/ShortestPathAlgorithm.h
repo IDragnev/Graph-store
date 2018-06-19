@@ -29,7 +29,6 @@ protected:
 	virtual void initializeSource(Vertex& source) const;
 
 	void initializeState(Graph& graph, const Vertex& goal);
-	void clearState();
 
 	void registerInstance();
 
