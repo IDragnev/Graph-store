@@ -55,12 +55,6 @@ void ShortestPathAlgorithm::initializeSource(Vertex& source) const
 }
 
 
-bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
-{
-	return vertex == *goal;
-}
-
-
 bool ShortestPathAlgorithm::isAShortestPathFound() const
 {
 	return isPathFound;
@@ -72,6 +66,18 @@ void ShortestPathAlgorithm::notifyAShortestPathWasFound()
 	assert(!isPathFound);
 
 	isPathFound = true;
+}
+
+
+bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
+{
+	return vertex == *goal;
+}
+
+
+std::unique_ptr<Iterator<Edge>> ShortestPathAlgorithm::getIncidentEdgesOf(Vertex& vertex) const
+{
+	return searchedGraph->getIteratorToIncidentEdgesOf(vertex);
 }
 
 
