@@ -8,10 +8,8 @@ IterativeDeepeningDFS IterativeDeepeningDFS::theOnlyInstance;
 
 
 IterativeDeepeningDFS::IterativeDeepeningDFS() :
-	ShortestPathAlgorithm("DFS-Shortest"),
-	searchedGraph(nullptr),
-	goal(nullptr),
-	isPathFound(false)
+	Base("DFS-Shortest"),
+	maxDepth(0)
 {
 	registerInstance();
 }
@@ -24,7 +22,6 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 		initializeState(graph, goal);
 		initializeSingleSource(graph, source);
 		findShortestPathToGoalFrom(source);
-		clearState();
 	}
 	else
 	{
@@ -35,10 +32,7 @@ void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& 
 
 void IterativeDeepeningDFS::findShortestPathToGoalFrom(Vertex& source)
 {
-	assert(!isAShortestPathFound() && searchedGraph);
-
-	//maxDepth = |V| - 1 since shortest paths are unique
-	unsigned maxDepth = searchedGraph->getVerticesCount() - 1;
+	assert(!isAShortestPathFound());
 
 	for (unsigned depthBound = 0; !isAShortestPathFound() && depthBound <= maxDepth; ++depthBound)
 	{
@@ -66,7 +60,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound)
 {
-	std::unique_ptr<Iterator<Edge>> edgeIterator(searchedGraph->getIteratorToIncidentEdgesOf(vertex));
+	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
 
 	while (!edgeIterator->isFinished())
 	{
@@ -97,39 +91,10 @@ void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& 
 }
 
 
-bool IterativeDeepeningDFS::isTheGoal(const Vertex& vertex) const
+void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
 {
-	return vertex == *goal;
-}
+	Base::initializeState(graph, goal);
 
-
-bool IterativeDeepeningDFS::isAShortestPathFound() const
-{
-	return isPathFound;
-}
-
-
-void IterativeDeepeningDFS::notifyAShortestPathWasFound()
-{
-	assert(!isPathFound);
-
-	isPathFound = true;
-}
-
-
-void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& Goal)
-{
-	assert(!searchedGraph && !goal);
-
-	searchedGraph = &graph;
-	goal = &Goal;
-	isPathFound = false;
-}
-
-
-void IterativeDeepeningDFS::clearState()
-{
-	searchedGraph = nullptr;
-	goal = nullptr;
-	isPathFound = false;
+	//|V| - 1 because shortest paths are unique
+	maxDepth = graph.getVerticesCount() - 1;
 }

@@ -6,6 +6,8 @@
 class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {
 private:
+	typedef ShortestPathAlgorithm Base;
+
 	static IterativeDeepeningDFS theOnlyInstance;
 
 public:
@@ -21,13 +23,7 @@ private:
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
 	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 
-	bool isTheGoal(const Vertex& vertex) const;
-
-	bool isAShortestPathFound() const;
-	void notifyAShortestPathWasFound();
-	
 	void initializeState(Graph& graph, const Vertex& goal);
-	void clearState();
 
 private:
 	IterativeDeepeningDFS(IterativeDeepeningDFS&& source) = delete;
@@ -36,9 +32,7 @@ private:
 	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS& rhs) = delete;
 
 private:
-	Graph* searchedGraph;
-	const Vertex* goal;
-	bool isPathFound;
+	unsigned maxDepth;
 };
 
 #endif //__ITERATIVE_DEEPENING_DFS_H_INCLUDED__
