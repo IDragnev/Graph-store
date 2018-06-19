@@ -8,11 +8,8 @@ BFSShortest BFSShortest::theOnlyInstance;
 
 
 BFSShortest::BFSShortest() :
-	ShortestPathAlgorithm("BFS-Shortest"),
-	searchedGraph(nullptr),
-	goal(nullptr),
-	verticesQueue(),
-	isPathFound(false)
+	Base("BFS-Shortest"),
+	verticesQueue()
 {
 	registerInstance();
 }
@@ -111,41 +108,15 @@ bool BFSShortest::isFrontierEmpty() const
 }
 
 
-bool BFSShortest::isTheGoal(const Vertex& vertex) const
+void BFSShortest::initializeState(Graph& graph, const Vertex& goal)
 {
-	return vertex == *goal;
-}
-
-
-bool BFSShortest::isAShortestPathFound() const
-{
-	return isPathFound;
-}
-
-
-void BFSShortest::notifyAShortestPathWasFound()
-{
-	assert(!isPathFound);
-
-	isPathFound = true;
-}
-
-
-void BFSShortest::initializeState(Graph& graph, const Vertex& Goal)
-{
-	assert(!searchedGraph && !goal);
 	assert(verticesQueue.isEmpty());
 
-	searchedGraph = &graph;
-	goal = &Goal;
-	isPathFound = false;
+	Base::initializeState(graph, goal);
 }
 
 
 void BFSShortest::clearState()
 {
-	searchedGraph = nullptr;
-	goal = nullptr;
-	isPathFound = false;
 	verticesQueue.empty();
 }

@@ -7,6 +7,8 @@
 class BFSShortest: public ShortestPathAlgorithm
 {
 private:
+	typedef ShortestPathAlgorithm Base;
+
 	static BFSShortest theOnlyInstance;
 
 public:
@@ -26,11 +28,6 @@ private:
 	Vertex& extractVertexFromTheFrontier();
 	bool isFrontierEmpty() const;
 
-	bool isTheGoal(const Vertex& vertex) const;
-
-	bool isAShortestPathFound() const;
-	void notifyAShortestPathWasFound();
-
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
 
@@ -41,10 +38,7 @@ private:
 	BFSShortest& operator=(const BFSShortest& rhs) = delete;
 
 private:
-	Graph* searchedGraph;
-	const Vertex* goal;
 	Queue<Vertex*> verticesQueue;
-	bool isPathFound;
 };
 
 #endif //__BFS_SHORTEST_PATH_H_INCLUDED__
