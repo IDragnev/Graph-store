@@ -63,6 +63,13 @@ namespace DArraytest
 		static const size_t INITIAL_SIZE = 50;
 
 	public:
+		TEST_METHOD(testDefaultConstructorConstructsEmptyArray)
+		{
+			DArray<int> dArray;
+
+			Assert::IsTrue(areSizeAndCountZero(dArray));
+		}
+
 		TEST_METHOD(testEnsureSizeEnlargesWhenGivenSizeIsGreater)
 		{
 			DArray<int> dArray;
