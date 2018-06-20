@@ -75,6 +75,9 @@
     <Filter Include="Graph creators\Base">
       <UniqueIdentifier>{47cb2a97-0402-4099-af45-1c306a9faf57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph creators\Concrete creator">
+      <UniqueIdentifier>{328289bb-f32b-4803-94c0-d4d7428f1eae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -204,6 +207,12 @@
     </ClInclude>
     <ClInclude Include="Graph creators\Base\GraphCreator.h">
       <Filter>Graph creators\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreator.h">
+      <Filter>Graph creators\Concrete creator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp">
+      <Filter>Graph creators\Concrete creator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
