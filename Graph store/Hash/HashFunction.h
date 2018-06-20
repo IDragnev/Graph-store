@@ -11,4 +11,5 @@ public:
 	}
 };
 
+#include "HashFunctionStringSpecialization.h"
 #endif //__HASH_FUNC_H_INCLUDED__
