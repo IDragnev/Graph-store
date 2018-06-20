@@ -69,6 +69,12 @@
     <Filter Include="Graph\ID Accessor">
       <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph creators">
+      <UniqueIdentifier>{ecf1444e-fbc1-4df5-a4bf-67b42df82f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph creators\Base">
+      <UniqueIdentifier>{47cb2a97-0402-4099-af45-1c306a9faf57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp">
       <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph creators\Base\GraphCreator.cpp">
+      <Filter>Graph creators\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
       <Filter>Graph\ID Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph creators\Base\GraphCreator.h">
+      <Filter>Graph creators\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
