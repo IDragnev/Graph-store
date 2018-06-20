@@ -1,7 +1,5 @@
 #include "ShortestPathAlgorithm.h"
-#include "../../Graph/Base Graph/Graph.h"
 #include <assert.h>
-#include <memory>
 
 
 ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :

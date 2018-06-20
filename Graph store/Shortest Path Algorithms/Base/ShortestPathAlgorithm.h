@@ -2,9 +2,7 @@
 #define __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 
 #include "../../String/String.h"
-
-class Graph;
-class Vertex;
+#include "../../Graph/Base Graph/Graph.h"
 
 class ShortestPathAlgorithm
 {
