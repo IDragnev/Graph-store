@@ -9,7 +9,7 @@ class IDAccessor
 public:
 	const String& operator()(const T& item) const
 	{
-		return item.getKey();
+		return item.getID();
 	}
 };
 
