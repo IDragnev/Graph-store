@@ -20,7 +20,7 @@ private:
 };
 
 
-unsigned HashFunction<String>::operator()(const String& key) const
+inline unsigned HashFunction<String>::operator()(const String& key) const
 {
 	const char* input = key;
 
