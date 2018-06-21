@@ -6,9 +6,9 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace DArraytest
 {		
-	void fillArrayWithIntegersFromZeroToWithStep(DArray<int>& arr, int biggest, int step)
+	void fillArrayWithIntegersFromRange(DArray<int>& arr, int smallest, int biggest)
 	{
-		for (int i = 0; i <= biggest; i += step)
+		for (int i = smallest; i <= biggest; ++i)
 		{
 			arr.insert(i);
 		}
@@ -39,16 +39,19 @@ namespace DArraytest
 		return dArray.getCount() == 0 && dArray.getSize() == 0;
 	}
 
-	bool containsExactlyTheIntegersFromZeroTo(const DArray<int>& dArray, const int integer)
+	bool containsExactlyTheIntegersFromTo(const DArray<int>& dArray, int smallest, int biggest)
 	{
-		if (dArray.getCount() != integer + 1)
+		int count = dArray.getCount();
+
+		if (count != biggest - smallest + 1)
 		{
 			return false;
 		}
 
-		for (int i = 0; i <= integer; ++i)
+		int current = smallest;
+		for (int i = 0; i < count; ++i)
 		{
-			if (dArray[i] != i)
+			if (dArray[i] != current++)
 			{
 				return false;
 			}
@@ -100,7 +103,7 @@ namespace DArraytest
 		TEST_METHOD(testEmptyLeavesSizeZero)
 		{
 			DArray<int> dArray(INITIAL_SIZE);
-			fillArrayWithIntegersFromZeroToWithStep(dArray, INITIAL_SIZE, 1);
+			fillArrayWithIntegersFromRange(dArray, 1, INITIAL_SIZE);
 
 			dArray.empty();
 
@@ -120,7 +123,7 @@ namespace DArraytest
 		TEST_METHOD(testCopyCtorFromNonEmptySource)
 		{
 			DArray<int> source(INITIAL_SIZE);
-			fillArrayWithIntegersFromZeroToWithStep(source, INITIAL_SIZE + 10, 1);
+			fillArrayWithIntegersFromRange(source, 1, INITIAL_SIZE);
 
 			DArray<int> destination(source);
 
@@ -141,15 +144,13 @@ namespace DArraytest
 		{
 			DArray<int> source(INITIAL_SIZE);
 
-			const size_t greatestInteger = INITIAL_SIZE - 5;
-			fillArrayWithIntegersFromZeroToWithStep(source, greatestInteger, 1);
+			fillArrayWithIntegersFromRange(source, 1, INITIAL_SIZE);
 
 			DArray<int> destination(std::move(source));
 
 			Assert::IsTrue(areSizeAndCountZero(source), L"Moved-from object is not empty");
-
 			Assert::IsTrue(destination.getSize() == INITIAL_SIZE, L"Size is not set properly in move ctor");
-			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(destination, greatestInteger), L"Destination has different contents from the moved-from object");
+			Assert::IsTrue(containsExactlyTheIntegersFromTo(destination, 1, INITIAL_SIZE), L"Destination has different contents from the moved-from object");
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
@@ -167,7 +168,7 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs;
 
-			fillArrayWithIntegersFromZeroToWithStep(lhs, INITIAL_SIZE, 1);
+			fillArrayWithIntegersFromRange(lhs, 1, INITIAL_SIZE);
 
 			lhs = rhs;
 
@@ -180,7 +181,7 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs(INITIAL_SIZE);
 
-			fillArrayWithIntegersFromZeroToWithStep(rhs, INITIAL_SIZE, 1);
+			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 
 			lhs = rhs;
 
@@ -193,8 +194,8 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs(INITIAL_SIZE);
 
-			fillArrayWithIntegersFromZeroToWithStep(rhs, INITIAL_SIZE, 1);
-			fillArrayWithIntegersFromZeroToWithStep(lhs, INITIAL_SIZE - 5, 5);
+			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
+			fillArrayWithIntegersFromRange(lhs, 2, INITIAL_SIZE);
 
 			lhs = rhs;
 
@@ -218,7 +219,7 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs;
 
-			fillArrayWithIntegersFromZeroToWithStep(lhs, INITIAL_SIZE, 1);
+			fillArrayWithIntegersFromRange(lhs, 1, INITIAL_SIZE);
 
 			lhs = std::move(rhs);
 
@@ -231,14 +232,13 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs(INITIAL_SIZE);
 
-			const size_t greatestInteger = INITIAL_SIZE - 5;
-			fillArrayWithIntegersFromZeroToWithStep(rhs, greatestInteger, 1);
+			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 
 			lhs = std::move(rhs);
 
 			Assert::IsTrue(areSizeAndCountZero(rhs), L"Moved-from object is not empty");
 			Assert::IsTrue(lhs.getSize() == INITIAL_SIZE, L"Size is not set properly in move assignment");
-			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(lhs, greatestInteger), L"Lhs has different contents from the moved-in contents");
+			Assert::IsTrue(containsExactlyTheIntegersFromTo(lhs, 1, INITIAL_SIZE), L"Lhs has different contents from the moved-in contents");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
@@ -246,16 +246,14 @@ namespace DArraytest
 			DArray<int> lhs;
 			DArray<int> rhs(INITIAL_SIZE);
 
-			const size_t greatestInteger = INITIAL_SIZE - 5;
-
-			fillArrayWithIntegersFromZeroToWithStep(rhs, greatestInteger, 1);
-			fillArrayWithIntegersFromZeroToWithStep(lhs, INITIAL_SIZE, 5);
+			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
+			fillArrayWithIntegersFromRange(lhs, 2, INITIAL_SIZE);
 
 			lhs = std::move(rhs);
 
 			Assert::IsTrue(areSizeAndCountZero(rhs), L"Moved-from object is not empty");
 			Assert::IsTrue(lhs.getSize() == INITIAL_SIZE, L"Size is not set properly in move assignment");
-			Assert::IsTrue(containsExactlyTheIntegersFromZeroTo(lhs, greatestInteger), L"Lhs has different contents from the moved-in contents");
+			Assert::IsTrue(containsExactlyTheIntegersFromTo(lhs, 1, INITIAL_SIZE), L"Lhs has different contents from the moved-in contents");
 		}
 
 		TEST_METHOD(testInsertUpdatesCountAndInsertsBack)
@@ -274,49 +272,28 @@ namespace DArraytest
 		{
 			DArray<int> dArray(INITIAL_SIZE);
 
-			fillArrayWithIntegersFromZeroToWithStep(dArray, INITIAL_SIZE, 1);
+			fillArrayWithIntegersFromRange(dArray, 1, INITIAL_SIZE);
 
-			const int insertedCount = dArray.getCount();
-			for (int i = 0; i < insertedCount; ++i)
-			{
-				dArray.remove(0);
+			dArray.remove(0);
 
-				Assert::IsTrue(dArray.getCount() == insertedCount - (i + 1));
-				
-				if (!dArray.isEmpty())
-				{
-					Assert::IsTrue(dArray[0] == i + 1);
-				}
-			}
+			Assert::IsTrue(dArray.getCount() == INITIAL_SIZE - 1, L"removeAt does not update count");
+			Assert::IsTrue(containsExactlyTheIntegersFromTo(dArray, 2, INITIAL_SIZE));
 		}
 
-		TEST_METHOD(testInsertAtLastPosition)
+		TEST_METHOD(testInsertAt)
 		{
 			DArray<int> dArray(INITIAL_SIZE);
 
-			for (int i = 0; i < INITIAL_SIZE; ++i)
+			fillArrayWithIntegersFromRange(dArray, 1, 10);
+
+			dArray.insertAt(5, 100);
+			
+			Assert::IsTrue(dArray[5] == 100, L"The item at the inserted position is different");
+			Assert::IsTrue(dArray.getCount() == 11, L"insertAt does not update count");
+
+			for (int i = 6; i < 11; ++i)
 			{
-				dArray.insertAt(i, i);
-				Assert::IsTrue(dArray.getCount() == i + 1, L"insertAt does not update count");
-				Assert::IsTrue(dArray[i] == i, L"The item at the inserted position is different");
-			}
-		}
-
-		TEST_METHOD(testInsertAtBetweenElements)
-		{
-			DArray<int> dArray(INITIAL_SIZE);
-
-			fillArrayWithIntegersFromZeroToWithStep(dArray, INITIAL_SIZE, 1);
-
-			const int count = dArray.getCount();
-
-			for (int i = 0; i < INITIAL_SIZE; ++i)
-			{
-				for (int position = count; position >= 0; --position)
-				{
-					dArray.insertAt(position, i);
-					Assert::IsTrue(dArray[position] == i, L"The item at the inserted position is different");
-				}
+				Assert::IsTrue(dArray[i] == i, L"Items after the inserted position are not shifted properly");
 			}
 		}
 	};
