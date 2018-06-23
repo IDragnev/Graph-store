@@ -85,11 +85,8 @@ namespace DArraytest
 		{
 			DArray<int> dArray(INITIAL_SIZE);
 
-			for (int i = 0; i < INITIAL_SIZE; ++i)
-			{
-				dArray.ensureSize(1);
-				Assert::IsTrue(dArray.getSize() == INITIAL_SIZE);
-			}
+			dArray.ensureSize(1);
+			Assert::IsTrue(dArray.getSize() == INITIAL_SIZE);
 		}
 
 		TEST_METHOD(testShrinkSizeActuallyShrinksTheSize)
