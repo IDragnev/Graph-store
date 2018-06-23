@@ -35,7 +35,7 @@ void Graph::insertVertexWithID(const char* ID)
 	else
 	{
 		//TODO: Graph exception class
-		throw std::invalid_argument("A vertex with such ID already exists in " + this->id);
+		throw std::invalid_argument("A vertex with such ID already exists");
 	}
 }
 
@@ -66,7 +66,7 @@ void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edg
 	else
 	{
 		//TODO: Graph exception class
-		throw std::invalid_argument("There already is an edge from " + vertexFrom.id + " to " + vertexTo.id);
+		throw std::invalid_argument("Such edge already exists");
 	}
 }
 
@@ -96,7 +96,7 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 	else if (throwIfEdgeDoesNotExist)
 	{
 		//TODO: Graph exception class
-		throw std::invalid_argument("There is no edge from " + vertexFrom.id + " to " + vertexTo.id);
+		throw std::invalid_argument("No such edge exists");
 	}
 }
 
@@ -220,7 +220,7 @@ const Vertex& Graph::getVertexWithID(const char* ID) const
 	else
 	{
 		//TODO: Graph exception class
-		throw std::invalid_argument("No vertex with ID " + String(ID) + " in " + this->id);
+		throw std::invalid_argument("No vertex with such ID exists");
 	}
 }
 
