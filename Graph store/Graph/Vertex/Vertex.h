@@ -27,7 +27,6 @@ public:
 
 private:
 	Vertex(String ID, size_t index);
-	~Vertex() = default;
 
 	Vertex(const Vertex& source) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
