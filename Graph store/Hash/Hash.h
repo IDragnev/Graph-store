@@ -53,7 +53,7 @@ private:
 	void toEmptyStateOfSize(unsignedInteger size);
 	void insertAllItemsFrom(DArray<Item*>& table);
 
-	long searchTableAndGetIndex(const Key& key) const; 
+	long getPositionOfItemWithKey(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
 	Item* extractItemFromTableAt(unsignedInteger index);
 	

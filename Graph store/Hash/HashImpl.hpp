@@ -73,7 +73,7 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 template <typename Item, typename Key, typename KeyAccessor>
 inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
 {
-	const long index = searchTableAndGetIndex(key);
+	const long index = getPositionOfItemWithKey(key);
 
 	return index >= 0 ? table[index] : nullptr;
 }
@@ -89,7 +89,7 @@ inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
-	const long index = searchTableAndGetIndex(key);
+	const long index = getPositionOfItemWithKey(key);
 
 	if (index >= 0)
 	{
@@ -112,7 +112,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::searchTableAndGetIndex(const Key& key) const
+long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) const
 {
 	unsignedInteger index = hashFunction(key) % tableSize;
 
