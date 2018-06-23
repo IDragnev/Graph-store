@@ -199,7 +199,7 @@ inline void DArray<T>::enlargeIfFull()
 
 
 template <typename T>
-inline void DArray<T>::remove(unsignedInteger position)
+inline void DArray<T>::removeAt(unsignedInteger position)
 {
 	assert(hasItemAt(position));
 

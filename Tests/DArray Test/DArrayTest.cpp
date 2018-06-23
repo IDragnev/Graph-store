@@ -265,13 +265,13 @@ namespace DArraytest
 			}
 		}
 
-		TEST_METHOD(testRemoveShiftsItemsAfterTheRemovedOne)
+		TEST_METHOD(testRemoveAtShiftsItemsAfterTheRemovedOne)
 		{
 			DArray<int> dArray(INITIAL_SIZE);
 
 			fillArrayWithIntegersFromRange(dArray, 1, INITIAL_SIZE);
 
-			dArray.remove(0);
+			dArray.removeAt(0);
 
 			Assert::IsTrue(dArray.getCount() == INITIAL_SIZE - 1, L"removeAt does not update count");
 			Assert::IsTrue(containsExactlyTheIntegersFromTo(dArray, 2, INITIAL_SIZE));

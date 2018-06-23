@@ -187,7 +187,7 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 
 	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
 
-	vertices.remove(lastVertexIndex);
+	vertices.removeAt(lastVertexIndex);
 }
 
 

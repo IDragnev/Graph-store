@@ -67,7 +67,7 @@ public:
 	void insert(const T& item);
 	void insert(const DArray<T>& other);
 	void insertAt(unsignedInteger position, const T& item);
-	void remove(unsignedInteger position);
+	void removeAt(unsignedInteger position);
 
 	T& operator[](unsignedInteger position);
 	const T& operator[](unsignedInteger position) const;
