@@ -28,7 +28,9 @@ public:
 private:
 	Vertex(String ID, size_t index);
 
+	Vertex(Vertex&& source) = delete;
 	Vertex(const Vertex& source) = delete;
+	Vertex& operator=(Vertex&& rhs) = delete;
 	Vertex& operator=(const Vertex& rhs) = delete;
 
 	void setID(String ID);
