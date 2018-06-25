@@ -5,24 +5,6 @@
 #include "HashFunction.h"
 #include <assert.h>
 
-/*
-The KeyAccessor template parameter must be a function or a Function object
-whose purpose is to access the key from each Item.
-Its operator()'s signature should be: 
-const Key& operator()(const Item&); (optionally const)
-
-In order to use the Hash class, the template class HashFunction
-must be specialised for the corresponding (user-defined) Key class.
-Its operator()'s signature should be:
-size_t operator()(const Key&); (optionally const)
-
-The Key class must support operator==.
-
-The HashFunction specialization and KeyAccessor's special members must not
-throw exceptions.
-HashFunction and KeyAccessor must be copy constructible and copy assignable.
-*/
-
 
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
