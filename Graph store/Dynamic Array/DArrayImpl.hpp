@@ -1,7 +1,7 @@
 
 
 template <typename T>
-DArray<T>::DArray() :
+inline DArray<T>::DArray() :
 	size(0),
 	count(0),
 	items(nullptr)
@@ -10,7 +10,7 @@ DArray<T>::DArray() :
 
 
 template <typename T>
-DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
+inline DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
 	size(size),
 	items(nullptr)
 {
@@ -24,7 +24,7 @@ DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
 
 
 template <typename T>
-DArray<T>::DArray(DArray<T>&& source) :
+inline DArray<T>::DArray(DArray<T>&& source) :
 	count(source.count),
 	size(source.size),
 	items(source.items)
@@ -34,7 +34,7 @@ DArray<T>::DArray(DArray<T>&& source) :
 
 
 template <typename T>
-DArray<T>::DArray(const DArray<T>& source) :
+inline DArray<T>::DArray(const DArray<T>& source) :
 	DArray<T>()
 {
 	copyFrom(source);
@@ -42,7 +42,7 @@ DArray<T>::DArray(const DArray<T>& source) :
 
 
 template <typename T>
-DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
+inline DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -54,7 +54,7 @@ DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
 
 
 template <typename T>
-DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
+inline DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
 {
 	if (this != &rhs)
 	{
