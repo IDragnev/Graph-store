@@ -18,8 +18,6 @@ public:
 protected:
 	GraphCreator(const char* createdGraphType);
 
-	void registerInStore() const;
-
 private:
 	GraphCreator(GraphCreator&& source) = delete;
 	GraphCreator(const GraphCreator& source) = delete;
