@@ -27,10 +27,12 @@ void Graph::insertVertexWithID(const char* ID)
 {
 	if (!existsVertexWithID(ID))
 	{
-		std::unique_ptr<Vertex> newVertex = createVertex(ID);
+		std::unique_ptr<Vertex> newVertexPtr = createVertex(ID);
 
-		insertToVertices(*newVertex);
-		insertToVerticesSearchTable(*newVertex);
+		insertToVertices(*newVertexPtr);
+		insertToVerticesSearchTable(*newVertexPtr);
+
+		newVertexPtr.release();
 	}
 	else
 	{
