@@ -8,7 +8,6 @@ BFSShortest::BFSShortest() :
 	Base("BFS-Shortest"),
 	verticesQueue()
 {
-	registerInstance();
 }
 
 

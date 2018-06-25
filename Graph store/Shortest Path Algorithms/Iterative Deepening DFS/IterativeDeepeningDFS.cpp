@@ -8,7 +8,6 @@ IterativeDeepeningDFS::IterativeDeepeningDFS() :
 	Base("DFS-Shortest"),
 	maxDepth(0)
 {
-	registerInstance();
 }
 
 

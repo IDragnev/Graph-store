@@ -30,8 +30,6 @@ protected:
 
 	void initializeState(Graph& graph, const Vertex& goal);
 
-	void registerInstance();
-
 private:
 	ShortestPathAlgorithm(ShortestPathAlgorithm&& source) = delete;
 	ShortestPathAlgorithm(const ShortestPathAlgorithm& source) = delete;
