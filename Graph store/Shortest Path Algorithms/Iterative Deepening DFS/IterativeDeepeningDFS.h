@@ -8,16 +8,13 @@ class IterativeDeepeningDFS : public ShortestPathAlgorithm
 private:
 	typedef ShortestPathAlgorithm Base;
 
-	static IterativeDeepeningDFS theOnlyInstance;
-
 public:
+	IterativeDeepeningDFS();
 	virtual ~IterativeDeepeningDFS() override = default;
 
 	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) override;
 
 private:
-	IterativeDeepeningDFS();
-
 	void findShortestPathToGoalFrom(Vertex& source);
 	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);

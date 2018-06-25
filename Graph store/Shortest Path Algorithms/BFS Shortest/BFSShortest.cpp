@@ -4,9 +4,6 @@
 #include <memory>
 
 
-BFSShortest BFSShortest::theOnlyInstance;
-
-
 BFSShortest::BFSShortest() :
 	Base("BFS-Shortest"),
 	verticesQueue()

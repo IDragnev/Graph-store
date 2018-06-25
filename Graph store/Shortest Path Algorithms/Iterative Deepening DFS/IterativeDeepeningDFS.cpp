@@ -4,9 +4,6 @@
 #include <assert.h>
 
 
-IterativeDeepeningDFS IterativeDeepeningDFS::theOnlyInstance;
-
-
 IterativeDeepeningDFS::IterativeDeepeningDFS() :
 	Base("DFS-Shortest"),
 	maxDepth(0)

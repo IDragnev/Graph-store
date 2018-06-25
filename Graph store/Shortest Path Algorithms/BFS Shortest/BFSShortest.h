@@ -9,16 +9,13 @@ class BFSShortest: public ShortestPathAlgorithm
 private:
 	typedef ShortestPathAlgorithm Base;
 
-	static BFSShortest theOnlyInstance;
-
 public:
+	BFSShortest();
 	virtual ~BFSShortest() override = default;
 
 	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) override;
 
 private:
-	BFSShortest();
-
 	void findShortestPathToGoalFrom(Vertex& source);
 	void exploreNeighboursOf(Vertex& vertex);
 	void visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
