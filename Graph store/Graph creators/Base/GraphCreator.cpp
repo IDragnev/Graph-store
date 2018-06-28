@@ -4,6 +4,7 @@
 GraphCreator::GraphCreator(const char* createdGraphType) :
 	createdGraphType(createdGraphType)
 {
+	assert(this->createdGraphType != String(""));
 }
 
 
