@@ -145,6 +145,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
+    <ClCompile Include="Graph Factory\Graph registrator\GraphRegistrator.cpp" />
+    <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
     <ClCompile Include="Graph\Edge\Edge.cpp" />
@@ -163,6 +165,8 @@
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />
+    <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h" />
+    <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Edge\Edge.h" />

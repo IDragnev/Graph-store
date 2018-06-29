@@ -81,6 +81,9 @@
     <Filter Include="Graph Factory\Graph creators\Concrete creator">
       <UniqueIdentifier>{328289bb-f32b-4803-94c0-d4d7428f1eae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph Factory\Graph registrator">
+      <UniqueIdentifier>{fc7cb4da-6494-4f6b-a7be-34e7426cda02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -115,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
       <Filter>Graph Factory\Graph creators\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Factory\Graph registrator\GraphRegistrator.cpp">
+      <Filter>Graph Factory\Graph registrator</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Factory\GraphFactory.cpp">
+      <Filter>Graph Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +225,12 @@
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp">
       <Filter>Graph Factory\Graph creators\Concrete creator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h">
+      <Filter>Graph Factory\Graph registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\GraphFactory.h">
+      <Filter>Graph Factory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
