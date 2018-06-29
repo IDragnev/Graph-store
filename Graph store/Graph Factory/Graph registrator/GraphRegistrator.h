@@ -10,7 +10,7 @@ public:
 	GraphRegistrator(const char* createdGraphType);
 
 private:
-	ConcreteGraphCreator<GraphType> creator;
+	const ConcreteGraphCreator<GraphType> graphCreator;
 };
 
 #endif //__GRAPH_REGISTRATOR_H_INCLUDED__
