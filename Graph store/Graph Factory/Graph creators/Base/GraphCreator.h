@@ -1,8 +1,8 @@
 #ifndef __GRAPH_CREATOR_H_INCLUDED__
 #define __GRAPH_CREATOR_H_INCLUDED__
 
-#include "../../String/String.h"
-#include "../../Graph/Base Graph/Graph.h"
+#include "../../../String/String.h"
+#include "../../../Graph/Base Graph/Graph.h"
 #include <memory>
 
 

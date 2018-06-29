@@ -144,7 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Graph creators\Base\GraphCreator.cpp" />
+    <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
     <ClCompile Include="Graph\Edge\Edge.cpp" />
@@ -160,9 +160,9 @@
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
-    <ClInclude Include="Graph creators\Base\GraphCreator.h" />
-    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreator.h" />
-    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />
+    <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
+    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
+    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Edge\Edge.h" />

@@ -69,13 +69,16 @@
     <Filter Include="Graph\ID Accessor">
       <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph creators">
+    <Filter Include="Graph Factory">
+      <UniqueIdentifier>{2cfaece5-7666-4718-9100-bf2e08d0c364}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\Graph creators">
       <UniqueIdentifier>{ecf1444e-fbc1-4df5-a4bf-67b42df82f66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph creators\Base">
+    <Filter Include="Graph Factory\Graph creators\Base">
       <UniqueIdentifier>{47cb2a97-0402-4099-af45-1c306a9faf57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph creators\Concrete creator">
+    <Filter Include="Graph Factory\Graph creators\Concrete creator">
       <UniqueIdentifier>{328289bb-f32b-4803-94c0-d4d7428f1eae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -110,8 +113,8 @@
     <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp">
       <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
     </ClCompile>
-    <ClCompile Include="Graph creators\Base\GraphCreator.cpp">
-      <Filter>Graph creators\Base</Filter>
+    <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
+      <Filter>Graph Factory\Graph creators\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,14 +208,14 @@
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
       <Filter>Graph\ID Accessor</Filter>
     </ClInclude>
-    <ClInclude Include="Graph creators\Base\GraphCreator.h">
-      <Filter>Graph creators\Base</Filter>
+    <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h">
+      <Filter>Graph Factory\Graph creators\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreator.h">
-      <Filter>Graph creators\Concrete creator</Filter>
+    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h">
+      <Filter>Graph Factory\Graph creators\Concrete creator</Filter>
     </ClInclude>
-    <ClInclude Include="Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp">
-      <Filter>Graph creators\Concrete creator</Filter>
+    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp">
+      <Filter>Graph Factory\Graph creators\Concrete creator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
