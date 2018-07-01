@@ -119,9 +119,6 @@
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
       <Filter>Graph Factory\Graph creators\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Graph Factory\Graph registrator\GraphRegistrator.cpp">
-      <Filter>Graph Factory\Graph registrator</Filter>
-    </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory</Filter>
     </ClCompile>
@@ -231,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="Graph Factory\GraphFactory.h">
       <Filter>Graph Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\Graph registrator\GraphRegistratorImpl.hpp">
+      <Filter>Graph Factory\Graph registrator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

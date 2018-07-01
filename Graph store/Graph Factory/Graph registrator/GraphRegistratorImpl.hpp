@@ -1,4 +1,3 @@
-#include "GraphRegistrator.h"
 #include "../GraphFactory.h"
 
 template <typename GraphType>

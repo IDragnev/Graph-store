@@ -13,4 +13,5 @@ private:
 	const ConcreteGraphCreator<GraphType> graphCreator;
 };
 
+#include "GraphRegistratorImpl.hpp"
 #endif //__GRAPH_REGISTRATOR_H_INCLUDED__
