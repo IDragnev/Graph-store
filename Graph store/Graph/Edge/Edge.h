@@ -10,14 +10,15 @@ private:
 	typedef unsigned Weight;
 
 public:
+	Edge(Edge&& source) = default;
+	Edge(const Edge& source) = default;
+
 	Vertex& getIncidentVertex();
 	const Vertex& getIncidentVertex() const;
 	Weight getWeight() const;
 
 private:
 	Edge(Vertex* incidentVertex, Weight weight = 1);
-	Edge(const Edge& source) = default;
-	Edge(Edge&& source) = default;
 	Edge& operator=(const Edge& rhs) = default;
 	Edge& operator=(Edge&& rhs) = default;
 
