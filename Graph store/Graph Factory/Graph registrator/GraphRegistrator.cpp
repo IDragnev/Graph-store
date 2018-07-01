@@ -5,5 +5,5 @@ template <typename GraphType>
 GraphRegistrator<GraphType>::GraphRegistrator(const char* createdGraphType) :
 	graphCreator(createdGraphType)
 {
-	GraphFactory::registerCreator(graphCreator);
+	GraphFactory::registerCreator(&graphCreator);
 }
