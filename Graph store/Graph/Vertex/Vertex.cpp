@@ -1,5 +1,5 @@
 #include "Vertex.h"
-
+#include "../Graph Exception/GraphException.h"
 
 Vertex::Vertex(String ID, size_t index) :
 	index(index),
@@ -21,8 +21,7 @@ void Vertex::setID(String ID)
 	}
 	else
 	{
-		//TODO: Graph exception class 
-		throw std::invalid_argument("Vertex ID must be a valid string");
+		throw GraphException("Vertex ID must be a valid string");
 	}
 }
 

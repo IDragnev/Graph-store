@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "../Graph Exception/GraphException.h"
 #include <assert.h>
 
 Graph::Graph(String ID) :
@@ -36,8 +37,7 @@ void Graph::insertVertexWithID(const char* ID)
 	}
 	else
 	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("A vertex with such ID already exists");
+		throw GraphException("A vertex with such ID already exists");
 	}
 }
 
@@ -67,8 +67,7 @@ void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edg
 	}
 	else
 	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("Such edge already exists");
+		throw GraphException("Such edge already exists");
 	}
 }
 
@@ -97,8 +96,7 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 	}
 	else if (throwIfEdgeDoesNotExist)
 	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("No such edge exists");
+		throw GraphException("No such edge exists");
 	}
 }
 
@@ -221,8 +219,7 @@ const Vertex& Graph::getVertexWithID(const char* ID) const
 	}
 	else
 	{
-		//TODO: Graph exception class
-		throw std::invalid_argument("No vertex with such ID exists");
+		throw GraphException("No vertex with such ID exists");
 	}
 }
 
@@ -282,7 +279,6 @@ void Graph::setID(String ID)
 	}
 	else
 	{
-		//TODO: Graph exception class 
-		throw std::invalid_argument("Graph ID must be a valid string");
+		throw GraphException("Graph ID must be a valid string");
 	}
 }

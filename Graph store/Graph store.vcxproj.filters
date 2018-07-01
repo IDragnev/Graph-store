@@ -84,6 +84,9 @@
     <Filter Include="Graph Factory\Graph registrator">
       <UniqueIdentifier>{fc7cb4da-6494-4f6b-a7be-34e7426cda02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\Graph Exception">
+      <UniqueIdentifier>{1f98aced-94e0-4f87-9848-a149303e3faa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Graph Exception\GraphException.cpp">
+      <Filter>Graph\Graph Exception</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistratorImpl.hpp">
       <Filter>Graph Factory\Graph registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph\Graph Exception\GraphException.h">
+      <Filter>Graph\Graph Exception</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

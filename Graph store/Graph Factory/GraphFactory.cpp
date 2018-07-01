@@ -1,7 +1,7 @@
 #include "GraphFactory.h"
 #include "Graph creators\Base\GraphCreator.h"
+#include "../Graph/Graph Exception/GraphException.h"
 #include "..\Dynamic Array\DArray.h"
-
 
 GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const char* graphType, const char* graphID)
 {
@@ -21,8 +21,7 @@ const GraphCreator& GraphFactory::getCreator(const char* graphType)
 	}
 	else
 	{
-		//TODO: add InvalidGraphType exception class
-		throw std::invalid_argument("Invalid graph type");
+		throw GraphException("Invalid graph type");
 	}
 }
 
