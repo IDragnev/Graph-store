@@ -8,10 +8,13 @@
 
 class GraphCreator
 {
+protected:
+	typedef std::unique_ptr<Graph> GraphPtr;
+
 public:
 	virtual ~GraphCreator() = default;
 
-	virtual std::unique_ptr<Graph> createEmptyGraph(const char* graphName) const = 0;
+	virtual GraphPtr createEmptyGraph(const char* graphName) const = 0;
 
 	const String& getCreatedGraphType() const;
 

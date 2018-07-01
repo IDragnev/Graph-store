@@ -10,7 +10,7 @@ public:
 	ConcreteGraphCreator(const char* createdGraphType);
 	virtual ~ConcreteGraphCreator() override = default;
 
-	virtual std::unique_ptr<Graph> createEmptyGraph(const char* graphID) const override;
+	virtual GraphPtr createEmptyGraph(const char* graphID) const override;
 
 private:
 	ConcreteGraphCreator(ConcreteGraphCreator&& source) = delete;
