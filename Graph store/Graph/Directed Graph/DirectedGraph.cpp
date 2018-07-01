@@ -1,5 +1,7 @@
 #include "DirectedGraph.h"
 
+GraphRegistrator<DirectedGraph> DirectedGraph::registrator("directed");
+
 
 DirectedGraph::DirectedGraph(const char* ID) :
 	Graph(ID)

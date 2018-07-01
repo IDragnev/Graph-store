@@ -2,6 +2,7 @@
 #define __DIRECTED_GRAPH_H_INCLUDED__
 
 #include "../Base Graph/Graph.h"
+#include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
 
 class DirectedGraph : public Graph
 {
@@ -20,6 +21,9 @@ private:
 	DirectedGraph(DirectedGraph&& source) = delete;
 	DirectedGraph& operator=(DirectedGraph&& rhs) = delete;
 	DirectedGraph& operator=(const DirectedGraph& rhs) = delete;
+
+private:
+	static GraphRegistrator<DirectedGraph> registrator;
 };
 
 #endif //__DIRECTED_GRAPH_H_INCLUDED__

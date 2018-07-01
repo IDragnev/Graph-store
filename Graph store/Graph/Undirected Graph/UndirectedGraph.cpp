@@ -1,5 +1,7 @@
 #include "UndirectedGraph.h"
 
+GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
+
 
 UndirectedGraph::UndirectedGraph(const char* ID) :
 	Graph(ID)
