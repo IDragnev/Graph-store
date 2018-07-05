@@ -88,7 +88,7 @@ void String::moveParameterInThis(String& source)
 
 void String::setActualString(const char* cString)
 {
-	if (cString != nullptr)
+	if (cString)
 	{
 		char* copy = cloneCString(cString);
 		destroyActualString();
@@ -106,7 +106,6 @@ void String::setActualString(char symbol)
 {
 	char buffer[2] = "";
 	buffer[0] = symbol;
-
 	setActualString(buffer);
 }
 
@@ -114,7 +113,6 @@ void String::setActualString(char symbol)
 char* String::cloneCString(const char* cString)
 {
 	size_t size = strlen(cString) + 1;
-
 	char* result = new char[size];
 	strcpy_s(result, size, cString);
 
@@ -124,7 +122,7 @@ char* String::cloneCString(const char* cString)
 
 void String::append(const char* string)
 {
-	if (string != nullptr)
+	if (string)
 	{
 		size_t size = strlen(string);
 
@@ -148,7 +146,6 @@ void String::append(char symbol)
 {
 	char buffer[2] = "";
 	buffer[0] = symbol;
-
 	append(buffer);
 }
 
@@ -167,7 +164,7 @@ void String::nullActualString()
 
 const char* String::getActualString() const
 {
-	return (actualString != nullptr) ? actualString : "";
+	return (actualString) ? actualString : "";
 }
 
 
@@ -222,7 +219,6 @@ bool operator>=(const String& lhs, const String& rhs)
 String operator+(const String& lhs, const String& rhs)
 {
 	String result(lhs);
-
 	result += rhs;
 
 	return result;
@@ -232,7 +228,6 @@ String operator+(const String& lhs, const String& rhs)
 String operator+(char lhs, const String& rhs)
 {
 	String result(lhs);
-
 	result += rhs;
 
 	return result;
@@ -242,7 +237,6 @@ String operator+(char lhs, const String& rhs)
 String operator+(const String& lhs, char rhs)
 {
 	String result(lhs);
-
 	result += rhs;
 
 	return result;
