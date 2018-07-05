@@ -20,7 +20,6 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
 	std::swap(insertedCount, source.insertedCount);
-
 	hashFunction = std::move(source.hashFunction);
 	keyAccessor = std::move(source.keyAccessor);
 }
@@ -176,7 +175,6 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 	while (table[positionToEmpty])
 	{
 		Item* extractedItem = extractItemFromTableAt(positionToEmpty);
-
 		insert(*extractedItem);
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
@@ -190,7 +188,6 @@ Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index
 	assert(index < tableSize && table[index]);
 
 	Item* result = table[index];
-
 	table[index] = nullptr;
 	--insertedCount;
 

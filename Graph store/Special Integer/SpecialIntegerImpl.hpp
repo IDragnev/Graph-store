@@ -83,7 +83,6 @@ template <typename Integer>
 specialInteger<Integer> operator+(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
 {
 	specialInteger<Integer> temporary(lhs);
-
 	temporary += rhs;
 
 	return temporary;
