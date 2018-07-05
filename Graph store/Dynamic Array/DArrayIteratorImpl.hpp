@@ -43,7 +43,6 @@ inline typename DArray<T>::DArrayIterator<Item, isConst>
 DArray<T>::DArrayIterator<Item, isConst>::operator++(int)
 {
 	DArrayIterator<Item, isConst> temporary(*this);
-
 	++(*this);
 
 	return temporary;

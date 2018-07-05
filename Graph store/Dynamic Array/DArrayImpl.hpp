@@ -165,7 +165,6 @@ void DArray<T>::insertAt(unsignedInteger position, const T& newItem)
 		enlargeIfFull();
 
 		shiftItemsOnePositionRight(position, count - 1);
-
 		items[position] = newItem;
 		++count;
 	}
