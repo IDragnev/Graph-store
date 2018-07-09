@@ -15,7 +15,47 @@ template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
 	SinglyLinkedList<T>()
 {
-	appendList(source);
+	if (!source.isEmpty())
+	{
+		copyFrom(source);
+	}
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& source)
+{
+	assert(isEmpty());
+	assert(!source.isEmpty());
+	try
+	{
+		copyChainOf(source);
+		count = source.count;
+	}
+	catch (...)
+	{
+		empty();
+		throw;
+	}
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
+{
+	assert(!head);
+	assert(source.head);
+
+	head = new Node<T>(source.head->data);
+	const Node<T>* nodeToCopy = source.head->next;
+	tail = head;
+
+	while (nodeToCopy)
+	{
+		tail->next = new Node<T>(nodeToCopy->data);
+		tail = tail->next;
+		nodeToCopy = nodeToCopy->next;
+	}
 }
 
 
@@ -56,7 +96,7 @@ SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
 template <typename T>
 inline SinglyLinkedList<T>::~SinglyLinkedList()
 {
-	clearChainStartingAt(head);
+	clearCurrentChain();
 }
 
 
@@ -72,13 +112,8 @@ inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLi
 template <typename T>
 void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
 {
-	if (!source.isEmpty())
-	{
-		Node<T>* newChainTail = nullptr;
-		Node<T>* newChainHead = cloneChainStartingAt(source.head, &newChainTail);
-
-		appendChainAndUpdateCount(newChainHead, newChainTail, source.count);
-	}
+	SinglyLinkedList<T> temporary(source);
+	appendList(std::move(temporary));
 }
 
 
@@ -87,37 +122,36 @@ void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 {
 	if (!source.isEmpty())
 	{
-		appendChainAndUpdateCount(source.head, source.tail, source.count);
-
+		appendContentOf(std::move(source));
 		source.nullifyMembers();
 	}
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::appendChainAndUpdateCount(Node<T>* first, Node<T>* last, unsignedInteger count)
+void SinglyLinkedList<T>::appendContentOf(SinglyLinkedList<T>&& source)
 {
-	assert(first && last);
+	assert(source.head);
+	assert(source.tail);
 
 	if (isEmpty())
 	{
-		head = first;
+		head = source.head;
 	}
 	else
 	{
-		tail->next = first;
+		tail->next = source.head;
 	}
 
-	tail = last;
-	this->count += count;
+	tail = source.tail;
+	count += source.count;
 }
 
 
 template <typename T>
 inline void SinglyLinkedList<T>::empty()
 {
-	clearChainStartingAt(head);
-
+	clearCurrentChain();
 	nullifyMembers();
 } 
 
@@ -204,8 +238,7 @@ void SinglyLinkedList<T>::removeHead()
 {
 	assert(!isEmpty());
 
-	Node<T>* oldHead = head;
-	
+	Node<T>* oldHead = head;	
 	head = head->next;
 
 	if (!head)
@@ -254,7 +287,7 @@ inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
+inline void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 {
 	assert(validateOwnershipOf(iterator));
 
@@ -346,55 +379,13 @@ inline void SinglyLinkedList<T>::nullifyMembers()
 
 
 template <typename T>
-void SinglyLinkedList<T>::clearChainStartingAt(const Node<T>* firstNode)
+inline void SinglyLinkedList<T>::clearCurrentChain()
 {
-	if (firstNode)
+	while (head)
 	{
-		const Node<T>* currentNode = firstNode;
-		const Node<T>* toDelete = firstNode;
-
-		while (currentNode)
-		{
-			toDelete = currentNode;
-
-			currentNode = currentNode->next;
-
-			delete toDelete;
-		}
-	}
-}
-
-
-template <typename T>
-Node<T>* SinglyLinkedList<T>::cloneChainStartingAt(const Node<T>* firstNode, Node<T>** endOfChain)
-{
-	assert(firstNode);
-	Node<T>* newChainHead = nullptr;
-
-	try
-	{
-		newChainHead = new Node<T>(firstNode->data);
-		const Node<T>* nodeToCopy = firstNode->next;
-		Node<T>* newChainTail = newChainHead;
-
-		while (nodeToCopy)
-		{
-			newChainTail->next = new Node<T>(nodeToCopy->data);
-
-			newChainTail = newChainTail->next;
-			nodeToCopy = nodeToCopy->next;
-		}
-
-		if (endOfChain)
-			*endOfChain = newChainTail;
-
-		return newChainHead;
-	} 
-	catch (...) 
-	{		
-		clearChainStartingAt(newChainHead);
-
-		throw;
+		Node<T>* oldHead = head;
+		head = head->next;
+		delete oldHead;
 	}
 }
 

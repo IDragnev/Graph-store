@@ -56,22 +56,19 @@ public:
 
 private:
 	void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
+	void copyFrom(const SinglyLinkedList<T>& source);
+	void copyChainOf(const SinglyLinkedList<T>& source);
+	void appendContentOf(SinglyLinkedList<T>&& source);
+
+	void clearCurrentChain();
+	void nullifyMembers();
 
 	void removeAt(Node<T>* node);
 	void insertAfter(Node<T>* node, const T& item);
 	void insertBefore(Node<T>* node, const T& item);
-
-	void appendChainAndUpdateCount(Node<T>* first, Node<T>* last, unsignedInteger count);
-
-	void nullifyMembers();
-	
-	bool validateOwnershipOf(const Iterator& iterator) const;
-
 	Node<T>* findNodeBefore(const Node<T>* node) const; 
 
-private:
-	static Node<T>* cloneChainStartingAt(const Node<T>* firstNode, Node<T>** lastNode = nullptr);
-	static void clearChainStartingAt(const Node<T>* firstNode);  
+	bool validateOwnershipOf(const Iterator& iterator) const;
 
 private:
 	unsignedInteger count;                                         
