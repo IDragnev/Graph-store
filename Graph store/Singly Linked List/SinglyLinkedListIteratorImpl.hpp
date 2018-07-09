@@ -1,6 +1,6 @@
 
 template <typename Key, bool isConst>
-SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner) :
+inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner) :
 	current(startNode),
 	owner(owner)
 {
@@ -8,7 +8,7 @@ SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNo
 
 
 template <typename Key, bool isConst>
-SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source) :
+inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source) :
 	current(source.current),
 	owner(source.owner)
 {
