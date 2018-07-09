@@ -3,7 +3,7 @@
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList() :
+inline SinglyLinkedList<T>::SinglyLinkedList() :
 	count(0),
 	head(nullptr),
 	tail(nullptr)
@@ -12,7 +12,7 @@ SinglyLinkedList<T>::SinglyLinkedList() :
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
+inline SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
 	SinglyLinkedList<T>()
 {
 	if (!source.isEmpty())
@@ -23,7 +23,7 @@ SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
+inline SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
 	head(source.head),
 	tail(source.tail),
 	count(source.count)
@@ -33,7 +33,7 @@ SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
 
 
 template <typename T>
-SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
+inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -45,7 +45,7 @@ SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& r
 
 
 template <typename T>
-SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
+inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -64,7 +64,7 @@ inline SinglyLinkedList<T>::~SinglyLinkedList()
 
 
 template <typename T>
-void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
+inline void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
 {
 	SinglyLinkedList<T> temporary(source);
 	appendList(std::move(temporary));
@@ -72,7 +72,7 @@ void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
 
 
 template <typename T>
-void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
+inline void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 {
 	if (!source.isEmpty())
 	{
