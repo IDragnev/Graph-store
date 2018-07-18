@@ -2,13 +2,13 @@
 #define __SINGLY_LINKED_LIST_ITERATOR_H_INCLUDED__
 
 #include "Node.h"
-#include "../Type selector/selectBaseIterator.h"
+#include "../Type selector/BaseIteratorSelector.h"
 
 template <typename T>
 class SinglyLinkedList;
 
 template <typename Key, bool isConst = false>
-class SinglyLinkedListIterator : public selectBaseIterator<isConst, Key>::result
+class SinglyLinkedListIterator : public BaseIteratorSelector<isConst, Key>::result
 {
 private:
 	friend class SinglyLinkedListIterator<Key, true>;
@@ -16,7 +16,7 @@ private:
 
 	typedef typename TypeSelector<isConst, const Key&, Key&>::result reference;
 	typedef typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
-	typedef typename selectBaseIterator<isConst, Key>::result baseIterator;
+	typedef typename BaseIteratorSelector<isConst, Key>::result baseIterator;
 
 public:
 	SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source);

@@ -3,7 +3,7 @@
 
 #include <assert.h>
 #include <stdexcept>
-#include "../Type selector/selectBaseIterator.h"
+#include "../Type selector/BaseIteratorSelector.h"
 
 template <typename T>
 class DArray
@@ -16,12 +16,12 @@ private:
 
 public:
 	template <typename Item, bool isConst = false>
-	class DArrayIterator : public selectBaseIterator<isConst, Item>::result
+	class DArrayIterator : public BaseIteratorSelector<isConst, Item>::result
 	{
 	private:
 		friend class DArray<Item>;
 
-		typedef typename selectBaseIterator<isConst, Item>::result baseIterator;
+		typedef typename BaseIteratorSelector<isConst, Item>::result baseIterator;
 		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
 		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
 

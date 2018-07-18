@@ -6,7 +6,7 @@
 #include "../Iterator abstraction/Iterator.h"
 
 template <bool isConst, typename T>
-struct selectBaseIterator
+struct BaseIteratorSelector
 {
 	typedef typename TypeSelector<isConst, ConstIterator<T>, Iterator<T>>::result result;
 };

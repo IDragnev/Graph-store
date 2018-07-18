@@ -194,7 +194,7 @@
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
-    <ClInclude Include="Type selector\selectBaseIterator.h" />
+    <ClInclude Include="Type selector\BaseIteratorSelector.h" />
     <ClInclude Include="Type selector\TypeSelector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
