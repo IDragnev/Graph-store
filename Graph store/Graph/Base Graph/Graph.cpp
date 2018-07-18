@@ -47,7 +47,6 @@ void Graph::removeVertexWithID(const char* ID)
 	Vertex& vertexToRemove = getVertexWithID(ID);
 
 	removeFromAdjacencyLists(vertexToRemove);
-
 	removeFromVerticesSearchTable(vertexToRemove);
 	removeFromVertices(vertexToRemove);
 
@@ -219,7 +218,7 @@ const Vertex& Graph::getVertexWithID(const char* ID) const
 	}
 	else
 	{
-		throw GraphException("No vertex with such ID exists");
+		throw GraphException("There is no vertex with ID " + String(ID));
 	}
 }
 
