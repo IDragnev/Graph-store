@@ -14,8 +14,8 @@ private:
 	friend class SinglyLinkedListIterator<Key, true>;
 	friend class SinglyLinkedList<Key>;
 
-	typedef typename typeSelector<isConst, const Key&, Key&>::result reference;
-	typedef typename typeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
+	typedef typename TypeSelector<isConst, const Key&, Key&>::result reference;
+	typedef typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
 	typedef typename selectBaseIterator<isConst, Key>::result baseIterator;
 
 public:

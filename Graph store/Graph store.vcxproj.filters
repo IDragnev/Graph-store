@@ -190,9 +190,6 @@
     <ClInclude Include="Iterator abstraction\ConstIterator.h">
       <Filter>Iterator abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="Type selector\typeSelector.h">
-      <Filter>Type selector</Filter>
-    </ClInclude>
     <ClInclude Include="Type selector\selectBaseIterator.h">
       <Filter>Type selector</Filter>
     </ClInclude>
@@ -240,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialInteger.h">
       <Filter>Special Integer</Filter>
+    </ClInclude>
+    <ClInclude Include="Type selector\TypeSelector.h">
+      <Filter>Type selector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

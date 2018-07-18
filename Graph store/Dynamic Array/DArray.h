@@ -22,8 +22,8 @@ public:
 		friend class DArray<Item>;
 
 		typedef typename selectBaseIterator<isConst, Item>::result baseIterator;
-		typedef typename typeSelector<isConst, const Item&, Item&>::result reference;
-		typedef typename typeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
+		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
+		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
