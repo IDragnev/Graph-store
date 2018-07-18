@@ -38,7 +38,6 @@ private:
 
 private:
 	const String id;
-
 	Graph* searchedGraph;
 	const Vertex* goal;
 	bool isPathFound;

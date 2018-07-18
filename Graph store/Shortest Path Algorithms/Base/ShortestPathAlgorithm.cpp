@@ -23,12 +23,11 @@ void ShortestPathAlgorithm::findTrivialPathFromTo(Vertex& source, Vertex& goal)
 
 void ShortestPathAlgorithm::initializeSingleSource(Graph& graph, Vertex& source) const
 {
-	std::unique_ptr<ConstIterator<Vertex*>> iterator(graph.getIteratorToVertices());
+	std::unique_ptr<ConstIterator<Vertex*>> iterator = graph.getIteratorToVertices();
 
 	while (!iterator->isFinished())
 	{
 		Vertex* vertex = iterator->getCurrent();
-
 		initializeVertex(*vertex);
 
 		iterator->goToNext();
