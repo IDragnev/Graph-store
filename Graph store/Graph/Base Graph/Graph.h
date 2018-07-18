@@ -23,9 +23,9 @@ private:
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
 
 protected:
-	typedef std::unique_ptr<ConstIterator<Vertex*>> AbstractVertexConstIterator;
-	typedef std::unique_ptr<Iterator<Edge>> AbstractEdgeIterator;
-	typedef std::unique_ptr<ConstIterator<Edge>> AbstractEdgeConstIterator;
+	typedef std::unique_ptr<ConstIterator<Vertex*>> VertexAbstractConstIterator;
+	typedef std::unique_ptr<Iterator<Edge>> EdgeAbstractIterator;
+	typedef std::unique_ptr<ConstIterator<Edge>> EdgeAbstractConstIterator;
 	
 public:
 	virtual ~Graph();
@@ -40,9 +40,9 @@ public:
 	const Vertex& getVertexWithID(const char* ID) const;
 
 	unsigned getVerticesCount() const;
-	AbstractVertexConstIterator getIteratorToVertices(); 
-	AbstractEdgeIterator getIteratorToIncidentEdgesOf(Vertex& vertex);  
-	AbstractEdgeConstIterator getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;  
+	VertexAbstractConstIterator getIteratorToVertices();
+	EdgeAbstractIterator getIteratorToIncidentEdgesOf(Vertex& vertex);
+	EdgeAbstractConstIterator getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;
 
 	const String& getID() const;
 

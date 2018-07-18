@@ -23,7 +23,7 @@ void DirectedGraph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 
 void DirectedGraph::removeFromAdjacencyLists(Vertex& vertex)
 {
-	AbstractVertexConstIterator verticesIterator(getIteratorToVertices());
+	VertexAbstractConstIterator verticesIterator(getIteratorToVertices());
 
 	while (!verticesIterator->isFinished())
 	{
