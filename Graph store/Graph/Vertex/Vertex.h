@@ -1,12 +1,12 @@
 #ifndef __VERTEX_H_INCLUDED__
 #define __VERTEX_H_INCLUDED__
 
-#include "../../Special Integer/specialInteger.h"
+#include "../../Special Integer/SpecialInteger.h"
 #include "../../String/String.h"
 #include "../../Singly Linked List/SinglyLinkedList.h"
 #include "../Edge/Edge.h"
 
-typedef specialInteger<unsigned> Distance; 
+typedef SpecialInteger<unsigned> Distance; 
 
 class Vertex
 {

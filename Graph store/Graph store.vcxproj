@@ -191,7 +191,7 @@
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListIterator.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp" />
-    <ClInclude Include="Special Integer\specialInteger.h" />
+    <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Type selector\selectBaseIterator.h" />

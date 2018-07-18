@@ -1,6 +1,6 @@
 
 template <typename Integer>
-specialInteger<Integer>::specialInteger() :
+SpecialInteger<Integer>::SpecialInteger() :
 	value(0),
 	isInfinity(true)
 {
@@ -8,7 +8,7 @@ specialInteger<Integer>::specialInteger() :
 
 
 template <typename Integer>
-specialInteger<Integer>::specialInteger(Integer value) :
+SpecialInteger<Integer>::SpecialInteger(Integer value) :
 	value(value),
 	isInfinity(false)
 {
@@ -21,7 +21,7 @@ specialInteger<Integer>::specialInteger(Integer value) :
 //(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
 //
 template <typename Integer>
-specialInteger<Integer>& specialInteger<Integer>::operator=(Integer newValue)
+SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue)
 {
 	value = newValue;
 	isInfinity = false;
@@ -31,16 +31,16 @@ specialInteger<Integer>& specialInteger<Integer>::operator=(Integer newValue)
 
 
 template <typename Integer>
-const specialInteger<Integer>& specialInteger<Integer>::getInfinity()
+const SpecialInteger<Integer>& SpecialInteger<Integer>::getInfinity()
 {
-	static const specialInteger<Integer> infinity;
+	static const SpecialInteger<Integer> infinity;
 
 	return infinity;
 }
 
 
 template <typename Integer>
-specialInteger<Integer>& specialInteger<Integer>::operator+=(const specialInteger<Integer>& rhs)
+SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialInteger<Integer>& rhs)
 {
 	if (!isInfinity)
 	{
@@ -59,14 +59,14 @@ specialInteger<Integer>& specialInteger<Integer>::operator+=(const specialIntege
 
 
 template <typename Integer>
-bool specialInteger<Integer>::isEqualToInfinity() const
+bool SpecialInteger<Integer>::isEqualToInfinity() const
 {
 	return isInfinity;
 }
 
 
 template <typename Integer>
-void specialInteger<Integer>::print(std::ostream& outputStream) const
+void SpecialInteger<Integer>::print(std::ostream& outputStream) const
 {
 	if (isInfinity)
 	{
@@ -80,9 +80,9 @@ void specialInteger<Integer>::print(std::ostream& outputStream) const
 
 
 template <typename Integer>
-specialInteger<Integer> operator+(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
+SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
-	specialInteger<Integer> temporary(lhs);
+	SpecialInteger<Integer> temporary(lhs);
 	temporary += rhs;
 
 	return temporary;
@@ -90,7 +90,7 @@ specialInteger<Integer> operator+(const specialInteger<Integer>& lhs, const spec
 
 
 template <typename Integer>
-bool operator<(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
+bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
 	if (!lhs.isInfinity && !rhs.isInfinity)
 	{
@@ -108,21 +108,21 @@ bool operator<(const specialInteger<Integer>& lhs, const specialInteger<Integer>
 
 
 template <typename Integer>
-bool operator==(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
+bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
 	return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
 }
 
 
 template <typename Integer>
-bool operator!=(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs)
+bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
 	return !(lhs == rhs);
 }
 
 
 template <typename Integer>
-std::ostream& operator<<(std::ostream& outputStream, const specialInteger<Integer>& integer)
+std::ostream& operator<<(std::ostream& outputStream, const SpecialInteger<Integer>& integer)
 {
 	integer.print(outputStream);
 

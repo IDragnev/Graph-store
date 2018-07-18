@@ -178,9 +178,6 @@
     <ClInclude Include="Queue\QueueImpl.hpp">
       <Filter>Queue</Filter>
     </ClInclude>
-    <ClInclude Include="Special Integer\specialInteger.h">
-      <Filter>Special Integer</Filter>
-    </ClInclude>
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
       <Filter>Special Integer</Filter>
     </ClInclude>
@@ -240,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="Graph\Graph Exception\GraphException.h">
       <Filter>Graph\Graph Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Special Integer\SpecialInteger.h">
+      <Filter>Special Integer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,28 +4,28 @@
 #include <iostream>
 
 template <typename Integer = int>
-class specialInteger
+class SpecialInteger
 {
-	static_assert(std::numeric_limits<Integer>::is_integer, "specialInteger<T> requires T to be an integer arithmetic type");
+	static_assert(std::numeric_limits<Integer>::is_integer, "SpecialInteger<T> requires T to be an integer arithmetic type");
 
 public:
-	specialInteger();
-	specialInteger(Integer value);
+	SpecialInteger();
+	SpecialInteger(Integer value);
 
-	specialInteger<Integer>& operator=(Integer newValue);
-	specialInteger<Integer>& operator=(const specialInteger<Integer>& rhs) = default;
+	SpecialInteger<Integer>& operator=(Integer newValue);
+	SpecialInteger<Integer>& operator=(const SpecialInteger<Integer>& rhs) = default;
 
-	static const specialInteger<Integer>& getInfinity();
+	static const SpecialInteger<Integer>& getInfinity();
 
-	specialInteger<Integer>& operator+=(const specialInteger<Integer>& rhs);
+	SpecialInteger<Integer>& operator+=(const SpecialInteger<Integer>& rhs);
 
 	bool isEqualToInfinity() const;
 	void print(std::ostream& outputStream = std::cout) const;
 
 	template <typename Integer>
-	friend bool operator<(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs);
+	friend bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 	template <typename Integer>
-	friend bool operator==(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs);
+	friend bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 private:
 	Integer value;
@@ -33,13 +33,13 @@ private:
 };
 
 template <typename Integer>
-specialInteger<Integer> operator+(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs);
+SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 template <typename Integer>
-std::ostream& operator<<(std::ostream& outputStream, const specialInteger<Integer>& integer);
+std::ostream& operator<<(std::ostream& outputStream, const SpecialInteger<Integer>& integer);
 
 template <typename Integer>
-bool operator!=(const specialInteger<Integer>& lhs, const specialInteger<Integer>& rhs);
+bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 #include "SpecialIntegerImpl.hpp"
 #endif //__SPECIAL_INTEGER_H_INCLUDED__
