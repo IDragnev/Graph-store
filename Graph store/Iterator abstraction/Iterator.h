@@ -1,6 +1,8 @@
 #ifndef __ITERATOR_ABSTRACTION_H_INCLUDED__
 #define __ITERATOR_ABSTRACTION_H_INCLUDED__
 
+#include <memory>
+
 template <typename T>
 class Iterator
 {
@@ -10,7 +12,7 @@ public:
 	virtual T& getCurrent() const = 0;
 	virtual void goToNext() = 0;
 	virtual bool isFinished() const = 0;
-	virtual Iterator<T>* clone() const = 0;
+	virtual std::unique_ptr<Iterator<T>> clone() const = 0;
 
 protected:
 	Iterator() = default;

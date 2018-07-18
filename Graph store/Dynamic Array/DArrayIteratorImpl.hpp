@@ -89,16 +89,16 @@ template <typename T>
 template <typename Item, bool isConst>
 inline bool DArray<T>::DArrayIterator<Item, isConst>::isFinished() const
 {
-	return current >= owner->count;
+	return current >= owner->getCount();
 }
 
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename DArray<T>::DArrayIterator<Item, isConst>::baseIterator* 
+inline typename DArray<T>::DArrayIterator<Item, isConst>::baseIteratorPtr 
 DArray<T>::DArrayIterator<Item, isConst>::clone() const
 {
-	return new DArrayIterator<Item, isConst>(*this);
+	return baseIteratorPtr(new DArrayIterator<Item, isConst>(*this));
 }
 
 

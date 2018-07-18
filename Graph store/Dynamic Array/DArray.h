@@ -24,6 +24,7 @@ public:
 		typedef typename BaseIteratorSelector<isConst, Item>::result baseIterator;
 		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
 		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
+		typedef std::unique_ptr<baseIterator> baseIteratorPtr;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
@@ -32,7 +33,7 @@ public:
 		virtual reference getCurrent() const override;
 		virtual void goToNext() override;
 		virtual bool isFinished() const override;
-		virtual baseIterator* clone() const override;
+		virtual baseIteratorPtr clone() const override;
 
 		reference operator*() const;
 

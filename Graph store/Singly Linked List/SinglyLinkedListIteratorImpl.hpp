@@ -36,7 +36,6 @@ template <typename Key, bool isConst>
 inline SinglyLinkedListIterator<Key, isConst> SinglyLinkedListIterator<Key, isConst>::operator++(int)
 {
 	SinglyLinkedListIterator<Key, isConst> temporary(*this);
-
 	++(*this);
 
 	return temporary;
@@ -83,8 +82,8 @@ SinglyLinkedListIterator<Key, isConst>::getCurrent() const
 
 
 template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::baseIterator*
+inline typename SinglyLinkedListIterator<Key, isConst>::baseIteratorPtr
 SinglyLinkedListIterator<Key, isConst>::clone() const
 {
-	return new SinglyLinkedListIterator<Key, isConst>(*this);
+	return baseIteratorPtr(new SinglyLinkedListIterator<Key, isConst>(*this));
 }

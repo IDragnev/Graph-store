@@ -17,6 +17,7 @@ private:
 	typedef typename TypeSelector<isConst, const Key&, Key&>::result reference;
 	typedef typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
 	typedef typename BaseIteratorSelector<isConst, Key>::result baseIterator;
+	typedef std::unique_ptr<baseIterator> baseIteratorPtr;
 
 public:
 	SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source);
@@ -25,7 +26,7 @@ public:
 	virtual reference getCurrent() const override;
 	virtual void goToNext() override;
 	virtual bool isFinished() const override;
-	virtual baseIterator* clone() const override;
+	virtual baseIteratorPtr clone() const override;
 
 	reference operator*() const;
 
