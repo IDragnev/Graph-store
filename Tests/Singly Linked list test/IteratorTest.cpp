@@ -18,7 +18,7 @@ namespace SinglyLinkedListTest
 		static const int BIG_INTEGER = 50;
 
 	public:
-		TEST_METHOD(IteratorBoundariesTest)
+		TEST_METHOD(testIteratorIteratesTheWholeList)
 		{
 			List list;
 			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
@@ -27,19 +27,21 @@ namespace SinglyLinkedListTest
 			int count = 0;
 
 			for (; iterator; ++iterator)
+			{
 				++count;
+			}
 
-			Assert::IsTrue(count == BIG_INTEGER);
+			Assert::AreEqual(count, BIG_INTEGER);
 		}
 
-		TEST_METHOD(IteratorDerrefTest)
+		TEST_METHOD(testIteratorReturnesTheCorrectValue)
 		{
 			List list;
 			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
 
 			ListConstIterator iterator = list.getHeadConstIterator();
-
 			int i = 0;
+
 			for (; iterator; ++iterator)
 			{
 				Assert::AreEqual(*iterator, i);

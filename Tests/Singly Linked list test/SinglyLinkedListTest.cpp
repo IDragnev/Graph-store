@@ -49,8 +49,8 @@ namespace SinglyLinkedListTest
 	bool containsAllIntegersFromZeroTo(const List& list, const int integer)
 	{
 		ListConstIterator constIterator = list.getHeadConstIterator();
-
 		int currentInteger = 0;
+
 		while (constIterator)
 		{
 			if (*constIterator != currentInteger)
@@ -97,8 +97,9 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				list.insertAsTail(i);
-				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as tail");
-				Assert::IsTrue(list.getTail() == i, L"Tail is not updated when inserting as tail");
+
+				Assert::AreEqual(list.getCount(), i + 1U, L"Count is not updated when inserting as tail");
+				Assert::AreEqual(list.getTail(), i, L"Tail is not updated when inserting as tail");
 			}
 		}
 
@@ -109,8 +110,9 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				list.insertAsHead(i);
-				Assert::IsTrue(list.getCount() == i + 1, L"Count is not updated when inserting as head");
-				Assert::IsTrue(list.getHead() == i, L"Head is not updated when inserting as head");
+
+				Assert::AreEqual(list.getCount(), i + 1U, L"Count is not updated when inserting as head");
+				Assert::AreEqual(list.getHead(), i, L"Head is not updated when inserting as head");
 			}
 		}
 		
@@ -118,13 +120,11 @@ namespace SinglyLinkedListTest
 		{
 			List source;
 			List destination;
-
 			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 			fillListWithIntegersFromZeroTo(destination, BIG_INTEGER / 2);
 
 			ListConstIterator destinationIterator = destination.getTailConstIterator();
 			const int destinationInitialCount = destination.getCount();
-
 			ListConstIterator sourceIterator = source.getHeadConstIterator();
 
 			destination.appendList(source);
@@ -142,8 +142,9 @@ namespace SinglyLinkedListTest
 
 			for (int i = BIG_INTEGER; i > 0; --i)
 			{
-				Assert::IsTrue(list.getHead() == i - 1, L"Removing head does not update head");
+				Assert::AreEqual(list.getHead(), i - 1, L"Removing head does not update head");
 				Assert::IsTrue(list.getCount() == i, L"Removing head does not update count");
+
 				list.removeHead();
 			}
 		}
@@ -155,8 +156,9 @@ namespace SinglyLinkedListTest
 
 			for (int i = BIG_INTEGER; i > 0; --i)
 			{
-				Assert::IsTrue(list.getTail() == i - 1, L"Removing tail does not update tail");
+				Assert::AreEqual(list.getTail(), i - 1, L"Removing tail does not update tail");
 				Assert::IsTrue(list.getCount() == i, L"Removing tail does not update count");
+
 				list.removeTail();
 			}
 		}
@@ -168,13 +170,12 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
-
 				//forse null
 				++iterator;
 
 				list.insertAfter(iterator, i);
 
-				Assert::IsTrue(list.getTail() == i);
+				Assert::AreEqual(list.getTail(), i);
 			}
 		}
 
@@ -192,14 +193,13 @@ namespace SinglyLinkedListTest
 				++headIterator;
 
 				Assert::IsTrue(headIterator, L"There is no object after the object we inserted after");
-				Assert::IsTrue(*headIterator == i, L"The inserted object is not the one passed as argument");
+				Assert::AreEqual(*headIterator, i, L"The inserted object is not the one passed as argument");
 			}
 		}
 
 		TEST_METHOD(testInsertionBetweenElementsWithInsertAfterIterator)
 		{
 			List list;
-
 			list.insertAsHead(1);
 			list.insertAsTail(3);
 
@@ -209,7 +209,8 @@ namespace SinglyLinkedListTest
 			int i = 1;
 			while(headIterator)
 			{
-				Assert::IsTrue(*headIterator == i);
+				Assert::AreEqual(*headIterator, i);
+
 				++headIterator;
 				++i;
 			}
@@ -229,7 +230,7 @@ namespace SinglyLinkedListTest
 				++tailIterator;
 
 				Assert::IsTrue(tailIterator, L"There is no object after the object we inserted after");
-				Assert::IsTrue(*tailIterator == i, L"The inserted object is not the one passed as argument");
+				Assert::AreEqual(*tailIterator, i, L"The inserted object is not the one passed as argument");
 			}
 		}
 
@@ -240,20 +241,18 @@ namespace SinglyLinkedListTest
 			for (int i = 0; i < BIG_INTEGER; ++i)
 			{
 				ListIterator iterator = list.getTailIterator();
-
 				//forse null
 				++iterator;
 
 				list.insertBefore(iterator, i);
 
-				Assert::IsTrue(list.getHead() == i);
+				Assert::AreEqual(list.getHead(), i);
 			}
 		}
 
 		TEST_METHOD(testInsertionBeforeHeadIterator)
 		{
 			List list;
-
 			list.insertAsHead(1);
 
 			for (int i = 0; i < BIG_INTEGER; ++i)
@@ -262,14 +261,13 @@ namespace SinglyLinkedListTest
 
 				list.insertBefore(headIterator, i);
 
-				Assert::IsTrue(list.getHead() == i);
+				Assert::AreEqual(list.getHead(), i);
 			}
 		}
 
 		TEST_METHOD(testInsertionBetweenElementsWithInsertBeforeIterator)
 		{
 			List list;
-
 			list.insertAsHead(1);
 			list.insertAsTail(3);
 
@@ -281,7 +279,7 @@ namespace SinglyLinkedListTest
 			int i = 1;
 			while(iterator)
 			{
-				Assert::IsTrue(*iterator == i);
+				Assert::AreEqual(*iterator, i);
 
 				++iterator;
 				++i;
@@ -312,7 +310,7 @@ namespace SinglyLinkedListTest
 
 				if (!list.isEmpty())
 				{
-					Assert::IsTrue(list.getHead() == i + 1, L"Removing at head iterator does not update head");
+					Assert::AreEqual(list.getHead(), i + 1, L"Removing at head iterator does not update head");
 				}
 
 				Assert::IsTrue(list.getCount() == BIG_INTEGER - (i + 1), L"Removing at head iterator does not update count");
@@ -333,7 +331,7 @@ namespace SinglyLinkedListTest
 
 				if (!list.isEmpty())
 				{
-					Assert::IsTrue(list.getTail() == i - 1, L"Removing at tail iterator does not update tail");
+					Assert::AreEqual(list.getTail(), i - 1, L"Removing at tail iterator does not update tail");
 				}
 
 				Assert::IsTrue(list.getCount() == i, L"Removing at tail iterator does not update count");
@@ -343,7 +341,6 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemovalBetweenElementsWithIterator)
 		{
 			List list;
-
 			fillListWithIntegersFromZeroTo(list, 2);
 
 			ListIterator iterator = list.getHeadIterator();
@@ -359,7 +356,6 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testCopyCtorFromEmptySource)
 		{
 			List source;
-
 			List destination(source);
 
 			Assert::IsTrue(areEqual(source, destination));
@@ -368,7 +364,6 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testCopyCtorFromNonEmptySource)
 		{
 			List source;
-
 			fillListWithIntegersFromZeroTo(source, BIG_INTEGER);
 
 			List destination(source);
@@ -379,7 +374,6 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testMoveCtorFromEmptySource)
 		{
 			List source;
-
 			List destination(std::move(source));
 
 			Assert::IsTrue(destination.isEmpty(), L"Destination is not empty after moving an empty source in it");
@@ -411,7 +405,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
 			lhs = rhs;
@@ -423,7 +416,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroToInReverse(lhs, BIG_INTEGER);
 			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER / 2);
 
@@ -436,7 +428,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroTo(lhs, BIG_INTEGER);
 
 			lhs = rhs;
@@ -459,7 +450,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
 			lhs = std::move(rhs);
@@ -472,7 +462,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroTo(lhs, BIG_INTEGER);
 
 			lhs = std::move(rhs);
@@ -485,7 +474,6 @@ namespace SinglyLinkedListTest
 		{
 			List lhs;
 			List rhs;
-
 			fillListWithIntegersFromZeroToInReverse(lhs, BIG_INTEGER - 5);
 			fillListWithIntegersFromZeroTo(rhs, BIG_INTEGER);
 
