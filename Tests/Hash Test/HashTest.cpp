@@ -12,9 +12,9 @@ namespace HashTest
 	public:
 		Item(const char* key = "str") : key(key) {}
 
-		bool operator==(const Item& other)const { return key == other.key; }
+		bool operator==(const Item& other) const { return key == other.key; }
 
-		const String& getKey()const { return key; }
+		const String& getKey() const { return key; }
 		void setKey(const char* key) { this->key = key; }
 
 	private:
@@ -91,7 +91,7 @@ namespace HashTest
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(testInsertionUpdatesCount)
+		TEST_METHOD(testInsertUpdatesCount)
 		{
 			ItemHash hash(EXPECTED_COUNT);
 
@@ -100,7 +100,7 @@ namespace HashTest
 			for (size_t i = 1; i < itemsCount; ++i)
 			{
 				hash.insert(testItems[i]);
-				Assert::IsTrue(hash.getCount() == i);
+				Assert::AreEqual(hash.getCount(), i);
 			}
 		}
 
@@ -117,14 +117,13 @@ namespace HashTest
 		TEST_METHOD(testRemoveReturnsCorrectAddress)
 		{
 			ItemHash hash(EXPECTED_COUNT);
-
 			insertTestItemsTo(hash);
 
 			const size_t itemsCount = testItems.getCount();
 
 			for (size_t i = 0; i < itemsCount; ++i)
 			{
-				Assert::IsTrue(hash.getCount() == itemsCount - i, L"Remove does not update count");
+				Assert::AreEqual(hash.getCount(), itemsCount - i, L"Remove does not update count");
 				Assert::IsTrue(hash.remove(testItems[i].getKey()) == &testItems[i], L"Remove is not returning the correct address");
 			}
 		}
@@ -137,14 +136,13 @@ namespace HashTest
 
 			for (size_t i = 0; i < itemsCount; ++i)
 			{
-				Assert::IsTrue(hash.remove(testItems[i].getKey()) == nullptr);
+				Assert::IsNull(hash.remove(testItems[i].getKey()));
 			}
 		}
 
 		TEST_METHOD(testSearchReturnsCorrectAddress)
 		{
 			ItemHash hash(EXPECTED_COUNT);
-
 			insertTestItemsTo(hash);
 
 			const size_t itemsCount = testItems.getCount();
@@ -163,7 +161,7 @@ namespace HashTest
 
 			for (size_t i = 0; i < itemsCount; ++i)
 			{
-				Assert::IsTrue(hash.search(testItems[i].getKey()) == nullptr);
+				Assert::IsNull(hash.search(testItems[i].getKey()));
 			}
 		}
 
@@ -184,12 +182,11 @@ namespace HashTest
 			ItemHash destination(std::move(source));
 
 			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-
-			Assert::IsTrue(destination.getCount()  == testItems.getCount(), L"Move construction is not handling count properly");
+			Assert::AreEqual(destination.getCount(), testItems.getCount(), L"Move construction is not handling count properly");
 			Assert::IsTrue(areAllTestItemsIn(destination), L"Move construction is not moving items properly");
 		}
 
-		TEST_METHOD(testCopyAssignmentFromEmptyToEmptyTest)
+		TEST_METHOD(testCopyAssignmentFromEmptyToEmpty)
 		{
 			ItemHash lhs(EXPECTED_COUNT);
 			ItemHash rhs(EXPECTED_COUNT);
@@ -202,9 +199,9 @@ namespace HashTest
 		TEST_METHOD(testCopyAssignmentFromEmptyToNonEmpty)
 		{
 			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
-			
+			ItemHash rhs(EXPECTED_COUNT);			
 			insertTestItemsTo(lhs);
+
 			lhs = rhs;
 
 			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after assigning it an empty rhs");
@@ -214,7 +211,6 @@ namespace HashTest
 		{
 			ItemHash lhs(EXPECTED_COUNT);
 			ItemHash rhs(EXPECTED_COUNT);
-
 			insertTestItemsTo(rhs);
 
 			lhs = rhs;
@@ -229,8 +225,7 @@ namespace HashTest
 			ItemHash rhs(EXPECTED_COUNT);
 
 			insertTestItemsTo(lhs);
-			insertTestItemsTo(rhs);
-			
+			insertTestItemsTo(rhs);			
 			lhs.remove(testItems[0].getKey());
 			lhs.remove(testItems[1].getKey());
 
@@ -255,7 +250,6 @@ namespace HashTest
 		{
 			ItemHash lhs(EXPECTED_COUNT);
 			ItemHash rhs(EXPECTED_COUNT);
-
 			insertTestItemsTo(lhs);
 
 			lhs = std::move(rhs);
@@ -268,7 +262,6 @@ namespace HashTest
 		{
 			ItemHash lhs(EXPECTED_COUNT);
 			ItemHash rhs(EXPECTED_COUNT);
-
 			insertTestItemsTo(rhs);
 
 			lhs = std::move(rhs);
@@ -285,7 +278,6 @@ namespace HashTest
 
 			insertTestItemsTo(lhs);
 			insertTestItemsTo(rhs);
-
 			lhs.remove(testItems[0].getKey());
 			lhs.remove(testItems[1].getKey());
 
