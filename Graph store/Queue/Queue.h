@@ -7,12 +7,12 @@ template <typename T>
 class Queue
 {
 public:
+	void enqueue(const T& item);
+	T dequeue();
+	T peekHead() const;
+	
 	bool isEmpty() const;
 	void empty();
-
-	T peekHead() const;
-	T dequeue();
-	void enqueue(const T& item);
 
 private:
 	SinglyLinkedList<T> theUnderlyingList;
