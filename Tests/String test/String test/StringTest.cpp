@@ -25,6 +25,7 @@ namespace StringTest
 		TEST_METHOD(testDefaultConstructedStringIsEmpty)
 		{
 			String string;
+
 			Assert::IsTrue(isTheEmptyString(string));
 		}
 
@@ -38,18 +39,21 @@ namespace StringTest
 		TEST_METHOD(testCStringConstructorWithEmptyCStringConstructsEmptyString)
 		{
 			String string("");
+
 			Assert::IsTrue(isTheEmptyString(string));
 		}
 
 		TEST_METHOD(testCStringConstructorWithNullptrConstructsEmptyString)
 		{
 			String string(nullptr);
+
 			Assert::IsTrue(isTheEmptyString(string));
 		}
 
 		TEST_METHOD(testSingleCharConstructor)
 		{
 			String str('C');
+
 			Assert::IsTrue(haveSameContents(str, "C"));
 		}
 
