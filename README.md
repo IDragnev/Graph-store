@@ -30,7 +30,7 @@ The currently used graph can be switched via the USE GRAPH command.
 
  - **INSERT VERTEX [id]**
    - Creates and inserts a vertex with ID [id] in the currently used graph. 
-All vertices in a graph must have unique IDs.
+All vertices in a graph must have unique IDs. The ID must be a valid string.
 
  - **DELETE VERTEX [id]**
    - Deletes the vertex with ID [id] from the currently used graph. 
