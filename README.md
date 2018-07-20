@@ -9,11 +9,10 @@ In a graph there can be at most one edge between any two vertices.
 
 ## The following commands let the user manage graphs.
 
- - **CREATE GRAPH [id] *[directed]***
-    - Creates a new graph with ID [id] and makes it the currently used graph.
-  Graphs must have unique IDs.
-  The command has an optional parameter: directed. 
-  If specified, the graph is directed, else it is undirected.
+ - **CREATE GRAPH [id] [type]**
+    - Creates a new graph with ID [id] and type [type] and makes it the currently used graph.
+  Graphs must have unique IDs. The ID must be a valid string.
+  The type of the graph can be *directed* or *undirected*.
 
  - **DELETE GRAPH [id]**
    - Deletes the graph with ID [id]. 
@@ -53,5 +52,5 @@ currently used graph.
 If such path is found, its constituent vertices are listed, else a message is shown.
 The algorithm used is specified by the parameter [algorithm].
 The currently possible choices for [algorithm] are:
-     - BFS : searches an unweighted shortest path using Breadth-first search.
-     - DFS : searches an unweighted shortest path using Depth-first search (Iterative deepening DFS).
+     - BFS : searches an unweighted shortest path using [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search).
+     - DFS : searches an unweighted shortest path using [Iterative deepening depth-first search](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search).
