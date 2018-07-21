@@ -63,5 +63,86 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
 
+		TEST_METHOD(testCopyCtorFromInfinityConstructsInfinity)
+		{
+			SpecialInteger copyOfInfinity = SpecialInteger::getInfinity();
+
+			Assert::IsTrue(copyOfInfinity.isEqualToInfinity());
+		}
+
+		TEST_METHOD(testCopyCtorFromNonInfinityConstructsNonInfinity)
+		{
+			SpecialInteger source(1);
+			SpecialInteger destination(source);
+
+			Assert::IsFalse(destination.isEqualToInfinity());
+		}
+
+		TEST_METHOD(testAddingIntegerToInfinityDoesNothing)
+		{
+			SpecialInteger infinity;
+
+			infinity += 1;
+
+			Assert::IsTrue(infinity.isEqualToInfinity());
+		}
+
+		TEST_METHOD(testAddingInfinityToInfinityDoesNothing)
+		{
+			SpecialInteger infinity;
+
+			infinity += SpecialInteger::getInfinity();
+
+			Assert::IsTrue(infinity.isEqualToInfinity());
+		}
+
+		TEST_METHOD(testAddingInfinityToNonInfinityMakesLHSInfinity)
+		{
+			SpecialInteger lhs(1);
+
+			lhs += SpecialInteger::getInfinity();
+
+			Assert::IsTrue(lhs.isEqualToInfinity());
+		}
+
+		TEST_METHOD(testAddingNonInfinityToNonInfinityDoesNotMakeItInfinity)
+		{
+			SpecialInteger lhs(1);
+
+			lhs += 1;
+
+			Assert::IsFalse(lhs.isEqualToInfinity(), L"Lhs is equal to infinity after adding non-infinity to it");
+			Assert::IsTrue(lhs == SpecialInteger(2), L"Lhs has wrong value after calling operator+=");
+		}
+
+		TEST_METHOD(testInfinityIsNotSmallerThanInfinity)
+		{
+			SpecialInteger infinity1;
+			SpecialInteger infinity2;
+
+			Assert::IsFalse(infinity1 < infinity2);
+		}
+
+		TEST_METHOD(testInfinityIsNotEqualToInfinity)
+		{
+			SpecialInteger infinity1;
+			SpecialInteger infinity2;
+
+			Assert::IsFalse(infinity1 == infinity2);
+		}
+
+		TEST_METHOD(testInfinityIsNotEqualToMaxPrimitiveInteger)
+		{
+			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
+
+			Assert::IsTrue(maxPrimitive != SpecialInteger::getInfinity());
+		}
+
+		TEST_METHOD(testInfinityIsGreaterThanAllPrimitiveIntegers)
+		{
+			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
+			
+			Assert::IsTrue(maxPrimitive < SpecialInteger::getInfinity());
+		}
 	};
 }
