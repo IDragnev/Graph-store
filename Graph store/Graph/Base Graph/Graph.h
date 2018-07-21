@@ -33,8 +33,8 @@ public:
 	void insertVertexWithID(const char* ID);
 	void removeVertexWithID(const char* ID);
 
-	virtual void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight = 1) = 0;
-	virtual void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo) = 0;
+	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight = 1) = 0;
+	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) = 0;
 
 	Vertex& getVertexWithID(const char* ID);
 	const Vertex& getVertexWithID(const char* ID) const;
@@ -50,7 +50,7 @@ protected:
 	Graph(String ID);
 
 	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
-	void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
+	void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 
 	bool existsVertexWithID(const char* ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;
@@ -61,8 +61,8 @@ private:
 	Graph& operator=(Graph&& rhs) = delete;
 	Graph& operator=(const Graph& rhs) = delete;
 
-	void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
-	static EdgeIterator getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
+	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
+	static EdgeIterator getEdgeFromTo(Vertex& from, Vertex& to);
 	
 	void insert(Vertex& vertex);
 	void insertInVertices(Vertex& vertex);
