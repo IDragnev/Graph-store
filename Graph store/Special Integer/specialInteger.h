@@ -11,6 +11,8 @@ class SpecialInteger
 public:
 	SpecialInteger();
 	SpecialInteger(Integer value);
+	SpecialInteger(const SpecialInteger<Integer>& source) = default;
+	~SpecialInteger() = default;
 
 	SpecialInteger<Integer>& operator=(Integer newValue);
 	SpecialInteger<Integer>& operator=(const SpecialInteger<Integer>& rhs) = default;
