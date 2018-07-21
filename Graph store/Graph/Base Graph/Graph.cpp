@@ -56,6 +56,20 @@ void Graph::insert(Vertex& vertex)
 }
 
 
+void Graph::insertInVertices(Vertex& vertex)
+{
+	assert(vertex.index == vertices.getCount());
+
+	vertices.insert(&vertex);
+}
+
+
+void Graph::insertInSearchTable(Vertex& vertex)
+{
+	verticesSearchTable.insert(vertex);
+}
+
+
 void Graph::removeVertexWithID(const char* ID)
 {
 	Vertex& vertexToRemove = getVertexWithID(ID);
@@ -68,32 +82,59 @@ void Graph::removeVertexWithID(const char* ID)
 }
 
 
-void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
+void Graph::removeFromSearchTable(const Vertex& vertex)
 {
-	assert(isOwnerOf(vertexFrom) && isOwnerOf(vertexTo));
+	//must first be removed from the search table!
+	assert(isOwnerOf(vertex));
 
-	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
-
-	if (!iteratorToEdge)
-	{
-		vertexFrom.edges.insert(Edge(&vertexTo, weight));
-	}
-	else
-	{
-		throw GraphException("Such edge already exists");
-	}
+	verticesSearchTable.remove(vertex.id);
 }
 
 
-void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+void Graph::removeFromVertices(const Vertex& vertexToRemove)
 {
-	removeEdgeFromTo(vertexFrom, vertexTo, true);
+	assert(isOwnerOf(vertexToRemove));
+
+	const size_t lastVertexIndex = vertices.getCount() - 1;
+
+	Vertex* lastVertex = vertices[lastVertexIndex];
+	lastVertex->index = vertexToRemove.index;
+
+	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
+
+	vertices.removeAt(lastVertexIndex);
+}
+
+
+//
+//the default implementation is for an undirected graph:
+//each of the vertex' neighbours has an edge to it
+//
+void Graph::removeFromAdjacencyLists(Vertex& vertex)
+{
+	assert(isOwnerOf(vertex));
+
+	EdgeIterator adjacentEdgesIterator = vertex.edges.getHeadIterator();
+
+	while (adjacentEdgesIterator)
+	{
+		Edge& currentEdge = *adjacentEdgesIterator;
+		Vertex& neighbour = currentEdge.getIncidentVertex();
+
+		removeEdgeFromToNoThrow(neighbour, vertex);
+	}
 }
 
 
 void Graph::removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo)
 {
 	removeEdgeFromTo(vertexFrom, vertexTo, false);
+}
+
+
+void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+{
+	removeEdgeFromTo(vertexFrom, vertexTo, true);
 }
 
 
@@ -114,22 +155,19 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 }
 
 
-//
-//the default implementation is for an undirected graph:
-//each of the vertex' neighbours has an edge to it
-//
-void Graph::removeFromAdjacencyLists(Vertex& vertex)
+void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
 {
-	assert(isOwnerOf(vertex));
+	assert(isOwnerOf(vertexFrom) && isOwnerOf(vertexTo));
 
-	EdgeIterator adjacentEdgesIterator = vertex.edges.getHeadIterator();
+	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
 
-	while (adjacentEdgesIterator)
+	if (!iteratorToEdge)
 	{
-		Edge& currentEdge = *adjacentEdgesIterator;
-		Vertex& neighbour = currentEdge.getIncidentVertex();
-
-		removeEdgeFromToNoThrow(neighbour, vertex);
+		vertexFrom.edges.insert(Edge(&vertexTo, weight));
+	}
+	else
+	{
+		throw GraphException("Such edge already exists");
 	}
 }
 
@@ -163,44 +201,6 @@ bool Graph::existsVertexWithID(const char* ID) const
 bool Graph::isOwnerOf(const Vertex& vertex) const
 {
 	return (vertex.index < vertices.getCount()) && (vertices[vertex.index] == &vertex);
-}
-
-
-void Graph::insertInVertices(Vertex& vertex)
-{
-	assert(vertex.index == vertices.getCount());
-
-	vertices.insert(&vertex);
-}
-
-
-void Graph::insertInSearchTable(Vertex& vertex)
-{
-	verticesSearchTable.insert(vertex);
-}
-
-
-void Graph::removeFromSearchTable(const Vertex& vertex)
-{
-	//must first be removed from the search table!
-	assert(isOwnerOf(vertex));
-
-	verticesSearchTable.remove(vertex.id);
-}
-
-
-void Graph::removeFromVertices(const Vertex& vertexToRemove)
-{
-	assert(isOwnerOf(vertexToRemove));
-
-	const size_t lastVertexIndex = vertices.getCount() - 1;
-
-	Vertex* lastVertex = vertices[lastVertexIndex];
-	lastVertex->index = vertexToRemove.index;
-
-	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
-
-	vertices.removeAt(lastVertexIndex);
 }
 
 
