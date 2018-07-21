@@ -53,7 +53,7 @@ protected:
 	void removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo);
 
 	bool existsVertexWithID(const char* ID) const;
-	bool isFromThisGraph(const Vertex& vertex) const;
+	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
 	Graph(const Graph& source) = delete;
@@ -65,10 +65,10 @@ private:
 	static EdgeIterator getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 	
 	void insert(Vertex& vertex);
-	void insertToVertices(Vertex& vertex);
-	void insertToVerticesSearchTable(Vertex& vertex);
+	void insertInVertices(Vertex& vertex);
+	void insertInSearchTable(Vertex& vertex);
 	void removeFromVertices(const Vertex& vertex);
-	void removeFromVerticesSearchTable(const Vertex& vertex);
+	void removeFromSearchTable(const Vertex& vertex);
 
 	size_t getAppropriateVertexHandle() const;
 	std::unique_ptr<Vertex> createVertex(const char* ID) const;

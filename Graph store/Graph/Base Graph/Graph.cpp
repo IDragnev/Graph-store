@@ -42,11 +42,11 @@ void Graph::insertVertexWithID(const char* ID)
 
 void Graph::insert(Vertex& vertex)
 {
-	insertToVertices(vertex);
+	insertInVertices(vertex);
 
 	try
 	{
-		insertToVerticesSearchTable(vertex);
+		insertInSearchTable(vertex);
 	}
 	catch (std::bad_alloc&)
 	{
@@ -61,7 +61,7 @@ void Graph::removeVertexWithID(const char* ID)
 	Vertex& vertexToRemove = getVertexWithID(ID);
 
 	removeFromAdjacencyLists(vertexToRemove);
-	removeFromVerticesSearchTable(vertexToRemove);
+	removeFromSearchTable(vertexToRemove);
 	removeFromVertices(vertexToRemove);
 
 	deleteVertex(&vertexToRemove);
@@ -70,7 +70,7 @@ void Graph::removeVertexWithID(const char* ID)
 
 void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edge::Weight weight)
 {
-	assert(isFromThisGraph(vertexFrom) && isFromThisGraph(vertexTo));
+	assert(isOwnerOf(vertexFrom) && isOwnerOf(vertexTo));
 
 	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
 
@@ -99,7 +99,7 @@ void Graph::removeEdgeFromToNoThrow(Vertex& vertexFrom, Vertex& vertexTo)
 
 void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist)
 {
-	assert(isFromThisGraph(vertexFrom) && isFromThisGraph(vertexTo));
+	assert(isOwnerOf(vertexFrom) && isOwnerOf(vertexTo));
 
 	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
 
@@ -120,7 +120,7 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 //
 void Graph::removeFromAdjacencyLists(Vertex& vertex)
 {
-	assert(isFromThisGraph(vertex));
+	assert(isOwnerOf(vertex));
 
 	EdgeIterator adjacentEdgesIterator = vertex.edges.getHeadIterator();
 
@@ -160,13 +160,13 @@ bool Graph::existsVertexWithID(const char* ID) const
 }
 
 
-bool Graph::isFromThisGraph(const Vertex& vertex) const
+bool Graph::isOwnerOf(const Vertex& vertex) const
 {
 	return (vertex.index < vertices.getCount()) && (vertices[vertex.index] == &vertex);
 }
 
 
-void Graph::insertToVertices(Vertex& vertex)
+void Graph::insertInVertices(Vertex& vertex)
 {
 	assert(vertex.index == vertices.getCount());
 
@@ -174,16 +174,16 @@ void Graph::insertToVertices(Vertex& vertex)
 }
 
 
-void Graph::insertToVerticesSearchTable(Vertex& vertex)
+void Graph::insertInSearchTable(Vertex& vertex)
 {
 	verticesSearchTable.insert(vertex);
 }
 
 
-void Graph::removeFromVerticesSearchTable(const Vertex& vertex)
+void Graph::removeFromSearchTable(const Vertex& vertex)
 {
 	//must first be removed from the search table!
-	assert(isFromThisGraph(vertex));
+	assert(isOwnerOf(vertex));
 
 	verticesSearchTable.remove(vertex.id);
 }
@@ -191,7 +191,7 @@ void Graph::removeFromVerticesSearchTable(const Vertex& vertex)
 
 void Graph::removeFromVertices(const Vertex& vertexToRemove)
 {
-	assert(isFromThisGraph(vertexToRemove));
+	assert(isOwnerOf(vertexToRemove));
 
 	const size_t lastVertexIndex = vertices.getCount() - 1;
 
@@ -245,7 +245,7 @@ Vertex& Graph::getVertexWithID(const char* ID)
 
 Graph::EdgeAbstractIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 {
-	assert(isFromThisGraph(vertex));
+	assert(isOwnerOf(vertex));
 
 	EdgeIterator iteratorToEdges = vertex.edges.getHeadIterator();
 	
@@ -255,7 +255,7 @@ Graph::EdgeAbstractIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 
 Graph::EdgeAbstractConstIterator Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
 {
-	assert(isFromThisGraph(vertex));
+	assert(isOwnerOf(vertex));
 
 	EdgeConstIterator constIteratorToEdges = vertex.edges.getHeadConstIterator();
 
