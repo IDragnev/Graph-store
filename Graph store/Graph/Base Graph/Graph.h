@@ -64,6 +64,7 @@ private:
 	void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfEdgeDoesNotExist);
 	static EdgeIterator getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo);
 	
+	void insert(Vertex& vertex);
 	void insertToVertices(Vertex& vertex);
 	void insertToVerticesSearchTable(Vertex& vertex);
 	void removeFromVertices(const Vertex& vertex);

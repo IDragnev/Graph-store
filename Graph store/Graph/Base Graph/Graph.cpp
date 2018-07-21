@@ -29,15 +29,29 @@ void Graph::insertVertexWithID(const char* ID)
 	if (!existsVertexWithID(ID))
 	{
 		std::unique_ptr<Vertex> newVertexPtr = createVertex(ID);
-
-		insertToVertices(*newVertexPtr);
-		insertToVerticesSearchTable(*newVertexPtr);
+		insert(*newVertexPtr);
 
 		newVertexPtr.release();
 	}
 	else
 	{
 		throw GraphException("A vertex with such ID already exists");
+	}
+}
+
+
+void Graph::insert(Vertex& vertex)
+{
+	insertToVertices(vertex);
+
+	try
+	{
+		insertToVerticesSearchTable(vertex);
+	}
+	catch (std::bad_alloc&)
+	{
+		removeFromVertices(vertex);
+		throw;
 	}
 }
 
