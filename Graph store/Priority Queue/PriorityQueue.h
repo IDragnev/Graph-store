@@ -15,8 +15,8 @@ private:
 	typedef DArray<Element> ElementArray;
 
 public:
-	PriorityQueue(size_t size);
-	PriorityQueue(Iterator<Element>& iterator, size_t size);
+	PriorityQueue();
+	PriorityQueue(Iterator<Element>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue() = default;
@@ -27,7 +27,6 @@ public:
 	bool isEmpty() const;
 
 	void insert(Element&& newElement);
-
 	Item& extractOptimal();
 	const Item& getOptimal() const;
 
