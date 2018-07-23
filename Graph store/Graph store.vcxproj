@@ -153,6 +153,7 @@
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
@@ -181,6 +182,10 @@
     <ClInclude Include="Hash\HashImpl.hpp" />
     <ClInclude Include="Iterator abstraction\ConstIterator.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
+    <ClInclude Include="Priority Queue\Pair\Pair.h" />
+    <ClInclude Include="Priority Queue\Pair\PairImpl.hpp" />
+    <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h" />
+    <ClInclude Include="Priority Queue\PriorityQueue.h" />
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />

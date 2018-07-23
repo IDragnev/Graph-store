@@ -87,6 +87,15 @@
     <Filter Include="Graph\Graph Exception">
       <UniqueIdentifier>{1f98aced-94e0-4f87-9848-a149303e3faa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Priority Queue">
+      <UniqueIdentifier>{7033932f-1a00-4da2-b5da-e96b252c3e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Priority Queue\PQ Handle">
+      <UniqueIdentifier>{26b65e5d-5722-4631-b307-063ed4868ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Priority Queue\Pair">
+      <UniqueIdentifier>{3adf32a6-aa1a-445e-a5f5-9b1cf1ff7c5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -127,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="Graph\Graph Exception\GraphException.cpp">
       <Filter>Graph\Graph Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
+      <Filter>Priority Queue\PQ Handle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +252,18 @@
     </ClInclude>
     <ClInclude Include="Type selector\BaseIteratorSelector.h">
       <Filter>Type selector</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
+      <Filter>Priority Queue\PQ Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Pair\Pair.h">
+      <Filter>Priority Queue\Pair</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Pair\PairImpl.hpp">
+      <Filter>Priority Queue\Pair</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\PriorityQueue.h">
+      <Filter>Priority Queue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
