@@ -34,7 +34,7 @@ public:
 
 private:
 	ElementArray elements;
-	long lastElementIndex;
+	size_t insertedCount;
 	mutable CompareFunction compare;     
 	HandleSetter handleSetter;
 };
