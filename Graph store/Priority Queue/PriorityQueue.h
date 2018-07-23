@@ -36,7 +36,7 @@ private:
 	ElementArray elements;
 	size_t insertedCount;
 	mutable CompareFunction compare;     
-	HandleSetter handleSetter;
+	mutable HandleSetter handleSetter;
 };
 
 #endif //__PRIORITY_QUEUE_H_INCLUDED__
