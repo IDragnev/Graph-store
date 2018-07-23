@@ -265,5 +265,11 @@
     <ClInclude Include="Priority Queue\PriorityQueue.h">
       <Filter>Priority Queue</Filter>
     </ClInclude>
+    <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueImpl.hpp">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

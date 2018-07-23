@@ -31,7 +31,9 @@ namespace PriorityQueueTest
 	public:	
 		TEST_METHOD(testDefaultConstructedQueueIsEmpty)
 		{
-			//TODO: write the first test
+			MaxPriorityQueue queue;
+
+			Assert::IsTrue(queue.isEmpty());
 		}
 	};
 }

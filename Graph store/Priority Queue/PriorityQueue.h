@@ -39,4 +39,5 @@ private:
 	mutable HandleSetter handleSetter;
 };
 
+#include "PriorityQueueImpl.hpp"
 #endif //__PRIORITY_QUEUE_H_INCLUDED__
