@@ -49,7 +49,7 @@ private:
 	bool compare(const Element& lhs, const Element& rhs) const;
 	void updateHandleOfElementAt(size_t index);
 
-	bool isValid(size_t index) const;
+	bool hasElementAt(size_t index) const;
 	bool hasSpaceInCurrentArray() const;
 
 private:

@@ -66,7 +66,7 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLastNonLeafIn
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t index)
 {
-	assert(isValid(index));
+	assert(hasElementAt(index));
 	Element hand = std::move(elements[index]);
 
 	while (hasChildren(index))
@@ -94,7 +94,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t in
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftUp(size_t index)
 {
-	assert(isValid(index));
+	assert(hasElementAt(index));
 	Element hand = std::move(elements[index]);
 
 	while (hasParent(index))
@@ -122,21 +122,21 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftUp(size_t inde
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasChildren(size_t index) const
 {
-	return isValid(getLeftChildIndex(index));
+	return hasElementAt(getLeftChildIndex(index));
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftChildIndex(size_t index) const
 {
-	assert(isValid(index));
+	assert(hasElementAt(index));
 
 	return 2 * index + 1;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isValid(size_t index) const
+bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasElementAt(size_t index) const
 {
 	return index < insertedCount;
 }
@@ -154,7 +154,7 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(s
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) const
 {
-	assert(isValid(index));
+	assert(hasElementAt(index));
 
 	return index > 0;
 }
@@ -179,7 +179,7 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimalChildI
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasOptimalRightSibling(size_t leftChildIndex) const
 {
-	return isValid(leftChildIndex + 1) && compare(elements[leftChildIndex], elements[leftChildIndex + 1]);
+	return hasElementAt(leftChildIndex + 1) && compare(elements[leftChildIndex], elements[leftChildIndex + 1]);
 }
 
 
@@ -193,7 +193,7 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Elem
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElementAt(size_t index)
 {
-	assert(isValid(index));
+	assert(hasElementAt(index));
 
 	handleSetter(elements[index].itemPtr, index);
 }
