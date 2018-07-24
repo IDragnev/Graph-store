@@ -6,20 +6,18 @@
 class TestItem
 {
 public:
-	TestItem();
-	~TestItem();
+	TestItem(unsigned ID = 0);
 
 	void setHandle(const PriorityQueueHandle& handle);
 	const PriorityQueueHandle& getHandle() const;
+
+	void setID(unsigned ID);
 	unsigned getID() const;
 
 	friend bool operator==(const TestItem& lhs, const TestItem& rhs);
 
 private:
-	static unsigned nextAvailableID;
-
-private:
-	unsigned ID;
+	unsigned id;
 	PriorityQueueHandle handle;
 };
 

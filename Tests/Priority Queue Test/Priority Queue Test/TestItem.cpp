@@ -1,18 +1,10 @@
 #include "TestItem.h"
 
-unsigned TestItem::nextAvailableID = 0;
 
-
-TestItem::TestItem() :
-	ID(++TestItem::nextAvailableID),
+TestItem::TestItem(unsigned ID) :
+	id(ID),
 	handle()
 {
-}
-
-
-TestItem::~TestItem()
-{
-	--TestItem::nextAvailableID;
 }
 
 
@@ -28,13 +20,18 @@ const PriorityQueueHandle& TestItem::getHandle() const
 }
 
 
+void TestItem::setID(unsigned ID)
+{
+	id = ID;
+}
+
 unsigned TestItem::getID() const
 {
-	return ID;
+	return id;
 }
 
 
 bool operator==(const TestItem& lhs, const TestItem& rhs)
 {
-	return lhs.ID == rhs.ID;
+	return lhs.id == rhs.id;
 }
