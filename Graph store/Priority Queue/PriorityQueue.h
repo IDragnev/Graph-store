@@ -33,9 +33,29 @@ public:
 	void updateKey(PriorityQueueHandle handle, Key&& key);
 
 private:
+	void buildHeapOfCurrentElements();
+	void siftDown(size_t index);
+	void siftUp(size_t index);
+
+	size_t getParentIndex(size_t index) const;
+	size_t getLeftChildIndex(size_t index) const;
+	size_t getOptimalChildIndex(size_t index) const;
+	size_t getLastNonLeafIndex() const;
+
+	bool hasChildren(size_t index) const;
+	bool hasParent(size_t index) const;
+	bool hasOptimalRightSibling(size_t index) const;
+
+	bool compare(const Element& lhs, const Element& rhs) const;
+	void updateHandleOfElementAt(size_t index);
+
+	bool isValid(size_t index) const;
+	bool hasSpaceInCurrentArray() const;
+
+private:
 	ElementArray elements;
 	size_t insertedCount;
-	mutable CompareFunction compare;     
+	mutable CompareFunction compareFunction;     
 	mutable HandleSetter handleSetter;
 };
 
