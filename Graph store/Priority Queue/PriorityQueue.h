@@ -30,7 +30,7 @@ public:
 	Item& extractOptimal();
 	const Item& getOptimal() const;
 
-	void updateKey(PriorityQueueHandle handle, Key&& key);
+	void updateKey(const PriorityQueueHandle& handle, Key&& key);
 
 private:
 	void buildHeapOfCurrentElements();

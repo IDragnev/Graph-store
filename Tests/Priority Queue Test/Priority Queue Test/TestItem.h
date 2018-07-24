@@ -9,8 +9,8 @@ public:
 	TestItem();
 	~TestItem();
 
-	void setHandle(PriorityQueueHandle handle);
-	PriorityQueueHandle getHandle() const;
+	void setHandle(const PriorityQueueHandle& handle);
+	const PriorityQueueHandle& getHandle() const;
 
 	friend bool operator==(const TestItem& lhs, const TestItem& rhs);
 

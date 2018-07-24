@@ -16,7 +16,7 @@ namespace PriorityQueueTest
 
 	class HandleSetter
 	{
-		void operator()(TestItem* itemPtr, PriorityQueueHandle handle) const
+		void operator()(TestItem* itemPtr, const PriorityQueueHandle& handle) const
 		{
 			assert(itemPtr);
 			itemPtr->setHandle(handle);

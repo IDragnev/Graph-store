@@ -16,13 +16,13 @@ TestItem::~TestItem()
 }
 
 
-void TestItem::setHandle(PriorityQueueHandle handle)
+void TestItem::setHandle(const PriorityQueueHandle& handle)
 {
 	this->handle = handle;
 }
 
 
-PriorityQueueHandle TestItem::getHandle() const
+const PriorityQueueHandle& TestItem::getHandle() const
 {
 	return handle;
 }
