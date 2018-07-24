@@ -28,6 +28,12 @@ const PriorityQueueHandle& TestItem::getHandle() const
 }
 
 
+unsigned TestItem::getID() const
+{
+	return ID;
+}
+
+
 bool operator==(const TestItem& lhs, const TestItem& rhs)
 {
 	return lhs.ID == rhs.ID;
