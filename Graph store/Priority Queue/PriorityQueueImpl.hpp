@@ -36,7 +36,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::insert(Element&& n
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasSpaceInCurrentArray() const
 {
-	return elements.getSize() > insertedCount;
+	return elements.getCount() > insertedCount;
 }
 
 
@@ -198,4 +198,12 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElem
 	handleSetter(elements[index].itemPtr, index);
 }
 
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+const Item& PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimal() const
+{
+	assert(!isEmpty());
+
+	return *(elements[0].itemPtr);
+}
 
