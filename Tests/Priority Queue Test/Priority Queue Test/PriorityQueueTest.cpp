@@ -72,7 +72,7 @@ namespace PriorityQueueTest
 			Assert::AreEqual(optimal.getID(), greatestID);
 		}
 
-		TEST_METHOD(testUpdateKeyRearangesInsertedItems)
+		TEST_METHOD(testImproveKeyRearangesInsertedItems)
 		{
 			MaxPriorityQueue queue;
 			TestItem& expectedItem = testItems[0];
@@ -80,7 +80,7 @@ namespace PriorityQueueTest
 			queue.insert(makePair(expectedItem, 0));
 			queue.insert(makePair(testItems[1], 1));
 
-			queue.updateKey(expectedItem.getHandle(), 2);
+			queue.improveKey(expectedItem.getHandle(), 2);
 			const TestItem& optimal = queue.getOptimal();
 
 			Assert::IsTrue(expectedItem == optimal);

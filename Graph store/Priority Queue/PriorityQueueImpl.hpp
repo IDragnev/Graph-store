@@ -17,7 +17,7 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateKey(const PriorityQueueHandle& handle, Key&& key)
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::improveKey(const PriorityQueueHandle& handle, Key&& key)
 {
 	assert(handle.isValid());
 	assert(hasElementAt(handle));
