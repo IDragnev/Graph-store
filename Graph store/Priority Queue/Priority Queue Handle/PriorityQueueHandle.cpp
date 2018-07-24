@@ -13,6 +13,12 @@ PriorityQueueHandle::PriorityQueueHandle(long value) :
 }
 
 
+bool PriorityQueueHandle::isValid() const
+{
+	return value != INVALID_HANDLE_VALUE;
+}
+
+
 PriorityQueueHandle::operator long() const
 {
 	return value;

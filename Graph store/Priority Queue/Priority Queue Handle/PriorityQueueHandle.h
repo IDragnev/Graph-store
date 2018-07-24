@@ -11,6 +11,7 @@ public:
 private:
 	PriorityQueueHandle(long value);
 
+	bool isValid() const;
 	operator long() const;
 
 private:
