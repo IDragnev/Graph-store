@@ -21,7 +21,6 @@ namespace HashTest
 		String key;
 	};
 
-
 	class KeyExtractor
 	{
 	public:
@@ -31,19 +30,18 @@ namespace HashTest
 		}
 	};
 
-	typedef Hash<Item, String, KeyExtractor> ItemHash;
-
 	TEST_CLASS(HashTest)
 	{
 	private:
+		typedef Hash<Item, String, KeyExtractor> ItemHash;
+
 		static DArray<Item> testItems;
 		static const size_t EXPECTED_COUNT = 10;
+		static const size_t TEST_ITEMS_COUNT = EXPECTED_COUNT;
 
 		static bool areAllTestItemsIn(const ItemHash& hash)
 		{
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
 				if (hash.search(testItems[i].getKey()) != &testItems[i])
 				{
@@ -56,9 +54,7 @@ namespace HashTest
 
 		static void insertTestItemsTo(ItemHash& hash)
 		{
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
 				hash.insert(testItems[i]);
 			}
@@ -71,16 +67,14 @@ namespace HashTest
 				"another key", "key 5", "123" , "123123", "running out of ideas",
 				"Sofia", "IBN", "Word", "Testing", "Tired" };
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount && i < keysCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT && i < keysCount; ++i)
 			{
 				testItems[i].setKey(keys[i]);
 			}
 		}
 
 	public:
-		TEST_CLASS_INITIALIZE(ItemsInitialization)
+		TEST_CLASS_INITIALIZE(itemsInitialization)
 		{
 			initializeTestItems();
 		}
@@ -88,6 +82,7 @@ namespace HashTest
 		TEST_METHOD(testConstructorMakesEmptyHash)
 		{
 			ItemHash hash(EXPECTED_COUNT);
+
 			Assert::IsTrue(hash.isEmpty());
 		}
 
@@ -95,11 +90,10 @@ namespace HashTest
 		{
 			ItemHash hash(EXPECTED_COUNT);
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 1; i < itemsCount; ++i)
+			for (size_t i = 1; i < TEST_ITEMS_COUNT; ++i)
 			{
 				hash.insert(testItems[i]);
+
 				Assert::AreEqual(hash.getCount(), i);
 			}
 		}
@@ -107,8 +101,8 @@ namespace HashTest
 		TEST_METHOD(testEmptyLeavesTheHashEmpty)
 		{
 			ItemHash hash(EXPECTED_COUNT);
-
 			insertTestItemsTo(hash);
+
 			hash.empty();
 
 			Assert::IsTrue(hash.isEmpty());
@@ -119,11 +113,9 @@ namespace HashTest
 			ItemHash hash(EXPECTED_COUNT);
 			insertTestItemsTo(hash);
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
-				Assert::AreEqual(hash.getCount(), itemsCount - i, L"Remove does not update count");
+				Assert::AreEqual(hash.getCount(), TEST_ITEMS_COUNT - i, L"Remove does not update count");
 				Assert::IsTrue(hash.remove(testItems[i].getKey()) == &testItems[i], L"Remove is not returning the correct address");
 			}
 		}
@@ -132,9 +124,7 @@ namespace HashTest
 		{
 			ItemHash hash(EXPECTED_COUNT);
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
 				Assert::IsNull(hash.remove(testItems[i].getKey()));
 			}
@@ -145,9 +135,7 @@ namespace HashTest
 			ItemHash hash(EXPECTED_COUNT);
 			insertTestItemsTo(hash);
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.search(testItems[i].getKey()) == &testItems[i]);
 			}
@@ -157,9 +145,7 @@ namespace HashTest
 		{
 			ItemHash hash(EXPECTED_COUNT);
 
-			const size_t itemsCount = testItems.getCount();
-
-			for (size_t i = 0; i < itemsCount; ++i)
+			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
 				Assert::IsNull(hash.search(testItems[i].getKey()));
 			}
@@ -309,6 +295,6 @@ namespace HashTest
 		
 	};
 
-	DArray<Item> HashTest::testItems(HashTest::EXPECTED_COUNT, HashTest::EXPECTED_COUNT);
+	DArray<Item> HashTest::testItems(TEST_ITEMS_COUNT, TEST_ITEMS_COUNT);
 
 }
