@@ -17,6 +17,19 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateKey(const PriorityQueueHandle& handle, Key&& key)
+{
+	assert(handle.isValid());
+	assert(hasElementAt(handle));
+	assert(compareFunction(elements[handle].key, key));
+
+	elements[handle].key = std::move(key);
+
+	siftUp(handle);
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::insert(Element&& newElement)
 {
 	if (hasSpaceInCurrentArray())
