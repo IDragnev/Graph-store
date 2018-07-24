@@ -185,7 +185,6 @@
     <ClInclude Include="Priority Queue\Pair\Pair.h" />
     <ClInclude Include="Priority Queue\Pair\PairImpl.hpp" />
     <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h" />
-    <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueImpl.hpp" />
     <ClInclude Include="Priority Queue\PriorityQueue.h" />
     <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp" />
     <ClInclude Include="Queue\Queue.h" />
