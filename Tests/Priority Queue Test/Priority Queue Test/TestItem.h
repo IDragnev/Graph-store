@@ -21,4 +21,6 @@ private:
 	PriorityQueueHandle handle;
 };
 
+bool operator!=(const TestItem& lhs, const TestItem& rhs);
+
 #endif //__TEST_ITEM_H_INCLUDED__

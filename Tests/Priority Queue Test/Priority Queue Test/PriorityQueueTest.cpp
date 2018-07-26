@@ -15,34 +15,32 @@ namespace PriorityQueueTest
 	private:
 		typedef PriorityQueue<TestItem, unsigned, CompareFunction, HandleSetter> MaxPriorityQueue;
 		typedef DArray<TestItem> TestItemArray;
-		typedef TestItemArray::Iterator ItemIterator;
 		typedef Pair<TestItem, unsigned> TestPair;
+		typedef DArray<TestPair> TestPairArray;
+		typedef TestPairArray::Iterator TestPairIterator;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
 
 	private:
-		static TestPair makePair(TestItem& item, unsigned key)
+		static void insertTestItemsInRangeByID(MaxPriorityQueue& queue, unsigned smallest, unsigned biggest)
 		{
-			return TestPair(&item, key);
-		}
+			assert(isValidRange(smallest, biggest));
 
-		static void insertTestItemsByIDTo(MaxPriorityQueue& queue)
-		{
-			ItemIterator iterator = testItems.getHeadIterator();
-
-			while (iterator)
+			for (unsigned i = 0; i <= biggest; ++i)
 			{
-				TestItem& currentItem = *iterator;
-				queue.insert(makePair(currentItem, currentItem.getID()));
-
-				++iterator;
+				queue.insert(makePair(testItems[i]));
 			}
 		}
 
-		static unsigned getGreatestItemID()
+		static TestPair makePair(TestItem& item)
 		{
-			return testItems[TEST_ITEMS_COUNT - 1].getID();
+			return TestPair(&item, item.getID());
+		}
+
+		static bool isValidRange(unsigned smallest, unsigned biggest)
+		{
+			return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
 		}
 
 	public:	
@@ -61,15 +59,27 @@ namespace PriorityQueueTest
 			Assert::IsTrue(queue.isEmpty());
 		}
 
+		TEST_METHOD(testCtorFromNullIteratorAndZeroCreatesEmptyQueue)
+		{
+			TestPairArray emptyArray;
+			TestPairIterator nullIterator = emptyArray.getHeadIterator();		
+			MaxPriorityQueue queue(nullIterator, 0);
+
+			Assert::IsTrue(queue.isEmpty());
+		}
+
 		TEST_METHOD(testInsertArrangesTheItemsCorrectly)
 		{
 			MaxPriorityQueue queue;
-			insertTestItemsByIDTo(queue);
+			unsigned middle = TEST_ITEMS_COUNT / 2;
+			unsigned end = TEST_ITEMS_COUNT - 1;
+
+			insertTestItemsInRangeByID(queue, middle, end);
+			insertTestItemsInRangeByID(queue, 0, middle - 1);
 			
-			unsigned greatestID = getGreatestItemID();
 			const TestItem& optimal = queue.getOptimal();
 
-			Assert::AreEqual(optimal.getID(), greatestID);
+			Assert::IsTrue(optimal == testItems[end]);
 		}
 
 		TEST_METHOD(testImproveKeyRearangesInsertedItems)
@@ -77,10 +87,9 @@ namespace PriorityQueueTest
 			MaxPriorityQueue queue;
 			TestItem& expectedItem = testItems[0];
 
-			queue.insert(makePair(expectedItem, 0));
-			queue.insert(makePair(testItems[1], 1));
+			insertTestItemsInRangeByID(queue, 0, 2);
 
-			queue.improveKey(expectedItem.getHandle(), 2);
+			queue.improveKey(expectedItem.getHandle(), 3);
 			const TestItem& optimal = queue.getOptimal();
 
 			Assert::IsTrue(expectedItem == optimal);
@@ -91,7 +100,7 @@ namespace PriorityQueueTest
 			MaxPriorityQueue queue;
 			TestItem& item = testItems[0];
 
-			queue.insert(makePair(item, 1));
+			insertTestItemsInRangeByID(queue, 0, 0);
 
 			const TestItem& optimal = queue.extractOptimal();
 
@@ -99,22 +108,18 @@ namespace PriorityQueueTest
 			Assert::IsTrue(item == optimal, L"Extracted optimal is different from the only inserted item");
 		}
 
-		TEST_METHOD(testExtractOptimalWithMoreThanOneItem)
+		TEST_METHOD(testExtractOptimalWithSeveralItems)
 		{
 			MaxPriorityQueue queue;
-			TestItem& smallest = testItems[0];
-			TestItem& medium = testItems[1];
-			TestItem& biggest = testItems[2];
+			const size_t endOfRange = TEST_ITEMS_COUNT - 1;
 
-			queue.insert(makePair(smallest, 0));
-			queue.insert(makePair(medium, 1));
-			queue.insert(makePair(biggest, 2));
+			insertTestItemsInRangeByID(queue, 0, endOfRange);
 
 			const TestItem& optimal = queue.extractOptimal();
 			const TestItem& newOptimal = queue.getOptimal();
 
-			Assert::IsTrue(biggest == optimal, L"Extracted optimal is not the correct one");
-			Assert::IsTrue(medium == newOptimal, L"The new optimal item in the queue is not correct");
+			Assert::IsTrue(testItems[endOfRange] == optimal, L"Extracted optimal is not the correct one");
+			Assert::IsTrue(testItems[endOfRange - 1] == newOptimal, L"The new optimal item in the queue is not correct");
 		}
 	};
 
