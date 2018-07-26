@@ -44,6 +44,36 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::swapContentsWithRe
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, CompareFunction, HandleSetter>::PriorityQueue(Iterator<Element>& iterator, size_t count) :
+	elements(count, count),
+	insertedCount(0)
+{
+	directlyInsertAll(iterator);
+	buildHeapOfCurrentElements();
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::directlyInsertAll(Iterator<Element>& iterator)
+{
+	assert(isEmpty());
+
+	while (!iterator.isFinished())
+	{
+		Element& element = iterator.getCurrent();
+		assert(validateElement(element));
+
+		assert(hasSpaceInCurrentArray());
+		setElementAtWith(insertedCount++, std::move(element));
+
+		iterator.goToNext();
+	}
+
+	assert(!hasSpaceInCurrentArray());
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 {
 	return insertedCount == 0;

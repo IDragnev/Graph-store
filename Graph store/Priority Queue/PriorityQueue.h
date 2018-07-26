@@ -35,6 +35,7 @@ public:
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
+	void directlyInsertAll(Iterator<Element>& iterator);
 	void buildHeapOfCurrentElements();
 	void siftDown(size_t index);
 	void siftUp(size_t index);
