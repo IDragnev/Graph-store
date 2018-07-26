@@ -100,13 +100,13 @@ template <typename Item, typename Key, typename CompareFunction, typename Handle
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t index)
 {
 	assert(hasElementAt(index));
-	Element hand = std::move(elements[index]);
+	Element elementToSift = std::move(elements[index]);
 
 	while (hasChildren(index))
 	{
 		size_t optimalChildIndex = getOptimalChildIndex(index);
 
-		if (compare(hand, elements[optimalChildIndex]))  // MAX <
+		if (compare(elementToSift, elements[optimalChildIndex])) 
 		{
 			setElementAtWith(index, std::move(elements[optimalChildIndex]));
 			index = optimalChildIndex;
@@ -117,7 +117,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t in
 		}
 	}
 
-	setElementAtWith(index, std::move(hand));
+	setElementAtWith(index, std::move(elementToSift));
 }
 
 
@@ -125,13 +125,13 @@ template <typename Item, typename Key, typename CompareFunction, typename Handle
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftUp(size_t index)
 {
 	assert(hasElementAt(index));
-	Element hand = std::move(elements[index]);
+	Element elementToSift = std::move(elements[index]);
 
 	while (hasParent(index))
 	{
 		size_t parentIndex = getParentIndex(index);
 
-		if (compare(elements[parentIndex], hand))     // MAX < 
+		if (compare(elements[parentIndex], elementToSift))  
 		{
 			setElementAtWith(index, std::move(elements[parentIndex]));
 			index = parentIndex;
@@ -142,7 +142,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftUp(size_t inde
 		}
 	}
 
-	setElementAtWith(index, std::move(hand));
+	setElementAtWith(index, std::move(elementToSift));
 }
 
 
