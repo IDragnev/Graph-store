@@ -86,6 +86,8 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::improveKey(const P
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::insert(Element&& newElement)
 {
+	assert(validateElement(newElement));
+
 	if (hasSpaceInCurrentArray())
 	{
 		elements[insertedCount] = std::move(newElement);
@@ -97,6 +99,13 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::insert(Element&& n
 
 	updateHandleOfElementAt(insertedCount++);
 	siftUp(insertedCount - 1);
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::validateElement(const Element& element)
+{
+	return element.itemPtr != nullptr;
 }
 
 

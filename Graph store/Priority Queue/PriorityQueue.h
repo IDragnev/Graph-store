@@ -57,6 +57,7 @@ private:
 
 	bool hasElementAt(size_t index) const;
 	bool hasSpaceInCurrentArray() const;
+	static bool validateElement(const Element& element);
 
 private:
 	ElementArray elements;
