@@ -33,6 +33,8 @@ public:
 	void improveKey(const PriorityQueueHandle& handle, Key&& key);
 
 private:
+	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
+
 	void buildHeapOfCurrentElements();
 	void siftDown(size_t index);
 	void siftUp(size_t index);

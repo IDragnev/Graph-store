@@ -10,6 +10,40 @@ PriorityQueue<Item, Key, CompareFunction, HandleSetter>::PriorityQueue() :
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, CompareFunction, HandleSetter>::PriorityQueue(PriorityQueue<Item, Key, CompareFunction, HandleSetter>&& source) :
+	elements(std::move(source.elements)),
+	insertedCount(source.insertedCount),
+	compareFunction(std::move(source.compareFunction)),
+	handleSetter(std::move(source.handleSetter))
+{
+	source.insertedCount = 0;
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+inline PriorityQueue<Item, Key, CompareFunction, HandleSetter>& 
+PriorityQueue<Item, Key, CompareFunction, HandleSetter>::operator=(PriorityQueue<Item, Key, CompareFunction, HandleSetter>&& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWithReconstructedParameter(std::move(rhs));
+	}
+
+	return *this;
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue<Item, Key, CompareFunction, HandleSetter> temporary)
+{
+	std::swap(elements, temporary.elements);
+	std::swap(insertedCount, temporary.insertedCount);
+	std::swap(compareFunction, temporary.compareFunction);
+	std::swap(handleSetter, temporary.handleSetter);
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 {
 	return insertedCount == 0;
