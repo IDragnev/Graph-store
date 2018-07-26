@@ -45,7 +45,6 @@ private:
 	size_t getParentIndex(size_t index) const;
 	size_t getLeftChildIndex(size_t index) const;
 	size_t getOptimalChildIndex(size_t index) const;
-	size_t getLastNonLeafIndex() const;
 
 	bool hasChildren(size_t index) const;
 	bool hasParent(size_t index) const;

@@ -74,6 +74,16 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::directlyInsertAll(
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::buildHeapOfCurrentElements()
+{
+	for (long lastNonLeaf = (insertedCount / 2) - 1; lastNonLeaf >= 0; --lastNonLeaf)
+	{
+		siftDown(lastNonLeaf);
+	}
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 {
 	return insertedCount == 0;
@@ -146,27 +156,6 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasSpaceInCurrentA
 }
 
 
-template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::buildHeapOfCurrentElements()
-{
-	assert(!isEmpty());
-
-	size_t elementToSiftIndex = getLastNonLeafIndex();
-
-	while (elementToSiftIndex >= 0)
-	{
-		siftDown(elementToSiftIndex--);
-	}
-}
-
-
-template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLastNonLeafIndex() const
-{
-	assert(!isEmpty());
-
-	return (insertedCount > 1) ? (insertedCount - 2) / 2 : 0;
-}
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
