@@ -37,6 +37,8 @@ private:
 	void siftDown(size_t index);
 	void siftUp(size_t index);
 
+	void setElementAtWith(size_t index, Element&& element);
+
 	size_t getParentIndex(size_t index) const;
 	size_t getLeftChildIndex(size_t index) const;
 	size_t getOptimalChildIndex(size_t index) const;
