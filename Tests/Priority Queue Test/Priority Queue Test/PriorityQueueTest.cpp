@@ -85,6 +85,37 @@ namespace PriorityQueueTest
 
 			Assert::IsTrue(expectedItem == optimal);
 		}
+
+		TEST_METHOD(testExtractOptimalWithJustOneItem)
+		{
+			MaxPriorityQueue queue;
+			TestItem& item = testItems[0];
+
+			queue.insert(makePair(item, 1));
+
+			const TestItem& optimal = queue.extractOptimal();
+
+			Assert::IsTrue(queue.isEmpty(), L"Queue is not empty after extracting the only item in it");
+			Assert::IsTrue(item == optimal, L"Extracted optimal is different from the only inserted item");
+		}
+
+		TEST_METHOD(testExtractOptimalWithMoreThanOneItem)
+		{
+			MaxPriorityQueue queue;
+			TestItem& smallest = testItems[0];
+			TestItem& medium = testItems[1];
+			TestItem& biggest = testItems[2];
+
+			queue.insert(makePair(smallest, 0));
+			queue.insert(makePair(medium, 1));
+			queue.insert(makePair(biggest, 2));
+
+			const TestItem& optimal = queue.extractOptimal();
+			const TestItem& newOptimal = queue.getOptimal();
+
+			Assert::IsTrue(biggest == optimal, L"Extracted optimal is not the correct one");
+			Assert::IsTrue(medium == newOptimal, L"The new optimal item in the queue is not correct");
+		}
 	};
 
 	PriorityQueueTest::TestItemArray PriorityQueueTest::testItems(TEST_ITEMS_COUNT, TEST_ITEMS_COUNT);

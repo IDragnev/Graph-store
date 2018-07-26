@@ -17,6 +17,26 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+Item& PriorityQueue<Item, Key, CompareFunction, HandleSetter>::extractOptimal()
+{
+	assert(!isEmpty());
+
+	invalidateHandleOfElementAt(0);
+	Item& optimalItem = const_cast<Item&>(getOptimal());
+
+	--insertedCount;
+
+	if (!isEmpty())
+	{
+		setElementAtWith(0, std::move(elements[insertedCount]));
+		siftDown(0);
+	}
+
+	return optimalItem;
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::improveKey(const PriorityQueueHandle& handle, Key&& key)
 {
 	assert(handle.isValid());
@@ -211,6 +231,15 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElem
 	assert(hasElementAt(index));
 
 	handleSetter(elements[index].itemPtr, index);
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::invalidateHandleOfElementAt(size_t index)
+{
+	assert(hasElementAt(index));
+
+	handleSetter(elements[index].itemPtr, -1);
 }
 
 
