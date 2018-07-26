@@ -228,18 +228,23 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Elem
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElementAt(size_t index)
 {
-	assert(hasElementAt(index));
-
-	handleSetter(elements[index].itemPtr, index);
+	setHandleOfElementAtWith(index, index);
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::invalidateHandleOfElementAt(size_t index)
 {
+	setHandleOfElementAtWith(index, -1);
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle)
+{
 	assert(hasElementAt(index));
 
-	handleSetter(elements[index].itemPtr, -1);
+	handleSetter(elements[index].itemPtr, handle);
 }
 
 
