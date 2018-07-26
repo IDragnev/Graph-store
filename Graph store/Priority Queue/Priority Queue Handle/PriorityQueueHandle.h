@@ -11,6 +11,8 @@ public:
 private:
 	PriorityQueueHandle(long value);
 
+	static const PriorityQueueHandle& invalidHandle();
+
 	bool isValid() const;
 	operator long() const;
 

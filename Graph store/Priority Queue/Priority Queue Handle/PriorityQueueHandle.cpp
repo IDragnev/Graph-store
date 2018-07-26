@@ -2,7 +2,7 @@
 
 
 PriorityQueueHandle::PriorityQueueHandle() :
-	value(INVALID_HANDLE_VALUE)
+	PriorityQueueHandle(INVALID_HANDLE_VALUE)
 {
 }
 
@@ -10,6 +10,14 @@ PriorityQueueHandle::PriorityQueueHandle() :
 PriorityQueueHandle::PriorityQueueHandle(long value) :
 	value(value)
 {
+}
+
+
+const PriorityQueueHandle& PriorityQueueHandle::invalidHandle()
+{
+	static PriorityQueueHandle handle(INVALID_HANDLE_VALUE);
+
+	return handle;
 }
 
 

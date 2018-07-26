@@ -228,14 +228,14 @@ bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Elem
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElementAt(size_t index)
 {
-	setHandleOfElementAtWith(index, index);
+	setHandleOfElementAtWith(index, PriorityQueueHandle(index));
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::invalidateHandleOfElementAt(size_t index)
 {
-	setHandleOfElementAtWith(index, -1);
+	setHandleOfElementAtWith(index, PriorityQueueHandle::invalidHandle());
 }
 
 
