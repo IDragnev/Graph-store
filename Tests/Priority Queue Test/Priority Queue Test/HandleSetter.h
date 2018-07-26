@@ -6,7 +6,10 @@
 class HandleSetter
 {
 public:
-	void operator()(TestItem* itemPtr, const PriorityQueueHandle& handle) const;
+	void operator()(TestItem& item, const PriorityQueueHandle& handle) const
+	{
+		item.setHandle(handle);
+	}
 };
 
 #endif //__HANDLE_SETTER_H_INCLUDED__

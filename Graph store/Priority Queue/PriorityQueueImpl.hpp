@@ -287,7 +287,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOfElement
 {
 	assert(hasElementAt(index));
 
-	handleSetter(elements[index].itemPtr, handle);
+	handleSetter(*(elements[index].itemPtr), handle);
 }
 
 
