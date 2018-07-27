@@ -225,16 +225,16 @@ inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOf
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) 
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) 
 {
-	return (index - 1) / 2;
+	return index > 0;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) 
+inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) 
 {
-	return index > 0;
+	return (index - 1) / 2;
 }
 
 
