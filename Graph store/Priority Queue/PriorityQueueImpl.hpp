@@ -152,7 +152,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftUp(size_t inde
 	{
 		size_t parentIndex = getParentIndex(index);
 
-		if (compare(elements[parentIndex], elementToSift))  
+		if (hasSmallerPriorityThan(elements[parentIndex], elementToSift))  
 		{
 			setElementAtWith(index, std::move(elements[parentIndex]));
 			index = parentIndex;
@@ -176,7 +176,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t in
 	{
 		size_t optimalChildIndex = getOptimalChildIndex(index);
 
-		if (compare(elementToSift, elements[optimalChildIndex])) 
+		if (hasSmallerPriorityThan(elementToSift, elements[optimalChildIndex])) 
 		{
 			setElementAtWith(index, std::move(elements[optimalChildIndex]));
 			index = optimalChildIndex;
@@ -269,12 +269,12 @@ inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftCh
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasOptimalRightSibling(size_t leftChildIndex) const
 {
-	return hasElementAt(leftChildIndex + 1) && compare(elements[leftChildIndex], elements[leftChildIndex + 1]);
+	return hasElementAt(leftChildIndex + 1) && hasSmallerPriorityThan(elements[leftChildIndex], elements[leftChildIndex + 1]);
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Element& lhs, const Element& rhs)  const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Element& lhs, const Element& rhs)  const
 {
 	return compareFunction(lhs.key, rhs.key);
 }

@@ -50,7 +50,7 @@ private:
 	size_t getOptimalChildIndex(size_t index) const;
 	bool hasOptimalRightSibling(size_t index) const;
 
-	bool compare(const Element& lhs, const Element& rhs) const;
+	bool hasSmallerPriorityThan(const Element& lhs, const Element& rhs) const;
 	void updateHandleOfElementAt(size_t index);
 	void invalidateHandleOfElementAt(size_t index);
 	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);
