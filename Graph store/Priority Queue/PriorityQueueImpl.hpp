@@ -225,26 +225,29 @@ inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOf
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) const
+inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) 
 {
-	assert(hasParent(index));
-
 	return (index - 1) / 2;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) 
 {
 	return index > 0;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasChildren(size_t index) const
+{
+	return hasElementAt(getLeftChildIndex(index));
+}
+
+
+template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
 size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimalChildIndex(size_t index) const
 {
-	assert(hasChildren(index));
-
 	size_t result = getLeftChildIndex(index);
 
 	if (hasOptimalRightSibling(result))
@@ -257,14 +260,7 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimalChildI
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasChildren(size_t index) const
-{
-	return hasElementAt(getLeftChildIndex(index));
-}
-
-
-template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftChildIndex(size_t index) const
+inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftChildIndex(size_t index) 
 {
 	return 2 * index + 1;
 }

@@ -42,12 +42,12 @@ private:
 
 	void setElementAtWith(size_t index, Element&& element);
 
-	size_t getParentIndex(size_t index) const;
-	size_t getLeftChildIndex(size_t index) const;
-	size_t getOptimalChildIndex(size_t index) const;
+	static bool hasParent(size_t index);
+	static size_t getParentIndex(size_t index);
+	static size_t getLeftChildIndex(size_t index);
 
 	bool hasChildren(size_t index) const;
-	bool hasParent(size_t index) const;
+	size_t getOptimalChildIndex(size_t index) const;
 	bool hasOptimalRightSibling(size_t index) const;
 
 	bool compare(const Element& lhs, const Element& rhs) const;
