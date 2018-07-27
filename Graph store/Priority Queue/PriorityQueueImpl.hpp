@@ -2,7 +2,7 @@
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, CompareFunction, HandleSetter>::PriorityQueue() :
+inline PriorityQueue<Item, Key, CompareFunction, HandleSetter>::PriorityQueue() :
 	elements(),
 	insertedCount(0)
 {
@@ -74,7 +74,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::directlyInsertAll(
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::buildHeapOfCurrentElements()
+inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::buildHeapOfCurrentElements()
 {
 	for (long lastNonLeaf = (insertedCount / 2) - 1; lastNonLeaf >= 0; --lastNonLeaf)
 	{
@@ -123,7 +123,7 @@ Item& PriorityQueue<Item, Key, CompareFunction, HandleSetter>::extractOptimal()
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-const Item& PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimal() const
+inline const Item& PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimal() const
 {
 	assert(!isEmpty());
 
@@ -139,7 +139,6 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::improveKey(const P
 	assert(compareFunction(elements[handle].key, key));
 
 	elements[handle].key = std::move(key);
-
 	siftUp(handle);
 }
 
@@ -193,7 +192,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::siftDown(size_t in
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setElementAtWith(size_t index, Element&& element)
+inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setElementAtWith(size_t index, Element&& element)
 {
 	assert(hasElementAt(index));
 
@@ -203,21 +202,21 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setElementAtWith(s
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElementAt(size_t index)
+inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::updateHandleOfElementAt(size_t index)
 {
 	setHandleOfElementAtWith(index, PriorityQueueHandle(index));
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::invalidateHandleOfElementAt(size_t index)
+inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::invalidateHandleOfElementAt(size_t index)
 {
 	setHandleOfElementAtWith(index, PriorityQueueHandle::invalidHandle());
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle)
+inline void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle)
 {
 	assert(hasElementAt(index));
 
@@ -226,7 +225,7 @@ void PriorityQueue<Item, Key, CompareFunction, HandleSetter>::setHandleOfElement
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) const
+inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(size_t index) const
 {
 	assert(hasParent(index));
 
@@ -235,7 +234,7 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getParentIndex(s
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasParent(size_t index) const
 {
 	return index > 0;
 }
@@ -258,56 +257,56 @@ size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getOptimalChildI
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasChildren(size_t index) const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasChildren(size_t index) const
 {
 	return hasElementAt(getLeftChildIndex(index));
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftChildIndex(size_t index) const
+inline size_t PriorityQueue<Item, Key, CompareFunction, HandleSetter>::getLeftChildIndex(size_t index) const
 {
 	return 2 * index + 1;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasOptimalRightSibling(size_t leftChildIndex) const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasOptimalRightSibling(size_t leftChildIndex) const
 {
 	return hasElementAt(leftChildIndex + 1) && compare(elements[leftChildIndex], elements[leftChildIndex + 1]);
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Element& lhs, const Element& rhs)  const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::compare(const Element& lhs, const Element& rhs)  const
 {
 	return compareFunction(lhs.key, rhs.key);
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::validateElement(const Element& element)
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::validateElement(const Element& element)
 {
 	return element.itemPtr != nullptr;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasSpaceInCurrentArray() const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasSpaceInCurrentArray() const
 {
-	return elements.getCount() > insertedCount;
+	return insertedCount < elements.getCount();
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasElementAt(size_t index) const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::hasElementAt(size_t index) const
 {
 	return index < insertedCount;
 }
 
 
 template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
-bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
+inline bool PriorityQueue<Item, Key, CompareFunction, HandleSetter>::isEmpty() const
 {
 	return insertedCount == 0;
 }
