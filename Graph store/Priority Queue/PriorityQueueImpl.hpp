@@ -103,7 +103,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
 {
 	Item& optimal = const_cast<Item&>(getOptimal());
-	invalidateHandleOfItemAt(0);
+	invalidateHandleOf(optimal);
 
 	--insertedCount;
 
@@ -203,23 +203,21 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandleOfItemAt(size_t index)
 {
-	setHandleOfItemAtWith(index, PriorityQueueHandle(index));
+	setHandleOf(getItemAt(index), PriorityQueueHandle(index));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandleOfItemAt(size_t index)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandleOf(Item& item)
 {
-	setHandleOfItemAtWith(index, PriorityQueueHandle::invalidHandle());
+	setHandleOf(item, PriorityQueueHandle::invalidHandle());
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::setHandleOfItemAtWith(size_t index, const PriorityQueueHandle& handle)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::setHandleOf(Item& item, const PriorityQueueHandle& handle)
 {
-	assert(hasItemAt(index));
-
-	handleSetter(getItemAt(index), handle);
+	handleSetter(item, handle);
 }
 
 

@@ -46,8 +46,8 @@ private:
 
 	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 	void updateHandleOfItemAt(size_t index);
-	void invalidateHandleOfItemAt(size_t index);
-	void setHandleOfItemAtWith(size_t index, const PriorityQueueHandle& handle);
+	void invalidateHandleOf(Item& item);
+	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
 
 	Item& getItemAt(size_t index);
 	const Item& getItemAt(size_t index) const;
