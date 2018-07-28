@@ -148,10 +148,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftU
 	while (hasParent(index))
 	{
 		size_t parentIndex = getParentIndex(index);
+		Item& parent = getItemAt(parentIndex);
 
-		if (hasSmallerPriorityThan(getItemAt(parentIndex), itemToSift))
+		if (hasSmallerPriorityThan(parent, itemToSift))
 		{
-			insertAt(index, getItemAt(parentIndex));
+			insertAt(index, parent);
 			index = parentIndex;
 		}
 		else
@@ -172,10 +173,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftD
 	while (hasChildren(index))
 	{
 		size_t optimalChildIndex = getOptimalChildIndex(index);
+		Item& optimalChild = getItemAt(optimalChildIndex);
 
-		if (hasSmallerPriorityThan(itemToSift, getItemAt(optimalChildIndex)))
+		if (hasSmallerPriorityThan(itemToSift, optimalChild))
 		{
-			insertAt(index, getItemAt(optimalChildIndex));
+			insertAt(index, optimalChild);
 			index = optimalChildIndex;
 		}
 		else 
