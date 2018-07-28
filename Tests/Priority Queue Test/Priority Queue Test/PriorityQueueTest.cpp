@@ -23,14 +23,31 @@ namespace PriorityQueueTest
 		static const size_t TEST_ITEMS_COUNT = 8;
 
 	private:
-		static void insertTestItemsInRangeByID(MaxPriorityQueue& queue, unsigned smallest, unsigned biggest)
+		static void insertTestItemsInRangeByID(MaxPriorityQueue& queue, int smallest, int biggest)
 		{
 			assert(isValidRange(smallest, biggest));
 
-			for (unsigned i = 0; i <= biggest; ++i)
+			for (int i = smallest; i <= biggest; ++i)
 			{
 				queue.insert(makePair(testItems[i]));
 			}
+		}
+
+		static bool containsItemsInRange(MaxPriorityQueue& queue, int smallest, int biggest)
+		{
+			assert(isValidRange(smallest, biggest));
+
+			for (int i = biggest; i >= smallest; --i)
+			{
+				TestItem& extracted = queue.extractOptimal();
+
+				if (extracted != testItems[i])
+				{
+					return false;
+				}
+			}
+
+			return queue.isEmpty();
 		}
 
 		static TestPair makePair(TestItem& item)
@@ -38,7 +55,7 @@ namespace PriorityQueueTest
 			return TestPair(&item, item.getID());
 		}
 
-		static bool isValidRange(unsigned smallest, unsigned biggest)
+		static bool isValidRange(int smallest, int biggest)
 		{
 			return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
 		}
@@ -127,7 +144,7 @@ namespace PriorityQueueTest
 			TestItem& expected = testItems[0];
 
 			insertTestItemsInRangeByID(queue, 0, 0);
-
+	
 			const TestItem& optimal = queue.extractOptimal();
 
 			Assert::IsTrue(queue.isEmpty(), L"Queue is not empty after extracting the only item in it");
@@ -143,7 +160,7 @@ namespace PriorityQueueTest
 
 			const TestItem& optimal = queue.extractOptimal();
 			const TestItem& newOptimal = queue.getOptimal();
-
+			
 			Assert::IsTrue(testItems[end] == optimal, L"Extracted optimal is not the correct one");
 			Assert::IsTrue(testItems[end - 1] == newOptimal, L"The new optimal item in the queue is not correct");
 		}
@@ -156,6 +173,16 @@ namespace PriorityQueueTest
 			Assert::IsTrue(destination.isEmpty());
 		}
 
+		TEST_METHOD(testCopyCtorFromNonEmptySource)
+		{
+			MaxPriorityQueue source;
+			insertTestItemsInRangeByID(source, 0, TEST_ITEMS_COUNT - 1);
+
+			MaxPriorityQueue destination(source);
+
+			Assert::IsTrue(containsItemsInRange(destination, 0, TEST_ITEMS_COUNT - 1));
+		}
+
 		TEST_METHOD(testMoveCtorFromEmptySource)
 		{
 			MaxPriorityQueue source;
@@ -165,10 +192,21 @@ namespace PriorityQueueTest
 			Assert::IsTrue(destination.isEmpty(), L"Moved-in object is not empty after moving an empty object in it");
 		}
 
+		TEST_METHOD(testMoveCtorFromNonEmptySource)
+		{
+			MaxPriorityQueue source;
+			insertTestItemsInRangeByID(source, 1, TEST_ITEMS_COUNT - 1);
+
+			MaxPriorityQueue destination(std::move(source));
+
+			Assert::IsTrue(source.isEmpty(), L"Moved-from object is not empty");
+			Assert::IsTrue(containsItemsInRange(destination, 1, TEST_ITEMS_COUNT - 1), L"Moved-in object has wrong contents");
+		}
+
 		TEST_METHOD(testCopyAssignmentFromEmptyRhsToEmptyLhs)
 		{
-			MaxPriorityQueue rhs;
 			MaxPriorityQueue lhs;
+			MaxPriorityQueue rhs;
 
 			lhs = rhs;
 
@@ -184,6 +222,29 @@ namespace PriorityQueueTest
 			lhs = rhs;
 
 			Assert::IsTrue(lhs.isEmpty());
+		}
+
+		TEST_METHOD(testCopyAssignmentFromNonEmptyRhsToEmptyLhs)
+		{
+			MaxPriorityQueue lhs;
+			MaxPriorityQueue rhs;
+			insertTestItemsInRangeByID(rhs, 1, 4);
+
+			lhs = rhs;
+
+			Assert::IsTrue(containsItemsInRange(lhs, 1, 4));
+		}
+
+		TEST_METHOD(testCopyAssignmentFromNonEmptyRhsToNonEmptyLhs)
+		{
+			MaxPriorityQueue rhs;
+			MaxPriorityQueue lhs;
+			insertTestItemsInRangeByID(lhs, 0, 2);
+			insertTestItemsInRangeByID(rhs, 1, 4);
+
+			lhs = rhs;
+
+			Assert::IsTrue(containsItemsInRange(lhs, 1, 4));
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyRhsToEmptyLhs)
@@ -207,6 +268,31 @@ namespace PriorityQueueTest
 
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
 			Assert::IsTrue(lhs.isEmpty(), L"Moved-in object is not empty after moving an empty object in it");
+		}
+
+		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsToEmptyLhs)
+		{
+			MaxPriorityQueue lhs;
+			MaxPriorityQueue rhs;
+			insertTestItemsInRangeByID(rhs, 1, 3);
+
+			lhs = std::move(rhs);
+
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::IsTrue(containsItemsInRange(lhs, 1, 3), L"Moved-in object has wrong contents");
+		}
+
+		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsToNonEmptyLhs)
+		{
+			MaxPriorityQueue lhs;
+			MaxPriorityQueue rhs;
+			insertTestItemsInRangeByID(lhs, 0, 3);
+			insertTestItemsInRangeByID(rhs, 1, 5);
+
+			lhs = std::move(rhs);
+
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
+			Assert::IsTrue(containsItemsInRange(lhs, 1, 5), L"Moved-in object has wrong contents");
 		}
 	};
 
