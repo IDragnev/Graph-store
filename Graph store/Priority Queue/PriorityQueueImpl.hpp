@@ -102,21 +102,18 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::inser
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
 {
-	assert(!isEmpty());
-
+	Item& optimal = const_cast<Item&>(getOptimal());
 	invalidateHandleOfItemAt(0);
-	Item& optimalItem = const_cast<Item&>(getOptimal());
 
-	Item& newOptimal = getItemAt(insertedCount - 1);
 	--insertedCount;
 
 	if (!isEmpty())
 	{
-		insertAt(0, newOptimal);
+		insertAt(0, getItemAt(insertedCount));
 		siftDown(0);
 	}
 
-	return optimalItem;
+	return optimal;
 }
 
 
@@ -283,8 +280,6 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 const Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index) const
 {
-	assert(hasItemAt(index));
-
 	return *items[index];
 }
 
