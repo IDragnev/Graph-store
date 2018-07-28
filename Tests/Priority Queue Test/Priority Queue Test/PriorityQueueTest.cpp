@@ -82,17 +82,43 @@ namespace PriorityQueueTest
 			Assert::IsTrue(optimal == testItems[end]);
 		}
 
-		TEST_METHOD(testImproveKeyRearangesInsertedItems)
+		TEST_METHOD(testImproveKeyToOptimalRearangesInsertedItems)
 		{
 			MaxPriorityQueue queue;
-			TestItem& expectedItem = testItems[0];
+			const TestItem& expectedOptimal = testItems[0];
 
 			insertTestItemsInRangeByID(queue, 0, 2);
 
-			queue.improveKey(expectedItem.getHandle(), 3);
+			queue.improveKey(expectedOptimal.getHandle(), testItems[2].getID() + 1);
 			const TestItem& optimal = queue.getOptimal();
 
-			Assert::IsTrue(expectedItem == optimal);
+			Assert::IsTrue(expectedOptimal == optimal);
+		}
+
+		TEST_METHOD(testImproveKeyToNonOptimalDoesNotChangeTheOptimal)
+		{
+			MaxPriorityQueue queue;
+			const TestItem& expectedOptimal = testItems[2];
+			
+			insertTestItemsInRangeByID(queue, 0, 2);
+
+			queue.improveKey(testItems[0].getHandle(), expectedOptimal.getID() - 1);
+			const TestItem& optimal = queue.getOptimal();
+
+			Assert::IsTrue(expectedOptimal == optimal);
+		}
+
+		TEST_METHOD(testImproveKeyToNewOptimalDoesNotChangeTheOptimal)
+		{
+			MaxPriorityQueue queue;
+			const TestItem& expectedOptimal = testItems[2];
+
+			insertTestItemsInRangeByID(queue, 0, 2);
+
+			queue.improveKey(expectedOptimal.getHandle(), expectedOptimal.getID() + 1);
+			const TestItem& optimal = queue.getOptimal();
+
+			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
 		TEST_METHOD(testExtractOptimalWithJustOneItem)
