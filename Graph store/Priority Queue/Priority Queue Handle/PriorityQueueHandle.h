@@ -3,7 +3,7 @@
 
 class PriorityQueueHandle
 {
-	template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 	friend class PriorityQueue;
 public:
 	PriorityQueueHandle();

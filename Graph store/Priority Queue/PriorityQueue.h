@@ -7,7 +7,7 @@
 
 #include "../Iterator abstraction/Iterator.h"
 
-template <typename Item, typename Key, typename CompareFunction, typename HandleSetter>
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 class PriorityQueue
 {
 private:
@@ -62,6 +62,7 @@ private:
 private:
 	ElementArray elements;
 	size_t insertedCount;
+	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	mutable HandleSetter handleSetter;
 };

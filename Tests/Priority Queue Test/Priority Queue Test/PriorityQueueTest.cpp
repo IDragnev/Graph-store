@@ -10,10 +10,25 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace PriorityQueueTest
 {	
+	typedef Pair<TestItem, unsigned> Element;
+	class KeyAccessor
+	{
+	public:
+		void setKey(Element& pair, unsigned key)
+		{
+			pair.key = key;
+		}
+
+		unsigned getKey(const Element& pair)
+		{
+			return pair.key;
+		}
+	};
+
 	TEST_CLASS(PriorityQueueTest)
 	{
 	private:
-		typedef PriorityQueue<TestItem, unsigned, CompareFunction, HandleSetter> MaxPriorityQueue;
+		typedef PriorityQueue<TestItem, unsigned, KeyAccessor, CompareFunction, HandleSetter> MaxPriorityQueue;
 		typedef DArray<TestItem> TestItemArray;
 		typedef Pair<TestItem, unsigned> TestPair;
 		typedef DArray<TestPair> TestPairArray;
