@@ -30,11 +30,11 @@ private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
 	void directlyInsertAll(Iterator<Item>& iterator);
-	void buildHeapOfCurrentElements();
+	void buildHeap();
 	void siftDown(size_t index);
 	void siftUp(size_t index);
 
-	void setElementAtWith(size_t index, Item& item);
+	void insertAt(size_t index, Item& item);
 
 	static bool hasParent(size_t index);
 	static size_t getParentIndex(size_t index);
@@ -45,17 +45,17 @@ private:
 	bool hasOptimalRightSibling(size_t index) const;
 
 	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
-	void updateHandleOfElementAt(size_t index);
-	void invalidateHandleOfElementAt(size_t index);
-	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);
+	void updateHandleOfItemAt(size_t index);
+	void invalidateHandleOfItemAt(size_t index);
+	void setHandleOfItemAtWith(size_t index, const PriorityQueueHandle& handle);
 
 	Item& getItemAt(size_t index);
 	const Item& getItemAt(size_t index) const;
-	bool hasElementAt(size_t index) const;
+	bool hasItemAt(size_t index) const;
 	bool hasSpaceInCurrentArray() const;
 
 private:
-	DArray<Item*> elements;
+	DArray<Item*> items;
 	size_t insertedCount;
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
