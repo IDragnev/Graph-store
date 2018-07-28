@@ -1,22 +1,16 @@
 #ifndef __PRIORITY_QUEUE_H_INCLUDED__
 #define __PRIORITY_QUEUE_H_INCLUDED__
 
-#include "Pair\Pair.h"
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "../Dynamic Array/DArray.h"
-
 #include "../Iterator abstraction/Iterator.h"
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 class PriorityQueue
 {
-private:
-	typedef Pair<Item, Key> Element;
-	typedef DArray<Element> ElementArray;
-
 public:
 	PriorityQueue();
-	PriorityQueue(Iterator<Element>& iterator, size_t count);
+	PriorityQueue(Iterator<Item>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue() = default;
@@ -26,21 +20,21 @@ public:
 
 	bool isEmpty() const;
 
-	void insert(Element&& newElement);
+	void insert(Item& newItem);
 	Item& extractOptimal();
 	const Item& getOptimal() const;
 
-	void improveKey(const PriorityQueueHandle& handle, Key&& key);
+	void improveKey(const PriorityQueueHandle& handle, const Key& key);
 
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
-	void directlyInsertAll(Iterator<Element>& iterator);
+	void directlyInsertAll(Iterator<Item>& iterator);
 	void buildHeapOfCurrentElements();
 	void siftDown(size_t index);
 	void siftUp(size_t index);
 
-	void setElementAtWith(size_t index, Element&& element);
+	void setElementAtWith(size_t index, Item& item);
 
 	static bool hasParent(size_t index);
 	static size_t getParentIndex(size_t index);
@@ -50,17 +44,18 @@ private:
 	size_t getOptimalChildIndex(size_t index) const;
 	bool hasOptimalRightSibling(size_t index) const;
 
-	bool hasSmallerPriorityThan(const Element& lhs, const Element& rhs) const;
+	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 	void updateHandleOfElementAt(size_t index);
 	void invalidateHandleOfElementAt(size_t index);
 	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);
 
+	Item& getItemAt(size_t index);
+	const Item& getItemAt(size_t index) const;
 	bool hasElementAt(size_t index) const;
 	bool hasSpaceInCurrentArray() const;
-	static bool validateElement(const Element& element);
 
 private:
-	ElementArray elements;
+	DArray<Item*> elements;
 	size_t insertedCount;
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     

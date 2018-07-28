@@ -10,18 +10,17 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace PriorityQueueTest
 {	
-	typedef Pair<TestItem, unsigned> Element;
 	class KeyAccessor
 	{
 	public:
-		void setKey(Element& pair, unsigned key)
+		void setKey(TestItem& item, unsigned id)
 		{
-			pair.key = key;
+			item.setID(id);
 		}
 
-		unsigned getKey(const Element& pair)
+		unsigned getKey(const TestItem& item)
 		{
-			return pair.key;
+			return item.getID();
 		}
 	};
 
@@ -30,9 +29,7 @@ namespace PriorityQueueTest
 	private:
 		typedef PriorityQueue<TestItem, unsigned, KeyAccessor, CompareFunction, HandleSetter> MaxPriorityQueue;
 		typedef DArray<TestItem> TestItemArray;
-		typedef Pair<TestItem, unsigned> TestPair;
-		typedef DArray<TestPair> TestPairArray;
-		typedef TestPairArray::Iterator TestPairIterator;
+		typedef TestItemArray::Iterator TestItemIterator;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
@@ -44,7 +41,7 @@ namespace PriorityQueueTest
 
 			for (int i = smallest; i <= biggest; ++i)
 			{
-				queue.insert(makePair(testItems[i]));
+				queue.insert(testItems[i]);
 			}
 		}
 
@@ -65,18 +62,13 @@ namespace PriorityQueueTest
 			return queue.isEmpty();
 		}
 
-		static TestPair makePair(TestItem& item)
-		{
-			return TestPair(&item, item.getID());
-		}
-
 		static bool isValidRange(int smallest, int biggest)
 		{
 			return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
 		}
 
 	public:	
-		TEST_CLASS_INITIALIZE(initializeItemsWithIncreasingIDs)
+		TEST_METHOD_INITIALIZE(initializeItemsWithIncreasingIDs)
 		{
 			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
 			{
@@ -93,8 +85,8 @@ namespace PriorityQueueTest
 
 		TEST_METHOD(testCtorFromNullIteratorAndZeroCreatesEmptyQueue)
 		{
-			TestPairArray emptyArray;
-			TestPairIterator nullIterator = emptyArray.getHeadIterator();		
+			TestItemArray emptyArray;
+			TestItemIterator nullIterator = emptyArray.getHeadIterator();		
 			MaxPriorityQueue queue(nullIterator, 0);
 
 			Assert::IsTrue(queue.isEmpty());
@@ -130,9 +122,9 @@ namespace PriorityQueueTest
 		TEST_METHOD(testImproveKeyToNonOptimalDoesNotChangeTheOptimal)
 		{
 			MaxPriorityQueue queue;
-			const TestItem& expectedOptimal = testItems[2];
+			const TestItem& expectedOptimal = testItems[3];
 			
-			insertTestItemsInRangeByID(queue, 0, 2);
+			insertTestItemsInRangeByID(queue, 0, 3);
 
 			queue.improveKey(testItems[0].getHandle(), expectedOptimal.getID() - 1);
 			const TestItem& optimal = queue.getOptimal();
