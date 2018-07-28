@@ -93,9 +93,6 @@
     <Filter Include="Priority Queue\PQ Handle">
       <UniqueIdentifier>{26b65e5d-5722-4631-b307-063ed4868ddc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Priority Queue\Pair">
-      <UniqueIdentifier>{3adf32a6-aa1a-445e-a5f5-9b1cf1ff7c5f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -255,12 +252,6 @@
     </ClInclude>
     <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
       <Filter>Priority Queue\PQ Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\Pair\Pair.h">
-      <Filter>Priority Queue\Pair</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\Pair\PairImpl.hpp">
-      <Filter>Priority Queue\Pair</Filter>
     </ClInclude>
     <ClInclude Include="Priority Queue\PriorityQueue.h">
       <Filter>Priority Queue</Filter>
