@@ -20,7 +20,7 @@ public:
 
 	bool isEmpty() const;
 
-	void insert(Item& newItem);
+	void insert(Item& item);
 	Item& extractOptimal();
 	const Item& getOptimal() const;
 
@@ -59,7 +59,7 @@ private:
 	size_t insertedCount;
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
-	mutable HandleSetter handleSetter;
+	HandleSetter handleSetter;
 };
 
 #include "PriorityQueueImpl.hpp"
