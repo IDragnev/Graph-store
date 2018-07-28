@@ -31,13 +31,3 @@ unsigned TestItem::getID() const
 }
 
 
-bool operator==(const TestItem& lhs, const TestItem& rhs)
-{
-	return lhs.id == rhs.id;
-}
-
-
-bool operator!=(const TestItem& lhs, const TestItem& rhs)
-{
-	return !(lhs == rhs);
-}

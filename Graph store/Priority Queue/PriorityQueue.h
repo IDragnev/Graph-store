@@ -10,7 +10,7 @@ class PriorityQueue
 {
 public:
 	PriorityQueue();
-	PriorityQueue(Iterator<Item>& iterator, size_t count);
+	PriorityQueue(Iterator<Item*>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue() = default;
@@ -20,21 +20,20 @@ public:
 
 	bool isEmpty() const;
 
-	void insert(Item& item);
-	Item& extractOptimal();
-	const Item& getOptimal() const;
+	void insert(Item* item);
+	Item* extractOptimal();
+	const Item* getOptimal() const;
 
 	void improveKey(const PriorityQueueHandle& handle, const Key& key);
 
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
-	void directlyInsertAll(Iterator<Item>& iterator);
+	void directlyInsertAll(Iterator<Item*>& iterator);
 	void buildHeap();
 	void siftDown(size_t index);
 	void siftUp(size_t index);
-
-	void insertAt(size_t index, Item& item);
+	void insertAt(size_t index, Item* item);
 
 	static bool hasParent(size_t index);
 	static size_t getParentIndex(size_t index);
@@ -43,14 +42,12 @@ private:
 	bool hasChildren(size_t index) const;
 	size_t getOptimalChildIndex(size_t index) const;
 	bool hasOptimalRightSibling(size_t index) const;
+	bool hasSmallerPriorityThan(const Item* lhs, const Item* rhs) const;
 
-	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 	void updateHandleOfItemAt(size_t index);
-	void invalidateHandleOf(Item& item);
-	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
+	void invalidateHandleOf(Item* item);
+	void setHandleOf(Item* item, const PriorityQueueHandle& handle);
 
-	Item& getItemAt(size_t index);
-	const Item& getItemAt(size_t index) const;
 	bool hasItemAt(size_t index) const;
 	bool hasSpaceInCurrentArray() const;
 

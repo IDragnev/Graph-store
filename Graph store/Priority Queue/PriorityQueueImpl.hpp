@@ -46,7 +46,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapC
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(Iterator<Item>& iterator, size_t count) :
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(Iterator<Item*>& iterator, size_t count) :
 	items(count, count),
 	insertedCount(0)
 {
@@ -56,7 +56,7 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(Iterator<Item>& iterator)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(Iterator<Item*>& iterator)
 {
 	assert(isEmpty());
 
@@ -83,15 +83,17 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item& newItem)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item* newItem)
 {
+	assert(newItem);
+
 	if (hasSpaceInCurrentArray())
 	{
-		items[insertedCount] = &newItem;
+		items[insertedCount] = newItem;
 	}
 	else
 	{
-		items.insert(&newItem);
+		items.insert(newItem);
 	}
 
 	updateHandleOfItemAt(insertedCount++);
@@ -100,16 +102,16 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::inser
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
+Item* PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
 {
-	Item& optimal = const_cast<Item&>(getOptimal());
+	Item* optimal = const_cast<Item*>(getOptimal());
 	invalidateHandleOf(optimal);
 
 	--insertedCount;
 
 	if (!isEmpty())
 	{
-		insertAt(0, getItemAt(insertedCount));
+		insertAt(0, items[insertedCount]);
 		siftDown(0);
 	}
 
@@ -118,11 +120,11 @@ Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extr
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline const Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const
+inline const Item* PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const
 {
 	assert(!isEmpty());
 
-	return getItemAt(0);
+	return items[0];
 }
 
 
@@ -132,7 +134,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 	assert(handle.isValid());
 	assert(hasItemAt(handle));
 
-	Item& itemToImprove = getItemAt(handle);
+	Item& itemToImprove = *items[handle];
 	assert(compareFunction(keyAccessor.getKey(itemToImprove), key));
 
 	keyAccessor.setKey(itemToImprove, key);
@@ -143,12 +145,12 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftUp(size_t index)
 {
-	Item& itemToSift = getItemAt(index);
+	Item* itemToSift = items[index];
 
 	while (hasParent(index))
 	{
 		size_t parentIndex = getParentIndex(index);
-		Item& parent = getItemAt(parentIndex);
+		Item* parent = items[parentIndex];
 
 		if (hasSmallerPriorityThan(parent, itemToSift))
 		{
@@ -168,12 +170,12 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftU
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftDown(size_t index)
 {
-	Item& itemToSift = getItemAt(index);
+	Item* itemToSift = items[index];
 
 	while (hasChildren(index))
 	{
 		size_t optimalChildIndex = getOptimalChildIndex(index);
-		Item& optimalChild = getItemAt(optimalChildIndex);
+		Item* optimalChild = items[optimalChildIndex];
 
 		if (hasSmallerPriorityThan(itemToSift, optimalChild))
 		{
@@ -191,11 +193,12 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftD
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(size_t index, Item& item)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(size_t index, Item* item)
 {
 	assert(hasItemAt(index));
+	assert(item);
 
-	items[index] = &item;
+	items[index] = item;
 	updateHandleOfItemAt(index);
 }
 
@@ -203,21 +206,23 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandleOfItemAt(size_t index)
 {
-	setHandleOf(getItemAt(index), PriorityQueueHandle(index));
+	setHandleOf(items[index], PriorityQueueHandle(index));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandleOf(Item& item)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandleOf(Item* item)
 {
 	setHandleOf(item, PriorityQueueHandle::invalidHandle());
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::setHandleOf(Item& item, const PriorityQueueHandle& handle)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::setHandleOf(Item* item, const PriorityQueueHandle& handle)
 {
-	handleSetter(item, handle);
+	assert(item);
+
+	handleSetter(*item, handle);
 }
 
 
@@ -266,28 +271,14 @@ inline size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSette
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasOptimalRightSibling(size_t leftChildIndex) const
 {
-	return hasItemAt(leftChildIndex + 1) && hasSmallerPriorityThan(getItemAt(leftChildIndex), getItemAt(leftChildIndex + 1));
+	return hasItemAt(leftChildIndex + 1) && hasSmallerPriorityThan(items[leftChildIndex], items[leftChildIndex + 1]);
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Item& lhs, const Item& rhs)  const
+inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Item* lhs, const Item* rhs)  const
 {
-	return compareFunction(keyAccessor.getKey(lhs), keyAccessor.getKey(rhs));
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index)
-{
-	return const_cast<Item&>( static_cast<const PriorityQueue&>(*this).getItemAt(index) );
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline const Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index) const
-{
-	return *items[index];
+	return compareFunction(keyAccessor.getKey(*lhs), keyAccessor.getKey(*rhs));
 }
 
 

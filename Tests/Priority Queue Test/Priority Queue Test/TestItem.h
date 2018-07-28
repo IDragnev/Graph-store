@@ -14,13 +14,9 @@ public:
 	void setID(unsigned ID);
 	unsigned getID() const;
 
-	friend bool operator==(const TestItem& lhs, const TestItem& rhs);
-
 private:
 	unsigned id;
 	PriorityQueueHandle handle;
 };
-
-bool operator!=(const TestItem& lhs, const TestItem& rhs);
 
 #endif //__TEST_ITEM_H_INCLUDED__

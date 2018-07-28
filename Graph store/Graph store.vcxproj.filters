@@ -137,6 +137,9 @@
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
       <Filter>Priority Queue\PQ Handle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Tests\Priority Queue Test\Priority Queue Test\TestItem.cpp">
+      <Filter>General</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
