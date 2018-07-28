@@ -280,16 +280,16 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-const Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index) const
+inline Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index)
 {
-	return *items[index];
+	return const_cast<Item&>( static_cast<const PriorityQueue&>(*this).getItemAt(index) );
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index)
+inline const Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getItemAt(size_t index) const
 {
-	return const_cast<Item&>( static_cast<const PriorityQueue&>(*this).getItemAt(index) );
+	return *items[index];
 }
 
 
