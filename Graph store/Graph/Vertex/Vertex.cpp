@@ -6,6 +6,7 @@ Vertex::Vertex(String ID, size_t index) :
 	id(),
 	edges(),
 	predecessor(nullptr),
+	handle(),
 	distanceToSource(Distance::getInfinity()),
 	visited(false)
 {
@@ -77,6 +78,18 @@ const Distance& Vertex::getDistanceToSource() const
 void Vertex::setDistanceToSource(const Distance& distance)
 {
 	distanceToSource = distance;
+}
+
+
+const PriorityQueueHandle& Vertex::getPriorityQueueHandle() const
+{
+	return handle;
+}
+
+
+void Vertex::setPriorityQueueHandle(const PriorityQueueHandle& handle)
+{
+	this->handle = handle;
 }
 
 

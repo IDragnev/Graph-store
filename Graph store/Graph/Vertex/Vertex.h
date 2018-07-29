@@ -5,6 +5,7 @@
 #include "../../String/String.h"
 #include "../../Singly Linked List/SinglyLinkedList.h"
 #include "../Edge/Edge.h"
+#include "../../Priority Queue/Priority Queue Handle/PriorityQueueHandle.h"
 
 typedef SpecialInteger<unsigned> Distance; 
 
@@ -23,6 +24,9 @@ public:
 	const Distance& getDistanceToSource() const;
 	void setDistanceToSource(const Distance& distance);
 
+	const PriorityQueueHandle& getPriorityQueueHandle() const;
+	void setPriorityQueueHandle(const PriorityQueueHandle& handle);
+
 	const String& getID() const;
 
 private:
@@ -40,6 +44,7 @@ private:
 	String id;
 	SinglyLinkedList<Edge> edges;
 	Vertex* predecessor;
+	PriorityQueueHandle handle;
 	Distance distanceToSource;
 	bool visited;
 };

@@ -144,7 +144,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Tests\Priority Queue Test\Priority Queue Test\TestItem.cpp" />
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
