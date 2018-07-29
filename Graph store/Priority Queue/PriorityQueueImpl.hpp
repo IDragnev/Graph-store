@@ -83,6 +83,26 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~PriorityQueue()
+{
+	invalidateHandlesOfAllItems();
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAllItems()
+{
+	auto iterator = items.getHeadIterator();
+
+	while (iterator)
+	{
+		invalidateHandleOf(*iterator);
+		++iterator;
+	}
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item* newItem)
 {
 	assert(newItem);
@@ -293,6 +313,15 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasItemAt(size_t index) const
 {
 	return index < insertedCount;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty()
+{
+	invalidateHandlesOfAllItems();
+	items.empty();
+	insertedCount = 0;
 }
 
 

@@ -13,18 +13,19 @@ public:
 	PriorityQueue(Iterator<Item*>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
-	~PriorityQueue() = default;
+	~PriorityQueue();
 
 	PriorityQueue& operator=(PriorityQueue&& rhs);
 	PriorityQueue& operator=(const PriorityQueue& rhs) = default;
-
-	bool isEmpty() const;
 
 	void insert(Item* item);
 	Item* extractOptimal();
 	const Item* getOptimal() const;
 
 	void improveKey(const PriorityQueueHandle& handle, const Key& key);
+
+	bool isEmpty() const;
+	void empty();
 
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
@@ -45,6 +46,7 @@ private:
 	bool hasSmallerPriorityThan(const Item* lhs, const Item* rhs) const;
 
 	void updateHandleOfItemAt(size_t index);
+	void invalidateHandlesOfAllItems();
 	void invalidateHandleOf(Item* item);
 	void setHandleOf(Item* item, const PriorityQueueHandle& handle);
 
