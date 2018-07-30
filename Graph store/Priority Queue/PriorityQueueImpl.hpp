@@ -46,7 +46,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapC
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(Iterator<Item*>& iterator, size_t count) :
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(ConstIterator<Item*>& iterator, size_t count) :
 	items(count, count),
 	insertedCount(0)
 {
@@ -56,7 +56,7 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(Iterator<Item*>& iterator)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(ConstIterator<Item*>& iterator)
 {
 	assert(isEmpty());
 
@@ -92,7 +92,7 @@ inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~Pr
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAllItems()
 {
-	auto iterator = items.getHeadIterator();
+	auto iterator = items.getHeadConstIterator();
 
 	while (iterator)
 	{

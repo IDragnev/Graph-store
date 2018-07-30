@@ -3,14 +3,14 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "../Dynamic Array/DArray.h"
-#include "../Iterator abstraction/Iterator.h"
+#include "../Iterator abstraction/ConstIterator.h"
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 class PriorityQueue
 {
 public:
 	PriorityQueue();
-	PriorityQueue(Iterator<Item*>& iterator, size_t count);
+	PriorityQueue(ConstIterator<Item*>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
@@ -30,7 +30,7 @@ public:
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
-	void directlyInsertAll(Iterator<Item*>& iterator);
+	void directlyInsertAll(ConstIterator<Item*>& iterator);
 	void buildHeap();
 	void siftDown(size_t index);
 	void siftUp(size_t index);

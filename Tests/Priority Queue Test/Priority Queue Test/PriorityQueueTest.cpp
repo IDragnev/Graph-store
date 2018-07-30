@@ -165,7 +165,7 @@ namespace PriorityQueueTest
 		TEST_METHOD(testCtorFromNullIteratorAndZeroCreatesEmptyQueue)
 		{
 			TestItemPtrArray emptyArray;
-			auto nullIterator = emptyArray.getHeadIterator();		
+			auto nullIterator = emptyArray.getHeadConstIterator();		
 			MaxPriorityQueue queue(nullIterator, 0);
 
 			Assert::IsTrue(queue.isEmpty());
@@ -174,7 +174,7 @@ namespace PriorityQueueTest
 		TEST_METHOD(testCtorFromIteratorAndCount)
 		{
 			TestItemPtrArray testItemsPointers = getTestItemsPointerArray();
-			auto iterator = testItemsPointers.getHeadIterator();
+			auto iterator = testItemsPointers.getHeadConstIterator();
 
 			MaxPriorityQueue queue(iterator, TEST_ITEMS_COUNT);
 
