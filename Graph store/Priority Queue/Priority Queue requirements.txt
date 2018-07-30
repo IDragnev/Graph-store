@@ -22,7 +22,7 @@ Must expose a function with signature:
 
 bool operator()(const Key& lhs, const Key& rhs) [can be const]
 
-that defines a total order:  
+that defines a strict total order:  
  - less than for MAX priority queue
  - greater than for MIN priority queue
 
