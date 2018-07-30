@@ -1,15 +1,17 @@
-The KeyAccessor template parameter must be a function or a Function object
-whose purpose is to access the key from each Item.
-Its operator()'s signature should be: 
-const Key& operator()(const Item&); (optionally const)
+1) KeyAccessor 
+It is used to access the key of each Item.
+It must expose a function with signature:
+const Key& operator()(const Item& item) [can be const] : returns the key of item
 
+2) HashFunction
 In order to use the Hash class, the template class HashFunction
 must be specialised for the corresponding user-defined Key class.
-Its operator()'s signature should be:
-size_t operator()(const Key&); (optionally const)
+It must expose a function with signature:
+size_t operator()(const Key& key) [can be const] : computes a hash value for key
 
 The Key class must support operator==.
 
-The HashFunction specialization and KeyAccessor's special members must not
-throw exceptions.
-HashFunction and KeyAccessor must be copy constructible and copy assignable.
+Both KeyAccessor and HashFunction must be no-throw-copy-constructible, no-throw-coppy-assignable
+and no-throw-default-constructible. 
+The move constructor and move assignment operator both try to
+move KeyAccessor and HashFunction, if move special members are supplied, they must also be no-throw. 
