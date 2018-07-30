@@ -155,9 +155,9 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 	assert(hasItemAt(handle));
 
 	Item& itemToImprove = *items[handle];
-	assert(compareFunction(keyAccessor.getKey(itemToImprove), key));
+	assert(compareFunction(keyAccessor.getKeyOf(itemToImprove), key));
 
-	keyAccessor.setKey(itemToImprove, key);
+	keyAccessor.setKeyOf(itemToImprove, key);
 	siftUp(handle);
 }
 
@@ -298,7 +298,7 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Item* lhs, const Item* rhs)  const
 {
-	return compareFunction(keyAccessor.getKey(*lhs), keyAccessor.getKey(*rhs));
+	return compareFunction(keyAccessor.getKeyOf(*lhs), keyAccessor.getKeyOf(*rhs));
 }
 
 

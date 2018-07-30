@@ -6,12 +6,12 @@
 class KeyAccessor
 {
 public:
-	void setKey(TestItem& item, unsigned id)
+	void setKeyOf(TestItem& item, unsigned id)
 	{
 		item.setID(id);
 	}
 
-	unsigned getKey(const TestItem& item)
+	unsigned getKeyOf(const TestItem& item)
 	{
 		return item.getID();
 	}

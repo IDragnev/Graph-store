@@ -11,8 +11,8 @@ Must support PriorityQueueHandle logic.
 2) KeyAccessor
 It is used for accessing and setting the keys of the Item objects.
 Must expose two functions:
- - void setKey(Item& item, const Key& key) [can be const] : sets the key of item with key.
- - const Key& getKey(const Item& item) [can be const] : returns the key of item.
+ - void setKeyOf(Item& item, const Key& key) [can be const] : sets the key of item with key.
+ - const Key& getKeyOf(const Item& item) [can be const] : returns the key of item.
 
 Must be default-constructible, copy-constructible and copy-assignable.
 
