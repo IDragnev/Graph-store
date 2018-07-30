@@ -13,7 +13,7 @@ public:
 	BFSShortest();
 	virtual ~BFSShortest() override = default;
 
-	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) override;
+	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
 
 private:
 	void findShortestPathToGoalFrom(Vertex& source);

@@ -11,7 +11,7 @@ BFSShortest::BFSShortest() :
 }
 
 
-void BFSShortest::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal)
+void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
 	{

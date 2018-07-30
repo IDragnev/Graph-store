@@ -12,7 +12,7 @@ public:
 	IterativeDeepeningDFS();
 	virtual ~IterativeDeepeningDFS() override = default;
 
-	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) override;
+	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
 
 private:
 	void findShortestPathToGoalFrom(Vertex& source);

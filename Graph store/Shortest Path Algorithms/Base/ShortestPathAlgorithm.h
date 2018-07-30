@@ -9,7 +9,7 @@ class ShortestPathAlgorithm
 public:
 	virtual ~ShortestPathAlgorithm() = default;
 
-	virtual void findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal) = 0;
+	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) = 0;
 
 	const String& getID() const;
 

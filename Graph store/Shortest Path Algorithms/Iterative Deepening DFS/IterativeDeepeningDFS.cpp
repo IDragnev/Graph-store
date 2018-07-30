@@ -11,7 +11,7 @@ IterativeDeepeningDFS::IterativeDeepeningDFS() :
 }
 
 
-void IterativeDeepeningDFS::findShortestPathInGraphFromTo(Graph& graph, Vertex& source, Vertex& goal)
+void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
 	{
