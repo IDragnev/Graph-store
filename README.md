@@ -54,3 +54,4 @@ The algorithm used is specified by the parameter [algorithm].
 The currently possible choices for [algorithm] are:
      - BFS : searches an unweighted shortest path using [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search).
      - DFS : searches an unweighted shortest path using [Iterative deepening depth-first search](https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search).
+     - Dijkstra : searches a weighted shortest path using [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm).
