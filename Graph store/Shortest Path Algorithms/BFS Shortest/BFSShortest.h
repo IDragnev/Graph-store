@@ -17,13 +17,11 @@ public:
 
 private:
 	void findShortestPathToGoalFrom(Vertex& source);
-	void exploreNeighboursOf(Vertex& vertex);
-	void visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom);
-	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
-
-	void addToFrontier(Vertex& vertex);
-	Vertex& extractVertexFromTheFrontier();
 	bool isFrontierEmpty() const;
+	Vertex& extractVertexFromTheFrontier();
+	void expandFrontierFrom(Vertex& vertex);
+	void addToFrontier(Vertex& vertex);
+	static void extendCurrentPathFromTo(Vertex& from, Vertex& to);
 
 	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();

@@ -27,23 +27,37 @@ void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 }
 
 
+void BFSShortest::initializeState(Graph& graph, const Vertex& goal)
+{
+	assert(verticesQueue.isEmpty());
+
+	Base::initializeState(graph, goal);
+}
+
+
 void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 {
-	assert(!isAShortestPathFound());
 	assert(isFrontierEmpty());
 
 	addToFrontier(source);
 
-	while (!(isAShortestPathFound() || isFrontierEmpty()))
+	while (!isFrontierEmpty())
 	{
 		Vertex& vertex = extractVertexFromTheFrontier();
 
-		exploreNeighboursOf(vertex);
+		if (isTheGoal(vertex))
+		{
+			break;
+		}
+		else
+		{
+			expandFrontierFrom(vertex);
+		}
 	}
 }
 
 
-void BFSShortest::exploreNeighboursOf(Vertex& vertex)
+void BFSShortest::expandFrontierFrom(Vertex& vertex)
 {
 	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
 
@@ -55,22 +69,11 @@ void BFSShortest::exploreNeighboursOf(Vertex& vertex)
 		if (!neighbour.isVisited())
 		{
 			neighbour.markAsVisited();
-			visitNeighbourDiscoveredFrom(neighbour, vertex);
+			extendCurrentPathFromTo(vertex, neighbour);
 			addToFrontier(neighbour);
 		}
 
 		edgeIterator->goToNext();
-	}
-}
-
-
-void BFSShortest::visitNeighbourDiscoveredFrom(Vertex& neighbour, Vertex& vertexFrom)
-{
-	extendCurrentPathFromTo(vertexFrom, neighbour);
-
-	if (isTheGoal(neighbour))
-	{
-		notifyAShortestPathWasFound();
 	}
 }
 
@@ -93,6 +96,7 @@ void BFSShortest::addToFrontier(Vertex& vertex)
 Vertex& BFSShortest::extractVertexFromTheFrontier()
 {
 	Vertex* vertex = verticesQueue.dequeue();
+	assert(vertex);
 
 	return *vertex;
 }
@@ -101,14 +105,6 @@ Vertex& BFSShortest::extractVertexFromTheFrontier()
 bool BFSShortest::isFrontierEmpty() const
 {
 	return verticesQueue.isEmpty();
-}
-
-
-void BFSShortest::initializeState(Graph& graph, const Vertex& goal)
-{
-	assert(verticesQueue.isEmpty());
-
-	Base::initializeState(graph, goal);
 }
 
 
