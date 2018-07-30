@@ -35,6 +35,9 @@ private:
 };
 
 template <typename Integer>
+bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+
+template <typename Integer>
 SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 template <typename Integer>

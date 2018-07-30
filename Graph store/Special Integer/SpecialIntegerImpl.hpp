@@ -108,6 +108,13 @@ bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>
 
 
 template <typename Integer>
+bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+{
+	return rhs < lhs;
+}
+
+
+template <typename Integer>
 bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
 	return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
