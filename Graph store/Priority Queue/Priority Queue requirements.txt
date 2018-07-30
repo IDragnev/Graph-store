@@ -35,3 +35,4 @@ void operator()(Item& item, const PriorityQueueHandle& handle) [can be const] : 
 
 Must be default-constructible, copy-constructible and copy-assignable.
 
+The move constructor and move assignment operator both try to move KeyAccessor, CompareFunction and HandleSetter.
