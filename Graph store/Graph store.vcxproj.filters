@@ -93,6 +93,12 @@
     <Filter Include="Priority Queue\PQ Handle">
       <UniqueIdentifier>{26b65e5d-5722-4631-b307-063ed4868ddc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
+      <UniqueIdentifier>{f54c491e-1913-4ef2-9829-39a5e3f2c17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Greater Than">
+      <UniqueIdentifier>{7880c7c5-d4cb-413a-ac8c-d5acde98fd47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -136,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
       <Filter>Priority Queue\PQ Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +267,18 @@
     </ClInclude>
     <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp">
       <Filter>Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Greater Than\GreaterThan.h">
+      <Filter>Greater Than</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
