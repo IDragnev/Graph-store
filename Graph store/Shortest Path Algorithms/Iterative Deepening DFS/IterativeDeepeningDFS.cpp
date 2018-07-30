@@ -6,7 +6,8 @@
 
 IterativeDeepeningDFS::IterativeDeepeningDFS() :
 	Base("DFS-Shortest"),
-	maxDepth(0)
+	maxDepth(0),
+	isAShortestPathFound(false)
 {
 }
 
@@ -26,11 +27,17 @@ void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Verte
 }
 
 
+void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
+{
+	Base::initializeState(graph, goal);
+	maxDepth = graph.getVerticesCount() - 1;  //|V| - 1 because shortest paths are unique
+	isAShortestPathFound = false;
+}
+
+
 void IterativeDeepeningDFS::findShortestPathToGoalFrom(Vertex& source)
 {
-	assert(!isAShortestPathFound());
-
-	for (unsigned depthBound = 0; !isAShortestPathFound() && depthBound <= maxDepth; ++depthBound)
+	for (unsigned depthBound = 0; !isAShortestPathFound && depthBound <= maxDepth; ++depthBound)
 	{
 		startDepthLimitedSearchFromWithBound(source, depthBound);
 	}
@@ -43,7 +50,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 	if (depthBound == 0 && isTheGoal(vertex))
 	{
-		notifyAShortestPathWasFound();
+		isAShortestPathFound = true;
 	}
 	else if (depthBound > 0)
 	{
@@ -66,10 +73,9 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 		if (!neighbour.isVisited())
 		{
 			extendCurrentPathFromTo(vertex, neighbour);
-
 			startDepthLimitedSearchFromWithBound(neighbour, depthBound);
 
-			if (isAShortestPathFound())
+			if (isAShortestPathFound)
 			{
 				return;
 			}
@@ -84,13 +90,4 @@ void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& 
 {
 	vertexTo.setPredecessor(&vertexFrom);
 	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
-}
-
-
-void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
-{
-	Base::initializeState(graph, goal);
-
-	//|V| - 1 because shortest paths are unique
-	maxDepth = graph.getVerticesCount() - 1;
 }

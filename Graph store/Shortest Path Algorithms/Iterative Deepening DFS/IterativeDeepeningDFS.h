@@ -18,18 +18,19 @@ private:
 	void findShortestPathToGoalFrom(Vertex& source);
 	void startDepthLimitedSearchFromWithBound(Vertex& vertex, unsigned depthBound);
 	void proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound);
-	static void extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo);
+	static void extendCurrentPathFromTo(Vertex& from, Vertex& to);
 
 	void initializeState(Graph& graph, const Vertex& goal);
 
 private:
-	IterativeDeepeningDFS(IterativeDeepeningDFS&& source) = delete;
-	IterativeDeepeningDFS(const IterativeDeepeningDFS& source) = delete;
-	IterativeDeepeningDFS& operator=(IterativeDeepeningDFS&& rhs) = delete;
-	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS& rhs) = delete;
+	IterativeDeepeningDFS(IterativeDeepeningDFS&&) = delete;
+	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = delete;
+	IterativeDeepeningDFS& operator=(IterativeDeepeningDFS&&) = delete;
+	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
 
 private:
 	unsigned maxDepth;
+	bool isAShortestPathFound;
 };
 
 #endif //__ITERATIVE_DEEPENING_DFS_H_INCLUDED__

@@ -18,8 +18,6 @@ protected:
 
 	static void findTrivialPathFromTo(Vertex& source, Vertex& goal);
 
-	bool isAShortestPathFound() const;
-	void notifyAShortestPathWasFound();
 	bool isTheGoal(const Vertex& vertex) const;
 	
 	void initializeSingleSource(Graph& graph, Vertex& source) const;
@@ -31,16 +29,15 @@ protected:
 	void initializeState(Graph& graph, const Vertex& goal);
 
 private:
-	ShortestPathAlgorithm(ShortestPathAlgorithm&& source) = delete;
-	ShortestPathAlgorithm(const ShortestPathAlgorithm& source) = delete;
-	ShortestPathAlgorithm& operator=(ShortestPathAlgorithm&& rhs) = delete;
-	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm& rhs) = delete;
+	ShortestPathAlgorithm(ShortestPathAlgorithm&&) = delete;
+	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
+	ShortestPathAlgorithm& operator=(ShortestPathAlgorithm&&) = delete;
+	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = delete;
 
 private:
 	const String id;
 	Graph* searchedGraph;
 	const Vertex* goal;
-	bool isPathFound;
 };
 
 #endif //__SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__

@@ -5,8 +5,7 @@
 ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
 	id(ID),
 	searchedGraph(nullptr),
-	goal(nullptr),
-	isPathFound(false)
+	goal(nullptr)
 {
 	assert(id != String(""));
 }
@@ -52,20 +51,6 @@ void ShortestPathAlgorithm::initializeSource(Vertex& source) const
 }
 
 
-bool ShortestPathAlgorithm::isAShortestPathFound() const
-{
-	return isPathFound;
-}
-
-
-void ShortestPathAlgorithm::notifyAShortestPathWasFound()
-{
-	assert(!isPathFound);
-
-	isPathFound = true;
-}
-
-
 bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
 {
 	return vertex == *goal;
@@ -82,7 +67,6 @@ void ShortestPathAlgorithm::initializeState(Graph& graph, const Vertex& Goal)
 {
 	searchedGraph = &graph;
 	goal = &Goal;
-	isPathFound = false;
 }
 
 
