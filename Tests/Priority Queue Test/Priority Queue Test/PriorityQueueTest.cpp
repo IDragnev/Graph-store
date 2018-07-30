@@ -6,7 +6,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 #include "TestItem.h"
 #include "HandleSetter.h"
-#include "CompareFunction.h"
 #include "KeyAccessor.h"
 
 namespace PriorityQueueTest
@@ -14,7 +13,7 @@ namespace PriorityQueueTest
 	TEST_CLASS(PriorityQueueTest)
 	{
 	private:
-		typedef PriorityQueue<TestItem, unsigned, KeyAccessor, CompareFunction, HandleSetter> MaxPriorityQueue;
+		typedef PriorityQueue<TestItem, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter> MaxPriorityQueue;
 		typedef DArray<TestItem> TestItemArray;
 		typedef DArray<TestItem*> TestItemPtrArray;
 
