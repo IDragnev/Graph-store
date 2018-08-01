@@ -2,11 +2,12 @@
 #define __SPECIAL_INTEGER_H_INCLUDED__
 
 #include <iostream>
+#include "../Traits/IsInteger.h"
 
 template <typename Integer = int>
 class SpecialInteger
 {
-	static_assert(std::numeric_limits<Integer>::is_integer, "SpecialInteger<T> requires T to be an integer arithmetic type");
+	static_assert(IsInteger<Integer>::value, "SpecialInteger<T> requires T to be an integer type");
 
 public:
 	SpecialInteger();
