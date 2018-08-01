@@ -99,6 +99,9 @@
     <Filter Include="Greater Than">
       <UniqueIdentifier>{7880c7c5-d4cb-413a-ac8c-d5acde98fd47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File parser">
+      <UniqueIdentifier>{d2939c70-f62b-43db-bd45-8ad46ffc5c84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -279,6 +282,9 @@
     </ClInclude>
     <ClInclude Include="Greater Than\GreaterThan.h">
       <Filter>Greater Than</Filter>
+    </ClInclude>
+    <ClInclude Include="File parser\FileParser.h">
+      <Filter>File parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
