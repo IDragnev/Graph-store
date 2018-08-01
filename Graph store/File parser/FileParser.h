@@ -7,25 +7,29 @@
 class FileParser
 {
 public:
+	FileParser();
 	FileParser(const char* fileName);
 	FileParser(FileParser&& source);
 	~FileParser();
 
 	FileParser& operator=(FileParser&& rhs);
 
+	void openFile(const char* fileName);
+	void closeFile();
+	bool hasOpenedFile() const;
+	bool hasReachedEnd() const;
+
 	template <typename Integer>
-	Integer parseIntegerType();
+	Integer parseInteger();
 	String parseLine();
 
 	void ignoreUntil(char symbol);
-	
-	bool hasReachedEnd() const;
 
 private:
 	FileParser(const FileParser&) = delete;
 	FileParser& operator=(const FileParser&) = delete;
 
-	void throwIfFailed(const String& message) const;
+	void throwIfParseFailed(const char* message) const;
 
 private:
 	static const std::streamsize MAX_LIMIT = std::numeric_limits<std::streamsize>::max();
@@ -38,4 +42,5 @@ private:
 	std::ifstream sourceFile;
 };
 
+#include "FileParserImpl.hpp"
 #endif //__FILE_PARSER_H_INCLUDED__
