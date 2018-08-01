@@ -144,6 +144,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="File parser\FileParser.cpp" />
+    <ClCompile Include="File parser\FileParserException.cpp" />
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
@@ -165,6 +167,8 @@
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="File parser\FileParser.h" />
+    <ClInclude Include="File parser\FileParserException\FileParserException.h" />
+    <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />
@@ -204,6 +208,7 @@
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
+    <ClInclude Include="Traits\IsInteger.h" />
     <ClInclude Include="Type selector\BaseIteratorSelector.h" />
     <ClInclude Include="Type selector\TypeSelector.h" />
   </ItemGroup>

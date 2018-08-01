@@ -3,18 +3,19 @@
 
 #include <fstream>
 #include "../String/String.h"
+#include "FileParserException/FileParserException.h"
 
 class FileParser
 {
 public:
 	FileParser();
-	FileParser(const char* fileName);
+	FileParser(const char* filename);
 	FileParser(FileParser&& source);
-	~FileParser();
+	~FileParser() = default;
 
 	FileParser& operator=(FileParser&& rhs);
 
-	void openFile(const char* fileName);
+	void openFile(const char* filename);
 	void closeFile();
 	bool hasOpenedFile() const;
 	bool hasReachedEnd() const;
@@ -29,6 +30,7 @@ private:
 	FileParser(const FileParser&) = delete;
 	FileParser& operator=(const FileParser&) = delete;
 
+	void swapContentsWithReconstructedParameter(FileParser temp);
 	void throwIfParseFailed(const char* message) const;
 
 private:
@@ -39,7 +41,7 @@ private:
 private:
 	unsigned currentLine;
 	char buffer[BUFFER_SIZE];
-	std::ifstream sourceFile;
+	std::ifstream file;
 };
 
 #include "FileParserImpl.hpp"
