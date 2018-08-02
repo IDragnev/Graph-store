@@ -1,4 +1,5 @@
 #include "FileParser.h"
+#include <string>
 
 
 FileParser::FileParser() :
@@ -78,6 +79,16 @@ String FileParser::parseLine()
 }
 
 
+void FileParser::throwIfParseFailed(const char* message) const
+{
+	if (file.fail())
+	{
+		std::string suffix = " , line: " + std::to_string(currentLine);
+		throw FileParserException(message + suffix);
+	}
+}
+
+
 void FileParser::ignoreUntil(char symbol)
 {
 	assert(hasOpenedFile());
@@ -94,16 +105,6 @@ void FileParser::ignoreUntil(char symbol)
 			++currentLine;
 		}
 	} while (!(hasReachedEnd() || extracted == symbol));
-}
-
-
-void FileParser::throwIfParseFailed(const char* message) const
-{
-	if (file.fail())
-	{
-		//String suffix = " , line: " + toString(currentLine);
-		throw FileParserException(message /*+ suffix*/);
-	}
 }
 
 
