@@ -7,6 +7,7 @@ class FileParserException : public std::runtime_error
 {
 public:
 	FileParserException(const char* message);
+	FileParserException(const std::string& message);
 	virtual ~FileParserException() override = default;
 };
 

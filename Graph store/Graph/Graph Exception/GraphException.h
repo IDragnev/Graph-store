@@ -7,6 +7,7 @@ class GraphException : public std::runtime_error
 {
 public:
 	GraphException(const char* message);
+	GraphException(const std::string& message);
 	virtual ~GraphException() override = default;
 };
 
