@@ -15,9 +15,8 @@ namespace FileParserTest
 		static const char firstFileName[];
 		static const char secondFileName[];
 		static const char emptyFileName[];
-		static const char NEW_LINE = '\n';
 
-		static bool areSame(const char* lhs, const char* rhs)
+		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			return strcmp(lhs, rhs) == 0;
 		}
@@ -26,14 +25,14 @@ namespace FileParserTest
 		{
 			openTruncated(firstFile, firstFileName);
 			writeTo(firstFile, content);
-			close(firstFile);
+			firstFile.close();
 		}
 
 		static void writeToSecondTestFile(const char* content)
 		{
 			openTruncated(secondFile, secondFileName);
 			writeTo(secondFile, content);
-			close(secondFile);
+			secondFile.close();
 		}
 
 		static void openTruncated(std::ofstream& file, const char* name)
@@ -49,11 +48,6 @@ namespace FileParserTest
 			output << content;
 		}
 
-		static void close(std::ofstream& output)
-		{
-			output.close();
-		}
-
 	public:
 		TEST_METHOD(testDefaultCtorDoesNotOpenAFile)
 		{
@@ -62,7 +56,7 @@ namespace FileParserTest
 			Assert::IsFalse(parser.hasOpenedFile());
 		}
 
-		TEST_METHOD(testFilenameCtorWithValidFilenameOpensACorrectFile)
+		TEST_METHOD(testCtorWithValidFilenameOpensACorrectFile)
 		{
 			writeToFirstTestFile("1");
 
@@ -93,7 +87,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areSame(exception.what(), "Failed to open No-Such-File.txt"));
+				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt"));
 			}
 		}
 
@@ -108,15 +102,15 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areSame(exception.what(), "Failed to open No-Such-File.txt"));
+				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt"));
 			}
 		}
 
-		TEST_METHOD(testIgnoreUntilOnEmptyFileReachesEOF)
+		TEST_METHOD(testIgnoreUntilOnEmptyFileReachesEndOfFile)
 		{
 			FileParser parser(emptyFileName);
 
-			parser.ignoreUntil(NEW_LINE);
+			parser.ignoreUntil('c');
 
 			Assert::IsTrue(parser.hasReachedEnd());
 		}
@@ -220,6 +214,85 @@ namespace FileParserTest
 			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
 			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in object has no associated file");
 			Assert::AreEqual(lhs.peekNextCharacter(), '2', L"The moved file is incorrect");
+		}
+
+		TEST_METHOD(testSimpleParseIntegerWithUnsignedType)
+		{
+			writeToFirstTestFile("1");
+			FileParser parser(firstFileName);
+
+			unsigned result = parser.parseInteger<unsigned>();
+
+			Assert::AreEqual(result, 1U, L"Parsed integer is incorrect");
+			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end of file after parsing the last character");
+		}
+
+		TEST_METHOD(testSimpleParseIntegerWithSignedType)
+		{
+			writeToFirstTestFile("-1");
+			FileParser parser(firstFileName);
+
+			int result = parser.parseInteger<int>();
+
+			Assert::AreEqual(result, -1, L"Parsed integer is incorrect");
+			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end of file after parsing the last character");
+		}
+		
+		TEST_METHOD(testSimpleParseLine)
+		{
+			writeToFirstTestFile("Line");
+			FileParser parser(firstFileName);
+
+			String result = parser.parseLine();
+
+			Assert::IsTrue(areEqual(result, "Line"), L"Parsed line is incorrect");
+			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end after parsing the last line");
+		}
+
+		TEST_METHOD(testParseIntegerWithInvalidContentThrows)
+		{
+			writeToFirstTestFile("c");
+			FileParser parser(firstFileName);
+
+			try
+			{
+				unsigned result = parser.parseInteger<unsigned>();
+				Assert::Fail(L"parseInteger() did not throw");
+			}
+			catch (FileParserException& exception)
+			{
+				Assert::IsTrue(areEqual(exception.what(), "Invalid integer format at line 1"));
+			}
+		}
+
+		TEST_METHOD(testParseIntegerWithNothingToParseThrows)
+		{
+			FileParser parser(emptyFileName);
+
+			try
+			{
+				unsigned result = parser.parseInteger<unsigned>();
+				Assert::Fail(L"parseInteger() did not throw");
+			}
+			catch (FileParserException& exception)
+			{
+				Assert::IsTrue(areEqual(exception.what(), "Invalid integer format at line 1"));
+			}
+		}
+
+		TEST_METHOD(testParseLineWithNothingToParseThrows)
+		{
+			FileParser parser(emptyFileName);
+
+			try
+			{
+				String result = parser.parseLine();
+				Assert::Fail(L"parseLine() did not throw");
+			}
+			catch (FileParserException& exception)
+			{
+				Assert::IsTrue(areEqual(exception.what(), "Nothing left to parse at line 1"));
+			}
 		}
 	};
 
