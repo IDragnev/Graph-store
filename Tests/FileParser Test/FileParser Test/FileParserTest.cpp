@@ -106,38 +106,19 @@ namespace FileParserTest
 			}
 		}
 
-		TEST_METHOD(testIgnoreUntilOnEmptyFileReachesEndOfFile)
+		TEST_METHOD(testIgnoreUntilOnMissingSymbolReachesEndOfFile)
 		{
-			FileParser parser(emptyFileName);
+			writeToFirstTestFile("12345");
+			FileParser parser(firstFileName);
 
 			parser.ignoreUntil('c');
 
 			Assert::IsTrue(parser.hasReachedEnd());
 		}
 
-		TEST_METHOD(testIgnoreUntilLastSymbolReachesEndOfFile)
+		TEST_METHOD(testIgnoreUntilStopsCorrectly)
 		{
-			writeToFirstTestFile("12345");
-
-			FileParser parser(firstFileName);
-
-			parser.ignoreUntil('5');
-			Assert::IsFalse(parser.hasReachedEnd());
-		}
-
-		TEST_METHOD(testIgnoreUntilWithInternalSymbolStopsCorrectly)
-		{
-			writeToFirstTestFile("123@1");
-
-			FileParser parser(firstFileName);
-
-			parser.ignoreUntil('3');
-			Assert::AreEqual(parser.peekNextCharacter(), '@');
-		}
-
-		TEST_METHOD(testIgnoreUntilWithDuplicateSymbolsStopsAtFirst)
-		{
-			writeToFirstTestFile("123321");
+			writeToFirstTestFile("12331");
 
 			FileParser parser(firstFileName);
 
