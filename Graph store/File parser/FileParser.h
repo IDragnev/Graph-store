@@ -25,6 +25,7 @@ public:
 	String parseLine();
 
 	void ignoreUntil(char symbol);
+	char peekNextCharacter();
 
 private:
 	FileParser(const FileParser&) = delete;

@@ -108,6 +108,16 @@ void FileParser::ignoreUntil(char symbol)
 }
 
 
+char FileParser::peekNextCharacter()
+{
+	assert(hasOpenedFile());
+	assert(!hasReachedEnd());
+	assert(!file.fail());
+
+	return file.peek();
+}
+
+
 bool FileParser::hasOpenedFile() const
 {
 	return file.is_open();
