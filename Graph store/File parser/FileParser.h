@@ -9,7 +9,7 @@ class FileParser
 {
 public:
 	FileParser();
-	FileParser(const char* filename);
+	explicit FileParser(const char* filename);
 	FileParser(FileParser&& source);
 	~FileParser() = default;
 
