@@ -15,6 +15,8 @@ public:
 
 	FileParser& operator=(FileParser&& rhs);
 
+	static char endOfFileCharacter();
+
 	void openFile(const char* filename);
 	void closeFile();
 	bool hasOpenedFile() const;

@@ -71,7 +71,7 @@ String FileParser::parseLine()
 
 	file.getline(buffer, BUFFER_SIZE);
 
-	throwIfParseFailed("Empty line");
+	throwIfParseFailed("Nothing left to parse");
 
 	++currentLine;
 
@@ -83,7 +83,7 @@ void FileParser::throwIfParseFailed(const char* message) const
 {
 	if (file.fail())
 	{
-		std::string suffix = " , line: " + std::to_string(currentLine);
+		std::string suffix = " at line " + std::to_string(currentLine);
 		throw FileParserException(message + suffix);
 	}
 }
@@ -135,4 +135,10 @@ bool FileParser::hasReachedEnd() const
 	assert(hasOpenedFile());
 
 	return file.eof();
+}
+
+
+char FileParser::endOfFileCharacter()
+{
+	return EOF;
 }
