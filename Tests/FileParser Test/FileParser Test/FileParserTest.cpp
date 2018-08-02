@@ -14,6 +14,7 @@ namespace FileParserTest
 		static std::ofstream secondFile;
 		static const char firstFileName[];
 		static const char secondFileName[];
+		static const char emptyFileName[];
 		static const char NEW_LINE = '\n';
 
 		static bool areSame(const char* lhs, const char* rhs)
@@ -25,12 +26,14 @@ namespace FileParserTest
 		{
 			openTruncated(firstFile, firstFileName);
 			writeTo(firstFile, content);
+			close(firstFile);
 		}
 
 		static void writeToSecondTestFile(const char* content)
 		{
 			openTruncated(secondFile, secondFileName);
 			writeTo(secondFile, content);
+			close(secondFile);
 		}
 
 		static void openTruncated(std::ofstream& file, const char* name)
@@ -46,16 +49,6 @@ namespace FileParserTest
 			output << content;
 		}
 
-		static void closeFirstTestFile()
-		{
-			close(firstFile);
-		}
-
-		static void closeSecondTestFile()
-		{
-			close(secondFile);
-		}
-
 		static void close(std::ofstream& output)
 		{
 			output.close();
@@ -69,19 +62,25 @@ namespace FileParserTest
 			Assert::IsFalse(parser.hasOpenedFile());
 		}
 
-		TEST_METHOD(testFilenameCtorWithValidFilenameOpensAFile)
+		TEST_METHOD(testFilenameCtorWithValidFilenameOpensACorrectFile)
 		{
+			writeToFirstTestFile("1");
+
 			FileParser parser(firstFileName);
 
-			Assert::IsTrue(parser.hasOpenedFile());
+			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
+			Assert::AreEqual(parser.peekNextCharacter(), '1', L"The opened file is incorrect");
 		}
 
-		TEST_METHOD(testOpenFileWithValidFilenameOpensAFile)
+		TEST_METHOD(testOpenFileWithValidFilenameOpensACorrectFile)
 		{
+			writeToFirstTestFile("1");
+
 			FileParser parser;
 			parser.openFile(firstFileName);
 
-			Assert::IsTrue(parser.hasOpenedFile());
+			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
+			Assert::AreEqual(parser.peekNextCharacter(), '1', L"The opened file is incorrect");
 		}
 
 		TEST_METHOD(testFilenameCtorWithInvalidFilenameThrows)
@@ -115,11 +114,41 @@ namespace FileParserTest
 
 		TEST_METHOD(testIgnoreUntilOnEmptyFileReachesEOF)
 		{
-			FileParser parser(firstFileName);
+			FileParser parser(emptyFileName);
 
 			parser.ignoreUntil(NEW_LINE);
 
 			Assert::IsTrue(parser.hasReachedEnd());
+		}
+
+		TEST_METHOD(testIgnoreUntilLastSymbolReachesEndOfFile)
+		{
+			writeToFirstTestFile("12345");
+
+			FileParser parser(firstFileName);
+
+			parser.ignoreUntil('5');
+			Assert::IsFalse(parser.hasReachedEnd());
+		}
+
+		TEST_METHOD(testIgnoreUntilWithInternalSymbolStopsCorrectly)
+		{
+			writeToFirstTestFile("123@1");
+
+			FileParser parser(firstFileName);
+
+			parser.ignoreUntil('3');
+			Assert::AreEqual(parser.peekNextCharacter(), '@');
+		}
+
+		TEST_METHOD(testIgnoreUntilWithDuplicateSymbolsStopsAtFirst)
+		{
+			writeToFirstTestFile("123321");
+
+			FileParser parser(firstFileName);
+
+			parser.ignoreUntil('3');
+			Assert::AreEqual(parser.peekNextCharacter(), '3');
 		}
 
 		TEST_METHOD(testMoveCtorWithEmptySource)
@@ -131,13 +160,16 @@ namespace FileParserTest
 			Assert::IsFalse(destination.hasOpenedFile(), L"Moved-in object has an associated file");
 		}
 
-		TEST_METHOD(testMoveCtorTransfersTheFile)
+		TEST_METHOD(testMoveCtorWithNonEmptySource)
 		{
+			writeToFirstTestFile("1");
 			FileParser source(firstFileName);
+
 			FileParser destination(std::move(source));
 
 			Assert::IsFalse(source.hasOpenedFile(), L"Moved-from object has an associated file");
 			Assert::IsTrue(destination.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::AreEqual(destination.peekNextCharacter(), '1', L"The moved file is incorrect");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
@@ -153,13 +185,41 @@ namespace FileParserTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
-			FileParser lhs;
+			writeToFirstTestFile("1");
 			FileParser rhs(firstFileName);
+			FileParser lhs;
 
 			lhs = std::move(rhs);
 
 			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
 			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::AreEqual(lhs.peekNextCharacter(), '1', L"The moved file is incorrect");
+		}
+
+		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
+		{
+			writeToFirstTestFile("1");
+			FileParser lhs(firstFileName);
+			FileParser rhs;
+
+			lhs = std::move(rhs);
+
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
+			Assert::IsFalse(lhs.hasOpenedFile(), L"Moved-in object has an associated file");
+		}
+
+		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
+		{
+			writeToFirstTestFile("1");
+			writeToSecondTestFile("2");
+			FileParser lhs(firstFileName);
+			FileParser rhs(secondFileName);
+
+			lhs = std::move(rhs);
+
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
+			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::AreEqual(lhs.peekNextCharacter(), '2', L"The moved file is incorrect");
 		}
 	};
 
@@ -167,4 +227,5 @@ namespace FileParserTest
 	std::ofstream FileParserTest::secondFile;
 	const char FileParserTest::firstFileName[] = { "FirstFile.txt" };
 	const char FileParserTest::secondFileName[] = { "SecondFile.txt" };
+	const char FileParserTest::emptyFileName[] = { "EmptyFile.txt" };
 }

@@ -158,7 +158,7 @@
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
     </ClCompile>
-    <ClCompile Include="File parser\FileParserException.cpp">
+    <ClCompile Include="File parser\FileParserException\FileParserException.cpp">
       <Filter>File parser\FileParserException</Filter>
     </ClCompile>
   </ItemGroup>
