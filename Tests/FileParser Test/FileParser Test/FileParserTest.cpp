@@ -249,6 +249,16 @@ namespace FileParserTest
 			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end after parsing the last line");
 		}
 
+		TEST_METHOD(testParseLineWithEmptyString)
+		{
+			writeToFirstTestFile("\nLine 2");
+			FileParser parser(firstFileName);
+
+			String result = parser.parseLine();
+
+			Assert::IsTrue(areEqual(result, ""));
+		}
+
 		TEST_METHOD(testParseIntegerWithInvalidContentThrows)
 		{
 			writeToFirstTestFile("c");
