@@ -21,14 +21,14 @@ namespace FileParserTest
 			return strcmp(lhs, rhs) == 0;
 		}
 
-		static void writeToFirstTestFile(const char* content)
+		static void writeToFirstFile(const char* content)
 		{
 			openTruncated(firstFile, firstFileName);
 			writeTo(firstFile, content);
 			firstFile.close();
 		}
 
-		static void writeToSecondTestFile(const char* content)
+		static void writeToSecondFile(const char* content)
 		{
 			openTruncated(secondFile, secondFileName);
 			writeTo(secondFile, content);
@@ -58,7 +58,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testCtorWithValidFilenameOpensACorrectFile)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 
 			FileParser parser(firstFileName);
 
@@ -68,7 +68,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testOpenFileWithValidFilenameOpensACorrectFile)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 
 			FileParser parser;
 			parser.openFile(firstFileName);
@@ -108,7 +108,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testIgnoreUntilOnMissingSymbolReachesEndOfFile)
 		{
-			writeToFirstTestFile("12345");
+			writeToFirstFile("12345");
 			FileParser parser(firstFileName);
 
 			parser.ignoreUntil('c');
@@ -118,7 +118,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testIgnoreUntilStopsCorrectly)
 		{
-			writeToFirstTestFile("12331");
+			writeToFirstFile("12331");
 
 			FileParser parser(firstFileName);
 
@@ -137,7 +137,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testMoveCtorWithNonEmptySource)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 			FileParser source(firstFileName);
 
 			FileParser destination(std::move(source));
@@ -160,7 +160,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 			FileParser rhs(firstFileName);
 			FileParser lhs;
 
@@ -173,7 +173,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 			FileParser lhs(firstFileName);
 			FileParser rhs;
 
@@ -185,8 +185,8 @@ namespace FileParserTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
 		{
-			writeToFirstTestFile("1");
-			writeToSecondTestFile("2");
+			writeToFirstFile("1");
+			writeToSecondFile("2");
 			FileParser lhs(firstFileName);
 			FileParser rhs(secondFileName);
 
@@ -199,7 +199,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testSimpleParseIntegerWithUnsignedType)
 		{
-			writeToFirstTestFile("1");
+			writeToFirstFile("1");
 			FileParser parser(firstFileName);
 
 			unsigned result = parser.parseInteger<unsigned>();
@@ -210,7 +210,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testSimpleParseIntegerWithSignedType)
 		{
-			writeToFirstTestFile("-1");
+			writeToFirstFile("-1");
 			FileParser parser(firstFileName);
 
 			int result = parser.parseInteger<int>();
@@ -221,7 +221,7 @@ namespace FileParserTest
 		
 		TEST_METHOD(testSimpleParseLine)
 		{
-			writeToFirstTestFile("Line");
+			writeToFirstFile("Line");
 			FileParser parser(firstFileName);
 
 			String result = parser.parseLine();
@@ -232,7 +232,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testParseLineWithEmptyString)
 		{
-			writeToFirstTestFile("\nLine 2");
+			writeToFirstFile("\nLine 2");
 			FileParser parser(firstFileName);
 
 			String result = parser.parseLine();
@@ -242,7 +242,7 @@ namespace FileParserTest
 
 		TEST_METHOD(testParseIntegerWithInvalidContentThrows)
 		{
-			writeToFirstTestFile("c");
+			writeToFirstFile("c");
 			FileParser parser(firstFileName);
 
 			try
