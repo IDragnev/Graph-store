@@ -84,12 +84,16 @@ void FileParser::ignoreUntil(char symbol)
 	assert(!hasReachedEnd());
 	assert(!file.fail());
 
-	file.ignore(MAX_LIMIT, symbol);
-
-	if (symbol == NEW_LINE && !hasReachedEnd())
+	char extracted;
+	do
 	{
-		++currentLine;
-	}
+		extracted = file.get();
+
+		if (extracted == NEW_LINE)
+		{
+			++currentLine;
+		}
+	} while (!(hasReachedEnd() || extracted == symbol));
 }
 
 

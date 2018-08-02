@@ -14,6 +14,7 @@ namespace FileParserTest
 		static std::ofstream secondFile;
 		static const char firstFileName[];
 		static const char secondFileName[];
+		static const char NEW_LINE = '\n';
 
 		static bool areSame(const char* lhs, const char* rhs)
 		{
@@ -22,12 +23,21 @@ namespace FileParserTest
 
 		static void writeToFirstTestFile(const char* content)
 		{
+			openTruncated(firstFile, firstFileName);
 			writeTo(firstFile, content);
 		}
 
 		static void writeToSecondTestFile(const char* content)
 		{
+			openTruncated(secondFile, secondFileName);
 			writeTo(secondFile, content);
+		}
+
+		static void openTruncated(std::ofstream& file, const char* name)
+		{
+			assert(!file.is_open());
+			file.open(name, std::ios::out | std::ios::trunc);
+			assert(file);
 		}
 
 		static void writeTo(std::ofstream& output, const char* content)
@@ -52,7 +62,6 @@ namespace FileParserTest
 		}
 
 	public:
-
 		TEST_METHOD(testDefaultCtorDoesNotOpenAFile)
 		{
 			FileParser parser;
@@ -102,6 +111,15 @@ namespace FileParserTest
 			{
 				Assert::IsTrue(areSame(exception.what(), "Failed to open No-Such-File.txt"));
 			}
+		}
+
+		TEST_METHOD(testIgnoreUntilOnEmptyFileReachesEOF)
+		{
+			FileParser parser(firstFileName);
+
+			parser.ignoreUntil(NEW_LINE);
+
+			Assert::IsTrue(parser.hasReachedEnd());
 		}
 
 		TEST_METHOD(testMoveCtorWithEmptySource)
