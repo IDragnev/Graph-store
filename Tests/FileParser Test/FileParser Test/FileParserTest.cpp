@@ -252,7 +252,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Invalid integer format at line 1"));
+				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! Invalid integer format."));
 			}
 		}
 
@@ -267,7 +267,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Invalid integer format at line 1"));
+				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! Invalid integer format."));
 			}
 		}
 
@@ -282,7 +282,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Nothing left to parse at line 1"));
+				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! No characters left in the file."));
 			}
 		}
 	};
