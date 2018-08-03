@@ -43,7 +43,6 @@ private:
 
 private:
 	unsigned currentLine;
-	char buffer[BUFFER_SIZE];
 	String filename;
 	std::ifstream file;
 };

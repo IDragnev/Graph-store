@@ -73,6 +73,7 @@ String FileParser::parseLine()
 	assert(!hasReachedEnd());
 	assert(!file.fail());
 
+	char buffer[BUFFER_SIZE];
 	file.getline(buffer, BUFFER_SIZE);
 
 	throwIfParseFailed("No characters left in the file.");
