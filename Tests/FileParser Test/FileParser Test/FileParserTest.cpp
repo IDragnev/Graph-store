@@ -14,7 +14,6 @@ namespace FileParserTest
 		static std::ofstream secondFile;
 		static const char firstFileName[];
 		static const char secondFileName[];
-		static const char emptyFileName[];
 
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
@@ -258,7 +257,8 @@ namespace FileParserTest
 
 		TEST_METHOD(testParseIntegerWithNothingToParseThrows)
 		{
-			FileParser parser(emptyFileName);
+			writeToFirstFile("");
+			FileParser parser(firstFileName);
 
 			try
 			{
@@ -273,7 +273,8 @@ namespace FileParserTest
 
 		TEST_METHOD(testParseLineWithNothingToParseThrows)
 		{
-			FileParser parser(emptyFileName);
+			writeToFirstFile("");
+			FileParser parser(firstFileName);
 
 			try
 			{
@@ -291,5 +292,4 @@ namespace FileParserTest
 	std::ofstream FileParserTest::secondFile;
 	const char FileParserTest::firstFileName[] = { "FirstFile.txt" };
 	const char FileParserTest::secondFileName[] = { "SecondFile.txt" };
-	const char FileParserTest::emptyFileName[] = { "EmptyFile.txt" };
 }
