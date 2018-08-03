@@ -108,6 +108,12 @@
     <Filter Include="File parser\FileParserException">
       <UniqueIdentifier>{d2bb7aea-7931-48d8-9fd8-d1331a88c6a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph Builder">
+      <UniqueIdentifier>{f9081231-d2a1-4240-a2ef-dee1afea673b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Builder\GraphBuilderException">
+      <UniqueIdentifier>{9a08051c-337e-4551-a499-3c3b46f8177d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -160,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="File parser\FileParserException\FileParserException.cpp">
       <Filter>File parser\FileParserException</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Builder\GraphBuilder.cpp">
+      <Filter>Graph Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Builder\GraphBuilderException\GraphBuilderException.cpp">
+      <Filter>Graph Builder\GraphBuilderException</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +318,12 @@
     </ClInclude>
     <ClInclude Include="File parser\FileParserException\FileParserException.h">
       <Filter>File parser\FileParserException</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Builder\GraphBuilder.h">
+      <Filter>Graph Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Builder\GraphBuilderException\GraphBuilderException.h">
+      <Filter>Graph Builder\GraphBuilderException</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
