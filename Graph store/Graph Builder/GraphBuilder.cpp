@@ -16,37 +16,17 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const char* filename)
 	{
 		assert(!result.get());
 		clearParsedState();
-		signalParsingError(filename, exception);
+		throw GraphBuilderException(exception.what());
 	}
-}
-
-
-void GraphBuilder::signalParsingError(const char* filename, FileParserException& exception)
-{
-	String message = "Error reading from " + String(filename) + ". " + exception.what();
-	throw GraphBuilderException(message);
 }
 
 
 void GraphBuilder::parseFile(const char* filename)
 {
-	openFile(filename);
+	parser.openFile(filename);
 	parseTypeAndId();
 	parseComponents();
-	closeFile();
-}
-
-
-void GraphBuilder::openFile(const char* filename)
-{
-	try
-	{
-		parser.openFile(filename);
-	}
-	catch (FileParserException& exception)
-	{
-		throw GraphBuilderException(exception.what());
-	}
+	parser.closeFile();
 }
 
 
@@ -112,12 +92,6 @@ unsigned GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
 	parser.ignoreUntil(symbol);
 
 	return result;
-}
-
-
-void GraphBuilder::closeFile()
-{
-	parser.closeFile();
 }
 
 

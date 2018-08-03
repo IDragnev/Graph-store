@@ -27,14 +27,12 @@ public:
 
 private:
 	void parseFile(const char* filename);
-	void openFile(const char* filename);
 	void parseTypeAndId();
 	void parseComponents();
 	DArray<String> parseVertexIds();
 	DArray<RawEdge> parseEdges();
 	RawEdge parseSingleEdge();
 	unsigned parseUnsignedAndIgnoreUntil(char symbol);
-	void closeFile();
 
 	void buildResultFromParsedFile();
 	void createEmptyGraph();
@@ -43,8 +41,6 @@ private:
 	Vertex& getVertex(size_t idIndex);
 
 	void clearParsedState();
-
-	static void signalParsingError(const char* filename, FileParserException& exception);
 
 private:
 	GraphBuilder(GraphBuilder&&) = delete;
