@@ -46,6 +46,8 @@ void GraphBuilder::parseComponents()
 
 DArray<String> GraphBuilder::parseVertexIds()
 {
+	assert(edges.isEmpty());
+
 	size_t idsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	DArray<String> result(idsCount, idsCount);
 
