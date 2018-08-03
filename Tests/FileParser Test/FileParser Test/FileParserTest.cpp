@@ -47,6 +47,18 @@ namespace FileParserTest
 			output << content;
 		}
 
+		static String buildErrorMessage(const char* filename, const char* reason, char line)
+		{
+			String result = "Error reading ";
+			result += filename;
+			result += ": ";
+			result += reason;
+			result += ". Line ";
+			result += line;
+
+			return result;
+		}
+
 	public:
 		TEST_METHOD(testDefaultCtorDoesNotOpenAFile)
 		{
@@ -251,7 +263,8 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! Invalid integer format."));
+				String expected = buildErrorMessage(firstFileName, "Invalid integer format", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
 
@@ -267,7 +280,8 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! Invalid integer format."));
+				String expected = buildErrorMessage(firstFileName, "Invalid integer format", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
 
@@ -283,7 +297,8 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Error at line 1! No characters left in the file."));
+				String expected = buildErrorMessage(firstFileName, "No characters left in the file", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
 	};

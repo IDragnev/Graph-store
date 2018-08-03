@@ -4,6 +4,7 @@
 
 FileParser::FileParser() :
 	currentLine(0),
+	filename(),
 	file()
 {
 }
@@ -16,29 +17,31 @@ FileParser::FileParser(const char* filename) :
 }
 
 
-void FileParser::openFile(const char* filename)
+void FileParser::openFile(const char* name)
 {
-	assert(filename);
+	assert(name);
 
 	if (hasOpenedFile())
 	{
 		closeFile();
 	}
 		
-	file.open(filename);
+	file.open(name);
 	if (file)
 	{
 		currentLine = 1;
+		filename = name;
 	}
 	else
 	{
-		throw FileParserException("Failed to open " + String(filename));
+		throw FileParserException("Failed to open " + String(name));
 	}
 }
 
 
 FileParser::FileParser(FileParser&& source) :
 	currentLine(source.currentLine),
+	filename(std::move(source.filename)),
 	file(std::move(source.file))
 {
 	source.currentLine = 0;
@@ -59,6 +62,7 @@ FileParser& FileParser::operator=(FileParser&& rhs)
 void FileParser::swapContentsWithReconstructedParameter(FileParser temporary)
 {
 	std::swap(currentLine, temporary.currentLine);
+	std::swap(filename, temporary.filename);
 	std::swap(file, temporary.file);
 }
 
@@ -79,12 +83,16 @@ String FileParser::parseLine()
 }
 
 
-void FileParser::throwIfParseFailed(const char* message) const
+void FileParser::throwIfParseFailed(const char* reason) const
 {
 	if (file.fail())
 	{
-		std::string prefix = "Error at line " + std::to_string(currentLine) + "! ";
-		throw FileParserException(prefix + message);
+		std::string message = "Error reading " + filename;
+		message += ": ";
+		message += reason;
+		message += " Line " + std::to_string(currentLine);
+
+		throw FileParserException(message);
 	}
 }
 
@@ -128,6 +136,8 @@ void FileParser::closeFile()
 {
 	if (hasOpenedFile())
 	{
+		filename = "";
+		currentLine = 0;
 		file.close();
 	}
 }

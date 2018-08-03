@@ -17,7 +17,7 @@ public:
 
 	static char endOfFileCharacter();
 
-	void openFile(const char* filename);
+	void openFile(const char* name);
 	void closeFile();
 	bool hasOpenedFile() const;
 	bool hasReachedEnd() const;
@@ -34,7 +34,7 @@ private:
 	FileParser& operator=(const FileParser&) = delete;
 
 	void swapContentsWithReconstructedParameter(FileParser temp);
-	void throwIfParseFailed(const char* message) const;
+	void throwIfParseFailed(const char* reason) const;
 
 private:
 	static const std::streamsize MAX_LIMIT = std::numeric_limits<std::streamsize>::max();
@@ -44,6 +44,7 @@ private:
 private:
 	unsigned currentLine;
 	char buffer[BUFFER_SIZE];
+	String filename;
 	std::ifstream file;
 };
 
