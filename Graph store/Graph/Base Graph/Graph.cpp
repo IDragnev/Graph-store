@@ -87,7 +87,7 @@ void Graph::removeVertexWithID(const char* ID)
 {
 	Vertex& vertex = getVertexWithID(ID);
 
-	removeFromAdjacencyLists(vertex);
+	removeEdgesEndingIn(vertex);
 	removeFromSearchTable(vertex);
 	removeFromVertices(vertex);
 
@@ -123,7 +123,7 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 //the default implementation is for an undirected graph:
 //each of the vertex' neighbours has an edge to it
 //
-void Graph::removeFromAdjacencyLists(Vertex& vertex)
+void Graph::removeEdgesEndingIn(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 

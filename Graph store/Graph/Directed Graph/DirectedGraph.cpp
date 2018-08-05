@@ -21,7 +21,7 @@ void DirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-void DirectedGraph::removeFromAdjacencyLists(Vertex& vertex)
+void DirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
 	VertexAbstractConstIterator iterator(getIteratorToVertices());
 

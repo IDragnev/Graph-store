@@ -23,7 +23,7 @@ void UndirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-void UndirectedGraph::removeFromAdjacencyLists(Vertex& vertex)
+void UndirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
-	Graph::removeFromAdjacencyLists(vertex);
+	Graph::removeEdgesEndingIn(vertex);
 }

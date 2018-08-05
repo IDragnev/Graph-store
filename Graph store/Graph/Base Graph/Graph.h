@@ -49,7 +49,7 @@ public:
 protected:
 	Graph(String ID);
 
-	virtual void removeFromAdjacencyLists(Vertex& vertex) = 0;
+	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 	void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 
 	bool existsVertexWithID(const char* ID) const;

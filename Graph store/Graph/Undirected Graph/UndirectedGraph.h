@@ -14,7 +14,7 @@ public:
 	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) override;
 
 protected:
-	virtual void removeFromAdjacencyLists(Vertex& vertex) override;
+	virtual void removeEdgesEndingIn(Vertex& vertex) override;
 
 private:
 	UndirectedGraph(const UndirectedGraph&) = delete;
