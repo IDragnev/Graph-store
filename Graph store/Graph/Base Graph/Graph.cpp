@@ -11,15 +11,28 @@ Graph::Graph(String ID) :
 }
 
 
+void Graph::setID(String ID)
+{
+	if (ID != String(""))
+	{
+		id = std::move(ID);
+	}
+	else
+	{
+		throw GraphException("Graph ID must be a valid string");
+	}
+}
+
+
 Graph::~Graph()
 {
-	VertexIterator verticesIterator = vertices.getHeadIterator();
+	VertexIterator iterator = vertices.getHeadIterator();
 
-	while (verticesIterator)
+	while (iterator)
 	{
-		deleteVertex(*verticesIterator);
+		deleteVertex(*iterator);
 
-		++verticesIterator;
+		++iterator;
 	}
 }
 
@@ -114,11 +127,11 @@ void Graph::removeFromAdjacencyLists(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
-	EdgeIterator adjacentEdgesIterator = vertex.edges.getHeadIterator();
+	EdgeIterator iterator = vertex.edges.getHeadIterator();
 
-	while (adjacentEdgesIterator)
+	while (iterator)
 	{
-		Edge& currentEdge = *adjacentEdgesIterator;
+		Edge& currentEdge = *iterator;
 		Vertex& neighbour = currentEdge.getIncidentVertex();
 
 		removeEdgeFromToNoThrow(neighbour, vertex);
@@ -142,11 +155,11 @@ void Graph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo, bool throwIfE
 {
 	assert(isOwnerOf(vertexFrom) && isOwnerOf(vertexTo));
 
-	EdgeIterator iteratorToEdge = getEdgeFromTo(vertexFrom, vertexTo);
+	EdgeIterator iterator = getEdgeFromTo(vertexFrom, vertexTo);
 
-	if (iteratorToEdge)
+	if (iterator)
 	{
-		vertexFrom.edges.removeAt(iteratorToEdge);
+		vertexFrom.edges.removeAt(iterator);
 	}
 	else if (throwIfEdgeDoesNotExist)
 	{
@@ -174,21 +187,21 @@ void Graph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, Edg
 
 Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 {
-	EdgeIterator vertexFromEdgesIterator = vertexFrom.edges.getHeadIterator();
+	EdgeIterator iterator = vertexFrom.edges.getHeadIterator();
 
-	while (vertexFromEdgesIterator)
+	while (iterator)
 	{
-		const Edge& currentEdge = *vertexFromEdgesIterator;
+		const Edge& currentEdge = *iterator;
 
 		if (currentEdge.getIncidentVertex() == vertexTo)
 		{
 			break;
 		}
 
-		++vertexFromEdgesIterator;
+		++iterator;
 	}
 
-	return vertexFromEdgesIterator;
+	return iterator;
 }
 
 
@@ -247,9 +260,9 @@ Graph::EdgeAbstractIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
-	EdgeIterator iteratorToEdges = vertex.edges.getHeadIterator();
+	EdgeIterator iterator = vertex.edges.getHeadIterator();
 	
-	return iteratorToEdges.clone();
+	return iterator.clone();
 }
 
 
@@ -257,9 +270,9 @@ Graph::EdgeAbstractConstIterator Graph::getConstIteratorToIncidentEdgesOf(const 
 {
 	assert(isOwnerOf(vertex));
 
-	EdgeConstIterator constIteratorToEdges = vertex.edges.getHeadConstIterator();
+	EdgeConstIterator constIterator = vertex.edges.getHeadConstIterator();
 
-	return constIteratorToEdges.clone();
+	return constIterator.clone();
 }
 
 
@@ -281,17 +294,4 @@ const String& Graph::getID() const
 unsigned Graph::getVerticesCount() const
 {
 	return vertices.getCount();
-}
-
-
-void Graph::setID(String ID)
-{
-	if (ID != String(""))
-	{
-		this->id = std::move(ID);
-	}
-	else
-	{
-		throw GraphException("Graph ID must be a valid string");
-	}
 }
