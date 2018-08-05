@@ -17,10 +17,10 @@ protected:
 	virtual void removeFromAdjacencyLists(Vertex& vertex) override;
 
 private:
-	UndirectedGraph(const UndirectedGraph& source) = delete;
-	UndirectedGraph(UndirectedGraph&& source) = delete;
-	UndirectedGraph& operator=(UndirectedGraph&& rhs) = delete;
-	UndirectedGraph& operator=(const UndirectedGraph& rhs) = delete;
+	UndirectedGraph(const UndirectedGraph&) = delete;
+	UndirectedGraph(UndirectedGraph&&) = delete;
+	UndirectedGraph& operator=(UndirectedGraph&&) = delete;
+	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
 
 private:
 	static GraphRegistrator<UndirectedGraph> registrator;

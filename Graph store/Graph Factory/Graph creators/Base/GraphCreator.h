@@ -22,10 +22,10 @@ protected:
 	GraphCreator(const char* createdGraphType);
 
 private:
-	GraphCreator(GraphCreator&& source) = delete;
-	GraphCreator(const GraphCreator& source) = delete;
-	GraphCreator& operator=(const GraphCreator& rhs) = delete;
-	GraphCreator& operator=(GraphCreator&& rhs) = delete;
+	GraphCreator(GraphCreator&&) = delete;
+	GraphCreator(const GraphCreator&) = delete;
+	GraphCreator& operator=(const GraphCreator&) = delete;
+	GraphCreator& operator=(GraphCreator&&) = delete;
 
 private:
 	const String createdGraphType;

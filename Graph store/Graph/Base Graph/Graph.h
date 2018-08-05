@@ -56,10 +56,10 @@ protected:
 	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
-	Graph(const Graph& source) = delete;
-	Graph(Graph&& source) = delete;
-	Graph& operator=(Graph&& rhs) = delete;
-	Graph& operator=(const Graph& rhs) = delete;
+	Graph(const Graph&) = delete;
+	Graph(Graph&&) = delete;
+	Graph& operator=(Graph&&) = delete;
+	Graph& operator=(const Graph&) = delete;
 
 	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 	static EdgeIterator getEdgeFromTo(Vertex& from, Vertex& to);

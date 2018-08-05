@@ -32,10 +32,10 @@ public:
 private:
 	Vertex(String ID, size_t index);
 
-	Vertex(Vertex&& source) = delete;
-	Vertex(const Vertex& source) = delete;
-	Vertex& operator=(Vertex&& rhs) = delete;
-	Vertex& operator=(const Vertex& rhs) = delete;
+	Vertex(Vertex&&) = delete;
+	Vertex(const Vertex&) = delete;
+	Vertex& operator=(Vertex&&) = delete;
+	Vertex& operator=(const Vertex&) = delete;
 
 	void setID(String ID);
 

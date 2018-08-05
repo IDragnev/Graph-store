@@ -13,10 +13,10 @@ public:
 	virtual GraphPtr createEmptyGraph(const char* graphID) const override;
 
 private:
-	ConcreteGraphCreator(ConcreteGraphCreator&& source) = delete;
-	ConcreteGraphCreator(const ConcreteGraphCreator& source) = delete;
-	ConcreteGraphCreator& operator=(const ConcreteGraphCreator& rhs) = delete;
-	ConcreteGraphCreator& operator=(ConcreteGraphCreator&& rhs) = delete;
+	ConcreteGraphCreator(ConcreteGraphCreator&&) = delete;
+	ConcreteGraphCreator(const ConcreteGraphCreator&) = delete;
+	ConcreteGraphCreator& operator=(const ConcreteGraphCreator&) = delete;
+	ConcreteGraphCreator& operator=(ConcreteGraphCreator&&) = delete;
 };
 
 #include "ConcreteGraphCreatorImpl.hpp"

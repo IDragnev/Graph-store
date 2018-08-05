@@ -17,10 +17,10 @@ protected:
 	virtual void removeFromAdjacencyLists(Vertex& vertex) override;
 
 private:
-	DirectedGraph(const DirectedGraph& source) = delete;
-	DirectedGraph(DirectedGraph&& source) = delete;
-	DirectedGraph& operator=(DirectedGraph&& rhs) = delete;
-	DirectedGraph& operator=(const DirectedGraph& rhs) = delete;
+	DirectedGraph(const DirectedGraph&) = delete;
+	DirectedGraph(DirectedGraph&&) = delete;
+	DirectedGraph& operator=(DirectedGraph&&) = delete;
+	DirectedGraph& operator=(const DirectedGraph&) = delete;
 
 private:
 	static GraphRegistrator<DirectedGraph> registrator;
