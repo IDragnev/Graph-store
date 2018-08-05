@@ -9,7 +9,7 @@ class FileParser
 {
 public:
 	FileParser();
-	explicit FileParser(const char* filename);
+	explicit FileParser(const String& filename);
 	FileParser(FileParser&& source);
 	~FileParser() = default;
 
@@ -17,7 +17,7 @@ public:
 
 	static char endOfFileCharacter();
 
-	void openFile(const char* name);
+	void openFile(const String& name);
 	void closeFile();
 	bool hasOpenedFile() const;
 	bool hasReachedEnd() const;

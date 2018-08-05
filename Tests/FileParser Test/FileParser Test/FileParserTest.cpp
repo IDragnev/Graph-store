@@ -98,7 +98,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt"));
+				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt"));
+				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
 			}
 		}
 

@@ -10,17 +10,15 @@ FileParser::FileParser() :
 }
 
 
-FileParser::FileParser(const char* filename) :
+FileParser::FileParser(const String& filename) :
 	FileParser()
 {
 	openFile(filename);
 }
 
 
-void FileParser::openFile(const char* name)
+void FileParser::openFile(const String& name)
 {
-	assert(name);
-
 	if (hasOpenedFile())
 	{
 		closeFile();
@@ -34,7 +32,7 @@ void FileParser::openFile(const char* name)
 	}
 	else
 	{
-		throw FileParserException("Failed to open " + String(name));
+		throw FileParserException("Failed to open " + name + " for reading");
 	}
 }
 
@@ -76,7 +74,7 @@ String FileParser::parseLine()
 	char buffer[BUFFER_SIZE];
 	file.getline(buffer, BUFFER_SIZE);
 
-	throwIfParseFailed("No characters left in the file.");
+	throwIfParseFailed("No characters left in the file");
 
 	++currentLine;
 
@@ -91,7 +89,7 @@ void FileParser::throwIfParseFailed(const char* reason) const
 		std::string message = "Error reading " + filename;
 		message += ": ";
 		message += reason;
-		message += " Line " + std::to_string(currentLine);
+		message += ". Line " + std::to_string(currentLine);
 
 		throw FileParserException(message);
 	}

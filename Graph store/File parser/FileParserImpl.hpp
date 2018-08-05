@@ -13,7 +13,7 @@ Integer FileParser::parseInteger()
 	Integer result = 0;
 	file >> result;
 
-	throwIfParseFailed("Invalid integer format.");
+	throwIfParseFailed("Invalid integer format");
 
 	return result;
 }
