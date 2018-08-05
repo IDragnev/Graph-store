@@ -137,14 +137,19 @@ void GraphBuilder::insertEdges()
 
 	while (constIterator)
 	{
-		const RawEdge& edge = *constIterator;
-		Vertex& lhs = getVertex(edge.lhsIdIndex);
-		Vertex& rhs = getVertex(edge.rhsIdIndex);
-
-		result->insertEdgeFromToWithWeight(lhs, rhs, edge.weight);
+		insertSingleEdge(*constIterator);
 
 		++constIterator;
 	}
+}
+
+
+void GraphBuilder::insertSingleEdge(const RawEdge& edge)
+{
+	Vertex& lhs = getVertex(edge.lhsIdIndex);
+	Vertex& rhs = getVertex(edge.rhsIdIndex);
+
+	result->insertEdgeFromToWithWeight(lhs, rhs, edge.weight);
 }
 
 

@@ -38,6 +38,7 @@ private:
 	void createEmptyGraph();
 	void insertVertices();
 	void insertEdges();
+	void insertSingleEdge(const RawEdge& edge);
 	Vertex& getVertex(size_t idIndex);
 
 	void clearParsedState();
