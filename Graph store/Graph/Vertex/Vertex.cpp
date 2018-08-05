@@ -8,7 +8,7 @@ Vertex::Vertex(const String& ID, size_t index) :
 	edges(),
 	predecessor(nullptr),
 	handle(),
-	distanceToSource(Distance::getInfinity()),
+	distanceToSource(Distance::Infinity()),
 	visited(false)
 {
 	setID(ID);

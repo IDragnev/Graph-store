@@ -49,7 +49,7 @@ namespace SpecialIntegerTest
 		{
 			SpecialInteger integer(0);
 
-			integer = SpecialInteger::getInfinity();
+			integer = SpecialInteger::Infinity();
 
 			Assert::IsTrue(integer.isEqualToInfinity());
 		}
@@ -58,14 +58,14 @@ namespace SpecialIntegerTest
 		{
 			SpecialInteger infinity;
 
-			infinity = SpecialInteger::getInfinity();
+			infinity = SpecialInteger::Infinity();
 
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
 
 		TEST_METHOD(testCopyCtorFromInfinityConstructsInfinity)
 		{
-			SpecialInteger copyOfInfinity = SpecialInteger::getInfinity();
+			SpecialInteger copyOfInfinity = SpecialInteger::Infinity();
 
 			Assert::IsTrue(copyOfInfinity.isEqualToInfinity());
 		}
@@ -91,7 +91,7 @@ namespace SpecialIntegerTest
 		{
 			SpecialInteger infinity;
 
-			infinity += SpecialInteger::getInfinity();
+			infinity += SpecialInteger::Infinity();
 
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
@@ -100,7 +100,7 @@ namespace SpecialIntegerTest
 		{
 			SpecialInteger lhs(1);
 
-			lhs += SpecialInteger::getInfinity();
+			lhs += SpecialInteger::Infinity();
 
 			Assert::IsTrue(lhs.isEqualToInfinity());
 		}
@@ -135,14 +135,14 @@ namespace SpecialIntegerTest
 		{
 			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
 
-			Assert::IsTrue(maxPrimitive != SpecialInteger::getInfinity());
+			Assert::IsTrue(maxPrimitive != SpecialInteger::Infinity());
 		}
 
 		TEST_METHOD(testInfinityIsGreaterThanAllPrimitiveIntegers)
 		{
 			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
 			
-			Assert::IsTrue(maxPrimitive < SpecialInteger::getInfinity());
+			Assert::IsTrue(maxPrimitive < SpecialInteger::Infinity());
 		}
 	};
 }

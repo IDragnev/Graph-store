@@ -123,7 +123,7 @@ void DijkstraAlgorithm::clearState()
 void DijkstraAlgorithm::initializeVertex(Vertex& vertex) const
 {
 	vertex.setPredecessor(nullptr);
-	vertex.setDistanceToSource(Distance::getInfinity());
+	vertex.setDistanceToSource(Distance::Infinity());
 }
 
 

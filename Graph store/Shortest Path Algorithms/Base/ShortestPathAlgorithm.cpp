@@ -39,7 +39,7 @@ void ShortestPathAlgorithm::initializeSingleSource(Graph& graph, Vertex& source)
 void ShortestPathAlgorithm::initializeVertex(Vertex& vertex) const
 {
 	vertex.setPredecessor(nullptr);
-	vertex.setDistanceToSource(Distance::getInfinity());
+	vertex.setDistanceToSource(Distance::Infinity());
 	vertex.markAsNotVisited();
 }
 

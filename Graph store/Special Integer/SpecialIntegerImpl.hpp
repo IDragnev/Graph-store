@@ -31,7 +31,7 @@ SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue)
 
 
 template <typename Integer>
-const SpecialInteger<Integer>& SpecialInteger<Integer>::getInfinity()
+const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity()
 {
 	static const SpecialInteger<Integer> infinity;
 
@@ -50,7 +50,7 @@ SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialIntege
 		}
 		else
 		{
-			*this = getInfinity();
+			*this = Infinity();
 		}
 	}
 

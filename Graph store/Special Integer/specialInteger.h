@@ -18,7 +18,7 @@ public:
 	SpecialInteger<Integer>& operator=(Integer newValue);
 	SpecialInteger<Integer>& operator=(const SpecialInteger<Integer>& rhs) = default;
 
-	static const SpecialInteger<Integer>& getInfinity();
+	static const SpecialInteger<Integer>& Infinity();
 
 	SpecialInteger<Integer>& operator+=(const SpecialInteger<Integer>& rhs);
 
