@@ -7,7 +7,7 @@ template <typename GraphType>
 class GraphRegistrator
 {
 public:
-	GraphRegistrator(const char* createdGraphType);
+	GraphRegistrator(const String& createdGraphType);
 
 private:
 	const ConcreteGraphCreator<GraphType> graphCreator;
