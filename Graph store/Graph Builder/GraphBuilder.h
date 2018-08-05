@@ -23,10 +23,10 @@ public:
 	GraphBuilder() = default;
 	~GraphBuilder() = default;
 
-	GraphPtr buildFromFile(const char* filename);
+	GraphPtr buildFromFile(const String& filename);
 
 private:
-	void parseFile(const char* filename);
+	void parseFile(const String& filename);
 	void parseTypeAndId();
 	void parseComponents();
 	DArray<String> parseVertexIds();

@@ -2,7 +2,7 @@
 #include "../Graph Factory/GraphFactory.h"
 
 
-GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const char* filename)
+GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
 {
 	try
 	{
@@ -21,12 +21,12 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const char* filename)
 	catch (std::bad_alloc&)
 	{
 		clearState();
-		throw GraphBuilderException("No memory available while building a graph from " + String(filename));
+		throw GraphBuilderException("No memory available while building a graph from " + filename);
 	}
 }
 
 
-void GraphBuilder::parseFile(const char* filename)
+void GraphBuilder::parseFile(const String& filename)
 {
 	parser.openFile(filename);
 	parseTypeAndId();
