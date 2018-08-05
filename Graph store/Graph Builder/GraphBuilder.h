@@ -49,12 +49,6 @@ private:
 	GraphBuilder& operator=(const GraphBuilder&) = delete;
 
 private:
-	static const char OPEN_PARENTHESIS = '(';
-	static const char CLOSE_PARENTHESIS = ')';
-	static const char NEW_LINE = '\n';
-	static const char COMMA = ',';
-
-private:
 	String graphType;
 	String graphId;
 	DArray<String> vertexIds;
