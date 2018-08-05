@@ -44,7 +44,7 @@ void GraphBuilder::parseTypeAndId()
 
 void GraphBuilder::parseComponents()
 {
-	vertexIds = parseVertexIds();
+	vertexIDs = parseVertexIds();
 	edges = parseEdges();
 }
 
@@ -84,8 +84,8 @@ GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 	RawEdge result;
 
 	parser.ignoreUntil('(');
-	result.lhsIdIndex = parseUnsignedAndIgnoreUntil(',');
-	result.rhsIdIndex = parseUnsignedAndIgnoreUntil(',');
+	result.vertexFromIDIndex = parseUnsignedAndIgnoreUntil(',');
+	result.vertexToIDIndex = parseUnsignedAndIgnoreUntil(',');
 	result.weight = parseUnsignedAndIgnoreUntil(')');
 	parser.ignoreUntil('\n');
 
@@ -118,7 +118,7 @@ void GraphBuilder::createEmptyGraph()
 
 void GraphBuilder::insertVertices()
 {
-	auto constIterator = vertexIds.getHeadConstIterator();
+	auto constIterator = vertexIDs.getHeadConstIterator();
 
 	while (constIterator)
 	{
@@ -131,7 +131,7 @@ void GraphBuilder::insertVertices()
 
 void GraphBuilder::insertEdges()
 {
-	assert(result->getVerticesCount() == vertexIds.getCount());
+	assert(result->getVerticesCount() == vertexIDs.getCount());
 
 	auto constIterator = edges.getHeadConstIterator();
 
@@ -146,16 +146,16 @@ void GraphBuilder::insertEdges()
 
 void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 {
-	Vertex& lhs = getVertex(edge.lhsIdIndex);
-	Vertex& rhs = getVertex(edge.rhsIdIndex);
+	Vertex& from = getVertex(edge.vertexFromIDIndex);
+	Vertex& to = getVertex(edge.vertexToIDIndex);
 
-	result->insertEdgeFromToWithWeight(lhs, rhs, edge.weight);
+	result->insertEdgeFromToWithWeight(from, to, edge.weight);
 }
 
 
 Vertex& GraphBuilder::getVertex(size_t idIndex)
 {
-	return result->getVertexWithID(vertexIds[idIndex]);
+	return result->getVertexWithID(vertexIDs[idIndex]);
 }
 
 
@@ -163,7 +163,7 @@ void GraphBuilder::clearParsedState()
 {
 	graphType = "";
 	graphId = "";
-	vertexIds.empty();
+	vertexIDs.empty();
 	edges.empty();
 }
 

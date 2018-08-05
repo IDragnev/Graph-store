@@ -14,8 +14,8 @@ private:
 
 	struct RawEdge
 	{
-		size_t lhsIdIndex;
-		size_t rhsIdIndex;
+		size_t vertexFromIDIndex;
+		size_t vertexToIDIndex;
 		unsigned weight;
 	};
 
@@ -53,7 +53,7 @@ private:
 private:
 	String graphType;
 	String graphId;
-	DArray<String> vertexIds;
+	DArray<String> vertexIDs;
 	DArray<RawEdge> edges;
 
 	GraphPtr result;
