@@ -2,7 +2,8 @@
 #include "../Graph Exception/GraphException.h"
 #include <assert.h>
 
-Graph::Graph(String ID) :
+
+Graph::Graph(const String& ID) :
 	id(),
 	vertices(FEWEST_VERTICES_EXPECTED),
 	verticesSearchTable(FEWEST_VERTICES_EXPECTED)
@@ -11,15 +12,15 @@ Graph::Graph(String ID) :
 }
 
 
-void Graph::setID(String ID)
+void Graph::setID(const String& ID)
 {
 	if (ID != String(""))
 	{
-		id = std::move(ID);
+		this->id = ID;
 	}
 	else
 	{
-		throw GraphException("Graph ID must be a valid string");
+		throw GraphException("A Graph ID must be a valid string");
 	}
 }
 
@@ -37,7 +38,7 @@ Graph::~Graph()
 }
 
 
-void Graph::insertVertexWithID(const char* ID)
+void Graph::insertVertexWithID(const String& ID)
 {
 	if (!existsVertexWithID(ID))
 	{
@@ -83,7 +84,7 @@ void Graph::insertInSearchTable(Vertex& vertex)
 }
 
 
-void Graph::removeVertexWithID(const char* ID)
+void Graph::removeVertexWithID(const String& ID)
 {
 	Vertex& vertex = getVertexWithID(ID);
 
@@ -109,12 +110,10 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 	assert(isOwnerOf(vertexToRemove));
 
 	const size_t lastVertexIndex = vertices.getCount() - 1;
-
 	Vertex* lastVertex = vertices[lastVertexIndex];
+
 	lastVertex->index = vertexToRemove.index;
-
 	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
-
 	vertices.removeAt(lastVertexIndex);
 }
 
@@ -205,7 +204,7 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-bool Graph::existsVertexWithID(const char* ID) const
+bool Graph::existsVertexWithID(const String& ID) const
 {
 	return verticesSearchTable.search(ID) != nullptr;
 }
@@ -217,7 +216,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 }
 
 
-std::unique_ptr<Vertex> Graph::createVertex(const char* ID) const
+std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
 {
 	return std::unique_ptr<Vertex>(new Vertex(ID, getAppropriateVertexHandle()));
 }
@@ -235,7 +234,7 @@ void Graph::deleteVertex(Vertex* vertex)
 }
 
 
-const Vertex& Graph::getVertexWithID(const char* ID) const
+const Vertex& Graph::getVertexWithID(const String& ID) const
 {
 	const Vertex* result = verticesSearchTable.search(ID);
 
@@ -245,12 +244,12 @@ const Vertex& Graph::getVertexWithID(const char* ID) const
 	}
 	else
 	{
-		throw GraphException("There is no vertex with ID " + String(ID));
+		throw GraphException("There is no vertex with ID " + ID);
 	}
 }
 
 
-Vertex& Graph::getVertexWithID(const char* ID)
+Vertex& Graph::getVertexWithID(const String& ID)
 {
 	return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertexWithID(ID) );
 }

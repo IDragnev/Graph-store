@@ -3,7 +3,7 @@
 GraphRegistrator<DirectedGraph> DirectedGraph::registrator("directed");
 
 
-DirectedGraph::DirectedGraph(const char* ID) :
+DirectedGraph::DirectedGraph(const String& ID) :
 	Graph(ID)
 {
 }

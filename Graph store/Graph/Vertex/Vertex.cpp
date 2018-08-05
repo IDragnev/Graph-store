@@ -1,7 +1,8 @@
 #include "Vertex.h"
 #include "../Graph Exception/GraphException.h"
 
-Vertex::Vertex(String ID, size_t index) :
+
+Vertex::Vertex(const String& ID, size_t index) :
 	index(index),
 	id(),
 	edges(),
@@ -10,15 +11,15 @@ Vertex::Vertex(String ID, size_t index) :
 	distanceToSource(Distance::getInfinity()),
 	visited(false)
 {
-	setID(std::move(ID));
+	setID(ID);
 }
 
 
-void Vertex::setID(String ID)
+void Vertex::setID(const String& ID)
 {
 	if (ID != String(""))
 	{
-		this->id = std::move(ID);
+		this->id = ID;
 	}
 	else
 	{

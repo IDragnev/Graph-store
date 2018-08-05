@@ -30,14 +30,14 @@ protected:
 public:
 	virtual ~Graph();
 
-	void insertVertexWithID(const char* ID);
-	void removeVertexWithID(const char* ID);
+	void insertVertexWithID(const String& ID);
+	void removeVertexWithID(const String& ID);
 
 	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight = 1) = 0;
 	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) = 0;
 
-	Vertex& getVertexWithID(const char* ID);
-	const Vertex& getVertexWithID(const char* ID) const;
+	Vertex& getVertexWithID(const String& ID);
+	const Vertex& getVertexWithID(const String& ID) const;
 
 	unsigned getVerticesCount() const;
 	VertexAbstractConstIterator getIteratorToVertices();
@@ -47,12 +47,12 @@ public:
 	const String& getID() const;
 
 protected:
-	Graph(String ID);
+	Graph(const String& ID);
 
 	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 	void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 
-	bool existsVertexWithID(const char* ID) const;
+	bool existsVertexWithID(const String& ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
@@ -71,10 +71,10 @@ private:
 	void removeFromSearchTable(const Vertex& vertex);
 
 	size_t getAppropriateVertexHandle() const;
-	std::unique_ptr<Vertex> createVertex(const char* ID) const;
+	std::unique_ptr<Vertex> createVertex(const String& ID) const;
 	static void deleteVertex(Vertex* vertex);
 
-	void setID(String ID);
+	void setID(const String& ID);
 
 private:
 	static const size_t FEWEST_VERTICES_EXPECTED = 32;

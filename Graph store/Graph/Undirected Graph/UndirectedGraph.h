@@ -7,7 +7,7 @@
 class UndirectedGraph : public Graph
 {
 public:
-	UndirectedGraph(const char* ID);
+	UndirectedGraph(const String& ID);
 	virtual ~UndirectedGraph() override = default;
 
 	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight = 1) override;

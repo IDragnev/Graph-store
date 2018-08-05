@@ -13,6 +13,8 @@ class Vertex
 {
 	friend class Graph;
 public:
+	~Vertex() = default;
+
 	bool isVisited() const;
 	void markAsVisited();
 	void markAsNotVisited();
@@ -30,14 +32,14 @@ public:
 	const String& getID() const;
 
 private:
-	Vertex(String ID, size_t index);
+	Vertex(const String& ID, size_t index);
 
 	Vertex(Vertex&&) = delete;
 	Vertex(const Vertex&) = delete;
 	Vertex& operator=(Vertex&&) = delete;
 	Vertex& operator=(const Vertex&) = delete;
 
-	void setID(String ID);
+	void setID(const String& ID);
 
 private:
 	size_t index;

@@ -3,7 +3,7 @@
 GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
 
 
-UndirectedGraph::UndirectedGraph(const char* ID) :
+UndirectedGraph::UndirectedGraph(const String& ID) :
 	Graph(ID)
 {
 }

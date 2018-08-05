@@ -7,7 +7,7 @@
 class DirectedGraph : public Graph
 {
 public:
-	DirectedGraph(const char* ID);
+	DirectedGraph(const String& ID);
 	virtual ~DirectedGraph() override = default;
 
 	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight = 1) override;
