@@ -2,6 +2,7 @@
 #define __GRAPH_FACTORY_H_INCLUDED__
 
 #include "..\Graph\Base Graph\Graph.h"
+#include "..\String\String.h"
 
 class GraphCreator;
 
@@ -18,13 +19,11 @@ private:
 	typedef std::unique_ptr<Graph> GraphPtr;
 
 public:
-	static GraphPtr createEmptyGraph(const char* graphType, const char* graphID);
+	static GraphPtr createEmptyGraph(const String& graphType, const String& graphID);
 
 private:
-	static const GraphCreator& getCreator(const char* graphType);
+	static const GraphCreator& getCreator(const String& graphType);
 	static void registerCreator(const GraphCreator* creator);
-
-private:
 	static const GraphCreator* searchCreator(const String& graphType);
 	static CreatorsCollection& getCreatorsCollection();
 

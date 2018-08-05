@@ -1,9 +1,10 @@
 #include "GraphFactory.h"
 #include "Graph creators\Base\GraphCreator.h"
-#include "../Graph/Graph Exception/GraphException.h"
+#include "..\Graph\Graph Exception\GraphException.h"
 #include "..\Dynamic Array\DArray.h"
 
-GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const char* graphType, const char* graphID)
+
+GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& graphType, const String& graphID)
 {
 	const GraphCreator& creator = getCreator(graphType);
 
@@ -11,7 +12,7 @@ GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const char* graphType, con
 }
 
 
-const GraphCreator& GraphFactory::getCreator(const char* graphType)
+const GraphCreator& GraphFactory::getCreator(const String& graphType)
 {
 	const GraphCreator* creator = searchCreator(graphType);
 
@@ -29,7 +30,7 @@ const GraphCreator& GraphFactory::getCreator(const char* graphType)
 const GraphCreator* GraphFactory::searchCreator(const String& graphType)
 {
 	CreatorsCollection& creators = getCreatorsCollection();
-	CreatorsCollection::Iterator iterator = creators.getHeadIterator();
+	auto iterator = creators.getHeadIterator();
 
 	while (iterator)
 	{
@@ -52,7 +53,6 @@ void GraphFactory::registerCreator(const GraphCreator* creator)
 	assert(!searchCreator(creator->getCreatedGraphType()));
 
 	CreatorsCollection& creators = getCreatorsCollection();
-
 	creators.insert(creator);
 }
 
