@@ -107,7 +107,7 @@ void FileParser::ignoreUntil(char symbol)
 	{
 		extracted = file.get();
 
-		if (extracted == NEW_LINE)
+		if (extracted == '\n')
 		{
 			++currentLine;
 		}

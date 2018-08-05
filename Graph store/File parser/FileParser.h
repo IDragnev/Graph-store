@@ -38,7 +38,6 @@ private:
 
 private:
 	static const std::streamsize MAX_LIMIT = std::numeric_limits<std::streamsize>::max();
-	static const char NEW_LINE = '\n';
 	static const size_t BUFFER_SIZE = 512;
 
 private:
