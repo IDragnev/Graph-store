@@ -14,12 +14,12 @@ protected:
 public:
 	virtual ~GraphCreator() = default;
 
-	virtual GraphPtr createEmptyGraph(const char* graphName) const = 0;
+	virtual GraphPtr createEmptyGraph(const String& graphName) const = 0;
 
 	const String& getCreatedGraphType() const;
 
 protected:
-	GraphCreator(const char* createdGraphType);
+	GraphCreator(const String& createdGraphType);
 
 private:
 	GraphCreator(GraphCreator&&) = delete;

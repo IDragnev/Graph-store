@@ -1,10 +1,10 @@
 #include "GraphCreator.h"
 
 
-GraphCreator::GraphCreator(const char* createdGraphType) :
+GraphCreator::GraphCreator(const String& createdGraphType) :
 	createdGraphType(createdGraphType)
 {
-	assert(this->createdGraphType != String(""));
+	assert(createdGraphType != String(""));
 }
 
 

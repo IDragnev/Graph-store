@@ -7,10 +7,10 @@ template <typename CreatedGraph>
 class ConcreteGraphCreator : public GraphCreator
 {
 public:
-	ConcreteGraphCreator(const char* createdGraphType);
+	ConcreteGraphCreator(const String& createdGraphType);
 	virtual ~ConcreteGraphCreator() override = default;
 
-	virtual GraphPtr createEmptyGraph(const char* graphID) const override;
+	virtual GraphPtr createEmptyGraph(const String& graphID) const override;
 
 private:
 	ConcreteGraphCreator(ConcreteGraphCreator&&) = delete;
