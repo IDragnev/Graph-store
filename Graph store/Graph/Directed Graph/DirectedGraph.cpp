@@ -9,28 +9,27 @@ DirectedGraph::DirectedGraph(const char* ID) :
 }
 
 
-void DirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, unsigned weight)
+void DirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
 {
-	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
+	Graph::insertEdgeFromToWithWeight(from, to, weight);
 }
 
 
-void DirectedGraph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+void DirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 {
-	Graph::removeEdgeFromTo(vertexFrom, vertexTo);
+	Graph::removeEdgeFromTo(from, to);
 }
 
 
 void DirectedGraph::removeFromAdjacencyLists(Vertex& vertex)
 {
-	VertexAbstractConstIterator verticesIterator(getIteratorToVertices());
+	VertexAbstractConstIterator iterator(getIteratorToVertices());
 
-	while (!verticesIterator->isFinished())
+	while (!iterator->isFinished())
 	{
-		Vertex* currentVertex = verticesIterator->getCurrent();
-
+		Vertex* currentVertex = iterator->getCurrent();
 		removeEdgeFromToNoThrow(*currentVertex, vertex);
 
-		verticesIterator->goToNext();
+		iterator->goToNext();
 	}
 }

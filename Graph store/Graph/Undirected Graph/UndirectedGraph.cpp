@@ -9,17 +9,17 @@ UndirectedGraph::UndirectedGraph(const char* ID) :
 }
 
 
-void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, unsigned weight)
+void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
 {
-	Graph::insertEdgeFromToWithWeight(vertexFrom, vertexTo, weight);
-	Graph::insertEdgeFromToWithWeight(vertexTo, vertexFrom, weight);
+	Graph::insertEdgeFromToWithWeight(from, to, weight);
+	Graph::insertEdgeFromToWithWeight(to, from, weight);
 }
 
 
-void UndirectedGraph::removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+void UndirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 {
-	Graph::removeEdgeFromTo(vertexFrom, vertexTo);
-	Graph::removeEdgeFromTo(vertexTo, vertexFrom);
+	Graph::removeEdgeFromTo(from, to);
+	Graph::removeEdgeFromTo(to, from);
 }
 
 

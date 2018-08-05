@@ -10,8 +10,8 @@ public:
 	UndirectedGraph(const char* ID);
 	virtual ~UndirectedGraph() override = default;
 
-	virtual void insertEdgeFromToWithWeight(Vertex& vertexFrom, Vertex& vertexTo, unsigned weight = 1) override;
-	virtual void removeEdgeFromTo(Vertex& vertexFrom, Vertex& vertexTo) override;
+	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight = 1) override;
+	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) override;
 
 protected:
 	virtual void removeFromAdjacencyLists(Vertex& vertex) override;
