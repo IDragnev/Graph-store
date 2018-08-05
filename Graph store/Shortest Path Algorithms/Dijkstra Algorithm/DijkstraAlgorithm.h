@@ -21,7 +21,7 @@ public:
 
 private:
 	void findShortestPathToGoal();
-	bool hasVertexWithUndeterminedDistance() const;
+	bool existsVertexWithUndeterminedDistance() const;
 	Vertex& closestToSourceFromUndetermined();
 	void relaxEdgesLeaving(Vertex& vertex);
 	void relaxEdge(Vertex& vertex, Edge& edge);

@@ -42,9 +42,9 @@ void DijkstraAlgorithm::insertVerticesInPriorityQueue(Graph& graph)
 
 void DijkstraAlgorithm::findShortestPathToGoal()
 {
-	assert(hasVertexWithUndeterminedDistance());
+	assert(existsVertexWithUndeterminedDistance());
 
-	while (hasVertexWithUndeterminedDistance())
+	while (existsVertexWithUndeterminedDistance())
 	{
 		Vertex& vertex = closestToSourceFromUndetermined();
 
@@ -99,7 +99,7 @@ void  DijkstraAlgorithm::updateDistanceOf(Vertex& vertex, const Distance& distan
 }
 
 
-bool DijkstraAlgorithm::hasVertexWithUndeterminedDistance() const
+bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
 {
 	return !priorityQueue.isEmpty();
 }
