@@ -219,7 +219,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 
 std::unique_ptr<Vertex> Graph::createVertex(const char* ID) const
 {
-	return std::make_unique<Vertex>(ID, getAppropriateVertexHandle());
+	return std::unique_ptr<Vertex>(new Vertex(ID, getAppropriateVertexHandle()));
 }
 
 
