@@ -41,6 +41,7 @@ private:
 	Vertex& getVertex(size_t idIndex);
 
 	void clearParsedState();
+	void clearState();
 
 private:
 	GraphBuilder(GraphBuilder&&) = delete;

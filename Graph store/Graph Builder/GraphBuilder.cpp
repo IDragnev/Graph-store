@@ -18,6 +18,11 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const char* filename)
 		clearParsedState();
 		throw GraphBuilderException(exception.what());
 	}
+	catch (std::bad_alloc&)
+	{
+		clearState();
+		throw GraphBuilderException("No memory available while building a graph from " + String(filename));
+	}
 }
 
 
@@ -155,4 +160,11 @@ void GraphBuilder::clearParsedState()
 	graphId = "";
 	vertexIds.empty();
 	edges.empty();
+}
+
+
+void GraphBuilder::clearState()
+{
+	clearParsedState();
+	result = nullptr;
 }
