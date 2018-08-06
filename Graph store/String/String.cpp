@@ -8,16 +8,16 @@ String::String() :
 }
 
 
+String::String(const String& other) :
+	String(other.actualString)
+{
+}
+
+
 String::String(const char* string) :
 	String()
 {
 	setActualString(string);
-}
-
-
-String::String(const String& other) :
-	String(other.actualString)
-{
 }
 
 
@@ -39,12 +39,46 @@ String& String::operator=(const String& rhs)
 }
 
 
+void String::setActualString(const char* cString)
+{
+	if (cString)
+	{
+		char* copy = cloneCString(cString);
+		delete[] actualString;
+		actualString = copy;
+	}
+	else
+	{
+		delete[] actualString;
+		actualString = nullptr;
+	}
+}
+
+
+char* String::cloneCString(const char* cString)
+{
+	size_t size = strlen(cString) + 1;
+	char* result = new char[size];
+	strcpy_s(result, size, cString);
+
+	return result;
+}
+
+
+void String::setActualString(char symbol)
+{
+	char buffer[2] = "";
+	buffer[0] = symbol;
+	setActualString(buffer);
+}
+
+
 String& String::operator=(String&& source)
 {
 	if (this != &source)
 	{
-		destroyActualString();
-		moveParameterInThis(source);
+		delete[] actualString;
+		moveInThis(source);
 	}
 
 	return *this;
@@ -53,13 +87,20 @@ String& String::operator=(String&& source)
 
 String::String(String&& source)
 {
-	moveParameterInThis(source);
+	moveInThis(source);
+}
+
+
+void String::moveInThis(String& source)
+{
+	actualString = source.actualString;
+	source.actualString = nullptr;
 }
 
 
 String::~String()
 {
-	destroyActualString();
+	delete[] actualString;
 }
 
 
@@ -79,47 +120,6 @@ String& String::operator+=(char symbol)
 }
 
 
-void String::moveParameterInThis(String& source)
-{
-	actualString = source.actualString;
-	source.nullActualString();
-}
-
-
-void String::setActualString(const char* cString)
-{
-	if (cString)
-	{
-		char* copy = cloneCString(cString);
-		destroyActualString();
-		actualString = copy;
-	}
-	else
-	{
-		destroyActualString();
-		nullActualString();
-	}
-}
-
-
-void String::setActualString(char symbol)
-{
-	char buffer[2] = "";
-	buffer[0] = symbol;
-	setActualString(buffer);
-}
-
-
-char* String::cloneCString(const char* cString)
-{
-	size_t size = strlen(cString) + 1;
-	char* result = new char[size];
-	strcpy_s(result, size, cString);
-
-	return result;
-}
-
-
 void String::append(const char* string)
 {
 	if (string)
@@ -135,7 +135,7 @@ void String::append(const char* string)
 			strcpy_s(buffer, size, this->getActualString());
 			strcat_s(buffer, size, string);
 
-			destroyActualString();
+			delete[] actualString;
 			actualString = buffer;
 		}
 	}
@@ -148,18 +148,6 @@ void String::append(char symbol)
 	buffer[0] = symbol;
 	append(buffer);
 }
-
-
-void String::destroyActualString()
-{
-	delete[] actualString;
-}
-
-
-void String::nullActualString()
-{
-	actualString = nullptr;
-}  
 
 
 const char* String::getActualString() const
