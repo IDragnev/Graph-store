@@ -28,8 +28,7 @@ private:
 	const char* getActualString() const;           
 	void setActualString(const char* cString);  
 	void setActualString(char symbol);
-	void moveInThis(String& source);
-
+	
 	static char* cloneCString(const char* cString);
 
 private:

@@ -1,5 +1,6 @@
 #include "String.h"
 #include <cstring>
+#include <utility>
 
 
 String::String() :
@@ -73,28 +74,22 @@ void String::setActualString(char symbol)
 }
 
 
-String& String::operator=(String&& source)
+String::String(String&& source) :
+	actualString(source.actualString)
 {
-	if (this != &source)
+	source.actualString = nullptr;
+}
+
+
+String& String::operator=(String&& rhs)
+{
+	if (this != &rhs)
 	{
-		delete[] actualString;
-		moveInThis(source);
+		String temporary(std::move(rhs));
+		std::swap(actualString, temporary.actualString);
 	}
 
 	return *this;
-}
-
-
-String::String(String&& source)
-{
-	moveInThis(source);
-}
-
-
-void String::moveInThis(String& source)
-{
-	actualString = source.actualString;
-	source.actualString = nullptr;
 }
 
 
