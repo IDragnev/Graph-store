@@ -60,6 +60,21 @@ void DijkstraAlgorithm::findShortestPathToGoal()
 }
 
 
+bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
+{
+	return !priorityQueue.isEmpty();
+}
+
+
+Vertex& DijkstraAlgorithm::closestToSourceFromUndetermined()
+{
+	Vertex* result = priorityQueue.extractOptimal();
+	assert(result);
+
+	return *result;
+}
+
+
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex)
 {
 	std::unique_ptr<Iterator<Edge>> iterator = getIncidentEdgesOf(vertex);
@@ -96,21 +111,6 @@ void DijkstraAlgorithm::extendCurrentPath(Vertex& vertex, Vertex& neighbour, con
 void  DijkstraAlgorithm::updateDistanceOf(Vertex& vertex, const Distance& distance)
 {
 	priorityQueue.improveKey(vertex.getPriorityQueueHandle(), distance);
-}
-
-
-bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
-{
-	return !priorityQueue.isEmpty();
-}
-
-
-Vertex& DijkstraAlgorithm::closestToSourceFromUndetermined()
-{
-	Vertex* result = priorityQueue.extractOptimal();
-	assert(result);
-
-	return *result;
 }
 
 
