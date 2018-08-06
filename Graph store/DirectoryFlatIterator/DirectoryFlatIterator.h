@@ -2,6 +2,7 @@
 #define __DIR_ITERATOR_H_INCLUDED__
 
 #include <Windows.h>
+#include <stdexcept>
 #include "..\String\String.h"
 
 class DirectoryFlatIterator
@@ -19,6 +20,14 @@ public:
 	String getCurrentFileName() const;
 
 private:
+	void findFirstFile(const String& directory);
+	static String appendPatternTo(const String& directory);
+	void throwIfFailedToOpen(const String& directory) const;
+	bool handleIsValid() const;
+	void finish();
+	void closeHandle();
+	void invalidateHandle();
+
 private:
 	DirectoryFlatIterator(DirectoryFlatIterator&&) = delete;
 	DirectoryFlatIterator(const DirectoryFlatIterator&) = delete;
@@ -31,7 +40,6 @@ private:
 private:
 	SearchHandle handle;
 	File foundFile;
-	bool finished;
 };
 
 #endif //__DIR_ITERATOR_H_INCLUDED__

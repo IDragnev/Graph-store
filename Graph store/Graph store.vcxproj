@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
     <ClCompile Include="File parser\FileParserException\FileParserException.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
@@ -165,7 +166,7 @@
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Directory Iterator\DirectoryIterator.h" />
+    <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
