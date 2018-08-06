@@ -6,6 +6,10 @@
 
 class DirectoryFlatIterator
 {
+private:
+	typedef WIN32_FIND_DATA File;
+	typedef HANDLE SearchHandle;
+
 public:
 	explicit DirectoryFlatIterator(const String& directory);
 	~DirectoryFlatIterator();
@@ -25,8 +29,8 @@ private:
 
 private:
 	char path[MAX_PATH];
-	HANDLE searchHandle;
-	WIN32_FIND_DATA foundFile;
+	SearchHandle handle;
+	File foundFile;
 	bool finished;
 };
 
