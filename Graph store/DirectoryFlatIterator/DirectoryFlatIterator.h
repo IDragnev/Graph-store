@@ -4,21 +4,21 @@
 #include <Windows.h>
 #include "..\String\String.h"
 
-class DirectoryIterator
+class DirectoryFlatIterator
 {
 public:
-	explicit DirectoryIterator(const String& directory);
-	~DirectoryIterator();
+	explicit DirectoryFlatIterator(const String& directory);
+	~DirectoryFlatIterator();
 
 	bool isFinished() const;
 	void goToNextTextFile();
 	String getCurrentFileName() const;
 
 private:
-	DirectoryIterator(DirectoryIterator&&) = delete;
-	DirectoryIterator(const DirectoryIterator&) = delete;
-	DirectoryIterator& operator=(DirectoryIterator&&) = delete;
-	DirectoryIterator& operator=(const DirectoryIterator&) = delete;
+	DirectoryFlatIterator(DirectoryFlatIterator&&) = delete;
+	DirectoryFlatIterator(const DirectoryFlatIterator&) = delete;
+	DirectoryFlatIterator& operator=(DirectoryFlatIterator&&) = delete;
+	DirectoryFlatIterator& operator=(const DirectoryFlatIterator&) = delete;
 
 private:
 	static const char PATTERN[];
