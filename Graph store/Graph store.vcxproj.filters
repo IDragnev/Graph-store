@@ -114,6 +114,9 @@
     <Filter Include="Graph Builder\GraphBuilderException">
       <UniqueIdentifier>{9a08051c-337e-4551-a499-3c3b46f8177d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Directory Iterator">
+      <UniqueIdentifier>{a865695d-1da2-4f45-b6f9-26f1a2b13529}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -324,6 +327,9 @@
     </ClInclude>
     <ClInclude Include="Graph Builder\GraphBuilderException\GraphBuilderException.h">
       <Filter>Graph Builder\GraphBuilderException</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory Iterator\DirectoryIterator.h">
+      <Filter>Directory Iterator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
