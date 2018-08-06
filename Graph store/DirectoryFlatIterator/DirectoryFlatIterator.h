@@ -19,6 +19,7 @@ public:
 	String getCurrentFileName() const;
 
 private:
+private:
 	DirectoryFlatIterator(DirectoryFlatIterator&&) = delete;
 	DirectoryFlatIterator(const DirectoryFlatIterator&) = delete;
 	DirectoryFlatIterator& operator=(DirectoryFlatIterator&&) = delete;
@@ -28,7 +29,6 @@ private:
 	static const char PATTERN[];
 
 private:
-	char path[MAX_PATH];
 	SearchHandle handle;
 	File foundFile;
 	bool finished;
