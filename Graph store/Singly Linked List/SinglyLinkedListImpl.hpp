@@ -12,23 +12,21 @@ inline SinglyLinkedList<T>::SinglyLinkedList() :
 
 
 template <typename T>
-inline SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
-	SinglyLinkedList<T>()
-{
-	if (!source.isEmpty())
-	{
-		copyFrom(source);
-	}
-}
-
-
-template <typename T>
 inline SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
 	head(source.head),
 	tail(source.tail),
 	count(source.count)
 {
 	source.nullifyMembers();
+}
+
+
+template <typename T>
+inline void SinglyLinkedList<T>::nullifyMembers()
+{
+	count = 0;
+	head = nullptr;
+	tail = nullptr;
 }
 
 
@@ -57,9 +55,93 @@ inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&&
 
 
 template <typename T>
+inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLinkedList<T> temp)
+{
+	std::swap(this->head, temp.head);
+	std::swap(this->tail, temp.tail);
+	std::swap(this->count, temp.count);
+}
+
+
+template <typename T>
+inline SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
+	SinglyLinkedList<T>()
+{
+	if (!source.isEmpty())
+	{
+		copyFrom(source);
+	}
+}
+
+
+template <typename T>
+inline bool SinglyLinkedList<T>::isEmpty() const
+{
+	return count == 0;
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& source)
+{
+	assert(isEmpty());
+	assert(!source.isEmpty());
+	try
+	{
+		copyChainOf(source);
+		count = source.count;
+	}
+	catch (...)
+	{
+		empty();
+		throw;
+	}
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
+{
+	assert(!head);
+	assert(source.head);
+
+	head = new Node<T>(source.head->data);
+	const Node<T>* nodeToCopy = source.head->next;
+	tail = head;
+
+	while (nodeToCopy)
+	{
+		tail->next = new Node<T>(nodeToCopy->data);
+		tail = tail->next;
+		nodeToCopy = nodeToCopy->next;
+	}
+}
+
+
+template <typename T>
+inline void SinglyLinkedList<T>::empty()
+{
+	clearCurrentChain();
+	nullifyMembers();
+}
+
+
+template <typename T>
 inline SinglyLinkedList<T>::~SinglyLinkedList()
 {
 	clearCurrentChain();
+}
+
+
+template <typename T>
+inline void SinglyLinkedList<T>::clearCurrentChain()
+{
+	while (head)
+	{
+		Node<T>* oldHead = head;
+		head = head->next;
+		delete oldHead;
+	}
 }
 
 
@@ -83,56 +165,22 @@ inline void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::empty()
+void SinglyLinkedList<T>::appendContentOf(SinglyLinkedList<T>&& source)
 {
-	clearCurrentChain();
-	nullifyMembers();
-} 
+	assert(source.head);
+	assert(source.tail);
 
+	if (isEmpty())
+	{
+		head = source.head;
+	}
+	else
+	{
+		tail->next = source.head;
+	}
 
-template <typename T>
-inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
-{
-	assert(validateOwnershipOf(iterator));
-
-	removeAt(iterator.current);
-	iterator.current = nullptr;
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
-{
-	assert(validateOwnershipOf(iterator));
-
-	removeAt(iterator.current->next);
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
-{
-	assert(validateOwnershipOf(iterator));
-
-	removeAt(findNodeBefore(iterator.current));
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
-{
-	assert(validateOwnershipOf(iterator));
-
-	insertAfter(iterator.current, item);
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
-{
-	assert(validateOwnershipOf(iterator));
-
-	insertBefore(iterator.current, item);
+	tail = source.tail;
+	count += source.count;
 }
 
 
@@ -174,6 +222,56 @@ void SinglyLinkedList<T>::insertAsHead(const T& item)
 
 	head = newHead;
 	++count;
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::insertAfter(Node<T>* nodeToInsertAfter, const T& item)
+{
+	if (!nodeToInsertAfter || nodeToInsertAfter == tail)
+	{
+		insertAsTail(item);
+	}
+	else 
+	{
+		assert(nodeToInsertAfter->next);
+
+		Node<T>* newNode = new Node<T>(item, nodeToInsertAfter->next);
+		nodeToInsertAfter->next = newNode;
+		++count;
+	}
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& item)
+{
+	if (!nodeToInsertBefore || nodeToInsertBefore == head)
+	{
+		insertAsHead(item);
+	}
+	else
+	{
+		Node<T>* previous = findNodeBefore(nodeToInsertBefore);
+		assert(previous);
+		insertAfter(previous, item);
+	}
+}
+
+
+template <typename T>
+Node<T>* SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
+{
+	assert(node);
+
+	Node<T>* current = head;
+
+	while (current && current->next != node)
+	{
+		current = current->next;
+	}
+
+	return current;
 }
 
 
@@ -231,139 +329,48 @@ void SinglyLinkedList<T>::removeAt(Node<T>* nodeToRemove)
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertAfter(Node<T>* nodeToInsertAfter, const T& item)
+inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
 {
-	if (!nodeToInsertAfter || nodeToInsertAfter == tail)
-	{
-		insertAsTail(item);
-	}
-	else 
-	{
-		assert(nodeToInsertAfter->next);
+	assert(validateOwnershipOf(iterator));
 
-		Node<T>* newNode = new Node<T>(item, nodeToInsertAfter->next);
-		nodeToInsertAfter->next = newNode;
-		++count;
-	}
+	removeAt(iterator.current);
+	iterator.current = nullptr;
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& item)
+inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
 {
-	if (!nodeToInsertBefore || nodeToInsertBefore == head)
-	{
-		insertAsHead(item);
-	}
-	else
-	{
-		Node<T>* previous = findNodeBefore(nodeToInsertBefore);
-		assert(previous);
-		insertAfter(previous, item);
-	}
+	assert(validateOwnershipOf(iterator));
+
+	removeAt(iterator.current->next);
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& source)
+inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 {
-	assert(isEmpty());
-	assert(!source.isEmpty());
-	try
-	{
-		copyChainOf(source);
-		count = source.count;
-	}
-	catch (...)
-	{
-		empty();
-		throw;
-	}
+	assert(validateOwnershipOf(iterator));
+
+	removeAt(findNodeBefore(iterator.current));
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
+inline void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 {
-	assert(!head);
-	assert(source.head);
+	assert(validateOwnershipOf(iterator));
 
-	head = new Node<T>(source.head->data);
-	const Node<T>* nodeToCopy = source.head->next;
-	tail = head;
-
-	while (nodeToCopy)
-	{
-		tail->next = new Node<T>(nodeToCopy->data);
-		tail = tail->next;
-		nodeToCopy = nodeToCopy->next;
-	}
+	insertAfter(iterator.current, item);
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::appendContentOf(SinglyLinkedList<T>&& source)
+inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
 {
-	assert(source.head);
-	assert(source.tail);
+	assert(validateOwnershipOf(iterator));
 
-	if (isEmpty())
-	{
-		head = source.head;
-	}
-	else
-	{
-		tail->next = source.head;
-	}
-
-	tail = source.tail;
-	count += source.count;
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLinkedList<T> temp)
-{
-	std::swap(this->head, temp.head);
-	std::swap(this->tail, temp.tail);
-	std::swap(this->count, temp.count);
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::nullifyMembers()
-{
-	count = 0;
-	head = nullptr;
-	tail = nullptr;
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::clearCurrentChain()
-{
-	while (head)
-	{
-		Node<T>* oldHead = head;
-		head = head->next;
-		delete oldHead;
-	}
-}
-
-
-template <typename T>
-Node<T>* SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
-{
-	assert(node);
-
-	Node<T>* current = head;
-
-	while (current && current->next != node)
-	{
-		current = current->next;
-	}
-
-	return current;
+	insertBefore(iterator.current, item);
 }
 
 
@@ -407,13 +414,6 @@ inline void SinglyLinkedList<T>::setTail(const T& data)
 	assert(!isEmpty());
 
 	tail->data = data;
-}
-
-
-template <typename T>
-inline bool SinglyLinkedList<T>::isEmpty() const
-{
-	return count == 0;
 }
 
 
