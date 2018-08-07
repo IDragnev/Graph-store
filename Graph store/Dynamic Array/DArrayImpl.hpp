@@ -126,8 +126,7 @@ void DArray<T>::shrink(unsignedInteger newSize)
 
 	if (newSize == 0)
 	{
-		destroyItems();
-		nullifyMembers();
+		empty();
 	}
 	else if (newSize != size)
 	{
