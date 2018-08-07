@@ -8,6 +8,13 @@ class GraphRegistrator
 {
 public:
 	GraphRegistrator(const String& createdGraphType);
+	~GraphRegistrator() = default;
+
+private:
+	GraphRegistrator(GraphRegistrator&&) = delete;
+	GraphRegistrator(const GraphRegistrator&) = delete;
+	GraphRegistrator& operator=(GraphRegistrator&&) = delete;
+	GraphRegistrator& operator=(const GraphRegistrator&) = delete;
 
 private:
 	const ConcreteGraphCreator<GraphType> graphCreator;
