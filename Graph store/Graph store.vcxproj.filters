@@ -84,9 +84,6 @@
     <Filter Include="Graph Factory\Graph registrator">
       <UniqueIdentifier>{fc7cb4da-6494-4f6b-a7be-34e7426cda02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Graph Exception">
-      <UniqueIdentifier>{1f98aced-94e0-4f87-9848-a149303e3faa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Priority Queue">
       <UniqueIdentifier>{7033932f-1a00-4da2-b5da-e96b252c3e61}</UniqueIdentifier>
     </Filter>
@@ -157,9 +154,6 @@
     </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\Graph Exception\GraphException.cpp">
-      <Filter>Graph\Graph Exception</Filter>
     </ClCompile>
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
       <Filter>Priority Queue\PQ Handle</Filter>
@@ -282,9 +276,6 @@
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistratorImpl.hpp">
       <Filter>Graph Factory\Graph registrator</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph\Graph Exception\GraphException.h">
-      <Filter>Graph\Graph Exception</Filter>
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialInteger.h">
       <Filter>Special Integer</Filter>

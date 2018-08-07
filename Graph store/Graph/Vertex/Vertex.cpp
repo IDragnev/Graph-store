@@ -1,5 +1,5 @@
 #include "Vertex.h"
-#include "../Graph Exception/GraphException.h"
+#include "..\Base Graph\Graph.h"
 
 
 Vertex::Vertex(const String& ID, size_t index) :

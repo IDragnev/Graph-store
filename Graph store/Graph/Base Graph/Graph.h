@@ -4,12 +4,14 @@
 #include "../../Hash/Hash.h"
 #include "../../Dynamic Array/DArray.h"
 #include "../../String/String.h"
-
 #include "../Vertex/Vertex.h"
 #include "../Edge/Edge.h"
 #include "../ID Accessor/IDAccessor.h"
-
+#include "../../Exception/Exception.h"
 #include <memory>
+
+class Graph;
+typedef Exception<Graph> GraphException;
 
 class Graph
 {

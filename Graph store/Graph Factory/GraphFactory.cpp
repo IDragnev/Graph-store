@@ -1,6 +1,5 @@
 #include "GraphFactory.h"
 #include "Graph creators\Base\GraphCreator.h"
-#include "..\Graph\Graph Exception\GraphException.h"
 #include "..\Dynamic Array\DArray.h"
 
 
