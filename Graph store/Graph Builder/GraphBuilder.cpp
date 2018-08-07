@@ -112,7 +112,7 @@ void GraphBuilder::buildResultFromParsedFile()
 
 void GraphBuilder::createEmptyGraph()
 {
-	result = GraphFactory::createEmptyGraph(graphType, graphId);
+	result = GraphFactory::instance().createEmptyGraph(graphType, graphId);
 }
 
 

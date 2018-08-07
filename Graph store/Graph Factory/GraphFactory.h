@@ -1,13 +1,11 @@
 #ifndef __GRAPH_FACTORY_H_INCLUDED__
 #define __GRAPH_FACTORY_H_INCLUDED__
 
+#include "..\Dynamic Array\DArray.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\String\String.h"
 
 class GraphCreator;
-
-template <typename T>
-class DArray;
 
 class GraphFactory
 {
@@ -19,15 +17,28 @@ private:
 	typedef std::unique_ptr<Graph> GraphPtr;
 
 public:
-	static GraphPtr createEmptyGraph(const String& graphType, const String& graphID);
+	static GraphFactory& instance();
+	
+	GraphPtr createEmptyGraph(const String& graphType, const String& graphID) const;
 
 private:
-	static const GraphCreator& getCreator(const String& graphType);
-	static void registerCreator(const GraphCreator* creator);
-	static const GraphCreator* searchCreator(const String& graphType);
-	static CreatorsCollection& getCreatorsCollection();
+	GraphFactory();
+	~GraphFactory() = default;
+
+	GraphFactory(GraphFactory&&) = delete;
+	GraphFactory(const GraphFactory&) = delete;
+	GraphFactory& operator=(GraphFactory&&) = delete;
+	GraphFactory& operator=(const GraphFactory&) = delete;
+
+private:
+	const GraphCreator& getCreator(const String& graphType) const;
+	const GraphCreator* searchCreator(const String& graphType) const;
+	void registerCreator(const GraphCreator* creator);
 
 	static const size_t EXPECTED_CREATORS_COUNT = 2;
+
+private:
+	CreatorsCollection creators;
 };
 
 #endif //__GRAPH_FACTORY_H_INCLUDED__

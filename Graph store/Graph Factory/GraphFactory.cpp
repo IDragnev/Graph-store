@@ -1,9 +1,22 @@
 #include "GraphFactory.h"
 #include "Graph creators\Base\GraphCreator.h"
-#include "..\Dynamic Array\DArray.h"
 
 
-GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& graphType, const String& graphID)
+GraphFactory::GraphFactory() :
+	creators(EXPECTED_CREATORS_COUNT)
+{
+}
+
+
+GraphFactory& GraphFactory::instance()
+{
+	static GraphFactory theOnlyInstance;
+
+	return theOnlyInstance;
+}
+
+
+GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& graphType, const String& graphID) const
 {
 	const GraphCreator& creator = getCreator(graphType);
 
@@ -11,7 +24,7 @@ GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& graphType, c
 }
 
 
-const GraphCreator& GraphFactory::getCreator(const String& graphType)
+const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 {
 	const GraphCreator* creator = searchCreator(graphType);
 
@@ -26,10 +39,9 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType)
 }
 
 
-const GraphCreator* GraphFactory::searchCreator(const String& graphType)
+const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 {
-	CreatorsCollection& creators = getCreatorsCollection();
-	auto iterator = creators.getHeadIterator();
+	auto iterator = creators.getHeadConstIterator();
 
 	while (iterator)
 	{
@@ -51,16 +63,7 @@ void GraphFactory::registerCreator(const GraphCreator* creator)
 {
 	assert(!searchCreator(creator->getCreatedGraphType()));
 
-	CreatorsCollection& creators = getCreatorsCollection();
 	creators.insert(creator);
-}
-
-
-GraphFactory::CreatorsCollection& GraphFactory::getCreatorsCollection()
-{
-	static CreatorsCollection graphCreators(EXPECTED_CREATORS_COUNT);
-
-	return graphCreators;
 }
 
 
