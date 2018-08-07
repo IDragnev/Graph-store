@@ -12,8 +12,8 @@ namespace FileParserTest
 	private:
 		static std::ofstream firstFile;
 		static std::ofstream secondFile;
-		static const char firstFileName[];
-		static const char secondFileName[];
+		static const char FIRST_FILE_NAME[];
+		static const char SECOND_FILE_NAME[];
 
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
@@ -22,14 +22,14 @@ namespace FileParserTest
 
 		static void writeToFirstFile(const char* content)
 		{
-			openTruncated(firstFile, firstFileName);
+			openTruncated(firstFile, FIRST_FILE_NAME);
 			writeTo(firstFile, content);
 			firstFile.close();
 		}
 
 		static void writeToSecondFile(const char* content)
 		{
-			openTruncated(secondFile, secondFileName);
+			openTruncated(secondFile, SECOND_FILE_NAME);
 			writeTo(secondFile, content);
 			secondFile.close();
 		}
@@ -71,7 +71,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("1");
 
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
 			Assert::AreEqual(parser.peekNextCharacter(), '1', L"The opened file is incorrect");
@@ -82,7 +82,7 @@ namespace FileParserTest
 			writeToFirstFile("1");
 
 			FileParser parser;
-			parser.openFile(firstFileName);
+			parser.openFile(FIRST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
 			Assert::AreEqual(parser.peekNextCharacter(), '1', L"The opened file is incorrect");
@@ -120,7 +120,7 @@ namespace FileParserTest
 		TEST_METHOD(testIgnoreUntilOnMissingSymbolReachesEndOfFile)
 		{
 			writeToFirstFile("12345");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			parser.ignoreUntil('c');
 
@@ -131,7 +131,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("12331");
 
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			parser.ignoreUntil('3');
 			Assert::AreEqual(parser.peekNextCharacter(), '3');
@@ -149,7 +149,7 @@ namespace FileParserTest
 		TEST_METHOD(testMoveCtorWithNonEmptySource)
 		{
 			writeToFirstFile("1");
-			FileParser source(firstFileName);
+			FileParser source(FIRST_FILE_NAME);
 
 			FileParser destination(std::move(source));
 
@@ -172,7 +172,7 @@ namespace FileParserTest
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
 			writeToFirstFile("1");
-			FileParser rhs(firstFileName);
+			FileParser rhs(FIRST_FILE_NAME);
 			FileParser lhs;
 
 			lhs = std::move(rhs);
@@ -185,7 +185,7 @@ namespace FileParserTest
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
 		{
 			writeToFirstFile("1");
-			FileParser lhs(firstFileName);
+			FileParser lhs(FIRST_FILE_NAME);
 			FileParser rhs;
 
 			lhs = std::move(rhs);
@@ -198,8 +198,8 @@ namespace FileParserTest
 		{
 			writeToFirstFile("1");
 			writeToSecondFile("2");
-			FileParser lhs(firstFileName);
-			FileParser rhs(secondFileName);
+			FileParser lhs(FIRST_FILE_NAME);
+			FileParser rhs(SECOND_FILE_NAME);
 
 			lhs = std::move(rhs);
 
@@ -211,7 +211,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseIntegerWithUnsignedType)
 		{
 			writeToFirstFile("1");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			unsigned result = parser.parseInteger<unsigned>();
 
@@ -222,7 +222,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseIntegerWithSignedType)
 		{
 			writeToFirstFile("-1");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			int result = parser.parseInteger<int>();
 
@@ -233,7 +233,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseLine)
 		{
 			writeToFirstFile("Line");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			String result = parser.parseLine();
 
@@ -244,7 +244,7 @@ namespace FileParserTest
 		TEST_METHOD(testParseLineWithEmptyString)
 		{
 			writeToFirstFile("\nLine 2");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			String result = parser.parseLine();
 
@@ -254,7 +254,7 @@ namespace FileParserTest
 		TEST_METHOD(testParseIntegerWithInvalidContentThrows)
 		{
 			writeToFirstFile("c");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			try
 			{
@@ -263,7 +263,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				String expected = buildErrorMessage(firstFileName, "Invalid integer format", '1');
+				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
@@ -271,7 +271,7 @@ namespace FileParserTest
 		TEST_METHOD(testParseIntegerWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			try
 			{
@@ -280,7 +280,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				String expected = buildErrorMessage(firstFileName, "Invalid integer format", '1');
+				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
@@ -288,7 +288,7 @@ namespace FileParserTest
 		TEST_METHOD(testParseLineWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser(firstFileName);
+			FileParser parser(FIRST_FILE_NAME);
 
 			try
 			{
@@ -297,7 +297,7 @@ namespace FileParserTest
 			}
 			catch (FileParserException& exception)
 			{
-				String expected = buildErrorMessage(firstFileName, "No characters left in the file", '1');
+				String expected = buildErrorMessage(FIRST_FILE_NAME, "No characters left in the file", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
@@ -305,6 +305,6 @@ namespace FileParserTest
 
 	std::ofstream FileParserTest::firstFile;
 	std::ofstream FileParserTest::secondFile;
-	const char FileParserTest::firstFileName[] = { "FirstFile.txt" };
-	const char FileParserTest::secondFileName[] = { "SecondFile.txt" };
+	const char FileParserTest::FIRST_FILE_NAME[] = { "FirstFile.txt" };
+	const char FileParserTest::SECOND_FILE_NAME[] = { "SecondFile.txt" };
 }
