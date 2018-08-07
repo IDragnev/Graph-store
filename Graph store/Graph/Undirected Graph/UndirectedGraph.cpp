@@ -1,6 +1,7 @@
 #include "UndirectedGraph.h"
+#include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
 
-GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
+static GraphRegistrator<UndirectedGraph> registrator("undirected");
 
 
 UndirectedGraph::UndirectedGraph(const String& ID) :

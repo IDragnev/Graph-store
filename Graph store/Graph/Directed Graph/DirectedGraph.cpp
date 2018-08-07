@@ -1,6 +1,7 @@
 #include "DirectedGraph.h"
+#include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
 
-GraphRegistrator<DirectedGraph> DirectedGraph::registrator("directed");
+static GraphRegistrator<DirectedGraph> registrator("directed");
 
 
 DirectedGraph::DirectedGraph(const String& ID) :

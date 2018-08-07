@@ -2,7 +2,6 @@
 #define __UNDIRECTED_GRAPH_H_INCLUDED__
 
 #include "../Base Graph/Graph.h"
-#include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
 
 class UndirectedGraph : public Graph
 {
@@ -21,9 +20,6 @@ private:
 	UndirectedGraph(UndirectedGraph&&) = delete;
 	UndirectedGraph& operator=(UndirectedGraph&&) = delete;
 	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
-
-private:
-	static GraphRegistrator<UndirectedGraph> registrator;
 };
 
 #endif //__UNDIRECTED_GRAPH_H_INCLUDED__
