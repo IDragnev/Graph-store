@@ -81,7 +81,7 @@ namespace DirectoryFlatIteratorTest
 		}
 	};
 
-	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\\DirectoryFlatIterator Test\\Test directory" };
-	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\\DirectoryFlatIterator Test\\Empty test directory" };
+	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "Test directory" };
+	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "Empty test directory" };
 	const char* DirectoryFlatIteratorTest::TEST_DIR_TEXT_FILES_NAMES[] = { "File1.txt", "File2.txt", "File3.txt" };
 }
