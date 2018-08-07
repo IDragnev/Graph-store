@@ -89,7 +89,7 @@ void DirectoryFlatIterator::invalidateHandle()
 }
 
 
-String DirectoryFlatIterator::getCurrentFileName() const
+String DirectoryFlatIterator::getCurrentTextFileName() const
 {
 	assert(!isFinished());
 

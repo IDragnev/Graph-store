@@ -25,7 +25,7 @@ namespace DirectoryFlatIteratorTest
 		{
 			while (!iterator.isFinished())
 			{
-				tryToMatchATextFile(iterator.getCurrentFileName());
+				tryToMatchATextFile(iterator.getCurrentTextFileName());
 
 				iterator.goToNextTextFile();
 			}

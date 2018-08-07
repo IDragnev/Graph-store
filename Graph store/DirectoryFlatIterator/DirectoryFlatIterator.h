@@ -20,7 +20,7 @@ public:
 
 	bool isFinished() const;
 	void goToNextTextFile();
-	String getCurrentFileName() const;
+	String getCurrentTextFileName() const;
 
 private:
 	void findFirstFile(const String& directory);
