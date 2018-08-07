@@ -148,7 +148,6 @@
     <ClCompile Include="File parser\FileParser.cpp" />
     <ClCompile Include="File parser\FileParserException\FileParserException.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
-    <ClCompile Include="Graph Builder\GraphBuilderException\GraphBuilderException.cpp" />
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
@@ -175,7 +174,6 @@
     <ClInclude Include="File parser\FileParserException\FileParserException.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
-    <ClInclude Include="Graph Builder\GraphBuilderException\GraphBuilderException.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />

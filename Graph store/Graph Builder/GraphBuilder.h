@@ -1,11 +1,14 @@
 #ifndef __GRAPH_BUILDER_H_INCLUDED__
 #define __GRAPH_BUILDER_H_INCLUDED__
 
-#include "GraphBuilderException/GraphBuilderException.h"
+#include "../Exception/Exception.h"
 #include "../Graph/Base Graph/Graph.h"
 #include "../String/String.h"
 #include "../File parser/FileParser.h"
 #include <memory>
+
+class GraphBuilder;
+typedef Exception<GraphBuilder> GraphBuilderException;
 
 class GraphBuilder
 {
