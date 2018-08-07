@@ -15,7 +15,7 @@ public:
 	virtual std::unique_ptr<Iterator<T>> clone() const = 0;
 
 protected:
-	Iterator() = default;
+	Iterator<T>& operator=(Iterator<T>&&) = default;
 	Iterator<T>& operator=(const Iterator<T>&) = default;
 };
 
