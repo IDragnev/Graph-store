@@ -28,7 +28,7 @@ void DirectoryFlatIterator::throwIfFailedToOpen(const String& directory) const
 {
 	if (!handleIsValid() && GetLastError() != ERROR_FILE_NOT_FOUND)
 	{
-		throw std::runtime_error("Failed to open: " + directory);
+		throw DirectoryFlatIteratorException("Failed to open: " + directory);
 	}
 }
 

@@ -59,7 +59,7 @@ namespace DirectoryFlatIteratorTest
 				DirectoryFlatIterator iterator("Invalid Directory Name");
 				Assert::Fail(L"Constructor did not throw");
 			}
-			catch (std::runtime_error& exception)
+			catch (DirectoryFlatIteratorException& exception)
 			{
 				Assert::IsTrue(areEqual(exception.what(), "Failed to open: Invalid Directory Name"));
 			}

@@ -2,8 +2,11 @@
 #define __DIR_ITERATOR_H_INCLUDED__
 
 #include <Windows.h>
-#include <stdexcept>
+#include "..\Exception\Exception.h"
 #include "..\String\String.h"
+
+class DirectoryFlatIterator;
+typedef Exception<DirectoryFlatIterator> DirectoryFlatIteratorException;
 
 class DirectoryFlatIterator
 {
