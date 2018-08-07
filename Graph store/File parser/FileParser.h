@@ -3,7 +3,10 @@
 
 #include <fstream>
 #include "../String/String.h"
-#include "FileParserException/FileParserException.h"
+#include "../Exception/Exception.h"
+
+class FileParser;
+typedef Exception<FileParser> FileParserException;
 
 class FileParser
 {

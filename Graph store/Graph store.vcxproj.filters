@@ -102,9 +102,6 @@
     <Filter Include="Traits">
       <UniqueIdentifier>{9ea7b6fc-7191-4cf7-89ab-3973a344985d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File parser\FileParserException">
-      <UniqueIdentifier>{d2bb7aea-7931-48d8-9fd8-d1331a88c6a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph Builder">
       <UniqueIdentifier>{f9081231-d2a1-4240-a2ef-dee1afea673b}</UniqueIdentifier>
     </Filter>
@@ -160,9 +157,6 @@
     </ClCompile>
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
-    </ClCompile>
-    <ClCompile Include="File parser\FileParserException\FileParserException.cpp">
-      <Filter>File parser\FileParserException</Filter>
     </ClCompile>
     <ClCompile Include="Graph Builder\GraphBuilder.cpp">
       <Filter>Graph Builder</Filter>
@@ -309,9 +303,6 @@
     </ClInclude>
     <ClInclude Include="Traits\IsInteger.h">
       <Filter>Traits</Filter>
-    </ClInclude>
-    <ClInclude Include="File parser\FileParserException\FileParserException.h">
-      <Filter>File parser\FileParserException</Filter>
     </ClInclude>
     <ClInclude Include="Graph Builder\GraphBuilder.h">
       <Filter>Graph Builder</Filter>

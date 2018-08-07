@@ -146,7 +146,6 @@
   <ItemGroup>
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
-    <ClCompile Include="File parser\FileParserException\FileParserException.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
@@ -171,7 +170,6 @@
     <ClInclude Include="Exception\Exception.h" />
     <ClInclude Include="Exception\ExceptionImpl.hpp" />
     <ClInclude Include="File parser\FileParser.h" />
-    <ClInclude Include="File parser\FileParserException\FileParserException.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
