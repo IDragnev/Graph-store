@@ -13,6 +13,44 @@ inline Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
+{
+	assert(size >= MIN_TABLE_SIZE);
+
+	table = DArray<Item*>(size, size);
+	tableSize = size;
+	insertedCount = 0;
+	nullify(table);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
+{
+	unsignedInteger count = table.getCount();
+
+	for (unsignedInteger i = 0; i < count; ++i)
+	{
+		table[i] = nullptr;
+	}
+}
+
+
+//
+// ( 3 * expectedSize ) / 2 is used because if all the expected items
+// are inserted, the load factor will be 2/3 
+// 
+template <typename Item, typename Key, typename KeyAccessor>
+inline typename Hash<Item, Key, KeyAccessor>::unsignedInteger
+Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
+{
+	assert(expectedCount > 0);
+
+	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 {
 	toEmptyStateOfSize(MIN_TABLE_SIZE);
@@ -50,6 +88,17 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(con
 
 
 template <typename Item, typename Key, typename KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
+{
+	std::swap(tableSize, temporary.tableSize);
+	std::swap(insertedCount, temporary.insertedCount);
+	std::swap(table, temporary.table);
+	std::swap(hashFunction, temporary.hashFunction);
+	std::swap(keyAccessor, temporary.keyAccessor);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	if (isFillingUp())
@@ -70,62 +119,9 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
+inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
 {
-	const long index = getPositionOfItemWithKey(key);
-
-	return index >= 0 ? table[index] : nullptr;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
-{
-	return const_cast<Item*>( static_cast<const Hash<Item, Key, KeyAccessor>&>(*this).search(key) );
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
-{
-	const long index = getPositionOfItemWithKey(key);
-
-	if (index >= 0)
-	{
-		Item* result = extractItemFromTableAt(index);
-
-		if (hasTooManyEmptySlots() && canBeShrinked())
-		{
-			resize(tableSize / GROWTH_FACTOR);
-		}
-		else
-		{
-			rehashCluster((index + 1) % tableSize);
-		}
-		
-		return result;
-	}
-
-	return nullptr;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) const
-{
-	unsignedInteger index = hashFunction(key) % tableSize;
-
-	while (table[index])
-	{
-		if (keyAccessor( *(table[index]) ) == key)
-		{
-			return index;
-		}
-
-		index = (index + 1) % tableSize;
-	}
-
-	return -1;
+	return 3 * insertedCount >= 2 * tableSize;
 }
 
 
@@ -166,19 +162,62 @@ void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(DArray<Item*>& table)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
+inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
 {
-	assert(start < tableSize);
+	const long index = getPositionOfItemWithKey(key);
 
-	unsignedInteger positionToEmpty = start;
+	return index >= 0 ? table[index] : nullptr;
+}
 
-	while (table[positionToEmpty])
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+{
+	return const_cast<Item*>( static_cast<const Hash<Item, Key, KeyAccessor>&>(*this).search(key) );
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) const
+{
+	unsignedInteger index = hashFunction(key) % tableSize;
+
+	while (table[index])
 	{
-		Item* extractedItem = extractItemFromTableAt(positionToEmpty);
-		insert(*extractedItem);
+		if (keyAccessor( *(table[index]) ) == key)
+		{
+			return index;
+		}
 
-		positionToEmpty = (positionToEmpty + 1) % tableSize;
+		index = (index + 1) % tableSize;
 	}
+
+	return -1;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
+{
+	const long index = getPositionOfItemWithKey(key);
+
+	if (index >= 0)
+	{
+		Item* result = extractItemFromTableAt(index);
+
+		if (hasTooManyEmptySlots() && canBeShrinked())
+		{
+			resize(tableSize / GROWTH_FACTOR);
+		}
+		else
+		{
+			rehashCluster((index + 1) % tableSize);
+		}
+		
+		return result;
+	}
+
+	return nullptr;
 }
 
 
@@ -192,69 +231,6 @@ Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index
 	--insertedCount;
 
 	return result;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::empty()
-{
-	toEmptyStateOfSize(MIN_TABLE_SIZE);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
-{
-	std::swap(tableSize, temporary.tableSize);
-	std::swap(insertedCount, temporary.insertedCount);
-	std::swap(table, temporary.table);
-	std::swap(hashFunction, temporary.hashFunction);
-	std::swap(keyAccessor, temporary.keyAccessor);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
-{
-	assert(size >= MIN_TABLE_SIZE);
-
-	table = DArray<Item*>(size, size);
-	tableSize = size;
-	insertedCount = 0;
-	nullify(table);
-}
-
-
-//
-// ( 3 * expectedSize ) / 2 is used because if all the expected items
-// are inserted, the load factor will be 2/3 
-// 
-template <typename Item, typename Key, typename KeyAccessor>
-inline typename Hash<Item, Key, KeyAccessor>::unsignedInteger
-Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
-{
-	assert(expectedCount > 0);
-
-	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
-{
-	const unsignedInteger count = table.getCount();
-
-	for (unsignedInteger i = 0; i < count; ++i)
-	{
-		table[i] = nullptr;
-	}
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
-{
-	return insertedCount == 0;
 }
 
 
@@ -273,9 +249,33 @@ inline bool Hash<Item, Key, KeyAccessor>::canBeShrinked() const
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
+void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 {
-	return 3 * insertedCount >= 2 * tableSize;
+	assert(start < tableSize);
+
+	unsignedInteger positionToEmpty = start;
+
+	while (table[positionToEmpty])
+	{
+		Item* extractedItem = extractItemFromTableAt(positionToEmpty);
+		insert(*extractedItem);
+
+		positionToEmpty = (positionToEmpty + 1) % tableSize;
+	}
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline void Hash<Item, Key, KeyAccessor>::empty()
+{
+	toEmptyStateOfSize(MIN_TABLE_SIZE);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
+{
+	return insertedCount == 0;
 }
 
 
