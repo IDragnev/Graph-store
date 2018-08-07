@@ -53,7 +53,7 @@ DArray<String> GraphBuilder::parseVertexIds()
 {
 	assert(edges.isEmpty());
 
-	size_t idsCount = parseUnsignedAndIgnoreUntil('\n');
+	size_t idsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	DArray<String> result(idsCount, idsCount);
 
 	for (size_t i = 0; i < idsCount; ++i)
@@ -67,7 +67,7 @@ DArray<String> GraphBuilder::parseVertexIds()
 
 DArray<GraphBuilder::RawEdge> GraphBuilder::parseEdges()
 {
-	size_t edgesCount = parseUnsignedAndIgnoreUntil('\n');
+	size_t edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	DArray<RawEdge> result(edgesCount);
 
 	for (size_t i = 0; i < edgesCount; ++i)
@@ -83,11 +83,11 @@ GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 {
 	RawEdge result;
 
-	parser.ignoreUntil('(');
-	result.vertexFromIDIndex = parseUnsignedAndIgnoreUntil(',');
-	result.vertexToIDIndex = parseUnsignedAndIgnoreUntil(',');
-	result.weight = parseUnsignedAndIgnoreUntil(')');
-	parser.ignoreUntil('\n');
+	parser.ignoreUntil(EDGE_START);
+	result.vertexFromIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.vertexToIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.weight = parseUnsignedAndIgnoreUntil(EDGE_END);
+	parser.ignoreUntil(NEW_LINE);
 
 	return result;
 }

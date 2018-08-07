@@ -51,6 +51,12 @@ private:
 	GraphBuilder& operator=(const GraphBuilder&) = delete;
 
 private:
+	static const char EDGE_START = '(';
+	static const char EDGE_END = ')';
+	static const char EDGE_ATTRIBUTE_DELIMITER = ',';
+	static const char NEW_LINE = '\n';
+
+private:
 	String graphType;
 	String graphId;
 	DArray<String> vertexIDs;
