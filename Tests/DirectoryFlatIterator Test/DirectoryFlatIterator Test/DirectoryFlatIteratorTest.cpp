@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "../../../Graph store/DirectoryFlatIterator/DirectoryFlatIterator.h"
+#include "../../../Graph store/Dynamic Array/DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,19 +12,46 @@ namespace DirectoryFlatIteratorTest
 		static const char TEST_DIRECTORY[];
 		static const char EMPTY_TEST_DIRECTORY[];
 		static const size_t TEST_DIR_TEXT_FILES_COUNT = 3;
-		
+		static const char* TEST_DIR_TEXT_FILES_NAMES[];
+
+		static bool iteratesAllTextFiles(DirectoryFlatIterator& iterator)
+		{
+			unsigned iteratedFiles = 0;
+
+			while (!iterator.isFinished())
+			{
+				++iteratedFiles;
+
+				if (!matchesATextFile(iterator.getCurrentFileName()))
+				{
+					return false;
+				}
+
+				iterator.goToNextTextFile();
+			}
+
+			return iteratedFiles == TEST_DIR_TEXT_FILES_COUNT;
+		}
+
+		static bool matchesATextFile(const String& filename)
+		{
+			for (size_t i = 0; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			{
+				if (areEqual(filename, TEST_DIR_TEXT_FILES_NAMES[i]))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			return strcmp(lhs, rhs) == 0;
 		}
 
-		static bool iteratesAllFiles(DirectoryFlatIterator& iterator)
-		{
-
-		}
-
 	public:
-
 		TEST_METHOD(testCtorFromInvalidDirThrows)
 		{
 			try
@@ -49,10 +77,11 @@ namespace DirectoryFlatIteratorTest
 			DirectoryFlatIterator iterator(TEST_DIRECTORY);
 
 			Assert::IsFalse(iterator.isFinished(), L"Iterator to non-empty directory is finished after construction");
-			//Assert::IsTrue(iteratesAllFiles(iterator), L"Iterator does not iterate all the files in the directory");
+			Assert::IsTrue(iteratesAllTextFiles(iterator), L"Iterator does not iterate all the text files in the directory");
 		}
 	};
 
-	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\Text files" };
-	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\Empty Dir" };
+	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\\DirectoryFlatIterator Test\\Test directory" };
+	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "D:\\Graph store\\Tests\\DirectoryFlatIterator Test\\\DirectoryFlatIterator Test\\Empty test directory" };
+	const char* DirectoryFlatIteratorTest::TEST_DIR_TEXT_FILES_NAMES[] = { "File1.txt", "File2.txt", "File3.txt" };
 }
