@@ -10,7 +10,7 @@ inline DArray<T>::DArray() :
 
 
 template <typename T>
-inline DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
+DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
 	size(size),
 	items(nullptr)
 {
@@ -20,6 +20,14 @@ inline DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
 	{
 		items = new T[this->size];
 	}
+}
+
+
+template <typename T>
+inline void DArray<T>::setCount(unsignedInteger newCount)
+{
+	assert(newCount <= size);
+	count = newCount;
 }
 
 
@@ -34,10 +42,33 @@ inline DArray<T>::DArray(DArray<T>&& source) :
 
 
 template <typename T>
+inline void DArray<T>::nullifyMembers()
+{
+	size = 0;
+	count = 0;
+	items = nullptr;
+}
+
+
+template <typename T>
 inline DArray<T>::DArray(const DArray<T>& source) :
 	DArray<T>()
 {
 	copyFrom(source);
+}
+
+
+template <typename T>
+void DArray<T>::copyFrom(const DArray<T>& source)
+{
+	DArray<T> temporary(source.size, source.count);
+
+	for (unsignedInteger i = 0; i < source.count; ++i)
+	{
+		temporary.items[i] = source.items[i];
+	}
+
+	swapContentsWithReconstructedParameter(std::move(temporary));
 }
 
 
@@ -66,43 +97,6 @@ inline DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
 
 
 template <typename T>
-inline DArray<T>::~DArray()
-{
-	destroyItems();
-}
-
-
-template <typename T>
-void DArray<T>::copyFrom(const DArray<T>& source)
-{
-	DArray<T> temporary(source.size, source.count);
-
-	for (unsignedInteger i = 0; i < source.count; ++i)
-	{
-		temporary.items[i] = source.items[i];
-	}
-
-	swapContentsWithReconstructedParameter(std::move(temporary));
-}
-
-
-template <typename T>
-void DArray<T>::resize(unsignedInteger newSize)
-{
-	unsignedInteger newCount = (count <= newSize) ? count : newSize;
-
-	DArray<T> temporary(newSize, newCount);
-
-	for (unsignedInteger i = 0; i < newCount; ++i)
-	{
-		temporary.items[i] = items[i];
-	}
-
-	swapContentsWithReconstructedParameter(std::move(temporary));
-}
-
-
-template <typename T>
 inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary)
 {
 	std::swap(size, temporary.size);
@@ -112,10 +106,16 @@ inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporar
 
 
 template <typename T>
-inline void DArray<T>::empty()
+inline DArray<T>::~DArray()
 {
 	destroyItems();
-	nullifyMembers();
+}
+
+
+template <typename T>
+inline void DArray<T>::destroyItems()
+{
+	delete[] items;
 }
 
 
@@ -137,6 +137,30 @@ void DArray<T>::shrink(unsignedInteger newSize)
 
 
 template <typename T>
+inline void DArray<T>::empty()
+{
+	destroyItems();
+	nullifyMembers();
+}
+
+
+template <typename T>
+void DArray<T>::resize(unsignedInteger newSize)
+{
+	unsignedInteger newCount = (count <= newSize) ? count : newSize;
+
+	DArray<T> temporary(newSize, newCount);
+
+	for (unsignedInteger i = 0; i < newCount; ++i)
+	{
+		temporary.items[i] = items[i];
+	}
+
+	swapContentsWithReconstructedParameter(std::move(temporary));
+}
+
+
+template <typename T>
 inline void DArray<T>::ensureSize(unsignedInteger newSize)
 {
 	if (newSize > size)
@@ -147,11 +171,33 @@ inline void DArray<T>::ensureSize(unsignedInteger newSize)
 
 
 template <typename T>
+inline void DArray<T>::insert(const DArray<T>& other)
+{
+	for (unsignedInteger i = 0; i < other.count; ++i)
+	{
+		insert(other[i]);
+	}
+}
+
+
+template <typename T>
 inline void DArray<T>::insert(const T& newItem)
 {
 	enlargeIfFull();
 
 	items[count++] = newItem;
+}
+
+
+template <typename T>
+inline void DArray<T>::enlargeIfFull()
+{
+	assert(count <= size);
+
+	if (count == size)
+	{
+		resize(size > 0 ? (GROWTH_FACTOR * size) : DEFAULT_SIZE);
+	}
 }
 
 
@@ -176,23 +222,13 @@ void DArray<T>::insertAt(unsignedInteger position, const T& newItem)
 
 
 template <typename T>
-inline void DArray<T>::insert(const DArray<T>& other)
+inline void DArray<T>::shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end)
 {
-	for (unsignedInteger i = 0; i < other.count; ++i)
+	assert(end + 1 < size);
+
+	for (unsignedInteger i = end + 1; i > start; --i)
 	{
-		insert(other[i]);
-	}
-}
-
-
-template <typename T>
-inline void DArray<T>::enlargeIfFull()
-{
-	assert(count <= size);
-
-	if (count == size)
-	{
-		resize(size > 0 ? (GROWTH_FACTOR * size) : DEFAULT_SIZE);
+		items[i] = items[i - 1];
 	}
 }
 
@@ -203,6 +239,18 @@ inline void DArray<T>::removeAt(unsignedInteger position)
 	assert(hasItemAt(position));
 
 	shiftItemsOnePositionLeft(position + 1, --count);
+}
+
+
+template <typename T>
+inline void DArray<T>::shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end)
+{
+	assert(start > 0 && end < size);
+
+	for (unsignedInteger i = start - 1; i < end; ++i)
+	{
+		items[i] = items[i + 1];
+	}
 }
 
 
@@ -223,27 +271,9 @@ inline const T& DArray<T>::operator[](unsignedInteger position) const
 
 
 template <typename T>
-inline void DArray<T>::setCount(unsignedInteger newCount)
+inline bool DArray<T>::hasItemAt(unsignedInteger position) const
 {
-	assert(newCount <= size);
-
-	count = newCount;
-}
-
-
-template <typename T>
-inline void DArray<T>::destroyItems()
-{
-	delete[] items;
-}
-
-
-template <typename T>
-inline void DArray<T>::nullifyMembers()
-{
-	size = 0;
-	count = 0;
-	items = nullptr;
+	return position < count;
 }
 
 
@@ -251,37 +281,6 @@ template <typename T>
 inline bool DArray<T>::isEmpty() const
 {
 	return count == 0;
-}
-
-
-template <typename T>
-inline void DArray<T>::shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end)
-{
-	assert(end + 1 < size);
-
-	for (unsignedInteger i = end + 1; i > start; --i)
-	{
-		items[i] = items[i - 1];
-	}
-}
-
-
-template <typename T>
-inline void DArray<T>::shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end)
-{
-	assert(start > 0 && end < size);
-
-	for (unsignedInteger i = start - 1; i < end; ++i)
-	{
-		items[i] = items[i + 1];
-	}
-}
-
-
-template <typename T>
-inline bool DArray<T>::hasItemAt(unsignedInteger position) const
-{
-	return position < count;
 }
 
 
