@@ -51,7 +51,7 @@ protected:
 	Graph(const String& ID);
 
 	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
-	void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
+	static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 
 	bool hasVertexWithID(const String& ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;

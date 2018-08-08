@@ -31,9 +31,14 @@ Graph::~Graph()
 	while (iterator)
 	{
 		deleteVertex(*iterator);
-
 		++iterator;
 	}
+}
+
+
+void Graph::deleteVertex(Vertex* vertex)
+{
+	delete vertex;
 }
 
 
@@ -50,6 +55,12 @@ void Graph::insertVertexWithID(const String& ID)
 }
 
 
+bool Graph::hasVertexWithID(const String& ID) const
+{
+	return verticesSearchTable.search(ID) != nullptr;
+}
+
+
 void Graph::tryToInsertVertexWithID(const String& ID)
 {
 	try
@@ -63,6 +74,12 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 	{
 		throw GraphException("No memory available to insert a vertex");
 	}
+}
+
+
+std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
+{
+	return std::unique_ptr<Vertex>(new Vertex(ID, vertices.getCount()));
 }
 
 
@@ -96,24 +113,6 @@ void Graph::insertInSearchTable(Vertex& vertex)
 }
 
 
-void Graph::removeVertex(Vertex& vertex)
-{
-	assert(isOwnerOf(vertex));
-
-	removeEdgesEndingIn(vertex);
-	removeFromSearchTable(vertex);
-	removeFromVertices(vertex);
-
-	deleteVertex(&vertex);
-}
-
-
-void Graph::removeFromSearchTable(const Vertex& vertex)
-{
-	verticesSearchTable.remove(vertex.id);
-}
-
-
 void Graph::removeFromVertices(const Vertex& vertexToRemove)
 {
 	assert(isOwnerOf(vertexToRemove));
@@ -124,6 +123,24 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 	lastVertex->index = vertexToRemove.index;
 	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
 	vertices.removeAt(lastVertexIndex);
+}
+
+
+void Graph::removeFromSearchTable(const Vertex& vertex)
+{
+	verticesSearchTable.remove(vertex.id);
+}
+
+
+void Graph::removeVertex(Vertex& vertex)
+{
+	assert(isOwnerOf(vertex));
+
+	removeEdgesEndingIn(vertex);
+	removeFromSearchTable(vertex);
+	removeFromVertices(vertex);
+
+	deleteVertex(&vertex);
 }
 
 
@@ -215,27 +232,9 @@ bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-bool Graph::hasVertexWithID(const String& ID) const
-{
-	return verticesSearchTable.search(ID) != nullptr;
-}
-
-
 bool Graph::isOwnerOf(const Vertex& vertex) const
 {
 	return (vertex.index < vertices.getCount()) && (vertices[vertex.index] == &vertex);
-}
-
-
-std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
-{
-	return std::unique_ptr<Vertex>(new Vertex(ID, vertices.getCount()));
-}
-
-
-void Graph::deleteVertex(Vertex* vertex)
-{
-	delete vertex;
 }
 
 
