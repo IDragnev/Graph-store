@@ -19,6 +19,8 @@ void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsig
 
 void UndirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 {
+	assert(isOwnerOf(from) && isOwnerOf(to));
+
 	Graph::removeEdgeFromTo(from, to);
 	Graph::removeEdgeFromTo(to, from);
 }

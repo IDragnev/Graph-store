@@ -64,8 +64,7 @@ private:
 	Graph& operator=(Graph&&) = delete;
 	Graph& operator=(const Graph&) = delete;
 
-	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
-
+	static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 	static EdgeIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
 	void tryToInsertVertexWithID(const String& ID);

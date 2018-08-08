@@ -110,9 +110,6 @@ void Graph::removeVertexWithID(const String& ID)
 
 void Graph::removeFromSearchTable(const Vertex& vertex)
 {
-	//must first be removed from the search table!
-	assert(isOwnerOf(vertex));
-
 	verticesSearchTable.remove(vertex.id);
 }
 
@@ -164,8 +161,6 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
 
 void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist)
 {
-	assert(isOwnerOf(from) && isOwnerOf(to));
-
 	EdgeIterator iterator = searchEdgeFromTo(from, to);
 
 	if (iterator)

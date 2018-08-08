@@ -27,6 +27,8 @@ void DirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigne
 
 void DirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
 {
+	assert(isOwnerOf(from) && isOwnerOf(to));
+
 	Graph::removeEdgeFromTo(from, to);
 }
 
