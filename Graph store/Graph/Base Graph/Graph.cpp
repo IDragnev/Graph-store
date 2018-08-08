@@ -245,13 +245,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 
 std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
 {
-	return std::unique_ptr<Vertex>(new Vertex(ID, getAppropriateVertexHandle()));
-}
-
-
-size_t Graph::getAppropriateVertexHandle() const
-{
-	return vertices.getCount();
+	return std::unique_ptr<Vertex>(new Vertex(ID, vertices.getCount()));
 }
 
 

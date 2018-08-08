@@ -73,7 +73,6 @@ private:
 	void removeFromVertices(const Vertex& vertex);
 	void removeFromSearchTable(const Vertex& vertex);
 
-	size_t getAppropriateVertexHandle() const;
 	std::unique_ptr<Vertex> createVertex(const String& ID) const;
 	static void deleteVertex(Vertex* vertex);
 
