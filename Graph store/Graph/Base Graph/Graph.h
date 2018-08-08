@@ -53,7 +53,7 @@ protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 	void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 
-	bool existsVertexWithID(const String& ID) const;
+	bool hasVertexWithID(const String& ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;
 
 	static bool existsEdgeFromTo(Vertex& from, Vertex& to);

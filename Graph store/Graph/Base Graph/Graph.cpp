@@ -39,7 +39,7 @@ Graph::~Graph()
 
 void Graph::insertVertexWithID(const String& ID)
 {
-	if (!existsVertexWithID(ID))
+	if (!hasVertexWithID(ID))
 	{
 		tryToInsertVertexWithID(ID);
 	}
@@ -220,7 +220,7 @@ bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-bool Graph::existsVertexWithID(const String& ID) const
+bool Graph::hasVertexWithID(const String& ID) const
 {
 	return verticesSearchTable.search(ID) != nullptr;
 }
