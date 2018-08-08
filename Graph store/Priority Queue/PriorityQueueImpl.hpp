@@ -94,10 +94,10 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 {
 	auto iterator = items.getHeadConstIterator();
 
-	while (iterator)
+	while (!iterator.isFinished())
 	{
-		invalidateHandleOf(*iterator);
-		++iterator;
+		invalidateHandleOf(iterator.getCurrent());
+		iterator.goToNext();
 	}
 }
 
