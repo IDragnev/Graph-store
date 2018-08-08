@@ -63,11 +63,11 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound)
 {
-	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
+	std::unique_ptr<Iterator<Edge>> iterator = getIncidentEdgesOf(vertex);
 
-	while (!edgeIterator->isFinished())
+	while (!iterator->isFinished())
 	{
-		Edge& edge = edgeIterator->getCurrent();
+		Edge& edge = iterator->getCurrent();
 		Vertex& neighbour = edge.getIncidentVertex();
 
 		if (!neighbour.isVisited())
@@ -81,13 +81,13 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 			}
 		}
 
-		edgeIterator->goToNext();
+		iterator->goToNext();
 	}
 }
 
 
-void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
-	vertexTo.setPredecessor(&vertexFrom);
-	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
+	to.setPredecessor(&from);
+	to.setDistanceToSource(from.getDistanceToSource() + Distance(1));
 }
