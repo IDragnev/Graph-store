@@ -63,7 +63,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearchFromWithBound(Vertex& vertex,
 
 void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, unsigned depthBound)
 {
-	std::unique_ptr<Iterator<Edge>> iterator = getIncidentEdgesOf(vertex);
+	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
 
 	while (!iterator->isFinished())
 	{

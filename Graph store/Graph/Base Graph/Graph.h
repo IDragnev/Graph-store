@@ -42,8 +42,8 @@ public:
 
 	unsigned getVerticesCount() const;
 	VertexAbstractConstIterator getIteratorToVertices();
-	EdgeAbstractIterator getIteratorToIncidentEdgesOf(Vertex& vertex);
-	EdgeAbstractConstIterator getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const;
+	EdgeAbstractIterator getIteratorToEdgesLeaving(Vertex& vertex);
+	EdgeAbstractConstIterator getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
 
 	const String& getID() const;
 

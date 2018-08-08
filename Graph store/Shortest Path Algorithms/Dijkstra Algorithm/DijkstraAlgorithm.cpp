@@ -77,7 +77,7 @@ Vertex& DijkstraAlgorithm::closestToSourceFromUndetermined()
 
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex)
 {
-	std::unique_ptr<Iterator<Edge>> iterator = getIncidentEdgesOf(vertex);
+	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
 
 	while (!iterator->isFinished())
 	{

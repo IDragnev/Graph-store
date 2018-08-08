@@ -282,7 +282,7 @@ Vertex& Graph::getVertexWithID(const String& ID)
 }
 
 
-Graph::EdgeAbstractIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
+Graph::EdgeAbstractIterator Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
@@ -292,7 +292,7 @@ Graph::EdgeAbstractIterator Graph::getIteratorToIncidentEdgesOf(Vertex& vertex)
 }
 
 
-Graph::EdgeAbstractConstIterator Graph::getConstIteratorToIncidentEdgesOf(const Vertex& vertex) const
+Graph::EdgeAbstractConstIterator Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const
 {
 	assert(isOwnerOf(vertex));
 

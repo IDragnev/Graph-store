@@ -57,9 +57,9 @@ bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
 }
 
 
-std::unique_ptr<Iterator<Edge>> ShortestPathAlgorithm::getIncidentEdgesOf(Vertex& vertex) const
+std::unique_ptr<Iterator<Edge>> ShortestPathAlgorithm::getEdgesLeaving(Vertex& vertex) const
 {
-	return searchedGraph->getIteratorToIncidentEdgesOf(vertex);
+	return searchedGraph->getIteratorToEdgesLeaving(vertex);
 }
 
 

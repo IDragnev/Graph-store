@@ -24,7 +24,7 @@ protected:
 	virtual void initializeVertex(Vertex& vertex) const;
 	virtual void initializeSource(Vertex& source) const;
 
-	std::unique_ptr<Iterator<Edge>> getIncidentEdgesOf(Vertex& vertex) const;
+	std::unique_ptr<Iterator<Edge>> getEdgesLeaving(Vertex& vertex) const;
 
 	void initializeState(Graph& graph, const Vertex& goal);
 
