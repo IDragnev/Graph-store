@@ -189,11 +189,24 @@ void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight we
 
 	if (!iterator)
 	{
-		from.edges.insert(Edge(&to, weight));
+		insertEdge(from, to, weight);
 	}
 	else
 	{
 		throw GraphException("Such edge already exists");
+	}
+}
+
+
+void Graph::insertEdge(Vertex& from, Vertex& to, Edge::Weight weight)
+{
+	try
+	{
+		from.edges.insert(Edge(&to, weight));
+	}
+	catch (std::bad_alloc&)
+	{
+		throw GraphException("No memory available to insert an edge");
 	}
 }
 

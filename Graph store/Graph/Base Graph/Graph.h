@@ -63,6 +63,7 @@ private:
 	Graph& operator=(const Graph&) = delete;
 
 	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
+	static void insertEdge(Vertex& from, Vertex& to, Edge::Weight weight);
 	static EdgeIterator getEdgeFromTo(Vertex& from, Vertex& to);
 	
 	void tryToInsertVertexWithID(const String& ID);
