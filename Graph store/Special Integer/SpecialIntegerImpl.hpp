@@ -31,7 +31,7 @@ inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newVa
 
 
 template <typename Integer>
-inline SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
 	SpecialInteger<Integer> temporary(lhs);
 	temporary += rhs;

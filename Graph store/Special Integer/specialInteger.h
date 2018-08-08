@@ -45,7 +45,7 @@ template <typename Integer>
 bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 template <typename Integer>
-SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
 
 template <typename Integer>
 std::ostream& operator<<(std::ostream& outputStream, const SpecialInteger<Integer>& integer);
