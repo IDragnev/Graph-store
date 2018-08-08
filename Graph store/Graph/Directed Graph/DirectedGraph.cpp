@@ -12,7 +12,16 @@ DirectedGraph::DirectedGraph(const String& ID) :
 
 void DirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
 {
-	Graph::insertEdgeFromToWithWeight(from, to, weight);
+	assert(isOwnerOf(from) && isOwnerOf(to));
+
+	if(!existsEdgeFromTo(from, to))
+	{
+		Graph::insertEdgeFromToWithWeight(from, to, weight);
+	}
+	else
+	{
+		throw GraphException("Such edge already exists");
+	}
 }
 
 

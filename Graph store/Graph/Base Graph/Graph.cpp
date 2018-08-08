@@ -136,8 +136,6 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 //
 void Graph::removeEdgesEndingIn(Vertex& vertex)
 {
-	assert(isOwnerOf(vertex));
-
 	EdgeIterator iterator = vertex.edges.getHeadIterator();
 
 	while (iterator)
@@ -181,36 +179,6 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 }
 
 
-void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
-{
-	assert(isOwnerOf(from) && isOwnerOf(to));
-
-	EdgeIterator iterator = searchEdgeFromTo(from, to);
-
-	if (!iterator)
-	{
-		insertEdge(from, to, weight);
-	}
-	else
-	{
-		throw GraphException("Such edge already exists");
-	}
-}
-
-
-void Graph::insertEdge(Vertex& from, Vertex& to, Edge::Weight weight)
-{
-	try
-	{
-		from.edges.insert(Edge(&to, weight));
-	}
-	catch (std::bad_alloc&)
-	{
-		throw GraphException("No memory available to insert an edge");
-	}
-}
-
-
 Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
 	EdgeIterator iterator = from.edges.getHeadIterator();
@@ -228,6 +196,27 @@ Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 	}
 
 	return iterator;
+}
+
+
+void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
+{
+	try
+	{
+		from.edges.insert(Edge(&to, weight));
+	}
+	catch (std::bad_alloc&)
+	{
+		throw GraphException("No memory available to insert an edge");
+	}
+}
+
+
+bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
+{
+	EdgeIterator iterator = searchEdgeFromTo(from, to);
+
+	return !iterator.isFinished();
 }
 
 

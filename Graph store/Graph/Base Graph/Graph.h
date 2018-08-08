@@ -56,6 +56,8 @@ protected:
 	bool existsVertexWithID(const String& ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;
 
+	static bool existsEdgeFromTo(Vertex& from, Vertex& to);
+
 private:
 	Graph(const Graph&) = delete;
 	Graph(Graph&&) = delete;
@@ -63,9 +65,9 @@ private:
 	Graph& operator=(const Graph&) = delete;
 
 	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
-	static void insertEdge(Vertex& from, Vertex& to, Edge::Weight weight);
+
 	static EdgeIterator searchEdgeFromTo(Vertex& from, Vertex& to);
-	
+
 	void tryToInsertVertexWithID(const String& ID);
 	void insert(Vertex& vertex);
 	void insertInVertices(Vertex& vertex);
