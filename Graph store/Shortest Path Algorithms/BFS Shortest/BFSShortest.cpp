@@ -5,7 +5,7 @@
 
 
 BFSShortest::BFSShortest() :
-	Base("BFS-Shortest"),
+	ShortestPathAlgorithm("BFS-Shortest"),
 	verticesQueue()
 {
 }
@@ -74,12 +74,12 @@ Vertex& BFSShortest::extractVertexFromTheFrontier()
 
 void BFSShortest::expandFrontierFrom(Vertex& vertex)
 {
-	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
+	std::unique_ptr<Iterator<Edge>> iterator = getIncidentEdgesOf(vertex);
 
-	while (!edgeIterator->isFinished())
+	while (!iterator->isFinished())
 	{
-		Edge& currentEdge = edgeIterator->getCurrent();
-		Vertex& neighbour = currentEdge.getIncidentVertex();
+		Edge& edge = iterator->getCurrent();
+		Vertex& neighbour = edge.getIncidentVertex();
 
 		if (!neighbour.isVisited())
 		{
@@ -88,15 +88,15 @@ void BFSShortest::expandFrontierFrom(Vertex& vertex)
 			addToFrontier(neighbour);
 		}
 
-		edgeIterator->goToNext();
+		iterator->goToNext();
 	}
 }
 
 
-void BFSShortest::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
+void BFSShortest::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
-	vertexTo.setPredecessor(&vertexFrom);
-	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
+	to.setPredecessor(&from);
+	to.setDistanceToSource(from.getDistanceToSource() + Distance(1));
 }
 
 

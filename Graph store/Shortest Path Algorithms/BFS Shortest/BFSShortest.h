@@ -6,9 +6,6 @@
 
 class BFSShortest: public ShortestPathAlgorithm
 {
-private:
-	typedef ShortestPathAlgorithm Base;
-
 public:
 	BFSShortest();
 	virtual ~BFSShortest() override = default;
@@ -26,10 +23,10 @@ private:
 	void clearState();
 
 private:
-	BFSShortest(BFSShortest&& source) = delete;
-	BFSShortest(const BFSShortest& source) = delete;
-	BFSShortest& operator=(BFSShortest&& rhs) = delete;
-	BFSShortest& operator=(const BFSShortest& rhs) = delete;
+	BFSShortest(BFSShortest&&) = delete;
+	BFSShortest(const BFSShortest&) = delete;
+	BFSShortest& operator=(BFSShortest&&) = delete;
+	BFSShortest& operator=(const BFSShortest&) = delete;
 
 private:
 	Queue<Vertex*> verticesQueue;
