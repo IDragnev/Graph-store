@@ -7,7 +7,7 @@
 class BFSShortest: public ShortestPathAlgorithm
 {
 public:
-	BFSShortest();
+	BFSShortest(const char* ID);
 	virtual ~BFSShortest() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;

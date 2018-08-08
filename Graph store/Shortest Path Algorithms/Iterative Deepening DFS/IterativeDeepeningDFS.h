@@ -9,7 +9,7 @@ private:
 	typedef ShortestPathAlgorithm Base;
 
 public:
-	IterativeDeepeningDFS();
+	IterativeDeepeningDFS(const char* ID);
 	virtual ~IterativeDeepeningDFS() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;

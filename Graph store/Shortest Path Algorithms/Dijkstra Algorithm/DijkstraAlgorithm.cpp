@@ -1,8 +1,8 @@
 #include "DijkstraAlgorithm.h"
 
 
-DijkstraAlgorithm::DijkstraAlgorithm() :
-	Base("Dijkstra"),
+DijkstraAlgorithm::DijkstraAlgorithm(const char* ID) :
+	Base(ID),
 	priorityQueue()
 {
 }

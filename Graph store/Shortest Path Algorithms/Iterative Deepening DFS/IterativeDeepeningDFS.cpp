@@ -4,8 +4,8 @@
 #include <assert.h>
 
 
-IterativeDeepeningDFS::IterativeDeepeningDFS() :
-	Base("DFS-Shortest"),
+IterativeDeepeningDFS::IterativeDeepeningDFS(const char* ID) :
+	Base(ID),
 	maxDepth(0),
 	isAShortestPathFound(false)
 {

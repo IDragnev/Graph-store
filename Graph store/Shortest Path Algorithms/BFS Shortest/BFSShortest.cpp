@@ -4,8 +4,8 @@
 #include <memory>
 
 
-BFSShortest::BFSShortest() :
-	ShortestPathAlgorithm("BFS-Shortest"),
+BFSShortest::BFSShortest(const char* ID) :
+	ShortestPathAlgorithm(ID),
 	verticesQueue()
 {
 }
