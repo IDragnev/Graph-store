@@ -96,9 +96,9 @@ void Graph::insertInSearchTable(Vertex& vertex)
 }
 
 
-void Graph::removeVertexWithID(const String& ID)
+void Graph::removeVertex(Vertex& vertex)
 {
-	Vertex& vertex = getVertexWithID(ID);
+	assert(isOwnerOf(vertex));
 
 	removeEdgesEndingIn(vertex);
 	removeFromSearchTable(vertex);

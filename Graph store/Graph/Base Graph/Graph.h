@@ -32,7 +32,7 @@ public:
 	virtual ~Graph();
 
 	void insertVertexWithID(const String& ID);
-	void removeVertexWithID(const String& ID);
+	void removeVertex(Vertex& vertex);
 
 	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight = 1) = 0;
 	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) = 0;
