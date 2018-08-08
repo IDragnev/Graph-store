@@ -57,6 +57,29 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 }
 
 
+bool BFSShortest::isFrontierEmpty() const
+{
+	return verticesQueue.isEmpty();
+}
+
+
+void BFSShortest::addToFrontier(Vertex& vertex)
+{
+	assert(vertex.isVisited());
+
+	verticesQueue.enqueue(&vertex);
+}
+
+
+Vertex& BFSShortest::extractVertexFromTheFrontier()
+{
+	Vertex* vertex = verticesQueue.dequeue();
+	assert(vertex);
+
+	return *vertex;
+}
+
+
 void BFSShortest::expandFrontierFrom(Vertex& vertex)
 {
 	std::unique_ptr<Iterator<Edge>> edgeIterator = getIncidentEdgesOf(vertex);
@@ -82,29 +105,6 @@ void BFSShortest::extendCurrentPathFromTo(Vertex& vertexFrom, Vertex& vertexTo)
 {
 	vertexTo.setPredecessor(&vertexFrom);
 	vertexTo.setDistanceToSource(vertexFrom.getDistanceToSource() + Distance(1));
-}
-
-
-void BFSShortest::addToFrontier(Vertex& vertex)
-{
-	assert(vertex.isVisited());
-
-	verticesQueue.enqueue(&vertex);
-}
-
-
-Vertex& BFSShortest::extractVertexFromTheFrontier()
-{
-	Vertex* vertex = verticesQueue.dequeue();
-	assert(vertex);
-
-	return *vertex;
-}
-
-
-bool BFSShortest::isFrontierEmpty() const
-{
-	return verticesQueue.isEmpty();
 }
 
 
