@@ -129,10 +129,12 @@ void Graph::removeEdgesEndingIn(Vertex& vertex)
 
 	while (iterator)
 	{
-		Edge& currentEdge = *iterator;
-		Vertex& neighbour = currentEdge.getIncidentVertex();
+		Edge& edge = *iterator;
+		Vertex& neighbour = edge.getIncidentVertex();
 
 		removeEdgeFromToNoThrow(neighbour, vertex);
+
+		++iterator;
 	}
 }
 
@@ -189,9 +191,9 @@ Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& from, Vertex& to)
 
 	while (iterator)
 	{
-		const Edge& currentEdge = *iterator;
+		const Edge& edge = *iterator;
 
-		if (currentEdge.getIncidentVertex() == to)
+		if (edge.getIncidentVertex() == to)
 		{
 			break;
 		}
