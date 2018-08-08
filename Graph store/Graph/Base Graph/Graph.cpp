@@ -168,7 +168,7 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 {
 	assert(isOwnerOf(from) && isOwnerOf(to));
 
-	EdgeIterator iterator = getEdgeFromTo(from, to);
+	EdgeIterator iterator = searchEdgeFromTo(from, to);
 
 	if (iterator)
 	{
@@ -185,7 +185,7 @@ void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight we
 {
 	assert(isOwnerOf(from) && isOwnerOf(to));
 
-	EdgeIterator iterator = getEdgeFromTo(from, to);
+	EdgeIterator iterator = searchEdgeFromTo(from, to);
 
 	if (!iterator)
 	{
@@ -211,7 +211,7 @@ void Graph::insertEdge(Vertex& from, Vertex& to, Edge::Weight weight)
 }
 
 
-Graph::EdgeIterator Graph::getEdgeFromTo(Vertex& from, Vertex& to)
+Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
 	EdgeIterator iterator = from.edges.getHeadIterator();
 
