@@ -65,6 +65,7 @@ private:
 	void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 	static EdgeIterator getEdgeFromTo(Vertex& from, Vertex& to);
 	
+	void tryToInsertVertexWithID(const String& ID);
 	void insert(Vertex& vertex);
 	void insertInVertices(Vertex& vertex);
 	void insertInSearchTable(Vertex& vertex);

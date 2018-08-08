@@ -41,14 +41,27 @@ void Graph::insertVertexWithID(const String& ID)
 {
 	if (!existsVertexWithID(ID))
 	{
+		tryToInsertVertexWithID(ID);
+	}
+	else
+	{
+		throw GraphException("A vertex with such ID already exists");
+	}
+}
+
+
+void Graph::tryToInsertVertexWithID(const String& ID)
+{
+	try
+	{
 		std::unique_ptr<Vertex> newVertexPtr = createVertex(ID);
 		insert(*newVertexPtr);
 
 		newVertexPtr.release();
 	}
-	else
+	catch (std::bad_alloc&)
 	{
-		throw GraphException("A vertex with such ID already exists");
+		throw GraphException("No memory available to insert a vertex");
 	}
 }
 
