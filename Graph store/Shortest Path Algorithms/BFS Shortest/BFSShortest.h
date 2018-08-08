@@ -23,7 +23,6 @@ private:
 	void addToFrontier(Vertex& vertex);
 	static void extendCurrentPathFromTo(Vertex& from, Vertex& to);
 
-	void initializeState(Graph& graph, const Vertex& goal);
 	void clearState();
 
 private:

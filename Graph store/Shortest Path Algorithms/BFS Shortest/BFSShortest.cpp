@@ -27,14 +27,6 @@ void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 }
 
 
-void BFSShortest::initializeState(Graph& graph, const Vertex& goal)
-{
-	assert(verticesQueue.isEmpty());
-
-	Base::initializeState(graph, goal);
-}
-
-
 void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 {
 	assert(isFrontierEmpty());
