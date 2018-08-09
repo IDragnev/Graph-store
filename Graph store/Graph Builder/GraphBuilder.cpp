@@ -84,8 +84,8 @@ GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 	RawEdge result;
 
 	parser.ignoreUntil(EDGE_START);
-	result.vertexFromIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-	result.vertexToIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
 	result.weight = parseUnsignedAndIgnoreUntil(EDGE_END);
 	parser.ignoreUntil(NEW_LINE);
 
@@ -146,10 +146,10 @@ void GraphBuilder::insertEdges()
 
 void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 {
-	Vertex& from = getVertex(edge.vertexFromIDIndex);
-	Vertex& to = getVertex(edge.vertexToIDIndex);
+	Vertex& start = getVertex(edge.startVertexIDIndex);
+	Vertex& end = getVertex(edge.endVertexIDIndex);
 
-	result->insertEdge(from, to, edge.weight);
+	result->insertEdge(start, end, edge.weight);
 }
 
 

@@ -17,8 +17,8 @@ private:
 
 	struct RawEdge
 	{
-		size_t vertexFromIDIndex;
-		size_t vertexToIDIndex;
+		size_t startVertexIDIndex;
+		size_t endVertexIDIndex;
 		unsigned weight;
 	};
 
