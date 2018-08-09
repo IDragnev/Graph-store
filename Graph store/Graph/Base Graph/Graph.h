@@ -18,7 +18,6 @@ class Graph
 private:
 	typedef Hash<Vertex, String, IDAccessor<Vertex>> VertexHashTable;
 	typedef DArray<Vertex*> VertexArray;
-	typedef VertexArray::Iterator VertexIterator;
 	typedef VertexArray::ConstIterator VertexConstIterator;
 	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
 	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;

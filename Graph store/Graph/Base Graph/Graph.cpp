@@ -26,7 +26,7 @@ void Graph::setID(const String& ID)
 
 Graph::~Graph()
 {
-	VertexIterator iterator = vertices.getHeadIterator();
+	VertexConstIterator iterator = vertices.getHeadConstIterator();
 
 	while (iterator)
 	{
