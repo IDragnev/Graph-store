@@ -35,19 +35,19 @@ All vertices in a graph must have unique IDs. The ID must be a valid string.
  - **DELETE VERTEX [id]**
    - Deletes the vertex with ID [id] from the currently used graph. 
 
- - **INSERT EDGE [vertexFromId] [vertexToId] *[weight]***
-   - Creates and inserts an edge between [vertexFromId] and [vertexToId] in the currently used graph. 
-If the graph is directed, the edge has a direction: from [vertexFromId] to [vertexToId].
+ - **INSERT EDGE [startVertexId] [endVertexId] [weight]**
+   - Creates and inserts an edge with weight [weight] between [startVertexId] and [endVertexId] in the currently used graph. 
+If the graph is directed, the edge has a direction: from [startVertexId] to [endVertexId].
 If the graph is undirected, the edge has no direction. 
-Optional parameter: the weight of the edge (a positive integer). The weight is 1 if not specified.
+The [weight] parameter must be a positive integer. 
 
- - **DELETE EDGE [vertexFromId] [vertexToId]**
-   - Deletes the edge between [vertexFromId] and [vertexToId]. 
-If the graph is directed, the edge from [vertexFromId] to [vertexToId] is deleted.
+ - **DELETE EDGE [startVertexId] [endVertexId]**
+   - Deletes the edge between [startVertexId] and [endVertexId]. 
+If the graph is directed, the edge from [startVertexId] to [endVertexId] is deleted.
 If the graph is undirected, the order of the sent vertex IDs does not matter.
 
-- **SEARCH [vertexFromId] [vertexToId] [algorithm]**
-  - Searches a shortest path starting from [vertexFromId] and finishing at [vertexToId] in the 
+- **SEARCH [startVertexId] [endVertexId] [algorithm]**
+  - Searches a shortest path starting from [startVertexId] and finishing at [endVertexId] in the 
 currently used graph.
 If such path is found, its constituent vertices are listed, else a message is shown.
 The algorithm used is specified by the parameter [algorithm].
