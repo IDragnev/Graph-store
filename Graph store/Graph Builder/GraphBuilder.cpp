@@ -155,7 +155,7 @@ void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 
 Vertex& GraphBuilder::getVertex(size_t idIndex)
 {
-	return result->getVertexWithID(vertexIDs[idIndex]);
+	return result->getVertex(vertexIDs[idIndex]);
 }
 
 

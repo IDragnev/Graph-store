@@ -36,8 +36,8 @@ public:
 	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight = 1) = 0;
 	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) = 0;
 
-	Vertex& getVertexWithID(const String& ID);
-	const Vertex& getVertexWithID(const String& ID) const;
+	Vertex& getVertex(const String& ID);
+	const Vertex& getVertex(const String& ID) const;
 
 	unsigned getVerticesCount() const;
 	VertexAbstractConstIterator getIteratorToVertices();

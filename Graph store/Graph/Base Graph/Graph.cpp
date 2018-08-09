@@ -238,7 +238,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 }
 
 
-const Vertex& Graph::getVertexWithID(const String& ID) const
+const Vertex& Graph::getVertex(const String& ID) const
 {
 	const Vertex* result = verticesSearchTable.search(ID);
 
@@ -253,9 +253,9 @@ const Vertex& Graph::getVertexWithID(const String& ID) const
 }
 
 
-Vertex& Graph::getVertexWithID(const String& ID)
+Vertex& Graph::getVertex(const String& ID)
 {
-	return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertexWithID(ID) );
+	return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertex(ID) );
 }
 
 
