@@ -16,6 +16,9 @@ protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;
 
 private:
+	void insertEdgeInBothDirections(Vertex& from, Vertex& to, unsigned weight);
+
+private:
 	UndirectedGraph(const UndirectedGraph&) = delete;
 	UndirectedGraph(UndirectedGraph&&) = delete;
 	UndirectedGraph& operator=(UndirectedGraph&&) = delete;

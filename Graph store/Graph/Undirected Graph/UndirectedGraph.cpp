@@ -12,8 +12,31 @@ UndirectedGraph::UndirectedGraph(const String& ID) :
 
 void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
 {
+	assert(isOwnerOf(from) && isOwnerOf(to));
+
+	if (!existsEdgeFromTo(from, to))
+	{
+		insertEdgeInBothDirections(from, to, weight);
+	}
+	else
+	{
+		throw GraphException("Such edge already exists");
+	}
+}
+
+
+void UndirectedGraph::insertEdgeInBothDirections(Vertex& from, Vertex& to, unsigned weight)
+{
 	Graph::insertEdgeFromToWithWeight(from, to, weight);
-	Graph::insertEdgeFromToWithWeight(to, from, weight);
+	try
+	{
+		Graph::insertEdgeFromToWithWeight(to, from, weight);
+	}
+	catch (GraphException&)
+	{
+		removeEdgeFromToNoThrow(from, to);
+		throw;
+	}
 }
 
 
