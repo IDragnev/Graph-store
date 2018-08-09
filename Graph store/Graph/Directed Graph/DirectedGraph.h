@@ -9,8 +9,8 @@ public:
 	DirectedGraph(const String& ID);
 	virtual ~DirectedGraph() override = default;
 
-	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight = 1) override;
-	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) override;
+	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
+	virtual void removeEdge(Vertex& start, Vertex& end) override;
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;

@@ -33,8 +33,8 @@ public:
 	void insertVertexWithID(const String& ID);
 	void removeVertex(Vertex& vertex);
 
-	virtual void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight = 1) = 0;
-	virtual void removeEdgeFromTo(Vertex& from, Vertex& to) = 0;
+	virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight weight) = 0;
+	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	Vertex& getVertex(const String& ID);
 	const Vertex& getVertex(const String& ID) const;
@@ -50,12 +50,14 @@ protected:
 	Graph(const String& ID);
 
 	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
+
 	static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
+	static void removeEdgeFromTo(Vertex& from, Vertex& to);
+	static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight);
+	static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 	bool hasVertexWithID(const String& ID) const;
 	bool isOwnerOf(const Vertex& vertex) const;
-
-	static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 private:
 	Graph(const Graph&) = delete;

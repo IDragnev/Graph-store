@@ -10,13 +10,14 @@ DirectedGraph::DirectedGraph(const String& ID) :
 }
 
 
-void DirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
+void DirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 {
-	assert(isOwnerOf(from) && isOwnerOf(to));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	if(!existsEdgeFromTo(from, to))
+	if(!existsEdgeFromTo(start, end))
 	{
-		Graph::insertEdgeFromToWithWeight(from, to, weight);
+		Graph::insertEdgeFromToWithWeight(start, end, weight);
 	}
 	else
 	{
@@ -25,11 +26,12 @@ void DirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigne
 }
 
 
-void DirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
+void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
 {
-	assert(isOwnerOf(from) && isOwnerOf(to));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	Graph::removeEdgeFromTo(from, to);
+	Graph::removeEdgeFromTo(start, end);
 }
 
 

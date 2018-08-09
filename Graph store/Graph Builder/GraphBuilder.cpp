@@ -149,7 +149,7 @@ void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 	Vertex& from = getVertex(edge.vertexFromIDIndex);
 	Vertex& to = getVertex(edge.vertexToIDIndex);
 
-	result->insertEdgeFromToWithWeight(from, to, edge.weight);
+	result->insertEdge(from, to, edge.weight);
 }
 
 

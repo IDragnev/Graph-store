@@ -10,13 +10,14 @@ UndirectedGraph::UndirectedGraph(const String& ID) :
 }
 
 
-void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
+void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 {
-	assert(isOwnerOf(from) && isOwnerOf(to));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	if (!existsEdgeFromTo(from, to))
+	if (!existsEdgeFromTo(start, end))
 	{
-		insertEdgeInBothDirections(from, to, weight);
+		insertEdgeInBothDirections(start, end, weight);
 	}
 	else
 	{
@@ -25,27 +26,28 @@ void UndirectedGraph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsig
 }
 
 
-void UndirectedGraph::insertEdgeInBothDirections(Vertex& from, Vertex& to, unsigned weight)
+void UndirectedGraph::insertEdgeInBothDirections(Vertex& start, Vertex& end, unsigned weight)
 {
-	Graph::insertEdgeFromToWithWeight(from, to, weight);
+	Graph::insertEdgeFromToWithWeight(start, end, weight);
 	try
 	{
-		Graph::insertEdgeFromToWithWeight(to, from, weight);
+		Graph::insertEdgeFromToWithWeight(end, start, weight);
 	}
 	catch (GraphException&)
 	{
-		removeEdgeFromToNoThrow(from, to);
+		removeEdgeFromToNoThrow(start, end);
 		throw;
 	}
 }
 
 
-void UndirectedGraph::removeEdgeFromTo(Vertex& from, Vertex& to)
+void UndirectedGraph::removeEdge(Vertex& start, Vertex& end)
 {
-	assert(isOwnerOf(from) && isOwnerOf(to));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	Graph::removeEdgeFromTo(from, to);
-	Graph::removeEdgeFromTo(to, from);
+	Graph::removeEdgeFromTo(start, end);
+	Graph::removeEdgeFromTo(end, start);
 }
 
 
