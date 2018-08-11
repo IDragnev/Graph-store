@@ -13,7 +13,7 @@ GraphStore::~GraphStore()
 }
 
 
-void GraphStore::insertGraph(Graph& graph)
+void GraphStore::insert(Graph& graph)
 {
 	if (!hasGraphWithID(graph.getID()))
 	{
@@ -52,13 +52,13 @@ const Graph* GraphStore::searchGraph(const String& ID) const
 }
 
 
-Graph& GraphStore::getGraph(const String& ID)
+Graph& GraphStore::get(const String& ID)
 {
-	return const_cast<Graph&>( static_cast<const GraphStore&>(*this).getGraph(ID) );
+	return const_cast<Graph&>( static_cast<const GraphStore&>(*this).get(ID) );
 }
 
 
-const Graph& GraphStore::getGraph(const String& ID) const
+const Graph& GraphStore::get(const String& ID) const
 {
 	const Graph* result = searchGraph(ID);
 
@@ -79,7 +79,7 @@ void GraphStore::throwNonExistingGraph(const String& ID)
 }
 
 
-void GraphStore::removeGraph(const String& ID)
+void GraphStore::remove(const String& ID)
 {
 	size_t count = graphs.getCount();
 
@@ -88,6 +88,7 @@ void GraphStore::removeGraph(const String& ID)
 		if (graphs[i]->getID() == ID)
 		{
 			removeGraphAt(i);
+			return;
 		}
 	}
 

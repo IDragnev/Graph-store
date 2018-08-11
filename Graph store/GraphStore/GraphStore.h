@@ -22,10 +22,10 @@ public:
 	GraphStore& operator=(GraphStore&& rhs) = default;
 	GraphStore& operator=(const GraphStore& rhs) = default;
 
-	void insertGraph(Graph& graph);
-	void removeGraph(const String& ID);
-	Graph& getGraph(const String& ID);
-	const Graph& getGraph(const String& ID) const;
+	void insert(Graph& graph);
+	void remove(const String& ID);
+	Graph& get(const String& ID);
+	const Graph& get(const String& ID) const;
 	
 private:
 	bool hasGraphWithID(const String& ID) const;
