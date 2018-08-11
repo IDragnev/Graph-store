@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Application\Commands\Command.cpp" />
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Commands\Command.h" />
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
     <ClInclude Include="Dynamic Array\DArray.h" />
