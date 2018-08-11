@@ -14,6 +14,8 @@ public:
 	virtual ~Command() = default;
 
 	virtual void execute(args::Subparser& parser) = 0;
+	virtual const char* getName() const = 0;
+	virtual const char* getDescription() const = 0;
 
 	static void setManagedStore(GraphStore& store);
 
