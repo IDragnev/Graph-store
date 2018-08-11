@@ -111,6 +111,9 @@
     <Filter Include="Exception">
       <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphStore">
+      <UniqueIdentifier>{8f2ee643-143d-4614-8a03-fd407a7e33f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -163,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp">
       <Filter>Directory FlatIterator</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphStore\GraphStore.cpp">
+      <Filter>GraphStore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="Exception\ExceptionImpl.hpp">
       <Filter>Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphStore\GraphStore.h">
+      <Filter>GraphStore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
