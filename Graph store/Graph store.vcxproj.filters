@@ -114,6 +114,15 @@
     <Filter Include="GraphStore">
       <UniqueIdentifier>{8f2ee643-143d-4614-8a03-fd407a7e33f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{99be1ed1-b84c-4cb8-9149-180a6533c3fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Commands">
+      <UniqueIdentifier>{960ef322-8d2b-44bf-ac27-01cf10d7e551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Commands\Base">
+      <UniqueIdentifier>{6a927496-284e-45a0-81da-d19e79d33824}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -169,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="GraphStore\GraphStore.cpp">
       <Filter>GraphStore</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Command.cpp">
+      <Filter>Application\Commands\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +336,9 @@
     </ClInclude>
     <ClInclude Include="GraphStore\GraphStore.h">
       <Filter>GraphStore</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Command.h">
+      <Filter>Application\Commands\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
