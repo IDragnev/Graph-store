@@ -1,7 +1,7 @@
 #ifndef __APPLICATION_H_INCLUDED__
 #define __APPLICATION_H_INCLUDED__
 
-#include "Commands\Command.h"
+#include "Commands\Base\Command.h"
 #include "..\GraphStore\GraphStore.h"
 #include <forward_list>
 
@@ -38,7 +38,7 @@ private:
 	Commands commandsCollection;
 
 	GraphStore graphs;
-	bool shouldExit;
+	bool receivedExitCommand;
 };
 
 #endif //__APPLICATION_H_INCLUDED__

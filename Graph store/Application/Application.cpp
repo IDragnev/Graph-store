@@ -11,11 +11,11 @@ Application& Application::instance()
 
 
 Application::Application() :
-	parser("Graph Store"),
-	commandsGroup(parser, "Commands: "),
-	commandsCollection(),
-	graphs(),
-	shouldExit(false)
+	parser{ "Graph Store application" },
+	commandsGroup{ parser, "Commands: " },
+	commandsCollection{},
+	graphs{},
+	receivedExitCommand{ false }
 {
 	insertExitCommand();
 }
@@ -27,7 +27,7 @@ void Application::insertExitCommand()
 		[this](args::Subparser& parser) 
 	{ 
 		parser.Parse();
-		shouldExit = true;
+		receivedExitCommand = true;
 	});
 }
 
@@ -40,6 +40,9 @@ void Application::insertCommand(Command& command)
 
 void Application::insertCommand(const char* name, const char* description, Function coroutine)
 {
+	assert(name);
+	assert(description);
+
 	commandsCollection.emplace_front(commandsGroup, name, description, coroutine);
 }
 
@@ -48,7 +51,7 @@ void Application::run()
 {
 	Command::setManagedStore(graphs);
 
-	while (!shouldExit)
+	while (!receivedExitCommand)
 	{
 		try
 		{
@@ -64,17 +67,22 @@ void Application::run()
 		{
 			std::cerr << e.what() << std::endl << parser;
 		}
+		catch (std::runtime_error& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 }
 
 
 Application::InputContainer Application::receiveInput()
 {
-	StringSplitter<> splitter;
-	std::string input;
+	StringSplitter<> splitter; 
+	const size_t maxInputSize = 512;
+	char input[maxInputSize]{ '\0' };
 
 	std::cin.clear();
-	std::cin >> input;
+	std::cin.getline(input, maxInputSize);
 
 	return splitter.split(input);
 }
