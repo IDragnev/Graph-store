@@ -1,7 +1,7 @@
 #include "DirectoryFlatIterator.h"
 #include <assert.h>
 
-const char DirectoryFlatIterator::PATTERN[] = { "*.txt" };
+const String DirectoryFlatIterator::PATTERN = "*.txt";
 
 
 DirectoryFlatIterator::DirectoryFlatIterator(const String& directory) 
@@ -28,7 +28,7 @@ void DirectoryFlatIterator::throwIfFailedToOpen(const String& directory) const
 {
 	if (!handleIsValid() && GetLastError() != ERROR_FILE_NOT_FOUND)
 	{
-		throw DirectoryFlatIteratorException("Failed to open: " + directory);
+		throw DirectoryFlatIteratorException{ "Failed to open: " + directory };
 	}
 }
 

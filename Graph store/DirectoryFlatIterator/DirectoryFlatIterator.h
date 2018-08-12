@@ -38,7 +38,7 @@ private:
 	DirectoryFlatIterator& operator=(const DirectoryFlatIterator&) = delete;
 
 private:
-	static const char PATTERN[];
+	static const String PATTERN;
 
 private:
 	SearchHandle handle;
