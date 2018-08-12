@@ -10,6 +10,7 @@ class Application
 private:
 	typedef std::forward_list<args::Command> Commands;
 	typedef std::function<void(args::Subparser&)> Function;
+	typedef std::vector<std::string> InputContainer;
 
 public:
 	static Application& instance();
@@ -28,6 +29,8 @@ private:
 
 	void insertExitCommand();
 	void insertCommand(const char* name, const char* description, Function coroutine);
+
+	static InputContainer receiveInput();
 
 private:
 	args::ArgumentParser parser;

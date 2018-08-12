@@ -8,10 +8,13 @@
 
 #include "Singly Linked List\SinglyLinkedList.h"
 #include "Graph\Directed Graph\DirectedGraph.h"
-#include "GraphStore\GraphStore.h"
+
+#include "Application\Application.h"
+
 
 int main()
 {
+	Application::instance().run();
 
 	return 0;
 }
