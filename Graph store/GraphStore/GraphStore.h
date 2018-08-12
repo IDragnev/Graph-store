@@ -18,7 +18,7 @@ public:
 	GraphStore(GraphStore&& source) = default;
 	~GraphStore();
 
-	GraphStore& operator=(GraphStore&& rhs) = default;
+	GraphStore& operator=(GraphStore&& rhs);
 
 	void insert(Graph& graph);
 	void remove(const String& ID);
@@ -33,6 +33,7 @@ private:
 	const Graph* searchGraph(const String& ID) const;
 
 	void removeGraphAt(size_t index);
+	void deleteAllGraphs();
 
 	static void throwNonExistingGraph(const String& ID);
 

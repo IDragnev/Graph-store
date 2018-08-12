@@ -3,6 +3,12 @@
 
 GraphStore::~GraphStore()
 {
+	deleteAllGraphs();
+}
+
+
+void GraphStore::deleteAllGraphs()
+{
 	auto iterator = graphs.getHeadConstIterator();
 
 	while (!iterator.isFinished())
@@ -10,6 +16,18 @@ GraphStore::~GraphStore()
 		delete iterator.getCurrent();
 		iterator.goToNext();
 	}
+}
+
+
+GraphStore& GraphStore::operator=(GraphStore&& rhs)
+{
+	if (this != &rhs)
+	{
+		deleteAllGraphs();
+		graphs = std::move(rhs.graphs);
+	}
+
+	return *this;
 }
 
 
