@@ -126,6 +126,15 @@
     <Filter Include="Application\StringSplitter">
       <UniqueIdentifier>{3091cffc-cc83-4e69-bfd4-d10ddcbcba75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Use graph">
+      <UniqueIdentifier>{1c66de44-bf19-4c01-bf26-e02663261f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Commands\StringReader">
+      <UniqueIdentifier>{45ccd508-2d30-42f3-bebb-5126470d8de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Commands\Create graph">
+      <UniqueIdentifier>{2a851b1a-d5ba-4c9a-b573-15415ed93834}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -182,11 +191,20 @@
     <ClCompile Include="GraphStore\GraphStore.cpp">
       <Filter>GraphStore</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Commands\Command.cpp">
-      <Filter>Application\Commands\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Application.cpp">
       <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp">
+      <Filter>Application\Commands\Use graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\StringReader\StringReader.cpp">
+      <Filter>Application\Commands\StringReader</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Base\Command.cpp">
+      <Filter>Application\Commands\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Create graph\CreateGraphCommand.cpp">
+      <Filter>Application\Commands\Create graph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,9 +361,6 @@
     <ClInclude Include="GraphStore\GraphStore.h">
       <Filter>GraphStore</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Commands\Command.h">
-      <Filter>Application\Commands\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Application.h">
       <Filter>Application</Filter>
     </ClInclude>
@@ -354,6 +369,18 @@
     </ClInclude>
     <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp">
       <Filter>Application\StringSplitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h">
+      <Filter>Application\Commands\Use graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\StringReader\StringReader.h">
+      <Filter>Application\Commands\StringReader</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Create graph\CreateGraphCommand.h">
+      <Filter>Application\Commands\Create graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Base\Command.h">
+      <Filter>Application\Commands\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

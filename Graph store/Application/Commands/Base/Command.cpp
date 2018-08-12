@@ -1,5 +1,5 @@
 #include "Command.h"
-#include "..\..\GraphStore\GraphStore.h"
+#include "..\..\..\GraphStore\GraphStore.h"
 
 
 Graph* Command::usedGraph = nullptr;
@@ -29,7 +29,7 @@ Graph& Command::getUsedGraph()
 	}
 	else
 	{
-		throw std::runtime_error("No graph is currently being used");
+		throw std::runtime_error{ "No graph is currently being used" };
 	}
 }
 

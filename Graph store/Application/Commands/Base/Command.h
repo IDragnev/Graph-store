@@ -1,9 +1,9 @@
 #ifndef __COMMAND_BASE_H_INCLUDED__
 #define __COMMAND_BASE_H_INCLUDED__
 
-#include "..\..\String\String.h"
-#include "..\..\Graph\Base Graph\Graph.h"
-#include "..\..\..\..\args\args.hxx"
+#include "..\..\..\String\String.h"
+#include "..\..\..\Graph\Base Graph\Graph.h"
+#include "..\..\..\..\..\args\args.hxx"
 #include <memory>
 
 class GraphStore;

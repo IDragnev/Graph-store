@@ -30,7 +30,7 @@ void CreateGraphCommand::setIdIfMatched(StringPositional& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [ID]");
+		throw std::runtime_error{ "Missing argument: [ID]" };
 	}
 }
 
