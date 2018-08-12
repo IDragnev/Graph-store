@@ -1,4 +1,5 @@
 #include "UseGraphCommand.h"
+#include "..\StringReader\StringReader.h"
 
 
 void UseGraphCommand::execute(args::Subparser& parser)
@@ -10,9 +11,8 @@ void UseGraphCommand::execute(args::Subparser& parser)
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional id(parser, "ID", "the ID of the graph to be used");
+	StringPositional id{ parser, "ID", "the ID of the graph to be used" };
 	parser.Parse();
-
 	setIdIfMatched(id);
 }
 
@@ -25,7 +25,7 @@ void UseGraphCommand::setIdIfMatched(StringPositional& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: ID");
+		throw std::runtime_error{ "Missing argument: [ID]" };
 	}
 }
 

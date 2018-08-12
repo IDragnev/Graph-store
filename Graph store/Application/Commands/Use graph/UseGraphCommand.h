@@ -1,9 +1,9 @@
 #ifndef __USE_GRAPH_COMMAND_H_INCLUDED__
 #define __USE_GRAPH_COMMAND_H_INCLUDED__
 
-#include "..\Command.h"
-#include "..\StringReader\StringReader.h"
+#include "..\Base\Command.h"
 
+class StringReader;
 
 class UseGraphCommand : public Command
 {
