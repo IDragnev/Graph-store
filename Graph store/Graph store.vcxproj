@@ -168,6 +168,8 @@
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Commands\Command.h" />
+    <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
+    <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp" />
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
