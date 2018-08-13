@@ -1,13 +1,6 @@
 #include "UseGraphCommand.h"
 
 
-void UseGraphCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional id{ parser, "ID", "the ID of the graph to be used" };

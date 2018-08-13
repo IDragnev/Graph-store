@@ -1,13 +1,6 @@
 #include "RemoveVertexCommand.h"
 
 
-void RemoveVertexCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional ID{ parser,"ID", "The ID of the vertex to be removed" };

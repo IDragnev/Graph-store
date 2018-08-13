@@ -9,7 +9,6 @@ public:
 	RemoveEdgeCommand() = default;
 	virtual ~RemoveEdgeCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,10 +18,11 @@ private:
 	RemoveEdgeCommand& operator=(RemoveEdgeCommand&&) = delete;
 	RemoveEdgeCommand& operator=(const RemoveEdgeCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setStartIdIfMatched(StringPositional& startID);
 	void setEndIdIfMatched(StringPositional& endID);
-	void execute() const;
 
 private:
 	String startVertexID;

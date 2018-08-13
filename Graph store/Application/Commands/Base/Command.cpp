@@ -2,8 +2,15 @@
 #include "..\..\..\GraphStore\GraphStore.h"
 
 
-Graph* Command::usedGraph = nullptr;
+Graph* Command::usedGraph =  nullptr;
 GraphStore* Command::graphStore = nullptr;
+
+
+void Command::execute(args::Subparser& parser)
+{
+	parseArguments(parser);
+	execute();
+}
 
 
 void Command::setManagedStore(GraphStore& store)

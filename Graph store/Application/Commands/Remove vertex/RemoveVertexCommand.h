@@ -9,7 +9,6 @@ public:
 	RemoveVertexCommand() = default;
 	virtual ~RemoveVertexCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,9 +18,10 @@ private:
 	RemoveVertexCommand& operator=(RemoveVertexCommand&&) = delete;
 	RemoveVertexCommand& operator=(const RemoveVertexCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setIdIfMatched(StringPositional& ID);
-	void execute() const;
 
 private:
 	String vertexID;

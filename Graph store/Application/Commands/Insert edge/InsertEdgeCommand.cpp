@@ -1,13 +1,6 @@
 #include "InsertEdgeCommand.h"
 
 
-void InsertEdgeCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void InsertEdgeCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional startID{ parser, "startVertexID", "The ID of the start vertex" };

@@ -1,13 +1,6 @@
 #include "DeleteGraphCommand.h"
 
 
-void DeleteGraphCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void DeleteGraphCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional id{ parser, "ID", "The ID of the graph to be deleted" };

@@ -17,7 +17,7 @@ protected:
 public:
 	virtual ~Command() = default;
 
-	virtual void execute(args::Subparser& parser) = 0;
+	void execute(args::Subparser& parser);
 	virtual const char* getName() const = 0;
 	virtual const char* getDescription() const = 0;
 
@@ -26,6 +26,10 @@ public:
 protected:
 	Command() = default;
 
+	virtual void parseArguments(args::Subparser& parser) = 0;
+	virtual void execute() const = 0;
+
+protected:
 	static Graph& getUsedGraph();
 	static void useGraph(const String& ID);
 	static void removeGraph(const String& ID);

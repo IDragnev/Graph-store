@@ -9,7 +9,6 @@ public:
 	UseGraphCommand() = default;
 	virtual ~UseGraphCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,9 +18,10 @@ private:
 	UseGraphCommand& operator=(UseGraphCommand&&) = delete;
 	UseGraphCommand& operator=(const UseGraphCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setIdIfMatched(StringPositional& id);
-	void execute() const;
 
 private:
 	String graphID;

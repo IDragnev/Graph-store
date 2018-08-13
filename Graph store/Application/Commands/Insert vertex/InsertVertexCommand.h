@@ -9,7 +9,6 @@ public:
 	InsertVertexCommand() = default;
 	virtual ~InsertVertexCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,9 +18,10 @@ private:
 	InsertVertexCommand& operator=(InsertVertexCommand&&) = delete;
 	InsertVertexCommand& operator=(const InsertVertexCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setIdIfMatched(StringPositional& id);
-	void execute() const;
 
 private:
 	String vertexID;

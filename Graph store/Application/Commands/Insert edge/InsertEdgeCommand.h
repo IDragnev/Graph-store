@@ -12,7 +12,6 @@ public:
 	InsertEdgeCommand() = default;
 	virtual ~InsertEdgeCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -22,11 +21,12 @@ private:
 	InsertEdgeCommand& operator=(InsertEdgeCommand&&) = delete;
 	InsertEdgeCommand& operator=(const InsertEdgeCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setStartIdIfMatched(StringPositional& startID);
 	void setEndIdIfMatched(StringPositional& endID);
 	void setWeight(UnsignedPositional& weight);
-	void execute() const;
 
 	static const unsigned DEFAULT_EDGE_WEIGHT = 1;
 

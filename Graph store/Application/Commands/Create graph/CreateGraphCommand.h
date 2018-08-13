@@ -9,7 +9,6 @@ public:
 	CreateGraphCommand() = default;
 	virtual ~CreateGraphCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,10 +18,11 @@ private:
 	CreateGraphCommand& operator=(CreateGraphCommand&&) = delete;
 	CreateGraphCommand& operator=(const CreateGraphCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setIdIfMatched(StringPositional& id);
 	void setType(StringPositional& type);
-	void execute() const;
 
 	static const String DEFAULT_GRAPH_TYPE;
 

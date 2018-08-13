@@ -1,13 +1,6 @@
 #include "InsertVertexCommand.h"
 
 
-void InsertVertexCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void InsertVertexCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional id{ parser, "ID", "The ID of the vertex to be inserted" };

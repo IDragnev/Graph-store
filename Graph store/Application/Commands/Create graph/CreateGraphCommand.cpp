@@ -4,13 +4,6 @@
 const String CreateGraphCommand::DEFAULT_GRAPH_TYPE = "undirected";
 
 
-void CreateGraphCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	execute();
-}
-
-
 void CreateGraphCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional id{ parser, "ID", "The ID of the graph to be created" };

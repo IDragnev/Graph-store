@@ -9,7 +9,6 @@ public:
 	DeleteGraphCommand() = default;
 	virtual ~DeleteGraphCommand() override = default;
 
-	virtual void execute(args::Subparser& parser) override;
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
@@ -19,9 +18,10 @@ private:
 	DeleteGraphCommand& operator=(DeleteGraphCommand&&) = delete;
 	DeleteGraphCommand& operator=(const DeleteGraphCommand&) = delete;
 
-	void parseArguments(args::Subparser& parser);
+	virtual void parseArguments(args::Subparser& parser) override;
+	virtual void execute() const override;
+
 	void setIdIfMatched(StringPositional& id);
-	void execute() const;
 
 private:
 	String graphID;
