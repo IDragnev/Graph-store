@@ -3,9 +3,9 @@
 
 
 Graph::Graph(const String& ID) :
-	id(),
-	vertices(FEWEST_VERTICES_EXPECTED),
-	verticesSearchTable(FEWEST_VERTICES_EXPECTED)
+	id{},
+	vertices{ FEWEST_VERTICES_EXPECTED },
+	verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
 {
 	setID(ID);
 }
@@ -13,13 +13,13 @@ Graph::Graph(const String& ID) :
 
 void Graph::setID(const String& ID)
 {
-	if (ID != String(""))
+	if (ID != String{ "" })
 	{
 		this->id = ID;
 	}
 	else
 	{
-		throw GraphException("A Graph ID must be a valid string");
+		throw GraphException{ "A Graph ID must be a valid string" };
 	}
 }
 
@@ -50,7 +50,7 @@ void Graph::insertVertexWithID(const String& ID)
 	}
 	else
 	{
-		throw GraphException("A vertex with such ID already exists");
+		throw GraphException{ "A vertex with such ID already exists" };
 	}
 }
 
@@ -72,14 +72,14 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException("No memory available to insert a vertex");
+		throw GraphException{ "No memory available to insert a vertex" };
 	}
 }
 
 
 std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
 {
-	return std::unique_ptr<Vertex>(new Vertex(ID, vertices.getCount()));
+	return std::unique_ptr<Vertex>{new Vertex{ ID, vertices.getCount() }};
 }
 
 
@@ -192,7 +192,7 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 	}
 	else if (throwIfEdgeDoesNotExist)
 	{
-		throw GraphException("No such edge exists");
+		throw GraphException{ "No such edge exists" };
 	}
 }
 
@@ -221,11 +221,11 @@ void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight we
 {
 	try
 	{
-		from.edges.insert(Edge(&to, weight));
+		from.edges.insert(Edge{ &to, weight });
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException("No memory available to insert an edge");
+		throw GraphException{ "No memory available to insert an edge" };
 	}
 }
 
@@ -254,7 +254,7 @@ const Vertex& Graph::getVertex(const String& ID) const
 	}
 	else
 	{
-		throw GraphException("There is no vertex with ID " + ID);
+		throw GraphException{ "There is no vertex with ID " + ID };
 	}
 }
 
