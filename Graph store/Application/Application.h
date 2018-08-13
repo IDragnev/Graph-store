@@ -31,6 +31,7 @@ private:
 	void insertHelpCommand();
 	void insertCommand(const char* name, const char* description, Function coroutine);
 
+	void invokeCommand(const InputContainer& input);
 	static InputContainer receiveInput();
 
 private:

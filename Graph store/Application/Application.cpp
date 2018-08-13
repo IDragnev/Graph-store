@@ -64,36 +64,39 @@ void Application::insertCommand(const char* name, const char* description, Funct
 
 void Application::run()
 {
+	//load...
 	Command::setManagedStore(graphs);
 
-	while (!receivedExitCommand)
+	do
 	{
-		try
-		{
-			std::cout << '>';
-			parser.ParseArgs(receiveInput());
-			std::cout << std::endl;
-		}
-		catch (args::Error& e)
-		{
-			std::cerr << e.what() << std::endl << parser;
-		}
-		catch (std::runtime_error& e)
-		{
-			std::cout << e.what() << std::endl << std::endl;
-		}
-	}
+		std::cout << '>';
+		invokeCommand(receiveInput());
+	} while (!receivedExitCommand);
 }
 
 
 Application::InputContainer Application::receiveInput()
 {
-	StringSplitter<> splitter; 
 	const size_t maxInputSize = 512;
-	char input[maxInputSize]{ '\0' };
+	char input[maxInputSize];
 
 	std::cin.clear();
 	std::cin.getline(input, maxInputSize);
 
-	return splitter.split(input);
+	StringSplitter<> s; 
+	return s.split(input);
 }
+
+
+void Application::invokeCommand(const InputContainer& input)
+{
+	try
+	{
+		parser.ParseArgs(input);
+	}
+	catch (std::runtime_error& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
