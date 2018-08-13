@@ -32,8 +32,7 @@ void RemoveVertexCommand::setIdIfMatched(StringPositional& ID)
 void RemoveVertexCommand::execute() const
 {
 	Graph& used = Command::getUsedGraph();
-	Vertex& v = used.getVertex(vertexID);
-	used.removeVertex(v);
+	used.removeVertex(vertexID);
 }
 
 

@@ -31,6 +31,7 @@ public:
 	virtual ~Graph();
 
 	void insertVertexWithID(const String& ID);
+	void removeVertex(const String& ID);
 	void removeVertex(Vertex& vertex);
 
 	virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight weight) = 0;

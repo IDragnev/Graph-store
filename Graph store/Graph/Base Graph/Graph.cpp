@@ -132,6 +132,12 @@ void Graph::removeFromSearchTable(const Vertex& vertex)
 }
 
 
+void Graph::removeVertex(const String& ID)
+{
+	removeVertex(getVertex(ID));
+}
+
+
 void Graph::removeVertex(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
