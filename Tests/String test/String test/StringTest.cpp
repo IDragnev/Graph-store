@@ -60,15 +60,15 @@ namespace StringTest
 		TEST_METHOD(testCopyCtorWithEmptyString)
 		{
 			String emptySource;
-			String destination(emptySource);
+			String destination{ emptySource };
 			
 			Assert::IsTrue(haveSameContents(destination, emptySource));
 		}
 
 		TEST_METHOD(testCopyCtorWithNonEmptyString)
 		{
-			String source(C_STRING_PROTOTYPE);
-			String destination(source);
+			String source{ C_STRING_PROTOTYPE };
+			String destination{ source };
 
 			Assert::IsTrue(haveSameContents(source, destination));
 		}
@@ -86,7 +86,7 @@ namespace StringTest
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
 		{
 			String lhs;
-			String rhs(C_STRING_PROTOTYPE);
+			String rhs{ C_STRING_PROTOTYPE };
 
 			lhs = rhs;
 
@@ -95,7 +95,7 @@ namespace StringTest
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
 		{
-			String lhs(C_STRING_PROTOTYPE);
+			String lhs{ C_STRING_PROTOTYPE };
 			String rhs;
 
 			lhs = rhs;
@@ -105,8 +105,8 @@ namespace StringTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
 		{
-			String lhs(C_STRING_PROTOTYPE);
-			String rhs("something different");
+			String lhs{ C_STRING_PROTOTYPE };
+			String rhs{ "something different" };
 
 			lhs = rhs;
 
@@ -115,8 +115,8 @@ namespace StringTest
 
 		TEST_METHOD(testMoveCtorFromNonEmptySourceLeavesSourceEmpty)
 		{
-			String source(C_STRING_PROTOTYPE);
-			String destination(std::move(source));
+			String source{ C_STRING_PROTOTYPE };
+			String destination{ std::move(source) };
 
 			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE), L"Moved-in object has wrong contents");
 			Assert::IsTrue(isTheEmptyString(source), L"Moved-from object is not empty");
@@ -125,7 +125,7 @@ namespace StringTest
 		TEST_METHOD(testMoveCtorFromEmptySourceDoesNotModifySource)
 		{
 			String emptySource;
-			String destination(std::move(emptySource));
+			String destination{ std::move(emptySource) };
 
 			Assert::IsTrue(isTheEmptyString(destination), L"Moved-in object is not empty");
 			Assert::IsTrue(isTheEmptyString(emptySource), L"Moved-from object is not empty");
@@ -133,7 +133,7 @@ namespace StringTest
 
 		TEST_METHOD(testMoveAssignmentFromEmptyRhsLeavesLhsAndRhsEmpty)
 		{
-			String lhs(C_STRING_PROTOTYPE);
+			String lhs{ C_STRING_PROTOTYPE };
 			String emptyRHS;
 
 			lhs = std::move(emptyRHS);
@@ -145,7 +145,7 @@ namespace StringTest
 		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsLeavesRhsEmpty)
 		{
 			String lhs;
-			String rhs(C_STRING_PROTOTYPE);
+			String rhs{ C_STRING_PROTOTYPE };
 
 			lhs = std::move(rhs);
 
@@ -173,7 +173,7 @@ namespace StringTest
 
 		TEST_METHOD(testAppendingNonEmptyStringToNonEmptyString)
 		{
-			String string("012345");
+			String string{ "012345" };
 
 			string.append("6789");
 			
@@ -182,7 +182,7 @@ namespace StringTest
 
 		TEST_METHOD(testAppendingEmptyStringToNonEmptyDestinationDoesNotModifyDestination)
 		{
-			String string(C_STRING_PROTOTYPE);
+			String string{ C_STRING_PROTOTYPE };
 
 			string.append("");
 
@@ -190,5 +190,5 @@ namespace StringTest
 		}
 	};
 
-	const char StringTest::C_STRING_PROTOTYPE[] = { "PROTOTYPE" };
+	const char StringTest::C_STRING_PROTOTYPE[] { "PROTOTYPE" };
 }

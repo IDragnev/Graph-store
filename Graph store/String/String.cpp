@@ -4,28 +4,28 @@
 
 
 String::String() :
-	actualString(nullptr)
+	actualString{ nullptr }
 { 
 }
 
 
+String::String(char symbol) :
+	String{}
+{
+	actualString = new char[2] {symbol, '\0'};
+}
+
+
 String::String(const String& other) :
-	String(other.actualString)
+	String{ other.actualString }
 {
 }
 
 
 String::String(const char* string) :
-	String()
+	String{}
 {
 	setActualString(string);
-}
-
-
-String::String(char symbol) :
-	String()
-{
-	setActualString(symbol);
 }
 
 
@@ -40,11 +40,11 @@ String& String::operator=(const String& rhs)
 }
 
 
-void String::setActualString(const char* cString)
+void String::setActualString(const char* string)
 {
-	if (cString)
+	if (string)
 	{
-		char* copy = cloneCString(cString);
+		char* copy = clone(string);
 		delete[] actualString;
 		actualString = copy;
 	}
@@ -56,26 +56,18 @@ void String::setActualString(const char* cString)
 }
 
 
-char* String::cloneCString(const char* cString)
+char* String::clone(const char* string)
 {
-	size_t size = strlen(cString) + 1;
+	size_t size = strlen(string) + 1;
 	char* result = new char[size];
-	strcpy_s(result, size, cString);
+	strcpy_s(result, size, string);
 
 	return result;
 }
 
 
-void String::setActualString(char symbol)
-{
-	char buffer[2] = "";
-	buffer[0] = symbol;
-	setActualString(buffer);
-}
-
-
 String::String(String&& source) :
-	actualString(source.actualString)
+	actualString{ source.actualString }
 {
 	source.actualString = nullptr;
 }
@@ -85,7 +77,7 @@ String& String::operator=(String&& rhs)
 {
 	if (this != &rhs)
 	{
-		String temporary(std::move(rhs));
+		String temporary{ std::move(rhs) };
 		std::swap(actualString, temporary.actualString);
 	}
 
@@ -139,8 +131,7 @@ void String::append(const char* string)
 
 void String::append(char symbol)
 {
-	char buffer[2] = "";
-	buffer[0] = symbol;
+	char buffer[]{ symbol, '\0' };
 	append(buffer);
 }
 
@@ -201,7 +192,7 @@ bool operator>=(const String& lhs, const String& rhs)
 
 String operator+(const String& lhs, const String& rhs)
 {
-	String result(lhs);
+	String result{ lhs };
 	result += rhs;
 
 	return result;
@@ -210,7 +201,7 @@ String operator+(const String& lhs, const String& rhs)
 
 String operator+(char lhs, const String& rhs)
 {
-	String result(lhs);
+	String result{ lhs };
 	result += rhs;
 
 	return result;
@@ -219,7 +210,7 @@ String operator+(char lhs, const String& rhs)
 
 String operator+(const String& lhs, char rhs)
 {
-	String result(lhs);
+	String result{ lhs };
 	result += rhs;
 
 	return result;

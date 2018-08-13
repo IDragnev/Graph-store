@@ -26,10 +26,9 @@ public:
 
 private:
 	const char* getActualString() const;           
-	void setActualString(const char* cString);  
-	void setActualString(char symbol);
+	void setActualString(const char* string);  
 	
-	static char* cloneCString(const char* cString);
+	static char* clone(const char* string);
 
 private:
 	char* actualString;
