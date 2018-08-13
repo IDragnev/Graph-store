@@ -144,6 +144,9 @@
     <Filter Include="Application\Commands\Insert edge">
       <UniqueIdentifier>{74c39b5f-7f33-4275-964f-09349e56565e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Remove vertex">
+      <UniqueIdentifier>{2162e427-d85f-4748-9477-b6cbefbc7084}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Insert edge\InsertEdgeCommand.cpp">
       <Filter>Application\Commands\Insert edge</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Remove vertex\RemoveVertexCommand.cpp">
+      <Filter>Application\Commands\Remove vertex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,6 +411,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h">
       <Filter>Application\Commands\Insert edge</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h">
+      <Filter>Application\Commands\Remove vertex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
