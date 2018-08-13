@@ -3,13 +3,8 @@
 
 #include "..\Base\Command.h"
 
-class StringReader;
-
 class UseGraphCommand : public Command
 {
-private:
-	typedef args::Positional<String, StringReader> StringPositional;
-
 public:
 	UseGraphCommand() = default;
 	virtual ~UseGraphCommand() override = default;

@@ -16,12 +16,12 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
 	{
 		assert(!result.get());
 		clearParsedState();
-		throw GraphBuilderException(exception.what());
+		throw GraphBuilderException{ exception.what() };
 	}
 	catch (std::bad_alloc&)
 	{
 		clearState();
-		throw GraphBuilderException("No memory available while building a graph from " + filename);
+		throw GraphBuilderException{ "No memory available while building a graph from " + filename };
 	}
 }
 

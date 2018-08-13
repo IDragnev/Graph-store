@@ -146,8 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Application\Commands\Base\Command.cpp" />
+    <ClCompile Include="Application\Commands\Base\StringReader\StringReader.cpp" />
     <ClCompile Include="Application\Commands\Create graph\CreateGraphCommand.cpp" />
-    <ClCompile Include="Application\Commands\StringReader\StringReader.cpp" />
+    <ClCompile Include="Application\Commands\Delete graph\DeleteGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
@@ -171,8 +172,9 @@
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Commands\Base\Command.h" />
+    <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h" />
     <ClInclude Include="Application\Commands\Create graph\CreateGraphCommand.h" />
-    <ClInclude Include="Application\Commands\StringReader\StringReader.h" />
+    <ClInclude Include="Application\Commands\Delete graph\DeleteGraphCommand.h" />
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp" />

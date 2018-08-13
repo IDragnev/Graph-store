@@ -2,6 +2,7 @@
 #define __COMMAND_BASE_H_INCLUDED__
 
 #include "..\..\..\String\String.h"
+#include "StringReader\StringReader.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\..\..\..\..\args\args.hxx"
 #include <memory>
@@ -10,6 +11,9 @@ class GraphStore;
 
 class Command
 {
+protected:
+	typedef args::Positional<String, StringReader> StringPositional;
+
 public:
 	virtual ~Command() = default;
 

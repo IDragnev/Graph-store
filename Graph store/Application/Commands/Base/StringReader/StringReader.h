@@ -2,7 +2,7 @@
 #define __STRING_READER_H_INCLUDED__
 
 #include <string>
-#include "..\..\..\String\String.h"
+#include "..\..\..\..\String\String.h"
 
 class StringReader
 {

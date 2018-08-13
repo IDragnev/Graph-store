@@ -1,5 +1,4 @@
 #include "CreateGraphCommand.h"
-#include "..\StringReader\StringReader.h"
 #include "..\..\..\Graph Factory\GraphFactory.h"
 
 const String CreateGraphCommand::DEFAULT_GRAPH_TYPE = "undirected";
