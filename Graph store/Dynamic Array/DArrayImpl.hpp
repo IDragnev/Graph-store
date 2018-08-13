@@ -2,23 +2,23 @@
 
 template <typename T>
 inline DArray<T>::DArray() :
-	size(0),
-	count(0),
-	items(nullptr)
+	size{ 0 },
+	count{ 0 },
+	items{ nullptr }
 { 
 }
 
 
 template <typename T>
 DArray<T>::DArray(unsignedInteger size, unsignedInteger count) :
-	size(size),
-	items(nullptr)
+	size{ size },
+	items{ nullptr }
 {
 	setCount(count);
 
-	if (this->size > 0)
+	if (size > 0)
 	{
-		items = new T[this->size];
+		items = new T[size]{};
 	}
 }
 
@@ -33,9 +33,9 @@ inline void DArray<T>::setCount(unsignedInteger newCount)
 
 template <typename T>
 inline DArray<T>::DArray(DArray<T>&& source) :
-	count(source.count),
-	size(source.size),
-	items(source.items)
+	count{ source.count },
+	size{ source.size },
+	items{ source.items }
 {
 	source.nullifyMembers();
 }
@@ -52,7 +52,7 @@ inline void DArray<T>::nullifyMembers()
 
 template <typename T>
 inline DArray<T>::DArray(const DArray<T>& source) :
-	DArray<T>()
+	DArray<T>{}
 {
 	copyFrom(source);
 }
@@ -61,7 +61,7 @@ inline DArray<T>::DArray(const DArray<T>& source) :
 template <typename T>
 void DArray<T>::copyFrom(const DArray<T>& source)
 {
-	DArray<T> temporary(source.size, source.count);
+	DArray<T> temporary{ source.size, source.count };
 
 	for (unsignedInteger i = 0; i < source.count; ++i)
 	{
@@ -148,7 +148,7 @@ void DArray<T>::resize(unsignedInteger newSize)
 {
 	unsignedInteger newCount = (count <= newSize) ? count : newSize;
 
-	DArray<T> temporary(newSize, newCount);
+	DArray<T> temporary{ newSize, newCount };
 
 	for (unsignedInteger i = 0; i < newCount; ++i)
 	{
@@ -300,12 +300,12 @@ inline typename DArray<T>::unsignedInteger DArray<T>::getSize() const
 template <typename T>
 inline typename DArray<T>::Iterator DArray<T>::getHeadIterator()
 {
-	return Iterator(0, this);
+	return Iterator{ 0, this };
 }
 
 
 template <typename T>
 inline typename DArray<T>::ConstIterator DArray<T>::getHeadConstIterator() const
 {
-	return ConstIterator(0, this);
+	return ConstIterator{ 0, this };
 }

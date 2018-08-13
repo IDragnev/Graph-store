@@ -73,6 +73,16 @@ namespace DArraytest
 			Assert::IsTrue(areSizeAndCountZero(dArray));
 		}
 
+		TEST_METHOD(testConstructorFilledArrayValueInitializesAll)
+		{
+			DArray<int> dArray{ INITIAL_SIZE, INITIAL_SIZE };
+
+			for (int i = 0; i < INITIAL_SIZE; ++i)
+			{
+				Assert::AreEqual(dArray[i], 0);
+			}
+		}
+
 		TEST_METHOD(testEnsureSizeEnlargesWhenGivenSizeIsGreater)
 		{
 			DArray<int> dArray;
@@ -84,7 +94,7 @@ namespace DArraytest
 
 		TEST_METHOD(testEnsureSizeDoesNotDoAnythingWhenGivenSizeIsNotGreater)
 		{
-			DArray<int> dArray(INITIAL_SIZE);
+			DArray<int> dArray{ INITIAL_SIZE };
 
 			dArray.ensureSize(1);
 
@@ -93,7 +103,7 @@ namespace DArraytest
 
 		TEST_METHOD(testShrinkSizeActuallyShrinksTheSize)
 		{
-			DArray<int> dArray(INITIAL_SIZE + 15);
+			DArray<int> dArray{ INITIAL_SIZE + 15 };
 
 			dArray.shrink(INITIAL_SIZE);
 
@@ -102,7 +112,7 @@ namespace DArraytest
 
 		TEST_METHOD(testEmptyLeavesSizeZero)
 		{
-			DArray<int> dArray(INITIAL_SIZE);
+			DArray<int> dArray{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(dArray, 1, INITIAL_SIZE);
 
 			dArray.empty();
@@ -114,7 +124,7 @@ namespace DArraytest
 		TEST_METHOD(testCopyCtorFromEmptySource)
 		{
 			DArray<int> source;
-			DArray<int> destination(source);
+			DArray<int> destination{ source };
 
 			Assert::AreEqual(source.getSize(), destination.getSize(), L"Copy ctor does not manage size properly");
 			Assert::IsTrue(haveSameContents(source, destination), L"Destination has different contents from source");
@@ -122,10 +132,10 @@ namespace DArraytest
 
 		TEST_METHOD(testCopyCtorFromNonEmptySource)
 		{
-			DArray<int> source(INITIAL_SIZE);
+			DArray<int> source{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(source, 1, INITIAL_SIZE);
 
-			DArray<int> destination(source);
+			DArray<int> destination{ source };
 
 			Assert::AreEqual(source.getSize(), destination.getSize(), L"Copy ctor does not manage size properly");
 			Assert::IsTrue(haveSameContents(source, destination), L"Destination has different contents from source");
@@ -134,7 +144,7 @@ namespace DArraytest
 		TEST_METHOD(testMoveCtorFromEmptySource)
 		{
 			DArray<int> source;
-			DArray<int> destination(std::move(source));
+			DArray<int> destination{ std::move(source) };
 
 			Assert::IsTrue(areSizeAndCountZero(source), L"Moved-in object is not empty");
 			Assert::IsTrue(areSizeAndCountZero(destination), L"Moved-from object is not empty");
@@ -142,10 +152,10 @@ namespace DArraytest
 
 		TEST_METHOD(testMoveCtorFromNonEmptySource)
 		{
-			DArray<int> source(INITIAL_SIZE);
+			DArray<int> source{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(source, 1, INITIAL_SIZE);
 
-			DArray<int> destination(std::move(source));
+			DArray<int> destination{ std::move(source) };
 
 			Assert::IsTrue(areSizeAndCountZero(source), L"Moved-from object is not empty");
 			Assert::AreEqual(destination.getSize(), INITIAL_SIZE, L"Size is not set properly in move ctor");
@@ -177,7 +187,7 @@ namespace DArraytest
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
 		{
 			DArray<int> lhs;
-			DArray<int> rhs(INITIAL_SIZE);
+			DArray<int> rhs{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 
 			lhs = rhs;
@@ -189,7 +199,7 @@ namespace DArraytest
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
 		{
 			DArray<int> lhs;
-			DArray<int> rhs(INITIAL_SIZE);
+			DArray<int> rhs{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 			fillArrayWithIntegersFromRange(lhs, 2, INITIAL_SIZE);
 
@@ -225,7 +235,7 @@ namespace DArraytest
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
 			DArray<int> lhs;
-			DArray<int> rhs(INITIAL_SIZE);
+			DArray<int> rhs{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 
 			lhs = std::move(rhs);
@@ -238,7 +248,7 @@ namespace DArraytest
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
 		{
 			DArray<int> lhs;
-			DArray<int> rhs(INITIAL_SIZE);
+			DArray<int> rhs{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(rhs, 1, INITIAL_SIZE);
 			fillArrayWithIntegersFromRange(lhs, 2, INITIAL_SIZE);
 
@@ -251,7 +261,7 @@ namespace DArraytest
 
 		TEST_METHOD(testInsertUpdatesCountAndInsertsBack)
 		{
-			DArray<int> dArray(INITIAL_SIZE);
+			DArray<int> dArray{ INITIAL_SIZE };
 
 			for (size_t i = 1; i < INITIAL_SIZE; ++i)
 			{
@@ -263,7 +273,7 @@ namespace DArraytest
 
 		TEST_METHOD(testRemoveAtShiftsItemsAfterTheRemovedOne)
 		{
-			DArray<int> dArray(INITIAL_SIZE);
+			DArray<int> dArray{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(dArray, 1, INITIAL_SIZE);
 
 			dArray.removeAt(0);
@@ -274,7 +284,7 @@ namespace DArraytest
 
 		TEST_METHOD(testInsertAt)
 		{
-			DArray<int> dArray(INITIAL_SIZE);
+			DArray<int> dArray{ INITIAL_SIZE };
 			fillArrayWithIntegersFromRange(dArray, 1, 10);
 
 			dArray.insertAt(5, 100);
