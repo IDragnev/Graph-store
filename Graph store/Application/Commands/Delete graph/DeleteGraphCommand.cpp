@@ -43,5 +43,5 @@ const char* DeleteGraphCommand::getName() const
 
 const char* DeleteGraphCommand::getDescription() const
 {
-	return "Deletes the specified graph";
+	return "Deletes the graph with ID [ID]";
 }
