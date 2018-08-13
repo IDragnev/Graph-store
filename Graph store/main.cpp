@@ -3,6 +3,7 @@
 #include "Application\Commands\Create graph\CreateGraphCommand.h"
 #include "Application\Commands\Delete graph\DeleteGraphCommand.h"
 #include "Application\Commands\Insert vertex\InsertVertexCommand.h"
+#include "Application\Commands\Insert edge\InsertEdgeCommand.h"
 
 int main()
 {
@@ -10,11 +11,13 @@ int main()
 	CreateGraphCommand command2{};
 	DeleteGraphCommand command3{};
 	InsertVertexCommand command4{};
+	InsertEdgeCommand command5{};
 
 	Application::instance().insertCommand(command);
 	Application::instance().insertCommand(command2);
 	Application::instance().insertCommand(command3);
 	Application::instance().insertCommand(command4);
+	Application::instance().insertCommand(command5);
 
 	Application::instance().run();
 

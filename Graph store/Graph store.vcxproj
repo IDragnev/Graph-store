@@ -146,9 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Application\Commands\Base\Command.cpp" />
-    <ClCompile Include="Application\Commands\Base\StringReader\StringReader.cpp" />
     <ClCompile Include="Application\Commands\Create graph\CreateGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Delete graph\DeleteGraphCommand.cpp" />
+    <ClCompile Include="Application\Commands\Insert edge\InsertEdgeCommand.cpp" />
     <ClCompile Include="Application\Commands\Insert vertex\InsertVertexCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
@@ -176,6 +176,7 @@
     <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h" />
     <ClInclude Include="Application\Commands\Create graph\CreateGraphCommand.h" />
     <ClInclude Include="Application\Commands\Delete graph\DeleteGraphCommand.h" />
+    <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h" />
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitter.h" />

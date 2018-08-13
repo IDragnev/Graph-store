@@ -141,6 +141,9 @@
     <Filter Include="Application\Commands\Insert vertex">
       <UniqueIdentifier>{c5626bd5-7fc8-41be-bafb-6bddfd486256}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Insert edge">
+      <UniqueIdentifier>{74c39b5f-7f33-4275-964f-09349e56565e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -209,14 +212,14 @@
     <ClCompile Include="Application\Commands\Create graph\CreateGraphCommand.cpp">
       <Filter>Application\Commands\Create graph</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Commands\Base\StringReader\StringReader.cpp">
-      <Filter>Application\Commands\Base\StringReader</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Commands\Delete graph\DeleteGraphCommand.cpp">
       <Filter>Application\Commands\Delete graph</Filter>
     </ClCompile>
     <ClCompile Include="Application\Commands\Insert vertex\InsertVertexCommand.cpp">
       <Filter>Application\Commands\Insert vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Insert edge\InsertEdgeCommand.cpp">
+      <Filter>Application\Commands\Insert edge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -399,6 +402,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h">
       <Filter>Application\Commands\Insert vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h">
+      <Filter>Application\Commands\Insert edge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
