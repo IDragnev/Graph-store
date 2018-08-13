@@ -25,13 +25,13 @@ public:
 	String& operator+=(char rhs);
 
 private:
-	const char* getActualString() const;           
-	void setActualString(const char* string);  
+	const char* getContent() const;           
+	void setContent(const char* string);  
 	
 	static char* clone(const char* string);
 
 private:
-	char* actualString;
+	char* content;
 };
 
 String operator+(const String& lhs, char rhs);

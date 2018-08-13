@@ -4,7 +4,7 @@
 
 
 String::String() :
-	actualString{ nullptr }
+	content{ nullptr }
 { 
 }
 
@@ -12,12 +12,12 @@ String::String() :
 String::String(char symbol) :
 	String{}
 {
-	actualString = new char[2] {symbol, '\0'};
+	content = new char[2] {symbol, '\0'};
 }
 
 
 String::String(const String& other) :
-	String{ other.actualString }
+	String{ other.content }
 {
 }
 
@@ -25,7 +25,7 @@ String::String(const String& other) :
 String::String(const char* string) :
 	String{}
 {
-	setActualString(string);
+	setContent(string);
 }
 
 
@@ -33,25 +33,25 @@ String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
 	{
-		setActualString(rhs.actualString);
+		setContent(rhs.content);
 	}
 
 	return *this;
 }
 
 
-void String::setActualString(const char* string)
+void String::setContent(const char* string)
 {
 	if (string)
 	{
 		char* copy = clone(string);
-		delete[] actualString;
-		actualString = copy;
+		delete[] content;
+		content = copy;
 	}
 	else
 	{
-		delete[] actualString;
-		actualString = nullptr;
+		delete[] content;
+		content = nullptr;
 	}
 }
 
@@ -67,9 +67,9 @@ char* String::clone(const char* string)
 
 
 String::String(String&& source) :
-	actualString{ source.actualString }
+	content{ source.content }
 {
-	source.actualString = nullptr;
+	source.content = nullptr;
 }
 
 
@@ -78,7 +78,7 @@ String& String::operator=(String&& rhs)
 	if (this != &rhs)
 	{
 		String temporary{ std::move(rhs) };
-		std::swap(actualString, temporary.actualString);
+		std::swap(content, temporary.content);
 	}
 
 	return *this;
@@ -87,7 +87,7 @@ String& String::operator=(String&& rhs)
 
 String::~String()
 {
-	delete[] actualString;
+	delete[] content;
 }
 
 
@@ -118,12 +118,12 @@ void String::append(const char* string)
 			size += (this->getLength() + 1);
 			char* buffer = new char[size];
 
-			//getActualString() because this->actualString could be null
-			strcpy_s(buffer, size, this->getActualString());
+			//getContent() because this->content could be null
+			strcpy_s(buffer, size, this->getContent());
 			strcat_s(buffer, size, string);
 
-			delete[] actualString;
-			actualString = buffer;
+			delete[] content;
+			content = buffer;
 		}
 	}
 }
@@ -136,21 +136,21 @@ void String::append(char symbol)
 }
 
 
-const char* String::getActualString() const
+const char* String::getContent() const
 {
-	return (actualString) ? actualString : "";
+	return (content) ? content : "";
 }
 
 
 String::operator const char *() const
 {
-	return getActualString();
+	return getContent();
 }
 
 
 size_t String::getLength() const
 {
-	return strlen(getActualString());
+	return strlen(getContent());
 }
 
 
