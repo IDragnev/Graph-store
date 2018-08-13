@@ -138,6 +138,9 @@
     <Filter Include="Application\StringSplitter">
       <UniqueIdentifier>{3091cffc-cc83-4e69-bfd4-d10ddcbcba75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Insert vertex">
+      <UniqueIdentifier>{c5626bd5-7fc8-41be-bafb-6bddfd486256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Delete graph\DeleteGraphCommand.cpp">
       <Filter>Application\Commands\Delete graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Insert vertex\InsertVertexCommand.cpp">
+      <Filter>Application\Commands\Insert vertex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -390,6 +396,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h">
       <Filter>Application\Commands\Base\StringReader</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h">
+      <Filter>Application\Commands\Insert vertex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
