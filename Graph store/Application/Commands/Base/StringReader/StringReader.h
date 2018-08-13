@@ -7,10 +7,10 @@
 class StringReader
 {
 public:
-	void operator()(const std::string& name, const std::string& value, String& destination) const;
-
-private:
-	static const size_t BUFFER_SIZE = 250;
+	void operator()(const std::string& name, const std::string& value, String& destination) const
+	{
+		destination = value.c_str();
+	}
 };
 
 #endif //__STRING_READER_H_INCLUDED__
