@@ -1,16 +1,17 @@
 
+
 template <typename Integer>
 inline SpecialInteger<Integer>::SpecialInteger() :
-	value(0),
-	isInfinity(true)
+	value{ 0 },
+	isInfinity{ true }
 {
 }
 
 
 template <typename Integer>
 inline SpecialInteger<Integer>::SpecialInteger(Integer value) :
-	value(value),
-	isInfinity(false)
+	value{ value },
+	isInfinity{ false }
 {
 }
 
@@ -33,7 +34,7 @@ inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newVa
 template <typename Integer>
 inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
 {
-	SpecialInteger<Integer> temporary(lhs);
+	SpecialInteger<Integer> temporary{ lhs };
 	temporary += rhs;
 
 	return temporary;
