@@ -1,4 +1,7 @@
 #include "InsertVertexCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<InsertVertexCommand> registrator;
 
 
 void InsertVertexCommand::parseArguments(args::Subparser& parser)

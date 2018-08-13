@@ -1,4 +1,7 @@
 #include "UseGraphCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<UseGraphCommand> registrator;
 
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)

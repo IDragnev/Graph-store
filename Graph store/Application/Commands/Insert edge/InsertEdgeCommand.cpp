@@ -1,4 +1,7 @@
 #include "InsertEdgeCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<InsertEdgeCommand> registrator;
 
 
 void InsertEdgeCommand::parseArguments(args::Subparser& parser)

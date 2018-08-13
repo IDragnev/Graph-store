@@ -1,7 +1,11 @@
 #include "CreateGraphCommand.h"
 #include "..\..\..\Graph Factory\GraphFactory.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
 
-const String CreateGraphCommand::DEFAULT_GRAPH_TYPE = "undirected";
+static CommandRegistrator<CreateGraphCommand> registrator;
+
+
+const String CreateGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
 
 
 void CreateGraphCommand::parseArguments(args::Subparser& parser)

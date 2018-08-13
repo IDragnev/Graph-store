@@ -150,6 +150,9 @@
     <Filter Include="Application\Commands\Remove edge">
       <UniqueIdentifier>{445c66a2-54f3-461e-91f7-1e8ee7ec4a06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Command Registrator">
+      <UniqueIdentifier>{c2516e2e-0cbc-4399-a657-c62ba0e12076}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -423,6 +426,12 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Remove edge\RemoveEdgeCommand.h">
       <Filter>Application\Commands\Remove edge</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Command registrator\CommandRegistrator.h">
+      <Filter>Application\Command Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Command registrator\CommandRegistratorImpl.hpp">
+      <Filter>Application\Command Registrator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

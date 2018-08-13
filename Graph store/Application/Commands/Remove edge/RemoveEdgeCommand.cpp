@@ -1,4 +1,7 @@
 #include "RemoveEdgeCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<RemoveEdgeCommand> registrator;
 
 
 void RemoveEdgeCommand::parseArguments(args::Subparser& parser)

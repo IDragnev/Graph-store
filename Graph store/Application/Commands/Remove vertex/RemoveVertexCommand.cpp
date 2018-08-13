@@ -1,4 +1,7 @@
 #include "RemoveVertexCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<RemoveVertexCommand> registrator;
 
 
 void RemoveVertexCommand::parseArguments(args::Subparser& parser)

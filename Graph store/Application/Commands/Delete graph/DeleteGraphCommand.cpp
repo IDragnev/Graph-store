@@ -1,4 +1,7 @@
 #include "DeleteGraphCommand.h"
+#include "..\..\Command registrator\CommandRegistrator.h"
+
+static CommandRegistrator<DeleteGraphCommand> registrator;
 
 
 void DeleteGraphCommand::parseArguments(args::Subparser& parser)
