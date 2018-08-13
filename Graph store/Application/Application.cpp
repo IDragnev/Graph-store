@@ -11,23 +11,38 @@ Application& Application::instance()
 
 
 Application::Application() :
-	parser{ "Graph Store application" },
-	commandsGroup{ parser, "Commands: " },
-	commandsCollection{},
+	parser{ "GRAPH STORE APPLICATION" },
+	commandsGroup{ parser, "Supported commands: " },
+	commands{},
 	graphs{},
 	receivedExitCommand{ false }
 {
 	insertExitCommand();
+	insertHelpCommand();
 }
 
 
 void Application::insertExitCommand()
 {
 	insertCommand("EXIT", "Exits the application", 
-		[this](args::Subparser& parser) 
+		[&](args::Subparser& parser) 
 	{ 
 		parser.Parse();
 		receivedExitCommand = true;
+	});
+}
+
+
+void Application::insertHelpCommand()
+{
+	insertCommand("HELP", "Lists the supported commands", [&](args::Subparser& parser)
+	{
+		parser.Parse();
+		std::cout << "Supported commands:\n";
+		std::for_each(commands.cbegin(), commands.cend(), [&](const args::Command& command)
+		{
+			std::cout << '\t' << command.Name() << '\t' << command.Help() << '\n';
+		});
 	});
 }
 
@@ -43,7 +58,7 @@ void Application::insertCommand(const char* name, const char* description, Funct
 	assert(name);
 	assert(description);
 
-	commandsCollection.emplace_front(commandsGroup, name, description, coroutine);
+	commands.emplace_front(commandsGroup, name, description, coroutine);
 }
 
 
@@ -58,10 +73,6 @@ void Application::run()
 			std::cout << '>';
 			parser.ParseArgs(receiveInput());
 			std::cout << std::endl;
-		}
-		catch (args::Help)
-		{
-			std::cout << parser;
 		}
 		catch (args::Error& e)
 		{

@@ -28,6 +28,7 @@ private:
 	Application& operator=(const Application&) = delete;
 
 	void insertExitCommand();
+	void insertHelpCommand();
 	void insertCommand(const char* name, const char* description, Function coroutine);
 
 	static InputContainer receiveInput();
@@ -35,8 +36,7 @@ private:
 private:
 	args::ArgumentParser parser;
 	args::Group commandsGroup;
-	Commands commandsCollection;
-
+	Commands commands;
 	GraphStore graphs;
 	bool receivedExitCommand;
 };
