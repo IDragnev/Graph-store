@@ -3,15 +3,15 @@
 
 
 FileParser::FileParser() :
-	currentLine(0),
-	filename(),
-	file()
+	currentLine{ 0 },
+	filename{},
+	file{}
 {
 }
 
 
 FileParser::FileParser(const String& filename) :
-	FileParser()
+	FileParser{}
 {
 	openFile(filename);
 }
@@ -32,15 +32,15 @@ void FileParser::openFile(const String& name)
 	}
 	else
 	{
-		throw FileParserException("Failed to open " + name + " for reading");
+		throw FileParserException{ "Failed to open " + name + " for reading" };
 	}
 }
 
 
 FileParser::FileParser(FileParser&& source) :
-	currentLine(source.currentLine),
-	filename(std::move(source.filename)),
-	file(std::move(source.file))
+	currentLine{ source.currentLine },
+	filename{ std::move(source.filename) },
+	file{ std::move(source.file) }
 {
 	source.currentLine = 0;
 }
@@ -78,7 +78,7 @@ String FileParser::parseLine()
 
 	++currentLine;
 
-	return String(buffer);
+	return String{ buffer };
 }
 
 
@@ -91,7 +91,7 @@ void FileParser::throwIfParseFailed(const char* reason) const
 		message += reason;
 		message += ". Line " + std::to_string(currentLine);
 
-		throw FileParserException(message);
+		throw FileParserException{ message };
 	}
 }
 

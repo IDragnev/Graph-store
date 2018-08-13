@@ -305,6 +305,6 @@ namespace FileParserTest
 
 	std::ofstream FileParserTest::firstFile;
 	std::ofstream FileParserTest::secondFile;
-	const char FileParserTest::FIRST_FILE_NAME[] = { "FirstFile.txt" };
-	const char FileParserTest::SECOND_FILE_NAME[] = { "SecondFile.txt" };
+	const char FileParserTest::FIRST_FILE_NAME[] { "FirstFile.txt" };
+	const char FileParserTest::SECOND_FILE_NAME[] { "SecondFile.txt" };
 }
