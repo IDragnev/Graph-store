@@ -1,7 +1,6 @@
 #ifndef __STRING_SPLITTER_H_INCLUDED__
 #define __STRING_SPLITTER_H_INCLUDED__
 
-#include <string>
 #include <sstream>
 #include <vector>
 
@@ -15,25 +14,30 @@ private:
 
 public:
 	StringSplitter() = default;
+	StringSplitter(std::initializer_list<char> delimiters);
 	StringSplitter(StringSplitter<Container>&& source) = default;
 	~StringSplitter() = default;
 	
 	StringSplitter& operator=(StringSplitter<Container>&& rhs) = default;
 
-	Container<std::string> split(const std::string& string, char delimiter = ' ');
+	Container<std::string> split(const std::string& string);
 
 private:
 	StringSplitter(const StringSplitter<Container>&) = delete;
 	StringSplitter& operator=(const StringSplitter<Container>&) = delete;
 
-	void init(const std::string& string, char delimiter);
+	void init(const std::string& string);
 	void split();
-	void ignoreWhileDelim();
+	void skipWhiteSpaces();
+	char chooseDelimiter();
+	void advanceIfNotWhiteSpace(char delimiter);
+	void extractWord(char delimiter);
+	bool wasMatched(char delimiter);
 
 private:
-	Container<std::string> result;
 	std::istringstream stream;
-	char delim;
+	Container<std::string> result;
+	std::vector<char> delimiters;
 };
 
 #include "StringSplitterImpl.hpp"
