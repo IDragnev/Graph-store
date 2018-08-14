@@ -156,6 +156,9 @@
     <Filter Include="Directory loader">
       <UniqueIdentifier>{5634c161-e6ff-47e4-b646-7fe75708297c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Algorithm store">
+      <UniqueIdentifier>{db6b1b34-1cf3-46ee-abd9-625e6feedb6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Directory loader\DirectoryLoader.cpp">
       <Filter>Directory loader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp">
+      <Filter>Algorithm store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +447,9 @@
     </ClInclude>
     <ClInclude Include="Directory loader\DirectoryLoaderImpl.hpp">
       <Filter>Directory loader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h">
+      <Filter>Algorithm store</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

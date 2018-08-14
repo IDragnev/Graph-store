@@ -171,6 +171,7 @@
     <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
+    <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +230,7 @@
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h" />
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
+    <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
     <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />
