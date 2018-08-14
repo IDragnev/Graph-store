@@ -19,7 +19,7 @@ private:
 public:
 	static GraphFactory& instance();
 	
-	GraphPtr createEmptyGraph(const String& graphType, const String& graphID) const;
+	GraphPtr createEmptyGraph(const String& type, const String& ID) const;
 
 private:
 	GraphFactory();

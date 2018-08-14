@@ -16,11 +16,11 @@ GraphFactory& GraphFactory::instance()
 }
 
 
-GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& graphType, const String& graphID) const
+GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const String& ID) const
 {
-	const GraphCreator& creator = getCreator(graphType);
+	const GraphCreator& creator = getCreator(type);
 
-	return creator.createEmptyGraph(graphID);
+	return creator.createEmptyGraph(ID);
 }
 
 
