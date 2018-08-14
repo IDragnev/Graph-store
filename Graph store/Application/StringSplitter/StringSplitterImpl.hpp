@@ -21,7 +21,7 @@ Container<std::string> StringSplitter<Container>::split(const std::string& strin
 
 
 template <template <class...> class Container>
-void StringSplitter<Container>::init(const std::string& string)
+inline void StringSplitter<Container>::init(const std::string& string)
 {
 	stream.clear();
 	stream.str(string);
@@ -55,14 +55,14 @@ void StringSplitter<Container>::skipWhiteSpaces()
 template <template <class...> class Container>
 char StringSplitter<Container>::chooseDelimiter()
 { 
-	char result = ' ';
 	char current = stream.peek();
+	char result = ' ';
 	
-	std::for_each(delimiters.cbegin(), delimiters.cend(), [&](char delim)
+	std::for_each(delimiters.cbegin(), delimiters.cend(), [&](char delimiter)
 	{
-		if (current == delim)
+		if (current == delimiter)
 		{
-			result = delim;
+			result = delimiter;
 		}
 	});
 
@@ -71,9 +71,9 @@ char StringSplitter<Container>::chooseDelimiter()
 
 
 template <template <class...> class Container>
-void StringSplitter<Container>::advanceIfNotWhiteSpace(char delim)
+inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
 {
-	if (delim != ' ')
+	if (delimiter != ' ')
 	{
 		stream.ignore();
 	}
@@ -98,7 +98,7 @@ bool StringSplitter<Container>::wasMatched(char delimiter)
 {
 	if (delimiter == ' ')
 	{
-		//whitespace is always matched, even by '\0'
+		//white space is always matched, even by '\0'
 		return true;
 	}
 	else
