@@ -1,21 +1,17 @@
 #include "PriorityQueueHandle.h"
-
-
-PriorityQueueHandle::PriorityQueueHandle() :
-	PriorityQueueHandle(INVALID_HANDLE_VALUE)
-{
-}
+#include <assert.h>
 
 
 PriorityQueueHandle::PriorityQueueHandle(long value) :
 	value(value)
 {
+	assert(value >= -1);
 }
 
 
 const PriorityQueueHandle& PriorityQueueHandle::invalidHandle()
 {
-	static PriorityQueueHandle handle(INVALID_HANDLE_VALUE);
+	static PriorityQueueHandle handle;
 
 	return handle;
 }
@@ -23,7 +19,7 @@ const PriorityQueueHandle& PriorityQueueHandle::invalidHandle()
 
 bool PriorityQueueHandle::isValid() const
 {
-	return value != INVALID_HANDLE_VALUE;
+	return value != -1;
 }
 
 

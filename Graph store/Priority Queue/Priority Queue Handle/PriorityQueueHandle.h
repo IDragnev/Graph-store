@@ -6,7 +6,7 @@ class PriorityQueueHandle
 	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 	friend class PriorityQueue;
 public:
-	PriorityQueueHandle();
+	PriorityQueueHandle() = default;
 
 private:
 	PriorityQueueHandle(long value);
@@ -17,10 +17,7 @@ private:
 	operator long() const;
 
 private:
-	static const long INVALID_HANDLE_VALUE = -1;
-
-private:
-	long value;
+	long value = -1;
 };
 
 #endif //__PRIORITY_QUEUE_HANDLE_H_INLCUDED__
