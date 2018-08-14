@@ -24,7 +24,7 @@ void Command::useGraph(const String& ID)
 {
 	assert(Command::graphStore);
 
-	Command::usedGraph = &Command::graphStore->get(ID);
+	Command::usedGraph = &Command::graphStore->getGraph(ID);
 }
 
 
@@ -45,7 +45,7 @@ void Command::insertGraph(std::unique_ptr<Graph> graphPtr)
 {
 	assert(Command::graphStore);
 
-	Command::graphStore->insert(*graphPtr);
+	Command::graphStore->insertGraph(*graphPtr);
 	graphPtr.release();
 }
 
@@ -59,5 +59,5 @@ void Command::removeGraph(const String& ID)
 		Command::usedGraph = nullptr;
 	}
 
-	Command::graphStore->remove(ID);
+	Command::graphStore->removeGraph(ID);
 }

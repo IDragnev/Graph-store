@@ -20,13 +20,13 @@ namespace GraphStoretest
 		static void insertGraph(GraphStore& store, const char* ID)
 		{
 			GraphPtr graphPtr = createGraph(ID);
-			store.insert(*graphPtr);
+			store.insertGraph(*graphPtr);
 			graphPtr.release();
 		}
 
 		static GraphPtr createGraph(const char* ID)
 		{
-			return GraphPtr(new DirectedGraph(ID));
+			return GraphPtr{ new DirectedGraph{ ID } };
 		}
 
 	public:	
@@ -35,9 +35,9 @@ namespace GraphStoretest
 			GraphStore store;
 			GraphPtr graphPtr = createGraph("ID");
 
-			store.insert(*graphPtr);
+			store.insertGraph(*graphPtr);
 			const Graph* expected = graphPtr.release();
-			const Graph& actual = store.get(expected->getID());
+			const Graph& actual = store.getGraph(expected->getID());
 
 			Assert::IsTrue(expected == &actual);
 		}
@@ -48,8 +48,8 @@ namespace GraphStoretest
 			GraphPtr graphPtr = createGraph("ID");
 			try
 			{
-				store.insert(*graphPtr);
-				store.insert(*graphPtr);
+				store.insertGraph(*graphPtr);
+				store.insertGraph(*graphPtr);
 				Assert::Fail(L"insert did not throw");
 			}
 			catch (GraphStoreException& e)
@@ -64,7 +64,7 @@ namespace GraphStoretest
 			try
 			{
 				GraphStore emptyStore;
-				emptyStore.remove("ID");
+				emptyStore.removeGraph("ID");
 				Assert::Fail(L"remove did not throw");
 			}
 			catch (GraphStoreException& e)
@@ -77,10 +77,10 @@ namespace GraphStoretest
 		{
 			GraphStore store;
 			insertGraph(store, "ID");
-			store.remove("ID");
+			store.removeGraph("ID");
 			try
 			{
-				const Graph& graph = store.get("ID");
+				const Graph& graph = store.getGraph("ID");
 				Assert::Fail(L"removed graph is still in the store");
 			}
 			catch (GraphStoreException& e)

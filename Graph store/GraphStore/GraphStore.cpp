@@ -31,7 +31,7 @@ GraphStore& GraphStore::operator=(GraphStore&& rhs)
 }
 
 
-void GraphStore::insert(Graph& graph)
+void GraphStore::insertGraph(Graph& graph)
 {
 	if (!hasGraphWithID(graph.getID()))
 	{
@@ -39,7 +39,7 @@ void GraphStore::insert(Graph& graph)
 	}
 	else
 	{
-		throw GraphStoreException("A graph with ID \'" + graph.getID() + String("\' already exists"));
+		throw GraphStoreException{ "A graph with ID \'" + graph.getID() + String{ "\' already exists" } };
 	}
 }
 
@@ -70,13 +70,13 @@ const Graph* GraphStore::searchGraph(const String& ID) const
 }
 
 
-Graph& GraphStore::get(const String& ID)
+Graph& GraphStore::getGraph(const String& ID)
 {
-	return const_cast<Graph&>( static_cast<const GraphStore&>(*this).get(ID) );
+	return const_cast<Graph&>( static_cast<const GraphStore&>(*this).getGraph(ID) );
 }
 
 
-const Graph& GraphStore::get(const String& ID) const
+const Graph& GraphStore::getGraph(const String& ID) const
 {
 	const Graph* result = searchGraph(ID);
 
@@ -93,11 +93,11 @@ const Graph& GraphStore::get(const String& ID) const
 
 void GraphStore::throwNonExistingGraph(const String& ID)
 {
-	throw GraphStoreException("No graph with ID \'" + ID + String("\' exists"));
+	throw GraphStoreException{ "No graph with ID \'" + ID + String{"\' exists"} };
 }
 
 
-void GraphStore::remove(const String& ID)
+void GraphStore::removeGraph(const String& ID)
 {
 	size_t count = graphs.getCount();
 
@@ -123,4 +123,17 @@ void GraphStore::removeGraphAt(size_t index)
 	graphs.removeAt(lastGraphIndex);
 
 	delete toRemove;
+}
+
+
+bool GraphStore::isEmpty() const
+{
+	return graphs.isEmpty();
+}
+
+
+void GraphStore::empty()
+{
+	deleteAllGraphs();
+	graphs.empty();
 }

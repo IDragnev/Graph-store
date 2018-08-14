@@ -83,7 +83,7 @@ void Application::load(const String& directory)
 
 	loader.load([&](std::unique_ptr<Graph> graph)
 	{
-		graphs.insert(*graph);
+		graphs.insertGraph(*graph);
 		graph.release();
 	});
 

@@ -20,11 +20,14 @@ public:
 
 	GraphStore& operator=(GraphStore&& rhs);
 
-	void insert(Graph& graph);
-	void remove(const String& ID);
-	Graph& get(const String& ID);
-	const Graph& get(const String& ID) const;
+	void insertGraph(Graph& graph);
+	void removeGraph(const String& ID);
+	Graph& getGraph(const String& ID);
+	const Graph& getGraph(const String& ID) const;
 	
+	bool isEmpty() const;
+	void empty();
+
 private:
 	GraphStore(const GraphStore&) = delete;
 	GraphStore& operator=(const GraphStore&) = delete;
