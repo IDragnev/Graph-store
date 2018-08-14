@@ -146,9 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Application\Commands\Base\Command.cpp" />
-    <ClCompile Include="Application\Commands\Create graph\CreateGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Delete graph\DeleteGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Insert edge\InsertEdgeCommand.cpp" />
+    <ClCompile Include="Application\Commands\Insert graph\InsertGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Insert vertex\InsertVertexCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove edge\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove vertex\RemoveVertexCommand.cpp" />
@@ -181,9 +181,9 @@
     <ClInclude Include="Application\Command registrator\CommandRegistratorImpl.hpp" />
     <ClInclude Include="Application\Commands\Base\Command.h" />
     <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h" />
-    <ClInclude Include="Application\Commands\Create graph\CreateGraphCommand.h" />
     <ClInclude Include="Application\Commands\Delete graph\DeleteGraphCommand.h" />
     <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h" />
+    <ClInclude Include="Application\Commands\Insert graph\InsertGraphCommand.h" />
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h" />
     <ClInclude Include="Application\Commands\Remove edge\RemoveEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h" />
