@@ -25,7 +25,7 @@ Application::Application() :
 
 void Application::insertExitCommand()
 {
-	insertCommand("EXIT", "Exits the application", 
+	insertCommand("EXIT", "Exits the application",
 		[&](args::Subparser& parser) 
 	{ 
 		parser.Parse();

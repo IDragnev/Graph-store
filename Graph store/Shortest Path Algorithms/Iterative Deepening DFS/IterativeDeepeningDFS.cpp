@@ -1,7 +1,8 @@
 #include "IterativeDeepeningDFS.h"
-#include "../../Graph/Base Graph/Graph.h"
-#include <memory>
+#include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <assert.h>
+
+static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("DFS");
 
 
 IterativeDeepeningDFS::IterativeDeepeningDFS(const char* ID) :

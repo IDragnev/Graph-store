@@ -230,6 +230,8 @@
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h" />
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
+    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h" />
+    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp" />
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
     <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />

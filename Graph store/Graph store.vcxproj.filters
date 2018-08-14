@@ -156,8 +156,11 @@
     <Filter Include="Directory loader">
       <UniqueIdentifier>{5634c161-e6ff-47e4-b646-7fe75708297c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Algorithm store">
+    <Filter Include="ShortestPathAlgorithm store">
       <UniqueIdentifier>{db6b1b34-1cf3-46ee-abd9-625e6feedb6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShortestPathAlgorithm store\Algorithm Registrator">
+      <UniqueIdentifier>{ffd12a2d-e4a2-44e0-b65d-5d8109341898}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,7 +249,7 @@
       <Filter>Directory loader</Filter>
     </ClCompile>
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp">
-      <Filter>Algorithm store</Filter>
+      <Filter>ShortestPathAlgorithm store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,7 +452,13 @@
       <Filter>Directory loader</Filter>
     </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h">
-      <Filter>Algorithm store</Filter>
+      <Filter>ShortestPathAlgorithm store</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h">
+      <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp">
+      <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

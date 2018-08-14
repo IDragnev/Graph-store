@@ -1,7 +1,8 @@
 #include "BFSShortest.h"
-#include "../../Graph/Base Graph/Graph.h"
+#include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <assert.h>
-#include <memory>
+
+static ShortestPathAlgorithmRegistrator<BFSShortest> registrator("BFS");
 
 
 BFSShortest::BFSShortest(const char* ID) :

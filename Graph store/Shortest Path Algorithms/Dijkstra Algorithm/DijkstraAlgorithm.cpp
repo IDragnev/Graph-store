@@ -1,4 +1,7 @@
 #include "DijkstraAlgorithm.h"
+#include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+
+static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("Dijkstra");
 
 
 DijkstraAlgorithm::DijkstraAlgorithm(const char* ID) :
