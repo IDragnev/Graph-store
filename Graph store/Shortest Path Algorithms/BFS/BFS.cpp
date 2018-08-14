@@ -4,13 +4,6 @@
 static ShortestPathAlgorithmRegistrator<BFS> registrator("BFS");
 
 
-BFS::BFS(const char* ID) :
-	ShortestPathAlgorithm(ID), 
-	queue()
-{
-}
-
-
 void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)

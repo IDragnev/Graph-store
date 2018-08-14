@@ -5,11 +5,8 @@
 
 class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {
-private:
-	typedef ShortestPathAlgorithm Base;
-
 public:
-	explicit IterativeDeepeningDFS(const char* ID);
+	using ShortestPathAlgorithm::ShortestPathAlgorithm;
 	virtual ~IterativeDeepeningDFS() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
@@ -23,14 +20,8 @@ private:
 	void initializeState(Graph& graph, const Vertex& goal);
 
 private:
-	IterativeDeepeningDFS(IterativeDeepeningDFS&&) = delete;
-	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = delete;
-	IterativeDeepeningDFS& operator=(IterativeDeepeningDFS&&) = delete;
-	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
-
-private:
-	unsigned maxDepth;
-	bool isAShortestPathFound;
+	unsigned maxDepth{};
+	bool isAShortestPathFound{ false };
 };
 
 #endif //__ITERATIVE_DEEPENING_DFS_H_INCLUDED__

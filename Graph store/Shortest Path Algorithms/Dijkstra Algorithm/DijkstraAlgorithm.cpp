@@ -4,13 +4,6 @@
 static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("Dijkstra");
 
 
-DijkstraAlgorithm::DijkstraAlgorithm(const char* ID) :
-	Base(ID),
-	priorityQueue()
-{
-}
-
-
 void DijkstraAlgorithm::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
@@ -29,7 +22,7 @@ void DijkstraAlgorithm::findShortestPath(Graph& graph, Vertex& source, Vertex& g
 
 void DijkstraAlgorithm::initializeState(Graph& graph, const Vertex& goal)
 {
-	Base::initializeState(graph, goal);
+	ShortestPathAlgorithm::initializeState(graph, goal);
 	insertVerticesInPriorityQueue(graph);
 }
 

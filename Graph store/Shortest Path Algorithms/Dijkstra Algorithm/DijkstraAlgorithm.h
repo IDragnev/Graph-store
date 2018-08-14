@@ -10,11 +10,10 @@
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
 private:
-	typedef ShortestPathAlgorithm Base;
 	typedef PriorityQueue<Vertex, Distance, DistanceAccessor, GreaterThan<Distance>, HandleSetter> MinPriorityQueue;
 
 public:
-	explicit DijkstraAlgorithm(const char* ID);
+	using ShortestPathAlgorithm::ShortestPathAlgorithm;
 	virtual ~DijkstraAlgorithm() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
@@ -36,13 +35,7 @@ private:
 	void clearState();
 
 private:
-	DijkstraAlgorithm(DijkstraAlgorithm&&) = delete;
-	DijkstraAlgorithm(const DijkstraAlgorithm&) = delete;
-	DijkstraAlgorithm& operator=(DijkstraAlgorithm&&) = delete;
-	DijkstraAlgorithm& operator=(const DijkstraAlgorithm&) = delete;
-
-private:
-	MinPriorityQueue priorityQueue;
+	MinPriorityQueue priorityQueue{};
 };
 
 #endif //__DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__

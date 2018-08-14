@@ -5,14 +5,6 @@
 static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("DFS");
 
 
-IterativeDeepeningDFS::IterativeDeepeningDFS(const char* ID) :
-	Base(ID),
-	maxDepth(0),
-	isAShortestPathFound(false)
-{
-}
-
-
 void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
@@ -30,7 +22,7 @@ void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Verte
 
 void IterativeDeepeningDFS::initializeState(Graph& graph, const Vertex& goal)
 {
-	Base::initializeState(graph, goal);
+	ShortestPathAlgorithm::initializeState(graph, goal);
 	maxDepth = graph.getVerticesCount() - 1;  //|V| - 1 because shortest paths are unique
 	isAShortestPathFound = false;
 }

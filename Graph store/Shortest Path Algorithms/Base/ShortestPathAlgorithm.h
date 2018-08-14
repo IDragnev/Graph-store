@@ -7,6 +7,7 @@
 class ShortestPathAlgorithm
 {
 public:
+	explicit ShortestPathAlgorithm(const char* ID);
 	virtual ~ShortestPathAlgorithm() = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) = 0;
@@ -14,8 +15,6 @@ public:
 	const String& getID() const;
 
 protected:
-	ShortestPathAlgorithm(const char* ID);
-
 	static void findTrivialPathFromTo(Vertex& source, Vertex& goal);
 
 	bool isTheGoal(const Vertex& vertex) const;
