@@ -15,7 +15,7 @@ private:
 public:
 	static Application& instance();
 
-	void run();
+	void run(const String& directory);
 	void insertCommand(Command& command);
 
 private:
@@ -31,6 +31,8 @@ private:
 	void insertHelpCommand();
 	void insertCommand(const char* name, const char* description, Function coroutine);
 
+	void load(const String& directory);
+	void run();
 	void invokeCommand(const InputContainer& input);
 	static InputContainer receiveInput();
 

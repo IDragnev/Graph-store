@@ -153,6 +153,9 @@
     <Filter Include="Application\Command Registrator">
       <UniqueIdentifier>{c2516e2e-0cbc-4399-a657-c62ba0e12076}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Directory loader">
+      <UniqueIdentifier>{5634c161-e6ff-47e4-b646-7fe75708297c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Remove edge\RemoveEdgeCommand.cpp">
       <Filter>Application\Commands\Remove edge</Filter>
+    </ClCompile>
+    <ClCompile Include="Directory loader\DirectoryLoader.cpp">
+      <Filter>Directory loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,9 +391,6 @@
     <ClInclude Include="Exception\Exception.h">
       <Filter>Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Exception\ExceptionImpl.hpp">
-      <Filter>Exception</Filter>
-    </ClInclude>
     <ClInclude Include="GraphStore\GraphStore.h">
       <Filter>GraphStore</Filter>
     </ClInclude>
@@ -432,6 +435,12 @@
     </ClInclude>
     <ClInclude Include="Application\Command registrator\CommandRegistratorImpl.hpp">
       <Filter>Application\Command Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory loader\DirectoryLoader.h">
+      <Filter>Directory loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory loader\DirectoryLoaderImpl.hpp">
+      <Filter>Directory loader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

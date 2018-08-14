@@ -153,6 +153,7 @@
     <ClCompile Include="Application\Commands\Remove edge\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove vertex\RemoveVertexCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
+    <ClCompile Include="Directory loader\DirectoryLoader.cpp" />
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
@@ -187,12 +188,13 @@
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp" />
+    <ClInclude Include="Directory loader\DirectoryLoader.h" />
+    <ClInclude Include="Directory loader\DirectoryLoaderImpl.hpp" />
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="Exception\Exception.h" />
-    <ClInclude Include="Exception\ExceptionImpl.hpp" />
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />

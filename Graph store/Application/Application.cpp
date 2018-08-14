@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "StringSplitter\StringSplitter.h"
+#include "..\Directory loader\DirectoryLoader.h"
 
 
 Application& Application::instance()
@@ -62,14 +63,39 @@ void Application::insertCommand(const char* name, const char* description, Funct
 }
 
 
+void Application::run(const String& directory)
+{
+	try
+	{
+		load(directory);
+		run();
+	}
+	catch (std::runtime_error& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
+
+void Application::load(const String& directory)
+{
+	DirectoryLoader loader(directory);
+
+	loader.load([&](std::unique_ptr<Graph> graph)
+	{
+		graphs.insert(*graph);
+		graph.release();
+	});
+
+	Command::setManagedStore(graphs);
+}
+
+
 void Application::run()
 {
-	//load...
-	Command::setManagedStore(graphs);
-
 	do
 	{
-		std::cout << '>';
+		std::cout << '$';
 		invokeCommand(receiveInput());
 	} while (!receivedExitCommand);
 }
@@ -83,7 +109,7 @@ Application::InputContainer Application::receiveInput()
 	std::cin.clear();
 	std::cin.getline(input, maxInputSize);
 
-	StringSplitter<> s; 
+	StringSplitter<> s{ ' ', '\'' };
 	return s.split(input);
 }
 

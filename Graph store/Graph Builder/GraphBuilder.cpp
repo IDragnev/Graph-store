@@ -81,7 +81,7 @@ DArray<GraphBuilder::RawEdge> GraphBuilder::parseEdges()
 
 GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 {
-	RawEdge result;
+	RawEdge result{};
 
 	parser.ignoreUntil(EDGE_START);
 	result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
