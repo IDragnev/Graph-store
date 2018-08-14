@@ -14,7 +14,7 @@ private:
 	typedef PriorityQueue<Vertex, Distance, DistanceAccessor, GreaterThan<Distance>, HandleSetter> MinPriorityQueue;
 
 public:
-	DijkstraAlgorithm(const char* ID);
+	explicit DijkstraAlgorithm(const char* ID);
 	virtual ~DijkstraAlgorithm() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
