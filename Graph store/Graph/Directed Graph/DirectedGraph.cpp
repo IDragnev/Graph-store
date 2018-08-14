@@ -1,13 +1,7 @@
 #include "DirectedGraph.h"
 #include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
 
-static GraphRegistrator<DirectedGraph> registrator("directed");
-
-
-DirectedGraph::DirectedGraph(const String& ID) :
-	Graph(ID)
-{
-}
+static GraphRegistrator<DirectedGraph> registrator{ "directed" };
 
 
 void DirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
@@ -21,7 +15,7 @@ void DirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 	}
 	else
 	{
-		throw GraphException("Such edge already exists");
+		throw GraphException{ "Such edge already exists" };
 	}
 }
 

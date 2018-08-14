@@ -6,7 +6,7 @@
 class DirectedGraph : public Graph
 {
 public:
-	DirectedGraph(const String& ID);
+	using Graph::Graph;
 	virtual ~DirectedGraph() override = default;
 
 	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
@@ -14,12 +14,6 @@ public:
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;
-
-private:
-	DirectedGraph(const DirectedGraph&) = delete;
-	DirectedGraph(DirectedGraph&&) = delete;
-	DirectedGraph& operator=(DirectedGraph&&) = delete;
-	DirectedGraph& operator=(const DirectedGraph&) = delete;
 };
 
 #endif //__DIRECTED_GRAPH_H_INCLUDED__

@@ -1,13 +1,7 @@
 #include "UndirectedGraph.h"
 #include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
 
-static GraphRegistrator<UndirectedGraph> registrator("undirected");
-
-
-UndirectedGraph::UndirectedGraph(const String& ID) :
-	Graph(ID)
-{
-}
+static GraphRegistrator<UndirectedGraph> registrator{ "undirected" };
 
 
 void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
@@ -21,7 +15,7 @@ void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 	}
 	else
 	{
-		throw GraphException("Such edge already exists");
+		throw GraphException{ "Such edge already exists" };
 	}
 }
 

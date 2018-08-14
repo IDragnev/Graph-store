@@ -1,6 +1,5 @@
 #include "Application\Application.h"
 
-
 int main(int argc, const char** argv)
 {
 	if (argc != 2)

@@ -6,7 +6,7 @@
 class UndirectedGraph : public Graph
 {
 public:
-	UndirectedGraph(const String& ID);
+	using Graph::Graph;
 	virtual ~UndirectedGraph() override = default;
 
 	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
@@ -17,12 +17,6 @@ protected:
 
 private:
 	void insertEdgeInBothDirections(Vertex& start, Vertex& end, unsigned weight);
-
-private:
-	UndirectedGraph(const UndirectedGraph&) = delete;
-	UndirectedGraph(UndirectedGraph&&) = delete;
-	UndirectedGraph& operator=(UndirectedGraph&&) = delete;
-	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
 };
 
 #endif //__UNDIRECTED_GRAPH_H_INCLUDED__

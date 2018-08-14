@@ -28,6 +28,7 @@ protected:
 	typedef std::unique_ptr<ConstIterator<Edge>> EdgeAbstractConstIterator;
 	
 public:
+	Graph(const String& ID);
 	virtual ~Graph();
 
 	void insertVertexWithID(const String& ID);
@@ -48,8 +49,6 @@ public:
 	const String& getID() const;
 
 protected:
-	Graph(const String& ID);
-
 	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 
 	static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
