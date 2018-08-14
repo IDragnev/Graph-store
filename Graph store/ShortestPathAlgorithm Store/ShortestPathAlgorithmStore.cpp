@@ -50,6 +50,8 @@ ShortestPathAlgorithm* ShortestPathAlgorithmStore::searchAlgorithm(const String&
 		{
 			return algorithm;
 		}
+
+		iterator.goToNext();
 	}
 
 	return nullptr;

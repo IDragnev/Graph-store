@@ -162,6 +162,9 @@
     <Filter Include="Shortest Path Algorithms\BFS">
       <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Search path">
+      <UniqueIdentifier>{fd6143fc-dcc9-4e13-a64b-5e20e623a07e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -250,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Search path\SearchPathCommand.cpp">
+      <Filter>Application\Commands\Search path</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +465,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h">
+      <Filter>Application\Commands\Search path</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
