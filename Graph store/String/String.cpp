@@ -3,12 +3,6 @@
 #include <utility>
 
 
-String::String() :
-	content{ nullptr }
-{ 
-}
-
-
 String::String(char symbol) :
 	String{}
 {

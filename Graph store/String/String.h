@@ -4,7 +4,7 @@
 class String
 {
 public:
-	String();                                 
+	String() = default;
 	String(char symbol);                            
 	String(const char* string);
 	String(const String& source);
@@ -31,7 +31,7 @@ private:
 	static char* clone(const char* string);
 
 private:
-	char* content;
+	char* content = nullptr;
 };
 
 String operator+(const String& lhs, char rhs);
