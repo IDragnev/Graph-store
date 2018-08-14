@@ -63,9 +63,6 @@
     <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
       <UniqueIdentifier>{908a4b4d-e4b0-4b9d-86b1-17a948d1f77d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\BFS Shortest">
-      <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\ID Accessor">
       <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
     </Filter>
@@ -162,6 +159,9 @@
     <Filter Include="ShortestPathAlgorithm store\Algorithm Registrator">
       <UniqueIdentifier>{ffd12a2d-e4a2-44e0-b65d-5d8109341898}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\BFS">
+      <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,9 +190,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp">
-      <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
     </ClCompile>
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
       <Filter>Graph Factory\Graph creators\Base</Filter>
@@ -250,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp">
       <Filter>ShortestPathAlgorithm store</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,9 +327,6 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.h">
-      <Filter>Shortest Path Algorithms\BFS Shortest</Filter>
     </ClInclude>
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
       <Filter>Graph\ID Accessor</Filter>
@@ -459,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp">
       <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

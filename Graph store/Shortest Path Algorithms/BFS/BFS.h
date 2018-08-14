@@ -4,11 +4,11 @@
 #include "../Base/ShortestPathAlgorithm.h"
 #include "../../Queue/Queue.h"
 
-class BFSShortest: public ShortestPathAlgorithm
+class BFS: public ShortestPathAlgorithm
 {
 public:
-	explicit BFSShortest(const char* ID);
-	virtual ~BFSShortest() override = default;
+	explicit BFS(const char* ID);
+	virtual ~BFS() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
 
@@ -23,13 +23,13 @@ private:
 	void clearState();
 
 private:
-	BFSShortest(BFSShortest&&) = delete;
-	BFSShortest(const BFSShortest&) = delete;
-	BFSShortest& operator=(BFSShortest&&) = delete;
-	BFSShortest& operator=(const BFSShortest&) = delete;
+	BFS(BFS&&) = delete;
+	BFS(const BFS&) = delete;
+	BFS& operator=(BFS&&) = delete;
+	BFS& operator=(const BFS&) = delete;
 
 private:
-	Queue<Vertex*> verticesQueue;
+	Queue<Vertex*> queue;
 };
 
 #endif //__BFS_SHORTEST_PATH_H_INCLUDED__

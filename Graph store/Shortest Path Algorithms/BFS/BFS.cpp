@@ -1,18 +1,17 @@
-#include "BFSShortest.h"
+#include "BFS.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
-#include <assert.h>
 
-static ShortestPathAlgorithmRegistrator<BFSShortest> registrator("BFS");
+static ShortestPathAlgorithmRegistrator<BFS> registrator("BFS");
 
 
-BFSShortest::BFSShortest(const char* ID) :
-	ShortestPathAlgorithm(ID),
-	verticesQueue()
+BFS::BFS(const char* ID) :
+	ShortestPathAlgorithm(ID), 
+	queue()
 {
 }
 
 
-void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
+void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
 	{
@@ -28,7 +27,7 @@ void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 }
 
 
-void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
+void BFS::findShortestPathToGoalFrom(Vertex& source)
 {
 	assert(isFrontierEmpty());
 
@@ -50,30 +49,30 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 }
 
 
-bool BFSShortest::isFrontierEmpty() const
+bool BFS::isFrontierEmpty() const
 {
-	return verticesQueue.isEmpty();
+	return queue.isEmpty();
 }
 
 
-void BFSShortest::addToFrontier(Vertex& vertex)
+void BFS::addToFrontier(Vertex& vertex)
 {
 	assert(vertex.isVisited());
 
-	verticesQueue.enqueue(&vertex);
+	queue.enqueue(&vertex);
 }
 
 
-Vertex& BFSShortest::extractVertexFromTheFrontier()
+Vertex& BFS::extractVertexFromTheFrontier()
 {
-	Vertex* vertex = verticesQueue.dequeue();
+	Vertex* vertex = queue.dequeue();
 	assert(vertex);
 
 	return *vertex;
 }
 
 
-void BFSShortest::expandFrontierFrom(Vertex& vertex)
+void BFS::expandFrontierFrom(Vertex& vertex)
 {
 	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
 
@@ -94,14 +93,14 @@ void BFSShortest::expandFrontierFrom(Vertex& vertex)
 }
 
 
-void BFSShortest::extendCurrentPathFromTo(Vertex& from, Vertex& to)
+void BFS::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
 	to.setPredecessor(&from);
 	to.setDistanceToSource(from.getDistanceToSource() + Distance(1));
 }
 
 
-void BFSShortest::clearState()
+void BFS::clearState()
 {
-	verticesQueue.empty();
+	queue.empty();
 }

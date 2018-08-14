@@ -168,7 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp" />
@@ -225,7 +225,7 @@
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
-    <ClInclude Include="Shortest Path Algorithms\BFS Shortest\BFSShortest.h" />
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h" />
