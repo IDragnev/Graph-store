@@ -20,10 +20,9 @@ private:
 };
 
 
-inline unsigned HashFunction<String>::operator()(const String& key) const
+unsigned HashFunction<String>::operator()(const String& key) const
 {
 	const char* input = key;
-
 	unsigned hashValue = FNV_OFFSET_BASIS;
 
 	while (*input)
