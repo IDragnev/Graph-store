@@ -40,10 +40,6 @@ private:
 	void throwIfParseFailed(const char* reason) const;
 
 private:
-	static const std::streamsize MAX_LIMIT = std::numeric_limits<std::streamsize>::max();
-	static const size_t BUFFER_SIZE = 512;
-
-private:
 	unsigned currentLine;
 	String filename;
 	std::ifstream file;
