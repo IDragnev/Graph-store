@@ -1,6 +1,7 @@
 #include "RemoveVertexCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<RemoveVertexCommand> registrator;
@@ -10,19 +11,19 @@ void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional ID{ parser,"ID", "The ID of the vertex to be removed" };
 	parser.Parse();
-	setIdIfMatched(ID);
+	setVertexID(ID);
 }
 
 
-void RemoveVertexCommand::setIdIfMatched(StringPositional& ID)
+void RemoveVertexCommand::setVertexID(StringPositional& argument)
 {
-	if (ID)
+	if (argument)
 	{
-		vertexID = args::get(ID);
+		vertexID = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [ID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

@@ -1,5 +1,6 @@
 #include "RemoveGraphCommand.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<RemoveGraphCommand> registrator;
@@ -9,19 +10,19 @@ void RemoveGraphCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional ID{ parser, "ID", "The ID of the graph to be removed" };
 	parser.Parse();
-	setID(ID);
+	setGraphID(ID);
 }
 
 
-void RemoveGraphCommand::setID(StringPositional& ID)
+void RemoveGraphCommand::setGraphID(StringPositional& argument)
 {
-	if (ID)
+	if (argument)
 	{
-		graphID = args::get(ID);
+		graphID = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [ID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

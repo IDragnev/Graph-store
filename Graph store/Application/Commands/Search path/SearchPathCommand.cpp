@@ -4,6 +4,7 @@
 #include "..\..\Command registrator\CommandRegistrator.h"
 #include "..\..\..\ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h"
 #include "..\..\..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "PathUtilityFunctions.h"
 
 static CommandRegistrator<SearchPathCommand> registrator;
@@ -14,7 +15,6 @@ void SearchPathCommand::parseArguments(args::Subparser& parser)
 	StringPositional startID{ parser, "startVertexID", "The ID of the start of the sought path" };
 	StringPositional endID{ parser, "endVertexID", "The ID of the end of the sought path" };
 	StringPositional algorithm{ parser, "algorithm", "The algorithm to be used" };
-
 	parser.Parse();
 
 	setStartVertexID(startID);
@@ -23,41 +23,33 @@ void SearchPathCommand::parseArguments(args::Subparser& parser)
 }
 
 
-void SearchPathCommand::setStartVertexID(StringPositional& startID)
+void SearchPathCommand::setStartVertexID(StringPositional& argument)
 {
-	if (startID) 
-	{
-		startVertexID = args::get(startID);
-	}
-	else
-	{
-		throw std::runtime_error{ "Missing argument: [" + startID.Name() + "]" };
-	}
+	setIfMatched(startVertexID, argument);
 }
 
 
-void SearchPathCommand::setEndVertexID(StringPositional& endID)
+void SearchPathCommand::setEndVertexID(StringPositional& argument)
 {
-	if (endID)
-	{
-		endVertexID = args::get(endID);
-	}
-	else
-	{
-		throw std::runtime_error{ "Missing argument: [" + endID.Name() + "]" };
-	}
+	setIfMatched(endVertexID, argument);
 }
 
 
-void SearchPathCommand::setAlgorithmID(StringPositional& algorithm)
+void SearchPathCommand::setAlgorithmID(StringPositional& argument)
 {
-	if (algorithm)
+	setIfMatched(algorithmID, argument);
+}
+
+
+void SearchPathCommand::setIfMatched(String& str, StringPositional& argument)
+{
+	if (argument)
 	{
-		algorithmID = args::get(algorithm);
+		str = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [" + algorithm.Name() + "]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

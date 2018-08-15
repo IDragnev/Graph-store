@@ -22,7 +22,7 @@ private:
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
-	void setIdIfMatched(StringPositional& id);
+	void setVertexID(StringPositional& argument);
 
 private:
 	String vertexID;

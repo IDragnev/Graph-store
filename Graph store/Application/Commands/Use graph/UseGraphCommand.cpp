@@ -1,5 +1,6 @@
 #include "UseGraphCommand.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<UseGraphCommand> registrator;
@@ -7,21 +8,21 @@ static CommandRegistrator<UseGraphCommand> registrator;
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional id{ parser, "ID", "the ID of the graph to be used" };
+	StringPositional ID{ parser, "ID", "the ID of the graph to be used" };
 	parser.Parse();
-	setIdIfMatched(id);
+	setGraphID(ID);
 }
 
 
-void UseGraphCommand::setIdIfMatched(StringPositional& id)
+void UseGraphCommand::setGraphID(StringPositional& argument)
 {
-	if (id)
+	if (argument)
 	{
-		graphID = args::get(id);
+		graphID = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [ID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

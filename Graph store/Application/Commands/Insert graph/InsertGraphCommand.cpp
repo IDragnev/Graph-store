@@ -3,6 +3,7 @@
 #include "..\..\..\Graph Factory\GraphFactory.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include <memory>
 
 static CommandRegistrator<InsertGraphCommand> registrator;
@@ -15,32 +16,31 @@ void InsertGraphCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional ID{ parser, "ID", "The ID of the graph to be created" };
 	StringPositional type{ parser, "type", "The type of the graph to be created" };
-
 	parser.Parse();
 
-	setID(ID);
-	setType(type);
+	setGraphID(ID);
+	setGraphType(type);
 }
 
 
-void InsertGraphCommand::setID(StringPositional& ID)
+void InsertGraphCommand::setGraphID(StringPositional& argument)
 {
-	if (ID)
+	if (argument)
 	{
-		graphID = args::get(ID);
+		graphID = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [ID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 
 
-void InsertGraphCommand::setType(StringPositional& type)
+void InsertGraphCommand::setGraphType(StringPositional& argument)
 {
-	if (type)
+	if (argument)
 	{
-		graphType = args::get(type);
+		graphType = args::get(argument);
 	}
 	else
 	{

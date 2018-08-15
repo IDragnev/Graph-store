@@ -25,8 +25,8 @@ private:
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
-	void setStartIdIfMatched(StringPositional& startID);
-	void setEndIdIfMatched(StringPositional& endID);
+	void setStartVertexID(StringPositional& argument);
+	void setEndVertexID(StringPositional& argument);
 	void setIfMatched(String& str, StringPositional& argument);
 	void setWeight(UnsignedPositional& weight);
 

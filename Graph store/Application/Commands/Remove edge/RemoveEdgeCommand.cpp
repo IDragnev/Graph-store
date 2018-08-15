@@ -1,6 +1,7 @@
 #include "RemoveEdgeCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<RemoveEdgeCommand> registrator;
@@ -10,36 +11,34 @@ void RemoveEdgeCommand::parseArguments(args::Subparser& parser)
 {
 	StringPositional startID{ parser, "startVertexID", "The ID of the start vertex" };
 	StringPositional endID{ parser, "endVertexID", "The ID of the end vertex" };
-
 	parser.Parse();
 
-	setStartIdIfMatched(startID);
-	setEndIdIfMatched(endID);
+	setStartVertexID(startID);
+	setEndVertexID(endID);
 }
 
 
-void RemoveEdgeCommand::setStartIdIfMatched(StringPositional& startID)
+void RemoveEdgeCommand::setStartVertexID(StringPositional& argument)
 {
-	if (startID)
-	{
-		startVertexID = args::get(startID);
-	}
-	else
-	{
-		throw std::runtime_error{ "Missing argument: [startVertexID]" };
-	}
+	setIfMatched(startVertexID, argument);
 }
 
 
-void RemoveEdgeCommand::setEndIdIfMatched(StringPositional& endID)
+void RemoveEdgeCommand::setEndVertexID(StringPositional& argument)
 {
-	if (endID)
+	setIfMatched(endVertexID, argument);
+}
+
+
+void RemoveEdgeCommand::setIfMatched(String& str, StringPositional& argument)
+{
+	if (argument)
 	{
-		endVertexID = args::get(endID);
+		str = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [endVertexID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

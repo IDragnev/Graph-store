@@ -22,9 +22,10 @@ private:
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
-	void setStartVertexID(StringPositional& startID);
-	void setEndVertexID(StringPositional& endID);
-	void setAlgorithmID(StringPositional& algorithm);
+	void setStartVertexID(StringPositional& argument);
+	void setEndVertexID(StringPositional& argument);
+	void setAlgorithmID(StringPositional& argument);
+	void setIfMatched(String& str, StringPositional& argument);
 
 private:
 	String startVertexID;

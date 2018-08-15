@@ -22,8 +22,8 @@ private:
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
-	void setID(StringPositional& ID);
-	void setType(StringPositional& type);
+	void setGraphID(StringPositional& argument);
+	void setGraphType(StringPositional& argument);
 
 	static const String DEFAULT_GRAPH_TYPE;
 

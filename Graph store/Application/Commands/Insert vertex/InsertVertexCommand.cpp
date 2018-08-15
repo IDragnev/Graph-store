@@ -1,6 +1,7 @@
 #include "InsertVertexCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<InsertVertexCommand> registrator;
@@ -8,21 +9,21 @@ static CommandRegistrator<InsertVertexCommand> registrator;
 
 void InsertVertexCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional id{ parser, "ID", "The ID of the vertex to be inserted" };
+	StringPositional ID{ parser, "ID", "The ID of the vertex to be inserted" };
 	parser.Parse();
-	setIdIfMatched(id);
+	setVertexID(ID);
 }
 
 
-void InsertVertexCommand::setIdIfMatched(StringPositional& id)
+void InsertVertexCommand::setVertexID(StringPositional& argument)
 {
-	if (id)
+	if (argument)
 	{
-		vertexID = args::get(id);
+		vertexID = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [ID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

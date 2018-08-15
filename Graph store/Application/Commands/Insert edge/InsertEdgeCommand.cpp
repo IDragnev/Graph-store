@@ -12,22 +12,21 @@ void InsertEdgeCommand::parseArguments(args::Subparser& parser)
 	StringPositional startID{ parser, "startVertexID", "The ID of the start vertex" };
 	StringPositional endID{ parser, "endVertexID", "The ID of the end vertex" };
 	UnsignedPositional weight{ parser, "weight", "The weight of the edge" };
-
 	parser.Parse();
 
-	setStartIdIfMatched(startID);
-	setEndIdIfMatched(endID);
+	setStartVertexID(startID);
+	setEndVertexID(endID);
 	setWeight(weight);	
 }
 
 
-void InsertEdgeCommand::setStartIdIfMatched(StringPositional& argument)
+void InsertEdgeCommand::setStartVertexID(StringPositional& argument)
 {
 	setIfMatched(startVertexID, argument);
 }
 
 
-void InsertEdgeCommand::setEndIdIfMatched(StringPositional& argument)
+void InsertEdgeCommand::setEndVertexID(StringPositional& argument)
 {
 	setIfMatched(endVertexID, argument);
 }
