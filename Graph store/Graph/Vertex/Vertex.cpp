@@ -3,13 +3,13 @@
 
 
 Vertex::Vertex(const String& ID, size_t index) :
-	index(index),
-	id(),
-	edges(),
-	predecessor(nullptr),
-	handle(),
-	distanceToSource(Distance::Infinity()),
-	visited(false)
+	index{ index },
+	id{},
+	edges{},
+	predecessor{ nullptr },
+	handle{},
+	distanceToSource{ Distance::Infinity() },
+	visited{ false }
 {
 	setID(ID);
 }
@@ -17,13 +17,13 @@ Vertex::Vertex(const String& ID, size_t index) :
 
 void Vertex::setID(const String& ID)
 {
-	if (ID != String(""))
+	if (ID != String{ "" })
 	{
 		this->id = ID;
 	}
 	else
 	{
-		throw GraphException("Vertex ID must be a valid string");
+		throw Exception{ "A Vertex ID must be a valid string" };
 	}
 }
 
