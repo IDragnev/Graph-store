@@ -52,7 +52,7 @@ namespace GraphStoretest
 				store.insertGraph(*graphPtr);
 				Assert::Fail(L"insert did not throw");
 			}
-			catch (GraphStoreException& e)
+			catch (Exception& e)
 			{
 				graphPtr.release();
 				Assert::IsTrue(areEqual(e.what(), "A graph with ID \'ID\' already exists"));
@@ -67,7 +67,7 @@ namespace GraphStoretest
 				emptyStore.removeGraph("ID");
 				Assert::Fail(L"remove did not throw");
 			}
-			catch (GraphStoreException& e)
+			catch (Exception& e)
 			{
 				Assert::IsTrue(areEqual(e.what(), "No graph with ID \'ID\' exists"));
 			}
@@ -83,7 +83,7 @@ namespace GraphStoretest
 				const Graph& graph = store.getGraph("ID");
 				Assert::Fail(L"removed graph is still in the store");
 			}
-			catch (GraphStoreException& e)
+			catch (Exception& e)
 			{
 				Assert::IsTrue(areEqual(e.what(), "No graph with ID \'ID\' exists"));
 			}
