@@ -1,9 +1,12 @@
 #ifndef __APPLICATION_H_INCLUDED__
 #define __APPLICATION_H_INCLUDED__
 
-#include "Commands\Base\Command.h"
+#include "args.hxx"
 #include "..\GraphStore\GraphStore.h"
 #include <forward_list>
+
+class String;
+class Command;
 
 class Application
 {

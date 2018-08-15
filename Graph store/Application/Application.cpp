@@ -1,5 +1,8 @@
 #include "Application.h"
+#include "..\String\String.h"
+#include "Commands\Base\Command.h"
 #include "StringSplitter\StringSplitter.h"
+#include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
 
 
@@ -13,7 +16,7 @@ Application& Application::instance()
 
 Application::Application() :
 	parser{ "GRAPH STORE APPLICATION" },
-	commandsGroup{ parser, "Supported commands: " },
+	commandsGroup{ parser, "Supported commands" },
 	commands{},
 	graphs{},
 	receivedExitCommand{ false }
