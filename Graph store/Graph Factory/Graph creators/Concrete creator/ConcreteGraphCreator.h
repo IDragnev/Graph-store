@@ -2,6 +2,7 @@
 #define __CONCRETE_GRAPH_CREATOR__
 
 #include "..\Base\GraphCreator.h"
+#include "..\..\..\Graph\Base Graph\Graph.h"
 
 template <typename CreatedGraph>
 class ConcreteGraphCreator : public GraphCreator
