@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
-#include "../../../Graph store/DirectoryFlatIterator/DirectoryFlatIterator.h"
+#include "..\..\..\Graph store\DirectoryFlatIterator\DirectoryFlatIterator.h"
+#include "..\..\..\Graph store\General Exceptions\Exception.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -77,10 +78,10 @@ namespace DirectoryFlatIteratorTest
 		{
 			try
 			{
-				DirectoryFlatIterator iterator("Invalid Directory Name");
+				DirectoryFlatIterator iterator{ "Invalid Directory Name" };
 				Assert::Fail(L"Constructor did not throw");
 			}
-			catch (DirectoryFlatIteratorException& exception)
+			catch (Exception& exception)
 			{
 				Assert::IsTrue(areEqual(exception.what(), "Failed to open: Invalid Directory Name"));
 			}
@@ -88,7 +89,7 @@ namespace DirectoryFlatIteratorTest
 
 		TEST_METHOD(testIteratorToEmptyDirIsFinished)
 		{
-			DirectoryFlatIterator iterator(EMPTY_TEST_DIRECTORY);
+			DirectoryFlatIterator iterator{ EMPTY_TEST_DIRECTORY };
 
 			Assert::IsTrue(iterator.isFinished());
 		}
@@ -96,14 +97,14 @@ namespace DirectoryFlatIteratorTest
 		TEST_METHOD(testIteratorToNonEmptyDir)
 		{
 			markAllTextFilesNotFound();
-			DirectoryFlatIterator iterator(TEST_DIRECTORY);
+			DirectoryFlatIterator iterator{ TEST_DIRECTORY };
 
 			Assert::IsFalse(iterator.isFinished(), L"Iterator to non-empty directory is finished after construction");
 			Assert::IsTrue(findsEachTextFileOnce(iterator), L"Iterator does not find all the text files in the directory exactly once");
 		}
 	};
 
-	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "Test directory" };
-	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "Empty test directory" };
-	DirectoryFlatIteratorTest::TextFile DirectoryFlatIteratorTest::textFilesArray[] = { { "File1.txt", 0 }, { "File2.txt", 0 }, { "File3.txt", 0 } };
+	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] { "Test directory" };
+	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] { "Empty test directory" };
+	DirectoryFlatIteratorTest::TextFile DirectoryFlatIteratorTest::textFilesArray[] { { "File1.txt", 0 }, { "File2.txt", 0 }, { "File3.txt", 0 } };
 }
