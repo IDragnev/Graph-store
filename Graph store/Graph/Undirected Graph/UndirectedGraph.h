@@ -1,7 +1,7 @@
 #ifndef __UNDIRECTED_GRAPH_H_INCLUDED__
 #define __UNDIRECTED_GRAPH_H_INCLUDED__
 
-#include "../Base Graph/Graph.h"
+#include "..\Base Graph\Graph.h"
 
 class UndirectedGraph : public Graph
 {

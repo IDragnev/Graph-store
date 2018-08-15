@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "..\..\General Exceptions\NoMemoryAvailable.h"
 #include <assert.h>
 
 
@@ -19,7 +20,7 @@ void Graph::setID(const String& ID)
 	}
 	else
 	{
-		throw GraphException{ "A Graph ID must be a valid string" };
+		throw Exception{ "A Graph ID must be a valid string" };
 	}
 }
 
@@ -50,7 +51,7 @@ void Graph::insertVertexWithID(const String& ID)
 	}
 	else
 	{
-		throw GraphException{ "A vertex with such ID already exists" };
+		throw Exception{ "A vertex with such ID already exists" };
 	}
 }
 
@@ -72,7 +73,7 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException{ "No memory available to insert a vertex" };
+		throw NoMemoryAvailable{};
 	}
 }
 
@@ -192,7 +193,7 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 	}
 	else if (throwIfEdgeDoesNotExist)
 	{
-		throw GraphException{ "No such edge exists" };
+		throw Exception{ "No such edge exists" };
 	}
 }
 
@@ -225,7 +226,7 @@ void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight we
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException{ "No memory available to insert an edge" };
+		throw NoMemoryAvailable{};
 	}
 }
 
@@ -254,7 +255,7 @@ const Vertex& Graph::getVertex(const String& ID) const
 	}
 	else
 	{
-		throw GraphException{ "There is no vertex with ID " + ID };
+		throw Exception{ "There is no vertex with ID " + ID };
 	}
 }
 

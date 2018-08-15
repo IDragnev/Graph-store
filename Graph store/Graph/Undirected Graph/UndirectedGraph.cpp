@@ -1,5 +1,6 @@
 #include "UndirectedGraph.h"
 #include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
+#include "../../General Exceptions/NoMemoryAvailable.h"
 
 static GraphRegistrator<UndirectedGraph> registrator{ "undirected" };
 
@@ -15,7 +16,7 @@ void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 	}
 	else
 	{
-		throw GraphException{ "Such edge already exists" };
+		throw Exception{ "Such edge already exists" };
 	}
 }
 
@@ -27,7 +28,7 @@ void UndirectedGraph::insertEdgeInBothDirections(Vertex& start, Vertex& end, uns
 	{
 		Graph::insertEdgeFromToWithWeight(end, start, weight);
 	}
-	catch (GraphException&)
+	catch (NoMemoryAvailable&)
 	{
 		removeEdgeFromToNoThrow(start, end);
 		throw;

@@ -15,7 +15,7 @@ void DirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
 	}
 	else
 	{
-		throw GraphException{ "Such edge already exists" };
+		throw Exception{ "Such edge already exists" };
 	}
 }
 
