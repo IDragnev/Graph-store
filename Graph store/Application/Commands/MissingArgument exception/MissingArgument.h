@@ -2,13 +2,12 @@
 #define __MISSING_ARG_H_INCLUDED__
 
 #include "..\..\..\General Exceptions\Exception.h"
-
-class String;
+#include <string>
 
 class MissingArgument : public Exception
 {
 public:
-	MissingArgument(const String& name);
+	MissingArgument(const std::string& name);
 	virtual ~MissingArgument() override = default;
 };
 

@@ -1,8 +1,7 @@
 #include "MissingArgument.h"
-#include "..\..\..\String\String.h"
 
 
-MissingArgument::MissingArgument(const String& name) :
+MissingArgument::MissingArgument(const std::string& name) :
 	Exception{ "Missing argument: [" + name + "]" }
 {
 }
