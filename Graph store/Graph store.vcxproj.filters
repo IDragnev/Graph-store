@@ -168,6 +168,9 @@
     <Filter Include="File parser\ParseFail Exception">
       <UniqueIdentifier>{7c11a604-d6a3-460c-b247-6b02298eb6ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\MissingArgument exception">
+      <UniqueIdentifier>{f581e506-4256-4da2-91fb-c95adbe17a8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
       <Filter>File parser\ParseFail Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\MissingArgument exception\MissingArgument.cpp">
+      <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +489,9 @@
     </ClInclude>
     <ClInclude Include="File parser\ParseFail exception\ParseFail.h">
       <Filter>File parser\ParseFail Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
+      <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
