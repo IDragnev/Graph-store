@@ -1,6 +1,7 @@
 #include "InsertEdgeCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
+#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<InsertEdgeCommand> registrator;
@@ -20,28 +21,27 @@ void InsertEdgeCommand::parseArguments(args::Subparser& parser)
 }
 
 
-void InsertEdgeCommand::setStartIdIfMatched(StringPositional& startID)
+void InsertEdgeCommand::setStartIdIfMatched(StringPositional& argument)
 {
-	if (startID)
-	{
-		startVertexID = args::get(startID);
-	}
-	else
-	{
-		throw std::runtime_error{ "Missing argument: [startVertexID]" };
-	}
+	setIfMatched(startVertexID, argument);
 }
 
 
-void InsertEdgeCommand::setEndIdIfMatched(StringPositional& endID)
+void InsertEdgeCommand::setEndIdIfMatched(StringPositional& argument)
 {
-	if (endID)
+	setIfMatched(endVertexID, argument);
+}
+
+
+void InsertEdgeCommand::setIfMatched(String& str, StringPositional& argument)
+{
+	if (argument)
 	{
-		endVertexID = args::get(endID);
+		str = args::get(argument);
 	}
 	else
 	{
-		throw std::runtime_error{ "Missing argument: [endVertexID]" };
+		throw MissingArgument{ argument.Name() };
 	}
 }
 

@@ -27,6 +27,7 @@ private:
 
 	void setStartIdIfMatched(StringPositional& startID);
 	void setEndIdIfMatched(StringPositional& endID);
+	void setIfMatched(String& str, StringPositional& argument);
 	void setWeight(UnsignedPositional& weight);
 
 	static const unsigned DEFAULT_EDGE_WEIGHT = 1;
