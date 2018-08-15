@@ -1,4 +1,5 @@
 #include "..\ShortestPathAlgorithmStore.h"
+#include "..\..\String\String.h"
 
 
 template <typename ConcreteAlgorithm>

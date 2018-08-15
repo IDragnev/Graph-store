@@ -2,7 +2,9 @@
 #define __SHORTEST_PATH_ALG_STORE_H_INCLUDED__
 
 #include "..\Dynamic Array\DArray.h"
-#include "..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
+
+class ShortestPathAlgorithm;
+class String;
 
 class ShortestPathAlgorithmStore
 {

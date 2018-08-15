@@ -1,4 +1,7 @@
 #include "ShortestPathAlgorithmStore.h"
+#include "..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
+#include "..\String\String.h"
+#include <assert.h>
 
 
 ShortestPathAlgorithmStore::ShortestPathAlgorithmStore() :
@@ -32,8 +35,7 @@ ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID
 	}
 	else
 	{
-		//TODO: change the exception type
-		throw std::runtime_error("No such algorithm exists");
+		throw Exception{ "No such algorithm exists" };
 	}
 }
 

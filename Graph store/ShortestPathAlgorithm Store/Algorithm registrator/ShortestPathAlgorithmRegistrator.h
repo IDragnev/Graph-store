@@ -1,7 +1,7 @@
 #ifndef __SHORTEST_PATH_ALG_REGISTRATOR_H_INCLUDED__
 #define __SHORTEST_PATH_ALG_REGISTRATOR_H_INCLUDED__
 
-#include "..\..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
+class String;
 
 template <typename ConcreteAlgorithm>
 class ShortestPathAlgorithmRegistrator
