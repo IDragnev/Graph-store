@@ -343,9 +343,6 @@
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h">
       <Filter>Graph Factory\Graph creators\Concrete creator</Filter>
     </ClInclude>
-    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp">
-      <Filter>Graph Factory\Graph creators\Concrete creator</Filter>
-    </ClInclude>
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h">
       <Filter>Graph Factory\Graph registrator</Filter>
     </ClInclude>

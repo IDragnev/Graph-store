@@ -4,7 +4,7 @@
 GraphCreator::GraphCreator(const String& createdGraphType) :
 	createdGraphType(createdGraphType)
 {
-	assert(createdGraphType != String(""));
+	assert(createdGraphType != String{ "" });
 }
 
 

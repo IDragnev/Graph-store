@@ -203,7 +203,6 @@
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
-    <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreatorImpl.hpp" />
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h" />
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistratorImpl.hpp" />
     <ClInclude Include="Graph Factory\GraphFactory.h" />

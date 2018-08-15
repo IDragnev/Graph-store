@@ -1,23 +1,19 @@
 #ifndef __CONCRETE_GRAPH_CREATOR__
 #define __CONCRETE_GRAPH_CREATOR__
 
-#include "../Base/GraphCreator.h"
+#include "..\Base\GraphCreator.h"
 
 template <typename CreatedGraph>
 class ConcreteGraphCreator : public GraphCreator
 {
 public:
-	ConcreteGraphCreator(const String& createdGraphType);
+	using GraphCreator::GraphCreator;
 	virtual ~ConcreteGraphCreator() override = default;
 
-	virtual GraphPtr createEmptyGraph(const String& graphID) const override;
-
-private:
-	ConcreteGraphCreator(ConcreteGraphCreator&&) = delete;
-	ConcreteGraphCreator(const ConcreteGraphCreator&) = delete;
-	ConcreteGraphCreator& operator=(const ConcreteGraphCreator&) = delete;
-	ConcreteGraphCreator& operator=(ConcreteGraphCreator&&) = delete;
+	virtual GraphPtr createEmptyGraph(const String& ID) const override
+	{
+		return GraphPtr{ new CreatedGraph{ ID } };
+	}
 };
 
-#include "ConcreteGraphCreatorImpl.hpp"
 #endif //__CONCRETE_GRAPH_CREATOR__
