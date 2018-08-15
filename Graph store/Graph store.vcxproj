@@ -158,6 +158,7 @@
     <ClCompile Include="Directory loader\DirectoryLoader.cpp" />
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
+    <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
@@ -199,9 +200,11 @@
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp" />
-    <ClInclude Include="Exception\Exception.h" />
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
+    <ClInclude Include="File parser\ParseFail exception\ParseFail.h" />
+    <ClInclude Include="General Exceptions\Exception.h" />
+    <ClInclude Include="General Exceptions\NoMemoryAvailable.h" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />

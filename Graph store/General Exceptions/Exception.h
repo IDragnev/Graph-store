@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 
-template <typename T>
 class Exception : public std::runtime_error
 {
 public:

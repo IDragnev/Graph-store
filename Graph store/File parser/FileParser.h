@@ -2,11 +2,8 @@
 #define __FILE_PARSER_H_INCLUDED__
 
 #include <fstream>
-#include "../String/String.h"
-#include "../Exception/Exception.h"
-
-class FileParser;
-typedef Exception<FileParser> FileParserException;
+#include "..\String\String.h"
+#include "ParseFail exception\ParseFail.h"
 
 class FileParser
 {

@@ -105,9 +105,6 @@
     <Filter Include="Directory FlatIterator">
       <UniqueIdentifier>{a865695d-1da2-4f45-b6f9-26f1a2b13529}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Exception">
-      <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GraphStore">
       <UniqueIdentifier>{8f2ee643-143d-4614-8a03-fd407a7e33f3}</UniqueIdentifier>
     </Filter>
@@ -164,6 +161,12 @@
     </Filter>
     <Filter Include="Application\Commands\Remove graph">
       <UniqueIdentifier>{5dcb8d79-73ba-4d0b-816a-0750abf314ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="General exceptions">
+      <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File parser\ParseFail Exception">
+      <UniqueIdentifier>{7c11a604-d6a3-460c-b247-6b02298eb6ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Search path\PathUtilityFunctions.cpp">
       <Filter>Application\Commands\Search path</Filter>
+    </ClCompile>
+    <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
+      <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -400,9 +406,6 @@
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h">
       <Filter>Directory FlatIterator</Filter>
     </ClInclude>
-    <ClInclude Include="Exception\Exception.h">
-      <Filter>Exception</Filter>
-    </ClInclude>
     <ClInclude Include="GraphStore\GraphStore.h">
       <Filter>GraphStore</Filter>
     </ClInclude>
@@ -471,6 +474,15 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Search path\PathUtilityFunctions.h">
       <Filter>Application\Commands\Search path</Filter>
+    </ClInclude>
+    <ClInclude Include="General Exceptions\Exception.h">
+      <Filter>General exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="General Exceptions\NoMemoryAvailable.h">
+      <Filter>General exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="File parser\ParseFail exception\ParseFail.h">
+      <Filter>File parser\ParseFail Exception</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

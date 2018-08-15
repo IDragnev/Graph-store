@@ -96,7 +96,7 @@ namespace FileParserTest
 
 				Assert::Fail(L"Constructor did not throw");
 			}
-			catch (FileParserException& exception)
+			catch (Exception& exception)
 			{
 				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
 			}
@@ -111,7 +111,7 @@ namespace FileParserTest
 				parser.openFile("No-Such-File.txt");
 				Assert::Fail(L"openFile did not throw");
 			}
-			catch (FileParserException& exception)
+			catch (Exception& exception)
 			{
 				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
 			}
@@ -261,7 +261,7 @@ namespace FileParserTest
 				unsigned result = parser.parseInteger<unsigned>();
 				Assert::Fail(L"parseInteger() did not throw");
 			}
-			catch (FileParserException& exception)
+			catch (ParseFail& exception)
 			{
 				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
@@ -278,7 +278,7 @@ namespace FileParserTest
 				unsigned result = parser.parseInteger<unsigned>();
 				Assert::Fail(L"parseInteger() did not throw");
 			}
-			catch (FileParserException& exception)
+			catch (ParseFail& exception)
 			{
 				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
@@ -295,7 +295,7 @@ namespace FileParserTest
 				String result = parser.parseLine();
 				Assert::Fail(L"parseLine() did not throw");
 			}
-			catch (FileParserException& exception)
+			catch (ParseFail& exception)
 			{
 				String expected = buildErrorMessage(FIRST_FILE_NAME, "No characters left in the file", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));

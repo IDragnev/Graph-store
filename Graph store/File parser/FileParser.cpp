@@ -32,7 +32,7 @@ void FileParser::openFile(const String& name)
 	}
 	else
 	{
-		throw FileParserException{ "Failed to open " + name + " for reading" };
+		throw Exception{ "Failed to open " + name + " for reading" };
 	}
 }
 
@@ -87,12 +87,7 @@ void FileParser::throwIfParseFailed(const char* reason) const
 {
 	if (file.fail())
 	{
-		std::string message = "Error reading " + filename;
-		message += ": ";
-		message += reason;
-		message += ". Line " + std::to_string(currentLine);
-
-		throw FileParserException{ message };
+		throw ParseFail{ filename, reason, currentLine };
 	}
 }
 
