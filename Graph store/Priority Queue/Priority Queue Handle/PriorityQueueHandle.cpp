@@ -3,7 +3,7 @@
 
 
 PriorityQueueHandle::PriorityQueueHandle(long value) :
-	value(value)
+	value{ value }
 {
 	assert(value >= -1);
 }

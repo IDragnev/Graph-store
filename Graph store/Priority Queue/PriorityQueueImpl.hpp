@@ -2,20 +2,12 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue() :
-	items(),
-	insertedCount(0)
-{
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&& source) :
-	items(std::move(source.items)),
-	insertedCount(source.insertedCount),
-	keyAccessor(std::move(source.keyAccessor)),
-	compareFunction(std::move(source.compareFunction)),
-	handleSetter(std::move(source.handleSetter))
+	items{ std::move(source.items) },
+	insertedCount{ source.insertedCount },
+	keyAccessor{ std::move(source.keyAccessor) },
+	compareFunction{ std::move(source.compareFunction) },
+	handleSetter{ std::move(source.handleSetter) }
 {
 	source.insertedCount = 0;
 }
@@ -47,8 +39,8 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapC
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(ConstIterator<Item*>& iterator, size_t count) :
-	items(count, count),
-	insertedCount(0)
+	items{ count, count },
+	insertedCount{ 0 }
 {
 	directlyInsertAll(iterator);
 	buildHeap();

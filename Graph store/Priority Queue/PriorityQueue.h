@@ -2,14 +2,14 @@
 #define __PRIORITY_QUEUE_H_INCLUDED__
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
-#include "../Dynamic Array/DArray.h"
-#include "../Iterator abstraction/ConstIterator.h"
+#include "..\Dynamic Array\DArray.h"
+#include "..\Iterator abstraction\ConstIterator.h"
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 class PriorityQueue
 {
 public:
-	PriorityQueue();
+	PriorityQueue() = default;
 	PriorityQueue(ConstIterator<Item*>& iterator, size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
@@ -55,7 +55,7 @@ private:
 
 private:
 	DArray<Item*> items;
-	size_t insertedCount;
+	size_t insertedCount{};
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	HandleSetter handleSetter;
