@@ -75,7 +75,7 @@ void Application::run(const String& directory)
 		load(directory);
 		run();
 	}
-	catch (std::runtime_error& e)
+	catch (Exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
@@ -86,10 +86,10 @@ void Application::load(const String& directory)
 {
 	DirectoryLoader loader(directory);
 
-	loader.load([&](std::unique_ptr<Graph> graph)
+	loader.load([&](std::unique_ptr<Graph> graphPtr)
 	{
-		graphs.insertGraph(*graph);
-		graph.release();
+		graphs.insertGraph(*graphPtr);
+		graphPtr.release();
 	});
 
 	Command::setManagedStore(graphs);
