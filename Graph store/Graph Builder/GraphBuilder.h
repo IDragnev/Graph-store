@@ -4,6 +4,7 @@
 #include "..\String\String.h"
 #include "..\File parser\FileParser.h"
 #include "..\General Exceptions\Exception.h"
+#include "..\Dynamic Array\DArray.h"
 #include <memory>
 
 class Graph;

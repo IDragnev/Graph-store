@@ -1,9 +1,11 @@
 #include "Application.h"
 #include "..\String\String.h"
 #include "Commands\Base\Command.h"
+#include "..\Graph\Base Graph\Graph.h"
 #include "StringSplitter\StringSplitter.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
+#include <iostream> //remove when logger is supported
 
 
 Application& Application::instance()

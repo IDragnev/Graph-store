@@ -1,4 +1,7 @@
+#include <iostream>
 #include "Application\Application.h"
+#include "String\String.h"
+
 
 int main(int argc, const char** argv)
 {
