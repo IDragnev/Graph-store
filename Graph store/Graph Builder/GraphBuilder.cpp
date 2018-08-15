@@ -1,5 +1,7 @@
 #include "GraphBuilder.h"
-#include "../Graph Factory/GraphFactory.h"
+#include "..\Graph Factory\GraphFactory.h"
+#include "..\Graph\Base Graph\Graph.h"
+#include "..\General Exceptions\NoMemoryAvailable.h"
 
 
 GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
@@ -12,17 +14,21 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
 
 		return std::move(result);
 	}
-	catch (FileParserException& exception)
+	catch (Exception& e)
 	{
-		assert(!result.get());
-		clearParsedState();
-		throw GraphBuilderException{ exception.what() };
+		handleErrorIn(filename, e);
 	}
 	catch (std::bad_alloc&)
 	{
-		clearState();
-		throw GraphBuilderException{ "No memory available while building a graph from " + filename };
+		handleErrorIn(filename, NoMemoryAvailable{});
 	}
+}
+
+
+void GraphBuilder::handleErrorIn(const String& filename, const Exception& exception)
+{
+	clearState();
+	throw Exception{ "Failed to load" + filename + " : " + exception.what() };
 }
 
 
@@ -123,7 +129,6 @@ void GraphBuilder::insertVertices()
 	while (constIterator)
 	{
 		result->insertVertexWithID(*constIterator);
-
 		++constIterator;
 	}
 }
@@ -138,7 +143,6 @@ void GraphBuilder::insertEdges()
 	while (constIterator)
 	{
 		insertSingleEdge(*constIterator);
-
 		++constIterator;
 	}
 }
@@ -148,7 +152,6 @@ void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 {
 	Vertex& start = getVertex(edge.startVertexIDIndex);
 	Vertex& end = getVertex(edge.endVertexIDIndex);
-
 	result->insertEdge(start, end, edge.weight);
 }
 
