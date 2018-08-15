@@ -3,6 +3,10 @@
 
 #include "..\DirectoryFlatIterator\DirectoryFlatIterator.h"
 #include "..\Graph Builder\GraphBuilder.h"
+#include "..\String\String.h"
+#include <memory>
+
+class Graph;
 
 class DirectoryLoader
 {
