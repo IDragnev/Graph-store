@@ -74,5 +74,5 @@ const char* InsertEdgeCommand::getName() const
 
 const char* InsertEdgeCommand::getDescription() const
 {
-	return "Inserts an edge with weight [weight] between [startVertexID] and [endVertexID] to the currently used graph";
+	return "Inserts an edge with specified weight between a specified pair of vertices in the currently used graph";
 }

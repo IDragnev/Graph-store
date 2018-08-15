@@ -59,5 +59,5 @@ const char* RemoveEdgeCommand::getName() const
 
 const char* RemoveEdgeCommand::getDescription() const
 {
-	return "Removes the edge between [startVertexID] and [endVertexID] in the currently used graph";
+	return "Removes the edge between a specified pair of vertices in the currently used graph";
 }

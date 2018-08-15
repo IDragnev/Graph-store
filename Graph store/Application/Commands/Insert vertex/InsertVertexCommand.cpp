@@ -40,5 +40,5 @@ const char* InsertVertexCommand::getName() const
 
 const char* InsertVertexCommand::getDescription() const
 {
-	return "Inserts a vertex with ID [ID] to the currently used graph";
+	return "Inserts a vertex with specified ID to the currently used graph";
 }

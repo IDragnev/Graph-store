@@ -257,6 +257,9 @@
     <ClCompile Include="Application\Commands\Remove graph\RemoveGraphCommand.cpp">
       <Filter>Application\Commands\Remove graph</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Commands\Search path\PathUtilityFunctions.cpp">
+      <Filter>Application\Commands\Search path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
@@ -465,6 +468,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h">
       <Filter>Application\Commands\Remove graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Search path\PathUtilityFunctions.h">
+      <Filter>Application\Commands\Search path</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

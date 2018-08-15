@@ -39,5 +39,5 @@ const char* RemoveGraphCommand::getName() const
 
 const char* RemoveGraphCommand::getDescription() const
 {
-	return "Removes the specified graph";
+	return "Removes a specified graph";
 }

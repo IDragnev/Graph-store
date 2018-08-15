@@ -1,6 +1,7 @@
 #include "SearchPathCommand.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 #include "..\..\..\ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h"
+#include "PathUtilityFunctions.h"
 
 static CommandRegistrator<SearchPathCommand> registrator;
 
@@ -65,8 +66,8 @@ void SearchPathCommand::execute() const
 	Vertex& end = usedGraph.getVertex(endVertexID);
 	ShortestPathAlgorithm& algorithm = ShortestPathAlgorithmStore::instance().getAlgorithm(algorithmID);
 
-	//TODO: should return a struct
 	algorithm.findShortestPath(usedGraph, start, end);
+	printPath(start, end);
 }
 
 
@@ -78,5 +79,5 @@ const char* SearchPathCommand::getName()  const
 
 const char* SearchPathCommand::getDescription() const
 {
-	return "Searches a shortest path between a pair of vertices in the currently used graph with a specified algorithm";
+	return "Searches a shortest path between a specified pair of vertices in the currently used graph with a specified algorithm";
 }

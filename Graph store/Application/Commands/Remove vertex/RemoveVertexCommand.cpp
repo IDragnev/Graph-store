@@ -40,5 +40,5 @@ const char* RemoveVertexCommand::getName() const
 
 const char* RemoveVertexCommand::getDescription() const
 {
-	return "Removes the vertex with ID [ID] from the currently used graph";
+	return "Removes a specified vertex from the currently used graph";
 }

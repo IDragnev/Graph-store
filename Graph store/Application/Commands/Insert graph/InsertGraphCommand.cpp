@@ -62,5 +62,5 @@ const char* InsertGraphCommand::getName() const
 
 const char* InsertGraphCommand::getDescription() const
 {
-	return "Inserts a new graph of specified type and ID";
+	return "Inserts a new graph with specified ID and type";
 }
