@@ -1,4 +1,6 @@
 #include "InsertEdgeCommand.h"
+#include "..\..\..\Graph\Base Graph\Graph.h"
+#include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 static CommandRegistrator<InsertEdgeCommand> registrator;

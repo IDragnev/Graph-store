@@ -2,6 +2,7 @@
 #define __INSERT_GRAPH_COMMAND_H_INCLUDED__
 
 #include "..\Base\Command.h"
+#include "..\..\..\String\String.h"
 
 class InsertGraphCommand : public Command
 {

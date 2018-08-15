@@ -2,6 +2,7 @@
 #define __SEARCH_PATH_COMMAND_H_INCLUDED__
 
 #include "..\Base\Command.h"
+#include "..\..\..\String\String.h"
 
 class SearchPathCommand : public Command 
 {

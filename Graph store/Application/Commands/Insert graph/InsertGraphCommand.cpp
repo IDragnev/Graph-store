@@ -1,6 +1,9 @@
 #include "InsertGraphCommand.h"
+#include "..\Base\StringReader\StringReader.h"
 #include "..\..\..\Graph Factory\GraphFactory.h"
+#include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
+#include <memory>
 
 static CommandRegistrator<InsertGraphCommand> registrator;
 

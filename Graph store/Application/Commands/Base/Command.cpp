@@ -1,5 +1,8 @@
 #include "Command.h"
+#include "..\..\..\String\String.h"
 #include "..\..\..\GraphStore\GraphStore.h"
+#include "..\..\..\Graph\Base Graph\Graph.h"
+#include "..\..\..\General Exceptions\Exception.h"
 
 
 Graph* Command::usedGraph =  nullptr;
@@ -36,7 +39,7 @@ Graph& Command::getUsedGraph()
 	}
 	else
 	{
-		throw std::runtime_error{ "No graph is currently being used" };
+		throw Exception{ "No graph is currently being used" };
 	}
 }
 

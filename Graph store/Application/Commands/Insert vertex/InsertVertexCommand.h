@@ -2,6 +2,7 @@
 #define __INSERT_VERTEX_COMMAND_H_INCLUDED__
 
 #include "..\Base\Command.h"
+#include "..\..\..\String\String.h"
 
 class InsertVertexCommand : public Command
 {
