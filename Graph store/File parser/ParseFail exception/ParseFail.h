@@ -2,7 +2,8 @@
 #define __PARSE_FAIL_EXCEPTION_H_INCLUDED__
 
 #include "..\..\General Exceptions\Exception.h"
-#include "..\..\String\String.h"
+
+class String;
 
 class ParseFail : public Exception
 {

@@ -1,4 +1,5 @@
 #include "ParseFail.h"
+#include "..\..\String\String.h"
 #include <string>
 
 
