@@ -136,7 +136,7 @@ void SpecialInteger<Integer>::print(std::ostream& outputStream) const
 {
 	if (isInfinity)
 	{
-		outputStream << "INFINITY";
+		outputStream << "Infinity";
 	}
 	else
 	{

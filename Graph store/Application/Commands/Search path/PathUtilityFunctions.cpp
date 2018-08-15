@@ -5,7 +5,7 @@ void printPath(const Vertex& start, const Vertex& end)
 {
 	if (start == end)
 	{
-		std::cout << end.getID();
+		printTrivialPath(start, end);
 	}
 	else if (!end.getPredecessor())
 	{
@@ -14,12 +14,24 @@ void printPath(const Vertex& start, const Vertex& end)
 	else
 	{
 		printPath(start, *end.getPredecessor());
-		std::cout << " , " << end.getID();
+		std::cout << ',' << end.getID();
 	}
+}
+
+
+void printTrivialPath(const Vertex& start, const Vertex& end)
+{
+	std::cout << end.getID();
 }
 
 
 void printNonExistingPath(const Vertex& start, const Vertex& end)
 {
-	std::cout << "There is no path between " << start.getID() << " and " << end.getID() << std::endl;
+	std::cout << "There is no path between " << start.getID() << " and " << end.getID();
+}
+
+
+void printPathLength(const Vertex& start, const Vertex& end)
+{
+	std::cout << "\nLength: " << end.getDistanceToSource() << std::endl;
 }

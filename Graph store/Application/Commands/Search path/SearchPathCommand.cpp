@@ -68,6 +68,7 @@ void SearchPathCommand::execute() const
 
 	algorithm.findShortestPath(usedGraph, start, end);
 	printPath(start, end);
+	printPathLength(start, end);
 }
 
 
