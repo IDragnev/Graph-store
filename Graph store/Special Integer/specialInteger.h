@@ -2,7 +2,7 @@
 #define __SPECIAL_INTEGER_H_INCLUDED__
 
 #include <iostream>
-#include "../Traits/IsInteger.h"
+#include "..\Traits\IsInteger.h"
 
 template <typename Integer = int>
 class SpecialInteger

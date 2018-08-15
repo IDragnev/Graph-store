@@ -4,7 +4,7 @@
 
 
 ParseFail::ParseFail(const String& filename, const String& reason, unsigned line) :
-	Exception(buildMessage(filename, reason, line))
+	Exception{ buildMessage(filename, reason, line) }
 {
 }
 
