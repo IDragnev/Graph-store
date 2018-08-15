@@ -1,4 +1,7 @@
 #include "GraphStore.h"
+#include "..\String\String.h"
+#include "..\Graph\Base Graph\Graph.h"
+#include "..\General Exceptions\Exception.h"
 
 
 GraphStore::~GraphStore()
@@ -39,7 +42,7 @@ void GraphStore::insertGraph(Graph& graph)
 	}
 	else
 	{
-		throw GraphStoreException{ "A graph with ID \'" + graph.getID() + String{ "\' already exists" } };
+		throw Exception{ "A graph with ID \'" + graph.getID() + "\' already exists" };
 	}
 }
 
@@ -93,7 +96,7 @@ const Graph& GraphStore::getGraph(const String& ID) const
 
 void GraphStore::throwNonExistingGraph(const String& ID)
 {
-	throw GraphStoreException{ "No graph with ID \'" + ID + String{"\' exists"} };
+	throw Exception{ "No graph with ID \'" + ID + "\' exists" };
 }
 
 

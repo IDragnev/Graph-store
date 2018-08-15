@@ -1,12 +1,11 @@
 #ifndef __GRAPH_STORE_H_INCLUDED__
 #define __GRAPH_STORE_H_INCLUDED__
 
-#include "..\Graph\Base Graph\Graph.h"
 #include "..\Dynamic Array\DArray.h"
-#include "..\Exception\Exception.h"
 
-class GraphStore;
-typedef Exception<GraphStore> GraphStoreException;
+class String;
+class Graph;
+class Exception;
 
 class GraphStore
 {
