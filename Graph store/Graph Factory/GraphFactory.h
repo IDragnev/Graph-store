@@ -2,10 +2,11 @@
 #define __GRAPH_FACTORY_H_INCLUDED__
 
 #include "..\Dynamic Array\DArray.h"
-#include "..\Graph\Base Graph\Graph.h"
-#include "..\String\String.h"
+#include <memory>
 
+class Graph;
 class GraphCreator;
+class String;
 
 class GraphFactory
 {

@@ -1,9 +1,11 @@
 #include "GraphFactory.h"
+#include "..\Graph\Base Graph\Graph.h"
 #include "Graph creators\Base\GraphCreator.h"
+#include "..\String\String.h"
 
 
 GraphFactory::GraphFactory() :
-	creators(EXPECTED_CREATORS_COUNT)
+	creators{ EXPECTED_CREATORS_COUNT }
 {
 }
 
@@ -34,7 +36,7 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 	}
 	else
 	{
-		throw GraphException("Invalid graph type");
+		throw Exception{ "Invalid graph type" };
 	}
 }
 
@@ -61,7 +63,7 @@ const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 
 void GraphFactory::registerCreator(const GraphCreator* creator)
 {
-	assert(!searchCreator(creator->getCreatedGraphType()));
+	assert(searchCreator(creator->getCreatedGraphType()) == nullptr);
 
 	creators.insert(creator);
 }
