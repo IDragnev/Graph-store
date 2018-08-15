@@ -1,6 +1,7 @@
 #include "ShortestPathAlgorithmStore.h"
 #include "..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
 #include "..\String\String.h"
+#include "..\General Exceptions\Exception.h"
 #include <assert.h>
 
 

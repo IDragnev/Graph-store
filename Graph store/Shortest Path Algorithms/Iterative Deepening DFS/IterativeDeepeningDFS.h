@@ -1,7 +1,7 @@
 #ifndef __ITERATIVE_DEEPENING_DFS_H_INCLUDED__
 #define __ITERATIVE_DEEPENING_DFS_H_INCLUDED__
 
-#include "../Base/ShortestPathAlgorithm.h"
+#include "..\Base\ShortestPathAlgorithm.h"
 
 class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {

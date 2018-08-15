@@ -1,7 +1,9 @@
 #include "DijkstraAlgorithm.h"
+#include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include <memory>
 
-static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("Dijkstra");
+static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator{ "Dijkstra" };
 
 
 void DijkstraAlgorithm::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
@@ -32,7 +34,7 @@ void DijkstraAlgorithm::insertVerticesInPriorityQueue(Graph& graph)
 	assert(priorityQueue.isEmpty());
 
 	std::unique_ptr<ConstIterator<Vertex*>> iteratorPtr = graph.getIteratorToVertices();
-	priorityQueue = MinPriorityQueue(*iteratorPtr, graph.getVerticesCount());
+	priorityQueue = MinPriorityQueue{ *iteratorPtr, graph.getVerticesCount() };
 }
 
 
@@ -78,7 +80,6 @@ void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex)
 	while (!iterator->isFinished())
 	{
 		relaxEdge(vertex, iterator->getCurrent());
-
 		iterator->goToNext();
 	}
 }

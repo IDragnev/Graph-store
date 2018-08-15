@@ -1,8 +1,9 @@
 #include "IterativeDeepeningDFS.h"
+#include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <assert.h>
 
-static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("DFS");
+static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator{ "DFS" };
 
 
 void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
@@ -82,5 +83,5 @@ void IterativeDeepeningDFS::proceedWithNeighboursOfWithBound(Vertex& vertex, uns
 void IterativeDeepeningDFS::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
 	to.setPredecessor(&from);
-	to.setDistanceToSource(from.getDistanceToSource() + Distance(1));
+	to.setDistanceToSource(from.getDistanceToSource() + Distance{ 1 });
 }

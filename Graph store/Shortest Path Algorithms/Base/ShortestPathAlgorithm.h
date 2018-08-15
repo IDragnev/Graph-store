@@ -1,8 +1,14 @@
 #ifndef __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 #define __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 
-#include "../../String/String.h"
-#include "../../Graph/Base Graph/Graph.h"
+#include "..\..\String\String.h"
+#include <memory>
+
+template <class T>
+class Iterator;
+class Graph;
+class Vertex;
+class Edge;
 
 class ShortestPathAlgorithm
 {

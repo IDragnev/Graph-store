@@ -1,8 +1,8 @@
 #ifndef __BFS_SHORTEST_PATH_H_INCLUDED__
 #define __BFS_SHORTEST_PATH_H_INCLUDED__
 
-#include "../Base/ShortestPathAlgorithm.h"
-#include "../../Queue/Queue.h"
+#include "..\Base\ShortestPathAlgorithm.h"
+#include "..\..\Queue\Queue.h"
 
 class BFS: public ShortestPathAlgorithm
 {

@@ -1,7 +1,9 @@
 #include "BFS.h"
+#include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include <memory>
 
-static ShortestPathAlgorithmRegistrator<BFS> registrator("BFS");
+static ShortestPathAlgorithmRegistrator<BFS> registrator{ "BFS" };
 
 
 void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
@@ -89,7 +91,7 @@ void BFS::expandFrontierFrom(Vertex& vertex)
 void BFS::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
 	to.setPredecessor(&from);
-	to.setDistanceToSource(from.getDistanceToSource() + Distance(1));
+	to.setDistanceToSource(from.getDistanceToSource() + Distance{ 1 });
 }
 
 

@@ -1,13 +1,18 @@
 #include "ShortestPathAlgorithm.h"
+#include "..\..\Graph\Edge\Edge.h"
+#include "..\..\Graph\Vertex\Vertex.h"
+#include "..\..\Graph\Base Graph\Graph.h"
+#include "..\..\Iterator abstraction\Iterator.h"
+#include "..\..\Iterator abstraction\ConstIterator.h"
 #include <assert.h>
 
 
 ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
-	id(ID),
-	searchedGraph(nullptr),
-	goal(nullptr)
+	id{ ID },
+	searchedGraph{ nullptr },
+	goal{ nullptr }
 {
-	assert(id != String(""));
+	assert(id != String{ "" });
 }
 
 
