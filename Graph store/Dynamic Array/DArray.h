@@ -22,9 +22,15 @@ public:
 		friend class DArray<Item>;
 
 		typedef typename BaseIteratorSelector<isConst, Item>::result baseIterator;
-		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
 		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
 		typedef std::unique_ptr<baseIterator> baseIteratorPtr;
+
+	public:
+		typedef Item value_type;
+		typedef std::ptrdiff_t difference_type;
+		typedef std::forward_iterator_tag iterator_category;
+		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
+		typedef typename TypeSelector<isConst, const Item*, Item*>::result pointer;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
@@ -36,6 +42,7 @@ public:
 		virtual baseIteratorPtr clone() const override;
 
 		reference operator*() const;
+		pointer operator->() const;
 
 		DArrayIterator<Item, isConst>& operator++();
 		DArrayIterator<Item, isConst> operator++(int);

@@ -28,9 +28,19 @@ DArray<T>::DArrayIterator<Item, isConst>::operator*() const
 
 template <typename T>
 template <typename Item, bool isConst>
+inline typename DArray<T>::DArrayIterator<Item, isConst>::pointer
+DArray<T>::DArrayIterator<Item, isConst>::operator->() const
+{
+	return &getCurrent();
+}
+
+
+template <typename T>
+template <typename Item, bool isConst>
 inline typename DArray<T>::DArrayIterator<Item, isConst>::reference 
 DArray<T>::DArrayIterator<Item, isConst>::getCurrent() const
 {
+	assert(!isFinished());
 	return (*owner)[current];
 }
 
