@@ -2,7 +2,7 @@
 #define __SINGLY_LINKED_LIST_ITERATOR_H_INCLUDED__
 
 #include "Node.h"
-#include "../Type selector/BaseIteratorSelector.h"
+#include "..\Type selector\BaseIteratorSelector.h"
 
 template <typename T>
 class SinglyLinkedList;

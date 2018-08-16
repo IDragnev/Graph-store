@@ -15,8 +15,8 @@ public:
 
 template <typename Key>
 Node<Key>::Node(const Key& data, Node<Key>* next) :
-	next(next),
-	data(data)
+	next{ next },
+	data{ data }
 {
 }
 
