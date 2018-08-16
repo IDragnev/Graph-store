@@ -1,3 +1,4 @@
+#include <assert.h>
 
 template <typename Key, bool isConst>
 inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner) :
@@ -24,9 +25,18 @@ SinglyLinkedListIterator<Key, isConst>::operator*() const
 
 
 template <typename Key, bool isConst>
+inline typename SinglyLinkedListIterator<Key, isConst>::pointer
+SinglyLinkedListIterator<Key, isConst>::operator->() const
+{
+	return &getCurrent();
+}
+
+
+template <typename Key, bool isConst>
 inline typename SinglyLinkedListIterator<Key, isConst>::reference
 SinglyLinkedListIterator<Key, isConst>::getCurrent() const
 {
+	assert(!isFinished());
 	return current->data;
 }
 
