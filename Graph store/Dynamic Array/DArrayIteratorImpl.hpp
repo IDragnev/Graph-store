@@ -112,4 +112,15 @@ DArray<T>::DArrayIterator<Item, isConst>::clone() const
 }
 
 
+template <typename Item, bool isConst>
+bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+{
+	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
+}
 
+
+template <typename Item, bool isConst>
+bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+{
+	return !(lhs == rhs);
+}

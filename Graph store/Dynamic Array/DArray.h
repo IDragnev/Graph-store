@@ -20,7 +20,6 @@ public:
 	{
 	private:
 		friend class DArray<Item>;
-
 		typedef typename BaseIteratorSelector<isConst, Item>::result baseIterator;
 		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
 		typedef std::unique_ptr<baseIterator> baseIteratorPtr;
@@ -49,6 +48,9 @@ public:
 
 		operator bool() const;
 		bool operator!() const;
+
+		template <typename Item, bool isConst>
+		friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 	private:
 		DArrayIterator(unsignedInteger startPosition, ownerPtr owner);
@@ -114,6 +116,9 @@ private:
 	unsignedInteger size;
 	T* items;
 };
+
+template <typename Item, bool isConst>
+bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 #include "DArrayImpl.hpp"
 #include "DArrayIteratorImpl.hpp"
