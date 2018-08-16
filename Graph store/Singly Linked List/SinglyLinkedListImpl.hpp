@@ -3,19 +3,19 @@
 
 
 template <typename T>
-inline SinglyLinkedList<T>::SinglyLinkedList() :
-	count(0),
-	head(nullptr),
-	tail(nullptr)
+SinglyLinkedList<T>::SinglyLinkedList() :
+	count{ 0 }, 
+	head{ nullptr },
+	tail{ nullptr }
 {
 }
 
 
 template <typename T>
-inline SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
-	head(source.head),
-	tail(source.tail),
-	count(source.count)
+SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
+	head{ source.head },
+	tail{ source.tail },
+	count{ source.count }
 {
 	source.nullifyMembers();
 }
@@ -25,13 +25,12 @@ template <typename T>
 inline void SinglyLinkedList<T>::nullifyMembers()
 {
 	count = 0;
-	head = nullptr;
-	tail = nullptr;
+	head = tail = nullptr;
 }
 
 
 template <typename T>
-inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
+SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -43,7 +42,7 @@ inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedLis
 
 
 template <typename T>
-inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
+SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -57,15 +56,15 @@ inline SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&&
 template <typename T>
 inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLinkedList<T> temp)
 {
-	std::swap(this->head, temp.head);
-	std::swap(this->tail, temp.tail);
-	std::swap(this->count, temp.count);
+	std::swap(head, temp.head);
+	std::swap(tail, temp.tail);
+	std::swap(count, temp.count);
 }
 
 
 template <typename T>
-inline SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
-	SinglyLinkedList<T>()
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
+	SinglyLinkedList<T>{}
 {
 	if (!source.isEmpty())
 	{
@@ -105,13 +104,13 @@ void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
 	assert(!head);
 	assert(source.head);
 
-	head = new Node<T>(source.head->data);
+	head = new Node<T>{ source.head->data };
 	const Node<T>* nodeToCopy = source.head->next;
 	tail = head;
 
 	while (nodeToCopy)
 	{
-		tail->next = new Node<T>(nodeToCopy->data);
+		tail->next = new Node<T>{ nodeToCopy->data };
 		tail = tail->next;
 		nodeToCopy = nodeToCopy->next;
 	}
@@ -119,7 +118,7 @@ void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::empty()
+void SinglyLinkedList<T>::empty()
 {
 	clearCurrentChain();
 	nullifyMembers();
@@ -134,7 +133,7 @@ inline SinglyLinkedList<T>::~SinglyLinkedList()
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::clearCurrentChain()
+void SinglyLinkedList<T>::clearCurrentChain()
 {
 	while (head)
 	{
@@ -148,13 +147,13 @@ inline void SinglyLinkedList<T>::clearCurrentChain()
 template <typename T>
 inline void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
 {
-	SinglyLinkedList<T> temporary(source);
+	SinglyLinkedList<T> temporary{ source };
 	appendList(std::move(temporary));
 }
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
+void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 {
 	if (!source.isEmpty())
 	{
@@ -194,7 +193,7 @@ inline void SinglyLinkedList<T>::insert(const T& item)
 template <typename T>
 void SinglyLinkedList<T>::insertAsTail(const T& item)
 {
-	Node<T>* newTail = new Node<T>(item);
+	Node<T>* newTail = new Node<T>{ item };
 
 	if (isEmpty())
 	{
@@ -213,7 +212,7 @@ void SinglyLinkedList<T>::insertAsTail(const T& item)
 template <typename T>
 void SinglyLinkedList<T>::insertAsHead(const T& item)
 {
-	Node<T>* newHead = new Node<T>(item, head);
+	Node<T>* newHead = new Node<T>{ item, head };
 
 	if (isEmpty())
 	{
@@ -236,7 +235,7 @@ void SinglyLinkedList<T>::insertAfter(Node<T>* nodeToInsertAfter, const T& item)
 	{
 		assert(nodeToInsertAfter->next);
 
-		Node<T>* newNode = new Node<T>(item, nodeToInsertAfter->next);
+		Node<T>* newNode = new Node<T>{ item, nodeToInsertAfter->next };
 		nodeToInsertAfter->next = newNode;
 		++count;
 	}
@@ -332,7 +331,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
 {
 	assert(validateOwnershipOf(iterator));
-
 	removeAt(iterator.current);
 	iterator.current = nullptr;
 }
@@ -342,7 +340,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
 {
 	assert(validateOwnershipOf(iterator));
-
 	removeAt(iterator.current->next);
 }
 
@@ -351,7 +348,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
 {
 	assert(validateOwnershipOf(iterator));
-
 	removeAt(findNodeBefore(iterator.current));
 }
 
@@ -360,7 +356,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
 {
 	assert(validateOwnershipOf(iterator));
-
 	insertAfter(iterator.current, item);
 }
 
@@ -369,7 +364,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
 {
 	assert(validateOwnershipOf(iterator));
-
 	insertBefore(iterator.current, item);
 }
 
@@ -385,7 +379,6 @@ template <typename T>
 inline const T& SinglyLinkedList<T>::getHead() const
 {
 	assert(!isEmpty());
-
 	return head->data;
 }
 
@@ -394,7 +387,6 @@ template <typename T>
 inline const T& SinglyLinkedList<T>::getTail() const
 {
 	assert(!isEmpty());
-
 	return tail->data;
 }
 
@@ -403,7 +395,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::setHead(const T& data)
 {
 	assert(!isEmpty());
-
 	head->data = data;
 }
 
@@ -412,7 +403,6 @@ template <typename T>
 inline void SinglyLinkedList<T>::setTail(const T& data)
 {
 	assert(!isEmpty());
-
 	tail->data = data;
 }
 
@@ -427,26 +417,26 @@ inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCou
 template <typename T>
 inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getHeadConstIterator() const
 {
-	return ConstIterator(head, this);
+	return ConstIterator{ head, this };
 }
 
 
 template <typename T>
 inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getTailConstIterator() const
 {
-	return ConstIterator(tail, this);
+	return ConstIterator{ tail, this };
 }
 
 
 template <typename T>
 inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
 {
-	return Iterator(head, this);
+	return Iterator{ head, this };
 }
 
 
 template <typename T>
 inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getTailIterator()
 {
-	return Iterator(tail, this);
+	return Iterator{ tail, this };
 }
