@@ -6,7 +6,7 @@
 template <typename T>
 class SinglyLinkedList;
 template <typename T>
-class Node;
+struct Node;
 
 
 template <typename Key, bool isConst = false>

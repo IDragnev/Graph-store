@@ -102,7 +102,7 @@ SinglyLinkedListIterator<Key, isConst>::clone() const
 template <typename Key, bool isConst>
 inline bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs)
 {
-	return lhs.current == rhs.current;
+	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }
 
 
