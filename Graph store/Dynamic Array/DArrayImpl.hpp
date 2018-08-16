@@ -1,7 +1,7 @@
 
 
 template <typename T>
-inline DArray<T>::DArray() :
+DArray<T>::DArray() :
 	size{ 0 },
 	count{ 0 },
 	items{ nullptr }
@@ -32,7 +32,7 @@ inline void DArray<T>::setCount(unsignedInteger newCount)
 
 
 template <typename T>
-inline DArray<T>::DArray(DArray<T>&& source) :
+DArray<T>::DArray(DArray<T>&& source) :
 	count{ source.count },
 	size{ source.size },
 	items{ source.items }
@@ -51,7 +51,7 @@ inline void DArray<T>::nullifyMembers()
 
 
 template <typename T>
-inline DArray<T>::DArray(const DArray<T>& source) :
+DArray<T>::DArray(const DArray<T>& source) :
 	DArray<T>{}
 {
 	copyFrom(source);
@@ -73,7 +73,7 @@ void DArray<T>::copyFrom(const DArray<T>& source)
 
 
 template <typename T>
-inline DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
+DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -85,7 +85,7 @@ inline DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
 
 
 template <typename T>
-inline DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
+DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -136,7 +136,7 @@ void DArray<T>::shrink(unsignedInteger newSize)
 
 
 template <typename T>
-inline void DArray<T>::empty()
+void DArray<T>::empty()
 {
 	destroyItems();
 	nullifyMembers();
@@ -147,7 +147,6 @@ template <typename T>
 void DArray<T>::resize(unsignedInteger newSize)
 {
 	unsignedInteger newCount = (count <= newSize) ? count : newSize;
-
 	DArray<T> temporary{ newSize, newCount };
 
 	for (unsignedInteger i = 0; i < newCount; ++i)
@@ -170,7 +169,7 @@ inline void DArray<T>::ensureSize(unsignedInteger newSize)
 
 
 template <typename T>
-inline void DArray<T>::insert(const DArray<T>& other)
+void DArray<T>::insert(const DArray<T>& other)
 {
 	for (unsignedInteger i = 0; i < other.count; ++i)
 	{
@@ -183,13 +182,12 @@ template <typename T>
 inline void DArray<T>::insert(const T& newItem)
 {
 	enlargeIfFull();
-
 	items[count++] = newItem;
 }
 
 
 template <typename T>
-inline void DArray<T>::enlargeIfFull()
+void DArray<T>::enlargeIfFull()
 {
 	assert(count <= size);
 
@@ -206,7 +204,6 @@ void DArray<T>::insertAt(unsignedInteger position, const T& newItem)
 	if (position != count)
 	{
 		assert(hasItemAt(position));
-
 		enlargeIfFull();
 
 		shiftItemsOnePositionRight(position, count - 1);
@@ -221,7 +218,7 @@ void DArray<T>::insertAt(unsignedInteger position, const T& newItem)
 
 
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end)
+void DArray<T>::shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end)
 {
 	assert(end + 1 < size);
 
@@ -236,13 +233,12 @@ template <typename T>
 inline void DArray<T>::removeAt(unsignedInteger position)
 {
 	assert(hasItemAt(position));
-
 	shiftItemsOnePositionLeft(position + 1, --count);
 }
 
 
 template <typename T>
-inline void DArray<T>::shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end)
+void DArray<T>::shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end)
 {
 	assert(start > 0 && end < size);
 
@@ -264,7 +260,6 @@ template <typename T>
 inline const T& DArray<T>::operator[](unsignedInteger position) const
 {
 	assert(hasItemAt(position));
-
 	return items[position];
 }
 
