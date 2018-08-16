@@ -36,6 +36,9 @@ public:
 	bool operator!() const;
 	operator bool() const;
 
+	template <typename Key, bool isConst>
+	friend bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs);
+
 private:
 	SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner);
 
@@ -43,6 +46,9 @@ private:
 	nodePtr current;            
 	const SinglyLinkedList<Key>* owner;
 };
+
+template <typename Key, bool isConst>
+bool operator!=(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs);
 
 #include "SinglyLinkedListIteratorImpl.hpp"
 #endif //__SINGLY_LINKED_LIST_ITERATOR_H_INCLUDED__

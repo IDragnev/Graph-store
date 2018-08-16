@@ -87,3 +87,17 @@ SinglyLinkedListIterator<Key, isConst>::clone() const
 {
 	return baseIteratorPtr{ new SinglyLinkedListIterator<Key, isConst>{*this} };
 }
+
+
+template <typename Key, bool isConst>
+inline bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs)
+{
+	return lhs.current == rhs.current;
+}
+
+
+template <typename Key, bool isConst>
+inline bool operator!=(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs)
+{
+	return !(lhs == rhs);
+}
