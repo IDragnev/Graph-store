@@ -225,33 +225,33 @@ void SinglyLinkedList<T>::insertAsHead(const T& item)
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertAfter(Node<T>* nodeToInsertAfter, const T& item)
+void SinglyLinkedList<T>::insertAfter(Node<T>* node, const T& item)
 {
-	if (!nodeToInsertAfter || nodeToInsertAfter == tail)
+	if (!node || node == tail)
 	{
 		insertAsTail(item);
 	}
 	else 
 	{
-		assert(nodeToInsertAfter->next);
+		assert(node->next);
 
-		Node<T>* newNode = new Node<T>{ item, nodeToInsertAfter->next };
-		nodeToInsertAfter->next = newNode;
+		Node<T>* newNode = new Node<T>{ item, node->next };
+		node->next = newNode;
 		++count;
 	}
 }
 
 
 template <typename T>
-void SinglyLinkedList<T>::insertBefore(Node<T>* nodeToInsertBefore, const T& item)
+void SinglyLinkedList<T>::insertBefore(Node<T>* node, const T& item)
 {
-	if (!nodeToInsertBefore || nodeToInsertBefore == head)
+	if (!node || node == head)
 	{
 		insertAsHead(item);
 	}
 	else
 	{
-		Node<T>* previous = findNodeBefore(nodeToInsertBefore);
+		Node<T>* previous = findNodeBefore(node);
 		assert(previous);
 		insertAfter(previous, item);
 	}
@@ -300,28 +300,28 @@ inline void SinglyLinkedList<T>::removeTail()
 
 
 template <typename T>
-void SinglyLinkedList<T>::removeAt(Node<T>* nodeToRemove)
+void SinglyLinkedList<T>::removeAt(Node<T>* node)
 {
-	if (!nodeToRemove)
+	if (!node)
 	{
 		return;
 	}
-	else if (nodeToRemove == head)
+	else if (node == head)
 	{
 		removeHead();
 	}
 	else
 	{
-		Node<T>* nodeBefore = findNodeBefore(nodeToRemove);
+		Node<T>* nodeBefore = findNodeBefore(node);
 		assert(nodeBefore);
 
-		if (nodeToRemove == tail)
+		if (node == tail)
 		{
 			tail = nodeBefore;
 		}
 
-		nodeBefore->next = nodeToRemove->next;
-		delete nodeToRemove;
+		nodeBefore->next = node->next;
+		delete node;
 		--count;
 	}
 }
