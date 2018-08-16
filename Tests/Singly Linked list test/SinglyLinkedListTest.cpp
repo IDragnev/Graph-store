@@ -3,73 +3,72 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-typedef SinglyLinkedList<int>::Iterator ListIterator;
-typedef SinglyLinkedList<int>::ConstIterator ListConstIterator;
-typedef SinglyLinkedList<int> List;
-
 namespace SinglyLinkedListTest
 {
-	void fillListWithIntegersFromZeroTo(List& list, const int integer)
-	{
-		for (int i = 0; i <= integer; ++i)
-		{
-			list.insertAsTail(i);
-		}
-	}
-
-	void fillListWithIntegersFromZeroToInReverse(List& list, const int integer)
-	{
-		for (int i = 0; i <= integer; ++i)
-		{
-			list.insertAsHead(i);
-		}
-	}
-
-	bool iterateSameContents(ListConstIterator& lhs, ListConstIterator& rhs)
-	{
-		while (lhs)
-		{
-			if (*lhs != *rhs)
-			{
-				return false;
-			}
-
-			++lhs;
-			++rhs;
-		}
-
-		return !lhs && !rhs;
-	}
-
-	bool areEqual(const List& lhs, const List& rhs)
-	{
-		return (lhs.getCount() == rhs.getCount()) && iterateSameContents(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
-	}
-
-	bool containsAllIntegersFromZeroTo(const List& list, const int integer)
-	{
-		ListConstIterator constIterator = list.getHeadConstIterator();
-		int currentInteger = 0;
-
-		while (constIterator)
-		{
-			if (*constIterator != currentInteger)
-			{
-				return false;
-			}
-
-			++constIterator;
-			++currentInteger;
-		}
-
-		return currentInteger - 1 == integer;
-	}
-
-
 	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
+		typedef SinglyLinkedList<int>::Iterator ListIterator;
+		typedef SinglyLinkedList<int>::ConstIterator ListConstIterator;
+		typedef SinglyLinkedList<int> List;
+
 		static const int BIG_INTEGER = 100;
+
+		static void fillListWithIntegersFromZeroTo(List& list, const int integer)
+		{
+			for (int i = 0; i <= integer; ++i)
+			{
+				list.insertAsTail(i);
+			}
+		}
+
+		static void fillListWithIntegersFromZeroToInReverse(List& list, const int integer)
+		{
+			for (int i = 0; i <= integer; ++i)
+			{
+				list.insertAsHead(i);
+			}
+		}
+
+		static bool iterateSameContents(ListConstIterator& lhs, ListConstIterator& rhs)
+		{
+			while (lhs)
+			{
+				if (*lhs != *rhs)
+				{
+					return false;
+				}
+
+				++lhs;
+				++rhs;
+			}
+
+			return !lhs && !rhs;
+		}
+
+		static bool areEqual(const List& lhs, const List& rhs)
+		{
+			return (lhs.getCount() == rhs.getCount()) && iterateSameContents(lhs.getHeadConstIterator(), rhs.getHeadConstIterator());
+		}
+
+		static bool containsAllIntegersFromZeroTo(const List& list, const int integer)
+		{
+			ListConstIterator constIterator = list.getHeadConstIterator();
+			int currentInteger = 0;
+
+			while (constIterator)
+			{
+				if (*constIterator != currentInteger)
+				{
+					return false;
+				}
+
+				++constIterator;
+				++currentInteger;
+			}
+
+			return currentInteger - 1 == integer;
+		}
 
 	public:
 		TEST_METHOD(testDefaultConstructedListIsEmpty)
@@ -481,6 +480,23 @@ namespace SinglyLinkedListTest
 
 			Assert::IsTrue(containsAllIntegersFromZeroTo(lhs, BIG_INTEGER), L"Lhs has different contents from the move-assignmed-from Rhs");
 			Assert::IsTrue(rhs.isEmpty(), L"Rhs is not empty after move-assigning it");
+		}
+
+		TEST_METHOD(testIterator)
+		{
+			List list;
+			fillListWithIntegersFromZeroTo(list, BIG_INTEGER - 1);
+
+			ListConstIterator iterator = list.getHeadConstIterator();
+			int i = 0;
+
+			for (; iterator; ++iterator)
+			{
+				Assert::AreEqual(*iterator, i);
+				++i;
+			}
+
+			Assert::AreEqual(i, BIG_INTEGER);
 		}
 	};
 }
