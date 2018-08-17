@@ -1,4 +1,4 @@
-
+#include <algorithm>
 
 template <typename T>
 DArray<T>::DArray() :
@@ -6,6 +6,17 @@ DArray<T>::DArray() :
 	count{ 0 },
 	items{ nullptr }
 { 
+}
+
+
+template <typename T>
+DArray<T>::DArray(std::initializer_list<T> source) :
+	DArray(source.size(), 0)
+{
+	std::for_each(source.begin(), source.end(), [&](const T& item)
+	{
+		items[count++] = item;
+	});
 }
 
 
@@ -44,15 +55,14 @@ DArray<T>::DArray(DArray<T>&& source) :
 template <typename T>
 inline void DArray<T>::nullifyMembers()
 {
-	size = 0;
-	count = 0;
+	size = count = 0;
 	items = nullptr;
 }
 
 
 template <typename T>
 DArray<T>::DArray(const DArray<T>& source) :
-	DArray<T>{}
+	DArray<T>()
 {
 	copyFrom(source);
 }
@@ -61,7 +71,7 @@ DArray<T>::DArray(const DArray<T>& source) :
 template <typename T>
 void DArray<T>::copyFrom(const DArray<T>& source)
 {
-	DArray<T> temporary{ source.size, source.count };
+	DArray<T> temporary(source.size, source.count);
 
 	for (unsignedInteger i = 0; i < source.count; ++i)
 	{
@@ -147,7 +157,7 @@ template <typename T>
 void DArray<T>::resize(unsignedInteger newSize)
 {
 	unsignedInteger newCount = (count <= newSize) ? count : newSize;
-	DArray<T> temporary{ newSize, newCount };
+	DArray<T> temporary(newSize, newCount);
 
 	for (unsignedInteger i = 0; i < newCount; ++i)
 	{
@@ -293,14 +303,43 @@ inline typename DArray<T>::unsignedInteger DArray<T>::getSize() const
 
 
 template <typename T>
-inline typename DArray<T>::Iterator DArray<T>::getHeadIterator()
+inline typename DArray<T>::Iterator DArray<T>::getBeginIterator()
 {
 	return Iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::ConstIterator DArray<T>::getHeadConstIterator() const
+inline typename DArray<T>::Iterator DArray<T>::getEndIterator()
+{
+	return Iterator{ count, this };
+}
+
+
+template <typename T>
+inline typename DArray<T>::ConstIterator DArray<T>::getBeginConstIterator() const
 {
 	return ConstIterator{ 0, this };
+}
+
+
+template <typename T>
+inline typename DArray<T>::ConstIterator DArray<T>::getEndConstIterator() const
+{
+	return ConstIterator{ count, this };
+}
+
+
+template <typename T>
+inline bool operator==(const DArray<T>& lhs, const DArray<T>& rhs)
+{
+	return std::equal(lhs.getBeginConstIterator(), lhs.getEndConstIterator(),
+					  rhs.getBeginConstIterator(), rhs.getEndConstIterator());
+}
+
+
+template <typename T>
+inline bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs)
+{
+	return !(lhs == rhs);
 }

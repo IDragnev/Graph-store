@@ -65,6 +65,7 @@ public:
 	typedef DArrayIterator<T, true> ConstIterator;
 
 	DArray();
+	DArray(std::initializer_list<T> source);
 	explicit DArray(unsignedInteger size, unsignedInteger count = 0);
 	DArray(DArray<T>&& source);
 	DArray(const DArray<T>& source);
@@ -87,8 +88,10 @@ public:
 	void shrink(unsignedInteger size);
 	void ensureSize(unsignedInteger size);
 
-	Iterator getHeadIterator();
-	ConstIterator getHeadConstIterator() const;
+	Iterator getBeginIterator();
+	Iterator getEndIterator();
+	ConstIterator getBeginConstIterator() const;
+	ConstIterator getEndConstIterator() const;
 
 	unsignedInteger getSize() const;
 	unsignedInteger getCount() const;
@@ -119,6 +122,11 @@ private:
 
 template <typename Item, bool isConst>
 bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+
+template <typename T>
+bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);
+template <typename T>
+bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs);
 
 #include "DArrayImpl.hpp"
 #include "DArrayIteratorImpl.hpp"
