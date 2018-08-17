@@ -447,3 +447,18 @@ inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getEndIterato
 {
 	return Iterator{ nullptr, this };
 }
+
+
+template <typename T>
+inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs)
+{
+	return std::equal(lhs.getBeginConstIterator(), lhs.getEndConstIterator(),
+		              rhs.getBeginConstIterator(), rhs.getEndConstIterator());
+}
+
+
+template <typename T>
+inline bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs)
+{
+	return !(lhs == rhs);
+}

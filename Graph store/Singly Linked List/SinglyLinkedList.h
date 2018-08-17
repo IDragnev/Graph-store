@@ -77,5 +77,10 @@ private:
 	Node<T>* tail;                                    
 };
 
+template <typename T>
+bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
+template <typename T>
+bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
+
 #include "SinglyLinkedListImpl.hpp"
 #endif //__SINGLY_LINKED_LIST_H_INCLUDED__
