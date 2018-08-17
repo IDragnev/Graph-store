@@ -42,9 +42,6 @@ public:
 	SinglyLinkedListIterator<Key, isConst>& operator++();
 	SinglyLinkedListIterator<Key, isConst> operator++(int);
 
-	bool operator!() const;
-	operator bool() const;
-
 	template <typename Key, bool isConst>
 	friend bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs);
 

@@ -33,15 +33,15 @@ namespace SinglyLinkedListTest
 			});		
 		}
 
-		TEST_METHOD(testEmptyListReturnsNullIterators)
+		TEST_METHOD(testEmptyListReturnsInvalidIterators)
 		{
 			List list;
 
 			ListConstIterator head = list.getBeginConstIterator();
 			ListConstIterator tail = list.getEndConstIterator();
 
-			Assert::IsFalse(head, L"Begin iterator of empty list is not null");
-			Assert::IsFalse(tail, L"End iterator of empty list is not null");
+			Assert::IsTrue(head.isFinished(), L"Begin iterator of empty list is not null");
+			Assert::IsTrue(tail.isFinished(), L"End iterator of empty list is not null");
 		}
 	
 		TEST_METHOD(testTailInsertionUpdatesCountAndTail)

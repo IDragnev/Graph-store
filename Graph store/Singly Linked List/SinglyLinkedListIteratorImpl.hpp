@@ -71,20 +71,6 @@ inline void SinglyLinkedListIterator<Key, isConst>::goToNext()
 
 
 template <typename Key, bool isConst>
-inline SinglyLinkedListIterator<Key, isConst>::operator bool() const
-{
-	return !isFinished();
-}
-
-
-template <typename Key, bool isConst>
-inline bool SinglyLinkedListIterator<Key, isConst>::operator!() const
-{
-	return isFinished();
-}
-
-
-template <typename Key, bool isConst>
 inline bool SinglyLinkedListIterator<Key, isConst>::isFinished() const
 {
 	return !current;
