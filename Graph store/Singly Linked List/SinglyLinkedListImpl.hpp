@@ -1,13 +1,20 @@
 #include <utility>
 #include <assert.h>
 
-
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() :
 	count{ 0 }, 
 	head{ nullptr },
 	tail{ nullptr }
 {
+}
+
+
+template <typename T>
+SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
+	SinglyLinkedList()
+{
+	std::for_each(source.begin(), source.end(), [&](const T& item) { insert(item); });
 }
 
 
@@ -64,7 +71,7 @@ inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLi
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
-	SinglyLinkedList<T>{}
+	SinglyLinkedList<T>()
 {
 	if (!source.isEmpty())
 	{
@@ -415,28 +422,28 @@ inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCou
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getHeadConstIterator() const
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getBeginConstIterator() const
 {
 	return ConstIterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getTailConstIterator() const
+inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getEndConstIterator() const
 {
-	return ConstIterator{ tail, this };
+	return ConstIterator{ nullptr, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getHeadIterator()
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getBeginIterator()
 {
 	return Iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getTailIterator()
+inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getEndIterator()
 {
-	return Iterator{ tail, this };
+	return Iterator{ nullptr, this };
 }

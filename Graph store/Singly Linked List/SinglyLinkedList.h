@@ -17,6 +17,7 @@ public:
 	typedef SinglyLinkedListIterator<T, true> ConstIterator;
 
 	SinglyLinkedList();
+	SinglyLinkedList(std::initializer_list<T> source);
 	SinglyLinkedList(SinglyLinkedList<T>&& source);
 	SinglyLinkedList(const SinglyLinkedList<T>& source);
 	~SinglyLinkedList();
@@ -44,10 +45,10 @@ public:
 	bool isEmpty() const;                              
 	unsignedInteger getCount() const;  
 
-	ConstIterator getHeadConstIterator() const;
-	ConstIterator getTailConstIterator() const;
-	Iterator getHeadIterator();
-	Iterator getTailIterator();
+	ConstIterator getBeginConstIterator() const;
+	ConstIterator getEndConstIterator() const;
+	Iterator getBeginIterator();
+	Iterator getEndIterator();
 	
 	void setHead(const T& item);                           
 	void setTail(const T& item);  
