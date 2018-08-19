@@ -13,7 +13,7 @@ class Vertex
 {
 	friend class Graph;
 public:
-	~Vertex() = default;
+	Vertex(const String& ID, size_t index);
 
 	bool isVisited() const;
 	void markAsVisited();
@@ -32,11 +32,7 @@ public:
 	const String& getID() const;
 
 private:
-	Vertex(const String& ID, size_t index);
-
-	Vertex(Vertex&&) = delete;
 	Vertex(const Vertex&) = delete;
-	Vertex& operator=(Vertex&&) = delete;
 	Vertex& operator=(const Vertex&) = delete;
 
 	void setID(const String& ID);
@@ -46,8 +42,8 @@ private:
 	String id;
 	SinglyLinkedList<Edge> edges;
 	Vertex* predecessor;
-	PriorityQueueHandle handle;
-	Distance distanceToSource;
+	PriorityQueueHandle handle{};
+	Distance distanceToSource{};
 	bool visited;
 };
 

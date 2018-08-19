@@ -4,11 +4,7 @@
 
 Vertex::Vertex(const String& ID, size_t index) :
 	index{ index },
-	id{},
-	edges{},
 	predecessor{ nullptr },
-	handle{},
-	distanceToSource{ Distance::Infinity() },
 	visited{ false }
 {
 	setID(ID);

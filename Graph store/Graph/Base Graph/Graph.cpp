@@ -28,11 +28,7 @@ void Graph::setID(const String& ID)
 
 Graph::~Graph()
 {
-	std::for_each(vertices.getBeginIterator(), vertices.getEndIterator(), 
-		[&](Vertex* v)
-	{
-		deleteVertex(v);
-	});
+	std::for_each(vertices.getBeginIterator(), vertices.getEndIterator(), [&](Vertex* v) { deleteVertex(v);	});
 }
 
 
@@ -79,7 +75,7 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 
 std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
 {
-	return std::unique_ptr<Vertex>{new Vertex{ ID, vertices.getCount() }};
+	return std::make_unique<Vertex>(ID, vertices.getCount());
 }
 
 
@@ -102,7 +98,6 @@ void Graph::insert(Vertex& vertex)
 void Graph::insertInVertices(Vertex& vertex)
 {
 	assert(vertex.index == vertices.getCount());
-
 	vertices.insert(&vertex);
 }
 
