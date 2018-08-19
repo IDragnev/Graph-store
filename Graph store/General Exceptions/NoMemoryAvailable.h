@@ -7,7 +7,6 @@ class NoMemoryAvailable : public Exception
 {
 public:
 	NoMemoryAvailable() : Exception{ "No memory available" } {}
-	virtual ~NoMemoryAvailable() override = default;
 };
 
 #endif //__NO_MEMORY_AVAILABLE_H_INCLUDED__

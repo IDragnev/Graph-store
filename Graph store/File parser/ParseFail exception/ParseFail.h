@@ -9,7 +9,6 @@ class ParseFail : public Exception
 {
 public:
 	ParseFail(const String& filename, const String& reason, unsigned line);
-	virtual ~ParseFail() override = default;
 
 private:
 	static std::string buildMessage(const String& filename, const String& reason, unsigned line);

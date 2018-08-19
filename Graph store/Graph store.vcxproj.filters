@@ -266,9 +266,6 @@
     <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
       <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Commands\MissingArgument exception\MissingArgument.cpp">
-      <Filter>Application\Commands\MissingArgument exception</Filter>
-    </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortest.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
