@@ -84,7 +84,7 @@ inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~Pr
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAllItems()
 {
-	auto iterator = items.getHeadConstIterator();
+	auto iterator = items.getBeginConstIterator();
 
 	while (!iterator.isFinished())
 	{

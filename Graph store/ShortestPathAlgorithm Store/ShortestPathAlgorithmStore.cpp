@@ -43,7 +43,7 @@ ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID
 
 ShortestPathAlgorithm* ShortestPathAlgorithmStore::searchAlgorithm(const String& ID)
 {
-	auto iterator = algorithms.getHeadConstIterator();
+	auto iterator = algorithms.getBeginConstIterator();
 
 	while (!iterator.isFinished())
 	{

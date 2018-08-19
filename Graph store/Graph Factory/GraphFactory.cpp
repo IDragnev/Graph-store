@@ -43,7 +43,7 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 
 const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 {
-	auto iterator = creators.getHeadConstIterator();
+	auto iterator = creators.getBeginConstIterator();
 
 	while (iterator)
 	{

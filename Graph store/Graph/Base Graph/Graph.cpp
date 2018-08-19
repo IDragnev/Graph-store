@@ -27,7 +27,7 @@ void Graph::setID(const String& ID)
 
 Graph::~Graph()
 {
-	VertexConstIterator iterator = vertices.getHeadConstIterator();
+	VertexConstIterator iterator = vertices.getBeginConstIterator();
 
 	while (iterator)
 	{
@@ -157,9 +157,9 @@ void Graph::removeVertex(Vertex& vertex)
 //
 void Graph::removeEdgesEndingIn(Vertex& vertex)
 {
-	EdgeIterator iterator = vertex.edges.getHeadIterator();
+	EdgeIterator iterator = vertex.edges.getBeginIterator();
 
-	while (iterator)
+	while (!iterator.isFinished())
 	{
 		Edge& edge = *iterator;
 		Vertex& neighbour = edge.getIncidentVertex();
@@ -187,7 +187,7 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 {
 	EdgeIterator iterator = searchEdgeFromTo(from, to);
 
-	if (iterator)
+	if (!iterator.isFinished())
 	{
 		from.edges.removeAt(iterator);
 	}
@@ -200,9 +200,9 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 
 Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
-	EdgeIterator iterator = from.edges.getHeadIterator();
+	EdgeIterator iterator = from.edges.getBeginIterator();
 
-	while (iterator)
+	while (!iterator.isFinished())
 	{
 		const Edge& edge = *iterator;
 
@@ -270,7 +270,7 @@ Graph::EdgeAbstractIterator Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
-	EdgeIterator iterator = vertex.edges.getHeadIterator();
+	EdgeIterator iterator = vertex.edges.getBeginIterator();
 	
 	return iterator.clone();
 }
@@ -280,7 +280,7 @@ Graph::EdgeAbstractConstIterator Graph::getConstIteratorToEdgesLeaving(const Ver
 {
 	assert(isOwnerOf(vertex));
 
-	EdgeConstIterator constIterator = vertex.edges.getHeadConstIterator();
+	EdgeConstIterator constIterator = vertex.edges.getBeginConstIterator();
 
 	return constIterator.clone();
 }
@@ -289,7 +289,7 @@ Graph::EdgeAbstractConstIterator Graph::getConstIteratorToEdgesLeaving(const Ver
 Graph::VertexAbstractConstIterator Graph::getIteratorToVertices()
 {
 	//ConstIterator because the actual pointers are iterated
-	VertexConstIterator constIterator = vertices.getHeadConstIterator();
+	VertexConstIterator constIterator = vertices.getBeginConstIterator();
 
 	return constIterator.clone();
 }

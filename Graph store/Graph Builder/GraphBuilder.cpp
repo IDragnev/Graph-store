@@ -124,7 +124,7 @@ void GraphBuilder::createEmptyGraph()
 
 void GraphBuilder::insertVertices()
 {
-	auto constIterator = vertexIDs.getHeadConstIterator();
+	auto constIterator = vertexIDs.getBeginConstIterator();
 
 	while (constIterator)
 	{
@@ -138,7 +138,7 @@ void GraphBuilder::insertEdges()
 {
 	assert(result->getVerticesCount() == vertexIDs.getCount());
 
-	auto constIterator = edges.getHeadConstIterator();
+	auto constIterator = edges.getBeginConstIterator();
 
 	while (constIterator)
 	{

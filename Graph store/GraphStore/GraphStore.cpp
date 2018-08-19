@@ -12,7 +12,7 @@ GraphStore::~GraphStore()
 
 void GraphStore::deleteAllGraphs()
 {
-	auto iterator = graphs.getHeadConstIterator();
+	auto iterator = graphs.getBeginConstIterator();
 
 	while (!iterator.isFinished())
 	{
@@ -55,7 +55,7 @@ bool GraphStore::hasGraphWithID(const String& ID) const
 
 const Graph* GraphStore::searchGraph(const String& ID) const
 {
-	auto iterator = graphs.getHeadConstIterator();
+	auto iterator = graphs.getBeginConstIterator();
 
 	while (!iterator.isFinished())
 	{
