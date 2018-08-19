@@ -7,7 +7,6 @@ class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
-	virtual ~IterativeDeepeningDFS() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
 

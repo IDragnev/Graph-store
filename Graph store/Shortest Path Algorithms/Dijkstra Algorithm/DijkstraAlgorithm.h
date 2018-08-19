@@ -14,7 +14,6 @@ private:
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
-	virtual ~DijkstraAlgorithm() override = default;
 
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
 
