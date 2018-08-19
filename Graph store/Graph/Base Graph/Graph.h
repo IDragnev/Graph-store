@@ -13,15 +13,15 @@
 class Graph
 {
 private:
-	typedef Hash<Vertex, String, IDAccessor<Vertex>> VertexHashTable;
-	typedef DArray<Vertex*>::ConstIterator VertexConstIterator;
-	typedef SinglyLinkedList<Edge>::Iterator EdgeIterator;
-	typedef SinglyLinkedList<Edge>::ConstIterator EdgeConstIterator;
+	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
+	using VertexConstIterator = DArray<Vertex*>::ConstIterator;
+	using EdgeIterator = SinglyLinkedList<Edge>::Iterator;
+	using EdgeConstIterator = SinglyLinkedList<Edge>::ConstIterator;
 
 protected:
-	typedef std::unique_ptr<ConstIterator<Vertex*>> VertexAbstractConstIterator;
-	typedef std::unique_ptr<Iterator<Edge>> EdgeAbstractIterator;
-	typedef std::unique_ptr<ConstIterator<Edge>> EdgeAbstractConstIterator;
+	using VertexAbstractConstIterator = std::unique_ptr<ConstIterator<Vertex*>>;
+	using EdgeAbstractIterator = std::unique_ptr<Iterator<Edge>>;
+	using EdgeAbstractConstIterator = std::unique_ptr<ConstIterator<Edge>>;
 	
 public:
 	Graph(const String& ID);

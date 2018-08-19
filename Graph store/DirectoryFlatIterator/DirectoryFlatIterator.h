@@ -9,8 +9,8 @@ class Exception;
 class DirectoryFlatIterator
 {
 private:
-	typedef WIN32_FIND_DATA File;
-	typedef HANDLE SearchHandle;
+	using File = WIN32_FIND_DATA;
+	using SearchHandle = HANDLE;
 
 public:
 	explicit DirectoryFlatIterator(const String& directory);

@@ -10,7 +10,7 @@ class Exception;
 class GraphStore
 {
 private:
-	typedef DArray<Graph*> GraphCollection;
+	using GraphCollection = DArray<Graph*>;
 
 public:
 	GraphStore() = default;

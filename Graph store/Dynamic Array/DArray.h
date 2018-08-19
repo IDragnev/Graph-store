@@ -12,7 +12,7 @@ private:
 	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible.");
 	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable.");
 
-	typedef size_t unsignedInteger;
+	using unsignedInteger = size_t;
 
 public:
 	template <typename Item, bool isConst = false>
@@ -20,16 +20,16 @@ public:
 	{
 	private:
 		friend class DArray<Item>;
-		typedef typename BaseIteratorSelector<isConst, Item>::result baseIterator;
-		typedef typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result ownerPtr;
-		typedef std::unique_ptr<baseIterator> baseIteratorPtr;
+		using baseIterator = typename BaseIteratorSelector<isConst, Item>::result;
+		using ownerPtr = typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result;
+		using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 	public:
-		typedef Item value_type;
-		typedef std::ptrdiff_t difference_type;
-		typedef std::forward_iterator_tag iterator_category;
-		typedef typename TypeSelector<isConst, const Item&, Item&>::result reference;
-		typedef typename TypeSelector<isConst, const Item*, Item*>::result pointer;
+		using value_type = Item;
+		using difference_type = std::ptrdiff_t;
+		using iterator_category = std::forward_iterator_tag;
+		using reference = typename TypeSelector<isConst, const Item&, Item&>::result;
+		using pointer = typename TypeSelector<isConst, const Item*, Item*>::result;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
@@ -61,8 +61,8 @@ public:
 	};
 
 public:
-	typedef DArrayIterator<T, false> Iterator;
-	typedef DArrayIterator<T, true> ConstIterator;
+	using Iterator = DArrayIterator<T, false>;
+	using ConstIterator = DArrayIterator<T, true>;
 
 	DArray();
 	DArray(std::initializer_list<T> source);

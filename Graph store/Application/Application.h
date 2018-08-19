@@ -11,9 +11,9 @@ class Command;
 class Application
 {
 private:
-	typedef std::forward_list<args::Command> Commands;
-	typedef std::function<void(args::Subparser&)> Function;
-	typedef std::vector<std::string> InputContainer;
+	using Commands =  std::forward_list<args::Command>;
+	using Function = std::function<void(args::Subparser&)>;
+	using InputContainer = std::vector<std::string>;
 
 public:
 	static Application& instance();

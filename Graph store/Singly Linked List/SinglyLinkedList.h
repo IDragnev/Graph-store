@@ -10,11 +10,11 @@ class SinglyLinkedList
 private:
 	static_assert(std::is_copy_constructible<T>::value, "SinglyLinkedList<T> requires T to be copy constructible");
 
-	typedef unsigned unsignedInteger;
+	using unsignedInteger = unsigned;
 
 public:
-	typedef SinglyLinkedListIterator<T, false> Iterator;
-	typedef SinglyLinkedListIterator<T, true> ConstIterator;
+	using Iterator = SinglyLinkedListIterator<T, false>;
+	using ConstIterator = SinglyLinkedListIterator<T, true>;
 
 	SinglyLinkedList();
 	SinglyLinkedList(std::initializer_list<T> source);

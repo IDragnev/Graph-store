@@ -16,16 +16,16 @@ private:
 	friend class SinglyLinkedListIterator<Key, true>;
 	friend class SinglyLinkedList<Key>;
 
-	typedef typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result nodePtr;
-	typedef typename BaseIteratorSelector<isConst, Key>::result baseIterator;
-	typedef std::unique_ptr<baseIterator> baseIteratorPtr;
+	using nodePtr = typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result;
+	using baseIterator = typename BaseIteratorSelector<isConst, Key>::result;
+	using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 public:
-	typedef Key value_type;
-	typedef std::ptrdiff_t difference_type;
-	typedef std::forward_iterator_tag iterator_category;
-	typedef typename TypeSelector<isConst, const Key&, Key&>::result reference;
-	typedef typename TypeSelector<isConst, const Key*, Key*>::result pointer;
+	using value_type = Key;
+	using difference_type = std::ptrdiff_t;
+	using iterator_category = std::forward_iterator_tag;
+	using reference = typename TypeSelector<isConst, const Key&, Key&>::result;
+	using pointer = typename TypeSelector<isConst, const Key*, Key*>::result;
 
 public:
 	SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source);

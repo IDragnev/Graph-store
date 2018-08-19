@@ -10,7 +10,7 @@
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
 private:
-	typedef PriorityQueue<Vertex, Distance, DistanceAccessor, GreaterThan<Distance>, HandleSetter> MinPriorityQueue;
+	using MinPriorityQueue = PriorityQueue<Vertex, Distance, DistanceAccessor, GreaterThan<Distance>, HandleSetter>;
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;

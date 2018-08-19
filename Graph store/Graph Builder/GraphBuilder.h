@@ -13,7 +13,7 @@ class Vertex;
 class GraphBuilder
 {
 private:
-	typedef std::unique_ptr<Graph> GraphPtr;
+	using GraphPtr = std::unique_ptr<Graph>;
 
 	struct RawEdge
 	{

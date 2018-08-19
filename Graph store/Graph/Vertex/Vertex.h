@@ -7,7 +7,7 @@
 #include "../Edge/Edge.h"
 #include "../../Priority Queue/Priority Queue Handle/PriorityQueueHandle.h"
 
-typedef SpecialInteger<unsigned> Distance; 
+using Distance = SpecialInteger<unsigned>; 
 
 class Vertex
 {

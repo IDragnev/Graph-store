@@ -7,7 +7,7 @@
 class InsertEdgeCommand : public Command
 {
 private:
-	typedef args::Positional<unsigned> UnsignedPositional;
+	using UnsignedPositional = args::Positional<unsigned>;
 
 public:
 	using Command::Command;

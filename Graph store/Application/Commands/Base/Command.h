@@ -12,7 +12,7 @@ class StringReader;
 class Command
 {
 protected:
-	typedef args::Positional<String, StringReader> StringPositional;
+	using StringPositional = args::Positional<String, StringReader>;
 
 public:
 	Command() = default;

@@ -9,7 +9,7 @@ class String;
 class ShortestPathAlgorithmStore
 {
 private:
-	typedef DArray<ShortestPathAlgorithm*> Collection;
+	using Collection = DArray<ShortestPathAlgorithm*>;
 
 public:
 	static ShortestPathAlgorithmStore& instance();

@@ -9,7 +9,7 @@
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
-	typedef size_t unsignedInteger;
+	using unsignedInteger = size_t;
 
 public:
 	explicit Hash(unsignedInteger expectedCount);

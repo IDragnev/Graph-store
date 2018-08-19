@@ -14,8 +14,8 @@ private:
 	template <typename GraphType>
 	friend class GraphRegistrator;
 
-	typedef DArray<const GraphCreator*> CreatorsCollection;
-	typedef std::unique_ptr<Graph> GraphPtr;
+	using CreatorsCollection = DArray<const GraphCreator*>;
+	using GraphPtr = std::unique_ptr<Graph>;
 
 public:
 	static GraphFactory& instance();

@@ -9,7 +9,7 @@ class Graph;
 class GraphCreator
 {
 protected:
-	typedef std::unique_ptr<Graph> GraphPtr;
+	using GraphPtr = std::unique_ptr<Graph>;
 
 public:
 	explicit GraphCreator(const String& graphType);

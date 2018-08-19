@@ -4,13 +4,13 @@
 template <bool isTrue, typename T, typename F>
 struct TypeSelector
 {
-	typedef T result;
+	using result = T;
 };
 
 template <typename T, typename F>
 struct TypeSelector<false, T, F>
 {
-	typedef F result;
+	using result = F;
 };
 
 #endif //__TYPE_SELECTOR_H_INCLUDED__
