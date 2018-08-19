@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
 #include <assert.h>
+#include <algorithm>
 
 
 Graph::Graph(const String& ID) :
@@ -27,19 +28,17 @@ void Graph::setID(const String& ID)
 
 Graph::~Graph()
 {
-	VertexConstIterator iterator = vertices.getBeginConstIterator();
-
-	while (iterator)
+	std::for_each(vertices.getBeginIterator(), vertices.getEndIterator(), 
+		[&](Vertex* v)
 	{
-		deleteVertex(*iterator);
-		++iterator;
-	}
+		deleteVertex(v);
+	});
 }
 
 
-void Graph::deleteVertex(Vertex* vertex)
+void Graph::deleteVertex(Vertex* v)
 {
-	delete vertex;
+	delete v;
 }
 
 
@@ -157,17 +156,12 @@ void Graph::removeVertex(Vertex& vertex)
 //
 void Graph::removeEdgesEndingIn(Vertex& vertex)
 {
-	EdgeIterator iterator = vertex.edges.getBeginIterator();
-
-	while (!iterator.isFinished())
+	std::for_each(vertex.edges.getBeginIterator(), vertex.edges.getEndIterator(), 
+		[&](Edge& edge)
 	{
-		Edge& edge = *iterator;
 		Vertex& neighbour = edge.getIncidentVertex();
-
 		removeEdgeFromToNoThrow(neighbour, vertex);
-
-		++iterator;
-	}
+	});
 }
 
 
@@ -200,21 +194,7 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 
 Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
-	EdgeIterator iterator = from.edges.getBeginIterator();
-
-	while (!iterator.isFinished())
-	{
-		const Edge& edge = *iterator;
-
-		if (edge.getIncidentVertex() == to)
-		{
-			break;
-		}
-
-		++iterator;
-	}
-
-	return iterator;
+	return std::find_if(from.edges.getBeginIterator(), from.edges.getEndIterator(), [&](const Edge& edge) { return edge.getIncidentVertex() == to; });
 }
 
 
