@@ -218,7 +218,7 @@ Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 }
 
 
-void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
+void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
 {
 	try
 	{

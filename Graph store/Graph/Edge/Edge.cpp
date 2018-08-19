@@ -1,13 +1,13 @@
 #include "Edge.h"
-#include "../Vertex/Vertex.h"
+#include "..\Vertex\Vertex.h"
 #include <assert.h>
 
 
-Edge::Edge(Vertex* incidentVertex, Weight weight) :
-	weight(weight),
-	incidentVertex(incidentVertex)
+Edge::Edge(Vertex* incidentVertex, unsigned weight) :
+	weight{ weight },
+	incidentVertex{ incidentVertex }
 {
-	assert(this->incidentVertex);
+	assert(incidentVertex);
 }
 
 
@@ -20,12 +20,11 @@ Vertex& Edge::getIncidentVertex()
 const Vertex& Edge::getIncidentVertex() const
 {
 	assert(incidentVertex);
-
 	return *incidentVertex;
 }
 
 
-Edge::Weight Edge::getWeight() const
+unsigned Edge::getWeight() const
 {
 	return weight;
 }

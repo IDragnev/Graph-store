@@ -31,7 +31,7 @@ public:
 	void removeVertex(const String& ID);
 	void removeVertex(Vertex& vertex);
 
-	virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight weight) = 0;
+	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight) = 0;
 	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	Vertex& getVertex(const String& ID);
@@ -49,7 +49,7 @@ protected:
 
 	static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 	static void removeEdgeFromTo(Vertex& from, Vertex& to);
-	static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight);
+	static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight);
 	static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 	bool hasVertexWithID(const String& ID) const;

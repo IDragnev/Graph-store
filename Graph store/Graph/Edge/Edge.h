@@ -5,25 +5,15 @@ class Vertex;
 
 class Edge
 {
-private:
-	friend class Graph;
-	typedef unsigned Weight;
-
 public:
-	Edge(Edge&& source) = default;
-	Edge(const Edge& source) = default;
+	Edge(Vertex* incidentVertex, unsigned weight = 1);
 
 	Vertex& getIncidentVertex();
 	const Vertex& getIncidentVertex() const;
-	Weight getWeight() const;
+	unsigned getWeight() const;
 
 private:
-	Edge(Vertex* incidentVertex, Weight weight = 1);
-	Edge& operator=(const Edge& rhs) = default;
-	Edge& operator=(Edge&& rhs) = default;
-
-private:
-	Weight weight;
+	unsigned weight;
 	Vertex* incidentVertex;
 };
 
