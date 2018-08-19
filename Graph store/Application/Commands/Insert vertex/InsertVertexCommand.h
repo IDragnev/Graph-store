@@ -8,7 +8,6 @@ class InsertVertexCommand : public Command
 {
 public:
 	InsertVertexCommand() = default;
-	virtual ~InsertVertexCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

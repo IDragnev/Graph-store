@@ -9,7 +9,6 @@ class ConcreteGraphCreator : public GraphCreator
 {
 public:
 	using GraphCreator::GraphCreator;
-	virtual ~ConcreteGraphCreator() override = default;
 
 	virtual GraphPtr createEmptyGraph(const String& ID) const override
 	{

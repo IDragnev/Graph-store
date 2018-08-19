@@ -8,7 +8,6 @@ class UseGraphCommand : public Command
 {
 public:
 	UseGraphCommand() = default;
-	virtual ~UseGraphCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

@@ -7,7 +7,6 @@ class DirectedGraph : public Graph
 {
 public:
 	using Graph::Graph;
-	virtual ~DirectedGraph() override = default;
 
 	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;

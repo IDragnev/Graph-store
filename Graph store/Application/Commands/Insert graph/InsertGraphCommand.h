@@ -8,7 +8,6 @@ class InsertGraphCommand : public Command
 {
 public:
 	InsertGraphCommand() = default;
-	virtual ~InsertGraphCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

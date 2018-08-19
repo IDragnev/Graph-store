@@ -8,7 +8,6 @@ class RemoveVertexCommand : public Command
 {
 public:
 	RemoveVertexCommand() = default;
-	virtual ~RemoveVertexCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

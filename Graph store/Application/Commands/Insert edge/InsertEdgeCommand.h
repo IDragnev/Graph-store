@@ -11,7 +11,6 @@ private:
 
 public:
 	InsertEdgeCommand() = default;
-	virtual ~InsertEdgeCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

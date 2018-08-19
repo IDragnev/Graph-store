@@ -8,7 +8,6 @@ class RemoveGraphCommand : public Command
 {
 public:
 	RemoveGraphCommand() = default;
-	virtual ~RemoveGraphCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

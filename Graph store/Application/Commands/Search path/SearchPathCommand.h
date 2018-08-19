@@ -8,7 +8,6 @@ class SearchPathCommand : public Command
 {
 public:
 	SearchPathCommand() = default;
-	virtual ~SearchPathCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;

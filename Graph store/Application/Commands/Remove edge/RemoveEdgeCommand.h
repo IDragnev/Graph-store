@@ -8,7 +8,6 @@ class RemoveEdgeCommand : public Command
 {
 public:
 	RemoveEdgeCommand() = default;
-	virtual ~RemoveEdgeCommand() override = default;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
