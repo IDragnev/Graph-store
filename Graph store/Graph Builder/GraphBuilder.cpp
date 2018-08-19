@@ -2,6 +2,7 @@
 #include "..\Graph Factory\GraphFactory.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\NoMemoryAvailable.h"
+#include <algorithm>
 
 
 GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
@@ -124,13 +125,11 @@ void GraphBuilder::createEmptyGraph()
 
 void GraphBuilder::insertVertices()
 {
-	auto constIterator = vertexIDs.getBeginConstIterator();
-
-	while (constIterator)
+	std::for_each(vertexIDs.getBeginConstIterator(), vertexIDs.getEndConstIterator(),
+		[&](const String& ID) 
 	{
-		result->insertVertexWithID(*constIterator);
-		++constIterator;
-	}
+		result->insertVertexWithID(ID);
+	});
 }
 
 
@@ -138,13 +137,11 @@ void GraphBuilder::insertEdges()
 {
 	assert(result->getVerticesCount() == vertexIDs.getCount());
 
-	auto constIterator = edges.getBeginConstIterator();
-
-	while (constIterator)
+	std::for_each(edges.getBeginConstIterator(), edges.getEndConstIterator(),
+		[&](const RawEdge& edge)
 	{
-		insertSingleEdge(*constIterator);
-		++constIterator;
-	}
+		insertSingleEdge(edge);
+	});
 }
 
 

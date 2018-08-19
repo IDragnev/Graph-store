@@ -3,6 +3,7 @@
 #include "..\String\String.h"
 #include "..\General Exceptions\Exception.h"
 #include <assert.h>
+#include <algorithm>
 
 
 ShortestPathAlgorithmStore::ShortestPathAlgorithmStore() :
@@ -43,19 +44,11 @@ ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID
 
 ShortestPathAlgorithm* ShortestPathAlgorithmStore::searchAlgorithm(const String& ID)
 {
-	auto iterator = algorithms.getBeginConstIterator();
-
-	while (!iterator.isFinished())
+	auto iterator = std::find_if(algorithms.getBeginIterator(), algorithms.getEndIterator(), 
+		[&](ShortestPathAlgorithm* alg)
 	{
-		ShortestPathAlgorithm* algorithm = iterator.getCurrent();
+		return alg->getID() == ID;
+	});
 
-		if (algorithm->getID() == ID)
-		{
-			return algorithm;
-		}
-
-		iterator.goToNext();
-	}
-
-	return nullptr;
+	return (!iterator.isFinished()) ? *iterator : nullptr;
 }

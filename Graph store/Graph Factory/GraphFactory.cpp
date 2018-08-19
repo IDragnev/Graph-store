@@ -2,6 +2,7 @@
 #include "..\Graph\Base Graph\Graph.h"
 #include "Graph creators\Base\GraphCreator.h"
 #include "..\String\String.h"
+#include <algorithm>
 
 
 GraphFactory::GraphFactory() :
@@ -43,21 +44,13 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 
 const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 {
-	auto iterator = creators.getBeginConstIterator();
-
-	while (iterator)
+	auto iterator = std::find_if(creators.getBeginConstIterator(), creators.getEndConstIterator(), 
+		[&](const GraphCreator* c)
 	{
-		const GraphCreator* creator = *iterator;
+		return c->getCreatedGraphType() == graphType;
+	});
 
-		if (creator->getCreatedGraphType() == graphType)
-		{
-			return creator;
-		}
-
-		++iterator;
-	}
-
-	return nullptr;
+	return (!iterator.isFinished()) ? *iterator : nullptr;
 }
 
 

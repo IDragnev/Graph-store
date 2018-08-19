@@ -2,6 +2,7 @@
 #include "..\String\String.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
+#include <algorithm>
 
 
 GraphStore::~GraphStore()
@@ -12,13 +13,7 @@ GraphStore::~GraphStore()
 
 void GraphStore::deleteAllGraphs()
 {
-	auto iterator = graphs.getBeginConstIterator();
-
-	while (!iterator.isFinished())
-	{
-		delete iterator.getCurrent();
-		iterator.goToNext();
-	}
+	std::for_each(graphs.getBeginIterator(), graphs.getEndIterator(), [&](Graph* g) { delete g; });
 }
 
 
@@ -55,21 +50,13 @@ bool GraphStore::hasGraphWithID(const String& ID) const
 
 const Graph* GraphStore::searchGraph(const String& ID) const
 {
-	auto iterator = graphs.getBeginConstIterator();
-
-	while (!iterator.isFinished())
+	auto iterator = std::find_if(graphs.getBeginConstIterator(), graphs.getEndConstIterator(),
+		[&](const Graph* g)
 	{
-		const Graph* graph = iterator.getCurrent();
-		
-		if (graph->getID() == ID)
-		{
-			return graph;
-		}
+		return g->getID() == ID;
+	});
 
-		iterator.goToNext();
-	}
-
-	return nullptr;
+	return (!iterator.isFinished()) ? *iterator : nullptr;
 }
 
 
