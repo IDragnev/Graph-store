@@ -246,30 +246,28 @@ Vertex& Graph::getVertex(const String& ID)
 }
 
 
-Graph::EdgeAbstractIterator Graph::getIteratorToEdgesLeaving(Vertex& vertex)
+Graph::EdgeIteratorPtr Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
-
-	EdgeIterator iterator = vertex.edges.getBeginIterator();
+	auto iterator = vertex.edges.getBeginIterator();
 	
 	return iterator.clone();
 }
 
 
-Graph::EdgeAbstractConstIterator Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const
+Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const
 {
 	assert(isOwnerOf(vertex));
-
-	EdgeConstIterator constIterator = vertex.edges.getBeginConstIterator();
+	auto constIterator = vertex.edges.getBeginConstIterator();
 
 	return constIterator.clone();
 }
 
 
-Graph::VertexAbstractConstIterator Graph::getIteratorToVertices()
+Graph::VertexConstIteratorPtr Graph::getIteratorToVertices()
 {
 	//ConstIterator because the actual pointers are iterated
-	VertexConstIterator constIterator = vertices.getBeginConstIterator();
+	auto constIterator = vertices.getBeginConstIterator();
 
 	return constIterator.clone();
 }

@@ -14,14 +14,12 @@ class Graph
 {
 private:
 	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
-	using VertexConstIterator = DArray<Vertex*>::ConstIterator;
 	using EdgeIterator = SinglyLinkedList<Edge>::Iterator;
-	using EdgeConstIterator = SinglyLinkedList<Edge>::ConstIterator;
 
 protected:
-	using VertexAbstractConstIterator = std::unique_ptr<ConstIterator<Vertex*>>;
-	using EdgeAbstractIterator = std::unique_ptr<Iterator<Edge>>;
-	using EdgeAbstractConstIterator = std::unique_ptr<ConstIterator<Edge>>;
+	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
+	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
+	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 	
 public:
 	Graph(const String& ID);
@@ -38,9 +36,9 @@ public:
 	const Vertex& getVertex(const String& ID) const;
 
 	unsigned getVerticesCount() const;
-	VertexAbstractConstIterator getIteratorToVertices();
-	EdgeAbstractIterator getIteratorToEdgesLeaving(Vertex& vertex);
-	EdgeAbstractConstIterator getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
+	VertexConstIteratorPtr getIteratorToVertices();
+	EdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
+	EdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
 
 	const String& getID() const;
 

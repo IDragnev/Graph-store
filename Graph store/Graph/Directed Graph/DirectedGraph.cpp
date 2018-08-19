@@ -31,7 +31,7 @@ void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
 
 void DirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
-	VertexAbstractConstIterator iterator(getIteratorToVertices());
+	VertexConstIteratorPtr iterator(getIteratorToVertices());
 
 	while (!iterator->isFinished())
 	{
