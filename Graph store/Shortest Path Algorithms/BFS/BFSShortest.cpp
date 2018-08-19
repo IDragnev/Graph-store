@@ -1,12 +1,12 @@
-#include "BFS.h"
+#include "BFSShortest.h"
 #include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <memory>
 
-static ShortestPathAlgorithmRegistrator<BFS> registrator{ "BFS" };
+static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
 
 
-void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
+void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 {
 	if (source != goal)
 	{
@@ -22,7 +22,7 @@ void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
 }
 
 
-void BFS::findShortestPathToGoalFrom(Vertex& source)
+void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 {
 	assert(isFrontierEmpty());
 
@@ -44,13 +44,13 @@ void BFS::findShortestPathToGoalFrom(Vertex& source)
 }
 
 
-bool BFS::isFrontierEmpty() const
+bool BFSShortest::isFrontierEmpty() const
 {
 	return queue.isEmpty();
 }
 
 
-void BFS::addToFrontier(Vertex& vertex)
+void BFSShortest::addToFrontier(Vertex& vertex)
 {
 	assert(vertex.isVisited());
 
@@ -58,7 +58,7 @@ void BFS::addToFrontier(Vertex& vertex)
 }
 
 
-Vertex& BFS::extractVertexFromTheFrontier()
+Vertex& BFSShortest::extractVertexFromTheFrontier()
 {
 	Vertex* vertex = queue.dequeue();
 	assert(vertex);
@@ -67,7 +67,7 @@ Vertex& BFS::extractVertexFromTheFrontier()
 }
 
 
-void BFS::expandFrontierFrom(Vertex& vertex)
+void BFSShortest::expandFrontierFrom(Vertex& vertex)
 {
 	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
 
@@ -88,14 +88,14 @@ void BFS::expandFrontierFrom(Vertex& vertex)
 }
 
 
-void BFS::extendCurrentPathFromTo(Vertex& from, Vertex& to)
+void BFSShortest::extendCurrentPathFromTo(Vertex& from, Vertex& to)
 {
 	to.setPredecessor(&from);
 	to.setDistanceToSource(from.getDistanceToSource() + Distance{ 1 });
 }
 
 
-void BFS::clearState()
+void BFSShortest::clearState()
 {
 	queue.empty();
 }

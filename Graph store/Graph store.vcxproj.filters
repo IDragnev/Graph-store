@@ -251,9 +251,6 @@
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp">
       <Filter>ShortestPathAlgorithm store</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Commands\Search path\SearchPathCommand.cpp">
       <Filter>Application\Commands\Search path</Filter>
     </ClCompile>
@@ -271,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\MissingArgument exception\MissingArgument.cpp">
       <Filter>Application\Commands\MissingArgument exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortest.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,9 +466,6 @@
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp">
       <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h">
       <Filter>Application\Commands\Search path</Filter>
     </ClInclude>
@@ -492,6 +489,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
       <Filter>Application\Commands\MissingArgument exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortest.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
