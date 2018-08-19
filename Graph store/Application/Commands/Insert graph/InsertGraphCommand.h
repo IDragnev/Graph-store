@@ -7,17 +7,12 @@
 class InsertGraphCommand : public Command
 {
 public:
-	InsertGraphCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	InsertGraphCommand(InsertGraphCommand&&) = delete;
-	InsertGraphCommand(const InsertGraphCommand&) = delete;
-	InsertGraphCommand& operator=(InsertGraphCommand&&) = delete;
-	InsertGraphCommand& operator=(const InsertGraphCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

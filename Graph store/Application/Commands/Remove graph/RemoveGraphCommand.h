@@ -7,17 +7,12 @@
 class RemoveGraphCommand : public Command
 {
 public:
-	RemoveGraphCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	RemoveGraphCommand(RemoveGraphCommand&&) = delete;
-	RemoveGraphCommand(const RemoveGraphCommand&) = delete;
-	RemoveGraphCommand& operator=(RemoveGraphCommand&&) = delete;
-	RemoveGraphCommand& operator=(const RemoveGraphCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

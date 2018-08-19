@@ -7,17 +7,12 @@
 class SearchPathCommand : public Command 
 {
 public:
-	SearchPathCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	SearchPathCommand(SearchPathCommand&&) = delete;
-	SearchPathCommand(const SearchPathCommand&) = delete;
-	SearchPathCommand& operator=(SearchPathCommand&&) = delete;
-	SearchPathCommand& operator=(const SearchPathCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

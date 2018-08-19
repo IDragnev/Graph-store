@@ -15,6 +15,7 @@ protected:
 	typedef args::Positional<String, StringReader> StringPositional;
 
 public:
+	Command() = default;
 	virtual ~Command() = default;
 
 	void execute(args::Subparser& parser);
@@ -24,8 +25,6 @@ public:
 	static void setManagedStore(GraphStore& store);
 
 protected:
-	Command() = default;
-
 	virtual void parseArguments(args::Subparser& parser) = 0;
 	virtual void execute() const = 0;
 

@@ -7,17 +7,12 @@
 class InsertVertexCommand : public Command
 {
 public:
-	InsertVertexCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	InsertVertexCommand(InsertVertexCommand&&) = delete;
-	InsertVertexCommand(const InsertVertexCommand&) = delete;
-	InsertVertexCommand& operator=(InsertVertexCommand&&) = delete;
-	InsertVertexCommand& operator=(const InsertVertexCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

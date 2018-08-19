@@ -10,17 +10,12 @@ private:
 	typedef args::Positional<unsigned> UnsignedPositional;
 
 public:
-	InsertEdgeCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	InsertEdgeCommand(InsertEdgeCommand&&) = delete;
-	InsertEdgeCommand(const InsertEdgeCommand&) = delete;
-	InsertEdgeCommand& operator=(InsertEdgeCommand&&) = delete;
-	InsertEdgeCommand& operator=(const InsertEdgeCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
@@ -34,7 +29,7 @@ private:
 private:
 	String startVertexID;
 	String endVertexID;
-	unsigned weight;
+	unsigned weight{};
 };
 
 #endif //__INSERT_EDGE_COMMAND_H_INCLUDED__

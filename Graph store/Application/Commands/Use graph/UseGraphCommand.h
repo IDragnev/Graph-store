@@ -7,17 +7,12 @@
 class UseGraphCommand : public Command
 {
 public:
-	UseGraphCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	UseGraphCommand(UseGraphCommand&&) = delete;
-	UseGraphCommand(const UseGraphCommand&) = delete;
-	UseGraphCommand& operator=(UseGraphCommand&&) = delete;
-	UseGraphCommand& operator=(const UseGraphCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

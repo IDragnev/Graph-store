@@ -7,17 +7,12 @@
 class RemoveVertexCommand : public Command
 {
 public:
-	RemoveVertexCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	RemoveVertexCommand(RemoveVertexCommand&&) = delete;
-	RemoveVertexCommand(const RemoveVertexCommand&) = delete;
-	RemoveVertexCommand& operator=(RemoveVertexCommand&&) = delete;
-	RemoveVertexCommand& operator=(const RemoveVertexCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 

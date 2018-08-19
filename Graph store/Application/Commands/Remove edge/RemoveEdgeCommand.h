@@ -7,17 +7,12 @@
 class RemoveEdgeCommand : public Command
 {
 public:
-	RemoveEdgeCommand() = default;
+	using Command::Command;
 
 	virtual const char* getName() const override;
 	virtual const char* getDescription() const override;
 
 private:
-	RemoveEdgeCommand(RemoveEdgeCommand&&) = delete;
-	RemoveEdgeCommand(const RemoveEdgeCommand&) = delete;
-	RemoveEdgeCommand& operator=(RemoveEdgeCommand&&) = delete;
-	RemoveEdgeCommand& operator=(const RemoveEdgeCommand&) = delete;
-
 	virtual void parseArguments(args::Subparser& parser) override;
 	virtual void execute() const override;
 
