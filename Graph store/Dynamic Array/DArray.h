@@ -33,21 +33,15 @@ public:
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
-		virtual ~DArrayIterator() override = default;
 
-		virtual reference getCurrent() const override;
-		virtual void goToNext() override;
-		virtual bool isFinished() const override;
+		virtual reference operator*() const override;
+		virtual pointer operator->() const override;
+		virtual DArrayIterator<Item, isConst>& operator++() override;
+		virtual operator bool() const override;
+		virtual bool operator!() const override;
 		virtual baseIteratorPtr clone() const override;
 
-		reference operator*() const;
-		pointer operator->() const;
-
-		DArrayIterator<Item, isConst>& operator++();
 		DArrayIterator<Item, isConst> operator++(int);
-
-		operator bool() const;
-		bool operator!() const;
 
 		template <typename Item, bool isConst>
 		friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
