@@ -9,14 +9,11 @@ class ConstIterator
 public:
 	virtual ~ConstIterator() = default;
 
-	virtual const T& getCurrent() const = 0;
-	virtual void goToNext() = 0;
-	virtual bool isFinished() const = 0;
+	virtual const T& operator*() const = 0;
+	virtual const T* operator->() const = 0;
+	virtual ConstIterator<T>& operator++() = 0;
+	virtual operator bool() const = 0;
 	virtual std::unique_ptr<ConstIterator<T>> clone() const = 0;
-
-protected:
-	ConstIterator() = default;
-	ConstIterator<T>& operator=(const ConstIterator<T>&) = default;
 };
 
 #endif //__CONST_ITERATOR_ABSTRACTION_H_INCLUDED__
