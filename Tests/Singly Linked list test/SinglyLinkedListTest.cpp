@@ -9,8 +9,6 @@ namespace SinglyLinkedListTest
 	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
-		typedef SinglyLinkedList<int>::Iterator ListIterator;
-		typedef SinglyLinkedList<int>::ConstIterator ListConstIterator;
 		typedef SinglyLinkedList<int> List;
 
 	public:
@@ -37,11 +35,11 @@ namespace SinglyLinkedListTest
 		{
 			List list;
 
-			ListConstIterator head = list.getBeginConstIterator();
-			ListConstIterator tail = list.getEndConstIterator();
+			auto head = list.getBeginConstIterator();
+			auto tail = list.getEndConstIterator();
 
-			Assert::IsTrue(head.isFinished(), L"Begin iterator of empty list is not null");
-			Assert::IsTrue(tail.isFinished(), L"End iterator of empty list is not null");
+			Assert::IsFalse(head, L"Begin iterator of empty list is not null");
+			Assert::IsFalse(tail, L"End iterator of empty list is not null");
 		}
 	
 		TEST_METHOD(testTailInsertionUpdatesCountAndTail)
@@ -108,7 +106,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testInsertionAfterNullIteratorInsertsAsTail)
 		{
 			List list{ 10, 11, 12 };
-			ListIterator iterator = list.getEndIterator();
+			auto iterator = list.getEndIterator();
 
 			list.insertAfter(iterator, 1);
 
@@ -118,7 +116,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testInsertionAfterValidIterator)
 		{
 			List list{ 1 };
-			ListIterator iterator = list.getBeginIterator();
+			auto iterator = list.getBeginIterator();
 
 			list.insertAfter(iterator, 2);
 
@@ -129,7 +127,7 @@ namespace SinglyLinkedListTest
 		{
 			List list{ 1, 3 };
 			
-			ListIterator iterator = list.getBeginIterator();
+			auto iterator = list.getBeginIterator();
 			list.insertAfter(iterator, 2);
 
 			Assert::IsTrue(list == List{ 1, 2, 3 });
@@ -139,7 +137,7 @@ namespace SinglyLinkedListTest
 		{
 			List list{ 10 };
 
-			ListIterator iterator = list.getEndIterator();
+			auto iterator = list.getEndIterator();
 			list.insertBefore(iterator, 1);
 
 			Assert::AreEqual(list.getHead(), 1);
@@ -149,7 +147,7 @@ namespace SinglyLinkedListTest
 		{
 			List list{ 1 };
 
-			ListIterator iterator = list.getBeginIterator();
+			auto iterator = list.getBeginIterator();
 			list.insertBefore(iterator, 20);
 
 			Assert::AreEqual(list.getHead(), 20);
@@ -158,7 +156,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testInsertionBetweenElementsWithInsertBeforeIterator)
 		{
 			List list{ 1,3 };
-			ListIterator iterator = list.getBeginIterator();
+			auto iterator = list.getBeginIterator();
 			++iterator;
 
 			list.insertBefore(iterator, 2);
@@ -169,7 +167,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemovalAtNullIteratorDoesNothing)
 		{
 			List emptyList;
-			ListIterator nullIterator = emptyList.getEndIterator();
+			auto nullIterator = emptyList.getEndIterator();
 
 			emptyList.removeAt(nullIterator);
 
@@ -179,7 +177,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRemovalAtIterator)
 		{
 			List list{ 1, 2, 3 };
-			ListIterator iterator = list.getBeginIterator();
+			auto iterator = list.getBeginIterator();
 			++iterator;
 
 			list.removeAt(iterator);

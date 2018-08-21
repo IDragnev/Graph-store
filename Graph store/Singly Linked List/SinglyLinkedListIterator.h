@@ -16,6 +16,7 @@ private:
 	friend class SinglyLinkedListIterator<Key, true>;
 	friend class SinglyLinkedList<Key>;
 
+	using ownerPtr = const SinglyLinkedList<Key>*;
 	using nodePtr = typename TypeSelector<isConst, const Node<Key>*, Node<Key>*>::result;
 	using baseIterator = typename BaseIteratorSelector<isConst, Key>::result;
 	using baseIteratorPtr = std::unique_ptr<baseIterator>;
@@ -29,28 +30,25 @@ public:
 
 public:
 	SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source);
-	virtual ~SinglyLinkedListIterator() override = default;
 
-	virtual reference getCurrent() const override;
-	virtual void goToNext() override;
-	virtual bool isFinished() const override;
+	virtual reference operator*() const override;
+	virtual pointer operator->() const override;
+	virtual SinglyLinkedListIterator<Key, isConst>& operator++() override;
+	virtual operator bool() const override;
+	virtual bool operator!() const override;
 	virtual baseIteratorPtr clone() const override;
 
-	reference operator*() const;
-	pointer operator->() const;
-
-	SinglyLinkedListIterator<Key, isConst>& operator++();
 	SinglyLinkedListIterator<Key, isConst> operator++(int);
 
 	template <typename Key, bool isConst>
 	friend bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs);
 
 private:
-	SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner);
+	SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner);
 
 private:
 	nodePtr current;            
-	const SinglyLinkedList<Key>* owner;
+	ownerPtr owner;
 };
 
 template <typename Key, bool isConst>

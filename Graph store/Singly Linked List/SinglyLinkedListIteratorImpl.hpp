@@ -1,7 +1,7 @@
 #include <assert.h>
 
 template <typename Key, bool isConst>
-inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, const SinglyLinkedList<Key>* owner) :
+inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner) :
 	current{ startNode },
 	owner{ owner }
 {
@@ -10,8 +10,7 @@ inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr 
 
 template <typename Key, bool isConst>
 inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source) :
-	current{ source.current },
-	owner{ source.owner }
+	SinglyLinkedListIterator<Key, isConst>{ source.current, source.owner }
 {
 }
 
@@ -20,7 +19,8 @@ template <typename Key, bool isConst>
 inline typename SinglyLinkedListIterator<Key, isConst>::reference 
 SinglyLinkedListIterator<Key, isConst>::operator*() const
 {
-	return getCurrent();
+	assert(this->operator bool());
+	return current->data;
 }
 
 
@@ -28,16 +28,7 @@ template <typename Key, bool isConst>
 inline typename SinglyLinkedListIterator<Key, isConst>::pointer
 SinglyLinkedListIterator<Key, isConst>::operator->() const
 {
-	return &getCurrent();
-}
-
-
-template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::reference
-SinglyLinkedListIterator<Key, isConst>::getCurrent() const
-{
-	assert(!isFinished());
-	return current->data;
+	return &(this->operator*());
 }
 
 
@@ -54,26 +45,26 @@ SinglyLinkedListIterator<Key, isConst> SinglyLinkedListIterator<Key, isConst>::o
 template <typename Key, bool isConst>
 SinglyLinkedListIterator<Key, isConst>& SinglyLinkedListIterator<Key, isConst>::operator++()
 {
-	goToNext();
+	if (this->operator bool())
+	{
+		current = current->next;
+	}
 
 	return *this;
 }
 
 
 template <typename Key, bool isConst>
-inline void SinglyLinkedListIterator<Key, isConst>::goToNext()
+inline SinglyLinkedListIterator<Key, isConst>::operator bool() const
 {
-	if (!isFinished())
-	{
-		current = current->next;
-	}
+	return current != nullptr;
 }
 
 
 template <typename Key, bool isConst>
-inline bool SinglyLinkedListIterator<Key, isConst>::isFinished() const
+inline bool SinglyLinkedListIterator<Key, isConst>::operator!() const
 {
-	return !current;
+	return !(this->operator bool());
 }
 
 
