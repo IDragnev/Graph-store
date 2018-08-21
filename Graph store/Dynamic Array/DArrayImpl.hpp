@@ -303,30 +303,30 @@ inline typename DArray<T>::unsignedInteger DArray<T>::getSize() const
 
 
 template <typename T>
-inline typename DArray<T>::Iterator DArray<T>::getBeginIterator()
+inline typename DArray<T>::iterator DArray<T>::getBeginIterator()
 {
-	return Iterator{ 0, this };
+	return iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::Iterator DArray<T>::getEndIterator()
+inline typename DArray<T>::iterator DArray<T>::getEndIterator()
 {
-	return Iterator{ count, this };
+	return iterator{ count, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::ConstIterator DArray<T>::getBeginConstIterator() const
+inline typename DArray<T>::const_iterator DArray<T>::getBeginConstIterator() const
 {
-	return ConstIterator{ 0, this };
+	return const_iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::ConstIterator DArray<T>::getEndConstIterator() const
+inline typename DArray<T>::const_iterator DArray<T>::getEndConstIterator() const
 {
-	return ConstIterator{ count, this };
+	return const_iterator{ count, this };
 }
 
 

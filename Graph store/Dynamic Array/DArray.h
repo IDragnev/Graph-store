@@ -55,8 +55,8 @@ public:
 	};
 
 public:
-	using Iterator = DArrayIterator<T, false>;
-	using ConstIterator = DArrayIterator<T, true>;
+	using iterator = DArrayIterator<T, false>;
+	using const_iterator = DArrayIterator<T, true>;
 
 	DArray();
 	DArray(std::initializer_list<T> source);
@@ -82,10 +82,10 @@ public:
 	void shrink(unsignedInteger size);
 	void ensureSize(unsignedInteger size);
 
-	Iterator getBeginIterator();
-	Iterator getEndIterator();
-	ConstIterator getBeginConstIterator() const;
-	ConstIterator getEndConstIterator() const;
+	iterator getBeginIterator();
+	iterator getEndIterator();
+	const_iterator getBeginConstIterator() const;
+	const_iterator getEndConstIterator() const;
 
 	unsignedInteger getSize() const;
 	unsignedInteger getCount() const;

@@ -10,7 +10,6 @@ namespace DArraytest
 	{
 	private:
 		typedef DArray<unsigned> UIntArray;
-		typedef UIntArray::ConstIterator UIntArrayConstIterator;
 
 		static const size_t TEST_SIZE = 25;
 
