@@ -13,6 +13,7 @@ public:
 	virtual const T* operator->() const = 0;
 	virtual ConstIterator<T>& operator++() = 0;
 	virtual operator bool() const = 0;
+	virtual bool operator!() const = 0;
 	virtual std::unique_ptr<ConstIterator<T>> clone() const = 0;
 };
 
