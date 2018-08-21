@@ -26,7 +26,6 @@ private:
 	class SinglyLinkedListIterator : public BaseIteratorSelector<isConst, Item>::result
 	{
 	private:
-		friend class SinglyLinkedListIterator<Item, true>;
 		friend class SinglyLinkedList<Item>;
 
 		using ownerPtr = const SinglyLinkedList<Item>*;
@@ -66,8 +65,8 @@ private:
 	};
 
 public:
-	using Iterator = SinglyLinkedListIterator<T, false>;
-	using ConstIterator = SinglyLinkedListIterator<T, true>;
+	using iterator = SinglyLinkedListIterator<T, false>;
+	using const_iterator = SinglyLinkedListIterator<T, true>;
 
 	SinglyLinkedList();
 	SinglyLinkedList(std::initializer_list<T> source);
@@ -82,14 +81,14 @@ public:
 	void insert(const T& item);
 	void insertAsHead(const T& item);                         
 	void insertAsTail(const T& item);                         
-	void insertAfter(Iterator& iterator, const T& item);
-	void insertBefore(Iterator& iterator, const T& item);
+	void insertAfter(iterator& position, const T& item);
+	void insertBefore(iterator& position, const T& item);
 
 	void removeHead();                                
 	void removeTail();                          
-	void removeAt(Iterator& iterator);
-	void removeBefore(Iterator& iterator);
-	void removeAfter(Iterator& iterator);
+	void removeAt(iterator& position);
+	void removeBefore(iterator& position);
+	void removeAfter(iterator& position);
 
 	void appendList(SinglyLinkedList<T>&& other);
 	void appendList(const SinglyLinkedList<T>& other);    
@@ -98,10 +97,10 @@ public:
 	bool isEmpty() const;                              
 	unsignedInteger getCount() const;  
 
-	ConstIterator getBeginConstIterator() const;
-	ConstIterator getEndConstIterator() const;
-	Iterator getBeginIterator();
-	Iterator getEndIterator();
+	const_iterator getBeginConstIterator() const;
+	const_iterator getEndConstIterator() const;
+	iterator getBeginIterator();
+	iterator getEndIterator();
 	
 	void setHead(const T& item);                           
 	void setTail(const T& item);  
@@ -122,7 +121,7 @@ private:
 	void insertBefore(Node<T>* node, const T& item);
 	Node<T>* findNodeBefore(const Node<T>* node) const; 
 
-	bool validateOwnershipOf(const Iterator& iterator) const;
+	bool validateOwnershipOf(const iterator& it) const;
 
 private:
 	unsignedInteger count;                                         

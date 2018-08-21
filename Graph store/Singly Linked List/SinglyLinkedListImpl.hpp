@@ -344,50 +344,50 @@ void SinglyLinkedList<T>::removeAt(Node<T>* node)
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeAt(Iterator& iterator)
+inline void SinglyLinkedList<T>::removeAt(iterator& it)
 {
-	assert(validateOwnershipOf(iterator));
-	removeAt(iterator.current);
-	iterator.current = nullptr;
+	assert(validateOwnershipOf(it));
+	removeAt(it.current);
+	it.current = nullptr;
 }
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeAfter(Iterator& iterator)
+inline void SinglyLinkedList<T>::removeAfter(iterator& it)
 {
-	assert(validateOwnershipOf(iterator));
-	removeAt(iterator.current->next);
+	assert(validateOwnershipOf(it));
+	removeAt(it.current->next);
 }
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::removeBefore(Iterator& iterator)
+inline void SinglyLinkedList<T>::removeBefore(iterator& it)
 {
-	assert(validateOwnershipOf(iterator));
-	removeAt(findNodeBefore(iterator.current));
+	assert(validateOwnershipOf(it));
+	removeAt(findNodeBefore(it.current));
 }
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::insertAfter(Iterator& iterator, const T& item)
+inline void SinglyLinkedList<T>::insertAfter(iterator& it, const T& item)
 {
-	assert(validateOwnershipOf(iterator));
-	insertAfter(iterator.current, item);
+	assert(validateOwnershipOf(it));
+	insertAfter(it.current, item);
 }
 
 
 template <typename T>
-inline void SinglyLinkedList<T>::insertBefore(Iterator& iterator, const T& item)
+inline void SinglyLinkedList<T>::insertBefore(iterator& it, const T& item)
 {
-	assert(validateOwnershipOf(iterator));
-	insertBefore(iterator.current, item);
+	assert(validateOwnershipOf(it));
+	insertBefore(it.current, item);
 }
 
 
 template <typename T>
-inline bool SinglyLinkedList<T>::validateOwnershipOf(const Iterator& iterator) const
+inline bool SinglyLinkedList<T>::validateOwnershipOf(const iterator& it) const
 {
-	return iterator.owner == this;
+	return it.owner == this;
 }
 
 
@@ -431,30 +431,30 @@ inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCou
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getBeginConstIterator() const
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::getBeginConstIterator() const
 {
-	return ConstIterator{ head, this };
+	return const_iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::ConstIterator SinglyLinkedList<T>::getEndConstIterator() const
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::getEndConstIterator() const
 {
-	return ConstIterator{ nullptr, this };
+	return const_iterator{ nullptr, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getBeginIterator()
+inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::getBeginIterator()
 {
-	return Iterator{ head, this };
+	return iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::Iterator SinglyLinkedList<T>::getEndIterator()
+inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::getEndIterator()
 {
-	return Iterator{ nullptr, this };
+	return iterator{ nullptr, this };
 }
 
 
