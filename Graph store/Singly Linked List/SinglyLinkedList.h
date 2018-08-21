@@ -1,8 +1,9 @@
 #ifndef __SINGLY_LINKED_LIST_H_INCLUDED__
 #define __SINGLY_LINKED_LIST_H_INCLUDED__
 
-#include "Node.h"
-#include "SinglyLinkedListIterator.h"
+#include <utility>
+#include <assert.h>
+#include "..\Type selector\BaseIteratorSelector.h"
 
 template <typename T>
 class SinglyLinkedList
@@ -11,6 +12,58 @@ private:
 	static_assert(std::is_copy_constructible<T>::value, "SinglyLinkedList<T> requires T to be copy constructible");
 
 	using unsignedInteger = unsigned;
+
+	template <typename Item>
+	struct Node
+	{
+		Node(const Item& data, Node<Item>* next = nullptr);
+
+		Node<Item>* next;
+		Item data;
+	};
+
+	template <typename Item, bool isConst = false>
+	class SinglyLinkedListIterator : public BaseIteratorSelector<isConst, Item>::result
+	{
+	private:
+		friend class SinglyLinkedListIterator<Item, true>;
+		friend class SinglyLinkedList<Item>;
+
+		using ownerPtr = const SinglyLinkedList<Item>*;
+		using nodePtr = typename TypeSelector<isConst, const Node<Item>*, Node<Item>*>::result;
+		using baseIterator = typename BaseIteratorSelector<isConst, Item>::result;
+		using baseIteratorPtr = std::unique_ptr<baseIterator>;
+
+	public:
+		using value_type = Item;
+		using difference_type = std::ptrdiff_t;
+		using iterator_category = std::forward_iterator_tag;
+		using reference = typename TypeSelector<isConst, const Item&, Item&>::result;
+		using pointer = typename TypeSelector<isConst, const Item*, Item*>::result;
+
+	public:
+		SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source);
+
+		virtual reference operator*() const override;
+		virtual pointer operator->() const override;
+		virtual SinglyLinkedListIterator<Item, isConst>& operator++() override;
+		virtual operator bool() const override;
+		virtual bool operator!() const override;
+		virtual baseIteratorPtr clone() const override;
+
+		SinglyLinkedListIterator<Item, isConst> operator++(int);
+
+		template <typename Item, bool isConst>
+		friend bool operator==(typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& lhs, 
+			                   typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& rhs);
+
+	private:
+		SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner);
+
+	private:
+		nodePtr current;
+		ownerPtr owner;
+	};
 
 public:
 	using Iterator = SinglyLinkedListIterator<T, false>;
@@ -82,5 +135,10 @@ bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
 template <typename T>
 bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
 
+template <typename T, bool isConst>
+bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
+	            typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs);
+
 #include "SinglyLinkedListImpl.hpp"
+#include "SinglyLinkedListIteratorImpl.hpp"
 #endif //__SINGLY_LINKED_LIST_H_INCLUDED__

@@ -1,5 +1,13 @@
-#include <utility>
-#include <assert.h>
+
+
+template <typename T>
+template <typename Item>
+SinglyLinkedList<T>::Node<Item>::Node(const Item& data, Node<Item>* next) :
+	next{ next },
+	data{ data }
+{
+}
+
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() :
@@ -266,7 +274,8 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* node, const T& item)
 
 
 template <typename T>
-Node<T>* SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
+typename SinglyLinkedList<T>::Node<T>* 
+SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
 {
 	assert(node);
 

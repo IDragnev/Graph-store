@@ -1,49 +1,57 @@
-#include <assert.h>
 
-template <typename Key, bool isConst>
-inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner) :
+
+template <typename T>
+template <typename Item, bool isConst>
+inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner) :
 	current{ startNode },
 	owner{ owner }
 {
 }
 
 
-template <typename Key, bool isConst>
-inline SinglyLinkedListIterator<Key, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Key, false>& source) :
-	SinglyLinkedListIterator<Key, isConst>{ source.current, source.owner }
+template <typename T>
+template <typename Item, bool isConst>
+inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source) :
+	SinglyLinkedListIterator<Item, isConst>{ source.current, source.owner }
 {
 }
 
 
-template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::reference 
-SinglyLinkedListIterator<Key, isConst>::operator*() const
+template <typename T>
+template <typename Item, bool isConst>
+inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::reference
+SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator*() const
 {
 	assert(this->operator bool());
 	return current->data;
 }
 
 
-template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::pointer
-SinglyLinkedListIterator<Key, isConst>::operator->() const
+template <typename T>
+template <typename Item, bool isConst>
+inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::pointer
+SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator->() const
 {
 	return &(this->operator*());
 }
 
 
-template <typename Key, bool isConst>
-SinglyLinkedListIterator<Key, isConst> SinglyLinkedListIterator<Key, isConst>::operator++(int)
+template <typename T>
+template <typename Item, bool isConst>
+typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>
+SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++(int)
 {
-	SinglyLinkedListIterator<Key, isConst> temporary{ *this };
+	SinglyLinkedListIterator<Item, isConst> temporary{ *this };
 	++(*this);
 
 	return temporary;
 }
 
 
-template <typename Key, bool isConst>
-SinglyLinkedListIterator<Key, isConst>& SinglyLinkedListIterator<Key, isConst>::operator++()
+template <typename T>
+template <typename Item, bool isConst>
+typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>& 
+SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++()
 {
 	if (this->operator bool())
 	{
@@ -54,37 +62,42 @@ SinglyLinkedListIterator<Key, isConst>& SinglyLinkedListIterator<Key, isConst>::
 }
 
 
-template <typename Key, bool isConst>
-inline SinglyLinkedListIterator<Key, isConst>::operator bool() const
+template <typename T>
+template <typename Item, bool isConst>
+inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator bool() const
 {
 	return current != nullptr;
 }
 
 
-template <typename Key, bool isConst>
-inline bool SinglyLinkedListIterator<Key, isConst>::operator!() const
+template <typename T>
+template <typename Item, bool isConst>
+inline bool SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator!() const
 {
 	return !(this->operator bool());
 }
 
 
-template <typename Key, bool isConst>
-inline typename SinglyLinkedListIterator<Key, isConst>::baseIteratorPtr
-SinglyLinkedListIterator<Key, isConst>::clone() const
+template <typename T>
+template <typename Item, bool isConst>
+inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::baseIteratorPtr
+SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::clone() const
 {
-	return baseIteratorPtr{ new SinglyLinkedListIterator<Key, isConst>{*this} };
+	return baseIteratorPtr{ new SinglyLinkedListIterator<Item, isConst>{*this} };
 }
 
 
-template <typename Key, bool isConst>
-inline bool operator==(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs)
+template <typename T, bool isConst>
+inline bool operator==(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
+	                   typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs)
 {
 	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }
 
 
-template <typename Key, bool isConst>
-inline bool operator!=(const SinglyLinkedListIterator<Key, isConst>& lhs, const SinglyLinkedListIterator<Key, isConst>& rhs)
+template <typename T, bool isConst>
+inline bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs, 
+	                   typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs)
 {
 	return !(lhs == rhs);
 }
