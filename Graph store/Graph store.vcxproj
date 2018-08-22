@@ -240,10 +240,8 @@
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp" />
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
-    <ClInclude Include="Singly Linked List\Node.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedList.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp" />
-    <ClInclude Include="Singly Linked List\SinglyLinkedListIterator.h" />
     <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp" />
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />

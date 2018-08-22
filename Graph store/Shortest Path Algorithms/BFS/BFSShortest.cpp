@@ -30,7 +30,7 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 
 	while (!isFrontierEmpty())
 	{
-		Vertex& vertex = extractVertexFromTheFrontier();
+		auto& vertex = extractVertexFromTheFrontier();
 
 		if (isTheGoal(vertex))
 		{
@@ -69,12 +69,11 @@ Vertex& BFSShortest::extractVertexFromTheFrontier()
 
 void BFSShortest::expandFrontierFrom(Vertex& vertex)
 {
-	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
+	auto iteratorPtr = getEdgesLeaving(vertex);
 
-	while (!iterator->isFinished())
+	forEach(*iteratorPtr, [&](Edge& edge) 
 	{
-		Edge& edge = iterator->getCurrent();
-		Vertex& neighbour = edge.getIncidentVertex();
+		auto& neighbour = edge.getIncidentVertex();
 
 		if (!neighbour.isVisited())
 		{
@@ -82,9 +81,7 @@ void BFSShortest::expandFrontierFrom(Vertex& vertex)
 			extendCurrentPathFromTo(vertex, neighbour);
 			addToFrontier(neighbour);
 		}
-
-		iterator->goToNext();
-	}
+	});
 }
 
 

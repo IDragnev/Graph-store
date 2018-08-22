@@ -17,4 +17,15 @@ public:
 	virtual std::unique_ptr<Iterator<T>> clone() const = 0;
 };
 
+
+template <typename Iterator, typename Function>
+void forEach(Iterator& iterator, Function f)
+{
+	while (iterator)
+	{
+		f(*iterator);
+		++iterator;
+	}
+}
+
 #endif //__ITERATOR_ABSTRACTION_H_INCLUDED__

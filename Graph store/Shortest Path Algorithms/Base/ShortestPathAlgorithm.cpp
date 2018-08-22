@@ -27,16 +27,8 @@ void ShortestPathAlgorithm::findTrivialPathFromTo(Vertex& source, Vertex& goal)
 
 void ShortestPathAlgorithm::initializeSingleSource(Graph& graph, Vertex& source) const
 {
-	std::unique_ptr<ConstIterator<Vertex*>> iterator = graph.getIteratorToVertices();
-
-	while (!iterator->isFinished())
-	{
-		Vertex* vertex = iterator->getCurrent();
-		initializeVertex(*vertex);
-
-		iterator->goToNext();
-	}
-
+	auto iteratorPtr = graph.getIteratorToVertices();
+	forEach(*iteratorPtr, [&](Vertex* v) { initializeVertex(*v); });
 	initializeSource(source);
 }
 

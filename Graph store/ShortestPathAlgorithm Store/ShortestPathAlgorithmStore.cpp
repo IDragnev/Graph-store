@@ -50,5 +50,5 @@ ShortestPathAlgorithm* ShortestPathAlgorithmStore::searchAlgorithm(const String&
 		return alg->getID() == ID;
 	});
 
-	return (!iterator.isFinished()) ? *iterator : nullptr;
+	return (iterator) ? *iterator : nullptr;
 }

@@ -31,13 +31,10 @@ void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
 
 void DirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
-	VertexConstIteratorPtr iterator(getIteratorToVertices());
+	auto iteratorPtr = getIteratorToVertices();
 
-	while (!iterator->isFinished())
+	forEach(*iteratorPtr, [&](Vertex* neighbour)
 	{
-		Vertex* currentVertex = iterator->getCurrent();
-		removeEdgeFromToNoThrow(*currentVertex, vertex);
-
-		iterator->goToNext();
-	}
+		removeEdgeFromToNoThrow(*neighbour, vertex);
+	});
 }

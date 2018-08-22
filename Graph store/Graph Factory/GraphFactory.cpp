@@ -50,7 +50,7 @@ const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 		return c->getCreatedGraphType() == graphType;
 	});
 
-	return (!iterator.isFinished()) ? *iterator : nullptr;
+	return (iterator) ? *iterator : nullptr;
 }
 
 

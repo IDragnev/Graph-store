@@ -56,7 +56,7 @@ const Graph* GraphStore::searchGraph(const String& ID) const
 		return g->getID() == ID;
 	});
 
-	return (!iterator.isFinished()) ? *iterator : nullptr;
+	return (iterator) ? *iterator : nullptr;
 }
 
 

@@ -61,7 +61,7 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 {
 	try
 	{
-		std::unique_ptr<Vertex> newVertexPtr = createVertex(ID);
+		auto newVertexPtr = createVertex(ID);
 		insert(*newVertexPtr);
 
 		newVertexPtr.release();
@@ -112,8 +112,8 @@ void Graph::removeFromVertices(const Vertex& vertexToRemove)
 {
 	assert(isOwnerOf(vertexToRemove));
 
-	const size_t lastVertexIndex = vertices.getCount() - 1;
-	Vertex* lastVertex = vertices[lastVertexIndex];
+	auto lastVertexIndex = vertices.getCount() - 1;
+	auto* lastVertex = vertices[lastVertexIndex];
 
 	lastVertex->index = vertexToRemove.index;
 	std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
@@ -174,9 +174,9 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
 
 void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist)
 {
-	EdgeIterator iterator = searchEdgeFromTo(from, to);
+	auto iterator = searchEdgeFromTo(from, to);
 
-	if (!iterator.isFinished())
+	if (iterator)
 	{
 		from.edges.removeAt(iterator);
 	}
@@ -208,9 +208,9 @@ void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight
 
 bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
 {
-	EdgeIterator iterator = searchEdgeFromTo(from, to);
+	auto iterator = searchEdgeFromTo(from, to);
 
-	return !iterator.isFinished();
+	return static_cast<bool>(iterator);
 }
 
 
@@ -222,7 +222,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 
 const Vertex& Graph::getVertex(const String& ID) const
 {
-	const Vertex* result = verticesSearchTable.search(ID);
+	auto* result = verticesSearchTable.search(ID);
 
 	if (result)
 	{

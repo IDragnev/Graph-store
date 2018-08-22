@@ -33,7 +33,7 @@ void DijkstraAlgorithm::insertVerticesInPriorityQueue(Graph& graph)
 {
 	assert(priorityQueue.isEmpty());
 
-	std::unique_ptr<ConstIterator<Vertex*>> iteratorPtr = graph.getIteratorToVertices();
+	auto iteratorPtr = graph.getIteratorToVertices();
 	priorityQueue = MinPriorityQueue{ *iteratorPtr, graph.getVerticesCount() };
 }
 
@@ -44,7 +44,7 @@ void DijkstraAlgorithm::findShortestPathToGoal()
 
 	while (existsVertexWithUndeterminedDistance())
 	{
-		Vertex& vertex = closestToSourceFromUndetermined();
+		auto& vertex = closestToSourceFromUndetermined();
 
 		if (isTheGoal(vertex))
 		{
@@ -75,13 +75,8 @@ Vertex& DijkstraAlgorithm::closestToSourceFromUndetermined()
 
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex)
 {
-	std::unique_ptr<Iterator<Edge>> iterator = getEdgesLeaving(vertex);
-
-	while (!iterator->isFinished())
-	{
-		relaxEdge(vertex, iterator->getCurrent());
-		iterator->goToNext();
-	}
+	auto iteratorPtr = getEdgesLeaving(vertex);
+	forEach(*iteratorPtr, [&](Edge& edge) { relaxEdge(vertex, edge); });
 }
 
 

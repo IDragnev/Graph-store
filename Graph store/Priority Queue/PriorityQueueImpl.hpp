@@ -52,13 +52,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::direc
 {
 	assert(isEmpty());
 
-	while (!iterator.isFinished())
+	forEach(iterator, [&](Item* item)
 	{
 		assert(hasSpaceInCurrentArray());
-		insertAt(insertedCount++, iterator.getCurrent());
-
-		iterator.goToNext();
-	}
+		insertAt(insertedCount++, item);
+	});
 
 	assert(!hasSpaceInCurrentArray());
 }
@@ -84,13 +82,7 @@ inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~Pr
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAllItems()
 {
-	auto iterator = items.getBeginConstIterator();
-
-	while (!iterator.isFinished())
-	{
-		invalidateHandleOf(iterator.getCurrent());
-		iterator.goToNext();
-	}
+	std::for_each(items.getBeginIterator(), items.getEndIterator(), [&](Item* item) { invalidateHandleOf(item);	});
 }
 
 
@@ -116,7 +108,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::inser
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 Item* PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
 {
-	Item* optimal = const_cast<Item*>(getOptimal());
+	auto optimal = const_cast<Item*>(getOptimal());
 	invalidateHandleOf(optimal);
 
 	--insertedCount;
