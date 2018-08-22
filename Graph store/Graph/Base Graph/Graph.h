@@ -73,7 +73,7 @@ private:
 	void setID(const String& ID);
 
 private:
-	static const size_t FEWEST_VERTICES_EXPECTED = 32;
+	static const std::size_t FEWEST_VERTICES_EXPECTED = 32;
 
 private:
 	String id;

@@ -2,7 +2,7 @@
 #include "..\Base Graph\Graph.h"
 
 
-Vertex::Vertex(const String& ID, size_t index) :
+Vertex::Vertex(const String& ID, std::size_t index) :
 	index{ index },
 	predecessor{ nullptr },
 	visited{ false }

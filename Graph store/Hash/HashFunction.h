@@ -5,9 +5,9 @@ template <typename Key>
 class HashFunction
 {
 public:
-	size_t operator()(const Key& key) const
+	std::size_t operator()(const Key& key) const
 	{
-		return static_cast<size_t>(key);
+		return static_cast<std::size_t>(key);
 	}
 };
 

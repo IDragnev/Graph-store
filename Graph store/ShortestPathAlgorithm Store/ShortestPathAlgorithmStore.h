@@ -29,7 +29,7 @@ private:
 private:
 	ShortestPathAlgorithm* searchAlgorithm(const String& ID);
 
-	static const size_t INITIAL_COLLECTION_SIZE = 3;
+	static const std::size_t INITIAL_COLLECTION_SIZE = 3;
 
 private:
 	Collection algorithms;

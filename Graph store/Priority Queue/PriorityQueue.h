@@ -10,7 +10,7 @@ class PriorityQueue
 {
 public:
 	PriorityQueue() = default;
-	PriorityQueue(ConstIterator<Item*>& iterator, size_t count);
+	PriorityQueue(ConstIterator<Item*>& iterator, std::size_t count);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
@@ -32,30 +32,30 @@ private:
 
 	void directlyInsertAll(ConstIterator<Item*>& iterator);
 	void buildHeap();
-	void siftDown(size_t index);
-	void siftUp(size_t index);
-	void insertAt(size_t index, Item* item);
+	void siftDown(std::size_t index);
+	void siftUp(std::size_t index);
+	void insertAt(std::size_t index, Item* item);
 
-	static bool hasParent(size_t index);
-	static size_t getParentIndex(size_t index);
-	static size_t getLeftChildIndex(size_t index);
+	static bool hasParent(std::size_t index);
+	static std::size_t getParentIndex(std::size_t index);
+	static std::size_t getLeftChildIndex(std::size_t index);
 
-	bool hasChildren(size_t index) const;
-	size_t getOptimalChildIndex(size_t index) const;
-	bool hasOptimalRightSibling(size_t index) const;
+	bool hasChildren(std::size_t index) const;
+	std::size_t getOptimalChildIndex(std::size_t index) const;
+	bool hasOptimalRightSibling(std::size_t index) const;
 	bool hasSmallerPriorityThan(const Item* lhs, const Item* rhs) const;
 
-	void updateHandleOfItemAt(size_t index);
+	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAllItems();
 	void invalidateHandleOf(Item* item);
 	void setHandleOf(Item* item, const PriorityQueueHandle& handle);
 
-	bool hasItemAt(size_t index) const;
+	bool hasItemAt(std::size_t index) const;
 	bool hasSpaceInCurrentArray() const;
 
 private:
 	DArray<Item*> items;
-	size_t insertedCount{};
+	std::size_t insertedCount{};
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	HandleSetter handleSetter;

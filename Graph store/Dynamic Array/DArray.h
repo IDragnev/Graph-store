@@ -12,7 +12,7 @@ private:
 	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible.");
 	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable.");
 
-	using unsignedInteger = size_t;
+	using unsignedInteger = std::size_t;
 
 public:
 	template <typename Item, bool isConst = false>

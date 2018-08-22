@@ -36,7 +36,7 @@ private:
 	const GraphCreator* searchCreator(const String& graphType) const;
 	void registerCreator(const GraphCreator* creator);
 
-	static const size_t EXPECTED_CREATORS_COUNT = 2;
+	static const std::size_t EXPECTED_CREATORS_COUNT = 2;
 
 private:
 	CreatorsCollection creators;

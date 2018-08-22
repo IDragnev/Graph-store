@@ -71,7 +71,7 @@ String FileParser::parseLine()
 	assert(!hasReachedEnd());
 	assert(!file.fail());
 
-	static const size_t BUFFER_SIZE = 512;
+	static const std::size_t BUFFER_SIZE = 512;
 	char buffer[BUFFER_SIZE];
 	file.getline(buffer, BUFFER_SIZE);
 

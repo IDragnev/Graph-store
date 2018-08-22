@@ -89,9 +89,9 @@ void GraphStore::throwNonExistingGraph(const String& ID)
 
 void GraphStore::removeGraph(const String& ID)
 {
-	size_t count = graphs.getCount();
+	std::size_t count = graphs.getCount();
 
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 	{
 		if (graphs[i]->getID() == ID)
 		{
@@ -104,10 +104,10 @@ void GraphStore::removeGraph(const String& ID)
 }
 
 
-void GraphStore::removeGraphAt(size_t index)
+void GraphStore::removeGraphAt(std::size_t index)
 {
 	Graph* toRemove = graphs[index];
-	size_t lastGraphIndex = graphs.getCount() - 1;
+	std::size_t lastGraphIndex = graphs.getCount() - 1;
 
 	std::swap(graphs[index], graphs[lastGraphIndex]);
 	graphs.removeAt(lastGraphIndex);

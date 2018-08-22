@@ -108,7 +108,7 @@ void Application::run()
 
 Application::InputContainer Application::receiveInput()
 {
-	const size_t maxInputSize = 512;
+	const std::size_t maxInputSize = 512;
 	char input[maxInputSize];
 
 	std::cin.clear();

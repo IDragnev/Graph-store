@@ -13,7 +13,7 @@ class Vertex
 {
 	friend class Graph;
 public:
-	Vertex(const String& ID, size_t index);
+	Vertex(const String& ID, std::size_t index);
 
 	bool isVisited() const;
 	void markAsVisited();
@@ -38,7 +38,7 @@ private:
 	void setID(const String& ID);
 
 private:
-	size_t index;
+	std::size_t index;
 	String id;
 	SinglyLinkedList<Edge> edges;
 	Vertex* predecessor;

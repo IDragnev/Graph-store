@@ -60,10 +60,10 @@ DArray<String> GraphBuilder::parseVertexIds()
 {
 	assert(edges.isEmpty());
 
-	size_t idsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+	std::size_t idsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	DArray<String> result(idsCount, idsCount);
 
-	for (size_t i = 0; i < idsCount; ++i)
+	for (std::size_t i = 0; i < idsCount; ++i)
 	{
 		result[i] = parser.parseLine();
 	}
@@ -74,10 +74,10 @@ DArray<String> GraphBuilder::parseVertexIds()
 
 DArray<GraphBuilder::RawEdge> GraphBuilder::parseEdges()
 {
-	size_t edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+	std::size_t edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	DArray<RawEdge> result(edgesCount);
 
-	for (size_t i = 0; i < edgesCount; ++i)
+	for (std::size_t i = 0; i < edgesCount; ++i)
 	{
 		result.insert(parseSingleEdge());
 	}
@@ -153,7 +153,7 @@ void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 }
 
 
-Vertex& GraphBuilder::getVertex(size_t idIndex)
+Vertex& GraphBuilder::getVertex(std::size_t idIndex)
 {
 	return result->getVertex(vertexIDs[idIndex]);
 }

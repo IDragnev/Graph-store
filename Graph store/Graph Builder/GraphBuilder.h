@@ -17,8 +17,8 @@ private:
 
 	struct RawEdge
 	{
-		size_t startVertexIDIndex{};
-		size_t endVertexIDIndex{};
+		std::size_t startVertexIDIndex{};
+		std::size_t endVertexIDIndex{};
 		unsigned weight{};
 	};
 
@@ -42,7 +42,7 @@ private:
 	void insertVertices();
 	void insertEdges();
 	void insertSingleEdge(const RawEdge& edge);
-	Vertex& getVertex(size_t idIndex);
+	Vertex& getVertex(std::size_t idIndex);
 
 	void clearParsedState();
 	void clearState();

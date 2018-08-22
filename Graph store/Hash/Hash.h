@@ -9,7 +9,7 @@
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
-	using unsignedInteger = size_t;
+	using unsignedInteger = std::size_t;
 
 public:
 	explicit Hash(unsignedInteger expectedCount);

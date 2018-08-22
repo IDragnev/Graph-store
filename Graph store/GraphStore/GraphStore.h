@@ -34,7 +34,7 @@ private:
 	bool hasGraphWithID(const String& ID) const;
 	const Graph* searchGraph(const String& ID) const;
 
-	void removeGraphAt(size_t index);
+	void removeGraphAt(std::size_t index);
 	void deleteAllGraphs();
 
 	static void throwNonExistingGraph(const String& ID);
