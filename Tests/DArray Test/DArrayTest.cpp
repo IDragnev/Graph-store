@@ -201,16 +201,24 @@ namespace DArraytest
 			Assert::IsTrue(lhs == UIntArray{ 5, 6, 7, 8 }, L"Moved-in array has invalid contents");
 		}
 
-		TEST_METHOD(testInsertUpdatesCountAndInsertsBack)
+		TEST_METHOD(testInsertLValue)
 		{
-			UIntArray dArray(TEST_SIZE);
+			UIntArray dArray{ 1, 2, 3, 4 };
 
-			for (size_t i = 1; i < TEST_SIZE; ++i)
-			{
-				dArray.insert(i);
-				Assert::IsTrue(dArray.getCount() == i, L"Count is not updated");
-				Assert::IsTrue(dArray[i - 1] == i, L"Item is not inserted at back");
-			}
+			dArray.insert(5);
+
+			Assert::IsTrue(dArray == UIntArray{ 1, 2, 3, 4, 5 });
+		}
+
+		TEST_METHOD(testInsertRValue)
+		{
+			DArray<std::string> dArray{ "one", "two", "three" };
+			std::string str{ "four" };
+			
+			dArray.insert(std::move(str));
+
+			Assert::IsTrue(dArray == DArray<std::string>{"one", "two", "three", "four"}, L"The array has invalid contents");
+			Assert::IsTrue(str == "", L"The move-inserted object is not moved");
 		}
 
 		TEST_METHOD(testRemoveAtShiftsItemsAfterTheRemovedOne)

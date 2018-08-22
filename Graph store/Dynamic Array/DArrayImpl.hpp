@@ -197,6 +197,14 @@ inline void DArray<T>::insert(const T& newItem)
 
 
 template <typename T>
+inline void DArray<T>::insert(T&& newItem)
+{
+	enlargeIfFull();
+	items[count++] = std::move(newItem);
+}
+
+
+template <typename T>
 void DArray<T>::enlargeIfFull()
 {
 	assert(count <= size);

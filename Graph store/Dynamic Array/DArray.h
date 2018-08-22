@@ -14,7 +14,6 @@ private:
 
 	using unsignedInteger = std::size_t;
 
-public:
 	template <typename Item, bool isConst = false>
 	class DArrayIterator : public BaseIteratorSelector<isConst, Item>::result
 	{
@@ -69,6 +68,7 @@ public:
 	DArray<T>& operator=(const DArray<T>& rhs);
 
 public:
+	void insert(T&& item);
 	void insert(const T& item);
 	void insert(const DArray<T>& other);
 	void insertAt(unsignedInteger position, const T& item);
