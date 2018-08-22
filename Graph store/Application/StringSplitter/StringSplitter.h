@@ -2,9 +2,10 @@
 #define __STRING_SPLITTER_H_INCLUDED__
 
 #include <sstream>
-#include <vector>
+#include <utility>
+#include "..\..\Dynamic Array\DArray.h"
 
-template <template <class...> class Container = std::vector>
+template <template <class...> class Container = DArray>
 class StringSplitter
 {
 private:
@@ -37,7 +38,7 @@ private:
 private:
 	std::istringstream stream;
 	Container<std::string> result;
-	std::vector<char> delimiters;
+	DArray<char> delimiters;
 };
 
 #include "StringSplitterImpl.hpp"

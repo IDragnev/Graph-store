@@ -5,7 +5,7 @@
 #include "StringSplitter\StringSplitter.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
-#include <iostream> //remove when logger is supported
+#include <iostream> 
 
 
 Application& Application::instance()
@@ -123,7 +123,7 @@ void Application::invokeCommand(const InputContainer& input)
 {
 	try
 	{
-		parser.ParseArgs(input);
+		parser.ParseArgs(input.getBeginConstIterator(), input.getEndConstIterator());
 	}
 	catch (std::runtime_error& e)
 	{

@@ -7,13 +7,15 @@
 
 class String;
 class Command;
+template <typename T>
+class DArray;
 
 class Application
 {
 private:
 	using Commands =  std::forward_list<args::Command>;
 	using Function = std::function<void(args::Subparser&)>;
-	using InputContainer = std::vector<std::string>;
+	using InputContainer = DArray<std::string>;
 
 public:
 	static Application& instance();

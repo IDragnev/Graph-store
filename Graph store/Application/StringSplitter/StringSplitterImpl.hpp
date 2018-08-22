@@ -1,4 +1,3 @@
-#include <algorithm>
 
 
 template <template <class...> class Container>
@@ -56,17 +55,13 @@ template <template <class...> class Container>
 char StringSplitter<Container>::chooseDelimiter()
 { 
 	char current = stream.peek();
-	char result = ' ';
-	
-	std::for_each(delimiters.cbegin(), delimiters.cend(), [&](char delimiter)
+	auto iterator = std::find_if(delimiters.getBeginConstIterator(), delimiters.getEndConstIterator(), 
+		[&](char delimiter)
 	{
-		if (current == delimiter)
-		{
-			result = delimiter;
-		}
+		return delimiter == current;
 	});
 
-	return result;
+	return (iterator) ? *iterator : ' ';
 }
 
 
@@ -88,7 +83,7 @@ void StringSplitter<Container>::extractWord(char delimiter)
 
 	if (!stream.fail() && wasMatched(delimiter))
 	{
-		result.push_back(std::move(word));
+		result.insert(std::move(word));
 	}
 }
 

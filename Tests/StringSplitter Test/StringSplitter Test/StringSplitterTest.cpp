@@ -8,7 +8,7 @@ namespace StringSplitterTest
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		typedef std::vector<std::string> Container;
+		typedef DArray<std::string> Container;
 
 	public:	
 		TEST_METHOD(testDefaultSplitterHasOnlyWhiteSpaceDelimiter)
@@ -26,7 +26,7 @@ namespace StringSplitterTest
 
 			Container result = splitter.split("");
 
-			Assert::IsTrue(result.empty());
+			Assert::IsTrue(result.isEmpty());
 		}
 
 		TEST_METHOD(testWhiteSpacesAreIgnored)
