@@ -15,8 +15,6 @@ class Graph
 private:
 	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
 	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
-
-protected:
 	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
 	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
