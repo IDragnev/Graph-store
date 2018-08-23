@@ -9,107 +9,45 @@ GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
 {
 	try
 	{
-		parseFile(filename);
-		buildResultFromParsedFile();
-		clearParsedState();
+		init(filename);
+		build();
+		clean();
 
 		return std::move(result);
 	}
 	catch (Exception& e)
 	{
-		handleErrorIn(filename, e);
+		handleError(filename, e);
 	}
 	catch (std::bad_alloc&)
 	{
-		handleErrorIn(filename, NoMemoryAvailable{});
+		handleError(filename, NoMemoryAvailable{});
 	}
 }
 
 
-void GraphBuilder::handleErrorIn(const String& filename, const Exception& exception)
+void GraphBuilder::init(const String& filename)
 {
-	clearState();
-	throw Exception{ "Failed to load" + filename + " : " + exception.what() };
+	parser.openFile(filename);
 }
 
 
-void GraphBuilder::parseFile(const String& filename)
+void GraphBuilder::clean()
 {
-	parser.openFile(filename);
-	parseTypeAndId();
-	parseComponents();
+	vertexIDs.empty();
 	parser.closeFile();
 }
 
 
-void GraphBuilder::parseTypeAndId()
+void GraphBuilder::handleError(const String& filename, const Exception& exception)
 {
-	graphType = parser.parseLine();
-	graphId = parser.parseLine();
+	clean();
+	result = nullptr;
+	throw Exception{ "Failed to load" + filename + " : " + exception.what() };
 }
 
 
-void GraphBuilder::parseComponents()
-{
-	vertexIDs = parseVertexIds();
-	edges = parseEdges();
-}
-
-
-DArray<String> GraphBuilder::parseVertexIds()
-{
-	assert(edges.isEmpty());
-
-	std::size_t idsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
-	DArray<String> result(idsCount, idsCount);
-
-	for (std::size_t i = 0; i < idsCount; ++i)
-	{
-		result[i] = parser.parseLine();
-	}
-
-	return result;
-}
-
-
-DArray<GraphBuilder::RawEdge> GraphBuilder::parseEdges()
-{
-	std::size_t edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
-	DArray<RawEdge> result(edgesCount);
-
-	for (std::size_t i = 0; i < edgesCount; ++i)
-	{
-		result.insert(parseSingleEdge());
-	}
-
-	return result;
-}
-
-
-GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
-{
-	RawEdge result{};
-
-	parser.ignoreUntil(EDGE_START);
-	result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-	result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-	result.weight = parseUnsignedAndIgnoreUntil(EDGE_END);
-	parser.ignoreUntil(NEW_LINE);
-
-	return result;
-}
-
-
-unsigned GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
-{
-	unsigned result = parser.parseInteger<unsigned>();
-	parser.ignoreUntil(symbol);
-
-	return result;
-}
-
-
-void GraphBuilder::buildResultFromParsedFile()
+void GraphBuilder::build()
 {
 	createEmptyGraph();
 	insertVertices();
@@ -119,12 +57,17 @@ void GraphBuilder::buildResultFromParsedFile()
 
 void GraphBuilder::createEmptyGraph()
 {
-	result = GraphFactory::instance().createEmptyGraph(graphType, graphId);
+	auto graphType = parser.parseLine();
+	auto graphID = parser.parseLine();
+
+	result = GraphFactory::instance().createEmptyGraph(graphType, graphID);
 }
 
 
 void GraphBuilder::insertVertices()
 {
+	parseVertexIDs();
+
 	std::for_each(vertexIDs.getBeginConstIterator(), vertexIDs.getEndConstIterator(),
 		[&](const String& ID) 
 	{
@@ -133,15 +76,43 @@ void GraphBuilder::insertVertices()
 }
 
 
+void GraphBuilder::parseVertexIDs()
+{
+	assert(vertexIDs.isEmpty());
+	auto IDsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+	vertexIDs.ensureSize(IDsCount);
+
+	for (std::size_t i = 0; i < IDsCount; ++i)
+	{
+		vertexIDs.insert(parser.parseLine());
+	}
+}
+
+
+unsigned GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
+{
+	auto result = parser.parseInteger<unsigned>();
+	parser.ignoreUntil(symbol);
+
+	return result;
+}
+
+
 void GraphBuilder::insertEdges()
 {
-	assert(result->getVerticesCount() == vertexIDs.getCount());
-
-	std::for_each(edges.getBeginConstIterator(), edges.getEndConstIterator(),
-		[&](const RawEdge& edge)
+	assert(areVerticesInserted());
+	auto edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+	
+	for (std::size_t i = 0; i < edgesCount; ++i)
 	{
-		insertSingleEdge(edge);
-	});
+		insertSingleEdge(parseSingleEdge());
+	}
+}
+
+
+bool GraphBuilder::areVerticesInserted() const
+{
+	return result->getVerticesCount() == vertexIDs.getCount();
 }
 
 
@@ -159,17 +130,18 @@ Vertex& GraphBuilder::getVertex(std::size_t idIndex)
 }
 
 
-void GraphBuilder::clearParsedState()
+GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 {
-	graphType = "";
-	graphId = "";
-	vertexIDs.empty();
-	edges.empty();
+	RawEdge result{};
+
+	parser.ignoreUntil(EDGE_START);
+	result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
+	result.weight = parseUnsignedAndIgnoreUntil(EDGE_END);
+	parser.ignoreUntil(NEW_LINE);
+
+	return result;
 }
 
 
-void GraphBuilder::clearState()
-{
-	clearParsedState();
-	result = nullptr;
-}
+

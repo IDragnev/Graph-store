@@ -29,25 +29,22 @@ public:
 	GraphPtr buildFromFile(const String& filename);
 
 private:
-	void parseFile(const String& filename);
-	void parseTypeAndId();
-	void parseComponents();
-	DArray<String> parseVertexIds();
-	DArray<RawEdge> parseEdges();
-	RawEdge parseSingleEdge();
-	unsigned parseUnsignedAndIgnoreUntil(char symbol);
+	void init(const String& filename);
 
-	void buildResultFromParsedFile();
+	void build();
 	void createEmptyGraph();
 	void insertVertices();
+	void parseVertexIDs();
 	void insertEdges();
 	void insertSingleEdge(const RawEdge& edge);
+	RawEdge parseSingleEdge();
+	unsigned parseUnsignedAndIgnoreUntil(char symbol);
 	Vertex& getVertex(std::size_t idIndex);
 
-	void clearParsedState();
-	void clearState();
+	void clean();
 
-	void handleErrorIn(const String& filename, const Exception& e);
+	void handleError(const String& filename, const Exception& e);
+	bool areVerticesInserted() const;
 
 private:
 	GraphBuilder(GraphBuilder&&) = delete;
@@ -62,11 +59,7 @@ private:
 	static const char NEW_LINE = '\n';
 
 private:
-	String graphType;
-	String graphId;
 	DArray<String> vertexIDs;
-	DArray<RawEdge> edges;
-
 	GraphPtr result;
 	FileParser parser;
 };
