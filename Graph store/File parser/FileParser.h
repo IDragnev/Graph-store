@@ -8,7 +8,7 @@
 class FileParser
 {
 public:
-	FileParser();
+	FileParser() = default;
 	explicit FileParser(const String& filename);
 	FileParser(FileParser&& source);
 	~FileParser() = default;
@@ -22,8 +22,10 @@ public:
 	bool hasOpenedFile() const;
 	bool hasReachedEnd() const;
 
-	template <typename Integer>
-	Integer parseInteger();
+	template <typename ArithmeticType = int>
+	ArithmeticType parseSigned();
+	template <typename ArithmeticType = unsigned>
+	ArithmeticType parseUnsigned();
 	String parseLine();
 
 	void ignoreUntil(char symbol);
@@ -34,12 +36,17 @@ private:
 	FileParser& operator=(const FileParser&) = delete;
 
 	void swapContentsWithReconstructedParameter(FileParser temp);
+
+	template <typename ArithmeticType>
+	ArithmeticType parseArithmeticType();
+	void invalidateStreamIfSigned();
 	void throwIfParseFailed(const char* reason) const;
+	void validateState() const;
 
 private:
-	unsigned currentLine;
+	unsigned currentLine{};
 	String filename;
-	std::ifstream file;
+	std::ifstream stream;
 };
 
 #include "FileParserImpl.hpp"

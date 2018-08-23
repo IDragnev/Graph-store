@@ -71,7 +71,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("1");
 
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
 			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
 			Assert::AreEqual(parser.peekNextCharacter(), '1', L"The opened file is incorrect");
@@ -92,7 +92,7 @@ namespace FileParserTest
 		{
 			try
 			{
-				FileParser parser("No-Such-File.txt");
+				FileParser parser{ "No-Such-File.txt" };
 
 				Assert::Fail(L"Constructor did not throw");
 			}
@@ -120,7 +120,7 @@ namespace FileParserTest
 		TEST_METHOD(testIgnoreUntilOnMissingSymbolReachesEndOfFile)
 		{
 			writeToFirstFile("12345");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
 			parser.ignoreUntil('c');
 
@@ -131,7 +131,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("12331");
 
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
 			parser.ignoreUntil('3');
 			Assert::AreEqual(parser.peekNextCharacter(), '3');
@@ -140,21 +140,21 @@ namespace FileParserTest
 		TEST_METHOD(testMoveCtorWithEmptySource)
 		{
 			FileParser source;
-			FileParser destination(std::move(source));
+			FileParser destination{ std::move(source) };
 
-			Assert::IsFalse(source.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsFalse(destination.hasOpenedFile(), L"Moved-in object has an associated file");
+			Assert::IsFalse(source.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsFalse(destination.hasOpenedFile(), L"Moved-in parser has an associated file");
 		}
 
 		TEST_METHOD(testMoveCtorWithNonEmptySource)
 		{
 			writeToFirstFile("1");
-			FileParser source(FIRST_FILE_NAME);
+			FileParser source{ FIRST_FILE_NAME };
 
-			FileParser destination(std::move(source));
+			FileParser destination{ std::move(source) };
 
-			Assert::IsFalse(source.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsTrue(destination.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::IsFalse(source.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsTrue(destination.hasOpenedFile(), L"Moved-in parser has no associated file");
 			Assert::AreEqual(destination.peekNextCharacter(), '1', L"The moved file is incorrect");
 		}
 
@@ -165,77 +165,77 @@ namespace FileParserTest
 
 			lhs = std::move(rhs);
 
-			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsFalse(lhs.hasOpenedFile(), L"Moved-in object has an associated file");
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsFalse(lhs.hasOpenedFile(), L"Moved-in parser has an associated file");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
 			writeToFirstFile("1");
-			FileParser rhs(FIRST_FILE_NAME);
+			FileParser rhs{ FIRST_FILE_NAME };
 			FileParser lhs;
 
 			lhs = std::move(rhs);
 
-			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in parser has no associated file");
 			Assert::AreEqual(lhs.peekNextCharacter(), '1', L"The moved file is incorrect");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
 		{
 			writeToFirstFile("1");
-			FileParser lhs(FIRST_FILE_NAME);
+			FileParser lhs{ FIRST_FILE_NAME };
 			FileParser rhs;
 
 			lhs = std::move(rhs);
 
-			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsFalse(lhs.hasOpenedFile(), L"Moved-in object has an associated file");
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsFalse(lhs.hasOpenedFile(), L"Moved-in parser has an associated file");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
 		{
 			writeToFirstFile("1");
 			writeToSecondFile("2");
-			FileParser lhs(FIRST_FILE_NAME);
-			FileParser rhs(SECOND_FILE_NAME);
+			FileParser lhs{ FIRST_FILE_NAME };
+			FileParser rhs{ SECOND_FILE_NAME };
 
 			lhs = std::move(rhs);
 
-			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from object has an associated file");
-			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in object has no associated file");
+			Assert::IsFalse(rhs.hasOpenedFile(), L"Moved-from parser has an associated file");
+			Assert::IsTrue(lhs.hasOpenedFile(), L"Moved-in parser has no associated file");
 			Assert::AreEqual(lhs.peekNextCharacter(), '2', L"The moved file is incorrect");
 		}
 
-		TEST_METHOD(testSimpleParseIntegerWithUnsignedType)
+		TEST_METHOD(testSimpleParseUnsigned)
 		{
 			writeToFirstFile("1");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
-			unsigned result = parser.parseInteger<unsigned>();
+			auto result = parser.parseUnsigned();
 
-			Assert::AreEqual(result, 1U, L"Parsed integer is incorrect");
+			Assert::AreEqual(result, 1U, L"Incorrect result");
 			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end of file after parsing the last character");
 		}
 
-		TEST_METHOD(testSimpleParseIntegerWithSignedType)
+		TEST_METHOD(testSimpleParseSigned)
 		{
 			writeToFirstFile("-1");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
-			int result = parser.parseInteger<int>();
+			auto result = parser.parseSigned();
 
-			Assert::AreEqual(result, -1, L"Parsed integer is incorrect");
+			Assert::AreEqual(result, -1, L"Incorrect result");
 			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end of file after parsing the last character");
 		}
 		
 		TEST_METHOD(testSimpleParseLine)
 		{
 			writeToFirstFile("Line");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
-			String result = parser.parseLine();
+			auto result = parser.parseLine();
 
 			Assert::IsTrue(areEqual(result, "Line"), L"Parsed line is incorrect");
 			Assert::IsTrue(parser.hasReachedEnd(), L"Parser has not reached the end after parsing the last line");
@@ -244,43 +244,94 @@ namespace FileParserTest
 		TEST_METHOD(testParseLineWithEmptyString)
 		{
 			writeToFirstFile("\nLine 2");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
-			String result = parser.parseLine();
+			auto result = parser.parseLine();
 
 			Assert::IsTrue(areEqual(result, ""));
 		}
 
-		TEST_METHOD(testParseIntegerWithInvalidContentThrows)
+		TEST_METHOD(testParseUnsignedWithCharacterThrows)
 		{
 			writeToFirstFile("c");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
 			try
 			{
-				unsigned result = parser.parseInteger<unsigned>();
-				Assert::Fail(L"parseInteger() did not throw");
+				auto result = parser.parseUnsigned();
+				Assert::Fail(L"parseUnsigned() did not throw");
 			}
 			catch (ParseFail& exception)
 			{
-				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
 
-		TEST_METHOD(testParseIntegerWithNothingToParseThrows)
+		TEST_METHOD(testParseSignedWithCharacterThrows)
 		{
-			writeToFirstFile("");
-			FileParser parser(FIRST_FILE_NAME);
+			writeToFirstFile("c");
+			FileParser parser{ FIRST_FILE_NAME };
 
 			try
 			{
-				unsigned result = parser.parseInteger<unsigned>();
-				Assert::Fail(L"parseInteger() did not throw");
+				auto result = parser.parseSigned();
+				Assert::Fail(L"parseSigned() did not throw");
 			}
 			catch (ParseFail& exception)
 			{
-				String expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid integer format", '1');
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid signed number format", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
+			}
+		}
+
+		TEST_METHOD(testParseUnsignedWithSignedThrows)
+		{
+			writeToFirstFile("-1");
+			FileParser parser{ FIRST_FILE_NAME };
+
+			try
+			{
+				auto result = parser.parseUnsigned();
+				Assert::Fail(L"parseUnsigned() did not throw");
+			}
+			catch (ParseFail& exception)
+			{
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
+			}
+		}
+
+		TEST_METHOD(testParseUnsignedWithNothingToParseThrows)
+		{
+			writeToFirstFile("");
+			FileParser parser{ FIRST_FILE_NAME };
+
+			try
+			{
+				auto result = parser.parseUnsigned();
+				Assert::Fail(L"parseUnsigned() did not throw");
+			}
+			catch (ParseFail& exception)
+			{
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
+				Assert::IsTrue(areEqual(exception.what(), expected));
+			}
+		}
+
+		TEST_METHOD(testParseSignedWithNothingToParseThrows)
+		{
+			writeToFirstFile("");
+			FileParser parser{ FIRST_FILE_NAME };
+
+			try
+			{
+				auto result = parser.parseSigned();
+				Assert::Fail(L"parseSigned() did not throw");
+			}
+			catch (ParseFail& exception)
+			{
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid signed number format", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}
@@ -288,16 +339,16 @@ namespace FileParserTest
 		TEST_METHOD(testParseLineWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser(FIRST_FILE_NAME);
+			FileParser parser{ FIRST_FILE_NAME };
 
 			try
 			{
-				String result = parser.parseLine();
+				auto result = parser.parseLine();
 				Assert::Fail(L"parseLine() did not throw");
 			}
 			catch (ParseFail& exception)
 			{
-				String expected = buildErrorMessage(FIRST_FILE_NAME, "No characters left in the file", '1');
+				auto expected = buildErrorMessage(FIRST_FILE_NAME, "No characters left in the file", '1');
 				Assert::IsTrue(areEqual(exception.what(), expected));
 			}
 		}

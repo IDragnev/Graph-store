@@ -2,14 +2,6 @@
 #include <string>
 
 
-FileParser::FileParser() :
-	currentLine{ 0 },
-	filename{},
-	file{}
-{
-}
-
-
 FileParser::FileParser(const String& filename) :
 	FileParser{}
 {
@@ -24,8 +16,8 @@ void FileParser::openFile(const String& name)
 		closeFile();
 	}
 		
-	file.open(name);
-	if (file)
+	stream.open(name);
+	if (stream)
 	{
 		currentLine = 1;
 		filename = name;
@@ -40,7 +32,7 @@ void FileParser::openFile(const String& name)
 FileParser::FileParser(FileParser&& source) :
 	currentLine{ source.currentLine },
 	filename{ std::move(source.filename) },
-	file{ std::move(source.file) }
+	stream{ std::move(source.stream) }
 {
 	source.currentLine = 0;
 }
@@ -61,19 +53,17 @@ void FileParser::swapContentsWithReconstructedParameter(FileParser temporary)
 {
 	std::swap(currentLine, temporary.currentLine);
 	std::swap(filename, temporary.filename);
-	std::swap(file, temporary.file);
+	std::swap(stream, temporary.stream);
 }
 
 
 String FileParser::parseLine()
 {
-	assert(hasOpenedFile());
-	assert(!hasReachedEnd());
-	assert(!file.fail());
+	validateState();
 
 	static const std::size_t BUFFER_SIZE = 512;
 	char buffer[BUFFER_SIZE];
-	file.getline(buffer, BUFFER_SIZE);
+	stream.getline(buffer, BUFFER_SIZE);
 
 	throwIfParseFailed("No characters left in the file");
 
@@ -83,9 +73,17 @@ String FileParser::parseLine()
 }
 
 
+void FileParser::validateState() const
+{
+	assert(hasOpenedFile());
+	assert(!hasReachedEnd());
+	assert(!stream.fail());
+}
+
+
 void FileParser::throwIfParseFailed(const char* reason) const
 {
-	if (file.fail())
+	if (stream.fail())
 	{
 		throw ParseFail{ filename, reason, currentLine };
 	}
@@ -94,14 +92,12 @@ void FileParser::throwIfParseFailed(const char* reason) const
 
 void FileParser::ignoreUntil(char symbol)
 {
-	assert(hasOpenedFile());
-	assert(!hasReachedEnd());
-	assert(!file.fail());
+	validateState();
 
-	char extracted;
+	char extracted{};
 	do
 	{
-		extracted = file.get();
+		extracted = stream.get();
 
 		if (extracted == '\n')
 		{
@@ -113,17 +109,14 @@ void FileParser::ignoreUntil(char symbol)
 
 char FileParser::peekNextCharacter()
 {
-	assert(hasOpenedFile());
-	assert(!hasReachedEnd());
-	assert(!file.fail());
-
-	return file.peek();
+	validateState();
+	return stream.peek();
 }
 
 
 bool FileParser::hasOpenedFile() const
 {
-	return file.is_open();
+	return stream.is_open();
 }
 
 
@@ -133,7 +126,7 @@ void FileParser::closeFile()
 	{
 		filename = "";
 		currentLine = 0;
-		file.close();
+		stream.close();
 	}
 }
 
@@ -141,12 +134,20 @@ void FileParser::closeFile()
 bool FileParser::hasReachedEnd() const
 {
 	assert(hasOpenedFile());
-
-	return file.eof();
+	return stream.eof();
 }
 
 
 char FileParser::endOfFileCharacter()
 {
 	return EOF;
+}
+
+
+void FileParser::invalidateStreamIfSigned()
+{
+	if (peekNextCharacter() == '-')
+	{
+		stream.setstate(stream.rdstate() | std::ios::failbit);
+	}
 }
