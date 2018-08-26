@@ -4,8 +4,74 @@
 #include <algorithm>
 
 
+Graph::Edge::Edge(Vertex* incidentVertex, unsigned weight) :
+	incidentVertex{ incidentVertex },
+	weight{ weight }
+{
+	assert(incidentVertex);
+}
+
+
+Graph::Vertex& Graph::Edge::getIncidentVertex()
+{
+	return const_cast<Vertex&>( static_cast<const Edge&>(*this).getIncidentVertex() );
+}
+
+
+const Graph::Vertex& Graph::Edge::getIncidentVertex() const
+{
+	assert(incidentVertex);
+	return *incidentVertex;
+}
+
+
+unsigned Graph::Edge::getWeight() const
+{
+	return weight;
+}
+
+
+Graph::Vertex::Vertex(const String& ID, std::size_t index) :
+	index{ index }
+{
+	setID(ID);
+}
+
+
+void Graph::Vertex::setID(const String& ID)
+{
+	if (ID != String{ "" })
+	{
+		id = ID;
+	}
+	else
+	{
+		throw Exception{ "A Vertex ID must be a valid string" };
+	}
+}
+
+
+const String& Graph::Vertex::getID() const
+{
+	return id;
+}
+
+
+bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+{
+	//vertices are equal if and only if 
+	//they are the same object
+	return &lhs == &rhs;
+}
+
+
+bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+{
+	return !(lhs == rhs);
+}
+
+
 Graph::Graph(const String& ID) :
-	id{},
 	vertices{ FEWEST_VERTICES_EXPECTED },
 	verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
 {
@@ -17,7 +83,7 @@ void Graph::setID(const String& ID)
 {
 	if (ID != String{ "" })
 	{
-		this->id = ID;
+		id = ID;
 	}
 	else
 	{
@@ -73,7 +139,7 @@ void Graph::tryToInsertVertexWithID(const String& ID)
 }
 
 
-std::unique_ptr<Vertex> Graph::createVertex(const String& ID) const
+std::unique_ptr<Graph::Vertex> Graph::createVertex(const String& ID) const
 {
 	return std::make_unique<Vertex>(ID, vertices.getCount());
 }
@@ -220,7 +286,7 @@ bool Graph::isOwnerOf(const Vertex& vertex) const
 }
 
 
-const Vertex& Graph::getVertex(const String& ID) const
+const Graph::Vertex& Graph::getVertex(const String& ID) const
 {
 	auto* result = verticesSearchTable.search(ID);
 
@@ -235,7 +301,7 @@ const Vertex& Graph::getVertex(const String& ID) const
 }
 
 
-Vertex& Graph::getVertex(const String& ID)
+Graph::Vertex& Graph::getVertex(const String& ID)
 {
 	return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertex(ID) );
 }

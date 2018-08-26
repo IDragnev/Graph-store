@@ -1,4 +1,5 @@
 #include "DirectedGraph.h"
+#include "..\..\General Exceptions\Exception.h"
 #include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
 
 static GraphRegistrator<DirectedGraph> registrator{ "directed" };

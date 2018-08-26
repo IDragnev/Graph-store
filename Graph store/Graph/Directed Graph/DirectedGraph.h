@@ -11,7 +11,7 @@ public:
 	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
 
-protected:
+private:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;
 };
 

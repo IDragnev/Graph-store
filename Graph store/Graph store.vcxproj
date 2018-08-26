@@ -165,9 +165,7 @@
     <ClCompile Include="GraphStore\GraphStore.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
-    <ClCompile Include="Graph\Edge\Edge.cpp" />
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
-    <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
@@ -214,10 +212,8 @@
     <ClInclude Include="GraphStore\GraphStore.h" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
-    <ClInclude Include="Graph\Edge\Edge.h" />
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
-    <ClInclude Include="Graph\Vertex\Vertex.h" />
     <ClInclude Include="Greater Than\GreaterThan.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />

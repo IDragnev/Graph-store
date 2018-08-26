@@ -35,13 +35,6 @@
     <Filter Include="Graph">
       <UniqueIdentifier>{d8714b06-cb9b-4664-b3f6-e86ca4c74925}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Vertex">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Graph\Edge">
-      <UniqueIdentifier>{1b2ae734-78e0-4873-aa2c-bd8b00abc457}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Type selector">
       <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
@@ -179,12 +172,6 @@
     <ClCompile Include="String\String.cpp">
       <Filter>String</Filter>
     </ClCompile>
-    <ClCompile Include="Graph\Edge\Edge.cpp">
-      <Filter>Graph\Edge</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\Vertex\Vertex.cpp">
-      <Filter>Graph\Vertex</Filter>
-    </ClCompile>
     <ClCompile Include="Graph\Base Graph\Graph.cpp">
       <Filter>Graph\Base Graph</Filter>
     </ClCompile>
@@ -315,12 +302,6 @@
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
       <Filter>Special Integer</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph\Vertex\Vertex.h">
-      <Filter>Graph\Vertex</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph\Edge\Edge.h">
-      <Filter>Graph\Edge</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\ConstIterator.h">
       <Filter>Iterator abstraction</Filter>
