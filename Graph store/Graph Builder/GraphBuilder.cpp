@@ -118,13 +118,13 @@ bool GraphBuilder::areVerticesInserted() const
 
 void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 {
-	Vertex& start = getVertex(edge.startVertexIDIndex);
-	Vertex& end = getVertex(edge.endVertexIDIndex);
+	Graph::Vertex& start = getVertex(edge.startVertexIDIndex);
+	Graph::Vertex& end = getVertex(edge.endVertexIDIndex);
 	result->insertEdge(start, end, edge.weight);
 }
 
 
-Vertex& GraphBuilder::getVertex(std::size_t idIndex)
+auto& GraphBuilder::getVertex(std::size_t idIndex)
 {
 	return result->getVertex(vertexIDs[idIndex]);
 }

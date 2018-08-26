@@ -3,12 +3,11 @@
 
 #include "..\String\String.h"
 #include "..\File parser\FileParser.h"
-#include "..\General Exceptions\Exception.h"
 #include "..\Dynamic Array\DArray.h"
 #include <memory>
 
 class Graph;
-class Vertex;
+class Exception;
 
 class GraphBuilder
 {
@@ -29,6 +28,9 @@ public:
 	GraphPtr buildFromFile(const String& filename);
 
 private:
+	GraphBuilder(const GraphBuilder&) = delete;;
+	GraphBuilder& operator=(const GraphBuilder&) = delete;
+
 	void init(const String& filename);
 
 	void build();
@@ -39,18 +41,12 @@ private:
 	void insertSingleEdge(const RawEdge& edge);
 	RawEdge parseSingleEdge();
 	unsigned parseUnsignedAndIgnoreUntil(char symbol);
-	Vertex& getVertex(std::size_t idIndex);
+	auto& getVertex(std::size_t idIndex);
 
 	void clean();
 
 	void handleError(const String& filename, const Exception& e);
 	bool areVerticesInserted() const;
-
-private:
-	GraphBuilder(GraphBuilder&&) = delete;
-	GraphBuilder(const GraphBuilder&) = delete;
-	GraphBuilder& operator=(GraphBuilder&&) = delete;
-	GraphBuilder& operator=(const GraphBuilder&) = delete;
 
 private:
 	static const char EDGE_START = '(';
