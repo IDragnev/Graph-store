@@ -4,22 +4,24 @@
 #include "..\DirectoryFlatIterator\DirectoryFlatIterator.h"
 #include "..\Graph Builder\GraphBuilder.h"
 #include "..\String\String.h"
+#include <functional>
 #include <memory>
 
 class Graph;
 
 class DirectoryLoader
 {
+private:
+	using Function = std::function<void(std::unique_ptr<Graph>)>;
+
 public:
 	explicit DirectoryLoader(const String& directory);
-	~DirectoryLoader() = default;
 
-	template <typename Function>
-	void load(const Function& fun);
+	void load(Function f);
 
 private:
 	DirectoryLoader(DirectoryLoader&&) = delete;
-	DirectoryLoader(const DirectoryLoader&&) = delete;
+	DirectoryLoader(const DirectoryLoader&) = delete;
 	DirectoryLoader& operator=(DirectoryLoader&&) = delete;
 	DirectoryLoader& operator=(const DirectoryLoader&) = delete;
 
@@ -34,5 +36,4 @@ private:
 	GraphBuilder builder;
 };
 
-#include "DirectoryLoaderImpl.hpp"
 #endif //__DIRECTORY_LOADER_H_INCLUDED__

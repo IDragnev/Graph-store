@@ -4,13 +4,29 @@
 
 
 DirectoryLoader::DirectoryLoader(const String& directory) :
-	directory{directory + '\\'},
-	iterator{directory},
+	directory{ directory + '\\' },
+	iterator{ directory },
 	builder{}
 {
 }
 
+
+void DirectoryLoader::load(Function fun)
+{
+	while (hasRemainingFiles())
+	{
+		std::unique_ptr<Graph> result = loadCurrentFile();
+
+		if (result)
+		{
+			fun(std::move(result));
+		}
+
+		goToNextFile();
+	}
+}
  
+
 std::unique_ptr<Graph> DirectoryLoader::loadCurrentFile()
 {
 	try

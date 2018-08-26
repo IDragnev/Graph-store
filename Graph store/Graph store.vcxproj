@@ -196,7 +196,6 @@
     <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp" />
     <ClInclude Include="Directory loader\DirectoryLoader.h" />
-    <ClInclude Include="Directory loader\DirectoryLoaderImpl.hpp" />
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
     <ClInclude Include="Dynamic Array\DArray.h" />
     <ClInclude Include="Dynamic Array\DArrayImpl.hpp" />

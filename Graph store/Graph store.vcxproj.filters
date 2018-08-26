@@ -445,9 +445,6 @@
     <ClInclude Include="Directory loader\DirectoryLoader.h">
       <Filter>Directory loader</Filter>
     </ClInclude>
-    <ClInclude Include="Directory loader\DirectoryLoaderImpl.hpp">
-      <Filter>Directory loader</Filter>
-    </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h">
       <Filter>ShortestPathAlgorithm store</Filter>
     </ClInclude>
