@@ -1,9 +1,4 @@
 #include "ShortestPathAlgorithm.h"
-#include "..\..\Graph\Edge\Edge.h"
-#include "..\..\Graph\Vertex\Vertex.h"
-#include "..\..\Graph\Base Graph\Graph.h"
-#include "..\..\Iterator abstraction\Iterator.h"
-#include "..\..\Iterator abstraction\ConstIterator.h"
 #include <assert.h>
 
 
@@ -16,54 +11,22 @@ ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
 }
 
 
-void ShortestPathAlgorithm::findTrivialPathFromTo(Vertex& source, Vertex& goal)
-{
-	assert(source == goal);
-
-	goal.setPredecessor(nullptr);
-	goal.setDistanceToSource(0);
-}
-
-
-void ShortestPathAlgorithm::initializeSingleSource(Graph& graph, Vertex& source) const
-{
-	auto iteratorPtr = graph.getIteratorToVertices();
-	forEach(*iteratorPtr, [&](Vertex* v) { initializeVertex(*v); });
-	initializeSource(source);
-}
-
-
-void ShortestPathAlgorithm::initializeVertex(Vertex& vertex) const
-{
-	vertex.setPredecessor(nullptr);
-	vertex.setDistanceToSource(Distance::Infinity());
-	vertex.markAsNotVisited();
-}
-
-
-void ShortestPathAlgorithm::initializeSource(Vertex& source) const
-{
-	source.markAsVisited();
-	source.setDistanceToSource(0);
-}
-
-
 bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
 {
 	return vertex == *goal;
 }
 
 
-std::unique_ptr<Iterator<Edge>> ShortestPathAlgorithm::getEdgesLeaving(Vertex& vertex) const
+auto ShortestPathAlgorithm::getEdgesLeaving(const Vertex& v) const
 {
-	return searchedGraph->getIteratorToEdgesLeaving(vertex);
+	return searchedGraph->getConstIteratorToEdgesLeaving(v);
 }
 
 
-void ShortestPathAlgorithm::initializeState(Graph& graph, const Vertex& Goal)
+void ShortestPathAlgorithm::initializeBaseState(Graph& graph, const Vertex& goal)
 {
-	searchedGraph = &graph;
-	goal = &Goal;
+	this->searchedGraph = &graph;
+	this->goal = &goal;
 }
 
 
