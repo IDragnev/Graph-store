@@ -91,7 +91,7 @@ void GraphBuilder::parseVertexIDs()
 
 unsigned GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
 {
-	auto result = parser.parseInteger<unsigned>();
+	auto result = parser.parseUnsigned();
 	parser.ignoreUntil(symbol);
 
 	return result;
