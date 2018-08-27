@@ -8,7 +8,7 @@ class UndirectedGraph : public Graph
 public:
 	using Graph::Graph;
 
-	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) override;
+	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
 
 private:
