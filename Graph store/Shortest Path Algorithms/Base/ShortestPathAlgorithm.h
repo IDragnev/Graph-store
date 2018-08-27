@@ -7,7 +7,9 @@
 class ShortestPathAlgorithm
 {
 protected:
+	using Edge = Graph::Edge;
 	using Vertex = Graph::Vertex;
+	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 
 public:
 	explicit ShortestPathAlgorithm(const char* ID);
@@ -19,9 +21,9 @@ public:
 
 protected:
 	bool isTheGoal(const Vertex& v) const;	
-	auto getEdgesLeaving(const Vertex& v) const;
+	EdgeConstIteratorPtr getEdgesLeaving(const Vertex& v) const;
 
-	void initializeBaseState(Graph& graph, const Vertex& goal);
+	void initBase(Graph& graph, const Vertex& goal);
 
 private:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;

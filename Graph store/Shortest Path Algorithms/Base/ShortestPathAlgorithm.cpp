@@ -17,13 +17,14 @@ bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
 }
 
 
-auto ShortestPathAlgorithm::getEdgesLeaving(const Vertex& v) const
+ShortestPathAlgorithm::EdgeConstIteratorPtr
+ShortestPathAlgorithm::getEdgesLeaving(const Vertex& v) const
 {
 	return searchedGraph->getConstIteratorToEdgesLeaving(v);
 }
 
 
-void ShortestPathAlgorithm::initializeBaseState(Graph& graph, const Vertex& goal)
+void ShortestPathAlgorithm::initBase(Graph& graph, const Vertex& goal)
 {
 	this->searchedGraph = &graph;
 	this->goal = &goal;
