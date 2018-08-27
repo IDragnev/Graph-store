@@ -10,7 +10,7 @@ namespace SpecialIntegerTest
 	TEST_CLASS(SpecialIntegerTest)
 	{
 	private:
-		typedef SpecialInteger<int> SpecialInteger;
+		using SpecialInteger = SpecialInteger<int>;
 
 	public:
 		TEST_METHOD(testDefaultConstructedIntegerIsEqualToInfinity)

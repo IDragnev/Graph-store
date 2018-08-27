@@ -2,12 +2,11 @@
 #define __SPECIAL_INTEGER_H_INCLUDED__
 
 #include <iostream>
-#include "..\Traits\IsInteger.h"
 
 template <typename Integer = int>
 class SpecialInteger
 {
-	static_assert(IsInteger<Integer>::value, "SpecialInteger<T> requires T to be an integer type");
+	static_assert(std::numeric_limits<Integer>::is_integer, "SpecialInteger<T> requires T to be an integer type");
 
 public:
 	SpecialInteger();
@@ -49,7 +48,6 @@ const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, cons
 
 template <typename Integer>
 std::ostream& operator<<(std::ostream& outputStream, const SpecialInteger<Integer>& integer);
-
 
 #include "SpecialIntegerImpl.hpp"
 #endif //__SPECIAL_INTEGER_H_INCLUDED__
