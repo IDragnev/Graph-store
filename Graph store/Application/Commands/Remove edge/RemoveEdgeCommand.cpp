@@ -46,8 +46,8 @@ void RemoveEdgeCommand::setIfMatched(String& str, StringPositional& argument)
 void RemoveEdgeCommand::execute() const
 {
 	Graph& used = Command::getUsedGraph();
-	Vertex& start = used.getVertex(startVertexID);
-	Vertex& end = used.getVertex(endVertexID);
+	Graph::Vertex& start = used.getVertex(startVertexID);
+	Graph::Vertex& end = used.getVertex(endVertexID);
 	used.removeEdge(start, end);
 }
 

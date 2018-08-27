@@ -5,7 +5,6 @@
 #include "..\..\..\ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h"
 #include "..\..\..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
 #include "..\MissingArgument exception\MissingArgument.h"
-#include "PathUtilityFunctions.h"
 
 static CommandRegistrator<SearchPathCommand> registrator;
 
@@ -57,13 +56,12 @@ void SearchPathCommand::setIfMatched(String& str, StringPositional& argument)
 void SearchPathCommand::execute() const
 {
 	Graph& usedGraph = Command::getUsedGraph();
-	Vertex& start = usedGraph.getVertex(startVertexID);
-	Vertex& end = usedGraph.getVertex(endVertexID);
+	Graph::Vertex& start = usedGraph.getVertex(startVertexID);
+	Graph::Vertex& end = usedGraph.getVertex(endVertexID);
 	ShortestPathAlgorithm& algorithm = ShortestPathAlgorithmStore::instance().getAlgorithm(algorithmID);
 
 	algorithm.findShortestPath(usedGraph, start, end);
-	printPath(start, end);
-	printPathLength(start, end);
+	//TODO
 }
 
 
