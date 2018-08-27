@@ -4,9 +4,9 @@
 #include "..\String\String.h"
 #include "..\File parser\FileParser.h"
 #include "..\Dynamic Array\DArray.h"
+#include "..\Graph\Base Graph\Graph.h"
 #include <memory>
 
-class Graph;
 class Exception;
 
 class GraphBuilder
@@ -41,7 +41,7 @@ private:
 	void insertSingleEdge(const RawEdge& edge);
 	RawEdge parseSingleEdge();
 	unsigned parseUnsignedAndIgnoreUntil(char symbol);
-	auto& getVertex(std::size_t idIndex);
+	Graph::Vertex& getVertex(std::size_t idIndex);
 
 	void clean();
 

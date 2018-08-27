@@ -1,6 +1,7 @@
 #include "DirectoryLoader.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
+#include <iostream>
 
 
 DirectoryLoader::DirectoryLoader(const String& directory) :

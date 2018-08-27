@@ -124,7 +124,7 @@ void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 }
 
 
-auto& GraphBuilder::getVertex(std::size_t idIndex)
+Graph::Vertex& GraphBuilder::getVertex(std::size_t idIndex)
 {
 	return result->getVertex(vertexIDs[idIndex]);
 }
