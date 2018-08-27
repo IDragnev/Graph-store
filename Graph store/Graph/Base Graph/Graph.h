@@ -10,16 +10,8 @@
 
 class Graph
 {
-private:
-	class Edge;
-	class Vertex;
-	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
-	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
-	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
-	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
-	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
-
 public:
+	class Vertex;
 	class Edge
 	{
 	public:
@@ -53,6 +45,13 @@ public:
 		std::size_t index;
 		SinglyLinkedList<Edge> edges;
 	};
+
+private:
+	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
+	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
+	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
+	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
+	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 	
 public:
 	Graph(const String& ID);
