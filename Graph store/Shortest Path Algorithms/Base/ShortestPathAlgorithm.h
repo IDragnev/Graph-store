@@ -3,6 +3,8 @@
 
 #include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\String\String.h"
+#include "..\..\Special Integer\specialInteger.h"
+#include "..\..\Singly Linked List\SinglyLinkedList.h"
 
 class ShortestPathAlgorithm
 {
@@ -12,10 +14,34 @@ protected:
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 
 public:
+	class Path
+	{
+	private:
+		using Collection = SinglyLinkedList<String>;
+		using Length = SpecialInteger<unsigned>;
+
+	public:
+		Path() = default;
+		Path(Path&& source);
+		Path(const Vertex* end);
+		Path(const Path& source) = default;
+	
+		Path& operator=(Path&& rhs);
+		Path& operator=(const Path& rhs) = default;
+
+		void print() const;
+		const Length& getLength() const;
+
+	private:
+		Collection IDs;
+		Length len = Length::Infinity();
+	};
+
+public:
 	explicit ShortestPathAlgorithm(const char* ID);
 	virtual ~ShortestPathAlgorithm() = default;
 
-	virtual void findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) = 0;
+	virtual Path findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) = 0;
 
 	const String& getID() const;
 
