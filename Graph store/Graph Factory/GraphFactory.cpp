@@ -1,6 +1,7 @@
 #include "GraphFactory.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "Graph creators\Base\GraphCreator.h"
+#include "..\General Exceptions\Exception.h"
 #include "..\String\String.h"
 #include <algorithm>
 
