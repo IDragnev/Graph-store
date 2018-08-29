@@ -34,7 +34,7 @@ ShortestPathAlgorithm::Path::Path(const VertexWrapper& last) :
 	{
 		auto* vertex = wrapper->wrappedVertex;
 		assert(vertex);
-		IDs.insert(vertex->getID());
+		IDs.insertAsHead(vertex->getID());
 		wrapper = wrapper->predecessor;
 	}
 }
