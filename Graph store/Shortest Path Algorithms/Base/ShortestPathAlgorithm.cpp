@@ -4,9 +4,9 @@
 
 ShortestPathAlgorithm::Path::Path(Path&& source) :
 	IDs{ std::move(source.IDs) },
-	len{ source.len }
+	length{ source.length }
 {
-	source.len = Length::Infinity();
+	source.length = Distance::Infinity();
 }
 
 
@@ -17,29 +17,45 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 	{
 		Path temp{ std::move(rhs) };
 		std::swap(IDs, temp.IDs);
-		std::swap(len, temp.len);
+		std::swap(length, temp.length);
 	}
 
 	return *this;
 }
 
 
-const ShortestPathAlgorithm::Path::Length&
+ShortestPathAlgorithm::Path::Path(const BasicWrapper& last) :
+	IDs{},
+	length{ last.distanceToSource }
+{
+	auto* wrapper = &last;
+
+	while (wrapper)
+	{
+		auto* vertex = wrapper->wrappedVertex;
+		assert(vertex);
+		IDs.insert(vertex->getID());
+		wrapper = wrapper->predecessor;
+	}
+}
+
+
+const ShortestPathAlgorithm::Distance&
 ShortestPathAlgorithm::Path::getLength() const
 {
-	return len;
+	return length;
 }
 
 
 void ShortestPathAlgorithm::Path::print() const
 {
 	std::for_each(IDs.getBeginConstIterator(), IDs.getEndConstIterator(),
-		[&](const String& str)
+		[&](const String& ID)
 	{
-		std::cout << str << ' ';
+		std::cout << ID << ' ';
 	});
 	
-	std::cout << "\nLength: " << len << std::endl;
+	std::cout << "\nLength: " << length << std::endl;
 }
 
 

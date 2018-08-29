@@ -1,8 +1,8 @@
 #ifndef __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 #define __SHORTEST_PATH_ALGORITHM_BASE_H_INCLUDED__
 
-#include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\String\String.h"
+#include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\Special Integer\specialInteger.h"
 #include "..\..\Singly Linked List\SinglyLinkedList.h"
 
@@ -11,30 +11,37 @@ class ShortestPathAlgorithm
 protected:
 	using Edge = Graph::Edge;
 	using Vertex = Graph::Vertex;
+	using Distance = SpecialInteger<unsigned>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
+
+	struct BasicWrapper
+	{
+		const Vertex* wrappedVertex = nullptr;
+		const BasicWrapper* predecessor = nullptr;
+		Distance distanceToSource = Distance::Infinity();
+	};
 
 public:
 	class Path
 	{
 	private:
 		using Collection = SinglyLinkedList<String>;
-		using Length = SpecialInteger<unsigned>;
 
 	public:
 		Path() = default;
 		Path(Path&& source);
-		Path(const Vertex* end);
 		Path(const Path& source) = default;
+		Path(const BasicWrapper& last);
 	
 		Path& operator=(Path&& rhs);
 		Path& operator=(const Path& rhs) = default;
 
 		void print() const;
-		const Length& getLength() const;
+		const Distance& getLength() const;
 
 	private:
 		Collection IDs;
-		Length len = Length::Infinity();
+		Distance length = Distance::Infinity();
 	};
 
 public:
@@ -46,10 +53,9 @@ public:
 	const String& getID() const;
 
 protected:
+	void initBase(Graph& graph, const Vertex& goal);
 	bool isTheGoal(const Vertex& v) const;	
 	EdgeConstIteratorPtr getEdgesLeaving(const Vertex& v) const;
-
-	void initBase(Graph& graph, const Vertex& goal);
 
 private:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
