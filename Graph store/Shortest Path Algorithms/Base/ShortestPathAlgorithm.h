@@ -14,10 +14,10 @@ protected:
 	using Distance = SpecialInteger<unsigned>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 
-	struct BasicWrapper
+	struct VertexWrapper
 	{
 		const Vertex* wrappedVertex = nullptr;
-		const BasicWrapper* predecessor = nullptr;
+		const VertexWrapper* predecessor = nullptr;
 		Distance distanceToSource = Distance::Infinity();
 	};
 
@@ -31,7 +31,7 @@ public:
 		Path() = default;
 		Path(Path&& source);
 		Path(const Path& source) = default;
-		Path(const BasicWrapper& last);
+		Path(const VertexWrapper& last);
 	
 		Path& operator=(Path&& rhs);
 		Path& operator=(const Path& rhs) = default;
@@ -48,18 +48,22 @@ public:
 	explicit ShortestPathAlgorithm(const char* ID);
 	virtual ~ShortestPathAlgorithm() = default;
 
-	virtual Path findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) = 0;
+	Path findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal);
 
 	const String& getID() const;
 
 protected:
-	void initBase(Graph& graph, const Vertex& goal);
 	bool isTheGoal(const Vertex& v) const;	
 	EdgeConstIteratorPtr getEdgesLeaving(const Vertex& v) const;
 
 private:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = delete;
+
+	virtual Path findNonTrivialShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) = 0;
+	static Path buildTrivialPath(const Vertex& v);
+
+	void initBase(Graph& graph, const Vertex& goal);
 
 private:
 	const String id;

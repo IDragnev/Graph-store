@@ -24,7 +24,7 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 }
 
 
-ShortestPathAlgorithm::Path::Path(const BasicWrapper& last) :
+ShortestPathAlgorithm::Path::Path(const VertexWrapper& last) :
 	IDs{},
 	length{ last.distanceToSource }
 {
@@ -68,6 +68,35 @@ ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
 }
 
 
+ShortestPathAlgorithm::Path 
+ShortestPathAlgorithm::findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal)
+{
+	if (source != goal)
+	{
+		initBase(graph, goal);
+		return findNonTrivialShortestPath(graph, source, goal);
+	}
+	else
+	{
+		return buildTrivialPath(goal);
+	}
+}
+
+
+void ShortestPathAlgorithm::initBase(Graph& graph, const Vertex& goal)
+{
+	this->searchedGraph = &graph;
+	this->goal = &goal;
+}
+
+
+ShortestPathAlgorithm::Path
+ShortestPathAlgorithm::buildTrivialPath(const Vertex& v)
+{
+	return Path{ VertexWrapper{ &v } };
+}
+
+
 bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
 {
 	return vertex == *goal;
@@ -78,13 +107,6 @@ ShortestPathAlgorithm::EdgeConstIteratorPtr
 ShortestPathAlgorithm::getEdgesLeaving(const Vertex& v) const
 {
 	return searchedGraph->getConstIteratorToEdgesLeaving(v);
-}
-
-
-void ShortestPathAlgorithm::initBase(Graph& graph, const Vertex& goal)
-{
-	this->searchedGraph = &graph;
-	this->goal = &goal;
 }
 
 
