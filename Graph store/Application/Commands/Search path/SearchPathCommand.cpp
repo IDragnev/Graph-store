@@ -60,8 +60,8 @@ void SearchPathCommand::execute() const
 	Graph::Vertex& end = usedGraph.getVertex(endVertexID);
 	ShortestPathAlgorithm& algorithm = ShortestPathAlgorithmStore::instance().getAlgorithm(algorithmID);
 
-	algorithm.findShortestPath(usedGraph, start, end);
-	//TODO
+	auto path = algorithm.findShortestPath(usedGraph, start, end);
+	path.print();
 }
 
 
