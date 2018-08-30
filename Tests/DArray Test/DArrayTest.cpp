@@ -9,7 +9,7 @@ namespace DArraytest
 	TEST_CLASS(DArrayTest)
 	{
 	private:
-		typedef DArray<unsigned> UIntArray;
+		using UIntArray = DArray<unsigned>;
 
 		static const size_t TEST_SIZE = 25;
 

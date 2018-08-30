@@ -73,15 +73,6 @@ inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const
 }
 
 
-template <typename T>
-template <typename Item, bool isConst>
-inline typename DArray<T>::DArrayIterator<Item, isConst>::baseIteratorPtr 
-DArray<T>::DArrayIterator<Item, isConst>::clone() const
-{
-	return baseIteratorPtr{ new DArrayIterator<Item, isConst>{*this} };
-}
-
-
 template <typename Item, bool isConst>
 inline bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
 {

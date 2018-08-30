@@ -1,27 +1,25 @@
 #ifndef __D_ARRAY_M_SEMANT_H_INCLDUED__
 #define __D_ARRAY_M_SEMANT_H_INCLDUED__
 
+#include "..\Type selector\typeSelector.h"
 #include <assert.h>
 #include <stdexcept>
-#include "../Type selector/BaseIteratorSelector.h"
 
 template <typename T>
 class DArray
 {
 private:
-	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible.");
-	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable.");
+	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible");
+	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable");
 
 	using unsignedInteger = std::size_t;
 
 	template <typename Item, bool isConst = false>
-	class DArrayIterator : public BaseIteratorSelector<isConst, Item>::result
+	class DArrayIterator
 	{
 	private:
 		friend class DArray<Item>;
-		using baseIterator = typename BaseIteratorSelector<isConst, Item>::result;
 		using ownerPtr = typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result;
-		using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 	public:
 		using value_type = Item;
@@ -33,14 +31,14 @@ private:
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
 
-		virtual reference operator*() const override;
-		virtual pointer operator->() const override;
-		virtual DArrayIterator<Item, isConst>& operator++() override;
-		virtual operator bool() const override;
-		virtual bool operator!() const override;
-		virtual baseIteratorPtr clone() const override;
+		pointer operator->() const;
+		reference operator*() const;
 
+		DArrayIterator<Item, isConst>& operator++();
 		DArrayIterator<Item, isConst> operator++(int);
+
+		operator bool() const;
+		bool operator!() const;
 
 		template <typename Item, bool isConst>
 		friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
