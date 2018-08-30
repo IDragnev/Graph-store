@@ -93,7 +93,7 @@ void ShortestPathAlgorithm::initBase(Graph& graph, const Vertex& goal)
 ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::buildTrivialPath(const Vertex& v)
 {
-	return Path{ VertexWrapper{ &v } };
+	return Path{ { &v } };
 }
 
 

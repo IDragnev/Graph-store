@@ -16,6 +16,9 @@ protected:
 
 	struct VertexWrapper
 	{
+		VertexWrapper() = default;
+		VertexWrapper(const Vertex* v) : wrappedVertex{ v } {}
+
 		const Vertex* wrappedVertex = nullptr;
 		const VertexWrapper* predecessor = nullptr;
 		Distance distanceToSource = Distance::Infinity();
