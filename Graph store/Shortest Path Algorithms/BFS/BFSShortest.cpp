@@ -6,23 +6,35 @@
 static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
 
 
-void BFSShortest::findShortestPath(Graph& graph, Vertex& source, Vertex& goal)
+ShortestPathAlgorithm::Path 
+BFSShortest::findNonTrivialShortestPath(Graph& graph, const Vertex& source, const Vertex& goal)
 {
-	if (source != goal)
-	{
-		initializeState(graph, goal);
-		initializeSingleSource(graph, source);
-		findShortestPathToGoalFrom(source);
-		clearState();
-	}
-	else
-	{
-		findTrivialPathFromTo(source, goal);
-	}
+	wrap(graph, source);
+	auto result = findShortestPathToGoalFrom(source);
+	clean();
+
+	return std::move(result);
 }
 
 
-void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
+void BFSShortest::wrap(Graph& graph, const Vertex& source)
+{
+	auto iteratorPtr = graph.getIteratorToVertices();
+
+	forEach(*iteratorPtr, [&](const Vertex* v)
+	{
+		wrappers.try_emplace(v->getID(), v);
+	});
+
+	auto& sourceWrapper = wrappers[source.getID()];
+	sourceWrapper.distanceToSource = 0;
+	sourceWrapper.predecessor = nullptr;
+	sourceWrapper.isVisited = true;
+}
+
+
+ShortestPathAlgorithm::Path
+BFSShortest::findShortestPathToGoalFrom(const Vertex& source)
 {
 	assert(isFrontierEmpty());
 
@@ -34,13 +46,15 @@ void BFSShortest::findShortestPathToGoalFrom(Vertex& source)
 
 		if (isTheGoal(vertex))
 		{
-			break;
+			return Path{ wrappers[vertex.getID()] };
 		}
 		else
 		{
 			expandFrontierFrom(vertex);
 		}
 	}
+
+	return Path{};
 }
 
 
@@ -50,49 +64,49 @@ bool BFSShortest::isFrontierEmpty() const
 }
 
 
-void BFSShortest::addToFrontier(Vertex& vertex)
+void BFSShortest::addToFrontier(const Vertex& vertex)
 {
-	assert(vertex.isVisited());
-
 	queue.enqueue(&vertex);
 }
 
 
-Vertex& BFSShortest::extractVertexFromTheFrontier()
+const Graph::Vertex& BFSShortest::extractVertexFromTheFrontier()
 {
-	Vertex* vertex = queue.dequeue();
+	auto* vertex = queue.dequeue();
 	assert(vertex);
 
 	return *vertex;
 }
 
 
-void BFSShortest::expandFrontierFrom(Vertex& vertex)
+void BFSShortest::expandFrontierFrom(const Vertex& vertex)
 {
 	auto iteratorPtr = getEdgesLeaving(vertex);
 
-	forEach(*iteratorPtr, [&](Edge& edge) 
+	forEach(*iteratorPtr, [&](const Edge& edge) 
 	{
 		auto& neighbour = edge.getIncidentVertex();
+		auto& neighbourWrapper = wrappers[neighbour.getID()];
 
-		if (!neighbour.isVisited())
+		if (!neighbourWrapper.isVisited)
 		{
-			neighbour.markAsVisited();
-			extendCurrentPathFromTo(vertex, neighbour);
+			neighbourWrapper.isVisited = true;
+			extendCurrentPathFromTo(wrappers[vertex.getID()], neighbourWrapper);
 			addToFrontier(neighbour);
 		}
 	});
 }
 
 
-void BFSShortest::extendCurrentPathFromTo(Vertex& from, Vertex& to)
+void BFSShortest::extendCurrentPathFromTo(const BFSVertex& from, BFSVertex& to)
 {
-	to.setPredecessor(&from);
-	to.setDistanceToSource(from.getDistanceToSource() + Distance{ 1 });
+	to.predecessor = &from;
+	to.distanceToSource = from.distanceToSource + Distance{ 1 };
 }
 
 
-void BFSShortest::clearState()
+void BFSShortest::clean()
 {
 	queue.empty();
+	wrappers.clear();
 }
