@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
+#include "..\..\ForwardIterator wrapper\ForwardIteratorWrapper.h"
 #include <assert.h>
 #include <algorithm>
 
@@ -310,27 +311,31 @@ Graph::Vertex& Graph::getVertex(const String& ID)
 Graph::EdgeIteratorPtr Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
+
 	auto iterator = vertex.edges.getBeginIterator();
-	
-	return iterator.clone();
+	auto wrapper = ForwardIteratorWrapper<EdgeIterator>{ iterator };
+
+	return wrapper.clone();
 }
 
 
 Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const
 {
 	assert(isOwnerOf(vertex));
-	auto constIterator = vertex.edges.getBeginConstIterator();
 
-	return constIterator.clone();
+	auto constIterator = vertex.edges.getBeginConstIterator();
+	auto wrapper = ForwardIteratorWrapper<EdgeConstIterator, true>{ constIterator };
+
+	return wrapper.clone();
 }
 
 
 Graph::VertexConstIteratorPtr Graph::getIteratorToVertices()
 {
-	//ConstIterator because the actual pointers are iterated
 	auto constIterator = vertices.getBeginConstIterator();
+	auto wrapper = ForwardIteratorWrapper<VertexConstIterator, true>{ constIterator };
 
-	return constIterator.clone();
+	return wrapper.clone();
 }
 
 

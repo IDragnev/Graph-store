@@ -48,7 +48,10 @@ public:
 
 private:
 	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
+	using VertexIterator = DArray<Vertex*>::iterator;
+	using VertexConstIterator = DArray<Vertex*>::const_iterator;
 	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
+	using EdgeConstIterator = SinglyLinkedList<Edge>::const_iterator;
 	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
 	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
