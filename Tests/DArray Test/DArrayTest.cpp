@@ -30,20 +30,20 @@ namespace DArraytest
 		{
 			UIntArray dArray{ 1, 2, 3 };
 
-			size_t i = 1;
-			std::for_each(dArray.getBeginConstIterator(), dArray.getEndConstIterator(), [&](size_t current)
+			auto i = 1U;
+			for(auto&& current: dArray)
 			{
 				Assert::AreEqual(current, i++);
-			});
+			}
 		}
 
 		TEST_METHOD(testConstructorFilledArrayValueInitializesAll)
 		{
 			UIntArray dArray(10, 10);
 
-			for (size_t i = 0; i < 10; ++i)
+			for (auto&& current: dArray)
 			{
-				Assert::AreEqual(dArray[i], 0U);
+				Assert::AreEqual(current, 0U);
 			}
 		}
 

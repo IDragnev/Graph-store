@@ -120,6 +120,15 @@ bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);
 template <typename T>
 bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs);
 
+template <typename T>
+auto begin(DArray<T>& dArray) { return dArray.getBeginIterator(); }
+template <typename T>
+auto end(DArray<T>& dArray) { return dArray.getEndIterator(); }
+template <typename T>
+auto cbegin(const DArray<T>& dArray) { return dArray.getBeginConstIterator(); }
+template <typename T>
+auto cend(const DArray<T>& dArray) { return dArray.getEndConstIterator(); }
+
 #include "DArrayImpl.hpp"
 #include "DArrayIteratorImpl.hpp"
 #endif //__D_ARRAY_M_SEMANT_H_INCLDUED__

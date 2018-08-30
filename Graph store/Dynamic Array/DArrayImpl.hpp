@@ -1,4 +1,3 @@
-#include <algorithm>
 
 template <typename T>
 DArray<T>::DArray() :
@@ -13,10 +12,10 @@ template <typename T>
 DArray<T>::DArray(std::initializer_list<T> source) :
 	DArray(source.size(), 0)
 {
-	std::for_each(source.begin(), source.end(), [&](const T& item)
+	for (const T& item : source)
 	{
 		items[count++] = item;
-	});
+	}
 }
 
 
