@@ -12,8 +12,6 @@ private:
 		          std::is_same<typename ForwardIterator::iterator_category, std::bidirectional_iterator_tag>::value, 
 		          "template <class T> ForwardIteratorWrapper requires T to be a forward or bidirectional iterator");
 
-	friend class ForwardIteratorWrapper<ForwardIterator, true>;
-
 	using pointer = typename ForwardIterator::pointer;
 	using reference = typename ForwardIterator::reference;
 	using value_type = typename ForwardIterator::value_type;
@@ -22,7 +20,6 @@ private:
 
 public:
 	ForwardIteratorWrapper(const ForwardIterator& it);
-	ForwardIteratorWrapper(const ForwardIteratorWrapper<ForwardIterator, false>& source);
 
 	virtual reference operator*() const override;
 	virtual pointer operator->() const override;

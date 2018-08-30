@@ -8,13 +8,6 @@ ForwardIteratorWrapper<ForwardIterator, isConst>::ForwardIteratorWrapper(const F
 
 
 template <typename ForwardIterator, bool isConst>
-ForwardIteratorWrapper<ForwardIterator, isConst>::ForwardIteratorWrapper(const ForwardIteratorWrapper<ForwardIterator, false>& source) :
-	iterator{ source.iterator }
-{
-}
-
-
-template <typename ForwardIterator, bool isConst>
 typename ForwardIteratorWrapper<ForwardIterator, isConst>::reference
 ForwardIteratorWrapper<ForwardIterator, isConst>::operator*() const
 {
