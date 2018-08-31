@@ -8,6 +8,11 @@
 #include "..\..\Singly Linked List\SinglyLinkedList.h"
 #include <memory>
 
+template <typename T>
+class Iterator;
+template <typename T>
+class ConstIterator; 
+
 class Graph
 {
 public:

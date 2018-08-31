@@ -95,7 +95,10 @@ void Graph::setID(const String& ID)
 
 Graph::~Graph()
 {
-	std::for_each(vertices.getBeginIterator(), vertices.getEndIterator(), [&](Vertex* v) { deleteVertex(v);	});
+	for (auto&& v : vertices)
+	{
+		deleteVertex(v);
+	}
 }
 
 
@@ -218,12 +221,11 @@ void Graph::removeVertex(Vertex& vertex)
 //
 void Graph::removeEdgesEndingIn(Vertex& vertex)
 {
-	std::for_each(vertex.edges.getBeginIterator(), vertex.edges.getEndIterator(), 
-		[&](Edge& edge)
+	for (auto& edge : vertex.edges)
 	{
-		Vertex& neighbour = edge.getIncidentVertex();
+		auto& neighbour = edge.getIncidentVertex();
 		removeEdgeFromToNoThrow(neighbour, vertex);
-	});
+	}
 }
 
 
@@ -256,7 +258,11 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 
 Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
-	return std::find_if(from.edges.getBeginIterator(), from.edges.getEndIterator(), [&](const Edge& edge) { return edge.getIncidentVertex() == to; });
+	using namespace std;
+	return std::find_if(begin(from.edges), end(from.edges), [&](const Edge& edge)
+	{
+		return edge.getIncidentVertex() == to;
+	});
 }
 
 
@@ -312,8 +318,8 @@ Graph::EdgeIteratorPtr Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
-	auto iterator = vertex.edges.getBeginIterator();
-	auto wrapper = ForwardIteratorWrapper<EdgeIterator>{ iterator };
+	using namespace std;
+	auto wrapper = ForwardIteratorWrapper<EdgeIterator>{ begin(vertex.edges) };
 
 	return wrapper.clone();
 }
@@ -323,8 +329,8 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 {
 	assert(isOwnerOf(vertex));
 
-	auto constIterator = vertex.edges.getBeginConstIterator();
-	auto wrapper = ForwardIteratorWrapper<EdgeConstIterator, true>{ constIterator };
+	using namespace std;
+	auto wrapper = ForwardIteratorWrapper<EdgeConstIterator, true>{ cbegin(vertex.edges) };
 
 	return wrapper.clone();
 }
@@ -332,8 +338,8 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 
 Graph::VertexConstIteratorPtr Graph::getIteratorToVertices()
 {
-	auto constIterator = vertices.getBeginConstIterator();
-	auto wrapper = ForwardIteratorWrapper<VertexConstIterator, true>{ constIterator };
+	using namespace std;
+	auto wrapper = ForwardIteratorWrapper<VertexConstIterator, true>{ cbegin(vertices) };
 
 	return wrapper.clone();
 }
