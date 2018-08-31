@@ -22,7 +22,10 @@ template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
 	SinglyLinkedList()
 {
-	std::for_each(source.begin(), source.end(), [&](const T& item) { insert(item); });
+	for (const T& item : source)
+	{
+		insert(item);
+	}
 }
 
 

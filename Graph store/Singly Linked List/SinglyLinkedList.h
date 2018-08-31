@@ -135,6 +135,15 @@ template <typename T, bool isConst>
 bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
 	            typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs);
 
+template <typename T>
+auto begin(SinglyLinkedList<T>& list) { return list.getBeginIterator(); }
+template <typename T>
+auto end(SinglyLinkedList<T>& list) { return list.getEndIterator(); }
+template <typename T>
+auto cbegin(const SinglyLinkedList<T>& list) { return list.getBeginConstIterator(); }
+template <typename T>
+auto cend(const SinglyLinkedList<T>& list) { return list.getEndConstIterator(); }
+
 #include "SinglyLinkedListImpl.hpp"
 #include "SinglyLinkedListIteratorImpl.hpp"
 #endif //__SINGLY_LINKED_LIST_H_INCLUDED__
