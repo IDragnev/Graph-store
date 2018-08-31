@@ -33,7 +33,7 @@ void StringSplitter<Container>::split()
 	do
 	{
 		skipWhiteSpaces();
-		char delim = chooseDelimiter();
+		auto delim = chooseDelimiter();
 		advanceIfNotWhiteSpace(delim);
 		extractWord(delim);
 	} while (stream.good());
@@ -54,14 +54,17 @@ void StringSplitter<Container>::skipWhiteSpaces()
 template <template <class...> class Container>
 char StringSplitter<Container>::chooseDelimiter()
 { 
-	char current = stream.peek();
-	auto iterator = std::find_if(delimiters.getBeginConstIterator(), delimiters.getEndConstIterator(), 
-		[&](char delimiter)
-	{
-		return delimiter == current;
-	});
+	auto currentSymbol = stream.peek();
 
-	return (iterator) ? *iterator : ' ';
+	for (const auto& delim : delimiters)
+	{
+		if (delim == currentSymbol)
+		{
+			return delim;
+		}
+	}
+
+	return ' ';
 }
 
 
