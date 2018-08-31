@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <assert.h>
-#include "..\Type selector\BaseIteratorSelector.h"
+#include "..\Type selector\typeSelector.h"
 
 template <typename T>
 class SinglyLinkedList
@@ -23,15 +23,12 @@ private:
 	};
 
 	template <typename Item, bool isConst = false>
-	class SinglyLinkedListIterator : public BaseIteratorSelector<isConst, Item>::result
+	class SinglyLinkedListIterator
 	{
 	private:
 		friend class SinglyLinkedList<Item>;
-
 		using ownerPtr = const SinglyLinkedList<Item>*;
 		using nodePtr = typename TypeSelector<isConst, const Node<Item>*, Node<Item>*>::result;
-		using baseIterator = typename BaseIteratorSelector<isConst, Item>::result;
-		using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 	public:
 		using value_type = Item;
@@ -43,14 +40,14 @@ private:
 	public:
 		SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source);
 
-		virtual reference operator*() const override;
-		virtual pointer operator->() const override;
-		virtual SinglyLinkedListIterator<Item, isConst>& operator++() override;
-		virtual operator bool() const override;
-		virtual bool operator!() const override;
-		virtual baseIteratorPtr clone() const override;
+		pointer operator->() const;
+		reference operator*() const;
 
+		SinglyLinkedListIterator<Item, isConst>& operator++();
 		SinglyLinkedListIterator<Item, isConst> operator++(int);
+
+		operator bool() const;
+		bool operator!() const;
 
 		template <typename Item, bool isConst>
 		friend bool operator==(typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& lhs, 

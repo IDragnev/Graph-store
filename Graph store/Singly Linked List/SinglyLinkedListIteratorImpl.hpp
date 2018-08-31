@@ -50,14 +50,13 @@ SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++(int)
 
 template <typename T>
 template <typename Item, bool isConst>
-typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>& 
+inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>& 
 SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++()
 {
-	if (this->operator bool())
+	if (this->operator bool()) 
 	{
 		current = current->next;
 	}
-
 	return *this;
 }
 
@@ -75,15 +74,6 @@ template <typename Item, bool isConst>
 inline bool SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator!() const
 {
 	return !(this->operator bool());
-}
-
-
-template <typename T>
-template <typename Item, bool isConst>
-inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::baseIteratorPtr
-SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::clone() const
-{
-	return baseIteratorPtr{ new SinglyLinkedListIterator<Item, isConst>{*this} };
 }
 
 
