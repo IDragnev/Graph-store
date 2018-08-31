@@ -1,5 +1,8 @@
 #include "ShortestPathAlgorithm.h"
+#include "..\..\Iterator abstraction\Iterator.h"
+#include "..\..\Iterator abstraction\ConstIterator.h"
 #include <assert.h>
+#include <algorithm>
 
 
 ShortestPathAlgorithm::Path::Path(Path&& source) :
@@ -49,8 +52,8 @@ ShortestPathAlgorithm::Path::getLength() const
 
 void ShortestPathAlgorithm::Path::print() const
 {
-	std::for_each(IDs.getBeginConstIterator(), IDs.getEndConstIterator(),
-		[&](const String& ID)
+	using namespace std;
+	std::for_each(cbegin(IDs), cend(IDs), [&](const String& ID)
 	{
 		std::cout << ID << ' ';
 	});

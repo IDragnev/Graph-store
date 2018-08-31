@@ -1,6 +1,8 @@
 #include "BFSShortest.h"
 #include "..\..\Graph\Base Graph\Graph.h"
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include "..\..\Iterator abstraction\Iterator.h"
+#include "..\..\Iterator abstraction\ConstIterator.h"
 #include <memory>
 
 static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
