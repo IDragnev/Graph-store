@@ -13,7 +13,10 @@ GraphStore::~GraphStore()
 
 void GraphStore::deleteAllGraphs()
 {
-	std::for_each(graphs.getBeginIterator(), graphs.getEndIterator(), [&](Graph* g) { delete g; });
+	for (auto&& g : graphs)
+	{
+		delete g;
+	}
 }
 
 
@@ -50,8 +53,8 @@ bool GraphStore::hasGraphWithID(const String& ID) const
 
 const Graph* GraphStore::searchGraph(const String& ID) const
 {
-	auto iterator = std::find_if(graphs.getBeginConstIterator(), graphs.getEndConstIterator(),
-		[&](const Graph* g)
+	using namespace std;
+	auto iterator = std::find_if(cbegin(graphs), cend(graphs), [&](const Graph* g)
 	{
 		return g->getID() == ID;
 	});
@@ -89,15 +92,16 @@ void GraphStore::throwNonExistingGraph(const String& ID)
 
 void GraphStore::removeGraph(const String& ID)
 {
-	std::size_t count = graphs.getCount();
-
-	for (std::size_t i = 0; i < count; ++i)
+	auto i = std::size_t{0};
+	for (auto&& g : graphs)
 	{
-		if (graphs[i]->getID() == ID)
+		if (g->getID() == ID)
 		{
 			removeGraphAt(i);
 			return;
 		}
+
+		++i;
 	}
 
 	throwNonExistingGraph(ID);
@@ -106,8 +110,8 @@ void GraphStore::removeGraph(const String& ID)
 
 void GraphStore::removeGraphAt(std::size_t index)
 {
-	Graph* toRemove = graphs[index];
-	std::size_t lastGraphIndex = graphs.getCount() - 1;
+	auto* toRemove = graphs[index];
+	auto lastGraphIndex = graphs.getCount() - 1;
 
 	std::swap(graphs[index], graphs[lastGraphIndex]);
 	graphs.removeAt(lastGraphIndex);

@@ -22,7 +22,7 @@ GraphFactory& GraphFactory::instance()
 
 GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const String& ID) const
 {
-	const GraphCreator& creator = getCreator(type);
+	auto& creator = getCreator(type);
 
 	return creator.createEmptyGraph(ID);
 }
@@ -30,7 +30,7 @@ GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const 
 
 const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 {
-	const GraphCreator* creator = searchCreator(graphType);
+	auto* creator = searchCreator(graphType);
 
 	if (creator)
 	{
@@ -45,8 +45,8 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 
 const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 {
-	auto iterator = std::find_if(creators.getBeginConstIterator(), creators.getEndConstIterator(), 
-		[&](const GraphCreator* c)
+	using namespace std;
+	auto iterator = std::find_if(cbegin(creators), cend(creators), [&](const GraphCreator* c)
 	{
 		return c->getCreatedGraphType() == graphType;
 	});

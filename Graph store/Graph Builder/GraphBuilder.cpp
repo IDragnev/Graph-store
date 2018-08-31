@@ -68,11 +68,10 @@ void GraphBuilder::insertVertices()
 {
 	parseVertexIDs();
 
-	std::for_each(vertexIDs.getBeginConstIterator(), vertexIDs.getEndConstIterator(),
-		[&](const String& ID) 
+	for (auto&& ID : vertexIDs)
 	{
 		result->insertVertexWithID(ID);
-	});
+	}
 }
 
 
@@ -82,7 +81,7 @@ void GraphBuilder::parseVertexIDs()
 	auto IDsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	vertexIDs.ensureSize(IDsCount);
 
-	for (std::size_t i = 0; i < IDsCount; ++i)
+	for (auto i = std::size_t{0}; i < IDsCount; ++i)
 	{
 		vertexIDs.insert(parser.parseLine());
 	}
@@ -103,7 +102,7 @@ void GraphBuilder::insertEdges()
 	assert(areVerticesInserted());
 	auto edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
 	
-	for (std::size_t i = 0; i < edgesCount; ++i)
+	for (auto i = std::size_t{0}; i < edgesCount; ++i)
 	{
 		insertSingleEdge(parseSingleEdge());
 	}

@@ -1,6 +1,8 @@
 #include "DirectedGraph.h"
 #include "..\..\General Exceptions\Exception.h"
 #include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
+#include "..\..\Iterator abstraction\Iterator.h"
+#include "..\..\Iterator abstraction\ConstIterator.h"
 
 static GraphRegistrator<DirectedGraph> registrator{ "directed" };
 

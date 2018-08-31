@@ -27,11 +27,9 @@ void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
 {
-	unsignedInteger count = table.getCount();
-
-	for (unsignedInteger i = 0; i < count; ++i)
+	for (auto&& slot : table)
 	{
-		table[i] = nullptr;
+		slot = nullptr;
 	}
 }
 
@@ -106,7 +104,7 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 		resize(tableSize * GROWTH_FACTOR);
 	}
 
-	unsignedInteger index = hashFunction(keyAccessor(item)) % tableSize;
+	auto index = hashFunction(keyAccessor(item)) % tableSize;
 
 	while (table[index])
 	{
@@ -131,7 +129,7 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	DArray<Item*> oldTable(std::move(table));
+	DArray<Item*> oldTable{ std::move(table) };
 	
 	try
 	{
@@ -149,13 +147,11 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(DArray<Item*>& table)
 {
-	unsignedInteger count = table.getCount();
-
-	for (unsignedInteger i = 0; i < count; ++i)
+	for (auto&& itemPtr : table)
 	{
-		if (table[i])
+		if (itemPtr)
 		{
-			insert(*table[i]);
+			insert(*itemPtr);
 		}
 	}
 }
@@ -180,7 +176,7 @@ inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor>
 long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) const
 {
-	unsignedInteger index = hashFunction(key) % tableSize;
+	auto index = hashFunction(key) % tableSize;
 
 	while (table[index])
 	{
@@ -199,11 +195,11 @@ long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) cons
 template <typename Item, typename Key, typename KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
-	const long index = getPositionOfItemWithKey(key);
+	auto index = getPositionOfItemWithKey(key);
 
 	if (index >= 0)
 	{
-		Item* result = extractItemFromTableAt(index);
+		auto* result = extractItemFromTableAt(index);
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
@@ -226,7 +222,7 @@ Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index
 {
 	assert(index < tableSize && table[index]);
 
-	Item* result = table[index];
+	auto* result = table[index];
 	table[index] = nullptr;
 	--insertedCount;
 
@@ -253,11 +249,11 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 {
 	assert(start < tableSize);
 
-	unsignedInteger positionToEmpty = start;
+	auto positionToEmpty = start;
 
 	while (table[positionToEmpty])
 	{
-		Item* extractedItem = extractItemFromTableAt(positionToEmpty);
+		auto* extractedItem = extractItemFromTableAt(positionToEmpty);
 		insert(*extractedItem);
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;

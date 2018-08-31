@@ -33,7 +33,7 @@ namespace HashTest
 	TEST_CLASS(HashTest)
 	{
 	private:
-		typedef Hash<Item, String, KeyExtractor> ItemHash;
+		using ItemHash = Hash<Item, String, KeyExtractor>;
 
 		static DArray<Item> testItems;
 		static const size_t EXPECTED_COUNT = 10;
@@ -41,35 +41,37 @@ namespace HashTest
 
 		static bool areAllTestItemsIn(const ItemHash& hash)
 		{
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			for (auto&& item : testItems)
 			{
-				if (hash.search(testItems[i].getKey()) != &testItems[i])
+				if (hash.search(item.getKey()) != &item)
 				{
 					return false;
 				}
 			}
-
+			
 			return true;
 		}
 
 		static void insertTestItemsTo(ItemHash& hash)
 		{
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			for (auto&& item : testItems)
 			{
-				hash.insert(testItems[i]);
+				hash.insert(item);
 			}
 		}
 
 		static void initializeTestItems()
 		{
 			static const size_t keysCount = 15;
+			assert(TEST_ITEMS_COUNT <= keysCount);
 			static const char* keys[] = { "some key" , "other key", "@asd" , "not very creative", "New York"
 				"another key", "key 5", "123" , "123123", "running out of ideas",
 				"Sofia", "IBN", "Word", "Testing", "Tired" };
 
-			for (size_t i = 0; i < TEST_ITEMS_COUNT && i < keysCount; ++i)
+			auto i = 0;
+			for (auto&& item : testItems)
 			{
-				testItems[i].setKey(keys[i]);
+				item.setKey(keys[i++]);
 			}
 		}
 

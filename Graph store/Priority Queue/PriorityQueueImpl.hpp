@@ -82,7 +82,10 @@ inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~Pr
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAllItems()
 {
-	std::for_each(items.getBeginIterator(), items.getEndIterator(), [&](Item* item) { invalidateHandleOf(item);	});
+	for (auto&& item : items)
+	{
+		invalidateHandleOf(item);
+	}
 }
 
 
@@ -137,7 +140,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 	assert(handle.isValid());
 	assert(hasItemAt(handle));
 
-	Item& itemToImprove = *items[handle];
+	auto& itemToImprove = *items[handle];
 	assert(compareFunction(keyAccessor.getKeyOf(itemToImprove), key));
 
 	keyAccessor.setKeyOf(itemToImprove, key);

@@ -45,10 +45,10 @@ void Application::insertHelpCommand()
 	{
 		parser.Parse();
 		std::cout << "Supported commands:\n";
-		std::for_each(commands.cbegin(), commands.cend(), [&](const args::Command& command)
+		for (auto&& c : commands)
 		{
-			std::cout << '\t' << command.Name() << '\t' << command.Help() << '\n';
-		});
+			std::cout << '\t' << c.Name() << '\t' << c.Help() << '\n';
+		}
 	});
 }
 
@@ -123,7 +123,8 @@ void Application::invokeCommand(const InputContainer& input)
 {
 	try
 	{
-		parser.ParseArgs(input.getBeginConstIterator(), input.getEndConstIterator());
+		using namespace std;
+		parser.ParseArgs(cbegin(input), cend(input));
 	}
 	catch (std::runtime_error& e)
 	{

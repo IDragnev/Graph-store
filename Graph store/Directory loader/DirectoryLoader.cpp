@@ -16,7 +16,7 @@ void DirectoryLoader::load(Function fun)
 {
 	while (hasRemainingFiles())
 	{
-		std::unique_ptr<Graph> result = loadCurrentFile();
+		auto result = loadCurrentFile();
 
 		if (result)
 		{
