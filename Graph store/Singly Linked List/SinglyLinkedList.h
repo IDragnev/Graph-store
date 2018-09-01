@@ -3,7 +3,6 @@
 
 #include <utility>
 #include <assert.h>
-#include "..\Type selector\typeSelector.h"
 
 template <typename T>
 class SinglyLinkedList
@@ -28,14 +27,14 @@ private:
 	private:
 		friend class SinglyLinkedList<Item>;
 		using ownerPtr = const SinglyLinkedList<Item>*;
-		using nodePtr = typename TypeSelector<isConst, const Node<Item>*, Node<Item>*>::result;
+		using nodePtr = typename std::conditional<isConst, const Node<Item>*, Node<Item>*>::type;
 
 	public:
 		using value_type = Item;
 		using difference_type = std::ptrdiff_t;
 		using iterator_category = std::forward_iterator_tag;
-		using reference = typename TypeSelector<isConst, const Item&, Item&>::result;
-		using pointer = typename TypeSelector<isConst, const Item*, Item*>::result;
+		using reference = typename std::conditional<isConst, const Item&, Item&>::type;
+		using pointer = typename std::conditional<isConst, const Item*, Item*>::type;
 
 	public:
 		SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source);
