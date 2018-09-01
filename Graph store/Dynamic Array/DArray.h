@@ -1,9 +1,8 @@
 #ifndef __D_ARRAY_M_SEMANT_H_INCLDUED__
 #define __D_ARRAY_M_SEMANT_H_INCLDUED__
 
-#include "..\Type selector\typeSelector.h"
+#include <utility>
 #include <assert.h>
-#include <stdexcept>
 
 template <typename T>
 class DArray
@@ -19,14 +18,14 @@ private:
 	{
 	private:
 		friend class DArray<Item>;
-		using ownerPtr = typename TypeSelector<isConst, const DArray<Item>*, DArray<Item>*>::result;
+		using ownerPtr = typename std::conditional<isConst, const DArray<Item>*, DArray<Item>*>::type;
 
 	public:
 		using value_type = Item;
 		using difference_type = std::ptrdiff_t;
 		using iterator_category = std::forward_iterator_tag;
-		using reference = typename TypeSelector<isConst, const Item&, Item&>::result;
-		using pointer = typename TypeSelector<isConst, const Item*, Item*>::result;
+		using reference = typename std::conditional<isConst, const Item&, Item&>::type;
+		using pointer = typename std::conditional<isConst, const Item*, Item*>::type;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
