@@ -1,31 +1,32 @@
 
 
-template <typename ForwardIterator>
-ForwardIteratorWrapper<ForwardIterator>::ForwardIteratorWrapper(const ForwardIterator& it) :
-	iterator{ it }
+template <typename ForwardIterator, typename EndType>
+ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end) :
+	iterator{ it },
+	end{ end }
 {
 }
 
 
-template <typename ForwardIterator>
-typename ForwardIteratorWrapper<ForwardIterator>::reference
-ForwardIteratorWrapper<ForwardIterator>::operator*() const
+template <typename ForwardIterator, typename EndType>
+typename ForwardIteratorWrapper<ForwardIterator, EndType>::reference
+ForwardIteratorWrapper<ForwardIterator, EndType>::operator*() const
 {
 	return *iterator;
 }
 
 
-template <typename ForwardIterator>
-typename ForwardIteratorWrapper<ForwardIterator>::pointer
-ForwardIteratorWrapper<ForwardIterator>::operator->() const
+template <typename ForwardIterator, typename EndType>
+typename ForwardIteratorWrapper<ForwardIterator, EndType>::pointer
+ForwardIteratorWrapper<ForwardIterator, EndType>::operator->() const
 {
 	return iterator.operator->();
 }
 
 
-template <typename ForwardIterator>
-ForwardIteratorWrapper<ForwardIterator>
-ForwardIteratorWrapper<ForwardIterator>::operator++(int)
+template <typename ForwardIterator, typename EndType>
+ForwardIteratorWrapper<ForwardIterator, EndType>
+ForwardIteratorWrapper<ForwardIterator, EndType>::operator++(int)
 {
 	ForwardIteratorWrapper temp{ *this };
 	++(*this);
@@ -34,32 +35,32 @@ ForwardIteratorWrapper<ForwardIterator>::operator++(int)
 }
 
 
-template <typename ForwardIterator>
-ForwardIteratorWrapper<ForwardIterator>&
-ForwardIteratorWrapper<ForwardIterator>::operator++()
+template <typename ForwardIterator, typename EndType>
+ForwardIteratorWrapper<ForwardIterator, EndType>&
+ForwardIteratorWrapper<ForwardIterator, EndType>::operator++()
 {
 	++iterator;
 	return *this;
 }
 
 
-template <typename ForwardIterator>
-ForwardIteratorWrapper<ForwardIterator>::operator bool() const
+template <typename ForwardIterator, typename EndType>
+ForwardIteratorWrapper<ForwardIterator, EndType>::operator bool() const
 {
-	return static_cast<bool>(iterator);
+	return iterator != end;
 }
 
 
-template <typename ForwardIterator>
-bool ForwardIteratorWrapper<ForwardIterator>::operator!() const
+template <typename ForwardIterator, typename EndType>
+bool ForwardIteratorWrapper<ForwardIterator, EndType>::operator!() const
 {
-	return iterator.operator!();
+	return !(this->operator bool());
 }
 
 
-template <typename ForwardIterator>
-typename ForwardIteratorWrapper<ForwardIterator>::baseIteratorPtr
-ForwardIteratorWrapper<ForwardIterator>::clone() const
+template <typename ForwardIterator, typename EndType>
+typename ForwardIteratorWrapper<ForwardIterator, EndType>::baseIteratorPtr
+ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const
 {
 	return baseIteratorPtr{ new ForwardIteratorWrapper{ *this } };
 }

@@ -4,7 +4,7 @@
 #include "..\Traits\Traits.h"
 #include "..\Traits\SelectBaseIterator.h"
 
-template <typename ForwardIterator>
+template <typename ForwardIterator, typename EndType = std::false_type>
 class ForwardIteratorWrapper: public select_base_iterator<ForwardIterator>::type
 {
 private:
@@ -18,7 +18,7 @@ private:
 	using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 public:
-	ForwardIteratorWrapper(const ForwardIterator& it);
+	ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end = {});
 
 	virtual reference operator*() const override;
 	virtual pointer operator->() const override;
@@ -31,6 +31,7 @@ public:
 
 private:
 	ForwardIterator iterator;
+	EndType end;
 };
 
 #include "ForwardIteratorWrapperImpl.hpp"
