@@ -14,9 +14,6 @@
     <Filter Include="Linear Probing Hash">
       <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Iterator abstraction">
-      <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sequential Lists">
       <UniqueIdentifier>{437e7bdb-8b84-4ff3-8e87-6adc19a695b0}</UniqueIdentifier>
     </Filter>
@@ -34,9 +31,6 @@
     </Filter>
     <Filter Include="Graph">
       <UniqueIdentifier>{d8714b06-cb9b-4664-b3f6-e86ca4c74925}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Type selector">
-      <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graph\Base Graph">
       <UniqueIdentifier>{b124285f-686f-476f-a3ed-ed840ec5f6f7}</UniqueIdentifier>
@@ -88,9 +82,6 @@
     </Filter>
     <Filter Include="File parser">
       <UniqueIdentifier>{d2939c70-f62b-43db-bd45-8ad46ffc5c84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Traits">
-      <UniqueIdentifier>{9ea7b6fc-7191-4cf7-89ab-3973a344985d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graph Builder">
       <UniqueIdentifier>{f9081231-d2a1-4240-a2ef-dee1afea673b}</UniqueIdentifier>
@@ -164,6 +155,18 @@
     <Filter Include="Application\Commands\MissingArgument exception">
       <UniqueIdentifier>{f581e506-4256-4da2-91fb-c95adbe17a8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Iterators">
+      <UniqueIdentifier>{d262e9af-960f-4a2b-bd9d-9712c837e973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Iterators\Iterator abstractions">
+      <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Iterators\ForwardIterator wrapper">
+      <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Traits">
+      <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,9 +187,6 @@
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
     <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
       <Filter>Graph Factory\Graph creators\Base</Filter>
     </ClCompile>
@@ -195,9 +195,6 @@
     </ClCompile>
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
       <Filter>Priority Queue\PQ Handle</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
@@ -247,9 +244,6 @@
     <ClCompile Include="Application\Commands\Remove graph\RemoveGraphCommand.cpp">
       <Filter>Application\Commands\Remove graph</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Commands\Search path\PathUtilityFunctions.cpp">
-      <Filter>Application\Commands\Search path</Filter>
-    </ClCompile>
     <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
       <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
@@ -280,7 +274,7 @@
       <Filter>Hash Functions</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
-      <Filter>Iterator abstraction</Filter>
+      <Filter>Iterators\Iterator abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
       <Filter>Sequential Lists\Dynamic Array</Filter>
@@ -304,7 +298,7 @@
       <Filter>Special Integer</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\ConstIterator.h">
-      <Filter>Iterator abstraction</Filter>
+      <Filter>Iterators\Iterator abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h">
       <Filter>Graph\Directed Graph</Filter>
@@ -317,9 +311,6 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
       <Filter>Graph\ID Accessor</Filter>
@@ -342,12 +333,6 @@
     <ClInclude Include="Special Integer\SpecialInteger.h">
       <Filter>Special Integer</Filter>
     </ClInclude>
-    <ClInclude Include="Type selector\TypeSelector.h">
-      <Filter>Type selector</Filter>
-    </ClInclude>
-    <ClInclude Include="Type selector\BaseIteratorSelector.h">
-      <Filter>Type selector</Filter>
-    </ClInclude>
     <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
       <Filter>Priority Queue\PQ Handle</Filter>
     </ClInclude>
@@ -357,15 +342,6 @@
     <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp">
       <Filter>Priority Queue</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
-    </ClInclude>
     <ClInclude Include="Greater Than\GreaterThan.h">
       <Filter>Greater Than</Filter>
     </ClInclude>
@@ -374,9 +350,6 @@
     </ClInclude>
     <ClInclude Include="File parser\FileParserImpl.hpp">
       <Filter>File parser</Filter>
-    </ClInclude>
-    <ClInclude Include="Traits\IsInteger.h">
-      <Filter>Traits</Filter>
     </ClInclude>
     <ClInclude Include="Graph Builder\GraphBuilder.h">
       <Filter>Graph Builder</Filter>
@@ -444,9 +417,6 @@
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h">
       <Filter>Application\Commands\Remove graph</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Commands\Search path\PathUtilityFunctions.h">
-      <Filter>Application\Commands\Search path</Filter>
-    </ClInclude>
     <ClInclude Include="General Exceptions\Exception.h">
       <Filter>General exceptions</Filter>
     </ClInclude>
@@ -461,6 +431,18 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortest.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h">
+      <Filter>Iterators\ForwardIterator wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapperImpl.hpp">
+      <Filter>Iterators\ForwardIterator wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Traits\Traits.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="Traits\SelectBaseIterator.h">
+      <Filter>Traits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

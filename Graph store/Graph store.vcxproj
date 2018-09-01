@@ -152,7 +152,6 @@
     <ClCompile Include="Application\Commands\Remove edge\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove graph\RemoveGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove vertex\RemoveVertexCommand.cpp" />
-    <ClCompile Include="Application\Commands\Search path\PathUtilityFunctions.cpp" />
     <ClCompile Include="Application\Commands\Search path\SearchPathCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
     <ClCompile Include="Directory loader\DirectoryLoader.cpp" />
@@ -170,8 +169,6 @@
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortest.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
@@ -188,7 +185,6 @@
     <ClInclude Include="Application\Commands\Remove edge\RemoveEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h" />
     <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h" />
-    <ClInclude Include="Application\Commands\Search path\PathUtilityFunctions.h" />
     <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h" />
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
     <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
@@ -201,6 +197,8 @@
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="File parser\ParseFail exception\ParseFail.h" />
+    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h" />
+    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapperImpl.hpp" />
     <ClInclude Include="General Exceptions\Exception.h" />
     <ClInclude Include="General Exceptions\NoMemoryAvailable.h" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
@@ -228,10 +226,6 @@
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortest.h" />
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DistanceAccessor.h" />
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\HandleSetter.h" />
-    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp" />
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
@@ -241,9 +235,8 @@
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
-    <ClInclude Include="Traits\IsInteger.h" />
-    <ClInclude Include="Type selector\BaseIteratorSelector.h" />
-    <ClInclude Include="Type selector\TypeSelector.h" />
+    <ClInclude Include="Traits\SelectBaseIterator.h" />
+    <ClInclude Include="Traits\Traits.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
