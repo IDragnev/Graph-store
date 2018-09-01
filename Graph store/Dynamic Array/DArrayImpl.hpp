@@ -310,28 +310,42 @@ inline typename DArray<T>::unsignedInteger DArray<T>::getSize() const
 
 
 template <typename T>
-inline typename DArray<T>::iterator DArray<T>::getBeginIterator()
+inline typename DArray<T>::iterator DArray<T>::begin()
 {
 	return iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::iterator DArray<T>::getEndIterator()
+inline typename DArray<T>::iterator DArray<T>::end()
 {
 	return iterator{ count, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::getBeginConstIterator() const
+inline typename DArray<T>::const_iterator DArray<T>::begin() const
+{
+	return cbegin();
+}
+
+
+template <typename T>
+inline typename DArray<T>::const_iterator DArray<T>::end() const
+{
+	return cend();
+}
+
+
+template <typename T>
+inline typename DArray<T>::const_iterator DArray<T>::cbegin() const
 {
 	return const_iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::getEndConstIterator() const
+inline typename DArray<T>::const_iterator DArray<T>::cend() const
 {
 	return const_iterator{ count, this };
 }
@@ -340,8 +354,8 @@ inline typename DArray<T>::const_iterator DArray<T>::getEndConstIterator() const
 template <typename T>
 inline bool operator==(const DArray<T>& lhs, const DArray<T>& rhs)
 {
-	return std::equal(lhs.getBeginConstIterator(), lhs.getEndConstIterator(),
-					  rhs.getBeginConstIterator(), rhs.getEndConstIterator());
+	return std::equal(lhs.cbegin(), lhs.cend(),
+					  rhs.cbegin(), rhs.cend());
 }
 
 

@@ -40,7 +40,8 @@ private:
 		bool operator!() const;
 
 		template <typename Item, bool isConst>
-		friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+		friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, 
+			                   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 	private:
 		DArrayIterator(unsignedInteger startPosition, ownerPtr owner);
@@ -79,10 +80,12 @@ public:
 	void shrink(unsignedInteger size);
 	void ensureSize(unsignedInteger size);
 
-	iterator getBeginIterator();
-	iterator getEndIterator();
-	const_iterator getBeginConstIterator() const;
-	const_iterator getEndConstIterator() const;
+	iterator begin();
+	iterator end();
+	const_iterator begin() const;
+	const_iterator end() const;
+	const_iterator cbegin() const;
+	const_iterator cend() const;
 
 	unsignedInteger getSize() const;
 	unsignedInteger getCount() const;
@@ -112,21 +115,13 @@ private:
 };
 
 template <typename Item, bool isConst>
-bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, 
+	            typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 template <typename T>
 bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);
 template <typename T>
 bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs);
-
-template <typename T>
-auto begin(DArray<T>& dArray) { return dArray.getBeginIterator(); }
-template <typename T>
-auto end(DArray<T>& dArray) { return dArray.getEndIterator(); }
-template <typename T>
-auto cbegin(const DArray<T>& dArray) { return dArray.getBeginConstIterator(); }
-template <typename T>
-auto cend(const DArray<T>& dArray) { return dArray.getEndConstIterator(); }
 
 #include "DArrayImpl.hpp"
 #include "DArrayIteratorImpl.hpp"
