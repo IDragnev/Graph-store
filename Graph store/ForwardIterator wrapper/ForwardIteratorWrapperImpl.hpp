@@ -62,5 +62,5 @@ template <typename ForwardIterator, typename EndType>
 typename ForwardIteratorWrapper<ForwardIterator, EndType>::baseIteratorPtr
 ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const
 {
-	return baseIteratorPtr{ new ForwardIteratorWrapper{ *this } };
+	return makeWrapper(iterator, end);
 }

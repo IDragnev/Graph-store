@@ -34,5 +34,12 @@ private:
 	EndType end;
 };
 
+
+template <typename ForwardIterator, typename EndType = std::false_type>
+auto makeWrapper(const ForwardIterator& it, const EndType& end = {})
+{
+	return std::make_unique<ForwardIteratorWrapper<ForwardIterator, EndType>>(it, end);
+}
+
 #include "ForwardIteratorWrapperImpl.hpp"
 #endif //__ITERATOR_WRAPPER_H_INCLUDED__
