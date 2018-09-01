@@ -53,13 +53,15 @@ bool GraphStore::hasGraphWithID(const String& ID) const
 
 const Graph* GraphStore::searchGraph(const String& ID) const
 {
-	using namespace std;
-	auto iterator = std::find_if(cbegin(graphs), cend(graphs), [&](const Graph* g)
+	for (auto&& g : graphs)
 	{
-		return g->getID() == ID;
-	});
+		if (g->getID() == ID)
+		{
+			return g;
+		}
+	}
 
-	return (iterator) ? *iterator : nullptr;
+	return nullptr;
 }
 
 

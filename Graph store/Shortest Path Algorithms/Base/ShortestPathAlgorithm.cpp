@@ -52,12 +52,11 @@ ShortestPathAlgorithm::Path::getLength() const
 
 void ShortestPathAlgorithm::Path::print() const
 {
-	using namespace std;
-	std::for_each(cbegin(IDs), cend(IDs), [&](const String& ID)
+	for (auto&& ID : IDs)
 	{
 		std::cout << ID << ' ';
-	});
-	
+	}
+		
 	std::cout << "\nLength: " << length << std::endl;
 }
 

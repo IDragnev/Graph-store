@@ -45,13 +45,15 @@ const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 
 const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
 {
-	using namespace std;
-	auto iterator = std::find_if(cbegin(creators), cend(creators), [&](const GraphCreator* c)
+	for (auto&& c : creators)
 	{
-		return c->getCreatedGraphType() == graphType;
-	});
+		if (c->getCreatedGraphType() == graphType)
+		{
+			return c;
+		}
+	}
 
-	return (iterator) ? *iterator : nullptr;
+	return nullptr;
 }
 
 

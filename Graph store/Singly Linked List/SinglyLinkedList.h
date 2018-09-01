@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <assert.h>
+#include <iterator>
 
 template <typename T>
 class SinglyLinkedList

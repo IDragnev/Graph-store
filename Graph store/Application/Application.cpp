@@ -123,8 +123,7 @@ void Application::invokeCommand(const InputContainer& input)
 {
 	try
 	{
-		using namespace std;
-		parser.ParseArgs(cbegin(input), cend(input));
+		parser.ParseArgs(input);
 	}
 	catch (std::runtime_error& e)
 	{
