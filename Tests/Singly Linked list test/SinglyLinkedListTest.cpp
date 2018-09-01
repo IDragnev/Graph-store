@@ -2,13 +2,14 @@
 #include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
 
 namespace SinglyLinkedListTest
 {
 	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
-		typedef SinglyLinkedList<int> List;
+		using List = SinglyLinkedList<int>;
 
 	public:
 		TEST_METHOD(testDefaultConstructedListIsEmpty)

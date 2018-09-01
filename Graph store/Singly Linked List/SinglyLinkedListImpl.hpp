@@ -22,7 +22,7 @@ template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
 	SinglyLinkedList()
 {
-	for (const T& item : source)
+	for (auto&& item : source)
 	{
 		insert(item);
 	}
@@ -434,38 +434,52 @@ inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCou
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::getBeginConstIterator() const
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::cbegin() const
 {
 	return const_iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::getEndConstIterator() const
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::cend() const
 {
 	return const_iterator{ nullptr, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::getBeginIterator()
+inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::begin()
 {
 	return iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::getEndIterator()
+inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::end()
 {
 	return iterator{ nullptr, this };
 }
 
 
 template <typename T>
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::begin() const
+{
+	return cbegin();
+}
+
+
+template <typename T>
+inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::end() const
+{
+	return cend();
+}
+
+
+template <typename T>
 inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs)
 {
-	return std::equal(lhs.getBeginConstIterator(), lhs.getEndConstIterator(),
-		              rhs.getBeginConstIterator(), rhs.getEndConstIterator());
+	return std::equal(lhs.cbegin(), lhs.cend(), 
+		              rhs.cbegin(), rhs.cend());
 }
 
 

@@ -94,10 +94,12 @@ public:
 	bool isEmpty() const;                              
 	unsignedInteger getCount() const;  
 
-	const_iterator getBeginConstIterator() const;
-	const_iterator getEndConstIterator() const;
-	iterator getBeginIterator();
-	iterator getEndIterator();
+	iterator begin();
+	iterator end();
+	const_iterator begin() const;
+	const_iterator end() const;
+	const_iterator cbegin() const;
+	const_iterator cend() const;
 	
 	void setHead(const T& item);                           
 	void setTail(const T& item);  
@@ -134,15 +136,6 @@ bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
 template <typename T, bool isConst>
 bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
 	            typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs);
-
-template <typename T>
-auto begin(SinglyLinkedList<T>& list) { return list.getBeginIterator(); }
-template <typename T>
-auto end(SinglyLinkedList<T>& list) { return list.getEndIterator(); }
-template <typename T>
-auto cbegin(const SinglyLinkedList<T>& list) { return list.getBeginConstIterator(); }
-template <typename T>
-auto cend(const SinglyLinkedList<T>& list) { return list.getEndConstIterator(); }
 
 #include "SinglyLinkedListImpl.hpp"
 #include "SinglyLinkedListIteratorImpl.hpp"
