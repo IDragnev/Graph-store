@@ -330,7 +330,7 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 	assert(isOwnerOf(vertex));
 
 	using namespace std;
-	auto wrapper = ForwardIteratorWrapper<EdgeConstIterator, true>{ cbegin(vertex.edges) };
+	auto wrapper = ForwardIteratorWrapper<EdgeConstIterator>{ cbegin(vertex.edges) };
 
 	return wrapper.clone();
 }
@@ -339,7 +339,7 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 Graph::VertexConstIteratorPtr Graph::getIteratorToVertices()
 {
 	using namespace std;
-	auto wrapper = ForwardIteratorWrapper<VertexConstIterator, true>{ cbegin(vertices) };
+	auto wrapper = ForwardIteratorWrapper<VertexConstIterator>{ cbegin(vertices) };
 
 	return wrapper.clone();
 }

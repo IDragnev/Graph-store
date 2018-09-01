@@ -1,21 +1,20 @@
 #ifndef __ITERATOR_WRAPPER_H_INCLUDED__
 #define __ITERATOR_WRAPPER_H_INCLUDED__
 
-#include "..\Type selector\BaseIteratorSelector.h"
-#include <type_traits>
+#include "..\Traits\Traits.h"
+#include "..\Traits\SelectBaseIterator.h"
 
-template <typename ForwardIterator, bool isConst = false>
-class ForwardIteratorWrapper: public BaseIteratorSelector<isConst, typename ForwardIterator::value_type>::result
+template <typename ForwardIterator>
+class ForwardIteratorWrapper: public select_base_iterator<ForwardIterator>::type
 {
 private:
-	static_assert(std::is_same<typename ForwardIterator::iterator_category, std::forward_iterator_tag>::value ||
-		          std::is_same<typename ForwardIterator::iterator_category, std::bidirectional_iterator_tag>::value, 
-		          "template <class T> ForwardIteratorWrapper requires T to be a forward or bidirectional iterator");
+	static_assert(is_forward_iterator<ForwardIterator>::value, 
+		          "template <class T> ForwardIteratorWrapper requires T to be a forward iterator");
 
-	using pointer = typename ForwardIterator::pointer;
-	using reference = typename ForwardIterator::reference;
-	using value_type = typename ForwardIterator::value_type;
-	using baseIterator = typename BaseIteratorSelector<isConst, value_type>::result;
+	using pointer = typename std::iterator_traits<ForwardIterator>::pointer;
+	using reference = typename std::iterator_traits<ForwardIterator>::reference;
+	using value_type = typename std::iterator_traits<ForwardIterator>::value_type;
+	using baseIterator = typename select_base_iterator<ForwardIterator>::type;
 	using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 public:
