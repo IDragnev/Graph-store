@@ -42,4 +42,13 @@ struct as_pointer_to_const
 template <typename T>
 using as_pointer_to_const_t = typename as_pointer_to_const<T>::type;
 
+
+template <typename Iterator>
+struct is_pointer_iterator
+{
+	using value_type = typename std::iterator_traits<Iterator>::value_type;
+	static constexpr bool value = std::is_pointer<value_type>::value;
+};
+
+
 #endif //__TRAITS_H_INCLUDED__
