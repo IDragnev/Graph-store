@@ -28,14 +28,14 @@ private:
 	private:
 		friend class SinglyLinkedList<Item>;
 		using ownerPtr = const SinglyLinkedList<Item>*;
-		using nodePtr = typename std::conditional<isConst, const Node<Item>*, Node<Item>*>::type;
+		using nodePtr = std::conditional_t<isConst, const Node<Item>*, Node<Item>*>;
 
 	public:
 		using value_type = Item;
 		using difference_type = std::ptrdiff_t;
 		using iterator_category = std::forward_iterator_tag;
-		using reference = typename std::conditional<isConst, const Item&, Item&>::type;
-		using pointer = typename std::conditional<isConst, const Item*, Item*>::type;
+		using reference = std::conditional_t<isConst, const Item&, Item&>;
+		using pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 	public:
 		SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source);

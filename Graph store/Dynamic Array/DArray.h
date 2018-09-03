@@ -19,14 +19,14 @@ private:
 	{
 	private:
 		friend class DArray<Item>;
-		using ownerPtr = typename std::conditional<isConst, const DArray<Item>*, DArray<Item>*>::type;
+		using ownerPtr = std::conditional_t<isConst, const DArray<Item>*, DArray<Item>*>;
 
 	public:
 		using value_type = Item;
 		using difference_type = std::ptrdiff_t;
 		using iterator_category = std::forward_iterator_tag;
-		using reference = typename std::conditional<isConst, const Item&, Item&>::type;
-		using pointer = typename std::conditional<isConst, const Item*, Item*>::type;
+		using reference = std::conditional_t<isConst, const Item&, Item&>;
+		using pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 	public:
 		DArrayIterator(const DArrayIterator<Item, false>& source);
