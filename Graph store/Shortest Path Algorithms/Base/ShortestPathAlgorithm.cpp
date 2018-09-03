@@ -1,6 +1,4 @@
 #include "ShortestPathAlgorithm.h"
-#include "..\..\Iterator abstraction\Iterator.h"
-#include "..\..\Iterator abstraction\ConstIterator.h"
 #include <assert.h>
 #include <algorithm>
 

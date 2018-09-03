@@ -3,7 +3,6 @@
 
 #include "Traits.h"
 #include "..\Iterator abstraction\Iterator.h"
-#include "..\Iterator abstraction\ConstIterator.h"
 
 template <typename IteratorType>
 struct select_base_iterator

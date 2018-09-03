@@ -3,7 +3,7 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "..\Dynamic Array\DArray.h"
-#include "..\Iterator abstraction\ConstIterator.h"
+#include "..\Iterator abstraction\Iterator.h"
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 class PriorityQueue

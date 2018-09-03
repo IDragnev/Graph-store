@@ -158,14 +158,14 @@
     <Filter Include="Iterators">
       <UniqueIdentifier>{d262e9af-960f-4a2b-bd9d-9712c837e973}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Iterators\Iterator abstractions">
-      <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Iterators\ForwardIterator wrapper">
       <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Traits">
       <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Iterators\Iterator interface">
+      <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -274,7 +274,7 @@
       <Filter>Hash Functions</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
-      <Filter>Iterators\Iterator abstractions</Filter>
+      <Filter>Iterators\Iterator interface</Filter>
     </ClInclude>
     <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
       <Filter>Sequential Lists\Dynamic Array</Filter>
@@ -296,9 +296,6 @@
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
       <Filter>Special Integer</Filter>
-    </ClInclude>
-    <ClInclude Include="Iterator abstraction\ConstIterator.h">
-      <Filter>Iterators\Iterator abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h">
       <Filter>Graph\Directed Graph</Filter>

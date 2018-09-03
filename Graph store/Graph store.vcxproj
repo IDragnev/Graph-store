@@ -217,7 +217,6 @@
     <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\HashImpl.hpp" />
-    <ClInclude Include="Iterator abstraction\ConstIterator.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
     <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h" />
     <ClInclude Include="Priority Queue\PriorityQueue.h" />
