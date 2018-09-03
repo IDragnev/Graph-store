@@ -5,7 +5,7 @@
 #include "..\Traits\SelectBaseIterator.h"
 
 template <typename ForwardIterator, typename EndType = std::false_type>
-class ForwardIteratorWrapper: public select_base_iterator<ForwardIterator>::type
+class ForwardIteratorWrapper: public select_base_iterator_t<ForwardIterator>
 {
 private:
 	static_assert(is_forward_iterator<ForwardIterator>::value, 
@@ -14,7 +14,7 @@ private:
 	using pointer = typename std::iterator_traits<ForwardIterator>::pointer;
 	using reference = typename std::iterator_traits<ForwardIterator>::reference;
 	using value_type = typename std::iterator_traits<ForwardIterator>::value_type;
-	using baseIterator = typename select_base_iterator<ForwardIterator>::type;
+	using baseIterator = select_base_iterator_t<ForwardIterator>;
 	using baseIteratorPtr = std::unique_ptr<baseIterator>;
 
 public:
