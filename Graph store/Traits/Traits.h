@@ -21,32 +21,11 @@ struct is_const_iterator
 
 
 template <typename Iterator>
-struct is_random_access_iterator
-{
-	using category = typename std::iterator_traits<Iterator>::iterator_category;
-	static constexpr bool value = typename std::is_same<category, std::random_access_iterator_tag>::value;
-};
-
-
-template <typename Iterator>
-struct is_bidirectional_iterator
-{
-	using category = typename std::iterator_traits<Iterator>::iterator_category;
-	static constexpr bool isRandomAccess = typename is_random_access_iterator<Iterator>::value;
-	static constexpr bool isBidirectional = typename std::is_same<category, std::bidirectional_iterator_tag>::value;
-
-	static constexpr bool value = isRandomAccess || isBidirectional;
-};
-
-
-template <typename Iterator>
 struct is_forward_iterator
 {
 	using category = typename std::iterator_traits<Iterator>::iterator_category;
-	static constexpr bool isRandomAccess = typename is_random_access_iterator<Iterator>::value;
-	static constexpr bool isForward = typename std::is_same<category, std::forward_iterator_tag>::value;
-
-	static constexpr bool value = isForward || isRandomAccess;
+	static constexpr bool value = typename std::is_convertible<category, std::forward_iterator_tag>::value;
 };
+
 
 #endif //__TRAITS_H_INCLUDED__
