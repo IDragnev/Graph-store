@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
 
 #include "../../../Graph store/Priority Queue/PriorityQueue.h"
 
@@ -17,7 +18,7 @@ namespace PriorityQueueTest
 		using MaxPriorityQueue = PriorityQueue<TestItem, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
 		using TestItemArray = DArray<TestItem>;
 		using TestItemPtrArray = DArray<TestItem*>;
-		using ConstIterator = ForwardIteratorWrapper<TestItemPtrArray::const_iterator, true>;
+		using ConstIterator = ForwardIteratorWrapper<TestItemPtrArray::const_iterator>;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
