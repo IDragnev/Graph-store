@@ -332,7 +332,7 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 }
 
 
-Graph::VertexConstIteratorPtr Graph::getIteratorToVertices()
+Graph::VertexConstIteratorPtr Graph::getIteratorToVertices() const
 {
 	using namespace std;
 	return makeWrapper(cbegin(vertices));

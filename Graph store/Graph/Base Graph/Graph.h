@@ -69,7 +69,7 @@ public:
 	const Vertex& getVertex(const String& ID) const;
 
 	unsigned getVerticesCount() const;
-	VertexConstIteratorPtr getIteratorToVertices();
+	VertexConstIteratorPtr getIteratorToVertices() const;
 	EdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
 	EdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
 
