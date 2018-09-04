@@ -51,7 +51,7 @@ public:
 	explicit ShortestPathAlgorithm(const char* ID);
 	virtual ~ShortestPathAlgorithm() = default;
 
-	Path findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal);
+	Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal);
 
 	const String& getID() const;
 
@@ -63,14 +63,14 @@ private:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = delete;
 
-	virtual Path findNonTrivialShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) = 0;
+	virtual Path findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) = 0;
 	static Path buildTrivialPath(const Vertex& v);
 
-	void initBase(Graph& graph, const Vertex& goal);
+	void initBase(const Graph& graph, const Vertex& goal);
 
 private:
 	const String id;
-	Graph* searchedGraph;
+	const Graph* searchedGraph;
 	const Vertex* goal;
 };
 

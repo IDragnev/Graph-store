@@ -69,7 +69,7 @@ ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
 
 
 ShortestPathAlgorithm::Path 
-ShortestPathAlgorithm::findShortestPath(Graph& graph, const Vertex& source, const Vertex& goal)
+ShortestPathAlgorithm::findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 {
 	if (source != goal)
 	{
@@ -83,7 +83,7 @@ ShortestPathAlgorithm::findShortestPath(Graph& graph, const Vertex& source, cons
 }
 
 
-void ShortestPathAlgorithm::initBase(Graph& graph, const Vertex& goal)
+void ShortestPathAlgorithm::initBase(const Graph& graph, const Vertex& goal)
 {
 	this->searchedGraph = &graph;
 	this->goal = &goal;

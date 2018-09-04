@@ -22,9 +22,9 @@ public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
 
 private:
-	virtual Path findNonTrivialShortestPath(Graph& graph, const Vertex& source, const Vertex& goal) override;
+	virtual Path findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) override;
 
-	void wrap(Graph& graph, const Vertex& source);
+	void wrap(const Graph& graph, const Vertex& source);
 	Path findShortestPathToGoalFrom(const Vertex& source);
 	bool isFrontierEmpty() const;
 	const Vertex& extractVertexFromTheFrontier();

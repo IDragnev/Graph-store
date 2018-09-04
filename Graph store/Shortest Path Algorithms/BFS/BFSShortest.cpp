@@ -7,7 +7,7 @@ static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
 
 
 ShortestPathAlgorithm::Path 
-BFSShortest::findNonTrivialShortestPath(Graph& graph, const Vertex& source, const Vertex& goal)
+BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 {
 	wrap(graph, source);
 	auto result = findShortestPathToGoalFrom(source);
@@ -17,7 +17,7 @@ BFSShortest::findNonTrivialShortestPath(Graph& graph, const Vertex& source, cons
 }
 
 
-void BFSShortest::wrap(Graph& graph, const Vertex& source)
+void BFSShortest::wrap(const Graph& graph, const Vertex& source)
 {
 	auto iteratorPtr = graph.getIteratorToVertices();
 
