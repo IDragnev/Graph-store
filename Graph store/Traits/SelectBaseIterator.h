@@ -8,8 +8,8 @@ template <typename IteratorType>
 struct select_base_iterator
 {
 	static constexpr bool isConst = is_const_iterator<IteratorType>::value;
-	using T = typename std::iterator_traits<IteratorType>::value_type;
-	using type = std::conditional_t<isConst, ConstIterator<T>, Iterator<T>>;
+	using value_type = typename std::iterator_traits<IteratorType>::value_type;
+	using type = std::conditional_t<isConst, ConstIterator<value_type>, Iterator<value_type>>;
 };
 
 
