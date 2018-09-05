@@ -170,6 +170,7 @@
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
     <ClCompile Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
@@ -227,6 +228,7 @@
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.h" />
+    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp" />
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />

@@ -259,6 +259,9 @@
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.cpp">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
     </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
@@ -452,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.h">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
