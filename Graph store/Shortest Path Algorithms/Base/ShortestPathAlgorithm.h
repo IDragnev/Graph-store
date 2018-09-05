@@ -14,13 +14,13 @@ protected:
 	using Distance = SpecialInteger<unsigned>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
 
-	struct VertexWrapper
+	struct VertexDecorator
 	{
-		VertexWrapper() = default;
-		VertexWrapper(const Vertex* v) : wrappedVertex{ v } {}
+		VertexDecorator() = default; //TODO: is it needed?
+		VertexDecorator(const Vertex* v) : vertex{ v } {}
 
-		const Vertex* wrappedVertex = nullptr;
-		const VertexWrapper* predecessor = nullptr;
+		const Vertex* vertex = nullptr;
+		const VertexDecorator* predecessor = nullptr;
 		Distance distanceToSource = Distance::Infinity();
 	};
 
@@ -34,7 +34,7 @@ public:
 		Path() = default;
 		Path(Path&& source);
 		Path(const Path& source) = default;
-		Path(const VertexWrapper& last);
+		Path(const VertexDecorator& last);
 	
 		Path& operator=(Path&& rhs);
 		Path& operator=(const Path& rhs) = default;
@@ -48,25 +48,27 @@ public:
 	};
 
 public:
-	explicit ShortestPathAlgorithm(const char* ID);
+	explicit ShortestPathAlgorithm(const String& ID);
 	virtual ~ShortestPathAlgorithm() = default;
+
+	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
+	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = delete;
 
 	Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal);
 
 	const String& getID() const;
 
 protected:
-	bool isTheGoal(const Vertex& v) const;	
-	EdgeConstIteratorPtr getEdgesLeaving(const Vertex& v) const;
+	bool isTheGoal(const VertexDecorator& v) const;
+	EdgeConstIteratorPtr getEdgesLeaving(const VertexDecorator& v) const;
 
 private:
-	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = delete;
-	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = delete;
-
-	virtual Path findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) = 0;
+	virtual Path findNonTrivialShortestPath(const Graph& graph, 
+		                                    const Vertex& source, 
+		                                    const Vertex& goal) = 0;
 	static Path buildTrivialPath(const Vertex& v);
 
-	void initBase(const Graph& graph, const Vertex& goal);
+	void init(const Graph& graph, const Vertex& goal);
 
 private:
 	const String id;

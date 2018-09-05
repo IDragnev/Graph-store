@@ -25,18 +25,18 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 }
 
 
-ShortestPathAlgorithm::Path::Path(const VertexWrapper& last) :
+ShortestPathAlgorithm::Path::Path(const VertexDecorator& last) :
 	IDs{},
 	length{ last.distanceToSource }
 {
-	auto* wrapper = &last;
+	auto* decorator = &last;
 
-	while (wrapper)
+	while (decorator)
 	{
-		auto* vertex = wrapper->wrappedVertex;
+		auto* vertex = decorator->vertex;
 		assert(vertex);
 		IDs.insertAsHead(vertex->getID());
-		wrapper = wrapper->predecessor;
+		decorator = decorator->predecessor;
 	}
 }
 
@@ -55,11 +55,11 @@ void ShortestPathAlgorithm::Path::print() const
 		std::cout << ID << ' ';
 	}
 		
-	std::cout << "\nLength: " << length << std::endl;
+	std::cout << "Length: " << length << std::endl;
 }
 
 
-ShortestPathAlgorithm::ShortestPathAlgorithm(const char* ID) :
+ShortestPathAlgorithm::ShortestPathAlgorithm(const String& ID) :
 	id{ ID },
 	searchedGraph{ nullptr },
 	goal{ nullptr }
@@ -73,7 +73,7 @@ ShortestPathAlgorithm::findShortestPath(const Graph& graph, const Vertex& source
 {
 	if (source != goal)
 	{
-		initBase(graph, goal);
+		init(graph, goal);
 		return findNonTrivialShortestPath(graph, source, goal);
 	}
 	else
@@ -83,7 +83,7 @@ ShortestPathAlgorithm::findShortestPath(const Graph& graph, const Vertex& source
 }
 
 
-void ShortestPathAlgorithm::initBase(const Graph& graph, const Vertex& goal)
+void ShortestPathAlgorithm::init(const Graph& graph, const Vertex& goal)
 {
 	this->searchedGraph = &graph;
 	this->goal = &goal;
@@ -93,20 +93,27 @@ void ShortestPathAlgorithm::initBase(const Graph& graph, const Vertex& goal)
 ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::buildTrivialPath(const Vertex& v)
 {
-	return Path{ { &v } };
+	auto decorator = VertexDecorator{ &v };
+	decorator.distanceToSource = 0;
+
+	return Path{ decorator };
 }
 
 
-bool ShortestPathAlgorithm::isTheGoal(const Vertex& vertex) const
+bool ShortestPathAlgorithm::isTheGoal(const VertexDecorator& decorator) const
 {
-	return vertex == *goal;
+	assert(decorator.vertex);
+	return *decorator.vertex == *goal;
 }
 
 
 ShortestPathAlgorithm::EdgeConstIteratorPtr
-ShortestPathAlgorithm::getEdgesLeaving(const Vertex& v) const
+ShortestPathAlgorithm::getEdgesLeaving(const VertexDecorator& decorator) const
 {
-	return searchedGraph->getConstIteratorToEdgesLeaving(v);
+	auto* vertex = decorator.vertex;
+	assert(vertex);
+
+	return searchedGraph->getConstIteratorToEdgesLeaving(*vertex);
 }
 
 
