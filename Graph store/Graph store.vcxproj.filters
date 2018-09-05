@@ -47,9 +47,6 @@
     <Filter Include="Shortest Path Algorithms\Base">
       <UniqueIdentifier>{6e3b36e8-b437-46ed-8641-38f79efc4b51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
-      <UniqueIdentifier>{908a4b4d-e4b0-4b9d-86b1-17a948d1f77d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\ID Accessor">
       <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
     </Filter>
@@ -134,9 +131,6 @@
     <Filter Include="ShortestPathAlgorithm store\Algorithm Registrator">
       <UniqueIdentifier>{ffd12a2d-e4a2-44e0-b65d-5d8109341898}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\BFS">
-      <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Commands\Search path">
       <UniqueIdentifier>{fd6143fc-dcc9-4e13-a64b-5e20e623a07e}</UniqueIdentifier>
     </Filter>
@@ -166,6 +160,18 @@
     </Filter>
     <Filter Include="Iterators\Iterator interface">
       <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms">
+      <UniqueIdentifier>{a898d4cd-af50-4884-9fbf-a69ac339cf46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms\BFS">
+      <UniqueIdentifier>{fa1fe6e4-a200-4681-b5c8-74144bf3c11b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS">
+      <UniqueIdentifier>{908a4b4d-e4b0-4b9d-86b1-17a948d1f77d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms\Base">
+      <UniqueIdentifier>{68685f5f-7da6-414c-a0d2-fb6edc9a575e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -248,7 +254,13 @@
       <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortest.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithm\SearchBasedShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -427,7 +439,7 @@
       <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortest.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
     </ClInclude>
     <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h">
       <Filter>Iterators\ForwardIterator wrapper</Filter>
@@ -440,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="Traits\SelectBaseIterator.h">
       <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithm\SearchBasedShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

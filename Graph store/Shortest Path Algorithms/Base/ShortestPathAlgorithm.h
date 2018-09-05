@@ -21,7 +21,7 @@ protected:
 
 		const Vertex* vertex = nullptr;
 		const VertexDecorator* predecessor = nullptr;
-		Distance distanceToSource = Distance::Infinity();
+		Distance distance = Distance::Infinity();
 	};
 
 public:

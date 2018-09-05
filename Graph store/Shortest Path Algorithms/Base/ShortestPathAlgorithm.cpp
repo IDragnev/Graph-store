@@ -27,7 +27,7 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 
 ShortestPathAlgorithm::Path::Path(const VertexDecorator& last) :
 	IDs{},
-	length{ last.distanceToSource }
+	length{ last.distance }
 {
 	auto* decorator = &last;
 
@@ -94,7 +94,7 @@ ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::buildTrivialPath(const Vertex& v)
 {
 	auto decorator = VertexDecorator{ &v };
-	decorator.distanceToSource = 0;
+	decorator.distance = 0;
 
 	return Path{ decorator };
 }
