@@ -253,14 +253,11 @@
     <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
       <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortest.cpp">
-      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
-      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithm\SearchBasedShortestPathAlgorithm.cpp">
+    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.cpp">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -438,9 +435,6 @@
     <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
       <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortest.h">
-      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
-    </ClInclude>
     <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h">
       <Filter>Iterators\ForwardIterator wrapper</Filter>
     </ClInclude>
@@ -453,11 +447,11 @@
     <ClInclude Include="Traits\SelectBaseIterator.h">
       <Filter>Traits</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
-      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithm\SearchBasedShortestPathAlgorithm.h">
+    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.h">
+      <Filter>Shortest Path Algorithms\Search-based SP Algorithms\BFS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
