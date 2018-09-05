@@ -3,6 +3,8 @@
 
 void SearchBasedShortestPathAlgorithm::decorate(const Graph& graph, const Vertex& source)
 {
+	assert(decorators.empty());
+
 	auto iteratorPtr = graph.getIteratorToVertices();
 
 	forEach(*iteratorPtr, [&](const Vertex* v)
@@ -36,7 +38,7 @@ SearchBasedShortestPathAlgorithm::decoratorOf(const Vertex& v) const
 	auto iterator = decorators.find(v.getID());
 	assert(iterator != decorators.cend());
 
-	auto pair = *iterator;
+	auto& pair = *iterator;
 	return std::get<1>(pair);
 }
 

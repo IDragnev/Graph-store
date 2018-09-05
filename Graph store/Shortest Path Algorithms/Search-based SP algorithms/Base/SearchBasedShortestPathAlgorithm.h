@@ -1,9 +1,9 @@
 #ifndef __SEARCH_BASED_SP_ALGORITHM_H_INCLUDED__
 #define __SEARCH_BASED_SP_ALGORITHM_H_INCLUDED__
 
-#include "..\Base\ShortestPathAlgorithm.h"
-#include "..\..\Hash\HashFunction.h"
-#include "..\..\String\String.h"
+#include "..\..\Base\ShortestPathAlgorithm.h"
+#include "..\..\..\Hash\HashFunction.h"
+#include "..\..\..\String\String.h"
 #include <unordered_map>
 
 class SearchBasedShortestPathAlgorithm : public ShortestPathAlgorithm
@@ -15,6 +15,7 @@ protected:
 		bool isVisited = false;
 	};
 
+private:
 	using VertexMap = std::unordered_map<String, MarkableVertex, HashFunction<String>>;
 
 public:
@@ -22,13 +23,11 @@ public:
 
 protected:
 	void decorate(const Graph& graph, const Vertex& source);
+	virtual void initSourceDecorator(MarkableVertex& source) = 0;
 	void cleanDecoratedState();
 
 	MarkableVertex& decoratorOf(const Vertex& v);
 	const MarkableVertex& decoratorOf(const Vertex& v) const;
-
-private:
-	virtual void initSourceDecorator(MarkableVertex& source) = 0;
 
 private:
 	VertexMap decorators{};
