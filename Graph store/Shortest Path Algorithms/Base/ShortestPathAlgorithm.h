@@ -16,7 +16,6 @@ protected:
 
 	struct VertexDecorator
 	{
-		VertexDecorator() = default; //TODO: is it needed?
 		VertexDecorator(const Vertex* v) : vertex{ v } {}
 
 		const Vertex* vertex = nullptr;
