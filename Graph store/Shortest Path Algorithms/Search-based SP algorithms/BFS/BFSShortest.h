@@ -18,7 +18,7 @@ private:
 											const Vertex& source, 
 											const Vertex& goal) override;
 
-	Path findShortestPath(const Vertex& source, const Vertex& goal);
+	void findShortestPath(const Vertex& source, const Vertex& goal);
 	bool isFrontierEmpty() const;
 	const MarkableVertex& extractVertexFromFrontier();
 	void expandFrontierFrom(const MarkableVertex& v);
@@ -30,6 +30,7 @@ private:
 
 private:
 	VertexDecoratorsQueue queue{};
+	Path result{};
 };
 
 #endif //__BFS_SHORTEST_PATH_H_INCLUDED__

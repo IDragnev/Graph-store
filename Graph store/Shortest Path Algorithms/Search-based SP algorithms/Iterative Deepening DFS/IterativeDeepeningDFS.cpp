@@ -10,10 +10,10 @@ IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vert
 {
 	initState(graph);
 	decorate(graph, source);
-	auto result = findShortestPath(source, goal);
+	findShortestPath(source, goal);
 	cleanDecoratedState();
 
-	return result;
+	return std::move(result);
 }
 
 
@@ -24,8 +24,7 @@ void IterativeDeepeningDFS::initState(const Graph& graph)
 }
 
 
-ShortestPathAlgorithm::Path
-IterativeDeepeningDFS::findShortestPath(const Vertex& source,  const Vertex& goal)
+void IterativeDeepeningDFS::findShortestPath(const Vertex& source,  const Vertex& goal)
 {
 	auto& vertex = decoratorOf(source);
 
@@ -33,8 +32,6 @@ IterativeDeepeningDFS::findShortestPath(const Vertex& source,  const Vertex& goa
 	{
 		startDepthLimitedSearch(vertex, depthBound);
 	}
-
-	return Path{ decoratorOf(goal) };
 }
 
 
@@ -45,6 +42,7 @@ void IterativeDeepeningDFS::startDepthLimitedSearch(MarkableVertex& vertex, unsi
 
 	if (depthBound == 0 && isTheGoal(vertex))
 	{
+		result = Path{ vertex };
 		isAShortestPathFound = true;
 	}
 	else if (depthBound > 0)

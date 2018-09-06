@@ -13,7 +13,7 @@ private:
 											const Vertex& source, 
 											const Vertex& goal) override;
 
-	Path findShortestPath(const Vertex& source, const Vertex& goal);
+	void findShortestPath(const Vertex& source, const Vertex& goal);
 	void startDepthLimitedSearch(MarkableVertex& v, unsigned depthBound);
 	void proceedWithNeighboursOf(const MarkableVertex& v, unsigned depthBound);
 	static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
@@ -24,6 +24,7 @@ private:
 
 private:
 	unsigned maxDepth{};
+	Path result{};
 	bool isAShortestPathFound = false;
 };
 

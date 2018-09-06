@@ -8,15 +8,14 @@ ShortestPathAlgorithm::Path
 BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 {
 	decorate(graph, source);
-	auto result = findShortestPath(source, goal);
+	findShortestPath(source, goal);
 	clean();
 
-	return result;
+	return std::move(result);
 }
 
 
-ShortestPathAlgorithm::Path
-BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal)
+void BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal)
 {
 	assert(isFrontierEmpty());
 	addToFrontier(decoratorOf(source));
@@ -27,6 +26,7 @@ BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal)
 
 		if (isTheGoal(vertex))
 		{
+			result = Path{ vertex };
 			break;
 		}
 		else
@@ -34,8 +34,6 @@ BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal)
 			expandFrontierFrom(vertex);
 		}
 	}
-
-	return Path{ decoratorOf(goal) };
 }
 
 
