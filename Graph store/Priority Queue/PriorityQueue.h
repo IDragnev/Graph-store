@@ -12,11 +12,11 @@ public:
 	PriorityQueue() = default;
 	template <typename InputIt>
 	PriorityQueue(InputIt first, InputIt last);
-	PriorityQueue(PriorityQueue&& source);
+	PriorityQueue(PriorityQueue&& source) = default;
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
 
-	PriorityQueue& operator=(PriorityQueue&& rhs);
+	PriorityQueue& operator=(PriorityQueue&& rhs) = default;
 	PriorityQueue& operator=(const PriorityQueue& rhs) = default;
 
 	void insert(Item* item);
@@ -29,8 +29,6 @@ public:
 	void empty();
 
 private:
-	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
-
 	template <typename InputIt>
 	void directlyInsertAll(InputIt first, InputIt last);
 	void buildHeap();
@@ -53,11 +51,9 @@ private:
 	void setHandleOf(Item* item, const PriorityQueueHandle& handle);
 
 	bool hasItemAt(std::size_t index) const;
-	bool hasSpaceInCurrentArray() const;
 
 private:
 	DArray<Item*> items;
-	std::size_t insertedCount{};
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	HandleSetter handleSetter;

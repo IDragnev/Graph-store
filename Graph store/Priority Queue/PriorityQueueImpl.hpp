@@ -1,45 +1,11 @@
 #include <assert.h>
 #include <algorithm>
 
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&& source) :
-	items{ std::move(source.items) },
-	insertedCount{ source.insertedCount },
-	keyAccessor{ std::move(source.keyAccessor) },
-	compareFunction{ std::move(source.compareFunction) },
-	handleSetter{ std::move(source.handleSetter) }
-{
-	source.insertedCount = 0;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&& rhs)
-{
-	if (this != &rhs)
-	{
-		swapContentsWithReconstructedParameter(std::move(rhs));
-	}
-
-	return *this;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter> temporary)
-{
-	std::swap(items, temporary.items);
-	std::swap(insertedCount, temporary.insertedCount);
-	std::swap(keyAccessor, temporary.keyAccessor);
-	std::swap(compareFunction, temporary.compareFunction);
-	std::swap(handleSetter, temporary.handleSetter);
-}
-
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 template <typename InputIt>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last)
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last) :
+	items{ std::distance(first, last) }
 {
 	directlyInsertAll(first, last);
 	buildHeap();
@@ -50,21 +16,17 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 template <typename InputIt>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
-
 	std::for_each(first, last, [&](Item* item)
 	{
 		items.insert(item);
-		++insertedCount;
 	});
-
-	assert(!hasSpaceInCurrentArray());
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 {
-	for (long lastNonLeaf = (insertedCount / 2) - 1; lastNonLeaf >= 0; --lastNonLeaf)
+	for (long lastNonLeaf = (items.getCount() / 2) - 1; lastNonLeaf >= 0; --lastNonLeaf)
 	{
 		siftDown(lastNonLeaf);
 	}
@@ -92,18 +54,11 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item* newItem)
 {
 	assert(newItem);
+	items.insert(newItem);
 
-	if (hasSpaceInCurrentArray())
-	{
-		items[insertedCount] = newItem;
-	}
-	else
-	{
-		items.insert(newItem);
-	}
-
-	updateHandleOfItemAt(insertedCount++);
-	siftUp(insertedCount - 1);
+	auto count = items.getCount();
+	updateHandleOfItemAt(count - 1);
+	siftUp(count - 1);
 }
 
 
@@ -113,13 +68,19 @@ Item* PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extr
 	auto optimal = const_cast<Item*>(getOptimal());
 	invalidateHandleOf(optimal);
 
-	--insertedCount;
+	auto count = items.getCount();
 
-	if (!isEmpty())
+	if (count > 1)
 	{
-		insertAt(0, items[insertedCount]);
+		insertAt(0, items[count - 1]);
+		items.removeAt(count - 1);
 		siftDown(0);
 	}
+	else
+	{
+		items.removeAt(count - 1); //TODO: should it be in an else clause?
+	}
+
 
 	return optimal;
 }
@@ -287,16 +248,9 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSpaceInCurrentArray() const
-{
-	return insertedCount < items.getCount();
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasItemAt(std::size_t index) const
 {
-	return index < insertedCount;
+	return index < items.getCount();
 }
 
 
@@ -305,12 +259,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty
 {
 	invalidateHandlesOfAllItems();
 	items.empty();
-	insertedCount = 0;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::isEmpty() const
 {
-	return insertedCount == 0;
+	return items.isEmpty();
 }
