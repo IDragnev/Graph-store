@@ -111,12 +111,12 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftUp(std::size_t index)
 {
-	Item* itemToSift = items[index];
+	auto* itemToSift = items[index];
 
 	while (hasParent(index))
 	{
-		std::size_t parentIndex = getParentIndex(index);
-		Item* parent = items[parentIndex];
+		auto parentIndex = getParentIndex(index);
+		auto* parent = items[parentIndex];
 
 		if (hasSmallerPriorityThan(parent, itemToSift))
 		{
@@ -136,12 +136,12 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftU
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftDown(std::size_t index)
 {
-	Item* itemToSift = items[index];
+	auto* itemToSift = items[index];
 
 	while (hasChildren(index))
 	{
-		std::size_t optimalChildIndex = getOptimalChildIndex(index);
-		Item* optimalChild = items[optimalChildIndex];
+		auto optimalChildIndex = getOptimalChildIndex(index);
+		auto* optimalChild = items[optimalChildIndex];
 
 		if (hasSmallerPriorityThan(itemToSift, optimalChild))
 		{
@@ -215,7 +215,7 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimalChildIndex(std::size_t index) const
 {
-	std::size_t result = getLeftChildIndex(index);
+	auto result = getLeftChildIndex(index);
 
 	if (hasOptimalRightSibling(result))
 	{
@@ -236,7 +236,8 @@ inline std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, Handle
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasOptimalRightSibling(std::size_t leftChildIndex) const
 {
-	return hasItemAt(leftChildIndex + 1) && hasSmallerPriorityThan(items[leftChildIndex], items[leftChildIndex + 1]);
+	return hasItemAt(leftChildIndex + 1) && 
+		   hasSmallerPriorityThan(items[leftChildIndex], items[leftChildIndex + 1]);
 }
 
 
