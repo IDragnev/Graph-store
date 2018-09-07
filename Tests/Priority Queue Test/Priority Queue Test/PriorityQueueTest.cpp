@@ -9,6 +9,7 @@ using namespace std;
 #include "HandleSetter.h"
 #include "KeyAccessor.h"
 #include "..\..\..\Graph store\ForwardIterator wrapper\ForwardIteratorWrapper.h"
+#include "..\..\..\Graph store\Dynamic Array\DArray.h"
 
 namespace PriorityQueueTest
 {	
@@ -166,21 +167,12 @@ namespace PriorityQueueTest
 			Assert::IsTrue(&testItems[end - 1] == newOptimal, L"The new optimal item in the queue is not correct");
 		}
 
-		TEST_METHOD(testCtorFromNullIteratorAndZeroCreatesEmptyQueue)
+		TEST_METHOD(testCtorFromRange)
 		{
-			TestItemPtrArray emptyArray;
-			auto nullIterator = ConstIterator{ cend(emptyArray) };
-			MaxPriorityQueue queue(nullIterator, 0);
+			using namespace std;
+			auto pointers = getTestItemsPointerArray();
 
-			Assert::IsTrue(queue.isEmpty());
-		}
-
-		TEST_METHOD(testCtorFromIteratorAndCount)
-		{
-			auto testItemsPointers = getTestItemsPointerArray();
-			auto iterator = ConstIterator{ cbegin(testItemsPointers) };
-
-			MaxPriorityQueue queue(iterator, TEST_ITEMS_COUNT);
+			MaxPriorityQueue queue{ begin(pointers), end(pointers) };
 
 			Assert::IsTrue(containsItemsInRange(queue, 0, TEST_ITEMS_COUNT - 1));
 		}

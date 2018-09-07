@@ -1,5 +1,5 @@
 #include <assert.h>
-
+#include <algorithm>
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&& source) :
@@ -38,24 +38,23 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapC
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(ConstIterator<Item*>& iterator, std::size_t count) :
-	items{ count, count },
-	insertedCount{ 0 }
+template <typename InputIt>
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last)
 {
-	directlyInsertAll(iterator);
+	directlyInsertAll(first, last);
 	buildHeap();
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(ConstIterator<Item*>& iterator)
+template <typename InputIt>
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
-	assert(isEmpty());
 
-	forEach(iterator, [&](Item* item)
+	std::for_each(first, last, [&](Item* item)
 	{
-		assert(hasSpaceInCurrentArray());
-		insertAt(insertedCount++, item);
+		items.insert(item);
+		++insertedCount;
 	});
 
 	assert(!hasSpaceInCurrentArray());

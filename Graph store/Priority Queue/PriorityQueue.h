@@ -10,7 +10,8 @@ class PriorityQueue
 {
 public:
 	PriorityQueue() = default;
-	PriorityQueue(ConstIterator<Item*>& iterator, std::size_t count);
+	template <typename InputIt>
+	PriorityQueue(InputIt first, InputIt last);
 	PriorityQueue(PriorityQueue&& source);
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
@@ -30,7 +31,8 @@ public:
 private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
-	void directlyInsertAll(ConstIterator<Item*>& iterator);
+	template <typename InputIt>
+	void directlyInsertAll(InputIt first, InputIt last);
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
