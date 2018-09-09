@@ -1,25 +1,50 @@
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace std;
 
-#include "../../../Graph store/Priority Queue/PriorityQueue.h"
-
-#include "TestItem.h"
-#include "HandleSetter.h"
-#include "KeyAccessor.h"
-#include "..\..\..\Graph store\ForwardIterator wrapper\ForwardIteratorWrapper.h"
+#include "..\..\..\Graph store\Priority Queue\PriorityQueue.h"
 #include "..\..\..\Graph store\Dynamic Array\DArray.h"
 
 namespace PriorityQueueTest
 {	
+	class TestItem
+	{
+	public:
+		TestItem(unsigned ID = 0) : id{ ID } {}
+
+		void setHandle(const PriorityQueueHandle& handle) { this->handle = handle; }
+		const PriorityQueueHandle& getHandle() const { return handle; }
+
+		void setID(unsigned ID) { id = ID; }
+		unsigned getID() const { return id; }
+
+	private:
+		unsigned id{};
+		PriorityQueueHandle handle;
+	};
+
+	bool operator==(const TestItem& lhs, const TestItem& rhs) { return lhs.getID() == rhs.getID(); }
+	bool operator!=(const TestItem& lhs, const TestItem& rhs) { return !(lhs == rhs); }
+
+	struct KeyAccessor
+	{
+		static void setKeyOf(TestItem& item, unsigned ID) { item.setID(ID); }
+		static unsigned getKeyOf(const TestItem& item) { return item.getID(); }
+	};
+
+	struct HandleSetter
+	{
+		void operator()(TestItem& item, const PriorityQueueHandle& handle) const
+		{
+			item.setHandle(handle);
+		}
+	};
+
 	TEST_CLASS(PriorityQueueTest)
 	{
 	private:
 		using MaxPriorityQueue = PriorityQueue<TestItem, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
 		using TestItemArray = DArray<TestItem>;
-		using TestItemPtrArray = DArray<TestItem*>;
-		using ConstIterator = ForwardIteratorWrapper<TestItemPtrArray::const_iterator>;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
@@ -31,7 +56,7 @@ namespace PriorityQueueTest
 
 			for (int i = smallest; i <= biggest; ++i)
 			{
-				queue.insert(&testItems[i]);
+				queue.insert(testItems[i]);
 			}
 		}
 
@@ -41,10 +66,9 @@ namespace PriorityQueueTest
 
 			for (int i = biggest; i >= smallest; --i)
 			{
-				auto* extracted = queue.extractOptimal();
-				assert(extracted);
+				auto& extracted = queue.extractOptimal();
 
-				if (extracted != &testItems[i])
+				if (extracted != testItems[i])
 				{
 					return false;
 				}
@@ -56,18 +80,6 @@ namespace PriorityQueueTest
 		static bool isValidRange(int smallest, int biggest)
 		{
 			return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
-		}
-
-		TestItemPtrArray getTestItemsPointerArray()
-		{
-			TestItemPtrArray result(TEST_ITEMS_COUNT);
-
-			for (auto&& item : testItems)
-			{
-				result.insert(&item);
-			}
-		
-			return result;
 		}
 
 	public:	
@@ -96,9 +108,9 @@ namespace PriorityQueueTest
 			insertTestItemsInRangeByID(queue, middle, end);
 			insertTestItemsInRangeByID(queue, 0, middle - 1);
 			
-			auto* optimal = queue.getOptimal();
+			auto& optimal = queue.getOptimal();
 
-			Assert::IsTrue(optimal == &testItems[end]);
+			Assert::IsTrue(optimal == testItems[end]);
 		}
 
 		TEST_METHOD(testImproveKeyToOptimalRearangesInsertedItems)
@@ -109,9 +121,9 @@ namespace PriorityQueueTest
 			insertTestItemsInRangeByID(queue, 0, 2);
 
 			queue.improveKey(expectedOptimal.getHandle(), testItems[2].getID() + 1);
-			auto* optimal = queue.getOptimal();
+			auto& optimal = queue.getOptimal();
 
-			Assert::IsTrue(&expectedOptimal == optimal);
+			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
 		TEST_METHOD(testImproveKeyToNonOptimalDoesNotChangeTheOptimal)
@@ -122,20 +134,20 @@ namespace PriorityQueueTest
 			insertTestItemsInRangeByID(queue, 0, 3);
 
 			queue.improveKey(testItems[0].getHandle(), expectedOptimal.getID() - 1);
-			auto* optimal = queue.getOptimal();
+			auto& optimal = queue.getOptimal();
 
-			Assert::IsTrue(&expectedOptimal == optimal);
+			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
 		TEST_METHOD(testImproveKeyToNewOptimalDoesNotChangeTheOptimal)
 		{
 			MaxPriorityQueue queue;
-			auto* expectedOptimal = &testItems[2];
+			auto& expectedOptimal = testItems[2];
 
 			insertTestItemsInRangeByID(queue, 0, 2);
 
-			queue.improveKey(expectedOptimal->getHandle(), expectedOptimal->getID() + 1);
-			auto* optimal = queue.getOptimal();
+			queue.improveKey(expectedOptimal.getHandle(), expectedOptimal.getID() + 1);
+			auto& optimal = queue.getOptimal();
 
 			Assert::IsTrue(expectedOptimal == optimal);
 		}
@@ -143,11 +155,11 @@ namespace PriorityQueueTest
 		TEST_METHOD(testExtractOptimalWithJustOneItem)
 		{
 			MaxPriorityQueue queue;
-			auto* expected = &testItems[0];
+			auto& expected = testItems[0];
 
 			insertTestItemsInRangeByID(queue, 0, 0);
 	
-			auto* optimal = queue.extractOptimal();
+			auto& optimal = queue.extractOptimal();
 
 			Assert::IsTrue(queue.isEmpty(), L"Queue is not empty after extracting the only item in it");
 			Assert::IsTrue(expected == optimal, L"Extracted optimal is different from the only inserted item");
@@ -160,19 +172,17 @@ namespace PriorityQueueTest
 
 			insertTestItemsInRangeByID(queue, 0, end);
 
-			auto* optimal = queue.extractOptimal();
-			auto* newOptimal = queue.getOptimal();
+			auto& optimal = queue.extractOptimal();
+			auto& newOptimal = queue.getOptimal();
 			
-			Assert::IsTrue(&testItems[end] == optimal, L"Extracted optimal is not the correct one");
-			Assert::IsTrue(&testItems[end - 1] == newOptimal, L"The new optimal item in the queue is not correct");
+			Assert::IsTrue(testItems[end] == optimal, L"Extracted optimal is not the correct one");
+			Assert::IsTrue(testItems[end - 1] == newOptimal, L"The new optimal item in the queue is not correct");
 		}
 
 		TEST_METHOD(testCtorFromRange)
 		{
 			using namespace std;
-			auto pointers = getTestItemsPointerArray();
-
-			MaxPriorityQueue queue{ begin(pointers), end(pointers) };
+			MaxPriorityQueue queue{ begin(testItems), end(testItems) };
 
 			Assert::IsTrue(containsItemsInRange(queue, 0, TEST_ITEMS_COUNT - 1));
 		}

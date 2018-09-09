@@ -3,11 +3,18 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "..\Dynamic Array\DArray.h"
-#include "..\Iterator abstraction\Iterator.h"
+#include <functional>
 
-template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+template <typename Item,
+	      typename Key,
+	      typename KeyAccessor, 
+	      typename CompareFunction,
+	      typename HandleSetter>
 class PriorityQueue
 {
+private:
+	using Array = DArray<Item*>;
+
 public:
 	PriorityQueue() = default;
 	template <typename InputIt>
@@ -19,9 +26,9 @@ public:
 	PriorityQueue& operator=(PriorityQueue&& rhs) = default;
 	PriorityQueue& operator=(const PriorityQueue& rhs) = default;
 
-	void insert(Item* item);
-	Item* extractOptimal();
-	const Item* getOptimal() const;
+	void insert(Item& item);
+	Item& extractOptimal();
+	const Item& getOptimal() const;
 
 	void improveKey(const PriorityQueueHandle& handle, const Key& key);
 
@@ -34,7 +41,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, Item* item);
+	void insertAt(std::size_t index, Item& item);
 
 	static bool hasParent(std::size_t index);
 	static std::size_t getParentIndex(std::size_t index);
@@ -43,17 +50,19 @@ private:
 	bool hasChildren(std::size_t index) const;
 	std::size_t getOptimalChildIndex(std::size_t index) const;
 	bool hasOptimalRightSibling(std::size_t index) const;
-	bool hasSmallerPriorityThan(const Item* lhs, const Item* rhs) const;
+	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 
 	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAllItems();
-	void invalidateHandleOf(Item* item);
-	void setHandleOf(Item* item, const PriorityQueueHandle& handle);
+	void invalidateHandleOf(Item& item);
+	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
 
+	Item& itemAt(std::size_t index);
+	const Item& itemAt(std::size_t index) const;
 	bool hasItemAt(std::size_t index) const;
 
 private:
-	DArray<Item*> items;
+	Array items;
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	HandleSetter handleSetter;
