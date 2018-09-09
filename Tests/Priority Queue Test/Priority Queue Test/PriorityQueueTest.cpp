@@ -28,8 +28,8 @@ namespace PriorityQueueTest
 
 	struct KeyAccessor
 	{
-		static void setKeyOf(TestItem& item, unsigned ID) { item.setID(ID); }
-		static unsigned getKeyOf(const TestItem& item) { return item.getID(); }
+		void operator()(TestItem& item, unsigned ID) const { item.setID(ID); }
+		unsigned operator()(const TestItem& item) const { return item.getID(); }
 	};
 
 	struct HandleSetter

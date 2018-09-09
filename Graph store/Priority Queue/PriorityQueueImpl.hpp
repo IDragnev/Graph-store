@@ -14,12 +14,9 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 template <typename InputIt>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
-	std::for_each(first, last, [&](Item& item)
-	{
-		items.insert(&item);
-	});
+	std::for_each(first, last, [&](Item& item) { items.insert(&item); });
 }
 
 
@@ -54,7 +51,6 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item& newItem)
 {
 	items.insert(&newItem);
-
 	auto count = items.getCount();
 	updateHandleOfItemAt(count - 1);
 	siftUp(count - 1);
@@ -79,7 +75,6 @@ Item& PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extr
 		items.removeAt(count - 1); //TODO: should it be in an else clause?
 	}
 
-
 	return optimal;
 }
 
@@ -98,10 +93,9 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::impro
 	assert(handle.isValid());
 	assert(hasItemAt(handle));
 
-	auto& itemToImprove = itemAt(handle);
-	assert(compareFunction(keyAccessor.getKeyOf(itemToImprove), key));
-
-	keyAccessor.setKeyOf(itemToImprove, key);
+	auto& item = itemAt(handle);
+	assert(compareFunction(keyAccessor(item), key));
+	keyAccessor(item, key); //TODO: another parameter or just a named inline function
 	siftUp(handle);
 }
 
@@ -239,7 +233,7 @@ inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Item& lhs, const Item& rhs)  const
 {
-	return compareFunction(keyAccessor.getKeyOf(lhs), keyAccessor.getKeyOf(rhs));
+	return compareFunction(keyAccessor(lhs), keyAccessor(rhs));
 }
 
 

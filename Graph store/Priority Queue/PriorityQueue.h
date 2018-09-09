@@ -3,13 +3,27 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "..\Dynamic Array\DArray.h"
-#include <functional>
+
+template <typename T>
+struct EmptyFunction
+{
+	void operator()(const T&) const { }
+};
+
+
+template <typename T>
+struct IdentityAccessor
+{
+	const T& operator()(const T& item) const { return item; }
+	void operator()(T& item, const T& key) const { item = key; }
+};
+
 
 template <typename Item,
-	      typename Key,
-	      typename KeyAccessor, 
-	      typename CompareFunction,
-	      typename HandleSetter>
+		  typename Key = Item,
+		  typename KeyAccessor = IdentityAccessor<Item>,
+		  typename CompareFunction = std::less<Key>,
+		  typename HandleSetter = EmptyFunction<Item>>
 class PriorityQueue
 {
 private:
