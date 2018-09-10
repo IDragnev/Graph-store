@@ -168,6 +168,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
@@ -214,7 +215,6 @@
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\ID Accessor\IDAccessor.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
-    <ClInclude Include="Greater Than\GreaterThan.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunction.h" />
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
@@ -226,6 +226,7 @@
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\QueueImpl.hpp" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />

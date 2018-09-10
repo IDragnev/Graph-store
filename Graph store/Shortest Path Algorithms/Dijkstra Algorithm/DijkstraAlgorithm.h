@@ -1,40 +1,73 @@
 #ifndef __DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__
 #define __DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__
 
-#include "../Base/ShortestPathAlgorithm.h"
-#include "../../Priority Queue/PriorityQueue.h"
-#include "DistanceAccessor.h"
-#include "HandleSetter.h"
-#include "../../Greater Than/GreaterThan.h"
+#include "..\Base\ShortestPathAlgorithm.h"
+#include "..\..\Priority Queue\PriorityQueue.h"
+#include "..\..\Dynamic Array\DArray.h"
+#include "..\..\Hash\Hash.h"
+#include <functional>
 
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
 private:
-	using MinPriorityQueue = PriorityQueue<Vertex, Distance, DistanceAccessor, GreaterThan<Distance>, HandleSetter>;
+	struct PriorityVertex : public VertexDecorator
+	{
+		using VertexDecorator::VertexDecorator;
+		PriorityVertex() : VertexDecorator{ nullptr } {}
+		PriorityQueueHandle handle{};
+	};
+
+	struct DistanceAccessor
+	{
+		void operator()(PriorityVertex& v, const Distance& d) const { v.distance = d; }
+		const Distance& operator()(const PriorityVertex& v) const { return v.distance; }
+	};
+
+	struct HandleSetter
+	{
+		void operator()(PriorityVertex& v, const PriorityQueueHandle& h) const { v.handle = h; }
+	};
+
+	struct IDAccessor
+	{
+		const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
+	};
+
+	using MinPriorityQueue = PriorityQueue<PriorityVertex, Distance, DistanceAccessor, std::greater<Distance>, HandleSetter>;
+	using DecoratorsMap = Hash<PriorityVertex, String, IDAccessor>;
+	using DecoratorsArray = DArray<PriorityVertex>;
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
 
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& goal) override;
-
 private:
-	void findShortestPathToGoal();
+	virtual Path findNonTrivialShortestPath(const Graph& graph, 
+											const Vertex& source, 
+											const Vertex& goal) override;
+
+	void findShortestPath();
 	bool existsVertexWithUndeterminedDistance() const;
-	Vertex& closestToSourceFromUndetermined();
-	void relaxEdgesLeaving(Vertex& vertex);
-	void relaxEdge(Vertex& vertex, Edge& edge);
-	void extendCurrentPath(Vertex& vertex, Vertex& neighbour, const Distance& distance);
-	void updateDistanceOf(Vertex& vertex, const Distance& distance);
+	const PriorityVertex& closestToSourceFromUndetermined();
+	void relaxEdgesLeaving(const PriorityVertex& v);
+	void relaxEdge(const PriorityVertex& v, const Edge& e);
+	void extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d);
+	void updateDistanceOf(PriorityVertex& v, const Distance& d);
 
-	virtual void initializeVertex(Vertex& vertex) const override;
-	virtual void initializeSource(Vertex& source) const override;
-
-	void initializeState(Graph& graph, const Vertex& goal);
-	void insertVerticesInPriorityQueue(Graph& graph);
+	void decorate(const Graph& g, const Vertex& source);
+	void decorate(const Graph& g);
+	void buildMap();
+	void buildPriorityQueue();
+	void initSourceDecorator(PriorityVertex& source);
 	void clearState();
 
+	PriorityVertex& decoratorOf(const Vertex& v);
+	const PriorityVertex& decoratorOf(const Vertex& v) const;
+
 private:
-	MinPriorityQueue priorityQueue{};
+	DecoratorsArray decorators{};
+	MinPriorityQueue queue{};
+	DecoratorsMap map{};
+	Path result{};
 };
 
 #endif //__DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__

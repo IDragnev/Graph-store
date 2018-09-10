@@ -74,9 +74,6 @@
     <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
       <UniqueIdentifier>{f54c491e-1913-4ef2-9829-39a5e3f2c17b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Greater Than">
-      <UniqueIdentifier>{7880c7c5-d4cb-413a-ac8c-d5acde98fd47}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File parser">
       <UniqueIdentifier>{d2939c70-f62b-43db-bd45-8ad46ffc5c84}</UniqueIdentifier>
     </Filter>
@@ -262,6 +259,9 @@
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
     </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
@@ -350,9 +350,6 @@
     </ClInclude>
     <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp">
       <Filter>Priority Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="Greater Than\GreaterThan.h">
-      <Filter>Greater Than</Filter>
     </ClInclude>
     <ClInclude Include="File parser\FileParser.h">
       <Filter>File parser</Filter>
@@ -458,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Iterative Deepening DFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

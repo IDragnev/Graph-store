@@ -9,7 +9,7 @@
 class SearchBasedShortestPathAlgorithm : public ShortestPathAlgorithm
 {
 protected:
-	struct MarkableVertex : VertexDecorator
+	struct MarkableVertex : public VertexDecorator
 	{
 		using VertexDecorator::VertexDecorator;
 		bool isVisited = false;
