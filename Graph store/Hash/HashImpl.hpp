@@ -1,3 +1,5 @@
+#include <algorithm>
+
 /*
      MIN_TABLE_SIZE is 3 because it should be small enough to be rarely used in the constructor,
 	 big enough to have empty slots for smaller counts ( when the table holds 1 or 2 items ),
@@ -6,7 +8,16 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
+template <typename InputIt>
+Hash<Item, Key, KeyAccessor>::Hash(InputIt first, InputIt last) :
+	Hash{ std::distance(first, last) }
+{
+	std::for_each(first, last, [&](Item& item) { insert(item); });
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
 {
 	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
@@ -16,8 +27,7 @@ template <typename Item, typename Key, typename KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 {
 	assert(size >= MIN_TABLE_SIZE);
-
-	table = DArray<Item*>(size, size);
+	table = PtrArray(size, size);
 	tableSize = size;
 	insertedCount = 0;
 	nullify(table);
@@ -25,7 +35,7 @@ void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
+void Hash<Item, Key, KeyAccessor>::nullify(PtrArray& table)
 {
 	for (auto&& slot : table)
 	{
@@ -43,7 +53,6 @@ inline typename Hash<Item, Key, KeyAccessor>::unsignedInteger
 Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
 {
 	assert(expectedCount > 0);
-
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
 }
 
@@ -62,7 +71,7 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
 {
 	if (this != &other)
 	{
@@ -74,7 +83,7 @@ inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Has
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-inline Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
 {
 	if (this != &other)
 	{
@@ -129,7 +138,7 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	DArray<Item*> oldTable{ std::move(table) };
+	PtrArray oldTable{ std::move(table) };
 	
 	try
 	{
@@ -145,7 +154,7 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(DArray<Item*>& table)
+void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(PtrArray& table)
 {
 	for (auto&& itemPtr : table)
 	{
@@ -161,7 +170,6 @@ template <typename Item, typename Key, typename KeyAccessor>
 inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
 {
 	const long index = getPositionOfItemWithKey(key);
-
 	return index >= 0 ? table[index] : nullptr;
 }
 

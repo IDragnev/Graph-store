@@ -5,14 +5,17 @@
 #include "HashFunction.h"
 #include <assert.h>
 
-
 template <typename Item, typename Key, typename KeyAccessor>
 class Hash
 {
+private:
 	using unsignedInteger = std::size_t;
+	using PtrArray = DArray<Item*>;
 
 public:
 	explicit Hash(unsignedInteger expectedCount);
+	template <typename InputIt>
+	Hash(InputIt first, InputIt last);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
 	~Hash() = default;
@@ -33,7 +36,7 @@ private:
 	void swapContentsWithReconstructedParameter(Hash other);
 	void resize(unsignedInteger newSize);
 	void toEmptyStateOfSize(unsignedInteger size);
-	void insertAllItemsFrom(DArray<Item*>& table);
+	void insertAllItemsFrom(PtrArray& table);
 
 	long getPositionOfItemWithKey(const Key& key) const; 
 	void rehashCluster(unsignedInteger start);
@@ -48,12 +51,12 @@ private:
 	static const unsignedInteger MIN_TABLE_SIZE = 3;
 	static unsignedInteger calculateAppropriateSize(unsignedInteger expectedSize);
 
-	static void nullify(DArray<Item*>& table);
+	static void nullify(PtrArray& table);
 
 private:
-	unsignedInteger tableSize;
-	unsignedInteger insertedCount;
-	DArray<Item*> table;
+	unsignedInteger tableSize{};
+	unsignedInteger insertedCount{};
+	PtrArray table;
 
 	mutable HashFunction<Key> hashFunction;
 	mutable KeyAccessor keyAccessor;

@@ -4,30 +4,21 @@
 #include "../../Graph store/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace std;
 
 namespace HashTest
-{		
-	class Item
+{
+	struct Item
 	{
-	public:
-		Item(const char* key = "str") : key(key) {}
-
-		bool operator==(const Item& other) const { return key == other.key; }
-
-		const String& getKey() const { return key; }
-		void setKey(const char* key) { this->key = key; }
-
-	private:
-		String key;
+		Item(const String& str) : key{ str } {}
+		String key{};
 	};
 
-	class KeyExtractor
+	bool operator==(const Item& lhs, const Item& rhs) { return lhs.key == rhs.key; }
+
+	struct KeyExtractor
 	{
-	public:
-		const String& operator()(const Item& item)const
-		{
-			return item.getKey();
-		}
+		const String& operator()(const Item& item) const { return item.key; }
 	};
 
 	TEST_CLASS(HashTest)
@@ -35,75 +26,52 @@ namespace HashTest
 	private:
 		using ItemHash = Hash<Item, String, KeyExtractor>;
 
-		static DArray<Item> testItems;
-		static const size_t EXPECTED_COUNT = 10;
-		static const size_t TEST_ITEMS_COUNT = EXPECTED_COUNT;
+		static const size_t ITEMS_COUNT = 10;
+		static Item testItems[ITEMS_COUNT];
 
 		static bool areAllTestItemsIn(const ItemHash& hash)
 		{
 			for (auto&& item : testItems)
 			{
-				if (hash.search(item.getKey()) != &item)
+				if (hash.search(item.key) != &item)
 				{
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
 
-		static void insertTestItemsTo(ItemHash& hash)
-		{
-			for (auto&& item : testItems)
-			{
-				hash.insert(item);
-			}
-		}
-
-		static void initializeTestItems()
-		{
-			static const size_t keysCount = 15;
-			assert(TEST_ITEMS_COUNT <= keysCount);
-			static const char* keys[] = { "some key" , "other key", "@asd" , "not very creative", "New York"
-				"another key", "key 5", "123" , "123123", "running out of ideas",
-				"Sofia", "IBN", "Word", "Testing", "Tired" };
-
-			auto i = 0;
-			for (auto&& item : testItems)
-			{
-				item.setKey(keys[i++]);
-			}
-		}
-
 	public:
-		TEST_CLASS_INITIALIZE(itemsInitialization)
-		{
-			initializeTestItems();
-		}
-
 		TEST_METHOD(testConstructorMakesEmptyHash)
 		{
-			ItemHash hash(EXPECTED_COUNT);
+			ItemHash hash{ ITEMS_COUNT };
 
 			Assert::IsTrue(hash.isEmpty());
 		}
 
+		TEST_METHOD(testRangeCtor)
+		{
+			ItemHash hash{ begin(testItems), end(testItems) };
+
+			Assert::IsTrue(areAllTestItemsIn(hash));
+		}
+
 		TEST_METHOD(testInsertUpdatesCount)
 		{
-			ItemHash hash(EXPECTED_COUNT);
+			ItemHash hash{ ITEMS_COUNT };
 
-			for (size_t i = 1; i < TEST_ITEMS_COUNT; ++i)
+			auto i = 1U;
+			for (auto&& item : testItems)
 			{
-				hash.insert(testItems[i]);
-
-				Assert::AreEqual(hash.getCount(), i);
+				hash.insert(item);
+				Assert::AreEqual(hash.getCount(), i++);
 			}
 		}
 
 		TEST_METHOD(testEmptyLeavesTheHashEmpty)
 		{
-			ItemHash hash(EXPECTED_COUNT);
-			insertTestItemsTo(hash);
+			ItemHash hash{ begin(testItems), end(testItems) };
 
 			hash.empty();
 
@@ -112,191 +80,171 @@ namespace HashTest
 
 		TEST_METHOD(testRemoveReturnsCorrectAddress)
 		{
-			ItemHash hash(EXPECTED_COUNT);
-			insertTestItemsTo(hash);
+			ItemHash hash{ begin(testItems), end(testItems) };
 
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			auto count = ITEMS_COUNT;
+			for (auto&& item : testItems)
 			{
-				Assert::AreEqual(hash.getCount(), TEST_ITEMS_COUNT - i, L"Remove does not update count");
-				Assert::IsTrue(hash.remove(testItems[i].getKey()) == &testItems[i], L"Remove is not returning the correct address");
+				Assert::IsTrue(hash.remove(item.key) == &item, L"Invalid address");
+				Assert::AreEqual(hash.getCount(), --count, L"Count is not updated");
 			}
 		}
 
 		TEST_METHOD(testRemoveReturnsNullptrOnEmptyHash)
 		{
-			ItemHash hash(EXPECTED_COUNT);
+			ItemHash hash{ ITEMS_COUNT };
 
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			for (auto&& item : testItems)
 			{
-				Assert::IsNull(hash.remove(testItems[i].getKey()));
+				Assert::IsNull(hash.remove(item.key));
 			}
 		}
 
 		TEST_METHOD(testSearchReturnsCorrectAddress)
 		{
-			ItemHash hash(EXPECTED_COUNT);
-			insertTestItemsTo(hash);
+			ItemHash hash{ begin(testItems), end(testItems) };
 
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			for (auto&& item : testItems)
 			{
-				Assert::IsTrue(hash.search(testItems[i].getKey()) == &testItems[i]);
+				Assert::IsTrue(hash.search(item.key) == &item);
 			}
 		}
 
 		TEST_METHOD(testSearchOnEmptyHashReturnsNullptr)
 		{
-			ItemHash hash(EXPECTED_COUNT);
+			ItemHash hash{ ITEMS_COUNT };
 
-			for (size_t i = 0; i < TEST_ITEMS_COUNT; ++i)
+			for (auto&& item : testItems)
 			{
-				Assert::IsNull(hash.search(testItems[i].getKey()));
+				Assert::IsNull(hash.search(item.key));
 			}
 		}
 
 		TEST_METHOD(testMoveCtorFromEmptyHash)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash hash(std::move(source));
+			ItemHash source{ ITEMS_COUNT };
+			ItemHash hash{ std::move(source) };
 
-			Assert::IsTrue(hash.isEmpty(), L"Move constructed object with an empty hash is not empty");
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
+			Assert::IsTrue(hash.isEmpty(), L"Moved-in hash is not empty");
+			Assert::IsTrue(source.isEmpty(), L"Moved-from hash is not empty");
 		}
 
 		TEST_METHOD(testMoveCtorFromNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			insertTestItemsTo(source);
+			ItemHash source{ begin(testItems), end(testItems) };
+			ItemHash destination{ std::move(source) };
 
-			ItemHash destination(std::move(source));
-
-			Assert::IsTrue(source.isEmpty(), L"Moved object is not empty");
-			Assert::AreEqual(destination.getCount(), testItems.getCount(), L"Move construction is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Move construction is not moving items properly");
+			Assert::IsTrue(source.isEmpty(), L"Moved-from hash is not empty");
+			Assert::IsTrue(areAllTestItemsIn(destination), L"Moved-in hash has invalid content");
 		}
 
 		TEST_METHOD(testCopyAssignmentFromEmptyToEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
+			ItemHash lhs{ ITEMS_COUNT };
+			ItemHash rhs{ ITEMS_COUNT };
 
 			lhs = rhs;
 
-			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after assigning it an empty rhs");
+			Assert::IsTrue(lhs.isEmpty());
 		}
 
 		TEST_METHOD(testCopyAssignmentFromEmptyToNonEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);			
-			insertTestItemsTo(lhs);
+			ItemHash lhs{ begin(testItems), end(testItems) };
+			ItemHash rhs{ ITEMS_COUNT };
 
 			lhs = rhs;
 
-			Assert::IsTrue(lhs.isEmpty(), L"Lhs is not empty after assigning it an empty rhs");
+			Assert::IsTrue(lhs.isEmpty());
 		}
 
 		TEST_METHOD(testCopyAssignmentFromNonEmptyToEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
-			insertTestItemsTo(rhs);
+			ItemHash lhs{ ITEMS_COUNT };
+			ItemHash rhs{ begin(testItems), end(testItems) };
 
 			lhs = rhs;
 
-			Assert::AreEqual(lhs.getCount(), rhs.getCount(), L"Copy assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(lhs), L"Copy assignment is not copying tables properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentFromNonEmptyToNonEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
+			ItemHash lhs{ begin(testItems), end(testItems) };
+			ItemHash rhs{ begin(testItems), end(testItems) };
 
-			insertTestItemsTo(lhs);
-			insertTestItemsTo(rhs);			
-			lhs.remove(testItems[0].getKey());
-			lhs.remove(testItems[1].getKey());
+			lhs.remove(testItems[0].key);
+			lhs.remove(testItems[1].key);
 
 			lhs = rhs;
 
-			Assert::AreEqual(lhs.getCount(), rhs.getCount(), L"Copy assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(lhs), L"Copy assignment is not copying tables properly");
+			Assert::IsTrue(areAllTestItemsIn(lhs));
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyToEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
+			ItemHash lhs{ ITEMS_COUNT };
+			ItemHash rhs{ ITEMS_COUNT };
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
-			Assert::IsTrue(lhs.isEmpty(), L"Moved-into object is not empty");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from hash is not empty");
+			Assert::IsTrue(lhs.isEmpty(), L"Moved-into hash is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromEmptyToNonEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
-			insertTestItemsTo(lhs);
+			ItemHash lhs{ begin(testItems), end(testItems) };
+			ItemHash rhs{ ITEMS_COUNT };
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
-			Assert::IsTrue(lhs.isEmpty(), L"Moved-into object is not empty");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from hash is not empty");
+			Assert::IsTrue(lhs.isEmpty(), L"Moved-into hash is not empty");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyToEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
-			insertTestItemsTo(rhs);
+			ItemHash lhs{ ITEMS_COUNT };
+			ItemHash rhs{ begin(testItems), end(testItems) };
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
-			Assert::AreEqual(lhs.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(lhs), L"Move assignment is not moving the table properly");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from hash is not empty");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Moved-in hash has invalid content");
 		}
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyToNonEmpty)
 		{
-			ItemHash lhs(EXPECTED_COUNT);
-			ItemHash rhs(EXPECTED_COUNT);
+			ItemHash lhs{ begin(testItems), end(testItems) };
+			ItemHash rhs{ begin(testItems), end(testItems) };
 
-			insertTestItemsTo(lhs);
-			insertTestItemsTo(rhs);
-			lhs.remove(testItems[0].getKey());
-			lhs.remove(testItems[1].getKey());
+			lhs.remove(testItems[0].key);
+			lhs.remove(testItems[1].key);
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(rhs.isEmpty(), L"Moved-from object is not empty");
-			Assert::AreEqual(lhs.getCount(), testItems.getCount(), L"Move assignment is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(lhs), L"Move assignment is not moving the table properly");
+			Assert::IsTrue(rhs.isEmpty(), L"Moved-from hash is not empty");
+			Assert::IsTrue(areAllTestItemsIn(lhs), L"Moved-in hash has invalid content");
 		}
 
 		TEST_METHOD(testCopyCtorFromEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			ItemHash destination(source);
+			ItemHash source{ ITEMS_COUNT };
+			ItemHash destination{ source };
 
 			Assert::IsTrue(destination.isEmpty());
 		}
 
 		TEST_METHOD(testCopyCtorFromNonEmpty)
 		{
-			ItemHash source(EXPECTED_COUNT);
-			insertTestItemsTo(source);
-
+			ItemHash source{ begin(testItems), end(testItems) };
 			ItemHash destination(source);
 
-			Assert::AreEqual(destination.getCount(), source.getCount(), L"Copy construction is not handling count properly");
-			Assert::IsTrue(areAllTestItemsIn(destination), L"Copy-construction is not copying item tables properly");
+			Assert::IsTrue(areAllTestItemsIn(destination));
 		}
-		
+
 	};
 
-	DArray<Item> HashTest::testItems(TEST_ITEMS_COUNT, TEST_ITEMS_COUNT);
-
+	Item HashTest::testItems[10]{ { "some key" }, { "other key" }, { "keeeey" }, { "New York" }, { "Lambda" }, { "No idea" }, { "Creative" }, { "Sofia" }, { "123" }, { "Last" } };
 }
