@@ -43,6 +43,13 @@ namespace HashTest
 		}
 
 	public:
+		TEST_METHOD(testDefaultCtor)
+		{
+			ItemHash hash{};
+
+			Assert::IsTrue(hash.isEmpty());
+		}
+
 		TEST_METHOD(testConstructorMakesEmptyHash)
 		{
 			ItemHash hash{ ITEMS_COUNT };

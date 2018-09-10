@@ -13,6 +13,7 @@ private:
 	using PtrArray = DArray<Item*>;
 
 public:
+	Hash();
 	explicit Hash(unsignedInteger expectedCount);
 	template <typename InputIt>
 	Hash(InputIt first, InputIt last);
@@ -54,10 +55,9 @@ private:
 	static void nullify(PtrArray& table);
 
 private:
-	unsignedInteger tableSize{};
+	unsignedInteger tableSize = MIN_TABLE_SIZE;
 	unsignedInteger insertedCount{};
 	PtrArray table;
-
 	mutable HashFunction<Key> hashFunction;
 	mutable KeyAccessor keyAccessor;
 };

@@ -8,6 +8,13 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash() :
+	Hash{ MIN_TABLE_SIZE }
+{
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor>
 template <typename InputIt>
 Hash<Item, Key, KeyAccessor>::Hash(InputIt first, InputIt last) :
 	Hash{ std::distance(first, last) }
@@ -58,10 +65,9 @@ Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedC
 
 
 template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
+	Hash{}
 {
-	toEmptyStateOfSize(MIN_TABLE_SIZE);
-
 	std::swap(table, source.table);
 	std::swap(tableSize, source.tableSize);
 	std::swap(insertedCount, source.insertedCount);
