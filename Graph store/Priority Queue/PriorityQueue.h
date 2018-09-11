@@ -28,6 +28,11 @@ class PriorityQueue
 {
 private:
 	using Array = DArray<Item*>;
+	//should contain:  Y      N 
+	//stored type     Item   Item*
+	//insertType   const Item&   Item&
+	//returnType   (const) Item,   (const) Item&
+	//improveKey    NO!      Yes
 
 public:
 	PriorityQueue() = default;

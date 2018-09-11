@@ -14,9 +14,14 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 template <typename InputIt>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
-	std::for_each(first, last, [&](Item& item) { items.insert(&item); });
+	auto position = std::size_t{ 0 };
+	std::for_each(first, last, [&](Item& item) 
+	{ 
+		items.insert(&item);
+		updateHandleOfItemAt(position++);
+	});
 }
 
 
@@ -50,10 +55,10 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::inval
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(Item& newItem)
 {
+	auto position = items.getCount();
 	items.insert(&newItem);
-	auto count = items.getCount();
-	updateHandleOfItemAt(count - 1);
-	siftUp(count - 1);
+	updateHandleOfItemAt(position);
+	siftUp(position);
 }
 
 
