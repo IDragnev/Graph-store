@@ -19,25 +19,20 @@ struct IdentityAccessor
 };
 
 
-template <typename Item,
-		  typename Key = Item,
-		  typename KeyAccessor = IdentityAccessor<Item>,
-		  typename CompareFunction = std::less<Key>,
-		  typename HandleSetter = EmptyFunction<Item>>
+template <
+	typename Item,
+	typename Key = Item,
+	typename KeyAccessor = IdentityAccessor<Item>,
+	typename CompareFunction = std::less<Key>,
+	typename HandleSetter = EmptyFunction<Item>
+>
 class PriorityQueue
 {
-private:
-	using Array = DArray<Item*>;
-	//should contain:  Y      N 
-	//stored type     Item   Item*
-	//insertType   const Item&   Item&
-	//returnType   (const) Item,   (const) Item&
-	//improveKey    NO!      Yes
-
 public:
 	PriorityQueue() = default;
 	template <typename InputIt>
 	PriorityQueue(InputIt first, InputIt last);
+	PriorityQueue(std::initializer_list<Item> source);
 	PriorityQueue(PriorityQueue&& source) = default;
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
@@ -45,9 +40,9 @@ public:
 	PriorityQueue& operator=(PriorityQueue&& rhs) = default;
 	PriorityQueue& operator=(const PriorityQueue& rhs) = default;
 
-	void insert(Item& item);
-	Item& extractOptimal();
-	const Item& getOptimal() const;
+	void insert(const Item& item);
+	Item extractOptimal();
+	const Item getOptimal() const;
 
 	void improveKey(const PriorityQueueHandle& handle, const Key& key);
 
@@ -60,7 +55,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, Item& item);
+	void insertAt(std::size_t index, const Item& item);
 
 	static bool hasParent(std::size_t index);
 	static std::size_t getParentIndex(std::size_t index);
@@ -71,17 +66,16 @@ private:
 	bool hasOptimalRightSibling(std::size_t index) const;
 	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 
+	void setKeyOf(Item& item, const Key& key);
 	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAllItems();
 	void invalidateHandleOf(Item& item);
 	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
 
-	Item& itemAt(std::size_t index);
-	const Item& itemAt(std::size_t index) const;
 	bool hasItemAt(std::size_t index) const;
 
 private:
-	Array items;
+	DArray<Item> items;
 	mutable KeyAccessor keyAccessor;
 	mutable CompareFunction compareFunction;     
 	HandleSetter handleSetter;
