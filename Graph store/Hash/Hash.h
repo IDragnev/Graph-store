@@ -5,7 +5,18 @@
 #include "HashFunction.h"
 #include <assert.h>
 
-template <typename Item, typename Key, typename KeyAccessor>
+template <typename T>
+struct Identity
+{
+	const T& operator()(const T& item) const { return item; }
+};
+
+template <
+	typename Item,
+	typename Key = Item,
+	typename KeyAccessor = Identity<Key>,
+	typename Hasher = HashFunction<Key>
+> 
 class Hash
 {
 private:
@@ -58,7 +69,7 @@ private:
 	unsignedInteger tableSize = MIN_TABLE_SIZE;
 	unsignedInteger insertedCount{};
 	PtrArray table;
-	mutable HashFunction<Key> hashFunction;
+	mutable Hasher hashFunction;
 	mutable KeyAccessor keyAccessor;
 };
 

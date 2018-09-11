@@ -7,31 +7,31 @@
 */
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash() :
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Hash<Item, Key, KeyAccessor, Hasher>::Hash() :
 	Hash{ MIN_TABLE_SIZE }
 {
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 template <typename InputIt>
-Hash<Item, Key, KeyAccessor>::Hash(InputIt first, InputIt last) :
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(InputIt first, InputIt last) :
 	Hash{ std::distance(first, last) }
 {
 	std::for_each(first, last, [&](Item& item) { insert(item); });
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(unsignedInteger expectedCount) 
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(unsignedInteger expectedCount)
 {
 	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(unsignedInteger size)
 {
 	assert(size >= MIN_TABLE_SIZE);
 	table = PtrArray(size, size);
@@ -41,8 +41,8 @@ void Hash<Item, Key, KeyAccessor>::toEmptyStateOfSize(unsignedInteger size)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(PtrArray& table)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::nullify(PtrArray& table)
 {
 	for (auto&& slot : table)
 	{
@@ -55,17 +55,17 @@ void Hash<Item, Key, KeyAccessor>::nullify(PtrArray& table)
 // ( 3 * expectedSize ) / 2 is used because if all the expected items
 // are inserted, the load factor will be 2/3 
 // 
-template <typename Item, typename Key, typename KeyAccessor>
-inline typename Hash<Item, Key, KeyAccessor>::unsignedInteger
-Hash<Item, Key, KeyAccessor>::calculateAppropriateSize(unsignedInteger expectedCount)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline typename Hash<Item, Key, KeyAccessor, Hasher>::unsignedInteger
+Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(unsignedInteger expectedCount)
 {
 	assert(expectedCount > 0);
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(Hash&& source) :
 	Hash{}
 {
 	std::swap(table, source.table);
@@ -76,8 +76,9 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& other)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Hash<Item, Key, KeyAccessor, Hasher>&
+Hash<Item, Key, KeyAccessor, Hasher>::operator=(Hash&& other)
 {
 	if (this != &other)
 	{
@@ -88,8 +89,9 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item,
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& other)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Hash<Item, Key, KeyAccessor, Hasher>& 
+Hash<Item, Key, KeyAccessor, Hasher>::operator=(const Hash& other)
 {
 	if (this != &other)
 	{
@@ -100,8 +102,8 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<Item, Key, KeyAccessor> temporary)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::swapContentsWithReconstructedParameter(Hash temporary)
 {
 	std::swap(tableSize, temporary.tableSize);
 	std::swap(insertedCount, temporary.insertedCount);
@@ -111,8 +113,8 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWithReconstructedParameter(Hash<I
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::insert(Item& item)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 {
 	if (isFillingUp())
 	{
@@ -131,15 +133,15 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::isFillingUp() const
 {
 	return 3 * insertedCount >= 2 * tableSize;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::resize(unsignedInteger newSize)
 {
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
@@ -159,8 +161,8 @@ void Hash<Item, Key, KeyAccessor>::resize(unsignedInteger newSize)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(PtrArray& table)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(PtrArray& table)
 {
 	for (auto&& itemPtr : table)
 	{
@@ -172,23 +174,23 @@ void Hash<Item, Key, KeyAccessor>::insertAllItemsFrom(PtrArray& table)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline const Item* Hash<Item, Key, KeyAccessor>::search(const Key& key) const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline const Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key) const
 {
 	const long index = getPositionOfItemWithKey(key);
 	return index >= 0 ? table[index] : nullptr;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key)
 {
-	return const_cast<Item*>( static_cast<const Hash<Item, Key, KeyAccessor>&>(*this).search(key) );
+	return const_cast<Item*>( static_cast<const Hash&>(*this).search(key) );
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& key) const
 {
 	auto index = hashFunction(key) % tableSize;
 
@@ -206,8 +208,8 @@ long Hash<Item, Key, KeyAccessor>::getPositionOfItemWithKey(const Key& key) cons
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 {
 	auto index = getPositionOfItemWithKey(key);
 
@@ -231,8 +233,8 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+Item* Hash<Item, Key, KeyAccessor, Hasher>::extractItemFromTableAt(unsignedInteger index)
 {
 	assert(index < tableSize && table[index]);
 
@@ -244,22 +246,22 @@ Item* Hash<Item, Key, KeyAccessor>::extractItemFromTableAt(unsignedInteger index
 }
 
 
-template <typename Item,typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::hasTooManyEmptySlots() const
 {
 	return 6 * insertedCount <= tableSize;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::canBeShrinked() const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::canBeShrinked() const
 {
 	return tableSize / GROWTH_FACTOR >= MIN_TABLE_SIZE;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(unsignedInteger start)
 {
 	assert(start < tableSize);
 
@@ -275,22 +277,23 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(unsignedInteger start)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::empty()
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::empty()
 {
 	toEmptyStateOfSize(MIN_TABLE_SIZE);
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::isEmpty() const
 {
 	return insertedCount == 0;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor>
-inline typename Hash<Item,Key,KeyAccessor>::unsignedInteger Hash<Item, Key, KeyAccessor>::getCount() const
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline typename Hash<Item,Key,KeyAccessor, Hasher>::unsignedInteger 
+Hash<Item, Key, KeyAccessor, Hasher>::getCount() const
 {
 	return insertedCount;
 }
