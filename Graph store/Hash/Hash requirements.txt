@@ -3,9 +3,7 @@ It is used to access the key of each Item.
 It must expose a function with signature:
 const Key& operator()(const Item& item) [can be const] : returns the key of item
 
-2) HashFunction
-In order to use the Hash class, the template class HashFunction
-must be specialised for the corresponding user-defined Key class.
+2) Hasher
 It must expose a function with signature:
 size_t operator()(const Key& key) [can be const] : computes a hash value for key
 
