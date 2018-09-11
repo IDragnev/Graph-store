@@ -20,9 +20,9 @@ DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& 
 void DijkstraAlgorithm::decorate(const Graph& graph, const Vertex& source)
 {
 	decorate(graph);
-	buildMap();
-	buildPriorityQueue();
+	buildDecoratorsMap();
 	initSourceDecorator(decoratorOf(source));
+	buildPriorityQueue();
 }
 
 
@@ -39,11 +39,19 @@ void DijkstraAlgorithm::decorate(const Graph& graph)
 }
 
 
-void DijkstraAlgorithm::buildMap()
+void DijkstraAlgorithm::buildDecoratorsMap()
 {
 	assert(map.isEmpty());
 	using namespace std; 
 	map = DecoratorsMap{ begin(decorators), end(decorators) };
+}
+
+
+void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)
+{
+	assert(queue.isEmpty());
+	source.distance = 0;
+	source.predecessor = nullptr;
 }
 
 
@@ -52,12 +60,6 @@ void DijkstraAlgorithm::buildPriorityQueue()
 	assert(queue.isEmpty());
 	using namespace std;
 	queue = MinPriorityQueue{ begin(decorators), end(decorators) };
-}
-
-
-void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)
-{
-	source.distance = 0;
 }
 
 

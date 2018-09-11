@@ -55,9 +55,9 @@ private:
 
 	void decorate(const Graph& g, const Vertex& source);
 	void decorate(const Graph& g);
-	void buildMap();
-	void buildPriorityQueue();
+	void buildDecoratorsMap();
 	void initSourceDecorator(PriorityVertex& source);
+	void buildPriorityQueue();
 	void clearState();
 
 	PriorityVertex& decoratorOf(const Vertex& v);
