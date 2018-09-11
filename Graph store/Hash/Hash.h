@@ -46,6 +46,8 @@ public:
 
 private:
 	void swapContentsWithReconstructedParameter(Hash other);
+	void enlarge();
+	void shrink();
 	void resize(unsignedInteger newSize);
 	void toEmptyStateOfSize(unsignedInteger size);
 	void insertAllItemsFrom(PtrArray& table);

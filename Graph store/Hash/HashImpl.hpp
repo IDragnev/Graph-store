@@ -2,8 +2,8 @@
 
 /*
      MIN_TABLE_SIZE is 3 because it should be small enough to be rarely used in the constructor,
-	 big enough to have empty slots for smaller counts ( when the table holds 1 or 2 items ),
-	 and small enough to be able to halve small tables after removal ( when size is 6,7,8 )
+	 big enough to have empty slots for smaller counts (when the table holds 1 or 2 items),
+	 and small enough to be able to halve small tables after removal (when size is 6, 7, 8)
 */
 
 
@@ -118,7 +118,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 {
 	if (isFillingUp())
 	{
-		resize(tableSize * GROWTH_FACTOR);
+		enlarge();
 	}
 
 	auto index = hashFunction(keyAccessor(item)) % tableSize;
@@ -137,6 +137,13 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline bool Hash<Item, Key, KeyAccessor, Hasher>::isFillingUp() const
 {
 	return 3 * insertedCount >= 2 * tableSize;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::enlarge()
+{
+	resize(tableSize * GROWTH_FACTOR);
 }
 
 
@@ -219,7 +226,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
-			resize(tableSize / GROWTH_FACTOR);
+			shrink();
 		}
 		else
 		{
@@ -230,6 +237,13 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 	}
 
 	return nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::shrink()
+{
+	resize(tableSize / GROWTH_FACTOR);
 }
 
 
@@ -269,8 +283,8 @@ void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(unsignedInteger start)
 
 	while (table[positionToEmpty])
 	{
-		auto* extractedItem = extractItemFromTableAt(positionToEmpty);
-		insert(*extractedItem);
+		auto* extracted = extractItemFromTableAt(positionToEmpty);
+		insert(*extracted);
 
 		positionToEmpty = (positionToEmpty + 1) % tableSize;
 	}
