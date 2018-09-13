@@ -75,19 +75,23 @@ Item PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extra
 	auto optimal = getOptimal();
 	invalidateHandleOf(optimal);
 
-	auto count = items.getCount();
-	if (count > 1)
+	moveLastToRoot();
+
+	if (!isEmpty())
 	{
-		insertAt(0, items[count - 1]);
-		items.removeAt(count - 1);
 		siftDown(0);
 	}
-	else
-	{
-		items.removeAt(count - 1); //TODO: should it be in an else clause?
-	}
-
+	
 	return optimal;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::moveLastToRoot()
+{
+	auto count = items.getCount();
+	insertAt(0, items[--count]);
+	items.removeAt(count);
 }
 
 

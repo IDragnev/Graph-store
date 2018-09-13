@@ -56,6 +56,7 @@ private:
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
 	void insertAt(std::size_t index, const Item& item);
+	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
 	static std::size_t getParentIndex(std::size_t index);
