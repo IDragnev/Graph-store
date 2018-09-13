@@ -24,7 +24,7 @@ template <typename InputIt>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
 	auto position = std::size_t{ 0 };
-	std::for_each(first, last, [&](const Item& item) 
+	std::for_each(first, last, [&](const Item& item) //the range ctor of DArray will move them is move iterator is sent!
 	{ 
 		items.insert(item);
 		updateHandleOfItemAt(position++);
@@ -205,7 +205,7 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandleOf(Item& item)
 {
-	setHandleOf(item, PriorityQueueHandle::invalidHandle());
+	setHandleOf(item, PriorityQueueHandle{});
 }
 
 

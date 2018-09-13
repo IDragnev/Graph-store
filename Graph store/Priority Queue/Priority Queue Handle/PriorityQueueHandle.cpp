@@ -9,21 +9,13 @@ PriorityQueueHandle::PriorityQueueHandle(long value) :
 }
 
 
-const PriorityQueueHandle& PriorityQueueHandle::invalidHandle()
-{
-	static PriorityQueueHandle handle;
-
-	return handle;
-}
-
-
 bool PriorityQueueHandle::isValid() const
 {
 	return value != -1;
 }
 
 
-PriorityQueueHandle::operator long() const
+PriorityQueueHandle::operator const long() const
 {
 	return value;
 }
