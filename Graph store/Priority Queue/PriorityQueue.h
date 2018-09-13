@@ -25,8 +25,7 @@ template <
 	typename KeyAccessor = IdentityAccessor<Item>,
 	typename CompareFunction = std::less<Key>,
 	typename HandleSetter = EmptyFunction<Item>
->
-class PriorityQueue
+> class PriorityQueue
 {
 public:
 	PriorityQueue() = default;
@@ -69,7 +68,9 @@ private:
 
 	void setKeyOf(Item& item, const Key& key);
 	void updateHandleOfItemAt(std::size_t index);
-	void invalidateHandlesOfAllItems();
+	void invalidateHandlesOfAll();
+	void invalidateHandlesOfAll(std::true_type);
+	void invalidateHandlesOfAll(std::false_type);
 	void invalidateHandleOf(Item& item);
 	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
 
