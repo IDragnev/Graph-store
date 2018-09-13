@@ -5,7 +5,6 @@
 #include "..\..\Priority Queue\PriorityQueue.h"
 #include "..\..\Dynamic Array\DArray.h"
 #include "..\..\Hash\Hash.h"
-#include <functional>
 
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
@@ -29,12 +28,17 @@ private:
 		void operator()(PriorityVertex* v, const PriorityQueueHandle& h) const { v->handle = h; }
 	};
 
+	struct GreaterThan
+	{
+		bool operator()(const Distance& lhs, const Distance& rhs) const { return lhs > rhs; }
+	};
+
 	struct IDAccessor
 	{
 		const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
 	};
 
-	using MinPriorityQueue = PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, std::greater<Distance>, HandleSetter>;
+	using MinPriorityQueue = PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
 	using DecoratorsMap = Hash<PriorityVertex, String, IDAccessor>;
 	using DecoratorsArray = DArray<PriorityVertex>;
 
