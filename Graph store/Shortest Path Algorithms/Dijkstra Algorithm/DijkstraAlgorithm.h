@@ -10,22 +10,23 @@
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
 private:
-	struct PriorityVertex : public VertexDecorator
+	struct PriorityVertex : VertexDecorator
 	{
 		using VertexDecorator::VertexDecorator;
 		PriorityVertex() : VertexDecorator{ nullptr } {}
 		PriorityQueueHandle handle{};
 	};
+	using PointersCollection = DArray<PriorityVertex*>;
 
 	struct DistanceAccessor
 	{
-		void operator()(PriorityVertex& v, const Distance& d) const { v.distance = d; }
-		const Distance& operator()(const PriorityVertex& v) const { return v.distance; }
+		void operator()(PriorityVertex* v, const Distance& d) const { v->distance = d; }
+		const Distance& operator()(const PriorityVertex* v) const { return v->distance; }
 	};
 
 	struct HandleSetter
 	{
-		void operator()(PriorityVertex& v, const PriorityQueueHandle& h) const { v.handle = h; }
+		void operator()(PriorityVertex* v, const PriorityQueueHandle& h) const { v->handle = h; }
 	};
 
 	struct IDAccessor
@@ -33,7 +34,7 @@ private:
 		const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
 	};
 
-	using MinPriorityQueue = PriorityQueue<PriorityVertex, Distance, DistanceAccessor, std::greater<Distance>, HandleSetter>;
+	using MinPriorityQueue = PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, std::greater<Distance>, HandleSetter>;
 	using DecoratorsMap = Hash<PriorityVertex, String, IDAccessor>;
 	using DecoratorsArray = DArray<PriorityVertex>;
 
@@ -58,6 +59,7 @@ private:
 	void buildDecoratorsMap();
 	void initSourceDecorator(PriorityVertex& source);
 	void buildPriorityQueue();
+	PointersCollection decoratorsPointers();
 	void clearState();
 
 	PriorityVertex& decoratorOf(const Vertex& v);

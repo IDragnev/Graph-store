@@ -59,7 +59,22 @@ void DijkstraAlgorithm::buildPriorityQueue()
 {
 	assert(queue.isEmpty());
 	using namespace std;
-	queue = MinPriorityQueue{ begin(decorators), end(decorators) };
+	auto pointers = decoratorsPointers();
+	queue = MinPriorityQueue{ begin(pointers), end(pointers) };
+}
+
+
+DijkstraAlgorithm::PointersCollection
+DijkstraAlgorithm::decoratorsPointers()
+{
+	PointersCollection result;
+
+	for (auto&& d : decorators)
+	{
+		result.insert(&d);
+	}
+
+	return result;
 }
 
 
@@ -93,7 +108,9 @@ bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
 const DijkstraAlgorithm::PriorityVertex&
 DijkstraAlgorithm::closestToSourceFromUndetermined()
 {
-	return queue.extractOptimal();
+	auto* result = queue.extractOptimal();
+	assert(result);
+	return *result;
 }
 
 
