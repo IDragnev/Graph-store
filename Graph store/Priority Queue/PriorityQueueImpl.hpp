@@ -90,7 +90,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::moveLastToRoot()
 {
 	auto count = items.getCount();
-	insertAt(0, items[--count]);
+	insertAt(0, std::move(items[--count]));
 	items.removeAt(count);
 }
 
@@ -126,7 +126,7 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftUp(std::size_t index)
 {
-	auto itemToSift = items[index];
+	auto itemToSift = std::move(items[index]);
 
 	while (hasParent(index))
 	{
@@ -135,7 +135,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftU
 
 		if (hasSmallerPriorityThan(parent, itemToSift))
 		{
-			insertAt(index, parent);
+			insertAt(index, std::move(parent));
 			index = parentIndex;
 		}
 		else
@@ -144,14 +144,14 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftU
 		}
 	}
 
-	insertAt(index, itemToSift);
+	insertAt(index, std::move(itemToSift));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftDown(std::size_t index)
 {
-	auto itemToSift = items[index];
+	auto itemToSift = std::move(items[index]);
 
 	while (hasChildren(index))
 	{
@@ -160,7 +160,7 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftD
 
 		if (hasSmallerPriorityThan(itemToSift, optimalChild))
 		{
-			insertAt(index, optimalChild);
+			insertAt(index, std::move(optimalChild));
 			index = optimalChildIndex;
 		}
 		else 
@@ -169,15 +169,15 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftD
 		}
 	}
 
-	insertAt(index, itemToSift);
+	insertAt(index, std::move(itemToSift));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(std::size_t index, const Item& item)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(std::size_t index, Item&& item)
 {
 	assert(hasItemAt(index));
-	items[index] = item;
+	items[index] = std::move(item);
 	updateHandleOfItemAt(index);
 }
 

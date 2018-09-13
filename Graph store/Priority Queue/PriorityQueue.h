@@ -55,7 +55,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, const Item& item);
+	void insertAt(std::size_t index, Item&& item);
 	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
