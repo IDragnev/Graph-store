@@ -1,7 +1,7 @@
 
 template <typename T>
 template <typename Item, bool isConst>
-inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(typename DArray<T>::unsignedInteger startPosition, ownerPtr owner) :
+inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(typename DArray<T>::size_type startPosition, ownerPtr owner) :
 	current{ startPosition },
 	owner{ owner }
 {

@@ -14,7 +14,7 @@ private:
 
 	template <typename Iter>
 	using enable_if_item_iterator_t = std::enable_if_t<std::is_same<typename std::iterator_traits<Iter>::value_type, T>::value>;
-	using unsignedInteger = std::size_t;
+	using size_type = std::size_t;
 
 	template <typename Item, bool isConst = false>
 	class DArrayIterator
@@ -47,11 +47,11 @@ private:
 			                   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 	private:
-		DArrayIterator(unsignedInteger startPosition, ownerPtr owner);
+		DArrayIterator(size_type startPosition, ownerPtr owner);
 
 	private:
 		ownerPtr owner;
-		unsignedInteger current;
+		size_type current;
 	};
 
 public:
@@ -62,7 +62,7 @@ public:
 	template <typename InputIt, typename = enable_if_item_iterator_t<InputIt>>
 	DArray(InputIt first, InputIt last);
 	DArray(std::initializer_list<T> source);
-	explicit DArray(unsignedInteger size, unsignedInteger count = 0);
+	explicit DArray(size_type size, size_type count = 0);
 	DArray(DArray<T>&& source);
 	DArray(const DArray<T>& source);
 	~DArray();
@@ -74,16 +74,16 @@ public:
 	void insert(T&& item);
 	void insert(const T& item);
 	void insert(const DArray<T>& other);
-	void insertAt(unsignedInteger position, const T& item);
-	void removeAt(unsignedInteger position);
+	void insertAt(size_type position, const T& item);
+	void removeAt(size_type position);
 
-	T& operator[](unsignedInteger position);
-	const T& operator[](unsignedInteger position) const;
+	T& operator[](size_type position);
+	const T& operator[](size_type position) const;
 
 	bool isEmpty() const;
 	void empty();
-	void shrink(unsignedInteger size);
-	void ensureSize(unsignedInteger size);
+	void shrink(size_type size);
+	void ensureSize(size_type size);
 
 	iterator begin();
 	iterator end();
@@ -92,29 +92,29 @@ public:
 	const_iterator cbegin() const;
 	const_iterator cend() const;
 
-	unsignedInteger getSize() const;
-	unsignedInteger getCount() const;
+	size_type getSize() const;
+	size_type getCount() const;
 
 private:
 	void enlargeIfFull();
-	void resize(unsignedInteger newSize);
+	void resize(size_type newSize);
 	void swapContentsWithReconstructedParameter(DArray<T> temp);
 	
-	bool hasItemAt(unsignedInteger position) const;
-	void shiftItemsOnePositionLeft(unsignedInteger start, unsignedInteger end);
-	void shiftItemsOnePositionRight(unsignedInteger start, unsignedInteger end);
+	bool hasItemAt(size_type position) const;
+	void shiftItemsOnePositionLeft(size_type start, size_type end);
+	void shiftItemsOnePositionRight(size_type start, size_type end);
 
-	void setCount(unsignedInteger count);
+	void setCount(size_type count);
 	void destroyItems();
 	void nullifyMembers();
 
 private:
-	static const unsignedInteger GROWTH_FACTOR = 2;
-	static const unsignedInteger DEFAULT_SIZE = 8;
+	static const size_type GROWTH_FACTOR = 2;
+	static const size_type DEFAULT_SIZE = 8;
 
 private:
-	unsignedInteger count;
-	unsignedInteger size;
+	size_type count;
+	size_type size;
 	T* items;
 };
 
