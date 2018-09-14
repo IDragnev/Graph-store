@@ -12,6 +12,8 @@ private:
 	static_assert(std::is_default_constructible<T>::value, "DArray<T> requires T to be default constructible");
 	static_assert(std::is_copy_assignable<T>::value, "DArray<T> requires T to be copy assignable");
 
+	template <typename Iter>
+	using enable_if_item_iterator_t = std::enable_if_t<std::is_same<typename std::iterator_traits<Iter>::value_type, T>::value>;
 	using unsignedInteger = std::size_t;
 
 	template <typename Item, bool isConst = false>
@@ -57,6 +59,8 @@ public:
 	using const_iterator = DArrayIterator<T, true>;
 
 	DArray();
+	template <typename InputIt, typename = enable_if_item_iterator_t<InputIt>>
+	DArray(InputIt first, InputIt last);
 	DArray(std::initializer_list<T> source);
 	explicit DArray(unsignedInteger size, unsignedInteger count = 0);
 	DArray(DArray<T>&& source);

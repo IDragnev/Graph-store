@@ -10,11 +10,19 @@ DArray<T>::DArray() :
 
 template <typename T>
 DArray<T>::DArray(std::initializer_list<T> source) :
-	DArray(source.size(), 0)
+	DArray(source.begin(), source.end())
 {
-	for (const T& item : source)
+}
+
+
+template <typename T>
+template <typename InputIt, typename>
+DArray<T>::DArray(InputIt first, InputIt last) :
+	DArray(std::distance(first, last))
+{
+	for (; first != last; ++first)
 	{
-		items[count++] = item;
+		items[count++] = *first;
 	}
 }
 

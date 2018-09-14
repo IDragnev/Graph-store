@@ -9,6 +9,7 @@ namespace DArraytest
 	TEST_CLASS(DArrayTest)
 	{
 	private:
+		using StringArray = DArray<std::string>;
 		using UIntArray = DArray<unsigned>;
 
 		static const size_t TEST_SIZE = 25;
@@ -37,7 +38,29 @@ namespace DArraytest
 			}
 		}
 
-		TEST_METHOD(testConstructorFilledArrayValueInitializesAll)
+		TEST_METHOD(testRangeCtor)
+		{
+			using namespace std;
+			const UIntArray source{ 1, 2, 3 };
+			UIntArray destination(begin(source), end(source));
+
+			Assert::IsTrue(destination == UIntArray{ 1, 2, 3 });
+		}
+
+		TEST_METHOD(testRangeCtorWithMoveIterator)
+		{
+			using namespace std;
+			StringArray source{ "one", "two", "three" };
+			auto&& first = std::make_move_iterator(begin(source));
+			auto&& last = std::make_move_iterator(end(source));
+
+			StringArray destination(first, last);
+
+			Assert::IsTrue(destination == StringArray{ "one", "two", "three" });
+			Assert::IsTrue(source == StringArray{ "", "", "" });
+		}
+
+		TEST_METHOD(testDefaultFilledArrayValueInitializesAll)
 		{
 			UIntArray dArray(10, 10);
 
@@ -212,13 +235,13 @@ namespace DArraytest
 
 		TEST_METHOD(testInsertRValue)
 		{
-			DArray<std::string> dArray{ "one", "two", "three" };
+			StringArray dArray{ "one", "two", "three" };
 			std::string str{ "four" };
 			
 			dArray.insert(std::move(str));
 
-			Assert::IsTrue(dArray == DArray<std::string>{"one", "two", "three", "four"}, L"The array has invalid contents");
-			Assert::IsTrue(str == "", L"The move-inserted object is not moved");
+			Assert::IsTrue(dArray == StringArray{"one", "two", "three", "four"}, L"The array has invalid contents");
+			Assert::IsTrue(str == "", L"The move-inserted string is not moved");
 		}
 
 		TEST_METHOD(testRemoveAtShiftsItemsAfterTheRemovedOne)
