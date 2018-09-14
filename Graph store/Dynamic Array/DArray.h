@@ -96,7 +96,6 @@ public:
 	unsignedInteger getCount() const;
 
 private:
-	void copyFrom(const DArray<T>& source);
 	void enlargeIfFull();
 	void resize(unsignedInteger newSize);
 	void swapContentsWithReconstructedParameter(DArray<T> temp);

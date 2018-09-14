@@ -16,6 +16,13 @@ DArray<T>::DArray(std::initializer_list<T> source) :
 
 
 template <typename T>
+DArray<T>::DArray(const DArray<T>& source) :
+	DArray<T>(source.cbegin(), source.cend())
+{
+}
+
+
+template <typename T>
 template <typename InputIt, typename>
 DArray<T>::DArray(InputIt first, InputIt last) :
 	DArray(std::distance(first, last))
@@ -64,28 +71,6 @@ inline void DArray<T>::nullifyMembers()
 {
 	size = count = 0;
 	items = nullptr;
-}
-
-
-template <typename T>
-DArray<T>::DArray(const DArray<T>& source) :
-	DArray<T>()
-{
-	copyFrom(source);
-}
-
-
-template <typename T>
-void DArray<T>::copyFrom(const DArray<T>& source)
-{
-	DArray<T> temporary(source.size, source.count);
-
-	for (unsignedInteger i = 0; i < source.count; ++i)
-	{
-		temporary.items[i] = source.items[i];
-	}
-
-	swapContentsWithReconstructedParameter(std::move(temporary));
 }
 
 
