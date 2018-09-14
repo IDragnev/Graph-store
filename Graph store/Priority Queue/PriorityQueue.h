@@ -27,6 +27,16 @@ template <
 	typename HandleSetter = EmptyFunction<Item>
 > class PriorityQueue
 {
+private:
+	struct set_handles { };
+	struct do_not_set_handles { };
+	struct choose_handle_setting_behaviour
+	{
+		static constexpr bool shouldSet = !std::is_same<HandleSetter, EmptyFunction<Item>>::value;
+		using type = std::conditional_t<shouldSet, set_handles, do_not_set_handles>;
+	};
+	using should_set_handles_t = typename choose_handle_setting_behaviour::type;
+
 public:
 	PriorityQueue() = default;
 	template <typename InputIt>
@@ -66,12 +76,12 @@ private:
 
 	void setKeyOf(Item& item, const Key& key);
 	void updateHandlesOfAll();
-	void updateHandlesOfAll(std::true_type);
-	void updateHandlesOfAll(std::false_type);
+	void updateHandlesOfAll(set_handles);
+	void updateHandlesOfAll(do_not_set_handles);
 	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAll();
-	void invalidateHandlesOfAll(std::true_type);
-	void invalidateHandlesOfAll(std::false_type);
+	void invalidateHandlesOfAll(set_handles);
+	void invalidateHandlesOfAll(do_not_set_handles);
 	void invalidateHandleOf(Item& item);
 	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
 

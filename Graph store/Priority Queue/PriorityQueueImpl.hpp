@@ -22,18 +22,18 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll()
 {
-	updateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction<Item>>{});
+	updateHandlesOfAll(should_set_handles_t{});
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(std::true_type)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(do_not_set_handles)
 {
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(std::false_type)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(set_handles)
 {
 	auto count = items.getCount();
 	auto pos = 0U;
@@ -64,18 +64,18 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~PriorityQ
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll()
 {
-	invalidateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction<Item>>{});
+	invalidateHandlesOfAll(should_set_handles_t{});
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::true_type)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(do_not_set_handles)
 {
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::false_type)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(set_handles)
 {
 	for (auto&& item : items)
 	{
