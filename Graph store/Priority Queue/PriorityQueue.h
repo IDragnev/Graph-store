@@ -49,8 +49,6 @@ public:
 	void empty();
 
 private:
-	template <typename InputIt>
-	void directlyInsertAll(InputIt first, InputIt last);
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
@@ -67,6 +65,9 @@ private:
 	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
 
 	void setKeyOf(Item& item, const Key& key);
+	void updateHandlesOfAll();
+	void updateHandlesOfAll(std::true_type);
+	void updateHandlesOfAll(std::false_type);
 	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAll();
 	void invalidateHandlesOfAll(std::true_type);

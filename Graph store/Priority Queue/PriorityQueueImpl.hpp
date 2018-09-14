@@ -12,23 +12,35 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 template <typename InputIt>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last) :
-	items{ std::distance(first, last) } //TODO: change after DArray has range ctor
+	items(first, last) 
 {
-	directlyInsertAll(first, last);
+	updateHandlesOfAll();
 	buildHeap();
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-template <typename InputIt>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll()
 {
-	auto position = std::size_t{ 0 };
-	std::for_each(first, last, [&](const Item& item) //the range ctor of DArray will move them is move iterator is sent!
-	{ 
-		items.insert(item);
-		updateHandleOfItemAt(position++);
-	});
+	updateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction<Item>>{});
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(std::true_type)
+{
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::updateHandlesOfAll(std::false_type)
+{
+	auto count = items.getCount();
+	auto pos = 0U;
+	while (pos < count)
+	{
+		updateHandleOfItemAt(pos++);
+	}
 }
 
 
