@@ -16,20 +16,20 @@ namespace SpecialIntegerTest
 		TEST_METHOD(testDefaultConstructedIntegerIsEqualToInfinity)
 		{
 			SpecialInteger integer;
-
+			
 			Assert::IsTrue(integer.isEqualToInfinity());
 		}
 
 		TEST_METHOD(testConversionCtorConstructsAnIntegerNotEqualToInfinity)
 		{
-			SpecialInteger integer(1);
+			SpecialInteger integer{ 1 };
 
 			Assert::IsFalse(integer.isEqualToInfinity());
 		}
 
 		TEST_METHOD(testAssignmentToNonInfinityFromPrimitiveIntegerLeavesItToNonInfinity)
 		{
-			SpecialInteger integer(0);
+			SpecialInteger integer{ 0 };
 			
 			integer = 1;
 
@@ -47,7 +47,7 @@ namespace SpecialIntegerTest
 
 		TEST_METHOD(testAssignmentToNonInfinityFromInfinityConvertsItToInfinity)
 		{
-			SpecialInteger integer(0);
+			SpecialInteger integer{ 0 };
 
 			integer = SpecialInteger::Infinity();
 
@@ -72,8 +72,8 @@ namespace SpecialIntegerTest
 
 		TEST_METHOD(testCopyCtorFromNonInfinityConstructsNonInfinity)
 		{
-			SpecialInteger source(1);
-			SpecialInteger destination(source);
+			SpecialInteger source{ 1 };
+			SpecialInteger destination{ source };
 
 			Assert::IsFalse(destination.isEqualToInfinity());
 		}
@@ -98,7 +98,7 @@ namespace SpecialIntegerTest
 
 		TEST_METHOD(testAddingInfinityToNonInfinityMakesLHSInfinity)
 		{
-			SpecialInteger lhs(1);
+			SpecialInteger lhs{ 1 };
 
 			lhs += SpecialInteger::Infinity();
 
@@ -107,12 +107,12 @@ namespace SpecialIntegerTest
 
 		TEST_METHOD(testAddingNonInfinityToNonInfinityDoesNotMakeItInfinity)
 		{
-			SpecialInteger lhs(1);
+			SpecialInteger lhs{ 1 };
 
 			lhs += 1;
 
 			Assert::IsFalse(lhs.isEqualToInfinity(), L"Lhs is equal to infinity after adding non-infinity to it");
-			Assert::IsTrue(lhs == SpecialInteger(2), L"Lhs has wrong value after calling operator+=");
+			Assert::IsTrue(lhs == SpecialInteger{ 2 }, L"Lhs has wrong value after calling operator+=");
 		}
 
 		TEST_METHOD(testInfinityIsNotSmallerThanInfinity)
