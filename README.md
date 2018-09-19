@@ -11,6 +11,13 @@ To start the application, the user must specify a directory (as a command line a
 It is then run via command-line interface, supported thanks to https://github.com/Taywee/args.
 Arguments are delimited by whitespaces. If an argument consists of multiple words, it must be surrounded by single quotation marks: 'multiple words argument'.
 
+## General commands
+ - **HELP**
+    - Lists the supported commands.
+    
+ - **EXIT**
+    - Exits the application.
+
 ## The following commands let the user manage graphs.
 
  - **INSERT-GRAPH [id] *[type]***
