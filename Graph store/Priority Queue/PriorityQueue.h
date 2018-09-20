@@ -95,10 +95,12 @@ public:
 	void empty();
 
 private:
+	template <typename InputIt>
+	void directlyInsertAll(InputIt first, InputIt last);
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, Item&& item);
+	void insertAt(std::size_t index, ItemAdapter&& item);
 	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
@@ -108,26 +110,16 @@ private:
 	bool hasChildren(std::size_t index) const;
 	std::size_t getOptimalChildIndex(std::size_t index) const;
 	bool hasOptimalRightSibling(std::size_t index) const;
-	bool hasSmallerPriorityThan(const Item& lhs, const Item& rhs) const;
+	bool hasSmallerPriorityThan(const ItemAdapter& lhs, const ItemAdapter& rhs) const;
+	bool hasItemAt(std::size_t index) const;
 
-	void setKeyOf(Item& item, const Key& key);
-	void updateHandlesOfAll();
-	void updateHandlesOfAll(set_handles);
-	void updateHandlesOfAll(do_not_set_handles);
-	void updateHandleOfItemAt(std::size_t index);
 	void invalidateHandlesOfAll();
 	void invalidateHandlesOfAll(set_handles);
 	void invalidateHandlesOfAll(do_not_set_handles);
-	void invalidateHandleOf(Item& item);
-	void setHandleOf(Item& item, const PriorityQueueHandle& handle);
-
-	bool hasItemAt(std::size_t index) const;
 
 private:
-	DArray<Item> items;
-	mutable KeyAccessor keyAccessor;
+	DArray<ItemAdapter> items;
 	mutable CompareFunction compareFunction;     
-	HandleSetter handleSetter;
 };
 
 #include "PriorityQueueImpl.hpp"

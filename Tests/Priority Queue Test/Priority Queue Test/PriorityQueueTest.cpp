@@ -16,7 +16,7 @@ namespace PriorityQueueTest
 	struct KeyAccessor
 	{
 		void operator()(TestItem* item, unsigned ID) const { item->id = ID; }
-		unsigned operator()(const TestItem* item) const { return item->id; }
+		const unsigned& operator()(const TestItem* item) const { return item->id; }
 	};
 
 	struct HandleSetter
