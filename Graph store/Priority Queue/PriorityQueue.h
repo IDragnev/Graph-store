@@ -43,13 +43,8 @@ private:
 	{
 	public:
 		ItemAdapter() = default;
-		ItemAdapter(ItemAdapter&& source) = default;
-		ItemAdapter(const ItemAdapter& source) = default;
 		ItemAdapter(Item&& item, const Handle& h = {}) : item{ std::move(item) } { setHandle(h); }
 		ItemAdapter(const Item& item, const Handle& h = {}) : item{ item } { setHandle(h); }
-
-		ItemAdapter& operator=(ItemAdapter&& rhs) = default;
-		ItemAdapter& operator=(const ItemAdapter& rhs) = default;
 
 		const Key& key() const { return keyAccessor(item); }
 		void setKey(const Key& key) { keyAccessor(item, key); }
