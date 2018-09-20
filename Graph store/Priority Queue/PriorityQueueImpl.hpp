@@ -1,6 +1,12 @@
 #include <assert.h>
 #include <algorithm>
 
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+HandleSetter PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::ItemAdapter::handleSetter;
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+KeyAccessor PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::ItemAdapter::keyAccessor;
+
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::initializer_list<Item> source) :
