@@ -28,15 +28,6 @@ template <
 > class PriorityQueue
 {
 private:
-	struct set_handles { };
-	struct do_not_set_handles { };
-	struct choose_handle_setting_behaviour
-	{
-		static constexpr bool shouldSet = !std::is_same<HandleSetter, EmptyFunction<Item>>::value;
-		using type = std::conditional_t<shouldSet, set_handles, do_not_set_handles>;
-	};
-
-	using should_set_handles_t = typename choose_handle_setting_behaviour::type;
 	using Handle = PriorityQueueHandle;
 
 	class ItemAdapter
@@ -51,7 +42,7 @@ private:
 
 		const Item& wrappedItem() const & { return item; }
 		Item wrappedItem() && { return std::move(item); }
-		Item releaseWrapped() && 
+		Item releaseWrapped() && //TODO: is this needed?
 		{ 
 			invalidateHandle(); 
 			return std::move(item);
@@ -77,14 +68,14 @@ public:
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
 
-	PriorityQueue& operator=(PriorityQueue&& rhs) = default;
-	PriorityQueue& operator=(const PriorityQueue& rhs) = default;
+	PriorityQueue& operator=(PriorityQueue&& rhs) = default; //TODO: invalidate handles of all to-be-lost items
+	PriorityQueue& operator=(const PriorityQueue& rhs) = default; // TODO: remove copy semantics for pointer types
 
 	void insert(const Item& item);
 	Item extractOptimal();
 	const Item getOptimal() const;
 
-	void improveKey(const PriorityQueueHandle& handle, const Key& key);
+	void improveKey(const Handle& handle, const Key& key);
 
 	bool isEmpty() const;
 	void empty();
@@ -95,7 +86,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, ItemAdapter&& item);
+	void insertAt(std::size_t index, ItemAdapter&& adapter);
 	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
@@ -109,8 +100,8 @@ private:
 	bool hasItemAt(std::size_t index) const;
 
 	void invalidateHandlesOfAll();
-	void invalidateHandlesOfAll(set_handles);
-	void invalidateHandlesOfAll(do_not_set_handles);
+	void invalidateHandlesOfAll(std::true_type);
+	void invalidateHandlesOfAll(std::false_type);
 
 private:
 	DArray<ItemAdapter> items;

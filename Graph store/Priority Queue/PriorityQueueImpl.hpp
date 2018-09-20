@@ -57,18 +57,18 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::~PriorityQ
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll()
 {
-	invalidateHandlesOfAll(should_set_handles_t{});
+	invalidateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction<Item>>{});
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(do_not_set_handles)
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::true_type)
 {
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(set_handles)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::false_type)
 {
 	for (auto&& item : items)
 	{
@@ -119,7 +119,7 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const PriorityQueueHandle& handle, const Key& key)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const Handle& handle, const Key& key)
 {
 	//TODO: static_assert for not being called with EmptyFunction as HandleSetter
 	assert(handle.isValid());
@@ -183,10 +183,10 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftD
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(std::size_t index, ItemAdapter&& item)
+void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insertAt(std::size_t index, ItemAdapter&& adapter)
 {
 	assert(hasItemAt(index));
-	items[index] = ItemAdapter{ std::move(item).wrappedItem(), index };
+	items[index] = ItemAdapter{ std::move(adapter).wrappedItem(), index };
 }
 
 
