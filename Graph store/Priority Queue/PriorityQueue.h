@@ -42,13 +42,10 @@ private:
 
 		const Item& wrappedItem() const & { return item; }
 		Item wrappedItem() && { return std::move(item); }
-		Item releaseWrapped() && //TODO: is this needed?
-		{ 
-			invalidateHandle(); 
-			return std::move(item);
-		}
 
 		void invalidateHandle() { setHandle(Handle{}); }
+
+	private:
 		void setHandle(const Handle& h) { handleSetter(item, h); }
 
 	private:
