@@ -95,7 +95,7 @@ namespace PriorityQueueTest
 		TEST_METHOD(testDefaultConstructedQueueIsEmpty)
 		{
 			MaxPriorityQueue queue;
-
+			
 			Assert::IsTrue(queue.isEmpty());
 		}
 

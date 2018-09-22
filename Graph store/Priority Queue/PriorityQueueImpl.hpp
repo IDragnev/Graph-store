@@ -122,7 +122,8 @@ inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const Handle& handle, const Key& key)
 {
-	//TODO: static_assert for not being called with EmptyFunction as HandleSetter
+	static_assert(!std::is_same<HandleSetter, EmptyFunction<Item>>::value,
+				  "Cannot use handle-related logic with no specific HandleSetter supplied");
 	assert(handle.isValid());
 	assert(hasAdapterAt(handle));
 
