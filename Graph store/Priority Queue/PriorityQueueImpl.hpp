@@ -8,6 +8,23 @@ KeyAccessor PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue&& rhs)
+{
+	if (this != &rhs)
+	{
+		PriorityQueue temp{ std::move(rhs) };
+
+		using namespace std;
+		swap(adapters, temp.adapters);
+		swap(compareFunction, temp.compareFunction);
+	}
+
+	return *this;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::initializer_list<Item> source) :
 	PriorityQueue{ source.begin(), source.end() }
 {

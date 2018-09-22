@@ -65,7 +65,7 @@ public:
 	PriorityQueue(const PriorityQueue& source) = default;
 	~PriorityQueue();
 
-	PriorityQueue& operator=(PriorityQueue&& rhs) = default; //TODO: invalidate handles of all to-be-lost items
+	PriorityQueue& operator=(PriorityQueue&& rhs);
 	PriorityQueue& operator=(const PriorityQueue& rhs) = default; // TODO: remove copy semantics for pointer types
 
 	void insert(const Item& item);
