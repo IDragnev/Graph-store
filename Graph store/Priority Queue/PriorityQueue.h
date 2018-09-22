@@ -86,7 +86,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void insertAt(std::size_t index, ItemAdapter&& adapter);
+	void moveAt(std::size_t index, ItemAdapter&& adapter);
 	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
@@ -97,14 +97,14 @@ private:
 	std::size_t getOptimalChildIndex(std::size_t index) const;
 	bool hasOptimalRightSibling(std::size_t index) const;
 	bool hasSmallerPriorityThan(const ItemAdapter& lhs, const ItemAdapter& rhs) const;
-	bool hasItemAt(std::size_t index) const;
+	bool hasAdapterAt(std::size_t index) const;
 
 	void invalidateHandlesOfAll();
 	void invalidateHandlesOfAll(std::true_type);
 	void invalidateHandlesOfAll(std::false_type);
 
 private:
-	DArray<ItemAdapter> items;
+	DArray<ItemAdapter> adapters;
 	mutable CompareFunction compareFunction;     
 };
 
