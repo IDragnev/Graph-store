@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <algorithm>
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 HandleSetter PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::ItemAdapter::handleSetter;
@@ -40,9 +39,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::direc
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 {
-	for (long lastNonLeaf = (adapters.getCount() / 2) - 1; lastNonLeaf >= 0; --lastNonLeaf)
+	long lastNonLeaf = (adapters.getCount() / 2) - 1;
+
+	while (lastNonLeaf >= 0)
 	{
-		siftDown(lastNonLeaf);
+		siftDown(lastNonLeaf--);
 	}
 }
 
@@ -216,12 +217,7 @@ std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>
 {
 	auto result = getLeftChildIndex(index);
 
-	if (hasOptimalRightSibling(result))
-	{
-		++result;
-	}
-
-	return result;
+	return hasOptimalRightSibling(result) ? result + 1 : result;
 }
 
 
