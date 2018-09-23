@@ -7,7 +7,7 @@
 template <typename T>
 struct EmptyFunction
 {
-	void operator()(const T&) const { }
+	void operator()(const T&, const T&) const { }
 };
 
 
