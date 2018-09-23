@@ -13,11 +13,7 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(
 {
 	if (this != &rhs)
 	{
-		PriorityQueue temp{ std::move(rhs) };
-
-		using namespace std;
-		swap(adapters, temp.adapters);
-		swap(compareFunction, temp.compareFunction);
+		swapContentsWithReconstructedParameter(std::move(rhs));
 	}
 
 	return *this;
@@ -33,14 +29,19 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(
 
 	if (this != &rhs)
 	{
-		PriorityQueue temp{ rhs };
-
-		using namespace std;
-		swap(adapters, temp.adapters);
-		swap(compareFunction, temp.compareFunction);
+		swapContentsWithReconstructedParameter(rhs);
 	}
 
 	return *this;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue temp)
+{
+	using namespace std;
+	swap(adapters, temp.adapters);
+	swap(compareFunction, temp.compareFunction);
 }
 
 

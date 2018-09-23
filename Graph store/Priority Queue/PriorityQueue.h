@@ -100,6 +100,8 @@ private:
 	void invalidateHandlesOfAll(std::true_type);
 	void invalidateHandlesOfAll(std::false_type);
 
+	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
+
 private:
 	DArray<ItemAdapter> adapters;
 	mutable CompareFunction compareFunction;     
