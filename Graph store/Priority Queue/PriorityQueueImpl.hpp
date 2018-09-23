@@ -25,6 +25,36 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>&
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(const PriorityQueue& rhs)
+{
+	static_assert(!std::is_pointer<Item>::value,
+				  "Cannot use copy assignment when storing pointers as handles cannot be unique for each queue");
+
+	if (this != &rhs)
+	{
+		PriorityQueue temp{ rhs };
+
+		using namespace std;
+		swap(adapters, temp.adapters);
+		swap(compareFunction, temp.compareFunction);
+	}
+
+	return *this;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(const PriorityQueue& source) :
+	adapters{ source.adapters },
+	compareFunction{ source.compareFunction }
+{
+	static_assert(!std::is_pointer<Item>::value,
+				  "Cannot use copy constructor when storing pointers as handles cannot be unique for each queue");
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::initializer_list<Item> source) :
 	PriorityQueue{ source.begin(), source.end() }
 {

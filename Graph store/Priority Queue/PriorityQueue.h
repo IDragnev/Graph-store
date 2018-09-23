@@ -62,11 +62,11 @@ public:
 	PriorityQueue(InputIt first, InputIt last);
 	PriorityQueue(std::initializer_list<Item> source);
 	PriorityQueue(PriorityQueue&& source) = default;
-	PriorityQueue(const PriorityQueue& source) = default;
+	PriorityQueue(const PriorityQueue& source);
 	~PriorityQueue();
 
 	PriorityQueue& operator=(PriorityQueue&& rhs);
-	PriorityQueue& operator=(const PriorityQueue& rhs) = default; // TODO: remove copy semantics for pointer types
+	PriorityQueue& operator=(const PriorityQueue& rhs);
 
 	void insert(const Item& item);
 	Item extractOptimal();
