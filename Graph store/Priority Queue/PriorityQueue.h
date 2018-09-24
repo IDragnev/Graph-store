@@ -30,12 +30,12 @@ template <
 private:
 	using Handle = PriorityQueueHandle;
 
-	class ItemAdapter
+	class Element
 	{
 	public:
-		ItemAdapter() = default;
-		ItemAdapter(Item&& item, const Handle& h = {}) : item{ std::move(item) } { setHandle(h); }
-		ItemAdapter(const Item& item, const Handle& h = {}) : item{ item } { setHandle(h); }
+		Element() = default;
+		Element(Item&& item, const Handle& h = {}) : item{ std::move(item) } { setHandle(h); }
+		Element(const Item& item, const Handle& h = {}) : item{ item } { setHandle(h); }
 
 		const Key& key() const { return keyAccessor(item); }
 		void setKey(const Key& key) { keyAccessor(item, key); }
@@ -83,7 +83,7 @@ private:
 	void buildHeap();
 	void siftDown(std::size_t index);
 	void siftUp(std::size_t index);
-	void moveAt(std::size_t index, ItemAdapter&& adapter);
+	void moveAt(std::size_t index, Element&& adapter);
 	void moveLastToRoot();
 
 	static bool hasParent(std::size_t index);
@@ -93,8 +93,8 @@ private:
 	bool hasChildren(std::size_t index) const;
 	std::size_t getOptimalChildIndex(std::size_t index) const;
 	bool hasOptimalRightSibling(std::size_t index) const;
-	bool hasSmallerPriorityThan(const ItemAdapter& lhs, const ItemAdapter& rhs) const;
-	bool hasAdapterAt(std::size_t index) const;
+	bool hasSmallerPriorityThan(const Element& lhs, const Element& rhs) const;
+	bool hasElementAt(std::size_t index) const;
 
 	void invalidateHandlesOfAll();
 	void invalidateHandlesOfAll(std::true_type);
@@ -103,7 +103,7 @@ private:
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
 private:
-	DArray<ItemAdapter> adapters;
+	DArray<Element> elements;
 	mutable CompareFunction compareFunction;     
 };
 
