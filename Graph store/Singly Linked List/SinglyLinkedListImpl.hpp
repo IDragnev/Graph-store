@@ -35,7 +35,7 @@ inline SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
+inline SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
 	SinglyLinkedList<T>(source.cbegin(), source.cend())
 {
 }
@@ -170,8 +170,7 @@ inline SinglyLinkedList<T>::~SinglyLinkedList()
 template <typename T>
 inline void SinglyLinkedList<T>::appendList(const SinglyLinkedList<T>& source)
 {
-	SinglyLinkedList<T> temporary{ source };
-	appendList(std::move(temporary));
+	appendList(SinglyLinkedList<T>{ source });
 }
 
 
@@ -223,7 +222,7 @@ inline void SinglyLinkedList<T>::insert(const T& item)
 template <typename T>
 void SinglyLinkedList<T>::insertAsTail(const T& item)
 {
-	Node<T>* newTail = new Node<T>{ item };
+	auto newTail = new Node<T>{ item };
 
 	if (isEmpty())
 	{
@@ -242,7 +241,7 @@ void SinglyLinkedList<T>::insertAsTail(const T& item)
 template <typename T>
 void SinglyLinkedList<T>::insertAsHead(const T& item)
 {
-	Node<T>* newHead = new Node<T>{ item, head };
+	auto newHead = new Node<T>{ item, head };
 
 	if (isEmpty())
 	{
@@ -264,8 +263,7 @@ void SinglyLinkedList<T>::insertAfter(Node<T>* node, const T& item)
 	else 
 	{
 		assert(node->next);
-
-		Node<T>* newNode = new Node<T>{ item, node->next };
+		auto newNode = new Node<T>{ item, node->next };
 		node->next = newNode;
 		++count;
 	}
@@ -281,7 +279,7 @@ void SinglyLinkedList<T>::insertBefore(Node<T>* node, const T& item)
 	}
 	else
 	{
-		Node<T>* previous = findNodeBefore(node);
+		auto previous = findNodeBefore(node);
 		assert(previous);
 		insertAfter(previous, item);
 	}
@@ -294,7 +292,7 @@ SinglyLinkedList<T>::findNodeBefore(const Node<T>* node) const
 {
 	assert(node);
 
-	Node<T>* current = head;
+	auto current = head;
 
 	while (current && current->next != node)
 	{
@@ -310,7 +308,7 @@ void SinglyLinkedList<T>::removeHead()
 {
 	assert(!isEmpty());
 
-	Node<T>* oldHead = head;	
+	auto oldHead = head;	
 	head = head->next;
 
 	if (!head)
@@ -343,7 +341,7 @@ void SinglyLinkedList<T>::removeAt(Node<T>* node)
 	}
 	else
 	{
-		Node<T>* nodeBefore = findNodeBefore(node);
+		auto nodeBefore = findNodeBefore(node);
 		assert(nodeBefore);
 
 		if (node == tail)
