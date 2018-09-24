@@ -19,13 +19,57 @@ SinglyLinkedList<T>::SinglyLinkedList() :
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
+template <typename InputIt>
+SinglyLinkedList<T>::SinglyLinkedList(InputIt first, InputIt last) :
 	SinglyLinkedList()
 {
-	for (auto&& item : source)
+	if (first != last)
 	{
-		insert(item);
+		tryToBuildChain(first, last);
 	}
+}
+
+
+template <typename T>
+template <typename InputIt>
+inline void SinglyLinkedList<T>::tryToBuildChain(InputIt first, InputIt last)
+{
+	try
+	{
+		buildChain(first, last);
+	}
+	catch (...)
+	{
+		empty();
+		throw;
+	}
+}
+
+
+template <typename T>
+template <typename InputIt>
+void SinglyLinkedList<T>::buildChain(InputIt first, InputIt last)
+{
+	assert(!head);
+	assert(first != last);
+
+	head = new Node<T>{ *first++ };
+	tail = head;
+	count = 1;
+
+	for (; first != last; ++first)
+	{
+		tail->next = new Node<T>{ *first };
+		tail = tail->next;
+		++count;
+	}
+}
+
+
+template <typename T>
+inline SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
+	SinglyLinkedList(source.begin(), source.end())
+{
 }
 
 
@@ -82,12 +126,8 @@ inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLi
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
-	SinglyLinkedList<T>()
+	SinglyLinkedList<T>(source.cbegin(), source.cend())
 {
-	if (!source.isEmpty())
-	{
-		copyFrom(source);
-	}
 }
 
 
@@ -95,43 +135,6 @@ template <typename T>
 inline bool SinglyLinkedList<T>::isEmpty() const
 {
 	return count == 0;
-}
-
-
-template <typename T>
-void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& source)
-{
-	assert(isEmpty());
-	assert(!source.isEmpty());
-	try
-	{
-		copyChainOf(source);
-		count = source.count;
-	}
-	catch (...)
-	{
-		empty();
-		throw;
-	}
-}
-
-
-template <typename T>
-void SinglyLinkedList<T>::copyChainOf(const SinglyLinkedList<T>& source)
-{
-	assert(!head);
-	assert(source.head);
-
-	head = new Node<T>{ source.head->data };
-	const Node<T>* nodeToCopy = source.head->next;
-	tail = head;
-
-	while (nodeToCopy)
-	{
-		tail->next = new Node<T>{ nodeToCopy->data };
-		tail = tail->next;
-		nodeToCopy = nodeToCopy->next;
-	}
 }
 
 
@@ -155,7 +158,7 @@ void SinglyLinkedList<T>::clearCurrentChain()
 {
 	while (head)
 	{
-		Node<T>* oldHead = head;
+		auto oldHead = head;
 		head = head->next;
 		delete oldHead;
 	}

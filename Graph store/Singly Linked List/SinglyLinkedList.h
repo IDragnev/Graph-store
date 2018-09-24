@@ -17,7 +17,7 @@ private:
 	struct Node
 	{
 		Node(const Item& data, Node<Item>* next = nullptr);
-
+		
 		Node<Item>* next;
 		Item data;
 	};
@@ -66,6 +66,8 @@ public:
 	using const_iterator = SinglyLinkedListIterator<T, true>;
 
 	SinglyLinkedList();
+	template <typename InputIt>
+	SinglyLinkedList(InputIt first, InputIt last);
 	SinglyLinkedList(std::initializer_list<T> source);
 	SinglyLinkedList(SinglyLinkedList<T>&& source);
 	SinglyLinkedList(const SinglyLinkedList<T>& source);
@@ -108,9 +110,12 @@ public:
 
 private:
 	void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
-	void copyFrom(const SinglyLinkedList<T>& source);
-	void copyChainOf(const SinglyLinkedList<T>& source);
 	void appendContentOf(SinglyLinkedList<T>&& source);
+
+	template <typename InputIt>
+	void tryToBuildChain(InputIt first, InputIt last);
+	template <typename InputIt>
+	void buildChain(InputIt first, InputIt last);
 
 	void clearCurrentChain();
 	void nullifyMembers();

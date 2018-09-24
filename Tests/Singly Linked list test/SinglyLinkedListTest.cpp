@@ -30,6 +30,14 @@ namespace SinglyLinkedListTest
 			}	
 		}
 
+		TEST_METHOD(testRangeCtor)
+		{
+			List source{ 1, 2, 3, 4 };
+			List destination(source.cbegin(), source.cend());
+
+			Assert::IsTrue(destination == source);
+		}
+
 		TEST_METHOD(testEmptyListReturnsInvalidIterators)
 		{
 			List list;
