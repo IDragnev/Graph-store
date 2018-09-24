@@ -78,6 +78,8 @@ public:
 	void empty();
 
 private:
+	PriorityQueue(std::size_t size);
+
 	template <typename InputIt>
 	void directlyInsertAll(InputIt first, InputIt last);
 	void buildHeap();

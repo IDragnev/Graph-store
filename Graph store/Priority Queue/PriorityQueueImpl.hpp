@@ -56,8 +56,8 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::initializer_list<Item> source) :
-	PriorityQueue{ source.begin(), source.end() }
+inline PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::initializer_list<Item> source) :
+	PriorityQueue(source.begin(), source.end())
 {
 }
 
@@ -65,10 +65,19 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQu
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 template <typename InputIt>
 PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last) :
-	elements(std::distance(first, last)) 
+	PriorityQueue(std::distance(first, last))
 {
 	directlyInsertAll(first, last);
 	buildHeap();
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::size_t size) :
+	elements(size)
+{
+	//this constructor is used only because
+	//it supplies exception safety for the range one
 }
 
 
