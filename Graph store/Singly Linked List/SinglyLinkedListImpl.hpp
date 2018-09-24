@@ -19,6 +19,20 @@ SinglyLinkedList<T>::SinglyLinkedList() :
 
 
 template <typename T>
+inline SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
+	SinglyLinkedList(source.begin(), source.end())
+{
+}
+
+
+template <typename T>
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
+	SinglyLinkedList<T>(source.cbegin(), source.cend())
+{
+}
+
+
+template <typename T>
 template <typename InputIt>
 SinglyLinkedList<T>::SinglyLinkedList(InputIt first, InputIt last) :
 	SinglyLinkedList()
@@ -67,9 +81,30 @@ void SinglyLinkedList<T>::buildChain(InputIt first, InputIt last)
 
 
 template <typename T>
-inline SinglyLinkedList<T>::SinglyLinkedList(std::initializer_list<T> source) :
-	SinglyLinkedList(source.begin(), source.end())
+void SinglyLinkedList<T>::empty()
 {
+	clearCurrentChain();
+	nullifyMembers();
+}
+
+
+template <typename T>
+void SinglyLinkedList<T>::clearCurrentChain()
+{
+	while (head)
+	{
+		auto oldHead = head;
+		head = head->next;
+		delete oldHead;
+	}
+}
+
+
+template <typename T>
+inline void SinglyLinkedList<T>::nullifyMembers()
+{
+	count = 0;
+	head = tail = nullptr;
 }
 
 
@@ -80,14 +115,6 @@ SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
 	count{ source.count }
 {
 	source.nullifyMembers();
-}
-
-
-template <typename T>
-inline void SinglyLinkedList<T>::nullifyMembers()
-{
-	count = 0;
-	head = tail = nullptr;
 }
 
 
@@ -125,43 +152,9 @@ inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLi
 
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& source) :
-	SinglyLinkedList<T>(source.cbegin(), source.cend())
-{
-}
-
-
-template <typename T>
-inline bool SinglyLinkedList<T>::isEmpty() const
-{
-	return count == 0;
-}
-
-
-template <typename T>
-void SinglyLinkedList<T>::empty()
-{
-	clearCurrentChain();
-	nullifyMembers();
-}
-
-
-template <typename T>
 inline SinglyLinkedList<T>::~SinglyLinkedList()
 {
 	clearCurrentChain();
-}
-
-
-template <typename T>
-void SinglyLinkedList<T>::clearCurrentChain()
-{
-	while (head)
-	{
-		auto oldHead = head;
-		head = head->next;
-		delete oldHead;
-	}
 }
 
 
@@ -181,6 +174,13 @@ void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
 		appendContentOf(std::move(source));
 		source.nullifyMembers();
 	}
+}
+
+
+template <typename T>
+inline bool SinglyLinkedList<T>::isEmpty() const
+{
+	return count == 0;
 }
 
 
