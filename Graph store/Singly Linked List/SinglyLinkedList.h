@@ -17,7 +17,8 @@ private:
 	struct Node
 	{
 		Node(const Item& data, Node<Item>* next = nullptr);
-		
+		Node(Item&& data, Node<Item>* next = nullptr);
+
 		Node<Item>* next;
 		Item data;
 	};

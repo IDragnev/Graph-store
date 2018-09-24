@@ -9,19 +9,20 @@ namespace SinglyLinkedListTest
 	TEST_CLASS(SinglyLinkedListTest)
 	{
 	private:
-		using List = SinglyLinkedList<int>;
+		using IntList = SinglyLinkedList<int>;
+		using StringList = SinglyLinkedList<std::string>;
 
 	public:
 		TEST_METHOD(testDefaultConstructedListIsEmpty)
 		{
-			List list;
+			IntList list;
 
 			Assert::IsTrue(list.isEmpty());
 		}
 
 		TEST_METHOD(testInitializerListCtor)
 		{
-			List list{ 0, 1, 2, 3, 4 };
+			IntList list{ 0, 1, 2, 3, 4 };
 
 			auto i = 0;
 			for(auto&& current: list)
@@ -32,15 +33,25 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testRangeCtor)
 		{
-			List source{ 1, 2, 3, 4 };
-			List destination(source.cbegin(), source.cend());
+			IntList source{ 1, 2, 3, 4 };
+			IntList destination(source.cbegin(), source.cend());
 
 			Assert::IsTrue(destination == source);
 		}
 
+		TEST_METHOD(testRangeCtorWithMoveIterator)
+		{
+			StringList source{ "one", "two", "three" };
+			StringList destination{ std::make_move_iterator(begin(source)),
+									std::make_move_iterator(end(source)) };
+
+			Assert::IsTrue(source == StringList{ "", "", "" }, L"Moved-from list has invalid content");
+			Assert::IsTrue(destination == StringList{ "one", "two", "three" }, L"Moved-in list has invalid content");
+		}
+
 		TEST_METHOD(testEmptyListReturnsInvalidIterators)
 		{
-			List list;
+			IntList list;
 
 			Assert::IsFalse(cbegin(list), L"Begin iterator of empty list is not null");
 			Assert::IsFalse(cend(list), L"End iterator of empty list is not null");
@@ -48,7 +59,7 @@ namespace SinglyLinkedListTest
 	
 		TEST_METHOD(testTailInsertionUpdatesCountAndTail)
 		{
-			List list;
+			IntList list;
 
 			list.insertAsTail(0);
 
@@ -58,7 +69,7 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionAsHeadUpdatesCountAndHead)
 		{
-			List list;
+			IntList list;
 
 			list.insertAsHead(0);
 
@@ -68,28 +79,28 @@ namespace SinglyLinkedListTest
 		
 		TEST_METHOD(testAppendListLValue)
 		{
-			List source{ 4, 5, 6 };
-			List destination{ 1, 2, 3 };
+			IntList source{ 4, 5, 6 };
+			IntList destination{ 1, 2, 3 };
 			
 			destination.appendList(source);
 
-			Assert::IsTrue(destination == List{ 1, 2, 3, 4, 5, 6 });
+			Assert::IsTrue(destination == IntList{ 1, 2, 3, 4, 5, 6 });
 		}
 
 		TEST_METHOD(testAppendListRValue)
 		{
-			List source{ 4, 5, 6 };
-			List destination{ 1, 2, 3 };
+			IntList source{ 4, 5, 6 };
+			IntList destination{ 1, 2, 3 };
 
 			destination.appendList(std::move(source));
 
-			Assert::IsTrue(destination == List{ 1, 2, 3, 4, 5, 6 }, L"Appended-to list has invalid contents");
+			Assert::IsTrue(destination == IntList{ 1, 2, 3, 4, 5, 6 }, L"Appended-to list has invalid contents");
 			Assert::IsTrue(source.isEmpty(), L"Move-appended list is not empty");
 		}
 
 		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
 		{
-			List list{ 1, 2, 3 };
+			IntList list{ 1, 2, 3 };
 			
 			list.removeHead();
 
@@ -99,7 +110,7 @@ namespace SinglyLinkedListTest
 		
 		TEST_METHOD(testRemoveTailUpdatesCoundAndTail)
 		{
-			List list{ 1, 2, 3 };
+			IntList list{ 1, 2, 3 };
 
 			list.removeTail();
 
@@ -109,7 +120,7 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionAfterNullIteratorInsertsAsTail)
 		{
-			List list{ 10, 11, 12 };
+			IntList list{ 10, 11, 12 };
 
 			list.insertAfter(end(list), 1);
 
@@ -118,7 +129,7 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionAfterValidIterator)
 		{
-			List list{ 1 };
+			IntList list{ 1 };
 
 			list.insertAfter(begin(list), 2);
 
@@ -127,16 +138,16 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionBetweenElementsWithInsertAfterIterator)
 		{
-			List list{ 1, 3 };
+			IntList list{ 1, 3 };
 			
 			list.insertAfter(begin(list), 2);
 
-			Assert::IsTrue(list == List{ 1, 2, 3 });
+			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
 		TEST_METHOD(testInsertionBeforeNullIteratorInsertsAsHead)
 		{
-			List list{ 10 };
+			IntList list{ 10 };
 
 			list.insertBefore(end(list), 1);
 
@@ -145,7 +156,7 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionBeforeIterator)
 		{
-			List list{ 1 };
+			IntList list{ 1 };
 
 			list.insertBefore(begin(list), 20);
 
@@ -154,18 +165,18 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testInsertionBetweenElementsWithInsertBeforeIterator)
 		{
-			List list{ 1, 3 };
+			IntList list{ 1, 3 };
 			auto iterator = begin(list);
 			++iterator;
 
 			list.insertBefore(iterator, 2);
 
-			Assert::IsTrue(list == List{ 1, 2, 3 });
+			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
 		TEST_METHOD(testRemovalAtNullIteratorDoesNothing)
 		{
-			List emptyList;
+			IntList emptyList;
 
 			emptyList.removeAt(end(emptyList));
 
@@ -174,36 +185,36 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testRemovalAtIterator)
 		{
-			List list{ 1, 2, 3 };
+			IntList list{ 1, 2, 3 };
 			auto iterator = begin(list);
 			++iterator;
 
 			list.removeAt(iterator);
 
-			Assert::IsTrue(list == List{ 1, 3 });
+			Assert::IsTrue(list == IntList{ 1, 3 });
 
 		}
 
 		TEST_METHOD(testCopyCtorFromEmptySource)
 		{
-			List source;
-			List destination{ source };
+			IntList source;
+			IntList destination{ source };
 
 			Assert::IsTrue(source == destination);
 		}
 
 		TEST_METHOD(testCopyCtorFromNonEmptySource)
 		{
-			List source{ 1, 2, 3 };
-			List destination{ source };
+			IntList source{ 1, 2, 3 };
+			IntList destination{ source };
 
 			Assert::IsTrue(source == destination);
 		}
 
 		TEST_METHOD(testMoveCtorFromEmptySource)
 		{
-			List source;
-			List destination{ std::move(source) };
+			IntList source;
+			IntList destination{ std::move(source) };
 
 			Assert::IsTrue(destination.isEmpty(), L"Moved-in list is not empty");
 			Assert::IsTrue(source.isEmpty(), L"Moved-from list is not empty");
@@ -211,17 +222,17 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testMoveCtorFromNonEmptySource)
 		{
-			List source{ 1, 2, 3, 4 };
-			List destination{ std::move(source) };
+			IntList source{ 1, 2, 3, 4 };
+			IntList destination{ std::move(source) };
 
-			Assert::IsTrue(destination == List{1, 2, 3, 4}, L"Moved-in list has invalid contents");
+			Assert::IsTrue(destination == IntList{1, 2, 3, 4}, L"Moved-in list has invalid contents");
 			Assert::IsTrue(source.isEmpty(), L"Moved-from list is not empty");
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
 		{
-			List lhs;
-			List rhs;
+			IntList lhs;
+			IntList rhs;
 
 			lhs = rhs;
 
@@ -230,8 +241,8 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
 		{
-			List lhs;
-			List rhs{ 1, 2, 3, 4 };
+			IntList lhs;
+			IntList rhs{ 1, 2, 3, 4 };
 
 			lhs = rhs;
 
@@ -240,8 +251,8 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
 		{
-			List lhs{ 1, 2, 3, 4 };
-			List rhs{ 12, 13, 14, 15 };
+			IntList lhs{ 1, 2, 3, 4 };
+			IntList rhs{ 12, 13, 14, 15 };
 
 			lhs = rhs;
 
@@ -250,8 +261,8 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
 		{
-			List lhs{ 1, 2, 3, 4 };
-			List rhs;
+			IntList lhs{ 1, 2, 3, 4 };
+			IntList rhs;
 
 			lhs = rhs;
 
@@ -260,8 +271,8 @@ namespace SinglyLinkedListTest
 		
 		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
 		{
-			List lhs;
-			List rhs;
+			IntList lhs;
+			IntList rhs;
 
 			lhs = std::move(rhs);
 
@@ -271,19 +282,19 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
 		{
-			List lhs;
-			List rhs{ 1, 2, 3, 4 };
+			IntList lhs;
+			IntList rhs{ 1, 2, 3, 4 };
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs == List{ 1, 2, 3, 4 }, L"Moved-in list has invalid contents");
+			Assert::IsTrue(lhs == IntList{ 1, 2, 3, 4 }, L"Moved-in list has invalid contents");
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from list is not empty");
 		}
 		
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
 		{
-			List lhs{ 1, 2, 3, 4 };
-			List rhs;
+			IntList lhs{ 1, 2, 3, 4 };
+			IntList rhs;
 
 			lhs = std::move(rhs);
 
@@ -293,12 +304,12 @@ namespace SinglyLinkedListTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
 		{
-			List lhs{ 1, 2, 3, 4 };
-			List rhs{ 10, 9, 8, 7 };
+			IntList lhs{ 1, 2, 3, 4 };
+			IntList rhs{ 10, 9, 8, 7 };
 
 			lhs = std::move(rhs);
 
-			Assert::IsTrue(lhs == List{10, 9, 8, 7}, L"Moved-in list has invalid contents");
+			Assert::IsTrue(lhs == IntList{10, 9, 8, 7}, L"Moved-in list has invalid contents");
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from list is not empty");
 		}
 	};

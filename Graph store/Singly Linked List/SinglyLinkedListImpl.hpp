@@ -10,6 +10,15 @@ SinglyLinkedList<T>::Node<Item>::Node(const Item& data, Node<Item>* next) :
 
 
 template <typename T>
+template <typename Item>
+SinglyLinkedList<T>::Node<Item>::Node(Item&& data, Node<Item>* next) :
+	next{ next },
+	data{ std::move(data) }
+{
+}
+
+
+template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() :
 	count{ 0 }, 
 	head{ nullptr },
