@@ -11,8 +11,6 @@ class SinglyLinkedList
 private:
 	static_assert(std::is_copy_constructible<T>::value, "SinglyLinkedList<T> requires T to be copy constructible");
 
-	using unsignedInteger = unsigned;
-
 	template <typename Item>
 	struct Node
 	{
@@ -95,7 +93,7 @@ public:
 
 	void empty();
 	bool isEmpty() const;                              
-	unsignedInteger getCount() const;  
+	unsigned getCount() const;  
 
 	iterator begin();
 	iterator end();
@@ -129,7 +127,7 @@ private:
 	bool validateOwnershipOf(const iterator& it) const;
 
 private:
-	unsignedInteger count;                                         
+	unsigned count;                                         
 	Node<T>* head;                                  
 	Node<T>* tail;                                    
 };

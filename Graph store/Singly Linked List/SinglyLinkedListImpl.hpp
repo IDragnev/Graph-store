@@ -439,7 +439,7 @@ inline void SinglyLinkedList<T>::setTail(const T& data)
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::unsignedInteger SinglyLinkedList<T>::getCount() const
+inline unsigned SinglyLinkedList<T>::getCount() const
 {
 	return count;
 }
