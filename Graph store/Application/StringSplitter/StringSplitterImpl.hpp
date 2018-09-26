@@ -2,17 +2,15 @@
 
 template <template <typename...> typename Container>
 StringSplitter<Container>::StringSplitter(std::initializer_list<char> delimiters) :
-	stream{},
-	result{},
 	delimiters{ delimiters }
 {
 }
 
 
 template <template <typename...> typename Container>
-Container<std::string> StringSplitter<Container>::split(const std::string& string)
+Container<std::string> StringSplitter<Container>::split(const std::string& str)
 {
-	init(string);
+	init(str);
 	split();
 	
 	return std::move(result);
@@ -20,10 +18,10 @@ Container<std::string> StringSplitter<Container>::split(const std::string& strin
 
 
 template <template <typename...> typename Container>
-inline void StringSplitter<Container>::init(const std::string& string)
+inline void StringSplitter<Container>::init(const std::string& str)
 {
 	stream.clear();
-	stream.str(string);
+	stream.str(str);
 }
 
 
@@ -33,9 +31,9 @@ void StringSplitter<Container>::split()
 	do
 	{
 		skipWhiteSpaces();
-		auto delim = chooseDelimiter();
-		advanceIfNotWhiteSpace(delim);
-		extractWord(delim);
+		chooseDelimiter();
+		advanceIfDelimIsNotWhiteSpace();
+		extractWord();
 	} while (stream.good());
 }
 
@@ -51,26 +49,26 @@ void StringSplitter<Container>::skipWhiteSpaces()
 
 
 template <template <typename...> typename Container>
-char StringSplitter<Container>::chooseDelimiter()
+void StringSplitter<Container>::chooseDelimiter()
 { 
 	auto currentSymbol = stream.peek();
+	currentDelim = ' ';
 
-	for (const auto& delim : delimiters)
+	for (const auto& d : delimiters)
 	{
-		if (delim == currentSymbol)
+		if (d == currentSymbol)
 		{
-			return delim;
+			currentDelim = d;
+			return;
 		}
 	}
-
-	return ' ';
 }
 
 
 template <template <typename...> typename Container>
-inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
+inline void StringSplitter<Container>::advanceIfDelimIsNotWhiteSpace()
 {
-	if (delimiter != ' ')
+	if (currentDelim != ' ')
 	{
 		stream.ignore();
 	}
@@ -78,36 +76,36 @@ inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
 
 
 template <template <typename...> typename Container>
-void StringSplitter<Container>::extractWord(char delim)
+void StringSplitter<Container>::extractWord()
 {
 	auto word = std::string{};
-	std::getline(stream, word, delim);
+	std::getline(stream, word, currentDelim);
 
 	if (!stream.fail())
 	{
-		insertIfMatched(std::move(word), delim);
+		insertIfDelimWasMatched(std::move(word));
 	}
 }
 
 
 template <template <typename...> typename Container>
-void StringSplitter<Container>::insertIfMatched(std::string&& word, char delim)
+void StringSplitter<Container>::insertIfDelimWasMatched(std::string&& word)
 {
-	if (wasMatched(delim))
+	if (wasDelimMatched())
 	{
 		result.insert(std::move(word));
 	}
 	else
 	{
-		throw Exception{ "Unmatched delimiter: " + std::string{ delim } };
+		throw Exception{ "Unmatched delimiter: " + std::string{ currentDelim } };
 	}
 }
 
 
 template <template <typename...> typename Container>
-bool StringSplitter<Container>::wasMatched(char delimiter)
+bool StringSplitter<Container>::wasDelimMatched()
 {
-	if (delimiter == ' ')
+	if (currentDelim == ' ')
 	{
 		//white space is always matched, even by '\0'
 		return true;
@@ -115,7 +113,7 @@ bool StringSplitter<Container>::wasMatched(char delimiter)
 	else
 	{
 		stream.unget();
-		return stream.get() == delimiter;
+		return stream.get() == currentDelim;
 	}
 }
 

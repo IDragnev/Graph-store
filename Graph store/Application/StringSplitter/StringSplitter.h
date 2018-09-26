@@ -26,22 +26,23 @@ public:
 	StringSplitter& operator=(const StringSplitter<Container>&) = delete;
 	StringSplitter& operator=(StringSplitter<Container>&& rhs) = default;
 
-	Container<std::string> split(const std::string& string);
+	Container<std::string> split(const std::string& str);
 
 private:
 	void init(const std::string& str);
 	void split();
 	void skipWhiteSpaces();
-	char chooseDelimiter();
-	void advanceIfNotWhiteSpace(char delim);
-	void extractWord(char delim);
-	void insertIfMatched(std::string&& word, char delim);
-	bool wasMatched(char delim);
+	void chooseDelimiter();
+	void advanceIfDelimIsNotWhiteSpace();
+	void extractWord();
+	void insertIfDelimWasMatched(std::string&& word);
+	bool wasDelimMatched();
 
 private:
 	std::istringstream stream;
 	Container<std::string> result;
 	DArray<char> delimiters;
+	char currentDelim = ' ';
 };
 
 #include "StringSplitterImpl.hpp"
