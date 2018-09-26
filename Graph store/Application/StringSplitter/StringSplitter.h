@@ -5,28 +5,29 @@
 #include <utility>
 #include "..\..\Dynamic Array\DArray.h"
 
-template <template <class...> class Container = DArray>
+template <template <typename...> typename Container = DArray>
 class StringSplitter
 {
 private:
-	static_assert(std::is_default_constructible<Container<std::string>>::value, "StringSplitter requires Container<std::string> to be default constructible");
-	static_assert(std::is_move_constructible<Container<std::string>>::value, "StringSplitter requires Container<std::string> to be move constructible");
-	static_assert(std::is_move_assignable<Container<std::string>>::value, "StringSplitter requires Container<std::string> to be move assignable");
+	static_assert(std::is_default_constructible<Container<std::string>>::value,
+				  "StringSplitter requires Container<std::string> to be default constructible");
+	static_assert(std::is_move_constructible<Container<std::string>>::value, 
+				  "StringSplitter requires Container<std::string> to be move constructible");
+	static_assert(std::is_move_assignable<Container<std::string>>::value, 
+				  "StringSplitter requires Container<std::string> to be move assignable");
 
 public:
 	StringSplitter() = default;
 	StringSplitter(std::initializer_list<char> delimiters);
+	StringSplitter(const StringSplitter<Container>&) = delete;
 	StringSplitter(StringSplitter<Container>&& source) = default;
-	~StringSplitter() = default;
 	
+	StringSplitter& operator=(const StringSplitter<Container>&) = delete;
 	StringSplitter& operator=(StringSplitter<Container>&& rhs) = default;
 
 	Container<std::string> split(const std::string& string);
 
 private:
-	StringSplitter(const StringSplitter<Container>&) = delete;
-	StringSplitter& operator=(const StringSplitter<Container>&) = delete;
-
 	void init(const std::string& string);
 	void split();
 	void skipWhiteSpaces();

@@ -1,6 +1,6 @@
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 StringSplitter<Container>::StringSplitter(std::initializer_list<char> delimiters) :
 	stream{},
 	result{},
@@ -9,7 +9,7 @@ StringSplitter<Container>::StringSplitter(std::initializer_list<char> delimiters
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 Container<std::string> StringSplitter<Container>::split(const std::string& string)
 {
 	init(string);
@@ -19,7 +19,7 @@ Container<std::string> StringSplitter<Container>::split(const std::string& strin
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 inline void StringSplitter<Container>::init(const std::string& string)
 {
 	stream.clear();
@@ -27,7 +27,7 @@ inline void StringSplitter<Container>::init(const std::string& string)
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 void StringSplitter<Container>::split()
 {
 	do
@@ -41,7 +41,7 @@ void StringSplitter<Container>::split()
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 void StringSplitter<Container>::skipWhiteSpaces()
 {
 	while (stream.peek() == ' ')
@@ -51,7 +51,7 @@ void StringSplitter<Container>::skipWhiteSpaces()
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 char StringSplitter<Container>::chooseDelimiter()
 { 
 	auto currentSymbol = stream.peek();
@@ -68,7 +68,7 @@ char StringSplitter<Container>::chooseDelimiter()
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
 {
 	if (delimiter != ' ')
@@ -78,7 +78,7 @@ inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 void StringSplitter<Container>::extractWord(char delimiter)
 {
 	std::string word;
@@ -91,7 +91,7 @@ void StringSplitter<Container>::extractWord(char delimiter)
 }
 
 
-template <template <class...> class Container>
+template <template <typename...> typename Container>
 bool StringSplitter<Container>::wasMatched(char delimiter)
 {
 	if (delimiter == ' ')
