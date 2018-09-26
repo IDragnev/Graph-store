@@ -37,7 +37,6 @@ void StringSplitter<Container>::split()
 		advanceIfNotWhiteSpace(delim);
 		extractWord(delim);
 	} while (stream.good());
-
 }
 
 
@@ -79,14 +78,28 @@ inline void StringSplitter<Container>::advanceIfNotWhiteSpace(char delimiter)
 
 
 template <template <typename...> typename Container>
-void StringSplitter<Container>::extractWord(char delimiter)
+void StringSplitter<Container>::extractWord(char delim)
 {
-	std::string word;
-	std::getline(stream, word, delimiter);
+	auto word = std::string{};
+	std::getline(stream, word, delim);
 
-	if (!stream.fail() && wasMatched(delimiter))
+	if (!stream.fail())
+	{
+		insertIfMatched(std::move(word), delim);
+	}
+}
+
+
+template <template <typename...> typename Container>
+void StringSplitter<Container>::insertIfMatched(std::string&& word, char delim)
+{
+	if (wasMatched(delim))
 	{
 		result.insert(std::move(word));
+	}
+	else
+	{
+		throw Exception{ "Unmatched delimiter: " + std::string{ delim } };
 	}
 }
 

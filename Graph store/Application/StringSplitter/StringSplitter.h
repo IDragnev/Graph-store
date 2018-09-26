@@ -4,6 +4,7 @@
 #include <sstream>
 #include <utility>
 #include "..\..\Dynamic Array\DArray.h"
+#include "..\..\General Exceptions\Exception.h"
 
 template <template <typename...> typename Container = DArray>
 class StringSplitter
@@ -28,13 +29,14 @@ public:
 	Container<std::string> split(const std::string& string);
 
 private:
-	void init(const std::string& string);
+	void init(const std::string& str);
 	void split();
 	void skipWhiteSpaces();
 	char chooseDelimiter();
-	void advanceIfNotWhiteSpace(char delimiter);
-	void extractWord(char delimiter);
-	bool wasMatched(char delimiter);
+	void advanceIfNotWhiteSpace(char delim);
+	void extractWord(char delim);
+	void insertIfMatched(std::string&& word, char delim);
+	bool wasMatched(char delim);
 
 private:
 	std::istringstream stream;

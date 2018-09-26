@@ -57,13 +57,21 @@ namespace StringSplitterTest
 			Assert::IsTrue(result == Container{ "one", "two" });
 		}
 
-		TEST_METHOD(testNonWhiteSpaceDelimiterIsNotMatchedByNullTerminatingCharacter)
+		TEST_METHOD(testUnmatchedDelimiterThrows)
 		{
 			Splitter s{ '\'' };
 
-			Container result = s.split(" one 'two  ");
+			try
+			{
+				s.split(" one 'two  ");
 
-			Assert::IsTrue(result == Container{ "one" });
+				Assert::Fail(L"split did not throw");
+			}
+			catch (Exception& e)
+			{
+				auto message = std::string{ e.what() };
+				Assert::IsTrue(message == "Unmatched delimiter: \'");
+			}
 		}
 	};
 }
