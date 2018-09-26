@@ -8,59 +8,60 @@ namespace StringSplitterTest
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		typedef DArray<std::string> Container;
+		using Splitter = StringSplitter<DArray>;
+		using Container = DArray<std::string>;
 
 	public:	
 		TEST_METHOD(testDefaultSplitterHasOnlyWhiteSpaceDelimiter)
 		{
-			StringSplitter<> splitter;
+			Splitter s;
 
-			Container result = splitter.split("one two 'three'");
+			Container result = s.split("one two 'three'");
 
 			Assert::IsTrue(result == Container{ "one", "two", "'three'"});
 		}
 
 		TEST_METHOD(testSplittingTheEmptyStringReturnsEmptyContainer)
 		{
-			StringSplitter<> splitter{ ' ', '\'' };
+			Splitter s{ ' ', '\'' };
 
-			Container result = splitter.split("");
+			Container result = s.split("");
 
 			Assert::IsTrue(result.isEmpty());
 		}
 
 		TEST_METHOD(testWhiteSpacesAreIgnored)
 		{
-			StringSplitter<> splitter{ '\"', '\'' };
+			Splitter s{ '\"', '\'' };
 
-			Container result = splitter.split("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
+			Container result = s.split("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
 
 			Assert::IsTrue(result == Container{ "one", "", "-two-", "three", "*four*", "five" });
 		}
 
 		TEST_METHOD(testWhiteSpaceIsAlwaysConsideredAsDelimiter)
 		{
-			StringSplitter<> splitter{ '\'' };
+			Splitter s{ '\'' };
 
-			Container result = splitter.split("     'one'   two   'three and a half'      *four*  ");
+			Container result = s.split("     'one'   two   'three and a half'      *four*  ");
 
 			Assert::IsTrue(result == Container{ "one", "two", "three and a half", "*four*" });
 		}
 
 		TEST_METHOD(testWhiteSpaceIsMatchedByNullTerminatingCharacter)
 		{
-			StringSplitter<> splitter{ '\'' };
+			Splitter s{ '\'' };
 
-			Container result = splitter.split(" one two");
+			Container result = s.split(" one two");
 
 			Assert::IsTrue(result == Container{ "one", "two" });
 		}
 
 		TEST_METHOD(testNonWhiteSpaceDelimiterIsNotMatchedByNullTerminatingCharacter)
 		{
-			StringSplitter<> splitter{ '\'' };
+			Splitter s{ '\'' };
 
-			Container result = splitter.split(" one 'two  ");
+			Container result = s.split(" one 'two  ");
 
 			Assert::IsTrue(result == Container{ "one" });
 		}
