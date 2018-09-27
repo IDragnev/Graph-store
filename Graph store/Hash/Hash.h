@@ -15,7 +15,7 @@ template <
 	typename Item,
 	typename Key = Item,
 	typename KeyAccessor = Identity<Key>,
-	typename Hasher = HashFunction<Key>
+	typename Hasher = HashFunction<Key> /* std::hash<key> ? */
 	/*typename KeyEqual = std::equal<Key, Key>*/
 > 
 class Hash
@@ -66,6 +66,8 @@ private:
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
 	bool isFillingUp() const;
+
+	std::size_t computeHashValue(const Key& key) const;
 
 private:
 	static const size_type GROWTH_FACTOR = 2;

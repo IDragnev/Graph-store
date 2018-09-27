@@ -121,7 +121,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 		enlarge();
 	}
 
-	auto index = hashFunction(keyAccessor(item)) % tableSize;
+	auto index = computeHashValue(keyAccessor(item));
 
 	while (table[index])
 	{
@@ -130,6 +130,13 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 
 	table[index] = &item;
 	++insertedCount;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::computeHashValue(const Key& key) const
+{
+	return hashFunction(key) % tableSize;
 }
 
 
@@ -199,7 +206,7 @@ inline Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& key) const
 {
-	auto index = hashFunction(key) % tableSize;
+	auto index = computeHashValue(key);
 
 	while (table[index])
 	{
