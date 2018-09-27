@@ -3,6 +3,7 @@
 
 #include "args.hxx"
 #include "..\GraphStore\GraphStore.h"
+#include "StringSplitter\StringSplitter.h"
 #include <forward_list>
 
 class String;
@@ -15,7 +16,7 @@ class Application
 private:
 	using Commands =  std::forward_list<args::Command>;
 	using Function = std::function<void(args::Subparser&)>;
-	using InputContainer = DArray<std::string>;
+	using StringSplitter = StringSplitter<DArray>;
 
 public:
 	static Application& instance();
@@ -27,9 +28,7 @@ private:
 	Application();
 	~Application() = default;
 
-	Application(Application&&) = delete;
 	Application(const Application&) = delete;
-	Application& operator=(Application&&) = delete;
 	Application& operator=(const Application&) = delete;
 
 	void insertExitCommand();
@@ -38,12 +37,13 @@ private:
 
 	void load(const String& directory);
 	void run();
-	void invokeCommand(const InputContainer& input);
-	static InputContainer receiveInput();
+	void invokeCommand(const std::string& rawInput);
+	static std::string receiveInput();
 
 private:
 	args::ArgumentParser parser;
 	args::Group commandsGroup;
+	StringSplitter splitter;
 	Commands commands;
 	GraphStore graphs;
 	bool receivedExitCommand;

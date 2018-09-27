@@ -19,8 +19,7 @@ Application& Application::instance()
 Application::Application() :
 	parser{ "GRAPH STORE APPLICATION" },
 	commandsGroup{ parser, "Supported commands" },
-	commands{},
-	graphs{},
+	splitter{ '\'', ' ' },
 	receivedExitCommand{ false }
 {
 	insertExitCommand();
@@ -30,7 +29,7 @@ Application::Application() :
 
 void Application::insertExitCommand()
 {
-	insertCommand("EXIT", "Exits the application",
+	insertCommand("EXIT", "Exits the application", 
 		[&](args::Subparser& parser) 
 	{ 
 		parser.Parse();
@@ -41,7 +40,8 @@ void Application::insertExitCommand()
 
 void Application::insertHelpCommand()
 {
-	insertCommand("HELP", "Lists the supported commands", [&](args::Subparser& parser)
+	insertCommand("HELP", "Lists the supported commands", 
+		[&](args::Subparser& parser)
 	{
 		parser.Parse();
 		std::cout << "Supported commands:\n";
@@ -84,7 +84,7 @@ void Application::run(const String& directory)
 
 void Application::load(const String& directory)
 {
-	DirectoryLoader loader(directory);
+	DirectoryLoader loader{ directory };
 
 	loader.load([&](std::unique_ptr<Graph> graphPtr)
 	{
@@ -106,7 +106,7 @@ void Application::run()
 }
 
 
-Application::InputContainer Application::receiveInput()
+std::string Application::receiveInput()
 {
 	const std::size_t maxInputSize = 512;
 	char input[maxInputSize];
@@ -114,15 +114,15 @@ Application::InputContainer Application::receiveInput()
 	std::cin.clear();
 	std::cin.getline(input, maxInputSize);
 
-	StringSplitter<> s{ ' ', '\'' };
-	return s.split(input);
+	return input;
 }
 
 
-void Application::invokeCommand(const InputContainer& input)
+void Application::invokeCommand(const std::string& rawInput)
 {
 	try
 	{
+		auto input = splitter.split(rawInput);
 		parser.ParseArgs(input);
 	}
 	catch (std::runtime_error& e)
