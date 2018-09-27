@@ -24,17 +24,17 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(InputIt first, InputIt last) :
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Hash<Item, Key, KeyAccessor, Hasher>::Hash(unsignedInteger expectedCount)
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(size_type expectedCount)
 {
 	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(unsignedInteger size)
+void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(size_type size)
 {
 	assert(size >= MIN_TABLE_SIZE);
-	table = PtrArray(size, size);
+	table = Table(size, size);
 	tableSize = size;
 	insertedCount = 0;
 	nullify(table);
@@ -42,7 +42,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(unsignedInteger si
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::nullify(PtrArray& table)
+void Hash<Item, Key, KeyAccessor, Hasher>::nullify(Table& table)
 {
 	for (auto&& slot : table)
 	{
@@ -56,8 +56,8 @@ void Hash<Item, Key, KeyAccessor, Hasher>::nullify(PtrArray& table)
 // are inserted, the load factor will be 2/3 
 // 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline typename Hash<Item, Key, KeyAccessor, Hasher>::unsignedInteger
-Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(unsignedInteger expectedCount)
+inline typename Hash<Item, Key, KeyAccessor, Hasher>::size_type
+Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(size_type expectedCount)
 {
 	assert(expectedCount > 0);
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
@@ -148,12 +148,12 @@ inline void Hash<Item, Key, KeyAccessor, Hasher>::enlarge()
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::resize(unsignedInteger newSize)
+void Hash<Item, Key, KeyAccessor, Hasher>::resize(size_type newSize)
 {
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	PtrArray oldTable{ std::move(table) };
+	Table oldTable{ std::move(table) };
 	
 	try
 	{
@@ -169,7 +169,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(unsignedInteger newSize)
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(PtrArray& table)
+void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
 {
 	for (auto&& itemPtr : table)
 	{
@@ -248,7 +248,7 @@ inline void Hash<Item, Key, KeyAccessor, Hasher>::shrink()
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Item* Hash<Item, Key, KeyAccessor, Hasher>::extractItemFromTableAt(unsignedInteger index)
+Item* Hash<Item, Key, KeyAccessor, Hasher>::extractItemFromTableAt(size_type index)
 {
 	assert(index < tableSize && table[index]);
 
@@ -275,7 +275,7 @@ inline bool Hash<Item, Key, KeyAccessor, Hasher>::canBeShrinked() const
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(unsignedInteger start)
+void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(size_type start)
 {
 	assert(start < tableSize);
 
@@ -306,7 +306,7 @@ inline bool Hash<Item, Key, KeyAccessor, Hasher>::isEmpty() const
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline typename Hash<Item,Key,KeyAccessor, Hasher>::unsignedInteger 
+inline typename Hash<Item,Key,KeyAccessor, Hasher>::size_type 
 Hash<Item, Key, KeyAccessor, Hasher>::getCount() const
 {
 	return insertedCount;

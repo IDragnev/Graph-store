@@ -16,16 +16,23 @@ template <
 	typename Key = Item,
 	typename KeyAccessor = Identity<Key>,
 	typename Hasher = HashFunction<Key>
+	/*typename KeyEqual = std::equal<Key, Key>*/
 > 
 class Hash
 {
 private:
-	using unsignedInteger = std::size_t;
-	using PtrArray = DArray<Item*>;
+	using Table = DArray<Item*>;
+
+public:
+	using key_type = Key;
+	using mapped_type = Item;
+	using size_type = std::size_t;
+	using hasher = Hasher;
+	//using key_equal = KeyEqual;
 
 public:
 	Hash();
-	explicit Hash(unsignedInteger expectedCount);
+	explicit Hash(size_type expectedCount);
 	template <typename InputIt>
 	Hash(InputIt first, InputIt last);
 	Hash(Hash&& source);
@@ -42,35 +49,35 @@ public:
 
 	void empty();
 	bool isEmpty() const;
-	unsignedInteger getCount() const;
+	size_type getCount() const;
 
 private:
 	void swapContentsWithReconstructedParameter(Hash other);
 	void enlarge();
 	void shrink();
-	void resize(unsignedInteger newSize);
-	void toEmptyStateOfSize(unsignedInteger size);
-	void insertAllItemsFrom(PtrArray& table);
+	void resize(size_type newSize);
+	void toEmptyStateOfSize(size_type size);
+	void insertAllItemsFrom(Table& table);
 
 	long getPositionOfItemWithKey(const Key& key) const; 
-	void rehashCluster(unsignedInteger start);
-	Item* extractItemFromTableAt(unsignedInteger index);
+	void rehashCluster(size_type start);
+	Item* extractItemFromTableAt(size_type index);
 	
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
 	bool isFillingUp() const;
 
 private:
-	static const unsignedInteger GROWTH_FACTOR = 2;
-	static const unsignedInteger MIN_TABLE_SIZE = 3;
-	static unsignedInteger calculateAppropriateSize(unsignedInteger expectedSize);
+	static const size_type GROWTH_FACTOR = 2;
+	static const size_type MIN_TABLE_SIZE = 3;
+	static size_type calculateAppropriateSize(size_type expectedSize);
 
-	static void nullify(PtrArray& table);
+	static void nullify(Table& table);
 
 private:
-	unsignedInteger tableSize = MIN_TABLE_SIZE;
-	unsignedInteger insertedCount{};
-	PtrArray table;
+	size_type tableSize = MIN_TABLE_SIZE;
+	size_type insertedCount{};
+	Table table;
 	mutable Hasher hashFunction;
 	mutable KeyAccessor keyAccessor;
 };
