@@ -104,6 +104,12 @@ private:
 
 	void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
+	auto positionOfLastNonLeaf() const
+	{
+		auto asSigned = [](auto x) { return std::make_signed_t<decltype(x)>(x); };
+		return asSigned(elements.getCount() / 2 - 1U);
+	}
+
 private:
 	DArray<Element> elements;
 	mutable CompareFunction compareFunction;     

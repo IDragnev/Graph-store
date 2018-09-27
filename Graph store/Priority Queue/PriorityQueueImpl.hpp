@@ -85,10 +85,10 @@ template <typename Item, typename Key, typename KeyAccessor, typename CompareFun
 template <typename InputIt>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 {
-	auto pos = std::size_t{ 0 };
+	auto index = std::size_t{ 0 };
 	for (; first != last; ++first)
 	{
-		elements.insert(Element{ *first, pos++ });
+		elements.insert(Element{ *first, index++ });
 	}
 }
 
@@ -96,11 +96,11 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::direc
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 {
-	long lastNonLeaf = (elements.getCount() / 2) - 1;
+	auto index = positionOfLastNonLeaf();
 
-	while (lastNonLeaf >= 0)
+	while (index >= 0)
 	{
-		siftDown(lastNonLeaf--);
+		siftDown(index--);
 	}
 }
 
@@ -209,9 +209,9 @@ void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::inval
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(const Item& item)
 {
-	auto position = elements.getCount();
-	elements.insert(Element{ item, position });
-	siftUp(position);
+	auto index = elements.getCount();
+	elements.insert(Element{ item, index });
+	siftUp(index);
 }
 
 
@@ -280,9 +280,9 @@ inline const Item PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleS
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::moveLastToRoot()
 {
-	auto positionOfLast = elements.getCount() - 1;
-	moveAt(0, std::move(elements[positionOfLast]));
-	elements.removeAt(positionOfLast);
+	auto indexOfLast = elements.getCount() - 1;
+	moveAt(0, std::move(elements[indexOfLast]));
+	elements.removeAt(indexOfLast);
 }
 
 
