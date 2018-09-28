@@ -122,19 +122,40 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 	}
 
 	auto index = computeHashValue(keyAccessor(item));
+	auto emptySlot = findFirstEmptySlotStartingAt(index);
+	insertAt(emptySlot, item);
+}
 
-	while (table[index])
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+std::size_t Hash<Item, Key, KeyAccessor, Hasher>::findFirstEmptySlotStartingAt(std::size_t index) const
+{
+	while (!isSlotEmpty(index))
 	{
-		index = increment(index);
+		index = followingSlotIndex(index);
 	}
 
+	return index;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::insertAt(std::size_t index, Item& item)
+{
 	table[index] = &item;
 	++insertedCount;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::increment(std::size_t index) const
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::isSlotEmpty(std::size_t index) const
+{
+	return table[index] == nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::followingSlotIndex(std::size_t index) const
 {
 	return (index + 1) % table.getSize();
 }
@@ -222,7 +243,7 @@ long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& k
 			return index;
 		}
 
-		index = increment(index);
+		index = followingSlotIndex(index);
 	}
 
 	return -1;
@@ -244,7 +265,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster(increment(index));
+			rehashCluster(followingSlotIndex(index));
 		}
 		
 		return result;
@@ -300,7 +321,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(size_type start)
 		auto* extracted = extractItemFromTableAt(positionToEmpty);
 		insert(*extracted);
 
-		positionToEmpty = increment(positionToEmpty);
+		positionToEmpty = followingSlotIndex(positionToEmpty);
 	}
 }
 

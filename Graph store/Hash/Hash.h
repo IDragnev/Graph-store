@@ -62,13 +62,16 @@ private:
 	long getPositionOfItemWithKey(const Key& key) const; 
 	void rehashCluster(size_type start);
 	Item* extractItemFromTableAt(size_type index);
-	
+	void insertAt(std::size_t index, Item& item);
+
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
 	bool isFillingUp() const;
 
+	std::size_t findFirstEmptySlotStartingAt(std::size_t index) const;
 	std::size_t computeHashValue(const Key& key) const;
-	std::size_t increment(std::size_t index) const;
+	std::size_t followingSlotIndex(std::size_t index) const;
+	bool isSlotEmpty(std::size_t index) const;
 
 private:
 	static const size_type GROWTH_FACTOR = 2;
