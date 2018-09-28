@@ -68,6 +68,7 @@ private:
 	bool isFillingUp() const;
 
 	std::size_t computeHashValue(const Key& key) const;
+	std::size_t increment(std::size_t index) const;
 
 private:
 	static const size_type GROWTH_FACTOR = 2;

@@ -125,11 +125,18 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 
 	while (table[index])
 	{
-		index = (index + 1) % tableSize;
+		index = increment(index);
 	}
 
 	table[index] = &item;
 	++insertedCount;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::increment(std::size_t index) const
+{
+	return (index + 1) % table.getSize();
 }
 
 
@@ -215,7 +222,7 @@ long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& k
 			return index;
 		}
 
-		index = (index + 1) % tableSize;
+		index = increment(index);
 	}
 
 	return -1;
@@ -237,7 +244,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster((index + 1) % tableSize);
+			rehashCluster(increment(index));
 		}
 		
 		return result;
@@ -293,7 +300,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(size_type start)
 		auto* extracted = extractItemFromTableAt(positionToEmpty);
 		insert(*extracted);
 
-		positionToEmpty = (positionToEmpty + 1) % tableSize;
+		positionToEmpty = increment(positionToEmpty);
 	}
 }
 
