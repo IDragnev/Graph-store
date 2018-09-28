@@ -59,19 +59,19 @@ private:
 	void toEmptyStateOfSize(size_type size);
 	void insertAllItemsFrom(Table& table);
 
-	long getPositionOfItemWithKey(const Key& key) const; 
-	void rehashCluster(size_type start);
-	Item* extractItemFromTableAt(size_type index);
-	void insertAt(std::size_t index, Item& item);
+	long correspondingSlot(const Key& key) const; 
+	void rehashCluster(std::size_t startingSlot);
+	Item* extractSlotEntry(std::size_t slot);
+	void insertAt(std::size_t slot, Item& item);
 
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
 	bool isFillingUp() const;
 
-	std::size_t findFirstEmptySlotStartingAt(std::size_t index) const;
+	std::size_t findFirstEmptySlotStartingAt(std::size_t slot) const;
 	std::size_t computeHashValue(const Key& key) const;
-	std::size_t followingSlotIndex(std::size_t index) const;
-	bool isSlotEmpty(std::size_t index) const;
+	std::size_t followingSlot(std::size_t slot) const;
+	bool isEmpty(std::size_t slot) const;
 
 private:
 	static const size_type GROWTH_FACTOR = 2;

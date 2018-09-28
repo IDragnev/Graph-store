@@ -44,9 +44,9 @@ void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(size_type size)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 void Hash<Item, Key, KeyAccessor, Hasher>::nullify(Table& table)
 {
-	for (auto&& slot : table)
+	for (auto* entry : table)
 	{
-		slot = nullptr;
+		entry = nullptr;
 	}
 }
 
@@ -121,43 +121,9 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 		enlarge();
 	}
 
-	auto index = computeHashValue(keyAccessor(item));
-	auto emptySlot = findFirstEmptySlotStartingAt(index);
+	auto slot = computeHashValue(keyAccessor(item));
+	auto emptySlot = findFirstEmptySlotStartingAt(slot);
 	insertAt(emptySlot, item);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-std::size_t Hash<Item, Key, KeyAccessor, Hasher>::findFirstEmptySlotStartingAt(std::size_t index) const
-{
-	while (!isSlotEmpty(index))
-	{
-		index = followingSlotIndex(index);
-	}
-
-	return index;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline void Hash<Item, Key, KeyAccessor, Hasher>::insertAt(std::size_t index, Item& item)
-{
-	table[index] = &item;
-	++insertedCount;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline bool Hash<Item, Key, KeyAccessor, Hasher>::isSlotEmpty(std::size_t index) const
-{
-	return table[index] == nullptr;
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::followingSlotIndex(std::size_t index) const
-{
-	return (index + 1) % table.getSize();
 }
 
 
@@ -165,6 +131,40 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::computeHashValue(const Key& key) const
 {
 	return hashFunction(key) % tableSize;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+std::size_t Hash<Item, Key, KeyAccessor, Hasher>::findFirstEmptySlotStartingAt(std::size_t slot) const
+{
+	while (!isEmpty(slot))
+	{
+		slot = followingSlot(slot);
+	}
+
+	return slot;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::insertAt(std::size_t slot, Item& item)
+{
+	table[slot] = &item;
+	++insertedCount;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::isEmpty(std::size_t slot) const
+{
+	return table[slot] == nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::followingSlot(std::size_t slot) const
+{
+	return (slot + 1) % table.getSize();
 }
 
 
@@ -188,7 +188,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(size_type newSize)
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	Table oldTable{ std::move(table) };
+	auto oldTable = Table{ std::move(table) };
 	
 	try
 	{
@@ -206,11 +206,11 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(size_type newSize)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
 {
-	for (auto&& itemPtr : table)
+	for (auto* entry : table)
 	{
-		if (itemPtr)
+		if (entry)
 		{
-			insert(*itemPtr);
+			insert(*entry);
 		}
 	}
 }
@@ -219,8 +219,8 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline const Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key) const
 {
-	const long index = getPositionOfItemWithKey(key);
-	return index >= 0 ? table[index] : nullptr;
+	long slot = correspondingSlot(key); /* asSigned(...) or a custom Result struct? */
+	return slot >= 0 ? table[slot] : nullptr;
 }
 
 
@@ -232,18 +232,18 @@ inline Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& key) const
+long Hash<Item, Key, KeyAccessor, Hasher>::correspondingSlot(const Key& key) const
 {
-	auto index = computeHashValue(key);
+	auto slot = computeHashValue(key);
 
-	while (table[index])
+	while (!isEmpty(slot))
 	{
-		if (keyAccessor( *(table[index]) ) == key)
+		if (keyAccessor( *(table[slot]) ) == key)
 		{
-			return index;
+			return slot;
 		}
 
-		index = followingSlotIndex(index);
+		slot = followingSlot(slot);
 	}
 
 	return -1;
@@ -253,11 +253,11 @@ long Hash<Item, Key, KeyAccessor, Hasher>::getPositionOfItemWithKey(const Key& k
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 {
-	auto index = getPositionOfItemWithKey(key);
+	auto slot = correspondingSlot(key);
 
-	if (index >= 0)
+	if (slot >= 0)
 	{
-		auto* result = extractItemFromTableAt(index);
+		auto entry = extractSlotEntry(slot);
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
@@ -265,10 +265,10 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster(followingSlotIndex(index));
+			rehashCluster(followingSlot(slot));
 		}
 		
-		return result;
+		return entry;
 	}
 
 	return nullptr;
@@ -283,15 +283,15 @@ inline void Hash<Item, Key, KeyAccessor, Hasher>::shrink()
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Item* Hash<Item, Key, KeyAccessor, Hasher>::extractItemFromTableAt(size_type index)
+Item* Hash<Item, Key, KeyAccessor, Hasher>::extractSlotEntry(std::size_t slot)
 {
-	assert(index < tableSize && table[index]);
+	assert(slot < tableSize && !isEmpty(slot));
 
-	auto* result = table[index];
-	table[index] = nullptr;
+	auto entry = table[slot];
+	table[slot] = nullptr;
 	--insertedCount;
 
-	return result;
+	return entry;
 }
 
 
@@ -310,18 +310,18 @@ inline bool Hash<Item, Key, KeyAccessor, Hasher>::canBeShrinked() const
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(size_type start)
+void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(std::size_t startingSlot)
 {
-	assert(start < tableSize);
+	assert(startingSlot < tableSize);
 
-	auto positionToEmpty = start;
+	auto slotToEmpty = startingSlot;
 
-	while (table[positionToEmpty])
+	while (!isEmpty(slotToEmpty))
 	{
-		auto* extracted = extractItemFromTableAt(positionToEmpty);
-		insert(*extracted);
+		auto* entry = extractSlotEntry(slotToEmpty);
+		insert(*entry);
 
-		positionToEmpty = followingSlotIndex(positionToEmpty);
+		slotToEmpty = followingSlot(slotToEmpty);
 	}
 }
 
