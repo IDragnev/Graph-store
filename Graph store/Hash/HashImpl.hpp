@@ -33,10 +33,19 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(std::size_t size)
 {
-	assert(size >= MIN_TABLE_SIZE);
-	table = Table(size, size);
+	table = makeEmptyTable(size);
 	insertedCount = 0;
-	nullify(table);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+auto Hash<Item, Key, KeyAccessor, Hasher>::makeEmptyTable(std::size_t size) -> Table
+{
+	assert(size >= MIN_TABLE_SIZE);
+	auto result = Table(size, size);
+	nullify(result);
+
+	return result;
 }
 
 
