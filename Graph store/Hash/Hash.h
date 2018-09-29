@@ -74,7 +74,6 @@ private:
 	static void nullify(Table& table);
 
 private:
-	std::size_t tableSize = MIN_TABLE_SIZE;
 	std::size_t insertedCount{};
 	Table table;
 	mutable Hasher hashFunction;
