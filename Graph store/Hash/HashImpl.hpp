@@ -25,7 +25,7 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(InputIt first, InputIt last) :
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount) :
-	Hash{ DirectSize{ calculateAppropriateSize(expectedCount) } }
+	Hash{ DirectSize{ calculateSize(expectedCount) } }
 {
 }
 
@@ -65,7 +65,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::nullify(Table& table)
 // 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(std::size_t expectedCount)
+Hash<Item, Key, KeyAccessor, Hasher>::calculateSize(std::size_t expectedCount)
 {
 	assert(expectedCount > 0);
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;

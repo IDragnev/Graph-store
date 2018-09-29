@@ -80,7 +80,7 @@ private:
 private:
 	static const std::size_t GROWTH_FACTOR = 2;
 	static const std::size_t MIN_TABLE_SIZE = 3;
-	static std::size_t calculateAppropriateSize(std::size_t expectedCount);
+	static std::size_t calculateSize(std::size_t expectedCount);
 
 	static Table makeEmptyTable(std::size_t size);
 	static void nullify(Table& table);
