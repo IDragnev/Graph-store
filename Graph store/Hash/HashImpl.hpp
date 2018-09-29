@@ -24,14 +24,14 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(InputIt first, InputIt last) :
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Hash<Item, Key, KeyAccessor, Hasher>::Hash(size_type expectedCount)
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount)
 {
 	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(size_type size)
+void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(std::size_t size)
 {
 	assert(size >= MIN_TABLE_SIZE);
 	table = Table(size, size);
@@ -56,8 +56,8 @@ void Hash<Item, Key, KeyAccessor, Hasher>::nullify(Table& table)
 // are inserted, the load factor will be 2/3 
 // 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline typename Hash<Item, Key, KeyAccessor, Hasher>::size_type
-Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(size_type expectedCount)
+inline std::size_t
+Hash<Item, Key, KeyAccessor, Hasher>::calculateAppropriateSize(std::size_t expectedCount)
 {
 	assert(expectedCount > 0);
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
@@ -183,7 +183,7 @@ inline void Hash<Item, Key, KeyAccessor, Hasher>::enlarge()
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::resize(size_type newSize)
+void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
 {
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
@@ -341,8 +341,7 @@ inline bool Hash<Item, Key, KeyAccessor, Hasher>::isEmpty() const
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline typename Hash<Item,Key,KeyAccessor, Hasher>::size_type 
-Hash<Item, Key, KeyAccessor, Hasher>::getCount() const
+inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::getCount() const
 {
 	return insertedCount;
 }

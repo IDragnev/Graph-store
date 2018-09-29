@@ -24,15 +24,8 @@ private:
 	using Table = DArray<Item*>;
 
 public:
-	using key_type = Key;
-	using mapped_type = Item;
-	using size_type = std::size_t;
-	using hasher = Hasher;
-	//using key_equal = KeyEqual;
-
-public:
 	Hash();
-	explicit Hash(size_type expectedCount);
+	explicit Hash(std::size_t expectedCount);
 	template <typename InputIt>
 	Hash(InputIt first, InputIt last);
 	Hash(Hash&& source);
@@ -49,14 +42,14 @@ public:
 
 	void empty();
 	bool isEmpty() const;
-	size_type getCount() const;
+	std::size_t getCount() const;
 
 private:
 	void swapContentsWithReconstructedParameter(Hash other);
 	void enlarge();
 	void shrink();
-	void resize(size_type newSize);
-	void toEmptyStateOfSize(size_type size);
+	void resize(std::size_t newSize);
+	void toEmptyStateOfSize(std::size_t size);
 	void insertAllItemsFrom(Table& table);
 
 	long correspondingSlot(const Key& key) const; 
@@ -74,15 +67,15 @@ private:
 	bool isEmpty(std::size_t slot) const;
 
 private:
-	static const size_type GROWTH_FACTOR = 2;
-	static const size_type MIN_TABLE_SIZE = 3;
-	static size_type calculateAppropriateSize(size_type expectedSize);
+	static const std::size_t GROWTH_FACTOR = 2;
+	static const std::size_t MIN_TABLE_SIZE = 3;
+	static std::size_t calculateAppropriateSize(std::size_t expectedCount);
 
 	static void nullify(Table& table);
 
 private:
-	size_type tableSize = MIN_TABLE_SIZE;
-	size_type insertedCount{};
+	std::size_t tableSize = MIN_TABLE_SIZE;
+	std::size_t insertedCount{};
 	Table table;
 	mutable Hasher hashFunction;
 	mutable KeyAccessor keyAccessor;
