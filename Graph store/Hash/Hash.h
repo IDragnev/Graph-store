@@ -17,11 +17,21 @@ template <
 	typename KeyAccessor = Identity<Key>,
 	typename Hasher = HashFunction<Key> /* std::hash<key> ? */
 	/*typename KeyEqual = std::equal<Key, Key>*/
-> 
-class Hash
+> class Hash
 {
 private:
 	using Table = DArray<Item*>;
+
+	class DirectSize
+	{
+	public:
+		explicit DirectSize(std::size_t size) : value{ size } { }
+
+		auto get() const { return value; }
+
+	private:
+		std::size_t value;
+	};
 
 public:
 	Hash();
@@ -45,11 +55,12 @@ public:
 	std::size_t getCount() const;
 
 private:
+	Hash(DirectSize size);
+
 	void swapContentsWithReconstructedParameter(Hash other);
 	void enlarge();
 	void shrink();
 	void resize(std::size_t newSize);
-	void toEmptyStateOfSize(std::size_t size);
 	void insertAllItemsFrom(Table& table);
 
 	long correspondingSlot(const Key& key) const; 

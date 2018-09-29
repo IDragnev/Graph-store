@@ -8,8 +8,8 @@
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Hash<Item, Key, KeyAccessor, Hasher>::Hash() :
-	Hash{ MIN_TABLE_SIZE }
+inline Hash<Item, Key, KeyAccessor, Hasher>::Hash() :
+	Hash{ DirectSize{ MIN_TABLE_SIZE } }
 {
 }
 
@@ -24,17 +24,17 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(InputIt first, InputIt last) :
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount)
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount) :
+	Hash{ DirectSize{ calculateAppropriateSize(expectedCount) } }
 {
-	toEmptyStateOfSize(calculateAppropriateSize(expectedCount));
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::toEmptyStateOfSize(std::size_t size)
+Hash<Item, Key, KeyAccessor, Hasher>::Hash(DirectSize size) :
+	table{ makeEmptyTable(size.get()) },
+	insertedCount{ 0 }
 {
-	table = makeEmptyTable(size);
-	insertedCount = 0;
 }
 
 
@@ -201,7 +201,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
 	
 	try
 	{
-		toEmptyStateOfSize(newSize);
+		*this = Hash{ DirectSize{ newSize } };
 		insertAllItemsFrom(oldTable);
 	}
 	catch (std::bad_alloc&)
@@ -338,7 +338,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(std::size_t startingSlo
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline void Hash<Item, Key, KeyAccessor, Hasher>::empty()
 {
-	toEmptyStateOfSize(MIN_TABLE_SIZE);
+	*this = Hash{};
 }
 
 
