@@ -197,16 +197,16 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
 	
-	auto oldTable = Table{ std::move(table) };
+	auto oldState = Hash{ std::move(*this) };
 	
 	try
 	{
 		*this = Hash{ DirectSize{ newSize } };
-		insertAllItemsFrom(oldTable);
+		insertAllItemsFrom(oldState.table);
 	}
 	catch (std::bad_alloc&)
 	{
-		table = std::move(oldTable);
+		*this = Hash{ std::move(oldState) };
 		throw;
 	}
 }
