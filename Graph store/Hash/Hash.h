@@ -63,7 +63,7 @@ private:
 	void resize(std::size_t newSize);
 	void insertAllItemsFrom(Table& table);
 
-	long correspondingSlot(const Key& key) const; 
+	int32_t correspondingSlot(const Key& key) const; 
 	void rehashCluster(std::size_t startingSlot);
 	Item* extractSlotEntry(std::size_t slot);
 	void insertAt(std::size_t slot, Item& item);

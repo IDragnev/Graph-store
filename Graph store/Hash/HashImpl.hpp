@@ -228,8 +228,8 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline const Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key) const
 {
-	long slot = correspondingSlot(key); /* asSigned(...) or a custom Result struct? */
-	return slot >= 0 ? table[slot] : nullptr;
+	auto slot = correspondingSlot(key);
+	return (slot >= 0) ? table[slot] : nullptr;
 }
 
 
@@ -241,7 +241,7 @@ inline Item* Hash<Item, Key, KeyAccessor, Hasher>::search(const Key& key)
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-long Hash<Item, Key, KeyAccessor, Hasher>::correspondingSlot(const Key& key) const
+int32_t Hash<Item, Key, KeyAccessor, Hasher>::correspondingSlot(const Key& key) const
 {
 	auto slot = computeHashValue(key);
 
