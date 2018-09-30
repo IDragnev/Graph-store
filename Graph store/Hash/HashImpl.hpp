@@ -33,7 +33,7 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(std::size_t expectedCount) :
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 Hash<Item, Key, KeyAccessor, Hasher>::Hash(DirectSize size) :
 	table{ makeEmptyTable(size.get()) },
-	insertedCount{ 0 }
+	count{ 0 }
 {
 }
 
@@ -78,7 +78,7 @@ Hash<Item, Key, KeyAccessor, Hasher>::Hash(Hash&& source) :
 {
 	using namespace std;
 	swap(table, source.table);
-	swap(insertedCount, source.insertedCount);
+	swap(count, source.count);
 
 	hashFunction = std::move(source.hashFunction);
 	keyAccessor = std::move(source.keyAccessor);
@@ -115,7 +115,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 void Hash<Item, Key, KeyAccessor, Hasher>::swapContentsWithReconstructedParameter(Hash temporary)
 {
 	using namespace std;
-	swap(insertedCount, temporary.insertedCount);
+	swap(count, temporary.count);
 	swap(table, temporary.table);
 	swap(hashFunction, temporary.hashFunction);
 	swap(keyAccessor, temporary.keyAccessor);
@@ -159,7 +159,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline void Hash<Item, Key, KeyAccessor, Hasher>::insertAt(std::size_t slot, Item& item)
 {
 	table[slot] = &item;
-	++insertedCount;
+	++count;
 }
 
 
@@ -180,7 +180,7 @@ inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::followingSlot(std::size
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline bool Hash<Item, Key, KeyAccessor, Hasher>::isFillingUp() const
 {
-	return 3 * insertedCount >= 2 * table.getSize();
+	return 3 * count >= 2 * table.getSize();
 }
 
 
@@ -195,7 +195,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
 {
 	//must have at least one empty position after resize
-	assert(newSize >= MIN_TABLE_SIZE && newSize > insertedCount);
+	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 	
 	auto oldState = Hash{ std::move(*this) };
 	
@@ -298,7 +298,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::extractSlotEntry(std::size_t slot)
 
 	auto entry = table[slot];
 	table[slot] = nullptr;
-	--insertedCount;
+	--count;
 
 	return entry;
 }
@@ -307,7 +307,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::extractSlotEntry(std::size_t slot)
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline bool Hash<Item, Key, KeyAccessor, Hasher>::hasTooManyEmptySlots() const
 {
-	return 6 * insertedCount <= table.getSize();
+	return 6 * count <= table.getSize();
 }
 
 
@@ -345,13 +345,13 @@ inline void Hash<Item, Key, KeyAccessor, Hasher>::empty()
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline bool Hash<Item, Key, KeyAccessor, Hasher>::isEmpty() const
 {
-	return insertedCount == 0;
+	return count == 0;
 }
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::getCount() const
 {
-	return insertedCount;
+	return count;
 }
 

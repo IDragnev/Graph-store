@@ -86,7 +86,7 @@ private:
 	static void nullify(Table& table);
 
 private:
-	std::size_t insertedCount{};
+	std::size_t count{};
 	Table table;
 	mutable Hasher hashFunction;
 	mutable KeyAccessor keyAccessor;
