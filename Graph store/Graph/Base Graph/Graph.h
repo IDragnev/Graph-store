@@ -5,7 +5,6 @@
 #include "..\..\Hash\HashFunctionStringSpecialization.h"
 #include "..\..\Dynamic Array\DArray.h"
 #include "..\..\String\String.h"
-#include "..\ID Accessor\IDAccessor.h"
 #include "..\..\Singly Linked List\SinglyLinkedList.h"
 #include "..\..\Iterator abstraction\Iterator.h"
 #include <memory>
@@ -49,7 +48,16 @@ public:
 	};
 
 private:
-	using VertexHashTable = Hash<Vertex, String, IDAccessor<Vertex>>;
+	struct IDAccessor
+	{
+		template <typename T>
+		const String& operator()(const T& item) const
+		{
+			return item.getID();
+		}
+	};
+
+	using VertexHashTable = Hash<Vertex, String, IDAccessor>;
 	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
 	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
 	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;

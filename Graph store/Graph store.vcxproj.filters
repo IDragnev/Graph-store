@@ -44,9 +44,6 @@
     <Filter Include="Shortest Path Algorithms\Base">
       <UniqueIdentifier>{6e3b36e8-b437-46ed-8641-38f79efc4b51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\ID Accessor">
-      <UniqueIdentifier>{3741008b-a860-4820-93a7-81a6395e8c0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph Factory">
       <UniqueIdentifier>{2cfaece5-7666-4718-9100-bf2e08d0c364}</UniqueIdentifier>
     </Filter>
@@ -317,9 +314,6 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph\ID Accessor\IDAccessor.h">
-      <Filter>Graph\ID Accessor</Filter>
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h">
       <Filter>Graph Factory\Graph creators\Base</Filter>

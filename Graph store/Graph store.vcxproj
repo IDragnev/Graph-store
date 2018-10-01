@@ -213,7 +213,6 @@
     <ClInclude Include="GraphStore\GraphStore.h" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
-    <ClInclude Include="Graph\ID Accessor\IDAccessor.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h" />
