@@ -204,7 +204,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
 		*this = Hash{ DirectSize{ newSize } };
 		insertAllItemsFrom(oldState.table);
 	}
-	catch (std::bad_alloc&)
+	catch (std::bad_alloc&) // TODO: catch(...) ? 
 	{
 		*this = Hash{ std::move(oldState) };
 		throw;
@@ -270,7 +270,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
-			shrink();
+			emptySlotAndShrink(slot);
 		}
 		else
 		{
@@ -281,6 +281,22 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 	}
 
 	return nullptr;
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::emptySlotAndShrink(std::size_t slot)
+{
+	table[slot] = nullptr;
+
+	try 
+	{
+		shrink();
+	}
+	catch (std::bad_alloc&)
+	{
+		rehashCluster(followingSlot(slot));
+	}
 }
 
 

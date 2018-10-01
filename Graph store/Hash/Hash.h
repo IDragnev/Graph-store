@@ -40,7 +40,7 @@ public:
 	Hash(InputIt first, InputIt last);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
-	~Hash() = default;
+	~Hash() = default; 
 
 	Hash& operator=(Hash&& rhs);
 	Hash& operator=(const Hash& rhs);
@@ -55,10 +55,11 @@ public:
 	std::size_t getCount() const;
 
 private:
-	Hash(DirectSize size);
+	Hash(DirectSize);
 
 	void swapContentsWithReconstructedParameter(Hash other);
 	void enlarge();
+	void emptySlotAndShrink(std::size_t slot);
 	void shrink();
 	void resize(std::size_t newSize);
 	void insertAllItemsFrom(Table& table);
