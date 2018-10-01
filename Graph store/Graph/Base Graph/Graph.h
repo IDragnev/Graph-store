@@ -2,6 +2,7 @@
 #define __BASE_GRAPH_H_INCLUDED__
 
 #include "..\..\Hash\Hash.h"
+#include "..\..\Hash\HashFunctionStringSpecialization.h"
 #include "..\..\Dynamic Array\DArray.h"
 #include "..\..\String\String.h"
 #include "..\ID Accessor\IDAccessor.h"

@@ -1,8 +1,7 @@
 #ifndef __MY_HASH_HEADER_INCLUDED__
 #define __MY_HASH_HEADER_INCLUDED__
 
-#include "../Dynamic Array/DArray.h"
-#include "HashFunction.h"
+#include "..\Dynamic Array\DArray.h"
 #include <assert.h>
 
 template <typename T>
@@ -15,7 +14,7 @@ template <
 	typename Item,
 	typename Key = Item,
 	typename KeyAccessor = Identity<Key>,
-	typename Hasher = HashFunction<Key> /* std::hash<key> ? */
+	typename Hasher = std::hash<Key>
 	/*typename KeyEqual = std::equal<Key, Key>*/
 > class Hash
 {

@@ -1,39 +1,40 @@
 #ifndef __HASH_FUNCTION_FOR_STRING__
 #define __HASH_FUNCTION_FOR_STRING__
 
-#include "../String/String.h"
+#include "..\String\String.h"
+#include <functional>
 
 /*
 The Fowler–Noll–Vo hash function:
 http://www.isthe.com/chongo/tech/comp/fnv/
 */
 
-template <>
-class HashFunction<String>
+namespace std
 {
-public:
-	unsigned operator()(const String& key) const;
-
-private:
-	static const unsigned FNV_PRIME = 16777619;
-	static const unsigned FNV_OFFSET_BASIS = 2166136261;
-};
-
-
-inline unsigned HashFunction<String>::operator()(const String& key) const
-{
-	const char* input = key;
-	unsigned hashValue = FNV_OFFSET_BASIS;
-
-	while (*input)
+	template <>
+	class hash<String>
 	{
-		hashValue *= FNV_PRIME;
-		hashValue ^= *input;
+	public:
+		std::size_t operator()(const String& key) const
+		{
+			const char* input = key;
+			auto result = FNV_OFFSET_BASIS;
 
-		++input;
-	}
+			while (*input)
+			{
+				result *= FNV_PRIME;
+				result ^= *input;
 
-	return hashValue;
+				++input;
+			}
+
+			return result;
+		}
+
+	private:
+		static const uint32_t FNV_PRIME = 16777619;
+		static const uint32_t FNV_OFFSET_BASIS = 2166136261;
+	};
 }
 
 #endif //__HASH_FUNCTION_FOR_STRING__

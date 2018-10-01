@@ -8,9 +8,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Hash Functions">
-      <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Linear Probing Hash">
       <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
     </Filter>
@@ -170,6 +167,9 @@
     <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms\Base">
       <UniqueIdentifier>{68685f5f-7da6-414c-a0d2-fb6edc9a575e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linear Probing Hash\Hash Functions">
+      <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -267,9 +267,6 @@
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="Hash\HashFunction.h">
-      <Filter>Hash Functions</Filter>
-    </ClInclude>
     <ClInclude Include="Dynamic Array\DArray.h">
       <Filter>Sequential Lists\Dynamic Array</Filter>
     </ClInclude>
@@ -283,7 +280,7 @@
       <Filter>Linear Probing Hash</Filter>
     </ClInclude>
     <ClInclude Include="Hash\HashFunctionStringSpecialization.h">
-      <Filter>Hash Functions</Filter>
+      <Filter>Linear Probing Hash\Hash Functions</Filter>
     </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
       <Filter>Iterators\Iterator interface</Filter>

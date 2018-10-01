@@ -2,7 +2,6 @@
 #define __SEARCH_BASED_SP_ALGORITHM_H_INCLUDED__
 
 #include "..\..\Base\ShortestPathAlgorithm.h"
-#include "..\..\..\Hash\HashFunction.h"
 #include "..\..\..\String\String.h"
 #include <unordered_map>
 
@@ -16,7 +15,7 @@ protected:
 	};
 
 private:
-	using VertexMap = std::unordered_map<String, MarkableVertex, HashFunction<String>>;
+	using VertexMap = std::unordered_map<String, MarkableVertex>;
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;

@@ -5,6 +5,8 @@
 #include "..\..\Priority Queue\PriorityQueue.h"
 #include "..\..\Dynamic Array\DArray.h"
 #include "..\..\Hash\Hash.h"
+#include "..\..\Hash\HashFunctionStringSpecialization.h"
+
 
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
