@@ -40,7 +40,6 @@ public:
 	Hash(InputIt first, InputIt last);
 	Hash(Hash&& source);
 	Hash(const Hash& source) = default;
-	~Hash() = default; 
 
 	Hash& operator=(Hash&& rhs);
 	Hash& operator=(const Hash& rhs);
