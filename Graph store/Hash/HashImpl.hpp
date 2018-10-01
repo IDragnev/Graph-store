@@ -274,7 +274,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster(followingSlot(slot));
+			rehashClusterStartingAt(followingSlot(slot));
 		}
 		
 		return entry;
@@ -295,7 +295,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::emptySlotAndShrink(std::size_t slot)
 	}
 	catch (std::bad_alloc&)
 	{
-		rehashCluster(followingSlot(slot));
+		rehashClusterStartingAt(followingSlot(slot));
 	}
 }
 
@@ -335,7 +335,7 @@ inline bool Hash<Item, Key, KeyAccessor, Hasher>::canBeShrinked() const
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::rehashCluster(std::size_t startingSlot)
+void Hash<Item, Key, KeyAccessor, Hasher>::rehashClusterStartingAt(std::size_t startingSlot)
 {
 	assert(startingSlot < table.getSize());
 
