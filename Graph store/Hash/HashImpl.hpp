@@ -132,7 +132,7 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 
 	auto slot = computeHashValue(keyAccessor(item));
 	auto emptySlot = findFirstEmptySlotStartingAt(slot);
-	insertAt(emptySlot, item);
+	fillSlot(emptySlot, item);
 }
 
 
@@ -156,9 +156,9 @@ std::size_t Hash<Item, Key, KeyAccessor, Hasher>::findFirstEmptySlotStartingAt(s
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline void Hash<Item, Key, KeyAccessor, Hasher>::insertAt(std::size_t slot, Item& item)
+inline void Hash<Item, Key, KeyAccessor, Hasher>::fillSlot(std::size_t slot, Item& item)
 {
-	table[slot] = &item;
+	table[slot] = std::addressof(item);
 	++count;
 }
 

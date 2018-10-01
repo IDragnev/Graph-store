@@ -66,7 +66,7 @@ private:
 	int32_t correspondingSlot(const Key& key) const; 
 	void rehashCluster(std::size_t startingSlot);
 	Item* extractSlotEntry(std::size_t slot);
-	void insertAt(std::size_t slot, Item& item);
+	void fillSlot(std::size_t slot, Item& item);
 
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
