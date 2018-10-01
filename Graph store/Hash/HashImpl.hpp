@@ -137,6 +137,54 @@ void Hash<Item, Key, KeyAccessor, Hasher>::insert(Item& item)
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline bool Hash<Item, Key, KeyAccessor, Hasher>::isFillingUp() const
+{
+	return 3 * count >= 2 * table.getSize();
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+inline void Hash<Item, Key, KeyAccessor, Hasher>::enlarge()
+{
+	resize(table.getSize() * GROWTH_FACTOR);
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
+{
+	//must have at least one empty position after resize
+	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
+	
+	auto oldState = Hash{ std::move(*this) };
+	
+	try
+	{
+		*this = Hash{ DirectSize{ newSize } };
+		insertAllItemsFrom(oldState.table);
+	}
+	catch (std::bad_alloc&) 
+	{
+		*this = Hash{ std::move(oldState) };
+		throw;
+	}
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
+void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
+{
+	for (auto* entry : table)
+	{
+		if (entry)
+		{
+			insert(*entry);
+		}
+	}
+}
+
+
+template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::computeHashValue(const Key& key) const
 {
 	return hashFunction(key) % table.getSize();
@@ -174,54 +222,6 @@ template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
 inline std::size_t Hash<Item, Key, KeyAccessor, Hasher>::followingSlot(std::size_t slot) const
 {
 	return (slot + 1) % table.getSize();
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline bool Hash<Item, Key, KeyAccessor, Hasher>::isFillingUp() const
-{
-	return 3 * count >= 2 * table.getSize();
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-inline void Hash<Item, Key, KeyAccessor, Hasher>::enlarge()
-{
-	resize(table.getSize() * GROWTH_FACTOR);
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::resize(std::size_t newSize)
-{
-	//must have at least one empty position after resize
-	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
-	
-	auto oldState = Hash{ std::move(*this) };
-	
-	try
-	{
-		*this = Hash{ DirectSize{ newSize } };
-		insertAllItemsFrom(oldState.table);
-	}
-	catch (std::bad_alloc&) // TODO: catch(...) ? 
-	{
-		*this = Hash{ std::move(oldState) };
-		throw;
-	}
-}
-
-
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher>
-void Hash<Item, Key, KeyAccessor, Hasher>::insertAllItemsFrom(Table& table)
-{
-	for (auto* entry : table)
-	{
-		if (entry)
-		{
-			insert(*entry);
-		}
-	}
 }
 
 
