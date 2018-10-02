@@ -66,7 +66,7 @@ private:
 	bool matchesItem(const Key& key, const Item* item) const;
 
 	void rehashClusterStartingAt(std::size_t startingSlot);
-	Item* extractSlotEntry(std::size_t slot);
+	Item* extractItemAt(std::size_t slot);
 	void fillSlot(std::size_t slot, Item& item);
 
 	bool hasTooManyEmptySlots() const;

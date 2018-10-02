@@ -176,11 +176,11 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::resize(std::size_t
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
 void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::insertAllItemsFrom(Table& table)
 {
-	for (auto* entry : table)
+	for (auto* item : table)
 	{
-		if (entry)
+		if (item)
 		{
-			insert(*entry);
+			insert(*item);
 		}
 	}
 }
@@ -276,7 +276,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::remove(const Key&
 
 	if (slot >= 0)
 	{
-		auto entry = extractSlotEntry(slot);
+		auto item = extractItemAt(slot);
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
@@ -287,7 +287,7 @@ Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::remove(const Key&
 			rehashClusterStartingAt(followingSlot(slot));
 		}
 		
-		return entry;
+		return item;
 	}
 
 	return nullptr;
@@ -318,15 +318,15 @@ inline void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::shrink()
 
 
 template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::extractSlotEntry(std::size_t slot)
+Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::extractItemAt(std::size_t slot)
 {
 	assert(slot < table.getSize() && !isEmpty(slot));
 
-	auto entry = table[slot];
+	auto item = table[slot];
 	table[slot] = nullptr;
 	--count;
 
-	return entry;
+	return item;
 }
 
 
@@ -353,8 +353,8 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::rehashClusterStart
 
 	while (!isEmpty(slotToEmpty))
 	{
-		auto* entry = extractSlotEntry(slotToEmpty);
-		insert(*entry);
+		auto* item = extractItemAt(slotToEmpty);
+		insert(*item);
 
 		slotToEmpty = followingSlot(slotToEmpty);
 	}
