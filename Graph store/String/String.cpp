@@ -6,7 +6,7 @@
 String::String(char symbol) :
 	String{}
 {
-	content = new char[2] {symbol, '\0'};
+	content = new char[2]{ symbol, '\0' };
 }
 
 
@@ -38,7 +38,7 @@ void String::setContent(const char* string)
 {
 	if (string)
 	{
-		char* copy = clone(string);
+		auto copy = clone(string);
 		delete[] content;
 		content = copy;
 	}
@@ -52,8 +52,8 @@ void String::setContent(const char* string)
 
 char* String::clone(const char* string)
 {
-	size_t size = strlen(string) + 1;
-	char* result = new char[size];
+	auto size = strlen(string) + 1;
+	auto result = new char[size];
 	strcpy_s(result, size, string);
 
 	return result;
@@ -71,7 +71,7 @@ String& String::operator=(String&& rhs)
 {
 	if (this != &rhs)
 	{
-		String temporary{ std::move(rhs) };
+		auto temporary = String{ std::move(rhs) };
 		std::swap(content, temporary.content);
 	}
 
@@ -105,12 +105,12 @@ void String::append(const char* string)
 {
 	if (string)
 	{
-		size_t size = strlen(string);
+		auto size = strlen(string);
 
 		if (size > 0)
 		{
 			size += (this->getLength() + 1);
-			char* buffer = new char[size];
+			auto buffer = new char[size];
 
 			//getContent() because this->content could be null
 			strcpy_s(buffer, size, this->getContent());
@@ -186,7 +186,7 @@ bool operator>=(const String& lhs, const String& rhs)
 
 String operator+(const String& lhs, const String& rhs)
 {
-	String result{ lhs };
+	auto result = lhs;
 	result += rhs;
 
 	return result;
@@ -195,7 +195,7 @@ String operator+(const String& lhs, const String& rhs)
 
 String operator+(char lhs, const String& rhs)
 {
-	String result{ lhs };
+	auto result = String{ lhs };
 	result += rhs;
 
 	return result;
@@ -204,7 +204,7 @@ String operator+(char lhs, const String& rhs)
 
 String operator+(const String& lhs, char rhs)
 {
-	String result{ lhs };
+	auto result = lhs;
 	result += rhs;
 
 	return result;

@@ -24,59 +24,59 @@ namespace StringTest
 	public:
 		TEST_METHOD(testDefaultConstructedStringIsEmpty)
 		{
-			String string;
+			auto str = String{};
 
-			Assert::IsTrue(isTheEmptyString(string));
+			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testCStringConstructorWithNonEmptyCString)
 		{
-			String string(C_STRING_PROTOTYPE);
+			auto str = String{ C_STRING_PROTOTYPE };
 
-			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
+			Assert::IsTrue(haveSameContents(str, C_STRING_PROTOTYPE));
 		}
 
 		TEST_METHOD(testCStringConstructorWithEmptyCStringConstructsEmptyString)
 		{
-			String string("");
+			auto str = String{ "" };
 
-			Assert::IsTrue(isTheEmptyString(string));
+			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testCStringConstructorWithNullptrConstructsEmptyString)
 		{
-			String string(nullptr);
+			auto str = String{ nullptr };
 
-			Assert::IsTrue(isTheEmptyString(string));
+			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testSingleCharConstructor)
 		{
-			String str('C');
+			auto str = String{ 'C' };
 
 			Assert::IsTrue(haveSameContents(str, "C"));
 		}
 
 		TEST_METHOD(testCopyCtorWithEmptyString)
 		{
-			String emptySource;
-			String destination{ emptySource };
+			auto emptySource = String{};
+			auto destination = emptySource;
 			
 			Assert::IsTrue(haveSameContents(destination, emptySource));
 		}
 
 		TEST_METHOD(testCopyCtorWithNonEmptyString)
 		{
-			String source{ C_STRING_PROTOTYPE };
-			String destination{ source };
+			auto source = String{ C_STRING_PROTOTYPE };
+			auto destination = source;
 
 			Assert::IsTrue(haveSameContents(source, destination));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
 		{
-			String rhs;
-			String lhs;
+			auto rhs = String{};
+			auto lhs = String{};
 
 			lhs = rhs;
 
@@ -85,8 +85,8 @@ namespace StringTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
 		{
-			String lhs;
-			String rhs{ C_STRING_PROTOTYPE };
+			auto lhs = String{};
+			auto rhs = String{ C_STRING_PROTOTYPE };
 
 			lhs = rhs;
 
@@ -95,8 +95,8 @@ namespace StringTest
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
 		{
-			String lhs{ C_STRING_PROTOTYPE };
-			String rhs;
+			auto lhs = String{ C_STRING_PROTOTYPE };
+			auto rhs = String{};
 
 			lhs = rhs;
 
@@ -105,8 +105,8 @@ namespace StringTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
 		{
-			String lhs{ C_STRING_PROTOTYPE };
-			String rhs{ "something different" };
+			auto lhs = String{ C_STRING_PROTOTYPE };
+			auto rhs = String{ "something different" };
 
 			lhs = rhs;
 
@@ -115,8 +115,8 @@ namespace StringTest
 
 		TEST_METHOD(testMoveCtorFromNonEmptySourceLeavesSourceEmpty)
 		{
-			String source{ C_STRING_PROTOTYPE };
-			String destination{ std::move(source) };
+			auto source = String{ C_STRING_PROTOTYPE };
+			auto destination = String{ std::move(source) };
 
 			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE), L"Moved-in object has wrong contents");
 			Assert::IsTrue(isTheEmptyString(source), L"Moved-from object is not empty");
@@ -124,8 +124,8 @@ namespace StringTest
 
 		TEST_METHOD(testMoveCtorFromEmptySourceDoesNotModifySource)
 		{
-			String emptySource;
-			String destination{ std::move(emptySource) };
+			auto emptySource = String{};
+			auto destination = String{ std::move(emptySource) };
 
 			Assert::IsTrue(isTheEmptyString(destination), L"Moved-in object is not empty");
 			Assert::IsTrue(isTheEmptyString(emptySource), L"Moved-from object is not empty");
@@ -133,8 +133,8 @@ namespace StringTest
 
 		TEST_METHOD(testMoveAssignmentFromEmptyRhsLeavesLhsAndRhsEmpty)
 		{
-			String lhs{ C_STRING_PROTOTYPE };
-			String emptyRHS;
+			auto lhs = String{ C_STRING_PROTOTYPE };
+			auto emptyRHS = String{};
 
 			lhs = std::move(emptyRHS);
 
@@ -144,8 +144,8 @@ namespace StringTest
 
 		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsLeavesRhsEmpty)
 		{
-			String lhs;
-			String rhs{ C_STRING_PROTOTYPE };
+			auto lhs = String{};
+			auto rhs = String{ C_STRING_PROTOTYPE };
 
 			lhs = std::move(rhs);
 
@@ -155,7 +155,7 @@ namespace StringTest
 
 		TEST_METHOD(testAppendingEmptyStringToEmptyDestinationLeavesTheDestinationEmpty)
 		{
-			String emptyString;
+			auto emptyString = String{};
 
 			emptyString.append("");
 
@@ -164,29 +164,29 @@ namespace StringTest
 
 		TEST_METHOD(testAppendingStringToEmptyString)
 		{
-			String string;
+			auto str = String{};
 
-			string.append(C_STRING_PROTOTYPE);
+			str.append(C_STRING_PROTOTYPE);
 
-			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
+			Assert::IsTrue(haveSameContents(str, C_STRING_PROTOTYPE));
 		}
 
 		TEST_METHOD(testAppendingNonEmptyStringToNonEmptyString)
 		{
-			String string{ "012345" };
+			auto str = String{ "012345" };
 
-			string.append("6789");
+			str.append("6789");
 			
-			Assert::IsTrue(haveSameContents(string, "0123456789"));
+			Assert::IsTrue(haveSameContents(str, "0123456789"));
 		}
 
 		TEST_METHOD(testAppendingEmptyStringToNonEmptyDestinationDoesNotModifyDestination)
 		{
-			String string{ C_STRING_PROTOTYPE };
+			auto str = String{ C_STRING_PROTOTYPE };
 
-			string.append("");
+			str.append("");
 
-			Assert::IsTrue(haveSameContents(string, C_STRING_PROTOTYPE));
+			Assert::IsTrue(haveSameContents(str, C_STRING_PROTOTYPE));
 		}
 	};
 
