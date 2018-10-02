@@ -14,8 +14,8 @@ template <
 	typename Item,
 	typename Key = Item,
 	typename KeyAccessor = Identity<Key>,
-	typename Hasher = std::hash<Key>
-	/*typename KeyEqual = std::equal<Key, Key>*/
+	typename Hasher = std::hash<Key>,
+	typename EqualityPredicate = std::equal_to<Key>
 > class Hash
 {
 private:
@@ -63,6 +63,8 @@ private:
 	void insertAllItemsFrom(Table& table);
 
 	int32_t correspondingSlot(const Key& key) const; 
+	bool matchesItem(const Key& key, const Item* item) const;
+
 	void rehashClusterStartingAt(std::size_t startingSlot);
 	Item* extractSlotEntry(std::size_t slot);
 	void fillSlot(std::size_t slot, Item& item);
@@ -89,6 +91,7 @@ private:
 	Table table;
 	mutable Hasher hashFunction;
 	mutable KeyAccessor keyAccessor;
+	mutable EqualityPredicate equalityPredicate;
 };
 
 #include "HashImpl.hpp"
