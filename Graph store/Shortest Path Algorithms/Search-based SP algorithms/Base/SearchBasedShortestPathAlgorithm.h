@@ -8,14 +8,16 @@
 class SearchBasedShortestPathAlgorithm : public ShortestPathAlgorithm
 {
 protected:
-	struct MarkableVertex : public VertexDecorator
+	struct MarkableVertex : VertexDecorator
 	{
 		using VertexDecorator::VertexDecorator;
 		bool isVisited = false;
 	};
 
 private:
-	using VertexMap = std::unordered_map<String, MarkableVertex>;
+	using StringRef = std::reference_wrapper<const String>;
+	using VertexMap = 
+		std::unordered_map<StringRef, MarkableVertex, std::hash<String>, std::equal_to<String>>;
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
