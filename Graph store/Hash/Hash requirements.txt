@@ -1,15 +1,18 @@
 1) KeyAccessor 
 It is used to access the key of each Item.
-It must expose a function with signature:
-const Key& operator()(const Item& item) [can be const] : returns the key of item
+Must expose a function with signature:
+const Key& operator()(const Item&) [can be const] : returns the key of item
 
-2) Hasher
-It must expose a function with signature:
-size_t operator()(const Key& key) [can be const] : computes a hash value for key
+2) HashFun
+Must expose a function with signature:
+size_t operator()(const Key&) [can be const] : computes a hash value for key
 
-The Key class must support operator==.
+3) EqualityPredicate
+It is used to compare keys for equality.
+Must expose a function with signature:
+bool operator()(const Key& lhs, const Key& rhs) [can be const] : returns true if lhs == rhs
 
-Both KeyAccessor and HashFunction must be no-throw-copy-constructible, no-throw-coppy-assignable
-and no-throw-default-constructible. 
+All must be no-throw copy-constructible, no-throw coppy-assignable 
+and no-throw default-constructible. 
 The move constructor and move assignment operator both try to
-move KeyAccessor and HashFunction, if move special members are supplied, they must also be no-throw. 
+move them, if move special members are supplied, they must also be no-throw. 

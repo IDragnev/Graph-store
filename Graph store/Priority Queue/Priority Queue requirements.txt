@@ -1,13 +1,4 @@
-PriorityQueue stores the Item objects on pointers and does not take care of their lifetime.
-* improveKey must be passed greater key for MAX and smaller key for MIN priority queue.
-
-Template Parameters requirements:
-
-1) Item
-The stored item's type.
-Must support PriorityQueueHandle logic.
-
-2) KeyAccessor
+1) KeyAccessor
 It is used for accessing and setting the keys of the Item objects.
 Must expose two functions:
  - void operator()(Item& item, const Key& key) [can be const] : sets the key of item with key.
@@ -15,7 +6,7 @@ Must expose two functions:
 
 Must be default-constructible, copy-constructible and copy-assignable.
 
-3) CompareFunction
+2) CompareFunction
 It is used to compare the keys of the Item objects.
 Must expose a function with signature:
 
@@ -27,7 +18,7 @@ that defines a strict total order:
 
 Must be default-constructible, copy-constructible and copy-assignable.
 
-4) HandleSetter
+3) HandleSetter
 It is used to set the handles of the Item objects.
 Must expose a function with signature:
 void operator()(Item& item, const PriorityQueueHandle& handle) [can be const] : sets the handle of item with handle.
