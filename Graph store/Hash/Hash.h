@@ -14,7 +14,7 @@ template <
 	typename Item,
 	typename Key = Item,
 	typename KeyAccessor = Identity<Key>,
-	typename Hasher = std::hash<Key>,
+	typename HashFun = std::hash<Key>,
 	typename EqualityPredicate = std::equal_to<Key>
 > class Hash
 {
@@ -89,7 +89,7 @@ private:
 private:
 	std::size_t count{};
 	Table table;
-	mutable Hasher hashFunction;
+	mutable HashFun hashFunction;
 	mutable KeyAccessor keyAccessor;
 	mutable EqualityPredicate equalityPredicate;
 };

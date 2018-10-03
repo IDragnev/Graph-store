@@ -7,39 +7,39 @@
 */
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash() :
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash() :
 	Hash{ DirectSize{ MIN_TABLE_SIZE } }
 {
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 template <typename InputIt>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash(InputIt first, InputIt last) :
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
 	Hash{ std::distance(first, last) }
 {
 	std::for_each(first, last, [&](Item& item) { insert(item); });
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash(std::size_t expectedCount) :
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(std::size_t expectedCount) :
 	Hash{ DirectSize{ calculateSize(expectedCount) } }
 {
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash(DirectSize size) :
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(DirectSize size) :
 	count{ 0 },
 	table{ makeEmptyTable(size.get()) }
 {
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-auto Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+auto Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
 {
 	assert(size >= MIN_TABLE_SIZE);
 	auto result = Table(size, size);
@@ -49,8 +49,8 @@ auto Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::makeEmptyTable(std
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::nullify(Table& table)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::nullify(Table& table)
 {
 	for (auto* entry : table)
 	{
@@ -63,17 +63,17 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::nullify(Table& tab
 // ( 3 * expectedSize ) / 2 is used because if all the expected items
 // are inserted, the load factor will be 2/3 
 // 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::calculateSize(std::size_t expectedCount)
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::calculateSize(std::size_t expectedCount)
 {
 	assert(expectedCount > 0);
 	return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash(Hash&& source) :
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(Hash&& source) :
 	Hash{}
 {
 	using namespace std;
@@ -86,9 +86,9 @@ Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::Hash(Hash&& source) :
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>&
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::operator=(Hash&& other)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>&
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::operator=(Hash&& other)
 {
 	if (this != &other)
 	{
@@ -99,9 +99,9 @@ Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::operator=(Hash&& other)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>&
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::operator=(const Hash& other)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>&
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::operator=(const Hash& other)
 {
 	if (this != &other)
 	{
@@ -112,8 +112,8 @@ Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::operator=(const Hash& o
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::swapContentsWithReconstructedParameter(Hash temp)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::swapContentsWithReconstructedParameter(Hash temp)
 {
 	using namespace std;
 	swap(count, temp.count);
@@ -124,8 +124,8 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::swapContentsWithRe
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::insert(Item& item)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insert(Item& item)
 {
 	if (isFillingUp())
 	{
@@ -138,22 +138,22 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::insert(Item& item)
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline bool Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::isFillingUp() const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isFillingUp() const
 {
 	return 3 * count >= 2 * table.getSize();
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::enlarge()
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::enlarge()
 {
 	resize(table.getSize() * GROWTH_FACTOR);
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::resize(std::size_t newSize)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::resize(std::size_t newSize)
 {
 	//must have at least one empty position after resize
 	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
@@ -173,8 +173,8 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::resize(std::size_t
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::insertAllItemsFrom(Table& table)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(Table& table)
 {
 	for (auto* item : table)
 	{
@@ -186,15 +186,15 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::insertAllItemsFrom
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline std::size_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::computeHashValue(const Key& key) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::computeHashValue(const Key& key) const
 {
 	return hashFunction(key) % table.getSize();
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-std::size_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::findFirstEmptySlotStartingAt(std::size_t slot) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findFirstEmptySlotStartingAt(std::size_t slot) const
 {
 	while (!isEmpty(slot))
 	{
@@ -205,45 +205,45 @@ std::size_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::findFirstEm
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::fillSlot(std::size_t slot, Item& item)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, Item& item)
 {
 	table[slot] = std::addressof(item);
 	++count;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline bool Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::isEmpty(std::size_t slot) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty(std::size_t slot) const
 {
 	return table[slot] == nullptr;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline std::size_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::followingSlot(std::size_t slot) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::followingSlot(std::size_t slot) const
 {
 	return (slot + 1) % table.getSize();
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline const Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::search(const Key& key) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline const Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const
 {
 	auto slot = correspondingSlot(key);
 	return (slot >= 0) ? table[slot] : nullptr;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::search(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key)
 {
 	return const_cast<Item*>( static_cast<const Hash&>(*this).search(key) );
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-int32_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::correspondingSlot(const Key& key) const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+int32_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::correspondingSlot(const Key& key) const
 {
 	auto slot = computeHashValue(key);
 
@@ -261,16 +261,16 @@ int32_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::correspondingSl
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 inline bool
-Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::matchesItem(const Key& key, const Item* item) const
+Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Item* item) const
 {
 	return equalityPredicate(key, keyAccessor(*item));
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::remove(const Key& key)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::remove(const Key& key)
 {
 	auto slot = correspondingSlot(key);
 
@@ -294,8 +294,8 @@ Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::remove(const Key&
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::emptySlotAndShrink(std::size_t slot)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::emptySlotAndShrink(std::size_t slot)
 {
 	table[slot] = nullptr;
 
@@ -310,15 +310,15 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::emptySlotAndShrink
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::shrink()
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::shrink()
 {
 	resize(table.getSize() / GROWTH_FACTOR);
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::extractItemAt(std::size_t slot)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::extractItemAt(std::size_t slot)
 {
 	assert(slot < table.getSize() && !isEmpty(slot));
 
@@ -330,22 +330,22 @@ Item* Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::extractItemAt(std
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline bool Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::hasTooManyEmptySlots() const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::hasTooManyEmptySlots() const
 {
 	return 6 * count <= table.getSize();
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline bool Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::canBeShrinked() const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::canBeShrinked() const
 {
 	return table.getSize() / GROWTH_FACTOR >= MIN_TABLE_SIZE;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::rehashClusterStartingAt(std::size_t startingSlot)
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::rehashClusterStartingAt(std::size_t startingSlot)
 {
 	assert(startingSlot < table.getSize());
 
@@ -361,22 +361,22 @@ void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::rehashClusterStart
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline void Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::empty()
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::empty()
 {
 	*this = Hash{};
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline bool Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::isEmpty() const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty() const
 {
 	return count == 0;
 }
 
 
-template <typename Item, typename Key, typename KeyAccessor, typename Hasher, typename EqualityPredicate>
-inline std::size_t Hash<Item, Key, KeyAccessor, Hasher, EqualityPredicate>::getCount() const
+template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::getCount() const
 {
 	return count;
 }
