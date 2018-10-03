@@ -61,15 +61,15 @@ String FileParser::parseLine()
 {
 	validateState();
 
-	static const std::size_t BUFFER_SIZE = 512;
-	char buffer[BUFFER_SIZE];
-	stream.getline(buffer, BUFFER_SIZE);
+	static const std::size_t bufferSize = 512;
+	char buffer[bufferSize];
+	stream.getline(buffer, bufferSize);
 
 	throwIfParseFailed("No characters left in the file");
 
 	++currentLine;
 
-	return String{ buffer };
+	return buffer;
 }
 
 

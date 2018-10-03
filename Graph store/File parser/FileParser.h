@@ -11,7 +11,6 @@ public:
 	FileParser() = default;
 	explicit FileParser(const String& filename);
 	FileParser(FileParser&& source);
-	~FileParser() = default;
 
 	FileParser& operator=(FileParser&& rhs);
 
