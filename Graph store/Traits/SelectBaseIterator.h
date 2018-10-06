@@ -5,15 +5,18 @@
 #include "..\Iterator abstraction\Iterator.h"
 
 template <typename IteratorType>
-struct select_base_iterator
+struct SelectBaseIterator
 {
-	static constexpr bool isConst = is_const_iterator<IteratorType>::value;
+private:
+	static constexpr bool isConst = IsConstIterator<IteratorType>::value;
 	using value_type = typename std::iterator_traits<IteratorType>::value_type;
+
+public:
 	using type = std::conditional_t<isConst, ConstIterator<value_type>, Iterator<value_type>>;
 };
 
 
 template <typename IteratorType>
-using select_base_iterator_t = typename select_base_iterator<IteratorType>::type;
+using BaseIteratorType = typename SelectBaseIterator<IteratorType>::type;
 
 #endif //__SELECT_BASE_ITERATOR_H_INCLUDED__

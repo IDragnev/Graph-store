@@ -10,16 +10,17 @@ class IteratorBase
 private:
 	using reference = std::conditional_t<isConst, const T&, T&>;
 	using pointer = std::conditional_t<isConst, const T*, T*>;
+	using IteratorPtr = std::unique_ptr<IteratorBase<T, isConst>>;
 
 public:
 	virtual ~IteratorBase() = default;
 
 	virtual reference operator*() const = 0;
 	virtual pointer operator->() const = 0;
-	virtual IteratorBase<T, isConst>& operator++() = 0;
+	virtual IteratorBase& operator++() = 0;
 	virtual operator bool() const = 0;
 	virtual bool operator!() const = 0;
-	virtual std::unique_ptr<IteratorBase<T, isConst>> clone() const = 0;
+	virtual IteratorPtr clone() const = 0;
 };
 
 template <typename T>
