@@ -1,24 +1,20 @@
 #ifndef __COMMAND_REGISTRATOR_H_INCLUDED__
 #define __COMMAND_REGISTRATOR_H_INCLUDED__
 
+#include "..\Application.h"
 #include "..\Commands\Base\Command.h"
 
 template <typename ConcreteCommand>
 class CommandRegistrator
 {
 public:
-	CommandRegistrator();
-	~CommandRegistrator() = default;
+	CommandRegistrator() { Application::instance().insertCommand(command); }
 
-private:
-	CommandRegistrator(CommandRegistrator&&) = delete;
 	CommandRegistrator(const CommandRegistrator&) = delete;
-	CommandRegistrator& operator=(CommandRegistrator&&) = delete;
 	CommandRegistrator& operator=(const CommandRegistrator&) = delete;
 
 private:
-	ConcreteCommand command;
+	ConcreteCommand command{};
 };
 
-#include "CommandRegistratorImpl.hpp"
 #endif //__COMMAND_REGISTRATOR_H_INCLUDED__

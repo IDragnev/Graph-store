@@ -9,7 +9,7 @@ static CommandRegistrator<RemoveVertexCommand> registrator;
 
 void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional ID{ parser,"ID", "The ID of the vertex to be removed" };
+	auto ID = StringPositional{ parser,"ID", "The ID of the vertex to be removed" };
 	parser.Parse();
 	setVertexID(ID);
 }
@@ -30,7 +30,7 @@ void RemoveVertexCommand::setVertexID(StringPositional& argument)
 
 void RemoveVertexCommand::execute() const
 {
-	Graph& used = Command::getUsedGraph();
+	auto& used = Command::getUsedGraph();
 	used.removeVertex(vertexID);
 }
 

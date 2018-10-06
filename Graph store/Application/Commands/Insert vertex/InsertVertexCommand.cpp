@@ -9,7 +9,7 @@ static CommandRegistrator<InsertVertexCommand> registrator;
 
 void InsertVertexCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional ID{ parser, "ID", "The ID of the vertex to be inserted" };
+	auto ID = StringPositional{ parser, "ID", "The ID of the vertex to be inserted" };
 	parser.Parse();
 	setVertexID(ID);
 }
@@ -30,7 +30,7 @@ void InsertVertexCommand::setVertexID(StringPositional& argument)
 
 void InsertVertexCommand::execute() const
 {
-	Graph& used = Command::getUsedGraph();
+	auto& used = Command::getUsedGraph();
 	used.insertVertexWithID(vertexID);
 }
 

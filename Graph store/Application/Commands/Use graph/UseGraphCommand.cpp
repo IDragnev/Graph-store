@@ -8,7 +8,7 @@ static CommandRegistrator<UseGraphCommand> registrator;
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional ID{ parser, "ID", "the ID of the graph to be used" };
+	auto ID = StringPositional{ parser, "ID", "the ID of the graph to be used" };
 	parser.Parse();
 	setGraphID(ID);
 }

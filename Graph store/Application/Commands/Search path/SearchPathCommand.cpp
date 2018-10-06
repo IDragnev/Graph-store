@@ -11,14 +11,14 @@ static CommandRegistrator<SearchPathCommand> registrator;
 
 void SearchPathCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional startID{ parser, "startVertexID", "The ID of the start of the sought path" };
-	StringPositional endID{ parser, "endVertexID", "The ID of the end of the sought path" };
-	StringPositional algorithm{ parser, "algorithm", "The algorithm to be used" };
+	auto startID = StringPositional{ parser, "startVertexID", "The ID of the start of the sought path" };
+	auto endID = StringPositional{ parser, "endVertexID", "The ID of the end of the sought path" };
+	auto algorithmID = StringPositional{ parser, "algorithm", "The algorithm to be used" };
 	parser.Parse();
 
 	setStartVertexID(startID);
 	setEndVertexID(endID);
-	setAlgorithmID(algorithm);
+	setAlgorithmID(algorithmID);
 }
 
 
@@ -55,10 +55,10 @@ void SearchPathCommand::setIfMatched(String& str, StringPositional& argument)
 
 void SearchPathCommand::execute() const
 {
-	Graph& usedGraph = Command::getUsedGraph();
-	Graph::Vertex& start = usedGraph.getVertex(startVertexID);
-	Graph::Vertex& end = usedGraph.getVertex(endVertexID);
-	ShortestPathAlgorithm& algorithm = ShortestPathAlgorithmStore::instance().getAlgorithm(algorithmID);
+	auto& usedGraph = Command::getUsedGraph();
+	auto& start = usedGraph.getVertex(startVertexID);
+	auto& end = usedGraph.getVertex(endVertexID);
+	auto& algorithm = ShortestPathAlgorithmStore::instance().getAlgorithm(algorithmID);
 
 	auto path = algorithm.findShortestPath(usedGraph, start, end);
 	path.print();
@@ -73,5 +73,6 @@ const char* SearchPathCommand::getName()  const
 
 const char* SearchPathCommand::getDescription() const
 {
-	return "Searches a shortest path between a specified pair of vertices in the currently used graph with a specified algorithm";
+	return "Searches a shortest path between a specified pair of"
+		   "vertices in the currently used graph with a specified algorithm";
 }

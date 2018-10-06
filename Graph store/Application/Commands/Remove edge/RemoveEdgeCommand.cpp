@@ -9,8 +9,8 @@ static CommandRegistrator<RemoveEdgeCommand> registrator;
 
 void RemoveEdgeCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional startID{ parser, "startVertexID", "The ID of the start vertex" };
-	StringPositional endID{ parser, "endVertexID", "The ID of the end vertex" };
+	auto startID = StringPositional{ parser, "startVertexID", "The ID of the start vertex" };
+	auto endID = StringPositional{ parser, "endVertexID", "The ID of the end vertex" };
 	parser.Parse();
 
 	setStartVertexID(startID);
@@ -45,9 +45,9 @@ void RemoveEdgeCommand::setIfMatched(String& str, StringPositional& argument)
 
 void RemoveEdgeCommand::execute() const
 {
-	Graph& used = Command::getUsedGraph();
-	Graph::Vertex& start = used.getVertex(startVertexID);
-	Graph::Vertex& end = used.getVertex(endVertexID);
+	auto& used = Command::getUsedGraph();
+	auto& start = used.getVertex(startVertexID);
+	auto& end = used.getVertex(endVertexID);
 	used.removeEdge(start, end);
 }
 

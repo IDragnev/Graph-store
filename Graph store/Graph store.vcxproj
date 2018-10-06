@@ -178,7 +178,6 @@
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Command registrator\CommandRegistrator.h" />
-    <ClInclude Include="Application\Command registrator\CommandRegistratorImpl.hpp" />
     <ClInclude Include="Application\Commands\Base\Command.h" />
     <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h" />
     <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h" />

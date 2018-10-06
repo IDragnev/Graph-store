@@ -9,9 +9,9 @@ static CommandRegistrator<InsertEdgeCommand> registrator;
 
 void InsertEdgeCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional startID{ parser, "startVertexID", "The ID of the start vertex" };
-	StringPositional endID{ parser, "endVertexID", "The ID of the end vertex" };
-	UnsignedPositional weight{ parser, "weight", "The weight of the edge" };
+	auto startID = StringPositional{ parser, "startVertexID", "The ID of the start vertex" };
+	auto endID = StringPositional{ parser, "endVertexID", "The ID of the end vertex" };
+	auto weight = UnsignedPositional{ parser, "weight", "The weight of the edge" };
 	parser.Parse();
 
 	setStartVertexID(startID);
@@ -60,9 +60,9 @@ void InsertEdgeCommand::setWeight(UnsignedPositional& weight)
 
 void InsertEdgeCommand::execute() const
 {
-	Graph& used = Command::getUsedGraph();
-	Graph::Vertex& start = used.getVertex(startVertexID);
-	Graph::Vertex& end = used.getVertex(endVertexID);
+	auto& used = Command::getUsedGraph();
+	auto& start = used.getVertex(startVertexID);
+	auto& end = used.getVertex(endVertexID);
 	used.insertEdge(start, end, weight);
 }
 
@@ -75,5 +75,6 @@ const char* InsertEdgeCommand::getName() const
 
 const char* InsertEdgeCommand::getDescription() const
 {
-	return "Inserts an edge with specified weight between a specified pair of vertices in the currently used graph";
+	return "Inserts an edge with specified weight between a"
+		    "specified pair of vertices in the currently used graph";
 }

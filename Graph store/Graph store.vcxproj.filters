@@ -390,9 +390,6 @@
     <ClInclude Include="Application\Command registrator\CommandRegistrator.h">
       <Filter>Application\Command Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Command registrator\CommandRegistratorImpl.hpp">
-      <Filter>Application\Command Registrator</Filter>
-    </ClInclude>
     <ClInclude Include="Directory loader\DirectoryLoader.h">
       <Filter>Directory loader</Filter>
     </ClInclude>

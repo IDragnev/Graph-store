@@ -14,8 +14,8 @@ const String InsertGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
 
 void InsertGraphCommand::parseArguments(args::Subparser& parser)
 {
-	StringPositional ID{ parser, "ID", "The ID of the graph to be created" };
-	StringPositional type{ parser, "type", "The type of the graph to be created" };
+	auto ID = StringPositional{ parser, "ID", "The ID of the graph to be created" };
+	auto type = StringPositional{ parser, "type", "The type of the graph to be created" };
 	parser.Parse();
 
 	setGraphID(ID);
@@ -51,8 +51,8 @@ void InsertGraphCommand::setGraphType(StringPositional& argument)
 
 void InsertGraphCommand::execute() const
 {
-	std::unique_ptr<Graph> result = GraphFactory::instance().createEmptyGraph(graphType, graphID);
-	Command::insertGraph(std::move(result));
+	auto graphPtr = GraphFactory::instance().createEmptyGraph(graphType, graphID);
+	Command::insertGraph(std::move(graphPtr));
 	Command::useGraph(graphID);
 }
 
