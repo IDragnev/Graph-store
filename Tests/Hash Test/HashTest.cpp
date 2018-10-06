@@ -4,7 +4,8 @@
 #include "../../Graph store/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace std;
+using std::begin;
+using std::end;
 
 namespace HashTest
 {

@@ -76,7 +76,7 @@ template <typename Item, typename Key, typename KeyAccessor, typename HashFun, t
 Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(Hash&& source) :
 	Hash{}
 {
-	using namespace std;
+	using std::swap;
 	swap(table, source.table);
 	swap(count, source.count);
 
@@ -115,7 +115,7 @@ Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::operator=(const Hash& 
 template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::swapContentsWithReconstructedParameter(Hash temp)
 {
-	using namespace std;
+	using std::swap;
 	swap(count, temp.count);
 	swap(table, temp.table);
 	swap(hashFunction, temp.hashFunction);

@@ -2,7 +2,10 @@
 #include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace std;
+using std::begin;
+using std::end;
+using std::cbegin;
+using std::cend;
 
 namespace SinglyLinkedListTest
 {
@@ -34,7 +37,7 @@ namespace SinglyLinkedListTest
 		TEST_METHOD(testRangeCtor)
 		{
 			IntList source{ 1, 2, 3, 4 };
-			IntList destination(source.cbegin(), source.cend());
+			IntList destination(cbegin(source), cend(source));
 
 			Assert::IsTrue(destination == source);
 		}

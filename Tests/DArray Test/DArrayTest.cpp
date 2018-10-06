@@ -1,6 +1,8 @@
 #include "CppUnitTest.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using std::begin;
+using std::end;
 
 #include "../../Graph store/Dynamic Array/DArray.h"
 
@@ -40,7 +42,6 @@ namespace DArraytest
 
 		TEST_METHOD(testRangeCtor)
 		{
-			using namespace std;
 			const UIntArray source{ 1, 2, 3 };
 			UIntArray destination(begin(source), end(source));
 
@@ -49,7 +50,6 @@ namespace DArraytest
 
 		TEST_METHOD(testRangeCtorWithMoveIterator)
 		{
-			using namespace std;
 			StringArray source{ "one", "two", "three" };
 			auto&& first = std::make_move_iterator(begin(source));
 			auto&& last = std::make_move_iterator(end(source));

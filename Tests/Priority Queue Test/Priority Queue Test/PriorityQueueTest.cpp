@@ -190,7 +190,8 @@ namespace PriorityQueueTest
 
 		TEST_METHOD(testCtorFromRange)
 		{
-			using namespace std;
+			using std::begin;
+			using std::end;
 			auto ptrs = itemPtrs();
 			MaxPriorityQueue queue{ begin(ptrs), end(ptrs) };
 

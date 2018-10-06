@@ -258,8 +258,10 @@ void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotEx
 
 Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 {
-	using namespace std;
-	return std::find_if(begin(from.edges), end(from.edges), [&](const Edge& edge)
+	using std::begin; 
+	using std::end;
+	return std::find_if(begin(from.edges), end(from.edges), 
+		[&](const Edge& edge)
 	{
 		return edge.getIncidentVertex() == to;
 	});
@@ -318,7 +320,7 @@ Graph::EdgeIteratorPtr Graph::getIteratorToEdgesLeaving(Vertex& vertex)
 {
 	assert(isOwnerOf(vertex));
 
-	using namespace std;
+	using std::begin;
 	return makeWrapper(begin(vertex.edges));
 }
 
@@ -327,14 +329,14 @@ Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& 
 {
 	assert(isOwnerOf(vertex));
 
-	using namespace std;
+	using std::cbegin;
 	return makeWrapper(cbegin(vertex.edges));
 }
 
 
 Graph::VertexConstIteratorPtr Graph::getIteratorToVertices() const
 {
-	using namespace std;
+	using std::cbegin;
 	return makeWrapper(cbegin(vertices));
 }
 

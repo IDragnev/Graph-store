@@ -39,7 +39,7 @@ PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(
 template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue temp)
 {
-	using namespace std;
+	using std::swap;
 	swap(elements, temp.elements);
 	swap(compareFunction, temp.compareFunction);
 }
