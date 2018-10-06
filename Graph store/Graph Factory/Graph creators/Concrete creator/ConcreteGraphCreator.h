@@ -4,15 +4,15 @@
 #include "..\Base\GraphCreator.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 
-template <typename CreatedGraph>
+template <typename GraphType>
 class ConcreteGraphCreator : public GraphCreator
 {
 public:
 	using GraphCreator::GraphCreator;
 
-	virtual GraphPtr createEmptyGraph(const String& ID) const override
+	GraphPtr createEmptyGraph(const String& ID) const override
 	{
-		return GraphPtr{ new CreatedGraph{ ID } };
+		return GraphPtr{ new GraphType{ ID } };
 	}
 };
 

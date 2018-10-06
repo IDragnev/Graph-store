@@ -73,7 +73,7 @@ Graph& GraphStore::getGraph(const String& ID)
 
 const Graph& GraphStore::getGraph(const String& ID) const
 {
-	const Graph* result = searchGraph(ID);
+	auto* result = searchGraph(ID);
 
 	if (result)
 	{
@@ -106,7 +106,7 @@ void GraphStore::removeGraph(const String& ID)
 		++i;
 	}
 
-	throwNonExistingGraph(ID);
+	return throwNonExistingGraph(ID);
 }
 
 

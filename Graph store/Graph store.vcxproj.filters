@@ -327,9 +327,6 @@
     <ClInclude Include="Graph Factory\GraphFactory.h">
       <Filter>Graph Factory</Filter>
     </ClInclude>
-    <ClInclude Include="Graph Factory\Graph registrator\GraphRegistratorImpl.hpp">
-      <Filter>Graph Factory\Graph registrator</Filter>
-    </ClInclude>
     <ClInclude Include="Special Integer\SpecialInteger.h">
       <Filter>Special Integer</Filter>
     </ClInclude>

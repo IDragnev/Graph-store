@@ -14,10 +14,12 @@ private:
 
 public:
 	GraphStore() = default;
+	GraphStore(const GraphStore&) = delete;
 	GraphStore(GraphStore&& source) = default;
 	~GraphStore();
 
 	GraphStore& operator=(GraphStore&& rhs);
+	GraphStore& operator=(const GraphStore&) = delete;
 
 	void insertGraph(Graph& graph);
 	void removeGraph(const String& ID);
@@ -28,9 +30,6 @@ public:
 	void empty();
 
 private:
-	GraphStore(const GraphStore&) = delete;
-	GraphStore& operator=(const GraphStore&) = delete;
-
 	bool hasGraphWithID(const String& ID) const;
 	const Graph* searchGraph(const String& ID) const;
 

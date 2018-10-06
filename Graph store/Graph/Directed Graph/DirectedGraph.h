@@ -8,11 +8,11 @@ class DirectedGraph : public Graph
 public:
 	using Graph::Graph;
 
-	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
-	virtual void removeEdge(Vertex& start, Vertex& end) override;
+	void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
+	void removeEdge(Vertex& start, Vertex& end) override;
 
 private:
-	virtual void removeEdgesEndingIn(Vertex& vertex) override;
+	void removeEdgesEndingIn(Vertex& v) override;
 };
 
 #endif //__DIRECTED_GRAPH_H_INCLUDED__

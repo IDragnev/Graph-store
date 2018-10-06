@@ -26,9 +26,7 @@ private:
 	GraphFactory();
 	~GraphFactory() = default;
 
-	GraphFactory(GraphFactory&&) = delete;
 	GraphFactory(const GraphFactory&) = delete;
-	GraphFactory& operator=(GraphFactory&&) = delete;
 	GraphFactory& operator=(const GraphFactory&) = delete;
 
 private:

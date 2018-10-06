@@ -13,17 +13,13 @@ protected:
 
 public:
 	explicit GraphCreator(const String& graphType);
+	GraphCreator(const GraphCreator&) = delete;
+	GraphCreator& operator=(const GraphCreator&) = delete;
 	virtual ~GraphCreator() = default;
 
 	virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
 
 	const String& getCreatedGraphType() const;
-
-private:
-	GraphCreator(GraphCreator&&) = delete;
-	GraphCreator(const GraphCreator&) = delete;
-	GraphCreator& operator=(GraphCreator&&) = delete;
-	GraphCreator& operator=(const GraphCreator&) = delete;
 
 private:
 	const String createdGraphType;
