@@ -12,7 +12,6 @@ private:
 
 	using pointer = typename std::iterator_traits<ForwardIterator>::pointer;
 	using reference = typename std::iterator_traits<ForwardIterator>::reference;
-	using value_type = typename std::iterator_traits<ForwardIterator>::value_type;
 	using BaseIterator = BaseIteratorType<ForwardIterator>;
 	using BaseIteratorPtr = std::unique_ptr<BaseIterator>;
 
