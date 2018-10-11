@@ -18,8 +18,7 @@ inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIter
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename DArray<T>::DArrayIterator<Item, isConst>::reference 
-DArray<T>::DArrayIterator<Item, isConst>::operator*() const
+inline auto DArray<T>::DArrayIterator<Item, isConst>::operator*() const -> reference
 {
 	assert(this->operator bool());
 	return (*owner)[current];
@@ -28,8 +27,7 @@ DArray<T>::DArrayIterator<Item, isConst>::operator*() const
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename DArray<T>::DArrayIterator<Item, isConst>::pointer
-DArray<T>::DArrayIterator<Item, isConst>::operator->() const
+inline auto DArray<T>::DArrayIterator<Item, isConst>::operator->() const -> pointer
 {
 	return &(this->operator*());
 }
@@ -37,20 +35,18 @@ DArray<T>::DArrayIterator<Item, isConst>::operator->() const
 
 template <typename T>
 template <typename Item, bool isConst>
-typename DArray<T>::DArrayIterator<Item, isConst>
-DArray<T>::DArrayIterator<Item, isConst>::operator++(int)
+auto DArray<T>::DArrayIterator<Item, isConst>::operator++(int) -> DArrayIterator
 {
-	DArrayIterator<Item, isConst> temporary{ *this };
+	auto temp = *this;
 	++(*this);
 
-	return temporary;
+	return temp;
 }
 
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename DArray<T>::DArrayIterator<Item, isConst>& 
-DArray<T>::DArrayIterator<Item, isConst>::operator++()
+inline auto DArray<T>::DArrayIterator<Item, isConst>::operator++() -> DArrayIterator&
 {
 	++current;
 	return *this;
@@ -74,14 +70,16 @@ inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const
 
 
 template <typename Item, bool isConst>
-inline bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+inline bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
+					   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
 {
 	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }
 
 
 template <typename Item, bool isConst>
-inline bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+inline bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs, 
+					   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
 {
 	return !(lhs == rhs);
 }

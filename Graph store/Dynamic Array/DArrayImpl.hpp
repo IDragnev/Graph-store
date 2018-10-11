@@ -149,7 +149,7 @@ template <typename T>
 void DArray<T>::resize(size_type newSize)
 {
 	auto newCount = (count <= newSize) ? count : newSize;
-	DArray<T> temporary(newSize, newCount);
+	auto temporary = DArray<T>(newSize, newCount);
 
 	for (auto i = size_type{0}; i < newCount; ++i)
 	{
