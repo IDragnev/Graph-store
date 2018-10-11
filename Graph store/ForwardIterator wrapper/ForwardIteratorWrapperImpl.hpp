@@ -9,24 +9,21 @@ ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const F
 
 
 template <typename ForwardIterator, typename EndType>
-typename ForwardIteratorWrapper<ForwardIterator, EndType>::reference
-ForwardIteratorWrapper<ForwardIterator, EndType>::operator*() const
+auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator*() const -> reference
 {
 	return *iterator;
 }
 
 
 template <typename ForwardIterator, typename EndType>
-typename ForwardIteratorWrapper<ForwardIterator, EndType>::pointer
-ForwardIteratorWrapper<ForwardIterator, EndType>::operator->() const
+auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator->() const -> pointer
 {
 	return iterator.operator->();
 }
 
 
 template <typename ForwardIterator, typename EndType>
-ForwardIteratorWrapper<ForwardIterator, EndType>
-ForwardIteratorWrapper<ForwardIterator, EndType>::operator++(int)
+auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator++(int) -> ForwardIteratorWrapper
 {
 	auto temp = ForwardIteratorWrapper{ *this };
 	++(*this);
@@ -36,8 +33,7 @@ ForwardIteratorWrapper<ForwardIterator, EndType>::operator++(int)
 
 
 template <typename ForwardIterator, typename EndType>
-ForwardIteratorWrapper<ForwardIterator, EndType>&
-ForwardIteratorWrapper<ForwardIterator, EndType>::operator++()
+auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator++() -> ForwardIteratorWrapper&
 {
 	++iterator;
 	return *this;
@@ -59,8 +55,7 @@ bool ForwardIteratorWrapper<ForwardIterator, EndType>::operator!() const
 
 
 template <typename ForwardIterator, typename EndType>
-typename ForwardIteratorWrapper<ForwardIterator, EndType>::BaseIteratorPtr
-ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const
+auto ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const -> BaseIteratorPtr
 {
 	return makeWrapper(iterator, end);
 }
