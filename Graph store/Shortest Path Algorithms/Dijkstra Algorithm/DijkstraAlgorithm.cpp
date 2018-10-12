@@ -42,7 +42,8 @@ void DijkstraAlgorithm::decorate(const Graph& graph)
 void DijkstraAlgorithm::buildDecoratorsMap()
 {
 	assert(map.isEmpty());
-	using namespace std; 
+	using std::begin;
+	using std::end;
 	map = DecoratorsMap{ begin(decorators), end(decorators) };
 }
 
@@ -58,7 +59,8 @@ void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)
 void DijkstraAlgorithm::buildPriorityQueue()
 {
 	assert(queue.isEmpty());
-	using namespace std;
+	using std::begin;
+	using std::end;
 	auto pointers = decoratorsPointers();
 	queue = MinPriorityQueue{ begin(pointers), end(pointers) };
 }
@@ -67,7 +69,7 @@ void DijkstraAlgorithm::buildPriorityQueue()
 DijkstraAlgorithm::PointersCollection
 DijkstraAlgorithm::decoratorsPointers()
 {
-	PointersCollection result;
+	auto result = PointersCollection{};
 
 	for (auto&& d : decorators)
 	{
