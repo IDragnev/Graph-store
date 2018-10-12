@@ -303,42 +303,42 @@ inline typename DArray<T>::size_type DArray<T>::getSize() const
 
 
 template <typename T>
-inline typename DArray<T>::iterator DArray<T>::begin()
+inline auto DArray<T>::begin() -> iterator
 {
 	return iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::iterator DArray<T>::end()
+inline auto DArray<T>::end() -> iterator
 {
 	return iterator{ count, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::begin() const
+inline auto DArray<T>::begin() const -> const_iterator
 {
 	return cbegin();
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::end() const
+inline auto DArray<T>::end() const -> const_iterator
 {
 	return cend();
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::cbegin() const
+inline auto DArray<T>::cbegin() const -> const_iterator
 {
 	return const_iterator{ 0, this };
 }
 
 
 template <typename T>
-inline typename DArray<T>::const_iterator DArray<T>::cend() const
+inline auto DArray<T>::cend() const -> const_iterator
 {
 	return const_iterator{ count, this };
 }
