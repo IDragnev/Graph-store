@@ -444,42 +444,42 @@ inline unsigned SinglyLinkedList<T>::getCount() const
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::cbegin() const
+inline auto SinglyLinkedList<T>::cbegin() const -> const_iterator
 {
 	return const_iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::cend() const
+inline auto SinglyLinkedList<T>::cend() const -> const_iterator
 {
 	return const_iterator{ nullptr, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::begin()
+inline auto SinglyLinkedList<T>::begin() -> iterator
 {
 	return iterator{ head, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::iterator SinglyLinkedList<T>::end()
+inline auto SinglyLinkedList<T>::end() -> iterator
 {
 	return iterator{ nullptr, this };
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::begin() const
+inline auto SinglyLinkedList<T>::begin() const -> const_iterator
 {
 	return cbegin();
 }
 
 
 template <typename T>
-inline typename SinglyLinkedList<T>::const_iterator SinglyLinkedList<T>::end() const
+inline auto SinglyLinkedList<T>::end() const -> const_iterator
 {
 	return cend();
 }

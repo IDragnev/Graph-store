@@ -19,8 +19,7 @@ inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::SinglyLinke
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::reference
-SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator*() const
+inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator*() const -> reference
 {
 	assert(this->operator bool());
 	return current->data;
@@ -29,8 +28,7 @@ SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator*() const
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::pointer
-SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator->() const
+inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator->() const -> pointer
 {
 	return &(this->operator*());
 }
@@ -38,20 +36,18 @@ SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator->() const
 
 template <typename T>
 template <typename Item, bool isConst>
-typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>
-SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++(int)
+auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++(int) -> SinglyLinkedListIterator
 {
-	SinglyLinkedListIterator<Item, isConst> temporary{ *this };
+	auto temp = *this;
 	++(*this);
 
-	return temporary;
+	return temp;
 }
 
 
 template <typename T>
 template <typename Item, bool isConst>
-inline typename SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>& 
-SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++()
+inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++() -> SinglyLinkedListIterator&
 {
 	if (this->operator bool()) 
 	{
