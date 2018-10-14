@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../../Graph store/String/String.h"
-#include "../../Graph store/Hash/Hash.h"
-#include "../../Graph store/Hash/HashFunctionStringSpecialization.h"
+#include "../../Graph store/Containers/Hash/Hash.h"
+#include "../../Graph store/Containers/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using std::begin;
@@ -25,7 +25,7 @@ namespace HashTest
 	TEST_CLASS(HashTest)
 	{
 	private:
-		using ItemHash = Hash<Item, String, KeyExtractor>;
+		using ItemHash = Containers::Hash<Item, String, KeyExtractor>;
 
 		static const size_t ITEMS_COUNT = 10;
 		static Item testItems[ITEMS_COUNT];

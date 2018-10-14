@@ -4,95 +4,98 @@
 #include "..\Dynamic Array\DArray.h"
 #include <assert.h>
 
-template <typename T>
-struct Identity
+namespace Containers
 {
-	const T& operator()(const T& item) const { return item; }
-};
-
-template <
-	typename Item,
-	typename Key = Item,
-	typename KeyAccessor = Identity<Key>,
-	typename HashFun = std::hash<Key>,
-	typename EqualityPredicate = std::equal_to<Key>
-> class Hash
-{
-private:
-	using Table = DArray<Item*>;
-
-	class DirectSize
+	template <typename T>
+	struct Identity
 	{
-	public:
-		explicit DirectSize(std::size_t size) : value{ size } { }
-
-		auto get() const { return value; }
-
-	private:
-		std::size_t value;
+		const T& operator()(const T& item) const { return item; }
 	};
 
-public:
-	Hash();
-	explicit Hash(std::size_t expectedCount);
-	template <typename InputIt>
-	Hash(InputIt first, InputIt last);
-	Hash(Hash&& source);
-	Hash(const Hash& source) = default;
+	template <
+		typename Item,
+		typename Key = Item,
+		typename KeyAccessor = Identity<Key>,
+		typename HashFun = std::hash<Key>,
+		typename EqualityPredicate = std::equal_to<Key>
+	> class Hash
+	{
+	private:
+		using Table = DArray<Item*>;
 
-	Hash& operator=(Hash&& rhs);
-	Hash& operator=(const Hash& rhs);
+		class DirectSize
+		{
+		public:
+			explicit DirectSize(std::size_t size) : value{ size } { }
 
-	void insert(Item& item);
-	Item* remove(const Key& key);
-	Item* search(const Key& key);
-	const Item* search(const Key& key) const;
+			auto get() const { return value; }
 
-	void empty();
-	bool isEmpty() const;
-	std::size_t getCount() const;
+		private:
+			std::size_t value;
+		};
 
-private:
-	Hash(DirectSize);
+	public:
+		Hash();
+		explicit Hash(std::size_t expectedCount);
+		template <typename InputIt>
+		Hash(InputIt first, InputIt last);
+		Hash(Hash&& source);
+		Hash(const Hash& source) = default;
 
-	void swapContentsWithReconstructedParameter(Hash other);
-	void enlarge();
-	void emptySlotAndShrink(std::size_t slot);
-	void shrink();
-	void resize(std::size_t newSize);
-	void insertAllItemsFrom(Table& table);
+		Hash& operator=(Hash&& rhs);
+		Hash& operator=(const Hash& rhs);
 
-	int32_t correspondingSlot(const Key& key) const; 
-	bool matchesItem(const Key& key, const Item* item) const;
+		void insert(Item& item);
+		Item* remove(const Key& key);
+		Item* search(const Key& key);
+		const Item* search(const Key& key) const;
 
-	void rehashClusterStartingAt(std::size_t startingSlot);
-	Item* extractItemAt(std::size_t slot);
-	void fillSlot(std::size_t slot, Item& item);
+		void empty();
+		bool isEmpty() const;
+		std::size_t getCount() const;
 
-	bool hasTooManyEmptySlots() const;
-	bool canBeShrinked() const;
-	bool isFillingUp() const;
+	private:
+		Hash(DirectSize);
 
-	std::size_t findFirstEmptySlotStartingAt(std::size_t slot) const;
-	std::size_t computeHashValue(const Key& key) const;
-	std::size_t followingSlot(std::size_t slot) const;
-	bool isEmpty(std::size_t slot) const;
+		void swapContentsWithReconstructedParameter(Hash other);
+		void enlarge();
+		void emptySlotAndShrink(std::size_t slot);
+		void shrink();
+		void resize(std::size_t newSize);
+		void insertAllItemsFrom(Table& table);
 
-private:
-	static const std::size_t GROWTH_FACTOR = 2;
-	static const std::size_t MIN_TABLE_SIZE = 3;
-	static std::size_t calculateSize(std::size_t expectedCount);
+		int32_t correspondingSlot(const Key& key) const;
+		bool matchesItem(const Key& key, const Item* item) const;
 
-	static Table makeEmptyTable(std::size_t size);
-	static void nullify(Table& table);
+		void rehashClusterStartingAt(std::size_t startingSlot);
+		Item* extractItemAt(std::size_t slot);
+		void fillSlot(std::size_t slot, Item& item);
 
-private:
-	std::size_t count{};
-	Table table;
-	mutable HashFun hashFunction;
-	mutable KeyAccessor keyAccessor;
-	mutable EqualityPredicate equalityPredicate;
-};
+		bool hasTooManyEmptySlots() const;
+		bool canBeShrinked() const;
+		bool isFillingUp() const;
+
+		std::size_t findFirstEmptySlotStartingAt(std::size_t slot) const;
+		std::size_t computeHashValue(const Key& key) const;
+		std::size_t followingSlot(std::size_t slot) const;
+		bool isEmpty(std::size_t slot) const;
+
+	private:
+		static const std::size_t GROWTH_FACTOR = 2;
+		static const std::size_t MIN_TABLE_SIZE = 3;
+		static std::size_t calculateSize(std::size_t expectedCount);
+
+		static Table makeEmptyTable(std::size_t size);
+		static void nullify(Table& table);
+
+	private:
+		std::size_t count{};
+		Table table;
+		mutable HashFun hashFunction;
+		mutable KeyAccessor keyAccessor;
+		mutable EqualityPredicate equalityPredicate;
+	};
+}
 
 #include "HashImpl.hpp"
 #endif //__MY_HASH_HEADER_INCLUDED__
