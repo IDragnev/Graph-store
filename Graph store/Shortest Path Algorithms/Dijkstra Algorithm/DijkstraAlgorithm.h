@@ -2,10 +2,10 @@
 #define __DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__
 
 #include "..\Base\ShortestPathAlgorithm.h"
-#include "..\..\Priority Queue\PriorityQueue.h"
-#include "..\..\Dynamic Array\DArray.h"
-#include "..\..\Hash\Hash.h"
-#include "..\..\Hash\HashFunctionStringSpecialization.h"
+#include "..\..\Containers\Priority Queue\PriorityQueue.h"
+#include "..\..\Containers\Dynamic Array\DArray.h"
+#include "..\..\Containers\Hash\Hash.h"
+#include "..\..\Containers\Hash\HashFunctionStringSpecialization.h"
 
 
 class DijkstraAlgorithm : public ShortestPathAlgorithm

@@ -3,7 +3,7 @@
 
 #include <sstream>
 #include <utility>
-#include "..\..\Dynamic Array\DArray.h"
+#include "..\..\Containers\Dynamic Array\DArray.h"
 #include "..\..\General Exceptions\Exception.h"
 
 template <template <typename...> typename Container = DArray>

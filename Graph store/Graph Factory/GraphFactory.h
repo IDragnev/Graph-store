@@ -1,7 +1,7 @@
 #ifndef __GRAPH_FACTORY_H_INCLUDED__
 #define __GRAPH_FACTORY_H_INCLUDED__
 
-#include "..\Dynamic Array\DArray.h"
+#include "..\Containers\Dynamic Array\DArray.h"
 #include <memory>
 
 class Graph;

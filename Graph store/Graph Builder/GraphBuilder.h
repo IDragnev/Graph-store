@@ -3,7 +3,7 @@
 
 #include "..\String\String.h"
 #include "..\File parser\FileParser.h"
-#include "..\Dynamic Array\DArray.h"
+#include "..\Containers\Dynamic Array\DArray.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include <memory>
 

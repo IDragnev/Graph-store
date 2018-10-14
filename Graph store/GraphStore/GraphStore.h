@@ -1,7 +1,7 @@
 #ifndef __GRAPH_STORE_H_INCLUDED__
 #define __GRAPH_STORE_H_INCLUDED__
 
-#include "..\Dynamic Array\DArray.h"
+#include "..\Containers\Dynamic Array\DArray.h"
 
 class String;
 class Graph;

@@ -1,7 +1,7 @@
 #ifndef __HASH_FUNCTION_FOR_STRING__
 #define __HASH_FUNCTION_FOR_STRING__
 
-#include "..\String\String.h"
+#include "..\..\String\String.h"
 #include <functional>
 
 /*

@@ -8,21 +8,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Linear Probing Hash">
-      <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sequential Lists">
-      <UniqueIdentifier>{437e7bdb-8b84-4ff3-8e87-6adc19a695b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sequential Lists\Dynamic Array">
-      <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sequential Lists\Singly Linked List">
-      <UniqueIdentifier>{d5adffaf-6800-4dac-aca8-841279eb7cd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Queue">
-      <UniqueIdentifier>{8ab142a6-9d3b-4cdf-9f61-94e966803401}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Special Integer">
       <UniqueIdentifier>{e9332475-f4c7-4056-960b-0751001e82b4}</UniqueIdentifier>
     </Filter>
@@ -58,12 +43,6 @@
     </Filter>
     <Filter Include="Graph Factory\Graph registrator">
       <UniqueIdentifier>{fc7cb4da-6494-4f6b-a7be-34e7426cda02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Priority Queue">
-      <UniqueIdentifier>{7033932f-1a00-4da2-b5da-e96b252c3e61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Priority Queue\PQ Handle">
-      <UniqueIdentifier>{26b65e5d-5722-4631-b307-063ed4868ddc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
       <UniqueIdentifier>{f54c491e-1913-4ef2-9829-39a5e3f2c17b}</UniqueIdentifier>
@@ -164,8 +143,26 @@
     <Filter Include="Shortest Path Algorithms\Search-based SP Algorithms\Base">
       <UniqueIdentifier>{68685f5f-7da6-414c-a0d2-fb6edc9a575e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linear Probing Hash\Hash Functions">
-      <UniqueIdentifier>{c92fe7d1-1dc3-4888-af86-516c66bc3cf2}</UniqueIdentifier>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{399ec290-7544-4feb-8ac3-606d6cb8feda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Priority Queue">
+      <UniqueIdentifier>{7033932f-1a00-4da2-b5da-e96b252c3e61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Priority Queue\PQ Handle">
+      <UniqueIdentifier>{26b65e5d-5722-4631-b307-063ed4868ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Queue">
+      <UniqueIdentifier>{8ab142a6-9d3b-4cdf-9f61-94e966803401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Dynamic Array">
+      <UniqueIdentifier>{21e76382-635d-451a-a337-099b608610c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Singly Linked List">
+      <UniqueIdentifier>{d5adffaf-6800-4dac-aca8-841279eb7cd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers\Linear Probing Hash">
+      <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +189,6 @@
     </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
-      <Filter>Priority Queue\PQ Handle</Filter>
     </ClCompile>
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
@@ -259,46 +253,16 @@
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
+    <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
+      <Filter>Containers\Priority Queue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="Dynamic Array\DArray.h">
-      <Filter>Sequential Lists\Dynamic Array</Filter>
-    </ClInclude>
-    <ClInclude Include="Dynamic Array\DArrayImpl.hpp">
-      <Filter>Sequential Lists\Dynamic Array</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash\Hash.h">
-      <Filter>Linear Probing Hash</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash\HashImpl.hpp">
-      <Filter>Linear Probing Hash</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash\HashFunctionStringSpecialization.h">
-      <Filter>Linear Probing Hash\Hash Functions</Filter>
-    </ClInclude>
     <ClInclude Include="Iterator abstraction\Iterator.h">
       <Filter>Iterators\Iterator interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Dynamic Array\DArrayIteratorImpl.hpp">
-      <Filter>Sequential Lists\Dynamic Array</Filter>
-    </ClInclude>
-    <ClInclude Include="Singly Linked List\SinglyLinkedList.h">
-      <Filter>Sequential Lists\Singly Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Singly Linked List\SinglyLinkedListImpl.hpp">
-      <Filter>Sequential Lists\Singly Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
-      <Filter>Sequential Lists\Singly Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Queue\Queue.h">
-      <Filter>Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="Queue\QueueImpl.hpp">
-      <Filter>Queue</Filter>
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp">
       <Filter>Special Integer</Filter>
@@ -329,15 +293,6 @@
     </ClInclude>
     <ClInclude Include="Special Integer\SpecialInteger.h">
       <Filter>Special Integer</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
-      <Filter>Priority Queue\PQ Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\PriorityQueue.h">
-      <Filter>Priority Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\PriorityQueueImpl.hpp">
-      <Filter>Priority Queue</Filter>
     </ClInclude>
     <ClInclude Include="File parser\FileParser.h">
       <Filter>File parser</Filter>
@@ -443,6 +398,48 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Dynamic Array\DArray.h">
+      <Filter>Containers\Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Dynamic Array\DArrayImpl.hpp">
+      <Filter>Containers\Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Dynamic Array\DArrayIteratorImpl.hpp">
+      <Filter>Containers\Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Hash\Hash.h">
+      <Filter>Containers\Linear Probing Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Hash\HashFunctionStringSpecialization.h">
+      <Filter>Containers\Linear Probing Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Hash\HashImpl.hpp">
+      <Filter>Containers\Linear Probing Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\PriorityQueue.h">
+      <Filter>Containers\Priority Queue\PQ Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\PriorityQueueImpl.hpp">
+      <Filter>Containers\Priority Queue\PQ Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
+      <Filter>Containers\Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Queue\Queue.h">
+      <Filter>Containers\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Queue\QueueImpl.hpp">
+      <Filter>Containers\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Singly Linked List\SinglyLinkedList.h">
+      <Filter>Containers\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListImpl.hpp">
+      <Filter>Containers\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
+      <Filter>Containers\Singly Linked List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

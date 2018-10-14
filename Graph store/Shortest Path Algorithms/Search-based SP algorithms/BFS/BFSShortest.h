@@ -2,7 +2,7 @@
 #define __BFS_SHORTEST_PATH_H_INCLUDED__
 
 #include "..\Base\SearchBasedShortestPathAlgorithm.h"
-#include "..\..\..\Queue\Queue.h"
+#include "..\..\..\Containers\Queue\Queue.h"
 
 class BFSShortest: public SearchBasedShortestPathAlgorithm
 {

@@ -1,11 +1,11 @@
 #ifndef __BASE_GRAPH_H_INCLUDED__
 #define __BASE_GRAPH_H_INCLUDED__
 
-#include "..\..\Hash\Hash.h"
-#include "..\..\Hash\HashFunctionStringSpecialization.h"
-#include "..\..\Dynamic Array\DArray.h"
+#include "..\..\Containers\Hash\Hash.h"
+#include "..\..\Containers\Hash\HashFunctionStringSpecialization.h"
+#include "..\..\Containers\Dynamic Array\DArray.h"
 #include "..\..\String\String.h"
-#include "..\..\Singly Linked List\SinglyLinkedList.h"
+#include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
 #include "..\..\Iterator abstraction\Iterator.h"
 #include <memory>
 
