@@ -1,19 +1,20 @@
 #include "CppUnitTest.h"
+#include "..\..\..\Graph store\Containers\Priority Queue\PriorityQueue.h"
+#include "..\..\..\Graph store\Containers\Dynamic Array\DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-#include "..\..\..\Graph store\Priority Queue\PriorityQueue.h"
-#include "..\..\..\Graph store\Dynamic Array\DArray.h"
 
 namespace PriorityQueueTest
 {	
 	TEST_CLASS(PriorityQueueTest)
 	{
 	private:
+		using Handle = Containers::PriorityQueueHandle;
+
 		struct TestItem
 		{
 			unsigned id{};
-			PriorityQueueHandle handle{};
+			Handle handle{};
 		};
 
 		struct KeyAccessor
@@ -24,16 +25,16 @@ namespace PriorityQueueTest
 
 		struct HandleSetter
 		{
-			void operator()(TestItem* item, const PriorityQueueHandle& handle) const
+			void operator()(TestItem* item, const Handle& handle) const
 			{
 				item->handle = handle;
 			}
 		};
 
-		using IntMaxPriorityQueue = PriorityQueue<int>;
-		using IntArray = DArray<int>;
-		using MaxPriorityQueue = PriorityQueue<TestItem*, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
-		using TestItemArray = DArray<TestItem>;
+		using IntMaxPriorityQueue = Containers::PriorityQueue<int>;
+		using IntArray = Containers::DArray<int>;
+		using MaxPriorityQueue = Containers::PriorityQueue<TestItem*, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
+		using TestItemArray = Containers::DArray<TestItem>;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
@@ -86,7 +87,7 @@ namespace PriorityQueueTest
 
 		static auto itemPtrs()
 		{
-			DArray<TestItem*> result{ TEST_ITEMS_COUNT };
+			Containers::DArray<TestItem*> result{ TEST_ITEMS_COUNT };
 
 			for (auto&& item : testItems)
 			{
