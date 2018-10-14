@@ -1,10 +1,10 @@
 #include "CppUnitTest.h"
+#include "../../Graph store/Containers/Dynamic Array/DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using Containers::DArray;
 using std::begin;
 using std::end;
-
-#include "../../Graph store/Dynamic Array/DArray.h"
 
 namespace DArraytest
 {		
