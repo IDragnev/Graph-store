@@ -3,7 +3,7 @@
 
 namespace Containers
 {
-	PriorityQueueHandle::PriorityQueueHandle(long value) :
+	PriorityQueueHandle::PriorityQueueHandle(int32_t value) :
 		value{ value }
 	{
 		assert(value >= -1);
@@ -16,7 +16,7 @@ namespace Containers
 	}
 
 
-	PriorityQueueHandle::operator const long() const
+	PriorityQueueHandle::operator int32_t() const
 	{
 		return value;
 	}

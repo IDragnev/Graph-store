@@ -1,6 +1,8 @@
 #ifndef __PRIORITY_QUEUE_HANDLE_H_INLCUDED__
 #define __PRIORITY_QUEUE_HANDLE_H_INLCUDED__
 
+#include <cstdint>
+
 namespace Containers
 {
 	class PriorityQueueHandle
@@ -11,13 +13,13 @@ namespace Containers
 		PriorityQueueHandle() = default;
 
 	private:
-		PriorityQueueHandle(long value);
+		PriorityQueueHandle(int32_t value);
 
 		bool isValid() const;
-		operator const long() const;
+		operator int32_t() const;
 
 	private:
-		long value = -1;
+		int32_t value = -1;
 	};
 }
 
