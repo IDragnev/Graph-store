@@ -8,19 +8,19 @@ template <typename Integer = int>
 class SpecialInteger
 {
 private:
-	static_assert(std::numeric_limits<Integer>::is_integer, "SpecialInteger<T> requires T to be an integer type");
-	
+	static_assert(std::numeric_limits<Integer>::is_integer,
+				  "SpecialInteger<T> requires T to be an integer type");
 	template <typename T>
-	using enable_if_floating_point = std::enable_if_t<std::is_floating_point<T>::value>;
+	using EnableIfFloatingPoint = std::enable_if_t<std::is_floating_point<T>::value>;
 
 public:
 	SpecialInteger();
 	SpecialInteger(Integer value);
 	SpecialInteger(const SpecialInteger<Integer>& source) = default;
-	template <typename T, typename = enable_if_floating_point<T>>
+	template <typename T, typename = EnableIfFloatingPoint<T>>
 	SpecialInteger(T) = delete;
 
-	template <typename T, typename = enable_if_floating_point<T>>
+	template <typename T, typename = EnableIfFloatingPoint<T>>
 	SpecialInteger<Integer>& operator=(T) = delete;
 	SpecialInteger<Integer>& operator=(Integer newValue);
 	SpecialInteger<Integer>& operator=(const SpecialInteger<Integer>& rhs) = default;
