@@ -1,7 +1,8 @@
 #include "CppUnitTest.h"
-#include "../../Graph store/Singly Linked List/SinglyLinkedList.h"
+#include "../../Graph store/Containers/Singly Linked List/SinglyLinkedList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using Containers::SinglyLinkedList;
 using std::begin;
 using std::end;
 using std::cbegin;
