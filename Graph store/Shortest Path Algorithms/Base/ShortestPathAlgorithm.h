@@ -27,7 +27,7 @@ public:
 	class Path
 	{
 	private:
-		using Collection = SinglyLinkedList<String>;
+		using Collection = Containers::SinglyLinkedList<String>;
 
 	public:
 		Path() = default;

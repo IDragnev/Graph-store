@@ -13,6 +13,7 @@ class GraphBuilder
 {
 private:
 	using GraphPtr = std::unique_ptr<Graph>;
+	using StringArray = Containers::DArray<String>;
 
 	struct RawEdge
 	{
@@ -55,7 +56,7 @@ private:
 	static const char NEW_LINE = '\n';
 
 private:
-	DArray<String> vertexIDs;
+	StringArray vertexIDs;
 	GraphPtr result;
 	FileParser parser;
 };

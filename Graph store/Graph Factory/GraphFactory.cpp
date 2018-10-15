@@ -3,7 +3,6 @@
 #include "Graph creators\Base\GraphCreator.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\String\String.h"
-#include <algorithm>
 
 
 GraphFactory::GraphFactory() :
@@ -30,7 +29,7 @@ GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const 
 
 const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 {
-	auto* creator = searchCreator(graphType);
+	auto creator = searchCreator(graphType);
 
 	if (creator)
 	{

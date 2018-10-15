@@ -9,16 +9,16 @@ public:
 	using SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm;
 
 private:
-	virtual Path findNonTrivialShortestPath(const Graph& graph, 
-											const Vertex& source, 
-											const Vertex& goal) override;
+	Path findNonTrivialShortestPath(const Graph& graph, 
+									const Vertex& source, 
+									const Vertex& goal) override;
 
 	void findShortestPath(const Vertex& source, const Vertex& goal);
 	void startDepthLimitedSearch(MarkableVertex& v, unsigned depthBound);
 	void proceedWithNeighboursOf(const MarkableVertex& v, unsigned depthBound);
 	static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
 
-	virtual void initSourceDecorator(MarkableVertex& source) override;
+	void initSourceDecorator(MarkableVertex& source) override;
 
 	void initState(const Graph& graph);
 

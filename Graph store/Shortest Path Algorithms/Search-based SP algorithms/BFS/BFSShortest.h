@@ -7,16 +7,16 @@
 class BFSShortest: public SearchBasedShortestPathAlgorithm
 {
 private:
-	using VertexDecoratorsQueue = Queue<const MarkableVertex*>;
+	using VertexDecoratorsQueue = Containers::Queue<const MarkableVertex*>;
 	using Base = SearchBasedShortestPathAlgorithm;
 
 public:
 	using SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm;
 
 private:
-	virtual Path findNonTrivialShortestPath(const Graph& graph, 
-											const Vertex& source, 
-											const Vertex& goal) override;
+	Path findNonTrivialShortestPath(const Graph& graph, 
+									const Vertex& source, 
+									const Vertex& goal) override;
 
 	void findShortestPath(const Vertex& source, const Vertex& goal);
 	bool isFrontierEmpty() const;
@@ -26,7 +26,7 @@ private:
 	static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
 	void clean();
 
-	virtual void initSourceDecorator(MarkableVertex& source) override;
+	void initSourceDecorator(MarkableVertex& source) override;
 
 private:
 	VertexDecoratorsQueue queue{};

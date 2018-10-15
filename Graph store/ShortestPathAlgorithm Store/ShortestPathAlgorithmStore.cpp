@@ -28,7 +28,7 @@ void ShortestPathAlgorithmStore::insertAlgorithm(ShortestPathAlgorithm& algorith
 
 ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID)
 {
-	ShortestPathAlgorithm* result = searchAlgorithm(ID);
+	auto result = searchAlgorithm(ID);
 	
 	if (result)
 	{

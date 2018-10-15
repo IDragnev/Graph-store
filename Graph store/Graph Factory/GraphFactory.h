@@ -14,7 +14,7 @@ private:
 	template <typename GraphType>
 	friend class GraphRegistrator;
 
-	using CreatorsCollection = DArray<const GraphCreator*>;
+	using CreatorsCollection = Containers::DArray<const GraphCreator*>;
 	using GraphPtr = std::unique_ptr<Graph>;
 
 public:

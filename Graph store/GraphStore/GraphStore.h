@@ -10,7 +10,7 @@ class Exception;
 class GraphStore
 {
 private:
-	using GraphCollection = DArray<Graph*>;
+	using GraphCollection = Containers::DArray<Graph*>;
 
 public:
 	GraphStore() = default;

@@ -8,15 +8,19 @@
 
 class String;
 class Command;
-template <typename T>
-class DArray;
+
+namespace Containers
+{
+	template <typename T>
+	class DArray;
+}
 
 class Application
 {
 private:
 	using Commands =  std::forward_list<args::Command>;
 	using Function = std::function<void(args::Subparser&)>;
-	using StringSplitter = StringSplitter<DArray>;
+	using StringSplitter = StringSplitter<Containers::DArray>;
 
 public:
 	static Application& instance();

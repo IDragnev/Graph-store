@@ -6,7 +6,7 @@
 #include "..\..\Containers\Dynamic Array\DArray.h"
 #include "..\..\General Exceptions\Exception.h"
 
-template <template <typename...> typename Container = DArray>
+template <template <typename...> typename Container = Containers::DArray>
 class StringSplitter
 {
 private:
@@ -41,7 +41,7 @@ private:
 private:
 	std::istringstream stream;
 	Container<std::string> result;
-	DArray<char> delimiters;
+	Containers::DArray<char> delimiters;
 	char currentDelim = ' ';
 };
 

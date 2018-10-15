@@ -11,13 +11,14 @@
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
 private:
+	using Handle = Containers::PriorityQueueHandle;
 	struct PriorityVertex : VertexDecorator
 	{
 		using VertexDecorator::VertexDecorator;
 		PriorityVertex() : VertexDecorator{ nullptr } {}
-		PriorityQueueHandle handle{};
+		Handle handle{};
 	};
-	using PointersCollection = DArray<PriorityVertex*>;
+	using PointersCollection = Containers::DArray<PriorityVertex*>;
 
 	struct DistanceAccessor
 	{
@@ -27,7 +28,7 @@ private:
 
 	struct HandleSetter
 	{
-		void operator()(PriorityVertex* v, const PriorityQueueHandle& h) const { v->handle = h; }
+		void operator()(PriorityVertex* v, const Handle& h) const { v->handle = h; }
 	};
 
 	struct GreaterThan
@@ -40,17 +41,18 @@ private:
 		const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
 	};
 
-	using MinPriorityQueue = PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
-	using DecoratorsMap = Hash<PriorityVertex, String, IDAccessor>;
-	using DecoratorsArray = DArray<PriorityVertex>;
+	using MinPriorityQueue = 
+		Containers::PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
+	using DecoratorsMap = Containers::Hash<PriorityVertex, String, IDAccessor>;
+	using DecoratorsArray = Containers::DArray<PriorityVertex>;
 
 public:
 	using ShortestPathAlgorithm::ShortestPathAlgorithm;
 
 private:
-	virtual Path findNonTrivialShortestPath(const Graph& graph, 
-											const Vertex& source, 
-											const Vertex& goal) override;
+	Path findNonTrivialShortestPath(const Graph& graph, 
+									const Vertex& source, 
+									const Vertex& goal) override;
 
 	void findShortestPath();
 	bool existsVertexWithUndeterminedDistance() const;

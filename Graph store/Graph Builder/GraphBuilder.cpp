@@ -117,8 +117,8 @@ bool GraphBuilder::areVerticesInserted() const
 
 void GraphBuilder::insertSingleEdge(const RawEdge& edge)
 {
-	Graph::Vertex& start = getVertex(edge.startVertexIDIndex);
-	Graph::Vertex& end = getVertex(edge.endVertexIDIndex);
+	auto& start = getVertex(edge.startVertexIDIndex);
+	auto& end = getVertex(edge.endVertexIDIndex);
 	result->insertEdge(start, end, edge.weight);
 }
 
@@ -131,7 +131,7 @@ Graph::Vertex& GraphBuilder::getVertex(std::size_t idIndex)
 
 GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 {
-	RawEdge result{};
+	auto result = RawEdge{};
 
 	parser.ignoreUntil(EDGE_START);
 	result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);

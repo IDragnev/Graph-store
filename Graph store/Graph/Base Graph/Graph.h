@@ -29,7 +29,10 @@ public:
 
 	class Vertex
 	{
+	private:
 		friend class Graph;
+		using EdgeList = Containers::SinglyLinkedList<Edge>;
+
 	public:
 		Vertex(const String& ID, std::size_t index);
 
@@ -44,7 +47,7 @@ public:
 	private:
 		String id;
 		std::size_t index;
-		SinglyLinkedList<Edge> edges;
+		EdgeList edges;
 	};
 
 private:
@@ -57,8 +60,9 @@ private:
 		}
 	};
 
-	using VertexHashTable = Hash<Vertex, String, IDAccessor>;
-	using EdgeIterator = SinglyLinkedList<Edge>::iterator;
+	using VertexArray = Containers::DArray<Vertex*>;
+	using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
+	using EdgeIterator = Containers::SinglyLinkedList<Edge>::iterator;
 	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
 	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
 	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
@@ -118,7 +122,7 @@ private:
 
 private:
 	String id;
-	DArray<Vertex*> vertices;
+	VertexArray vertices;
 	VertexHashTable verticesSearchTable;
 };
 

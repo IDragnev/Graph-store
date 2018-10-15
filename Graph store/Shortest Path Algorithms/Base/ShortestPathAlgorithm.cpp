@@ -16,7 +16,7 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 {
 	if (this != &rhs)
 	{
-		Path temp{ std::move(rhs) };
+		auto temp = Path{ std::move(rhs) };
 		std::swap(IDs, temp.IDs);
 		std::swap(length, temp.length);
 	}

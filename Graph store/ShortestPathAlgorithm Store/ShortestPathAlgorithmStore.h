@@ -9,7 +9,7 @@ class String;
 class ShortestPathAlgorithmStore
 {
 private:
-	using Collection = DArray<ShortestPathAlgorithm*>;
+	using Collection = Containers::DArray<ShortestPathAlgorithm*>;
 
 public:
 	static ShortestPathAlgorithmStore& instance();
@@ -21,9 +21,7 @@ private:
 	ShortestPathAlgorithmStore();
 	~ShortestPathAlgorithmStore() = default;
 
-	ShortestPathAlgorithmStore(ShortestPathAlgorithmStore&&) = delete;
 	ShortestPathAlgorithmStore(const ShortestPathAlgorithmStore&) = delete;
-	ShortestPathAlgorithmStore& operator=(ShortestPathAlgorithmStore&&) = delete;
 	ShortestPathAlgorithmStore& operator=(const ShortestPathAlgorithmStore&) = delete;
 
 private:
