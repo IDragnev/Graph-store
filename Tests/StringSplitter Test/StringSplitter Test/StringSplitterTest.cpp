@@ -8,58 +8,58 @@ namespace StringSplitterTest
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		using Splitter = StringSplitter<DArray>;
-		using Container = DArray<std::string>;
+		using Splitter = StringSplitter<Containers::DArray>;
+		using Container = Containers::DArray<std::string>;
 
 	public:	
 		TEST_METHOD(testDefaultSplitterHasOnlyWhiteSpaceDelimiter)
 		{
-			Splitter s;
+			auto s = Splitter{};
 
-			Container result = s.split("one two 'three'");
+			auto result = s.split("one two 'three'");
 
 			Assert::IsTrue(result == Container{ "one", "two", "'three'"});
 		}
 
 		TEST_METHOD(testSplittingTheEmptyStringReturnsEmptyContainer)
 		{
-			Splitter s{ ' ', '\'' };
+			auto s = Splitter{ ' ', '\'' };
 
-			Container result = s.split("");
+			auto result = s.split("");
 
 			Assert::IsTrue(result.isEmpty());
 		}
 
 		TEST_METHOD(testWhiteSpacesAreIgnored)
 		{
-			Splitter s{ '\"', '\'' };
+			auto s = Splitter{ '\"', '\'' };
 
-			Container result = s.split("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
+			auto result = s.split("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
 
 			Assert::IsTrue(result == Container{ "one", "", "-two-", "three", "*four*", "five" });
 		}
 
 		TEST_METHOD(testWhiteSpaceIsAlwaysConsideredAsDelimiter)
 		{
-			Splitter s{ '\'' };
+			auto s = Splitter{ '\'' };
 
-			Container result = s.split("     'one'   two   'three and a half'      *four*  ");
+			auto result = s.split("     'one'   two   'three and a half'      *four*  ");
 
 			Assert::IsTrue(result == Container{ "one", "two", "three and a half", "*four*" });
 		}
 
 		TEST_METHOD(testWhiteSpaceIsMatchedByNullTerminatingCharacter)
 		{
-			Splitter s{ '\'' };
+			auto s = Splitter{ '\'' };
 
-			Container result = s.split(" one two");
+			auto result = s.split(" one two");
 
 			Assert::IsTrue(result == Container{ "one", "two" });
 		}
 
 		TEST_METHOD(testUnmatchedDelimiterThrows)
 		{
-			Splitter s{ '\'' };
+			auto s = Splitter{ '\'' };
 
 			try
 			{

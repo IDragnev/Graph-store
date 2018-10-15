@@ -17,14 +17,16 @@ private:
 	static_assert(std::is_move_assignable<Container<std::string>>::value, 
 				  "StringSplitter requires Container<std::string> to be move assignable");
 
+	using Delimiters = Containers::DArray<char>;
+
 public:
 	StringSplitter() = default;
 	StringSplitter(std::initializer_list<char> delimiters);
-	StringSplitter(const StringSplitter<Container>&) = delete;
-	StringSplitter(StringSplitter<Container>&& source) = default;
+	StringSplitter(const StringSplitter&) = delete;
+	StringSplitter(StringSplitter&& source) = default;
 	
-	StringSplitter& operator=(const StringSplitter<Container>&) = delete;
-	StringSplitter& operator=(StringSplitter<Container>&& rhs) = default;
+	StringSplitter& operator=(const StringSplitter&) = delete;
+	StringSplitter& operator=(StringSplitter&& rhs) = default;
 
 	Container<std::string> split(const std::string& str);
 
@@ -41,7 +43,7 @@ private:
 private:
 	std::istringstream stream;
 	Container<std::string> result;
-	Containers::DArray<char> delimiters;
+	Delimiters delimiters;
 	char currentDelim = ' ';
 };
 
