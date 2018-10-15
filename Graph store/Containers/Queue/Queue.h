@@ -9,6 +9,9 @@ namespace Containers
 	class Queue
 	{
 	public:
+		Queue() = default;
+		Queue(std::initializer_list<T> source);
+
 		void enqueue(const T& item);
 		T dequeue();
 		const T peekHead() const;

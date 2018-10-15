@@ -9,19 +9,30 @@ namespace Queuetest
 	TEST_CLASS(QueueTest)
 	{
 	private:
-		using Queue =  Containers::Queue<int>;
+		using Queue = Containers::Queue<int>;
 
 	public:	
-		TEST_METHOD(testCtorConstructsEmptyQueue)
+		TEST_METHOD(testDefaultCtorConstructsEmptyQueue)
 		{
-			Queue queue;
+			auto queue = Queue{};
 
 			Assert::IsTrue(queue.isEmpty());
 		}
 
+		TEST_METHOD(testInitializerListCtor)
+		{
+			auto queue = Queue{ 1, 2, 3 };
+
+			auto i = 1;
+			while (!queue.isEmpty())
+			{
+				Assert::AreEqual(queue.dequeue(), i++);
+			}
+		}
+
 		TEST_METHOD(testEnqueue)
 		{
-			Queue queue;
+			auto queue = Queue{};
 
 			queue.enqueue(1);
 
@@ -31,21 +42,17 @@ namespace Queuetest
 
 		TEST_METHOD(testDequeue)
 		{
-			Queue queue;
-			queue.enqueue(1);
-			queue.enqueue(2);
+			auto queue = Queue{ 1, 2 };
+		
+			auto oldHead = queue.dequeue();
 
-			int oldHead = queue.dequeue();
-
-			Assert::AreEqual(oldHead, 1, L"Dequeued item is not the first enqueued item");
-			Assert::AreEqual(queue.peekHead(), 2, L"The head of the queue is not the second element after calling dequeue");
+			Assert::AreEqual(oldHead, 1, L"Incorrect dequeued item");
+			Assert::AreEqual(queue.peekHead(), 2, L"Incorrect new head item");
 		}
 
 		TEST_METHOD(testEmptyEmptiesTheQueue)
 		{
-			Queue queue;
-			queue.enqueue(1);
-			queue.enqueue(0);
+			auto queue = Queue{ 1, 2, 3, 4, 5 };
 
 			queue.empty();
 

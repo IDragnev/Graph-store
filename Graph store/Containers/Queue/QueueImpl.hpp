@@ -2,6 +2,13 @@
 namespace Containers
 {
 	template <typename T>
+	Queue<T>::Queue(std::initializer_list<T> source) :
+		theUnderlyingList{ source }
+	{
+	}
+
+
+	template <typename T>
 	inline bool Queue<T>::isEmpty() const
 	{
 		return theUnderlyingList.isEmpty();
