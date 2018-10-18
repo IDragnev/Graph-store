@@ -1,152 +1,139 @@
 
-
-template <typename Integer>
-inline SpecialInteger<Integer>::SpecialInteger() :
-	value{ 0 },
-	isInfinity{ true }
+namespace IDragnev
 {
-}
-
-
-template <typename Integer>
-inline SpecialInteger<Integer>::SpecialInteger(Integer value) :
-	value{ value },
-	isInfinity{ false }
-{
-}
-
-
-//
-//this overload of operator= cannot be called with an object (it will choose the defaulted overload)
-//so isInfinity must be made false
-//(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
-//
-template <typename Integer>
-inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue)
-{
-	value = newValue;
-	isInfinity = false;
-
-	return *this;
-}
-
-
-template <typename Integer>
-inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	SpecialInteger<Integer> temporary{ lhs };
-	temporary += rhs;
-
-	return temporary;
-}
-
-
-template <typename Integer>
-SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialInteger<Integer>& rhs)
-{
-	if (!isInfinity)
+	template <typename Integer>
+	inline SpecialInteger<Integer>::SpecialInteger() :
+		value{ 0 },
+		isInfinity{ true }
 	{
-		if (!rhs.isInfinity)
+	}
+
+	template <typename Integer>
+	inline SpecialInteger<Integer>::SpecialInteger(Integer value) :
+		value{ value },
+		isInfinity{ false }
+	{
+	}
+
+	//
+	//this overload of operator= cannot be called with an object (it will choose the defaulted overload)
+	//so isInfinity must be made false
+	//(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
+	//
+	template <typename Integer>
+	inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue)
+	{
+		value = newValue;
+		isInfinity = false;
+
+		return *this;
+	}
+
+	template <typename Integer>
+	inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		auto temp = lhs;
+		temp += rhs;
+
+		return temp;
+	}
+
+	template <typename Integer>
+	SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialInteger& rhs)
+	{
+		if (!isInfinity)
 		{
-			value += rhs.value;
+			if (!rhs.isInfinity)
+			{
+				value += rhs.value;
+			}
+			else
+			{
+				*this = Infinity();
+			}
+		}
+
+		return *this;
+	}
+
+	template <typename Integer>
+	inline const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity()
+	{
+		static const SpecialInteger infinity;
+
+		return infinity;
+	}
+
+	template <typename Integer>
+	bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		if (!lhs.isInfinity && !rhs.isInfinity)
+		{
+			return lhs.value < rhs.value;
+		}
+		else if (!lhs.isInfinity && rhs.isInfinity)
+		{
+			return true;
+		}
+		else // INF < INF or INF < INTEGER
+		{
+			return false;
+		}
+	}
+
+	template <typename Integer>
+	inline bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		return rhs < lhs;
+	}
+
+	template <typename Integer>
+	inline bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	template <typename Integer>
+	inline bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		return !(lhs > rhs);
+	}
+
+	template <typename Integer>
+	inline bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
+	}
+
+	template <typename Integer>
+	inline bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <typename Integer>
+	inline std::ostream& operator<<(std::ostream& os, const SpecialInteger<Integer>& integer)
+	{
+		integer.print(os);
+		return os;
+	}
+
+	template <typename Integer>
+	void SpecialInteger<Integer>::print(std::ostream& os) const
+	{
+		if (isInfinity)
+		{
+			os << "Infinity";
 		}
 		else
 		{
-			*this = Infinity();
+			os << value;
 		}
 	}
 
-	return *this;
-}
-
-
-template <typename Integer>
-inline const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity()
-{
-	static const SpecialInteger<Integer> infinity;
-
-	return infinity;
-}
-
-
-template <typename Integer>
-bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	if (!lhs.isInfinity && !rhs.isInfinity)
+	template <typename Integer>
+	inline bool SpecialInteger<Integer>::isEqualToInfinity() const
 	{
-		return lhs.value < rhs.value;
+		return isInfinity;
 	}
-	else if (!lhs.isInfinity && rhs.isInfinity)
-	{
-		return true;
-	}
-	else // INF < INF or INF < INTEGER
-	{
-		return false;
-	}
-}
-
-
-template <typename Integer>
-inline bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	return rhs < lhs;
-}
-
-
-template <typename Integer>
-inline bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	return !(lhs < rhs);
-}
-
-
-template <typename Integer>
-inline bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	return !(lhs > rhs);
-}
-
-
-template <typename Integer>
-inline bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
-}
-
-
-template <typename Integer>
-inline bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
-{
-	return !(lhs == rhs);
-}
-
-
-template <typename Integer>
-inline std::ostream& operator<<(std::ostream& outputStream, const SpecialInteger<Integer>& integer)
-{
-	integer.print(outputStream);
-
-	return outputStream;
-}
-
-
-template <typename Integer>
-void SpecialInteger<Integer>::print(std::ostream& outputStream) const
-{
-	if (isInfinity)
-	{
-		outputStream << "Infinity";
-	}
-	else
-	{
-		outputStream << value;
-	}
-}
-
-
-template <typename Integer>
-inline bool SpecialInteger<Integer>::isEqualToInfinity() const
-{
-	return isInfinity;
 }

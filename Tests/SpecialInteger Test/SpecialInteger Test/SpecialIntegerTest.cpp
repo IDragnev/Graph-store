@@ -1,16 +1,14 @@
 #include "CppUnitTest.h"
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
 #include "../../../Graph store/Special Integer/SpecialInteger.h"
 
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SpecialIntegerTest
 {		
 	TEST_CLASS(SpecialIntegerTest)
 	{
 	private:
-		using SpecialInteger = SpecialInteger<int>;
+		using SpecialInteger = IDragnev::SpecialInteger<int>;
 
 	public:
 		TEST_METHOD(testDefaultConstructedIntegerIsEqualToInfinity)
