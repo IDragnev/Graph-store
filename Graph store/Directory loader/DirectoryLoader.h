@@ -7,33 +7,37 @@
 #include <functional>
 #include <memory>
 
-class Graph;
-
-class DirectoryLoader
+namespace IDragnev
 {
-private:
-	using Function = std::function<void(std::unique_ptr<Graph>)>;
+	namespace GraphStore
+	{
+		class Graph;
 
-public:
-	explicit DirectoryLoader(const String& directory);
+		class DirectoryLoader
+		{
+		private:
+			using Function = std::function<void(std::unique_ptr<Graph>)>;
 
-	void load(Function f);
+		public:
+			explicit DirectoryLoader(const String& directory);
 
-private:
-	DirectoryLoader(DirectoryLoader&&) = delete;
-	DirectoryLoader(const DirectoryLoader&) = delete;
-	DirectoryLoader& operator=(DirectoryLoader&&) = delete;
-	DirectoryLoader& operator=(const DirectoryLoader&) = delete;
+			DirectoryLoader(const DirectoryLoader&) = delete;
+			DirectoryLoader& operator=(const DirectoryLoader&) = delete;
 
-	bool hasRemainingFiles() const;
-	String getCurrentFileName() const;
-	std::unique_ptr<Graph> loadCurrentFile();
-	void goToNextFile();
+			void load(Function f);
 
-private:
-	String directory;
-	DirectoryFlatIterator iterator;
-	GraphBuilder builder;
-};
+		private:
+			bool hasRemainingFiles() const;
+			String getCurrentFileName() const;
+			std::unique_ptr<Graph> loadCurrentFile();
+			void goToNextFile();
+
+		private:
+			String directory;
+			DirectoryFlatIterator iterator;
+			GraphBuilder builder;
+		};
+	}
+}
 
 #endif //__DIRECTORY_LOADER_H_INCLUDED__
