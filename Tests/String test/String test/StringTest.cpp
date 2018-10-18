@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
+#include "../../../Graph store/String/String.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-#include "../../../Graph store/String/String.h"
+using IDragnev::String;
 
 namespace StringTest
 {		
@@ -24,35 +24,35 @@ namespace StringTest
 	public:
 		TEST_METHOD(testDefaultConstructedStringIsEmpty)
 		{
-			auto str = String{};
+			String str{};
 
 			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testCStringConstructorWithNonEmptyCString)
 		{
-			auto str = String{ C_STRING_PROTOTYPE };
+			String str{ C_STRING_PROTOTYPE };
 
 			Assert::IsTrue(haveSameContents(str, C_STRING_PROTOTYPE));
 		}
 
 		TEST_METHOD(testCStringConstructorWithEmptyCStringConstructsEmptyString)
 		{
-			auto str = String{ "" };
+			String str{ "" };
 
 			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testCStringConstructorWithNullptrConstructsEmptyString)
 		{
-			auto str = String{ nullptr };
+			String str{ nullptr };
 
 			Assert::IsTrue(isTheEmptyString(str));
 		}
 
 		TEST_METHOD(testSingleCharConstructor)
 		{
-			auto str = String{ 'C' };
+			String str{ 'C' };
 
 			Assert::IsTrue(haveSameContents(str, "C"));
 		}
@@ -115,7 +115,7 @@ namespace StringTest
 
 		TEST_METHOD(testMoveCtorFromNonEmptySourceLeavesSourceEmpty)
 		{
-			auto source = String{ C_STRING_PROTOTYPE };
+			String source{ C_STRING_PROTOTYPE };
 			auto destination = String{ std::move(source) };
 
 			Assert::IsTrue(haveSameContents(destination, C_STRING_PROTOTYPE), L"Moved-in object has wrong contents");
@@ -124,7 +124,7 @@ namespace StringTest
 
 		TEST_METHOD(testMoveCtorFromEmptySourceDoesNotModifySource)
 		{
-			auto emptySource = String{};
+			String emptySource{};
 			auto destination = String{ std::move(emptySource) };
 
 			Assert::IsTrue(isTheEmptyString(destination), L"Moved-in object is not empty");
