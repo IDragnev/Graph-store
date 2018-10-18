@@ -3,10 +3,16 @@
 
 #include <stdexcept>
 
-class Exception : public std::runtime_error
+namespace IDragnev
 {
-public:
-	using std::runtime_error::runtime_error;
-};
+	namespace GraphStore
+	{
+		class Exception : public std::runtime_error
+		{
+		public:
+			using std::runtime_error::runtime_error;
+		};
+	}
+}
 
 #endif //__MY_EXCEPTION_H_INCLUDED__

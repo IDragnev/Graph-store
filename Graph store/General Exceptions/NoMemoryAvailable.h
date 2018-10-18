@@ -3,10 +3,16 @@
 
 #include "Exception.h"
 
-class NoMemoryAvailable : public Exception
+namespace IDragnev
 {
-public:
-	NoMemoryAvailable() : Exception{ "No memory available" } {}
-};
+	namespace GraphStore
+	{
+		class NoMemoryAvailable : public Exception
+		{
+		public:
+			NoMemoryAvailable() : Exception{ "No memory available" } {}
+		};
+	}
+}
 
 #endif //__NO_MEMORY_AVAILABLE_H_INCLUDED__

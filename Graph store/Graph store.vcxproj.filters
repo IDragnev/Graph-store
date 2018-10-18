@@ -113,9 +113,6 @@
     <Filter Include="General exceptions">
       <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File parser\ParseFail Exception">
-      <UniqueIdentifier>{7c11a604-d6a3-460c-b247-6b02298eb6ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Commands\MissingArgument exception">
       <UniqueIdentifier>{f581e506-4256-4da2-91fb-c95adbe17a8c}</UniqueIdentifier>
     </Filter>
@@ -124,9 +121,6 @@
     </Filter>
     <Filter Include="Iterators\ForwardIterator wrapper">
       <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Traits">
-      <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Iterators\Iterator interface">
       <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
@@ -163,6 +157,9 @@
     </Filter>
     <Filter Include="Containers\Linear Probing Hash">
       <UniqueIdentifier>{08d89d6c-f35e-4be0-a5af-12fbf3fec07f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Traits">
+      <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +234,6 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Remove graph\RemoveGraphCommand.cpp">
       <Filter>Application\Commands\Remove graph</Filter>
-    </ClCompile>
-    <ClCompile Include="File parser\ParseFail exception\ParseFail.cpp">
-      <Filter>File parser\ParseFail Exception</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Search-based SP Algorithms\Base</Filter>
@@ -369,9 +363,6 @@
     <ClInclude Include="General Exceptions\NoMemoryAvailable.h">
       <Filter>General exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="File parser\ParseFail exception\ParseFail.h">
-      <Filter>File parser\ParseFail Exception</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
       <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
@@ -382,9 +373,6 @@
       <Filter>Iterators\ForwardIterator wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Traits\Traits.h">
-      <Filter>Traits</Filter>
-    </ClInclude>
-    <ClInclude Include="Traits\SelectBaseIterator.h">
       <Filter>Traits</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h">
@@ -440,6 +428,9 @@
     </ClInclude>
     <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
       <Filter>Containers\Singly Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Traits\SelectBaseIterator.h">
+      <Filter>Iterators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
