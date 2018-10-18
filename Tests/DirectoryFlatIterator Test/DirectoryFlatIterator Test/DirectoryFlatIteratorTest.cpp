@@ -3,6 +3,9 @@
 #include "..\..\..\Graph store\General Exceptions\Exception.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using IDragnev::GraphStore::DirectoryFlatIterator;
+using IDragnev::String;
+using IDragnev::GraphStore::Exception;
 
 namespace DirectoryFlatIteratorTest
 {
@@ -38,7 +41,7 @@ namespace DirectoryFlatIteratorTest
 		{
 			for (size_t i = 0; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
-				TextFile& file = textFilesArray[i];
+				auto& file = textFilesArray[i];
 
 				if (areEqual(filename, file.name))
 				{
@@ -54,7 +57,7 @@ namespace DirectoryFlatIteratorTest
 
 		static void markAllTextFilesNotFound()
 		{
-			for (size_t i = 0; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			for (auto i = std::size_t{ 0 }; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				textFilesArray[i].timesFound = 0;
 			}
@@ -62,7 +65,7 @@ namespace DirectoryFlatIteratorTest
 
 		static bool allTextFilesWereMatchedExactlyOnce()
 		{
-			for (size_t i = 0; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			for (auto i = std::size_t{ 0 }; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				if (textFilesArray[i].timesFound != 1)
 				{

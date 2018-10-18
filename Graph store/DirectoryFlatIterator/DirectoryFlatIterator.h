@@ -4,43 +4,46 @@
 #include <Windows.h>
 #include "..\String\String.h"
 
-class Exception;
-
-class DirectoryFlatIterator
+namespace IDragnev
 {
-private:
-	using File = WIN32_FIND_DATA;
-	using SearchHandle = HANDLE;
+	namespace GraphStore
+	{
+		class Exception;
 
-public:
-	explicit DirectoryFlatIterator(const String& directory);
-	~DirectoryFlatIterator();
+		class DirectoryFlatIterator
+		{
+		private:
+			using File = WIN32_FIND_DATA;
+			using SearchHandle = HANDLE;
 
-	bool isFinished() const;
-	void goToNextTextFile();
-	String getCurrentTextFileName() const;
+		public:
+			explicit DirectoryFlatIterator(const String& directory);
+			DirectoryFlatIterator(const DirectoryFlatIterator&) = delete;
+			~DirectoryFlatIterator();
 
-private:
-	void findFirstFile(const String& directory);
-	static String appendPatternTo(const String& directory);
-	void throwIfFailedToOpen(const String& directory) const;
-	bool handleIsValid() const;
-	void finish();
-	void closeHandle();
-	void invalidateHandle();
+			DirectoryFlatIterator& operator=(const DirectoryFlatIterator&) = delete;
 
-private:
-	DirectoryFlatIterator(DirectoryFlatIterator&&) = delete;
-	DirectoryFlatIterator(const DirectoryFlatIterator&) = delete;
-	DirectoryFlatIterator& operator=(DirectoryFlatIterator&&) = delete;
-	DirectoryFlatIterator& operator=(const DirectoryFlatIterator&) = delete;
+			bool isFinished() const;
+			void goToNextTextFile();
+			String getCurrentTextFileName() const;
 
-private:
-	static const String PATTERN;
+		private:
+			void findFirstFile(const String& directory);
+			static String appendPatternTo(const String& directory);
+			void throwIfFailedToOpen(const String& directory) const;
+			bool handleIsValid() const;
+			void finish();
+			void closeHandle();
+			void invalidateHandle();
 
-private:
-	SearchHandle handle;
-	File foundFile;
-};
+		private:
+			static const String PATTERN;
+
+		private:
+			SearchHandle handle;
+			File foundFile;
+		};
+	}
+}
 
 #endif //__DIR_ITERATOR_H_INCLUDED__
