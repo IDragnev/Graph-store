@@ -3,17 +3,23 @@
 
 #include "..\Base Graph\Graph.h"
 
-class UndirectedGraph : public Graph
+namespace IDragnev
 {
-public:
-	using Graph::Graph;
+	namespace GraphStore
+	{
+		class UndirectedGraph : public Graph
+		{
+		public:
+			using Graph::Graph;
 
-	void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
-	void removeEdge(Vertex& start, Vertex& end) override;
+			void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
+			void removeEdge(Vertex& start, Vertex& end) override;
 
-private:
-	void removeEdgesEndingIn(Vertex& vertex) override;
-	void insertEdgeInBothDirections(Vertex& start, Vertex& end, unsigned weight);
-};
+		private:
+			void removeEdgesEndingIn(Vertex& vertex) override;
+			void insertEdgeInBothDirections(Vertex& start, Vertex& end, unsigned weight);
+		};
+	}
+}
 
 #endif //__UNDIRECTED_GRAPH_H_INCLUDED__

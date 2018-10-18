@@ -7,58 +7,64 @@
 #include "..\Graph\Base Graph\Graph.h"
 #include <memory>
 
-class Exception;
-
-class GraphBuilder
+namespace IDragnev
 {
-private:
-	using GraphPtr = std::unique_ptr<Graph>;
-	using StringArray = Containers::DArray<String>;
-
-	struct RawEdge
+	namespace GraphStore
 	{
-		std::size_t startVertexIDIndex{};
-		std::size_t endVertexIDIndex{};
-		unsigned weight{};
-	};
+		class Exception;
 
-public:
-	GraphBuilder() = default;
-	~GraphBuilder() = default;
+		class GraphBuilder
+		{
+		private:
+			using GraphPtr = std::unique_ptr<Graph>;
+			using StringArray = Containers::DArray<String>;
 
-	GraphPtr buildFromFile(const String& filename);
+			struct RawEdge
+			{
+				std::size_t startVertexIDIndex{};
+				std::size_t endVertexIDIndex{};
+				unsigned weight{};
+			};
 
-private:
-	GraphBuilder(const GraphBuilder&) = delete;;
-	GraphBuilder& operator=(const GraphBuilder&) = delete;
+		public:
+			GraphBuilder() = default;
+			~GraphBuilder() = default;
 
-	void init(const String& filename);
+			GraphPtr buildFromFile(const String& filename);
 
-	void build();
-	void createEmptyGraph();
-	void insertVertices();
-	void parseVertexIDs();
-	void insertEdges();
-	void insertSingleEdge(const RawEdge& edge);
-	RawEdge parseSingleEdge();
-	unsigned parseUnsignedAndIgnoreUntil(char symbol);
-	Graph::Vertex& getVertex(std::size_t idIndex);
+		private:
+			GraphBuilder(const GraphBuilder&) = delete;;
+			GraphBuilder& operator=(const GraphBuilder&) = delete;
 
-	void clean();
+			void init(const String& filename);
 
-	void handleError(const String& filename, const Exception& e);
-	bool areVerticesInserted() const;
+			void build();
+			void createEmptyGraph();
+			void insertVertices();
+			void parseVertexIDs();
+			void insertEdges();
+			void insertSingleEdge(const RawEdge& edge);
+			RawEdge parseSingleEdge();
+			unsigned parseUnsignedAndIgnoreUntil(char symbol);
+			Graph::Vertex& getVertex(std::size_t idIndex);
 
-private:
-	static const char EDGE_START = '(';
-	static const char EDGE_END = ')';
-	static const char EDGE_ATTRIBUTE_DELIMITER = ',';
-	static const char NEW_LINE = '\n';
+			void clean();
 
-private:
-	StringArray vertexIDs;
-	GraphPtr result;
-	FileParser parser;
-};
+			void handleError(const String& filename, const Exception& e);
+			bool areVerticesInserted() const;
+
+		private:
+			static const char EDGE_START = '(';
+			static const char EDGE_END = ')';
+			static const char EDGE_ATTRIBUTE_DELIMITER = ',';
+			static const char NEW_LINE = '\n';
+
+		private:
+			StringArray vertexIDs;
+			GraphPtr result;
+			FileParser parser;
+		};
+	}
+}
 
 #endif //__GRAPH_BUILDER_H_INCLUDED__

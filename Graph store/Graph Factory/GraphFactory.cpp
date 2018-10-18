@@ -4,65 +4,64 @@
 #include "..\General Exceptions\Exception.h"
 #include "..\String\String.h"
 
-
-GraphFactory::GraphFactory() :
-	creators{ EXPECTED_CREATORS_COUNT }
+namespace IDragnev
 {
-}
-
-
-GraphFactory& GraphFactory::instance()
-{
-	static GraphFactory theOnlyInstance;
-
-	return theOnlyInstance;
-}
-
-
-GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const String& ID) const
-{
-	auto& creator = getCreator(type);
-
-	return creator.createEmptyGraph(ID);
-}
-
-
-const GraphCreator& GraphFactory::getCreator(const String& graphType) const
-{
-	auto creator = searchCreator(graphType);
-
-	if (creator)
+	namespace GraphStore
 	{
-		return *creator;
-	}
-	else
-	{
-		throw Exception{ "Invalid graph type" };
-	}
-}
-
-
-const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
-{
-	for (auto&& c : creators)
-	{
-		if (c->getCreatedGraphType() == graphType)
+		GraphFactory::GraphFactory() :
+			creators{ EXPECTED_CREATORS_COUNT }
 		{
-			return c;
+		}
+
+		GraphFactory& GraphFactory::instance()
+		{
+			static GraphFactory theOnlyInstance;
+
+			return theOnlyInstance;
+		}
+
+		GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const String& ID) const
+		{
+			auto& creator = getCreator(type);
+
+			return creator.createEmptyGraph(ID);
+		}
+
+		const GraphCreator& GraphFactory::getCreator(const String& graphType) const
+		{
+			auto creator = searchCreator(graphType);
+
+			if (creator)
+			{
+				return *creator;
+			}
+			else
+			{
+				throw Exception{ "Invalid graph type" };
+			}
+		}
+
+		const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
+		{
+			for (auto&& c : creators)
+			{
+				if (c->getCreatedGraphType() == graphType)
+				{
+					return c;
+				}
+			}
+
+			return nullptr;
+		}
+
+		void GraphFactory::registerCreator(const GraphCreator* creator)
+		{
+			assert(searchCreator(creator->getCreatedGraphType()) == nullptr);
+
+			creators.insert(creator);
 		}
 	}
-
-	return nullptr;
 }
-
-
-void GraphFactory::registerCreator(const GraphCreator* creator)
-{
-	assert(searchCreator(creator->getCreatedGraphType()) == nullptr);
-
-	creators.insert(creator);
-}
-
 
 
 

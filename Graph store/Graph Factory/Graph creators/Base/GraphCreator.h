@@ -4,25 +4,31 @@
 #include "..\..\..\String\String.h"
 #include <memory>
 
-class Graph;
-
-class GraphCreator
+namespace IDragnev
 {
-protected:
-	using GraphPtr = std::unique_ptr<Graph>;
+	namespace GraphStore
+	{
+		class Graph;
 
-public:
-	explicit GraphCreator(const String& graphType);
-	GraphCreator(const GraphCreator&) = delete;
-	GraphCreator& operator=(const GraphCreator&) = delete;
-	virtual ~GraphCreator() = default;
+		class GraphCreator
+		{
+		protected:
+			using GraphPtr = std::unique_ptr<Graph>;
 
-	virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
+		public:
+			explicit GraphCreator(const String& graphType);
+			GraphCreator(const GraphCreator&) = delete;
+			GraphCreator& operator=(const GraphCreator&) = delete;
+			virtual ~GraphCreator() = default;
 
-	const String& getCreatedGraphType() const;
+			virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
 
-private:
-	const String createdGraphType;
-};
+			const String& getCreatedGraphType() const;
+
+		private:
+			const String createdGraphType;
+		};
+	}
+}
 
 #endif //__GRAPH_CREATOR_H_INCLUDED__

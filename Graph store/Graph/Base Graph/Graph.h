@@ -9,124 +9,129 @@
 #include "..\..\Iterator abstraction\Iterator.h"
 #include <memory>
 
-class Graph
+namespace IDragnev
 {
-public:
-	class Vertex;
-	class Edge
+	namespace GraphStore
 	{
-	public:
-		Edge(Vertex* incidentVertex, unsigned weight = 1);
-
-		Vertex& getIncidentVertex();
-		const Vertex& getIncidentVertex() const;
-		unsigned getWeight() const;
-
-	private:
-		Vertex* incidentVertex;
-		unsigned weight;
-	};
-
-	class Vertex
-	{
-	private:
-		friend class Graph;
-		using EdgeList = Containers::SinglyLinkedList<Edge>;
-
-	public:
-		Vertex(const String& ID, std::size_t index);
-
-		const String& getID() const;
-
-	private:
-		Vertex(const Vertex&) = delete;
-		Vertex& operator=(const Vertex&) = delete;
-
-		void setID(const String& ID);
-
-	private:
-		String id;
-		std::size_t index;
-		EdgeList edges;
-	};
-
-private:
-	struct IDAccessor
-	{
-		template <typename T>
-		const String& operator()(const T& item) const
+		class Graph
 		{
-			return item.getID();
-		}
-	};
+		public:
+			class Vertex;
+			class Edge
+			{
+			public:
+				Edge(Vertex* incidentVertex, unsigned weight = 1);
 
-	using VertexArray = Containers::DArray<Vertex*>;
-	using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
-	using EdgeIterator = Containers::SinglyLinkedList<Edge>::iterator;
-	using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex*>>;
-	using EdgeIteratorPtr = std::unique_ptr<Iterator<Edge>>;
-	using EdgeConstIteratorPtr = std::unique_ptr<ConstIterator<Edge>>;
-	
-public:
-	Graph(const String& ID);
-	virtual ~Graph();
+				Vertex& getIncidentVertex();
+				const Vertex& getIncidentVertex() const;
+				unsigned getWeight() const;
 
-	void insertVertexWithID(const String& ID);
-	void removeVertex(const String& ID);
-	void removeVertex(Vertex& vertex);
+			private:
+				Vertex* incidentVertex;
+				unsigned weight;
+			};
 
-	virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) = 0;
-	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
+			class Vertex
+			{
+			private:
+				friend class Graph;
+				using EdgeList = Containers::SinglyLinkedList<Edge>;
 
-	Vertex& getVertex(const String& ID);
-	const Vertex& getVertex(const String& ID) const;
+			public:
+				Vertex(const String& ID, std::size_t index);
 
-	unsigned getVerticesCount() const;
-	VertexConstIteratorPtr getIteratorToVertices() const;
-	EdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
-	EdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
+				const String& getID() const;
 
-	const String& getID() const;
+			private:
+				Vertex(const Vertex&) = delete;
+				Vertex& operator=(const Vertex&) = delete;
 
-protected:
-	virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
-	static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
-	static void removeEdgeFromTo(Vertex& from, Vertex& to);
-	static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight);
-	static bool existsEdgeFromTo(Vertex& from, Vertex& to);
+				void setID(const String& ID);
 
-	bool hasVertexWithID(const String& ID) const;
-	bool isOwnerOf(const Vertex& vertex) const;
+			private:
+				String id;
+				std::size_t index;
+				EdgeList edges;
+			};
 
-private:
-	Graph(const Graph&) = delete;
-	Graph& operator=(const Graph&) = delete;
+		private:
+			struct IDAccessor
+			{
+				template <typename T>
+				const String& operator()(const T& item) const
+				{
+					return item.getID();
+				}
+			};
 
-	static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
-	static EdgeIterator searchEdgeFromTo(Vertex& from, Vertex& to);
+			using VertexArray = Containers::DArray<Vertex*>;
+			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
+			using EdgeIterator = Containers::SinglyLinkedList<Edge>::iterator;
+			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex*>>;
+			using EdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<Edge>>;
+			using EdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
 
-	void tryToInsertVertexWithID(const String& ID);
-	void insert(Vertex& vertex);
-	void insertInVertices(Vertex& vertex);
-	void insertInSearchTable(Vertex& vertex);
-	void removeFromVertices(const Vertex& vertex);
-	void removeFromSearchTable(const Vertex& vertex);
+		public:
+			Graph(const String& ID);
+			virtual ~Graph();
 
-	std::unique_ptr<Vertex> createVertex(const String& ID) const;
-	static void deleteVertex(Vertex* vertex);
+			void insertVertexWithID(const String& ID);
+			void removeVertex(const String& ID);
+			void removeVertex(Vertex& vertex);
 
-	void setID(const String& ID);
+			virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) = 0;
+			virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
-private:
-	static const std::size_t FEWEST_VERTICES_EXPECTED = 32;
+			Vertex& getVertex(const String& ID);
+			const Vertex& getVertex(const String& ID) const;
 
-private:
-	String id;
-	VertexArray vertices;
-	VertexHashTable verticesSearchTable;
-};
+			unsigned getVerticesCount() const;
+			VertexConstIteratorPtr getIteratorToVertices() const;
+			EdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
+			EdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
 
-bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
-bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
+			const String& getID() const;
 
+		protected:
+			virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
+			static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
+			static void removeEdgeFromTo(Vertex& from, Vertex& to);
+			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight);
+			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
+
+			bool hasVertexWithID(const String& ID) const;
+			bool isOwnerOf(const Vertex& vertex) const;
+
+		private:
+			Graph(const Graph&) = delete;
+			Graph& operator=(const Graph&) = delete;
+
+			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
+			static EdgeIterator searchEdgeFromTo(Vertex& from, Vertex& to);
+
+			void tryToInsertVertexWithID(const String& ID);
+			void insert(Vertex& vertex);
+			void insertInVertices(Vertex& vertex);
+			void insertInSearchTable(Vertex& vertex);
+			void removeFromVertices(const Vertex& vertex);
+			void removeFromSearchTable(const Vertex& vertex);
+
+			std::unique_ptr<Vertex> createVertex(const String& ID) const;
+			static void deleteVertex(Vertex* vertex);
+
+			void setID(const String& ID);
+
+		private:
+			static const std::size_t FEWEST_VERTICES_EXPECTED = 32;
+
+		private:
+			String id;
+			VertexArray vertices;
+			VertexHashTable verticesSearchTable;
+		};
+
+		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
+		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
+	}
+}
 #endif // __BASE_GRAPH_H_INCLUDED__
