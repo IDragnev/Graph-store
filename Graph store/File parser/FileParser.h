@@ -3,50 +3,65 @@
 
 #include <fstream>
 #include "..\String\String.h"
-#include "ParseFail exception\ParseFail.h"
+#include "..\General Exceptions\Exception.h"
 
-class FileParser
+namespace IDragnev
 {
-public:
-	FileParser() = default;
-	explicit FileParser(const String& filename);
-	FileParser(FileParser&& source);
+	namespace GraphStore
+	{
+		class FileParser
+		{
+		public:
+			class ParseFail : public Exception
+			{
+			public:
+				ParseFail(const String& filename, const String& reason, unsigned line);
 
-	FileParser& operator=(FileParser&& rhs);
+			private:
+				static std::string buildMessage(const String& filename, const String& reason, unsigned line);
+			};
 
-	static char endOfFileCharacter();
+		public:
+			FileParser() = default;
+			explicit FileParser(const String& filename);
+			FileParser(FileParser&& source);
+			FileParser(const FileParser&) = delete;
 
-	void openFile(const String& name);
-	void closeFile();
-	bool hasOpenedFile() const;
-	bool hasReachedEnd() const;
+			FileParser& operator=(FileParser&& rhs);
+			FileParser& operator=(const FileParser&) = delete;
 
-	template <typename ArithmeticType = int>
-	ArithmeticType parseSigned();
-	template <typename ArithmeticType = unsigned>
-	ArithmeticType parseUnsigned();
-	String parseLine();
+			static char endOfFileCharacter();
 
-	void ignoreUntil(char symbol);
-	char peekNextCharacter();
+			void openFile(const String& name);
+			void closeFile();
+			bool hasOpenedFile() const;
+			bool hasReachedEnd() const;
 
-private:
-	FileParser(const FileParser&) = delete;
-	FileParser& operator=(const FileParser&) = delete;
+			template <typename ArithmeticType = int>
+			ArithmeticType parseSigned();
+			template <typename ArithmeticType = unsigned>
+			ArithmeticType parseUnsigned();
+			String parseLine();
 
-	void swapContentsWithReconstructedParameter(FileParser temp);
+			void ignoreUntil(char symbol);
+			char peekNextCharacter();
 
-	template <typename ArithmeticType>
-	ArithmeticType parseArithmeticType();
-	void invalidateStreamIfSigned();
-	void throwIfParseFailed(const char* reason) const;
-	void validateState() const;
+		private:
+			void swapContentsWithReconstructedParameter(FileParser temp);
 
-private:
-	unsigned currentLine{};
-	String filename;
-	std::ifstream stream;
-};
+			template <typename ArithmeticType>
+			ArithmeticType parseArithmeticType();
+			void invalidateStreamIfSigned();
+			void throwIfParseFailed(const char* reason) const;
+			void validateState() const;
+
+		private:
+			unsigned currentLine{};
+			String filename;
+			std::ifstream stream;
+		};
+	}
+}
 
 #include "FileParserImpl.hpp"
 #endif //__FILE_PARSER_H_INCLUDED__

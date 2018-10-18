@@ -3,7 +3,9 @@
 #include <assert.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+using IDragnev::GraphStore::FileParser;
+using IDragnev::String;
+using IDragnev::GraphStore::Exception;
 
 namespace FileParserTest
 {
@@ -49,7 +51,7 @@ namespace FileParserTest
 
 		static String buildErrorMessage(const char* filename, const char* reason, char line)
 		{
-			String result = "Error reading ";
+			auto result = String{ "Error reading " };
 			result += filename;
 			result += ": ";
 			result += reason;
@@ -81,7 +83,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("1");
 
-			FileParser parser;
+			auto parser = FileParser{};
 			parser.openFile(FIRST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile(), L"The file was not opened");
@@ -96,9 +98,9 @@ namespace FileParserTest
 
 				Assert::Fail(L"Constructor did not throw");
 			}
-			catch (Exception& exception)
+			catch (Exception& e)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
+				Assert::IsTrue(areEqual(e.what(), "Failed to open No-Such-File.txt for reading"));
 			}
 		}
 
@@ -106,21 +108,21 @@ namespace FileParserTest
 		{
 			try
 			{
-				FileParser parser;
+				auto parser = FileParser{};
 
 				parser.openFile("No-Such-File.txt");
 				Assert::Fail(L"openFile did not throw");
 			}
-			catch (Exception& exception)
+			catch (Exception& e)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Failed to open No-Such-File.txt for reading"));
+				Assert::IsTrue(areEqual(e.what(), "Failed to open No-Such-File.txt for reading"));
 			}
 		}
 
 		TEST_METHOD(testIgnoreUntilOnMissingSymbolReachesEndOfFile)
 		{
 			writeToFirstFile("12345");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			parser.ignoreUntil('c');
 
@@ -131,7 +133,7 @@ namespace FileParserTest
 		{
 			writeToFirstFile("12331");
 
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			parser.ignoreUntil('3');
 			Assert::AreEqual(parser.peekNextCharacter(), '3');
@@ -211,7 +213,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseUnsigned)
 		{
 			writeToFirstFile("1");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			auto result = parser.parseUnsigned();
 
@@ -222,7 +224,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseSigned)
 		{
 			writeToFirstFile("-1");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			auto result = parser.parseSigned();
 
@@ -233,7 +235,7 @@ namespace FileParserTest
 		TEST_METHOD(testSimpleParseLine)
 		{
 			writeToFirstFile("Line");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			auto result = parser.parseLine();
 
@@ -244,7 +246,7 @@ namespace FileParserTest
 		TEST_METHOD(testParseLineWithEmptyString)
 		{
 			writeToFirstFile("\nLine 2");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			auto result = parser.parseLine();
 
@@ -254,102 +256,102 @@ namespace FileParserTest
 		TEST_METHOD(testParseUnsignedWithCharacterThrows)
 		{
 			writeToFirstFile("c");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseUnsigned();
 				Assert::Fail(L"parseUnsigned() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 
 		TEST_METHOD(testParseSignedWithCharacterThrows)
 		{
 			writeToFirstFile("c");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseSigned();
 				Assert::Fail(L"parseSigned() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid signed number format", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 
 		TEST_METHOD(testParseUnsignedWithSignedThrows)
 		{
 			writeToFirstFile("-1");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseUnsigned();
 				Assert::Fail(L"parseUnsigned() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 
 		TEST_METHOD(testParseUnsignedWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseUnsigned();
 				Assert::Fail(L"parseUnsigned() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid unsigned number format", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 
 		TEST_METHOD(testParseSignedWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseSigned();
 				Assert::Fail(L"parseSigned() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "Invalid signed number format", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 
 		TEST_METHOD(testParseLineWithNothingToParseThrows)
 		{
 			writeToFirstFile("");
-			FileParser parser{ FIRST_FILE_NAME };
+			auto parser = FileParser{ FIRST_FILE_NAME };
 
 			try
 			{
 				auto result = parser.parseLine();
 				Assert::Fail(L"parseLine() did not throw");
 			}
-			catch (ParseFail& exception)
+			catch (FileParser::ParseFail& e)
 			{
 				auto expected = buildErrorMessage(FIRST_FILE_NAME, "No characters left in the file", '1');
-				Assert::IsTrue(areEqual(exception.what(), expected));
+				Assert::IsTrue(areEqual(e.what(), expected));
 			}
 		}
 	};
