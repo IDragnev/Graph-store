@@ -1,24 +1,30 @@
 #ifndef __SHORTEST_PATH_ALG_REGISTRATOR_H_INCLUDED__
 #define __SHORTEST_PATH_ALG_REGISTRATOR_H_INCLUDED__
 
-class String;
+#include "..\ShortestPathAlgorithmStore.h"
+#include "..\..\String\String.h"
 
-template <typename ConcreteAlgorithm>
-class ShortestPathAlgorithmRegistrator
+namespace IDragnev
 {
-public:
-	ShortestPathAlgorithmRegistrator(const String& ID);
-	~ShortestPathAlgorithmRegistrator() = default;
+	namespace GraphStore
+	{
+		template <typename ConcreteAlgorithm>
+		class ShortestPathAlgorithmRegistrator
+		{
+		public:
+			explicit ShortestPathAlgorithmRegistrator(const String& ID)	:
+				algorithm { ID }
+			{
+				ShortestPathAlgorithmStore::instance().insertAlgorithm(algorithm);
+			}
 
-private:
-	ShortestPathAlgorithmRegistrator(ShortestPathAlgorithmRegistrator&&) = delete;
-	ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator&) = delete;
-	ShortestPathAlgorithmRegistrator& operator=(ShortestPathAlgorithmRegistrator&&) = delete;
-	ShortestPathAlgorithmRegistrator& operator=(const ShortestPathAlgorithmRegistrator&) = delete;
+			ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator&) = delete;
+			ShortestPathAlgorithmRegistrator& operator=(const ShortestPathAlgorithmRegistrator&) = delete;
 
-private:
-	ConcreteAlgorithm algorithm;
-};
+		private:
+			ConcreteAlgorithm algorithm;
+		};
+	}
+}
 
-#include "ShortestPathAlgorithmRegistratorImpl.hpp"
 #endif //__SHORTEST_PATH_ALG_REGISTRATOR_H_INCLUDED__

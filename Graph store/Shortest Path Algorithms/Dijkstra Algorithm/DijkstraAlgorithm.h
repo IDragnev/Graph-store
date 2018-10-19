@@ -7,77 +7,81 @@
 #include "..\..\Containers\Hash\Hash.h"
 #include "..\..\Containers\Hash\HashFunctionStringSpecialization.h"
 
-
-class DijkstraAlgorithm : public ShortestPathAlgorithm
+namespace IDragnev
 {
-private:
-	using Handle = Containers::PriorityQueueHandle;
-	struct PriorityVertex : VertexDecorator
+	namespace GraphStore
 	{
-		using VertexDecorator::VertexDecorator;
-		PriorityVertex() : VertexDecorator{ nullptr } {}
-		Handle handle{};
-	};
-	using PointersCollection = Containers::DArray<PriorityVertex*>;
+		class DijkstraAlgorithm : public ShortestPathAlgorithm
+		{
+		private:
+			using Handle = Containers::PriorityQueueHandle;
+			struct PriorityVertex : VertexDecorator
+			{
+				using VertexDecorator::VertexDecorator;
+				PriorityVertex() : VertexDecorator{ nullptr } {}
+				Handle handle{};
+			};
+			using PointersCollection = Containers::DArray<PriorityVertex*>;
 
-	struct DistanceAccessor
-	{
-		void operator()(PriorityVertex* v, const Distance& d) const { v->distance = d; }
-		const Distance& operator()(const PriorityVertex* v) const { return v->distance; }
-	};
+			struct DistanceAccessor
+			{
+				void operator()(PriorityVertex* v, const Distance& d) const { v->distance = d; }
+				const Distance& operator()(const PriorityVertex* v) const { return v->distance; }
+			};
 
-	struct HandleSetter
-	{
-		void operator()(PriorityVertex* v, const Handle& h) const { v->handle = h; }
-	};
+			struct HandleSetter
+			{
+				void operator()(PriorityVertex* v, const Handle& h) const { v->handle = h; }
+			};
 
-	struct GreaterThan
-	{
-		bool operator()(const Distance& lhs, const Distance& rhs) const { return lhs > rhs; }
-	};
+			struct GreaterThan
+			{
+				bool operator()(const Distance& lhs, const Distance& rhs) const { return lhs > rhs; }
+			};
 
-	struct IDAccessor
-	{
-		const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
-	};
+			struct IDAccessor
+			{
+				const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
+			};
 
-	using MinPriorityQueue = 
-		Containers::PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
-	using DecoratorsMap = Containers::Hash<PriorityVertex, String, IDAccessor>;
-	using DecoratorsArray = Containers::DArray<PriorityVertex>;
+			using MinPriorityQueue =
+				Containers::PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
+			using DecoratorsMap = Containers::Hash<PriorityVertex, String, IDAccessor>;
+			using DecoratorsArray = Containers::DArray<PriorityVertex>;
 
-public:
-	using ShortestPathAlgorithm::ShortestPathAlgorithm;
+		public:
+			using ShortestPathAlgorithm::ShortestPathAlgorithm;
 
-private:
-	Path findNonTrivialShortestPath(const Graph& graph, 
-									const Vertex& source, 
-									const Vertex& goal) override;
+		private:
+			Path findNonTrivialShortestPath(const Graph& graph,
+											const Vertex& source,
+											const Vertex& goal) override;
 
-	void findShortestPath();
-	bool existsVertexWithUndeterminedDistance() const;
-	const PriorityVertex& closestToSourceFromUndetermined();
-	void relaxEdgesLeaving(const PriorityVertex& v);
-	void relaxEdge(const PriorityVertex& v, const Edge& e);
-	void extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d);
-	void updateDistanceOf(PriorityVertex& v, const Distance& d);
+			void findShortestPath();
+			bool existsVertexWithUndeterminedDistance() const;
+			const PriorityVertex& closestToSourceFromUndetermined();
+			void relaxEdgesLeaving(const PriorityVertex& v);
+			void relaxEdge(const PriorityVertex& v, const Edge& e);
+			void extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d);
+			void updateDistanceOf(PriorityVertex& v, const Distance& d);
 
-	void decorate(const Graph& g, const Vertex& source);
-	void decorate(const Graph& g);
-	void buildDecoratorsMap();
-	void initSourceDecorator(PriorityVertex& source);
-	void buildPriorityQueue();
-	PointersCollection decoratorsPointers();
-	void clearState();
+			void decorate(const Graph& g, const Vertex& source);
+			void decorate(const Graph& g);
+			void buildDecoratorsMap();
+			void initSourceDecorator(PriorityVertex& source);
+			void buildPriorityQueue();
+			PointersCollection decoratorsPointers();
+			void clearState();
 
-	PriorityVertex& decoratorOf(const Vertex& v);
-	const PriorityVertex& decoratorOf(const Vertex& v) const;
+			PriorityVertex& decoratorOf(const Vertex& v);
+			const PriorityVertex& decoratorOf(const Vertex& v) const;
 
-private:
-	DecoratorsArray decorators{};
-	MinPriorityQueue queue{};
-	DecoratorsMap map{};
-	Path result{};
-};
-
+		private:
+			DecoratorsArray decorators{};
+			MinPriorityQueue queue{};
+			DecoratorsMap map{};
+			Path result{};
+		};
+	}
+}
 #endif //__DIJKSTRA_SHORTEST_PATHS_ALG_H_INCLUDED__
