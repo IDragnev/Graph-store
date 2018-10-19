@@ -8,7 +8,7 @@ namespace StringSplitterTest
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		using Splitter = StringSplitter<Containers::DArray>;
+		using Splitter = IDragnev::StringSplitter<Containers::DArray>;
 		using Container = Containers::DArray<std::string>;
 
 	public:	
@@ -67,7 +67,7 @@ namespace StringSplitterTest
 
 				Assert::Fail(L"split did not throw");
 			}
-			catch (Exception& e)
+			catch (std::runtime_error& e)
 			{
 				auto message = std::string{ e.what() };
 				Assert::IsTrue(message == "Unmatched delimiter: \'");
