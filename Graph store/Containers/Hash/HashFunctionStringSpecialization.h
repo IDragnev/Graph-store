@@ -12,10 +12,9 @@ http://www.isthe.com/chongo/tech/comp/fnv/
 namespace std
 {
 	template <>
-	class hash<String>
+	struct hash<IDragnev::String>
 	{
-	public:
-		std::size_t operator()(const String& key) const
+		std::size_t operator()(const IDragnev::String& key) const
 		{
 			const char* input = key;
 			auto result = FNV_OFFSET_BASIS;
@@ -32,8 +31,8 @@ namespace std
 		}
 
 	private:
-		static const uint32_t FNV_PRIME = 16777619;
-		static const uint32_t FNV_OFFSET_BASIS = 2166136261;
+		static const std::uint32_t FNV_PRIME = 16777619;
+		static const std::uint32_t FNV_OFFSET_BASIS = 2166136261;
 	};
 }
 
