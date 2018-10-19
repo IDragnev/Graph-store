@@ -6,51 +6,57 @@
 #include "StringSplitter\StringSplitter.h"
 #include <forward_list>
 
-class String;
-class Command;
-
 namespace Containers
 {
 	template <typename T>
 	class DArray;
 }
 
-class Application
+namespace IDragnev
 {
-private:
-	using Commands =  std::forward_list<args::Command>;
-	using Function = std::function<void(args::Subparser&)>;
-	using StringSplitter = StringSplitter<Containers::DArray>;
+	class String;
 
-public:
-	static Application& instance();
+	namespace GraphStore
+	{
+		class Command;
 
-	void run(const String& directory);
-	void insertCommand(Command& command);
+		class Application
+		{
+		private:
+			using Commands = std::forward_list<args::Command>;
+			using Function = std::function<void(args::Subparser&)>;
+			using StringSplitter = StringSplitter<Containers::DArray>;
 
-private:
-	Application();
-	~Application() = default;
+		public:
+			static Application& instance();
 
-	Application(const Application&) = delete;
-	Application& operator=(const Application&) = delete;
+			void run(const String& directory);
+			void insertCommand(Command& c);
 
-	void insertExitCommand();
-	void insertHelpCommand();
-	void insertCommand(const char* name, const char* description, Function coroutine);
+		private:
+			Application();
+			~Application() = default;
 
-	void load(const String& directory);
-	void run();
-	void invokeCommand(const std::string& rawInput);
-	static std::string receiveInput();
+			Application(const Application&) = delete;
+			Application& operator=(const Application&) = delete;
 
-private:
-	args::ArgumentParser parser;
-	args::Group commandsGroup;
-	StringSplitter splitter;
-	Commands commands;
-	GraphStore graphs;
-	bool receivedExitCommand;
-};
+			void insertExitCommand();
+			void insertHelpCommand();
+			void insertCommand(const char* name, const char* description, Function coroutine);
 
+			void load(const String& directory);
+			void run();
+			void invokeCommand(const std::string& rawInput);
+			static std::string receiveInput();
+
+		private:
+			args::ArgumentParser parser;
+			args::Group commandsGroup;
+			StringSplitter splitter;
+			Commands commands;
+			GraphStore graphs;
+			bool receivedExitCommand;
+		};
+	}
+}
 #endif //__APPLICATION_H_INCLUDED__
