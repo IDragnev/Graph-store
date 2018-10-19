@@ -3,43 +3,50 @@
 
 #include "..\Containers\Dynamic Array\DArray.h"
 
-class String;
-class Graph;
-class Exception;
-
-class GraphStore
+namespace IDragnev
 {
-private:
-	using GraphCollection = Containers::DArray<Graph*>;
+	class String;
 
-public:
-	GraphStore() = default;
-	GraphStore(const GraphStore&) = delete;
-	GraphStore(GraphStore&& source) = default;
-	~GraphStore();
+	namespace GraphStore
+	{
+		class Graph;
+		class Exception;
 
-	GraphStore& operator=(GraphStore&& rhs);
-	GraphStore& operator=(const GraphStore&) = delete;
+		class GraphStore
+		{
+		private:
+			using GraphCollection = Containers::DArray<Graph*>;
 
-	void insertGraph(Graph& graph);
-	void removeGraph(const String& ID);
-	Graph& getGraph(const String& ID);
-	const Graph& getGraph(const String& ID) const;
-	
-	bool isEmpty() const;
-	void empty();
+		public:
+			GraphStore() = default;
+			GraphStore(const GraphStore&) = delete;
+			GraphStore(GraphStore&& source) = default;
+			~GraphStore();
 
-private:
-	bool hasGraphWithID(const String& ID) const;
-	const Graph* searchGraph(const String& ID) const;
+			GraphStore& operator=(GraphStore&& rhs);
+			GraphStore& operator=(const GraphStore&) = delete;
 
-	void removeGraphAt(std::size_t index);
-	void deleteAllGraphs();
+			void insertGraph(Graph& graph);
+			void removeGraph(const String& ID);
+			Graph& getGraph(const String& ID);
+			const Graph& getGraph(const String& ID) const;
 
-	static void throwNonExistingGraph(const String& ID);
+			bool isEmpty() const;
+			void empty();
 
-private:
-	GraphCollection graphs;
-};
+		private:
+			bool hasGraphWithID(const String& ID) const;
+			const Graph* searchGraph(const String& ID) const;
+
+			void removeGraphAt(std::size_t index);
+			void deleteAllGraphs();
+
+			static void throwNonExistingGraph(const String& ID);
+
+		private:
+			GraphCollection graphs;
+		};
+	}
+}
 
 #endif //__GRAPH_STORE_H_INCLUDED__
