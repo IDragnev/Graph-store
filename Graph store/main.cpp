@@ -2,6 +2,7 @@
 #include "Application\Application.h"
 #include "String\String.h"
 
+namespace GS = IDragnev::GraphStore;
 
 int main(int argc, const char** argv)
 {
@@ -11,7 +12,7 @@ int main(int argc, const char** argv)
 		return 1;
 	}
 
-	Application::instance().run(argv[1]);
+	GS::Application::instance().run(argv[1]);
 
 	return 0;
 }

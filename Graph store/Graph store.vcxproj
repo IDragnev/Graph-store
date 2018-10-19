@@ -228,7 +228,6 @@
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\BFS\BFSShortest.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h" />
-    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp" />
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />

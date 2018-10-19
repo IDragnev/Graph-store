@@ -345,9 +345,6 @@
     <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h">
       <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistratorImpl.hpp">
-      <Filter>ShortestPathAlgorithm store\Algorithm Registrator</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h">
       <Filter>Application\Commands\Search path</Filter>
     </ClInclude>
