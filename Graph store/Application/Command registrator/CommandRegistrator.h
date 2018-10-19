@@ -4,17 +4,23 @@
 #include "..\Application.h"
 #include "..\Commands\Base\Command.h"
 
-template <typename ConcreteCommand>
-class CommandRegistrator
+namespace IDragnev
 {
-public:
-	CommandRegistrator() { Application::instance().insertCommand(command); }
+	namespace GraphStore
+	{
+		template <typename ConcreteCommand>
+		class CommandRegistrator
+		{
+		public:
+			CommandRegistrator() { Application::instance().insertCommand(command); }
 
-	CommandRegistrator(const CommandRegistrator&) = delete;
-	CommandRegistrator& operator=(const CommandRegistrator&) = delete;
+			CommandRegistrator(const CommandRegistrator&) = delete;
+			CommandRegistrator& operator=(const CommandRegistrator&) = delete;
 
-private:
-	ConcreteCommand command{};
-};
+		private:
+			ConcreteCommand command{};
+		};
+	}
+}
 
 #endif //__COMMAND_REGISTRATOR_H_INCLUDED__

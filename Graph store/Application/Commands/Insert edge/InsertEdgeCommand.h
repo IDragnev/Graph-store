@@ -4,32 +4,37 @@
 #include "..\Base\Command.h"
 #include "..\..\..\String\String.h"
 
-class InsertEdgeCommand : public Command
+namespace IDragnev
 {
-private:
-	using UnsignedPositional = args::Positional<unsigned>;
+	namespace GraphStore
+	{
+		class InsertEdgeCommand : public Command
+		{
+		private:
+			using UnsignedPositional = args::Positional<unsigned>;
 
-public:
-	using Command::Command;
+		public:
+			using Command::Command;
 
-	const char* getName() const override;
-	const char* getDescription() const override;
+			const char* getName() const override;
+			const char* getDescription() const override;
 
-private:
-	void parseArguments(args::Subparser& parser) override;
-	void execute() const override;
+		private:
+			void parseArguments(args::Subparser& parser) override;
+			void execute() const override;
 
-	void setStartVertexID(StringPositional& argument);
-	void setEndVertexID(StringPositional& argument);
-	void setIfMatched(String& str, StringPositional& argument);
-	void setWeight(UnsignedPositional& weight);
+			void setStartVertexID(StringPositional& argument);
+			void setEndVertexID(StringPositional& argument);
+			void setIfMatched(String& str, StringPositional& argument);
+			void setWeight(UnsignedPositional& weight);
 
-	static const unsigned DEFAULT_EDGE_WEIGHT = 1;
+			static const unsigned DEFAULT_EDGE_WEIGHT = 1;
 
-private:
-	String startVertexID;
-	String endVertexID;
-	unsigned weight{};
-};
-
+		private:
+			String startVertexID;
+			String endVertexID;
+			unsigned weight{};
+		};
+	}
+}
 #endif //__INSERT_EDGE_COMMAND_H_INCLUDED__

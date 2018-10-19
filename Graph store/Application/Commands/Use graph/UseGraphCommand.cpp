@@ -3,43 +3,46 @@
 #include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
-static CommandRegistrator<UseGraphCommand> registrator;
+namespace GS = IDragnev::GraphStore;
 
+static GS::CommandRegistrator<GS::UseGraphCommand> registrator;
 
-void UseGraphCommand::parseArguments(args::Subparser& parser)
+namespace IDragnev
 {
-	auto ID = StringPositional{ parser, "ID", "the ID of the graph to be used" };
-	parser.Parse();
-	setGraphID(ID);
-}
-
-
-void UseGraphCommand::setGraphID(StringPositional& argument)
-{
-	if (argument)
+	namespace GraphStore
 	{
-		graphID = args::get(argument);
+		void UseGraphCommand::parseArguments(args::Subparser& parser)
+		{
+			auto ID = StringPositional{ parser, "ID", "the ID of the graph to be used" };
+			parser.Parse();
+			setGraphID(ID);
+		}
+
+		void UseGraphCommand::setGraphID(StringPositional& argument)
+		{
+			if (argument)
+			{
+				graphID = args::get(argument);
+			}
+			else
+			{
+				throw MissingArgument{ argument.Name() };
+			}
+		}
+
+		void UseGraphCommand::execute() const
+		{
+			Command::useGraph(graphID);
+		}
+
+		const char* UseGraphCommand::getName() const
+		{
+			return "USE-GRAPH";
+		}
+
+		const char* UseGraphCommand::getDescription() const
+		{
+			return "Changes the used graph";
+		}
 	}
-	else
-	{
-		throw MissingArgument{ argument.Name() };
-	}
-}
-
-
-void UseGraphCommand::execute() const
-{
-	Command::useGraph(graphID);
-}
-
-
-const char* UseGraphCommand::getName() const
-{
-	return "USE-GRAPH";
-}
-
-
-const char* UseGraphCommand::getDescription() const
-{
-	return "Changes the used graph";
 }

@@ -4,11 +4,17 @@
 #include "..\..\..\General Exceptions\Exception.h"
 #include <string>
 
-class MissingArgument : public Exception
+namespace IDragnev
 {
-public:
-	MissingArgument(const std::string& name) : 
-		Exception{ "Missing argument: [" + name + "]" } {}
-};
+	namespace GraphStore
+	{
+		class MissingArgument : public Exception
+		{
+		public:
+			MissingArgument(const std::string& name) :
+				Exception{ "Missing argument: [" + name + "]" } {}
+		};
+	}
+}
 
 #endif //__MISSING_ARG_H_INCLUDED__

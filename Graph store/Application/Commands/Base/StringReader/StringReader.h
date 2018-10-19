@@ -4,13 +4,18 @@
 #include <string>
 #include "..\..\..\..\String\String.h"
 
-class StringReader
+namespace IDragnev
 {
-public:
-	void operator()(const std::string& name, const std::string& value, String& destination) const
+	namespace GraphStore
 	{
-		destination = value.c_str();
+		struct StringReader
+		{
+			void operator()(const std::string& name, const std::string& value, String& destination) const
+			{
+				destination = value.c_str();
+			}
+		};
 	}
-};
+}
 
 #endif //__STRING_READER_H_INCLUDED__

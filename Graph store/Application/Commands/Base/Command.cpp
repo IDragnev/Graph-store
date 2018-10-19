@@ -4,63 +4,64 @@
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\..\..\General Exceptions\Exception.h"
 
+namespace GS = IDragnev::GraphStore;
 
-Graph* Command::usedGraph =  nullptr;
-GraphStore* Command::graphStore = nullptr;
+GS::Graph* GS::Command::usedGraph =  nullptr;
+GS::GraphStore* GS::Command::graphStore = nullptr;
 
-
-void Command::execute(args::Subparser& parser)
+namespace IDragnev
 {
-	parseArguments(parser);
-	execute();
-}
-
-
-void Command::setManagedStore(GraphStore& store)
-{
-	Command::graphStore = &store;
-	Command::usedGraph = nullptr;
-}
-
-
-void Command::useGraph(const String& ID)
-{
-	assert(Command::graphStore);
-
-	Command::usedGraph = &Command::graphStore->getGraph(ID);
-}
-
-
-Graph& Command::getUsedGraph()
-{
-	if (Command::usedGraph)
+	namespace GraphStore
 	{
-		return *Command::usedGraph;
+		void Command::execute(args::Subparser& parser)
+		{
+			parseArguments(parser);
+			execute();
+		}
+
+		void Command::setManagedStore(GraphStore& store)
+		{
+			graphStore = &store;
+			usedGraph = nullptr;
+		}
+
+		void Command::useGraph(const String& ID)
+		{
+			assert(graphStore);
+
+			usedGraph = &graphStore->getGraph(ID);
+		}
+
+		Graph& Command::getUsedGraph()
+		{
+			if (usedGraph)
+			{
+				return *usedGraph;
+			}
+			else
+			{
+				throw Exception{ "No graph is currently being used" };
+			}
+		}
+
+		void Command::insertGraph(std::unique_ptr<Graph> graphPtr)
+		{
+			assert(graphStore);
+
+			graphStore->insertGraph(*graphPtr);
+			graphPtr.release();
+		}
+
+		void Command::removeGraph(const String& ID)
+		{
+			assert(graphStore);
+
+			if (usedGraph && usedGraph->getID() == ID)
+			{
+				usedGraph = nullptr;
+			}
+
+			graphStore->removeGraph(ID);
+		}
 	}
-	else
-	{
-		throw Exception{ "No graph is currently being used" };
-	}
-}
-
-
-void Command::insertGraph(std::unique_ptr<Graph> graphPtr)
-{
-	assert(Command::graphStore);
-
-	Command::graphStore->insertGraph(*graphPtr);
-	graphPtr.release();
-}
-
-
-void Command::removeGraph(const String& ID)
-{
-	assert(Command::graphStore);
-
-	if (Command::usedGraph && Command::usedGraph->getID() == ID)
-	{
-		Command::usedGraph = nullptr;
-	}
-
-	Command::graphStore->removeGraph(ID);
 }

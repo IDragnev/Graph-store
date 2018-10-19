@@ -4,25 +4,31 @@
 #include "..\Base\Command.h"
 #include "..\..\..\String\String.h"
 
-class RemoveEdgeCommand : public Command
+namespace IDragnev
 {
-public:
-	using Command::Command;
+	namespace GraphStore
+	{
+		class RemoveEdgeCommand : public Command
+		{
+		public:
+			using Command::Command;
 
-	const char* getName() const override;
-	const char* getDescription() const override;
+			const char* getName() const override;
+			const char* getDescription() const override;
 
-private:
-	void parseArguments(args::Subparser& parser) override;
-	void execute() const override;
+		private:
+			void parseArguments(args::Subparser& parser) override;
+			void execute() const override;
 
-	void setStartVertexID(StringPositional& argument);
-	void setEndVertexID(StringPositional& argument);
-	void setIfMatched(String& str, StringPositional& argument);
+			void setStartVertexID(StringPositional& argument);
+			void setEndVertexID(StringPositional& argument);
+			void setIfMatched(String& str, StringPositional& argument);
 
-private:
-	String startVertexID;
-	String endVertexID;
-};
+		private:
+			String startVertexID;
+			String endVertexID;
+		};
+	}
+}
 
 #endif //__REMOVE_EDGE_COMMAND_H_INCLUDED__

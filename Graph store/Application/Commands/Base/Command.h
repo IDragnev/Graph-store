@@ -4,45 +4,49 @@
 #include "..\..\args.hxx"
 #include <memory>
 
-class Graph;
-class GraphStore;
-class String;
-class StringReader;
-
-class Command
+namespace IDragnev
 {
-protected:
-	using StringPositional = args::Positional<String, StringReader>;
+	class String;
 
-public:
-	Command() = default;
-	virtual ~Command() = default;
+	namespace GraphStore
+	{
+		class Graph;
+		class GraphStore;
+		class StringReader;
 
-	void execute(args::Subparser& parser);
-	virtual const char* getName() const = 0;
-	virtual const char* getDescription() const = 0;
+		class Command
+		{
+		protected:
+			using StringPositional = args::Positional<String, StringReader>;
 
-	static void setManagedStore(GraphStore& store);
+		public:
+			Command() = default;
+			virtual ~Command() = default;
 
-protected:
-	static Graph& getUsedGraph();
-	static void useGraph(const String& ID);
-	static void removeGraph(const String& ID);
-	static void insertGraph(std::unique_ptr<Graph> graphPtr);
+			Command(const Command&) = delete;
+			Command& operator=(const Command&) = delete;
 
-private:
-	virtual void parseArguments(args::Subparser& parser) = 0;
-	virtual void execute() const = 0;
+			void execute(args::Subparser& parser);
+			virtual const char* getName() const = 0;
+			virtual const char* getDescription() const = 0;
 
-private:
-	static Graph* usedGraph;
-	static GraphStore* graphStore;
+			static void setManagedStore(GraphStore& store);
 
-private:
-	Command(Command&&) = delete;
-	Command(const Command&) = delete;
-	Command& operator=(Command&&) = delete;
-	Command& operator=(const Command&) = delete;
-};
+		protected:
+			static Graph& getUsedGraph();
+			static void useGraph(const String& ID);
+			static void removeGraph(const String& ID);
+			static void insertGraph(std::unique_ptr<Graph> graphPtr);
+
+		private:
+			virtual void parseArguments(args::Subparser& parser) = 0;
+			virtual void execute() const = 0;
+
+		private:
+			static Graph* usedGraph;
+			static GraphStore* graphStore;
+		};
+	}
+}
 
 #endif //__COMMAND_BASE_H_INCLUDED__

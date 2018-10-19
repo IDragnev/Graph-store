@@ -4,27 +4,33 @@
 #include "..\Base\Command.h"
 #include "..\..\..\String\String.h"
 
-class SearchPathCommand : public Command 
+namespace IDragnev
 {
-public:
-	using Command::Command;
+	namespace GraphStore
+	{
+		class SearchPathCommand : public Command
+		{
+		public:
+			using Command::Command;
 
-	const char* getName() const override;
-	const char* getDescription() const override;
+			const char* getName() const override;
+			const char* getDescription() const override;
 
-private:
-	void parseArguments(args::Subparser& parser) override;
-	void execute() const override;
+		private:
+			void parseArguments(args::Subparser& parser) override;
+			void execute() const override;
 
-	void setStartVertexID(StringPositional& argument);
-	void setEndVertexID(StringPositional& argument);
-	void setAlgorithmID(StringPositional& argument);
-	void setIfMatched(String& str, StringPositional& argument);
+			void setStartVertexID(StringPositional& argument);
+			void setEndVertexID(StringPositional& argument);
+			void setAlgorithmID(StringPositional& argument);
+			void setIfMatched(String& str, StringPositional& argument);
 
-private:
-	String startVertexID;
-	String endVertexID;
-	String algorithmID;
-};
+		private:
+			String startVertexID;
+			String endVertexID;
+			String algorithmID;
+		};
+	}
+}
 
 #endif //__SEARCH_PATH_COMMAND_H_INCLUDED__

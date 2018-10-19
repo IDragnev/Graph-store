@@ -4,22 +4,28 @@
 #include "..\Base\Command.h"
 #include "..\..\..\String\String.h"
 
-class UseGraphCommand : public Command
+namespace IDragnev
 {
-public:
-	using Command::Command;
+	namespace GraphStore
+	{
+		class UseGraphCommand : public Command
+		{
+		public:
+			using Command::Command;
 
-	const char* getName() const override;
-	const char* getDescription() const override;
+			const char* getName() const override;
+			const char* getDescription() const override;
 
-private:
-	void parseArguments(args::Subparser& parser) override;
-	void execute() const override;
+		private:
+			void parseArguments(args::Subparser& parser) override;
+			void execute() const override;
 
-	void setGraphID(StringPositional& argument);
+			void setGraphID(StringPositional& argument);
 
-private:
-	String graphID;
-};
+		private:
+			String graphID;
+		};
+	}
+}
 
 #endif //__USE_GRAPH_COMMAND_H_INCLUDED__
