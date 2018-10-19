@@ -6,11 +6,12 @@
 
 namespace IDragnev
 {
+	class String;
+
 	namespace GraphStore
 	{
 		class Graph;
 		class GraphCreator;
-		class String;
 
 		class GraphFactory
 		{

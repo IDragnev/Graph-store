@@ -12,7 +12,7 @@ namespace IDragnev
 	{
 		class Graph;
 		class GraphStore;
-		class StringReader;
+		struct StringReader;
 
 		class Command
 		{
