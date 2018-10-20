@@ -1,15 +1,15 @@
 #include "CppUnitTest.h"
+#include "..\..\..\Graph store\Containers\Queue\Queue.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-#include "..\..\..\Graph store\Containers\Queue\Queue.h"
+using IDragnev::Containers::Queue;
 
 namespace Queuetest
 {		
 	TEST_CLASS(QueueTest)
 	{
 	private:
-		using Queue = Containers::Queue<int>;
+		using Queue = Queue<int>;
 
 	public:	
 		TEST_METHOD(testDefaultCtorConstructsEmptyQueue)

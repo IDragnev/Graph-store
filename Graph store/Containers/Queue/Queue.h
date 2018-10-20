@@ -3,25 +3,28 @@
 
 #include "..\Singly Linked List\SinglyLinkedList.h"
 
-namespace Containers
+namespace IDragnev
 {
-	template <typename T>
-	class Queue
+	namespace Containers
 	{
-	public:
-		Queue() = default;
-		Queue(std::initializer_list<T> source);
+		template <typename T>
+		class Queue
+		{
+		public:
+			Queue() = default;
+			Queue(std::initializer_list<T> source);
 
-		void enqueue(const T& item);
-		T dequeue();
-		const T peekHead() const;
+			void enqueue(const T& item);
+			T dequeue();
+			const T peekHead() const;
 
-		bool isEmpty() const;
-		void empty();
+			bool isEmpty() const;
+			void empty();
 
-	private:
-		SinglyLinkedList<T> theUnderlyingList;
-	};
+		private:
+			SinglyLinkedList<T> theUnderlyingList;
+		};
+	}
 }
 
 #include "QueueImpl.hpp"

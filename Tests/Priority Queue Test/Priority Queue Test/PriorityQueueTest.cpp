@@ -3,13 +3,16 @@
 #include "..\..\..\Graph store\Containers\Dynamic Array\DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using IDragnev::Containers::DArray;
+using IDragnev::Containers::PriorityQueue;
+using IDragnev::Containers::PriorityQueueHandle;
 
 namespace PriorityQueueTest
 {	
 	TEST_CLASS(PriorityQueueTest)
 	{
 	private:
-		using Handle = Containers::PriorityQueueHandle;
+		using Handle = PriorityQueueHandle;
 
 		struct TestItem
 		{
@@ -31,10 +34,10 @@ namespace PriorityQueueTest
 			}
 		};
 
-		using IntMaxPriorityQueue = Containers::PriorityQueue<int>;
-		using IntArray = Containers::DArray<int>;
-		using MaxPriorityQueue = Containers::PriorityQueue<TestItem*, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
-		using TestItemArray = Containers::DArray<TestItem>;
+		using IntMaxPriorityQueue = PriorityQueue<int>;
+		using IntArray = DArray<int>;
+		using MaxPriorityQueue = PriorityQueue<TestItem*, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
+		using TestItemArray = DArray<TestItem>;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
@@ -87,7 +90,7 @@ namespace PriorityQueueTest
 
 		static auto itemPtrs()
 		{
-			Containers::DArray<TestItem*> result{ TEST_ITEMS_COUNT };
+			auto result = DArray<TestItem*>(TEST_ITEMS_COUNT);
 
 			for (auto&& item : testItems)
 			{

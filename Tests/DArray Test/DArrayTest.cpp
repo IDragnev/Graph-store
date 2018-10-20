@@ -2,7 +2,7 @@
 #include "../../Graph store/Containers/Dynamic Array/DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using Containers::DArray;
+using IDragnev::Containers::DArray;
 using std::begin;
 using std::end;
 

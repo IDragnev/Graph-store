@@ -3,24 +3,27 @@
 
 #include <cstdint>
 
-namespace Containers
+namespace IDragnev
 {
-	class PriorityQueueHandle
+	namespace Containers
 	{
-		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		friend class PriorityQueue;
-	public:
-		PriorityQueueHandle() = default;
+		class PriorityQueueHandle
+		{
+			template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+			friend class PriorityQueue;
+		public:
+			PriorityQueueHandle() = default;
 
-	private:
-		PriorityQueueHandle(int32_t value);
+		private:
+			PriorityQueueHandle(std::int32_t value);
 
-		bool isValid() const;
-		operator int32_t() const;
+			bool isValid() const;
+			operator std::int32_t() const;
 
-	private:
-		int32_t value = -1;
-	};
+		private:
+			std::int32_t value = -1;
+		};
+	}
 }
 
 #endif //__PRIORITY_QUEUE_HANDLE_H_INLCUDED__

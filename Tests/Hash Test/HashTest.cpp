@@ -4,6 +4,8 @@
 #include "../../Graph store/Containers/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using IDragnev::String;
+using IDragnev::Containers::Hash;
 using std::begin;
 using std::end;
 
@@ -25,7 +27,7 @@ namespace HashTest
 	TEST_CLASS(HashTest)
 	{
 	private:
-		using ItemHash = Containers::Hash<Item, String, KeyExtractor>;
+		using ItemHash = Hash<Item, String, KeyExtractor>;
 
 		static const size_t ITEMS_COUNT = 10;
 		static Item testItems[ITEMS_COUNT];
