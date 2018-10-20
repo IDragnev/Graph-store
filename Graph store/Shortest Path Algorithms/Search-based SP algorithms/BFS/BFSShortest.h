@@ -11,7 +11,8 @@ namespace IDragnev
 		class BFSShortest : public SearchBasedShortestPathAlgorithm
 		{
 		private:
-			using VertexDecoratorsQueue = Containers::Queue<const MarkableVertex*>;
+			using ConstVertexRef = std::reference_wrapper<const MarkableVertex>;
+			using VertexDecoratorsQueue = Containers::Queue<ConstVertexRef>;
 			using Base = SearchBasedShortestPathAlgorithm;
 
 		public:
