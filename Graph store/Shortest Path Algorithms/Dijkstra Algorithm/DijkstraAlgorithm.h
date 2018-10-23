@@ -15,23 +15,23 @@ namespace IDragnev
 		{
 		private:
 			using Handle = Containers::PriorityQueueHandle;
+
 			struct PriorityVertex : VertexDecorator
 			{
 				using VertexDecorator::VertexDecorator;
 				PriorityVertex() : VertexDecorator{ nullptr } {}
 				Handle handle{};
 			};
-			using PointersCollection = Containers::DArray<PriorityVertex*>;
-
+		
 			struct DistanceAccessor
 			{
-				void operator()(PriorityVertex* v, const Distance& d) const { v->distance = d; }
-				const Distance& operator()(const PriorityVertex* v) const { return v->distance; }
+				void operator()(PriorityVertex& v, const Distance& d) const { v.distance = d; }
+				const Distance& operator()(const PriorityVertex& v) const { return v.distance; }
 			};
 
 			struct HandleSetter
 			{
-				void operator()(PriorityVertex* v, const Handle& h) const { v->handle = h; }
+				void operator()(PriorityVertex& v, const Handle& h) const { v.handle = h; }
 			};
 
 			struct GreaterThan
@@ -44,8 +44,9 @@ namespace IDragnev
 				const String& operator()(const PriorityVertex& v) const { return v.vertex->getID(); }
 			};
 
+			using PriorityVertexRef = std::reference_wrapper<PriorityVertex>;
 			using MinPriorityQueue =
-				Containers::PriorityQueue<PriorityVertex*, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
+				Containers::PriorityQueue<PriorityVertexRef, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
 			using DecoratorsMap = Containers::Hash<PriorityVertex, String, IDAccessor>;
 			using DecoratorsArray = Containers::DArray<PriorityVertex>;
 
@@ -70,7 +71,6 @@ namespace IDragnev
 			void buildDecoratorsMap();
 			void initSourceDecorator(PriorityVertex& source);
 			void buildPriorityQueue();
-			PointersCollection decoratorsPointers();
 			void clearState();
 
 			PriorityVertex& decoratorOf(const Vertex& v);

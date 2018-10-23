@@ -37,7 +37,7 @@ namespace IDragnev
 
 			forEach(*iteratorPtr, [&](const Vertex* v)
 			{
-				decorators.insert(PriorityVertex{ v });
+				decorators.insert({ v });
 			});
 		}
 
@@ -61,21 +61,7 @@ namespace IDragnev
 			assert(queue.isEmpty());
 			using std::begin;
 			using std::end;
-			auto pointers = decoratorsPointers();
-			queue = MinPriorityQueue{ begin(pointers), end(pointers) };
-		}
-
-		DijkstraAlgorithm::PointersCollection
-		DijkstraAlgorithm::decoratorsPointers()
-		{
-			auto result = PointersCollection{};
-
-			for (auto&& d : decorators)
-			{
-				result.insert(&d);
-			}
-
-			return result;
+			queue = MinPriorityQueue{ begin(decorators), end(decorators) };
 		}
 
 		void DijkstraAlgorithm::findShortestPath()
@@ -103,12 +89,9 @@ namespace IDragnev
 			return !queue.isEmpty();
 		}
 
-		const DijkstraAlgorithm::PriorityVertex&
-			DijkstraAlgorithm::closestToSourceFromUndetermined()
+		auto DijkstraAlgorithm::closestToSourceFromUndetermined() -> const PriorityVertex&
 		{
-			auto* result = queue.extractOptimal();
-			assert(result);
-			return *result;
+			return queue.extractOptimal();
 		}
 
 		void DijkstraAlgorithm::relaxEdgesLeaving(const PriorityVertex& vertex)
@@ -151,14 +134,12 @@ namespace IDragnev
 			decorators.empty();
 		}
 
-		DijkstraAlgorithm::PriorityVertex&
-		DijkstraAlgorithm::decoratorOf(const Vertex& v)
+		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) -> PriorityVertex&
 		{
 			return const_cast<PriorityVertex&>( static_cast<const DijkstraAlgorithm&>(*this).decoratorOf(v) );
 		}
 
-		const DijkstraAlgorithm::PriorityVertex&
-		DijkstraAlgorithm::decoratorOf(const Vertex& v) const
+		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) const -> const PriorityVertex&
 		{
 			auto* result = map.search(v.getID());
 			assert(result);
