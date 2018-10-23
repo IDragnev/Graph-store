@@ -2,7 +2,7 @@
 #define __PRIORITY_QUEUE_H_INCLUDED__
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
-#include "..\Dynamic Array\DArray.h"
+#include <vector>
 
 namespace IDragnev
 {
@@ -58,6 +58,8 @@ namespace IDragnev
 				Item item{};
 			};
 
+			using Elements = std::vector<Element>;
+
 		public:
 			PriorityQueue() = default;
 			template <typename InputIt>
@@ -74,14 +76,12 @@ namespace IDragnev
 			Item extractOptimal();
 			const Item getOptimal() const;
 
-			void improveKey(const Handle& handle, const Key& key);
+			void improveKey(const Handle& h, const Key& key);
 
 			bool isEmpty() const;
 			void empty();
 
 		private:
-			PriorityQueue(std::size_t size);
-
 			template <typename InputIt>
 			void directlyInsertAll(InputIt first, InputIt last);
 			void buildHeap();
@@ -109,11 +109,11 @@ namespace IDragnev
 			auto positionOfLastNonLeaf() const
 			{
 				auto asSigned = [](auto x) { return std::make_signed_t<decltype(x)>(x); };
-				return asSigned(elements.getCount() / 2 - 1U);
+				return asSigned(elements.size() / 2 - 1U);
 			}
 
 		private:
-			DArray<Element> elements;
+			Elements elements;
 			mutable CompareFunction compareFunction;
 		};
 	}

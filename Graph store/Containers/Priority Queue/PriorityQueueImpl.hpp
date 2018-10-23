@@ -61,18 +61,10 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		template <typename InputIt>
 		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(InputIt first, InputIt last) :
-			PriorityQueue(std::distance(first, last))
+			PriorityQueue()
 		{
 			directlyInsertAll(first, last);
 			buildHeap();
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::PriorityQueue(std::size_t size) :
-			elements(size)
-		{
-			//this constructor is used only because
-			//it supplies exception safety for the range one
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
@@ -82,7 +74,7 @@ namespace IDragnev
 			auto index = std::size_t{ 0 };
 			for (; first != last; ++first)
 			{
-				elements.insert(Element{ *first, index++ });
+				elements.emplace_back(*first, Handle(index++));
 			}
 		}
 
@@ -160,7 +152,7 @@ namespace IDragnev
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::moveAt(std::size_t index, Element&& element)
 		{
 			assert(hasElementAt(index));
-			elements[index] = Element{ std::move(element).wrappedItem(), index };
+			elements[index] = { std::move(element).wrappedItem(), index };
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
@@ -192,8 +184,8 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(const Item& item)
 		{
-			auto index = elements.getCount();
-			elements.insert(Element{ item, index });
+			auto index = elements.size();
+			elements.emplace_back(item, Handle(index));
 			siftUp(index);
 		}
 
@@ -257,15 +249,14 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::moveLastToRoot()
 		{
-			auto indexOfLast = elements.getCount() - 1;
-			moveAt(0, std::move(elements[indexOfLast]));
-			elements.removeAt(indexOfLast);
+			moveAt(0, std::move(elements.back()));
+			elements.pop_back();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::isEmpty() const
 		{
-			return elements.isEmpty();
+			return elements.empty();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
@@ -285,14 +276,14 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasElementAt(std::size_t index) const
 		{
-			return index < elements.getCount();
+			return index < elements.size();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty()
 		{
 			invalidateHandlesOfAll();
-			elements.empty();
+			elements.clear();
 		}
 	}
 }
