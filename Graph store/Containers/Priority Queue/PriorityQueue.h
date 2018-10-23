@@ -35,7 +35,6 @@ namespace IDragnev
 			class Element
 			{
 			public:
-				Element() = default;
 				Element(Item&& item, const Handle& h = {}) : item{ std::move(item) } { setHandle(h); }
 				Element(const Item& item, const Handle& h = {}) : item{ item } { setHandle(h); }
 
@@ -45,7 +44,7 @@ namespace IDragnev
 				const Item& wrappedItem() const & { return item; }
 				Item wrappedItem() && { return std::move(item); }
 
-				void invalidateHandle() { setHandle(Handle{}); }
+				void invalidateHandle() { setHandle({}); }
 
 			private:
 				void setHandle(const Handle& h) { handleSetter(item, h); }
@@ -55,7 +54,7 @@ namespace IDragnev
 				static KeyAccessor keyAccessor;
 
 			private:
-				Item item{};
+				Item item;
 			};
 
 			using Elements = std::vector<Element>;
