@@ -66,7 +66,7 @@ namespace IDragnev
 
 			using VertexArray = Containers::DArray<Vertex*>;
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
-			using EdgeIterator = Containers::SinglyLinkedList<Edge>::iterator;
+			using AdjacentEdgesIterator = Containers::SinglyLinkedList<Edge>::iterator;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex*>>;
 			using EdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<Edge>>;
 			using EdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
@@ -107,7 +107,7 @@ namespace IDragnev
 			Graph& operator=(const Graph&) = delete;
 
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
-			static EdgeIterator searchEdgeFromTo(Vertex& from, Vertex& to);
+			static AdjacentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
 			void tryToInsertVertexWithID(const String& ID);
 			void insert(Vertex& vertex);

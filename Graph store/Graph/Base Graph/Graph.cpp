@@ -233,7 +233,7 @@ namespace IDragnev
 			}
 		}
 
-		Graph::EdgeIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
+		Graph::AdjacentEdgesIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
 		{
 			using std::begin;
 			using std::end;
