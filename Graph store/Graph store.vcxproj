@@ -218,6 +218,7 @@
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h" />
     <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="GraphStore\GraphStore.h" />
+    <ClInclude Include="Graph\Base Graph\EdgeIteratorImpl.hpp" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />

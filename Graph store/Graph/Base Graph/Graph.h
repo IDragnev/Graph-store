@@ -64,6 +64,32 @@ namespace IDragnev
 				}
 			};
 
+			template <typename VertexForwardIterator, typename EdgeForwardIterator>
+			class EdgeIterator : public Iterators::ConstIterator<Edge>
+			{
+			public:
+				EdgeIterator(VertexForwardIterator vertexIt, EdgeForwardIterator edgeIt);
+
+				const Edge& operator*() const override;
+				const Edge* operator->() const override;
+				EdgeIterator& operator++() override;
+				operator bool() const override;
+				bool operator!() const override;
+				auto clone() const override { return std::make_unique<EdgeIterator>{ *this }; }
+
+			private:
+				void toFirstEdge();
+				void skipPassedEdges();
+				void toNextEdge();
+				bool wasCurrentEdgePassed() const;
+				void toNextVertex();
+				void updateEdgeIterator();
+
+			private:
+				VertexForwardIterator vertexIterator;
+				EdgeForwardIterator edgeIterator;
+			};
+
 			using VertexArray = Containers::DArray<Vertex*>;
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
 			using AdjacentEdgesIterator = Containers::SinglyLinkedList<Edge>::iterator;
@@ -134,4 +160,6 @@ namespace IDragnev
 		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
 	}
 }
+
+#include "EdgeIteratorImpl.hpp"
 #endif // __BASE_GRAPH_H_INCLUDED__

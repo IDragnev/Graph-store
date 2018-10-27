@@ -429,5 +429,8 @@
     <ClInclude Include="Traits\SelectBaseIterator.h">
       <Filter>Iterators</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\Base Graph\EdgeIteratorImpl.hpp">
+      <Filter>Graph\Base Graph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
