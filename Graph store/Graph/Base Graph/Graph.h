@@ -39,13 +39,13 @@ namespace IDragnev
 
 			public:
 				Vertex(const String& ID, std::size_t index);
+				Vertex(const Vertex&) = delete;
+
+				Vertex& operator=(const Vertex&) = delete;
 
 				const String& getID() const;
 
 			private:
-				Vertex(const Vertex&) = delete;
-				Vertex& operator=(const Vertex&) = delete;
-
 				void setID(const String& ID);
 
 			private:
@@ -73,7 +73,10 @@ namespace IDragnev
 
 		public:
 			Graph(const String& ID);
+			Graph(const Graph&) = delete;
 			virtual ~Graph();
+
+			Graph& operator=(const Graph&) = delete;
 
 			void insertVertexWithID(const String& ID);
 			void removeVertex(const String& ID);
@@ -103,9 +106,6 @@ namespace IDragnev
 			bool isOwnerOf(const Vertex& vertex) const;
 
 		private:
-			Graph(const Graph&) = delete;
-			Graph& operator=(const Graph&) = delete;
-
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 			static AdjacentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
