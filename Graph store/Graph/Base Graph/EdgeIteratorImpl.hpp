@@ -104,5 +104,11 @@ namespace IDragnev
 		{
 			return !(this->operator bool());
 		}
+
+		template <typename VertexForwardIterator, typename EdgeForwardIterator>
+		inline auto Graph::EdgeIterator<VertexForwardIterator, EdgeForwardIterator>::clone() const -> IteratorPtr
+		{
+			return std::make_unique<EdgeIterator>(*this);
+		}
 	}
 }

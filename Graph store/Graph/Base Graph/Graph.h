@@ -67,6 +67,9 @@ namespace IDragnev
 			template <typename VertexForwardIterator, typename EdgeForwardIterator>
 			class EdgeIterator : public Iterators::ConstIterator<Edge>
 			{
+			private:
+				using IteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
+
 			public:
 				EdgeIterator(VertexForwardIterator vertexIt, EdgeForwardIterator edgeIt);
 
@@ -75,7 +78,7 @@ namespace IDragnev
 				EdgeIterator& operator++() override;
 				operator bool() const override;
 				bool operator!() const override;
-				auto clone() const override { return std::make_unique<EdgeIterator>{ *this }; }
+				IteratorPtr clone() const override;
 
 			private:
 				void toFirstEdge();
@@ -92,7 +95,7 @@ namespace IDragnev
 
 			using VertexArray = Containers::DArray<Vertex*>;
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
-			using AdjacentEdgesIterator = Containers::SinglyLinkedList<Edge>::iterator;
+			using IncidentEdgesIterator = Containers::SinglyLinkedList<Edge>::iterator;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex*>>;
 			using EdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<Edge>>;
 			using EdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
@@ -133,7 +136,7 @@ namespace IDragnev
 
 		private:
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
-			static AdjacentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
+			static IncidentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
 			void tryToInsertVertexWithID(const String& ID);
 			void insert(Vertex& vertex);
