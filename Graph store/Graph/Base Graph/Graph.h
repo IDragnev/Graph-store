@@ -19,15 +19,18 @@ namespace IDragnev
 			class Vertex;
 			class IncidentEdge
 			{
+			private:
+				using VertexRef = std::reference_wrapper<Vertex>;
+
 			public:
-				IncidentEdge(Vertex* incidentVertex, unsigned weight = 1);
+				IncidentEdge(Vertex& incidentVertex, unsigned weight = 1);
 
 				Vertex& getIncidentVertex();
 				const Vertex& getIncidentVertex() const;
 				unsigned getWeight() const;
 
 			private:
-				Vertex* incidentVertex;
+				VertexRef incidentVertex;
 				unsigned weight;
 			};
 

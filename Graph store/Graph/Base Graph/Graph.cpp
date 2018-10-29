@@ -10,22 +10,20 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		Graph::IncidentEdge::IncidentEdge(Vertex* incidentVertex, unsigned weight) :
+		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, unsigned weight) :
 			incidentVertex{ incidentVertex },
 			weight{ weight }
 		{
-			assert(incidentVertex);
 		}
 
 		Graph::Vertex& Graph::IncidentEdge::getIncidentVertex()
 		{
-			return const_cast<Vertex&>(static_cast<const IncidentEdge&>(*this).getIncidentVertex());
+			return const_cast<Vertex&>( static_cast<const IncidentEdge&>(*this).getIncidentVertex() );
 		}
 
 		const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const
 		{
-			assert(incidentVertex);
-			return *incidentVertex;
+			return incidentVertex;
 		}
 
 		unsigned Graph::IncidentEdge::getWeight() const
@@ -248,7 +246,7 @@ namespace IDragnev
 		{
 			try
 			{
-				from.edges.insert(IncidentEdge{ &to, weight });
+				from.edges.insert(IncidentEdge{ to, weight });
 			}
 			catch (std::bad_alloc&)
 			{
