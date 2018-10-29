@@ -101,7 +101,7 @@ namespace IDragnev
 			return *decorator.vertex == *goal;
 		}
 
-	    auto ShortestPathAlgorithm::getEdgesLeaving(const VertexDecorator& decorator) const -> EdgeConstIteratorPtr
+	    auto ShortestPathAlgorithm::getEdgesLeaving(const VertexDecorator& decorator) const -> IncidentEdgeConstIteratorPtr
 		{
 			auto* vertex = decorator.vertex;
 			assert(vertex);

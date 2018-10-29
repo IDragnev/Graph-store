@@ -62,7 +62,7 @@ namespace IDragnev
 			bool existsVertexWithUndeterminedDistance() const;
 			const PriorityVertex& closestToSourceFromUndetermined();
 			void relaxEdgesLeaving(const PriorityVertex& v);
-			void relaxEdge(const PriorityVertex& v, const Edge& e);
+			void relaxEdge(const PriorityVertex& v, const IncidentEdge& e);
 			void extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d);
 			void updateDistanceOf(PriorityVertex& v, const Distance& d);
 

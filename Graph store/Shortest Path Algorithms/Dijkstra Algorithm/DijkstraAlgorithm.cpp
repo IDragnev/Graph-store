@@ -98,13 +98,13 @@ namespace IDragnev
 		{
 			auto iteratorPtr = getEdgesLeaving(vertex);
 
-			forEach(*iteratorPtr, [&](const Edge& edge)
+			forEach(*iteratorPtr, [&](const IncidentEdge& edge)
 			{
 				relaxEdge(vertex, edge);
 			});
 		}
 
-		void DijkstraAlgorithm::relaxEdge(const PriorityVertex& vertex, const Edge& edge)
+		void DijkstraAlgorithm::relaxEdge(const PriorityVertex& vertex, const IncidentEdge& edge)
 		{
 			auto& neighbour = decoratorOf(edge.getIncidentVertex());
 			auto distanceBetween = Distance{ edge.getWeight() };

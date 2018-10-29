@@ -60,7 +60,7 @@ namespace IDragnev
 		{
 			auto iteratorPtr = getEdgesLeaving(vertex);
 
-			forEach(*iteratorPtr, [&](const Edge& edge)
+			forEach(*iteratorPtr, [&](const IncidentEdge& edge)
 			{
 				auto& neighbour = decoratorOf(edge.getIncidentVertex());
 

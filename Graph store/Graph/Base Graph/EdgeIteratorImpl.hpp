@@ -68,7 +68,7 @@ namespace IDragnev
 		{
 			using std::begin;
 			auto& v = *vertexIterator;
-			edgeIterator = begin(Graph::edgesOf(v));
+			//edgeIterator = begin(Graph::edgesOf(v));
 		}
 
 		template <typename VertexForwardIterator, typename EdgeForwardIterator>
@@ -81,13 +81,13 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename EdgeForwardIterator>
-		inline auto Graph::EdgeIterator<VertexForwardIterator, EdgeForwardIterator>::operator->() const -> const Edge*
+		inline auto Graph::EdgeIterator<VertexForwardIterator, EdgeForwardIterator>::operator->() const -> const IncidentEdge*
 		{
 			return &(this->operator*());
 		}
 
 		template <typename VertexForwardIterator, typename EdgeForwardIterator>
-		inline auto Graph::EdgeIterator<VertexForwardIterator, EdgeForwardIterator>::operator*() const -> const Edge&
+		inline auto Graph::EdgeIterator<VertexForwardIterator, EdgeForwardIterator>::operator*() const -> const IncidentEdge&
 		{
 			assert(this->operator bool());
 			return *edgeIterator;

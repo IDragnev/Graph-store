@@ -10,25 +10,25 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		Graph::Edge::Edge(Vertex* incidentVertex, unsigned weight) :
+		Graph::IncidentEdge::IncidentEdge(Vertex* incidentVertex, unsigned weight) :
 			incidentVertex{ incidentVertex },
 			weight{ weight }
 		{
 			assert(incidentVertex);
 		}
 
-		Graph::Vertex& Graph::Edge::getIncidentVertex()
+		Graph::Vertex& Graph::IncidentEdge::getIncidentVertex()
 		{
-			return const_cast<Vertex&>(static_cast<const Edge&>(*this).getIncidentVertex());
+			return const_cast<Vertex&>(static_cast<const IncidentEdge&>(*this).getIncidentVertex());
 		}
 
-		const Graph::Vertex& Graph::Edge::getIncidentVertex() const
+		const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const
 		{
 			assert(incidentVertex);
 			return *incidentVertex;
 		}
 
-		unsigned Graph::Edge::getWeight() const
+		unsigned Graph::IncidentEdge::getWeight() const
 		{
 			return weight;
 		}
@@ -238,7 +238,7 @@ namespace IDragnev
 			using std::begin;
 			using std::end;
 			return std::find_if(begin(from.edges), end(from.edges),
-				[&](const Edge& edge)
+				[&](const IncidentEdge& edge)
 			{
 				return edge.getIncidentVertex() == to;
 			});
@@ -248,7 +248,7 @@ namespace IDragnev
 		{
 			try
 			{
-				from.edges.insert(Edge{ &to, weight });
+				from.edges.insert(IncidentEdge{ &to, weight });
 			}
 			catch (std::bad_alloc&)
 			{
@@ -287,7 +287,7 @@ namespace IDragnev
 			return const_cast<Vertex&>(static_cast<const Graph&>(*this).getVertex(ID));
 		}
 
-		Graph::EdgeIteratorPtr Graph::getIteratorToEdgesLeaving(Vertex& vertex)
+		auto Graph::getIteratorToEdgesLeaving(Vertex& vertex) -> IncidentEdgeIteratorPtr
 		{
 			assert(isOwnerOf(vertex));
 
@@ -295,7 +295,7 @@ namespace IDragnev
 			return makeWrapper(begin(vertex.edges));
 		}
 
-		Graph::EdgeConstIteratorPtr Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const
+		auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
 		{
 			assert(isOwnerOf(vertex));
 

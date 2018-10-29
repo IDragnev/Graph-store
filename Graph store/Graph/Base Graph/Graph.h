@@ -17,10 +17,10 @@ namespace IDragnev
 		{
 		public:
 			class Vertex;
-			class Edge
+			class IncidentEdge
 			{
 			public:
-				Edge(Vertex* incidentVertex, unsigned weight = 1);
+				IncidentEdge(Vertex* incidentVertex, unsigned weight = 1);
 
 				Vertex& getIncidentVertex();
 				const Vertex& getIncidentVertex() const;
@@ -35,7 +35,7 @@ namespace IDragnev
 			{
 			private:
 				friend class Graph;
-				using EdgeList = Containers::SinglyLinkedList<Edge>;
+				using EdgeList = Containers::SinglyLinkedList<IncidentEdge>;
 
 			public:
 				Vertex(const String& ID, std::size_t index);
@@ -65,16 +65,16 @@ namespace IDragnev
 			};
 
 			template <typename VertexForwardIterator, typename EdgeForwardIterator>
-			class EdgeIterator : public Iterators::ConstIterator<Edge>
+			class EdgeIterator : public Iterators::ConstIterator<IncidentEdge>
 			{
 			private:
-				using IteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
+				using IteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 			public:
 				EdgeIterator(VertexForwardIterator vertexIt, EdgeForwardIterator edgeIt);
 
-				const Edge& operator*() const override;
-				const Edge* operator->() const override;
+				const IncidentEdge& operator*() const override;
+				const IncidentEdge* operator->() const override;
 				EdgeIterator& operator++() override;
 				operator bool() const override;
 				bool operator!() const override;
@@ -95,10 +95,10 @@ namespace IDragnev
 
 			using VertexArray = Containers::DArray<Vertex*>;
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
-			using IncidentEdgesIterator = Containers::SinglyLinkedList<Edge>::iterator;
+			using IncidentEdgesIterator = Containers::SinglyLinkedList<IncidentEdge>::iterator;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex*>>;
-			using EdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<Edge>>;
-			using EdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
+			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<IncidentEdge>>;
+			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 		public:
 			Graph(const String& ID);
@@ -119,8 +119,8 @@ namespace IDragnev
 
 			unsigned getVerticesCount() const;
 			VertexConstIteratorPtr getIteratorToVertices() const;
-			EdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
-			EdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
+			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
+			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
 
 			const String& getID() const;
 

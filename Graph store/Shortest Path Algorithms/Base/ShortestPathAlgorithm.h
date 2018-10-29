@@ -13,10 +13,10 @@ namespace IDragnev
 		class ShortestPathAlgorithm
 		{
 		protected:
-			using Edge = Graph::Edge;
+			using IncidentEdge = Graph::IncidentEdge;
 			using Vertex = Graph::Vertex;
 			using Distance = SpecialInteger<unsigned>;
-			using EdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Edge>>;
+			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 			struct VertexDecorator
 			{
@@ -63,7 +63,7 @@ namespace IDragnev
 
 		protected:
 			bool isTheGoal(const VertexDecorator& v) const;
-			EdgeConstIteratorPtr getEdgesLeaving(const VertexDecorator& v) const;
+			IncidentEdgeConstIteratorPtr getEdgesLeaving(const VertexDecorator& v) const;
 
 		private:
 			virtual Path findNonTrivialShortestPath(const Graph& graph,
