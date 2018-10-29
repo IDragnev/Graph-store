@@ -28,12 +28,12 @@ namespace IDragnev
 			void setIfMatched(String& str, StringPositional& argument);
 			void setWeight(UnsignedPositional& weight);
 
-			static const unsigned DEFAULT_EDGE_WEIGHT = 1;
+			static const std::uint32_t DEFAULT_EDGE_WEIGHT = 1;
 
 		private:
 			String startVertexID;
 			String endVertexID;
-			unsigned weight{};
+			std::uint32_t weight{};
 		};
 	}
 }
