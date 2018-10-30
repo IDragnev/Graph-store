@@ -15,7 +15,7 @@ namespace IDragnev
 		protected:
 			using IncidentEdge = Graph::IncidentEdge;
 			using Vertex = Graph::Vertex;
-			using Distance = SpecialInteger<unsigned>;
+			using Distance = SpecialInteger<Graph::Edge::Weight>;
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 			struct VertexDecorator

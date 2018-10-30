@@ -10,7 +10,7 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, unsigned weight) :
+		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) :
 			incidentVertex{ incidentVertex },
 			weight{ weight }
 		{
@@ -26,7 +26,7 @@ namespace IDragnev
 			return incidentVertex;
 		}
 
-		unsigned Graph::IncidentEdge::getWeight() const
+		auto Graph::IncidentEdge::getWeight() const -> Weight
 		{
 			return weight;
 		}
@@ -242,7 +242,7 @@ namespace IDragnev
 			});
 		}
 
-		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight)
+		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, EdgeWeight weight)
 		{
 			try
 			{
@@ -282,7 +282,7 @@ namespace IDragnev
 
 		Graph::Vertex& Graph::getVertex(const String& ID)
 		{
-			return const_cast<Vertex&>(static_cast<const Graph&>(*this).getVertex(ID));
+			return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertex(ID) );
 		}
 
 		auto Graph::getIteratorToEdgesLeaving(Vertex& vertex) -> IncidentEdgeIteratorPtr

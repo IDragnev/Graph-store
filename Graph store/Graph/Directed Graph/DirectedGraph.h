@@ -12,7 +12,7 @@ namespace IDragnev
 		public:
 			using Graph::Graph;
 
-			void insertEdge(Vertex& start, Vertex& end, unsigned weight) override;
+			void insertEdge(Vertex& start, Vertex& end, Edge::Weight) override;
 			void removeEdge(Vertex& start, Vertex& end) override;
 
 		private:

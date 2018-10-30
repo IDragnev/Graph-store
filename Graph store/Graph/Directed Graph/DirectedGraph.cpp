@@ -9,7 +9,7 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		void DirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
+		void DirectedGraph::insertEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 		{
 			assert(isOwnerOf(start));
 			assert(isOwnerOf(end));

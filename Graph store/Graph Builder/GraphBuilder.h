@@ -18,12 +18,13 @@ namespace IDragnev
 		private:
 			using GraphPtr = std::unique_ptr<Graph>;
 			using StringArray = Containers::DArray<String>;
+			using EdgeWeight = Graph::Edge::Weight;
 
 			struct RawEdge
 			{
 				std::size_t startVertexIDIndex{};
 				std::size_t endVertexIDIndex{};
-				unsigned weight{};
+				EdgeWeight weight{};
 			};
 
 		public:
@@ -45,7 +46,7 @@ namespace IDragnev
 			void insertEdges();
 			void insertSingleEdge(const RawEdge& edge);
 			RawEdge parseSingleEdge();
-			unsigned parseUnsignedAndIgnoreUntil(char symbol);
+			std::uint32_t parseUnsignedAndIgnoreUntil(char symbol);
 			Graph::Vertex& getVertex(std::size_t idIndex);
 
 			void clean();

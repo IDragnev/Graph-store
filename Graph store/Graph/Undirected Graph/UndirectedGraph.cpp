@@ -10,7 +10,7 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, unsigned weight)
+		void UndirectedGraph::insertEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 		{
 			assert(isOwnerOf(start));
 			assert(isOwnerOf(end));
@@ -25,7 +25,7 @@ namespace IDragnev
 			}
 		}
 
-		void UndirectedGraph::insertEdgeInBothDirections(Vertex& start, Vertex& end, unsigned weight)
+		void UndirectedGraph::insertEdgeInBothDirections(Vertex& start, Vertex& end, Edge::Weight weight)
 		{
 			Graph::insertEdgeFromToWithWeight(start, end, weight);
 			try

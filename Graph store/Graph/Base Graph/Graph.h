@@ -15,6 +15,9 @@ namespace IDragnev
 	{
 		class Graph
 		{
+		protected:
+			using EdgeWeight = std::uint32_t;
+
 		public:
 			class Vertex;
 			class IncidentEdge
@@ -23,15 +26,17 @@ namespace IDragnev
 				using VertexRef = std::reference_wrapper<Vertex>;
 
 			public:
-				IncidentEdge(Vertex& incidentVertex, unsigned weight = 1);
+				using Weight = EdgeWeight;
+
+				IncidentEdge(Vertex& incidentVertex, Weight);
 
 				Vertex& getIncidentVertex();
 				const Vertex& getIncidentVertex() const;
-				unsigned getWeight() const;
+				Weight getWeight() const;
 
 			private:
 				VertexRef incidentVertex;
-				unsigned weight;
+				Weight weight;
 			};
 
 			class Vertex
@@ -55,6 +60,29 @@ namespace IDragnev
 				String id;
 				std::size_t index;
 				EdgeList edges;
+			};
+
+			class Edge
+			{
+			private:
+				using VertexRef = std::reference_wrapper<Vertex>;
+				using IncidentEdgeRef = std::reference_wrapper<IncidentEdge>;
+
+			public:
+				using Weight = EdgeWeight;
+				
+				Vertex& start();
+				Vertex& end();
+				const Vertex& start() const;
+				const Vertex& end() const;
+				Weight weight() const;
+
+			private:
+				Edge(Vertex& start, IncidentEdge& edge); 
+
+			private:
+				VertexRef startVertex;
+				IncidentEdgeRef wrappedEdge;
 			};
 
 		private:
@@ -114,7 +142,7 @@ namespace IDragnev
 			void removeVertex(const String& ID);
 			void removeVertex(Vertex& vertex);
 
-			virtual void insertEdge(Vertex& start, Vertex& end, unsigned weight = 1) = 0;
+			virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight = 1) = 0; 
 			virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 			Vertex& getVertex(const String& ID);
@@ -131,7 +159,7 @@ namespace IDragnev
 			virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 			static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 			static void removeEdgeFromTo(Vertex& from, Vertex& to);
-			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, unsigned weight);
+			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, EdgeWeight);
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 			bool hasVertexWithID(const String& ID) const;

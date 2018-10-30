@@ -83,9 +83,9 @@ namespace IDragnev
 			}
 		}
 
-		unsigned GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
+		std::uint32_t GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
 		{
-			auto result = parser.parseUnsigned();
+			auto result = parser.parseUnsigned<std::uint32_t>();
 			parser.ignoreUntil(symbol);
 
 			return result;
@@ -126,7 +126,7 @@ namespace IDragnev
 			parser.ignoreUntil(EDGE_START);
 			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
 			result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-			result.weight = parseUnsignedAndIgnoreUntil(EDGE_END);
+			result.weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EDGE_END) };
 			parser.ignoreUntil(NEW_LINE);
 
 			return result;
