@@ -9,6 +9,9 @@ namespace IDragnev
 	{
 		class IterativeDeepeningDFS : public SearchBasedShortestPathAlgorithm
 		{
+		private:
+			using Depth = decltype(std::declval<Graph>().getVerticesCount());
+
 		public:
 			using SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm;
 
@@ -18,8 +21,8 @@ namespace IDragnev
 											const Vertex& goal) override;
 
 			void findShortestPath(const Vertex& source, const Vertex& goal);
-			void startDepthLimitedSearch(MarkableVertex& v, unsigned depthBound);
-			void proceedWithNeighboursOf(const MarkableVertex& v, unsigned depthBound);
+			void startDepthLimitedSearch(MarkableVertex& v, Depth depthBound);
+			void proceedWithNeighboursOf(const MarkableVertex& v, Depth depthBound);
 			static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
 
 			void initSourceDecorator(MarkableVertex& source) override;
@@ -27,7 +30,7 @@ namespace IDragnev
 			void initState(const Graph& graph);
 
 		private:
-			unsigned maxDepth{};
+			Depth maxDepth{};
 			Path result{};
 			bool isAShortestPathFound = false;
 		};

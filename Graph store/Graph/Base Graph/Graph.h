@@ -143,7 +143,7 @@ namespace IDragnev
 			Vertex& getVertex(const String& ID);
 			const Vertex& getVertex(const String& ID) const;
 
-			unsigned getVerticesCount() const;
+			std::uint32_t getVerticesCount() const;
 			VertexConstIteratorPtr getIteratorToVertices() const;
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
 			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;

@@ -312,7 +312,7 @@ namespace IDragnev
 			return id;
 		}
 
-		unsigned Graph::getVerticesCount() const
+		std::uint32_t Graph::getVerticesCount() const
 		{
 			return vertices.getCount();
 		}

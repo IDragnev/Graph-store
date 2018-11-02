@@ -32,13 +32,13 @@ namespace IDragnev
 		{
 			auto& vertex = decoratorOf(source);
 
-			for (auto depthBound = 0U; !isAShortestPathFound && depthBound <= maxDepth; ++depthBound)
+			for (auto depthBound = Depth{ 0 }; !isAShortestPathFound && depthBound <= maxDepth; ++depthBound)
 			{
 				startDepthLimitedSearch(vertex, depthBound);
 			}
 		}
 
-		void IterativeDeepeningDFS::startDepthLimitedSearch(MarkableVertex& vertex, unsigned depthBound)
+		void IterativeDeepeningDFS::startDepthLimitedSearch(MarkableVertex& vertex, Depth depthBound)
 		{
 			assert(!vertex.isVisited);
 			vertex.isVisited = true;
@@ -56,7 +56,7 @@ namespace IDragnev
 			vertex.isVisited = false;
 		}
 
-		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, unsigned depthBound)
+		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
 		{
 			auto iteratorPtr = getEdgesLeaving(vertex);
 
