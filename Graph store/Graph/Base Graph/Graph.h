@@ -95,21 +95,16 @@ namespace IDragnev
 				}
 			};
 
-			template <typename VertexForwardIterator, typename EdgeForwardIterator>
-			class EdgeIterator : public Iterators::ConstIterator<IncidentEdge>
+			template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
+			class EdgeIterator
 			{
-			private:
-				using IteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
-
 			public:
-				EdgeIterator(VertexForwardIterator vertexIt, EdgeForwardIterator edgeIt);
+				EdgeIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt);
 
-				const IncidentEdge& operator*() const override;
-				const IncidentEdge* operator->() const override;
-				EdgeIterator& operator++() override;
-				operator bool() const override;
-				bool operator!() const override;
-				IteratorPtr clone() const override;
+				const Edge operator*() const;
+				EdgeIterator& operator++();
+				operator bool() const;
+				bool operator!() const;
 
 			private:
 				void toFirstEdge();
@@ -121,7 +116,7 @@ namespace IDragnev
 
 			private:
 				VertexForwardIterator vertexIterator;
-				EdgeForwardIterator edgeIterator;
+				IncidentEdgeForwardIterator edgeIterator;
 			};
 
 			using VertexArray = Containers::DArray<Vertex*>;
@@ -168,7 +163,7 @@ namespace IDragnev
 		private:
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 			static IncidentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
-
+		
 			void tryToInsertVertexWithID(const String& ID);
 			void insert(Vertex& vertex);
 			void insertInVertices(Vertex& vertex);
