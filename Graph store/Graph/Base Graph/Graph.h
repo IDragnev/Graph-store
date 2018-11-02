@@ -15,7 +15,7 @@ namespace IDragnev
 	{
 		class Graph
 		{
-		protected:
+		private:
 			using EdgeWeight = std::uint32_t;
 
 		public:
