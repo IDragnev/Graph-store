@@ -15,9 +15,6 @@ namespace IDragnev
 	{
 		class Graph
 		{
-		private:
-			using EdgeWeight = std::uint32_t;
-
 		public:
 			class Vertex;
 			class IncidentEdge
@@ -26,7 +23,7 @@ namespace IDragnev
 				using VertexRef = std::reference_wrapper<Vertex>;
 
 			public:
-				using Weight = EdgeWeight;
+				using Weight = std::uint32_t;
 
 				IncidentEdge(Vertex& incidentVertex, Weight);
 
@@ -65,24 +62,22 @@ namespace IDragnev
 			class Edge
 			{
 			private:
-				using VertexRef = std::reference_wrapper<Vertex>;
-				using IncidentEdgeRef = std::reference_wrapper<IncidentEdge>;
+				using ConstVertexRef = std::reference_wrapper<const Vertex>;
+				using ConstIncidentEdgeRef = std::reference_wrapper<const IncidentEdge>;
 
 			public:
-				using Weight = EdgeWeight;
+				using Weight = IncidentEdge::Weight;
 				
-				Vertex& start();
-				Vertex& end();
 				const Vertex& start() const;
 				const Vertex& end() const;
 				Weight weight() const;
 
 			private:
-				Edge(Vertex& start, IncidentEdge& edge); 
+				Edge(const Vertex& start, const IncidentEdge& edge); 
 
 			private:
-				VertexRef startVertex;
-				IncidentEdgeRef wrappedEdge;
+				ConstVertexRef startVertex;
+				ConstIncidentEdgeRef incidentEdge;
 			};
 
 		private:
@@ -154,7 +149,7 @@ namespace IDragnev
 			virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
 			static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 			static void removeEdgeFromTo(Vertex& from, Vertex& to);
-			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, EdgeWeight);
+			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight);
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 			bool hasVertexWithID(const String& ID) const;

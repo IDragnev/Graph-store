@@ -66,6 +66,27 @@ namespace IDragnev
 			return !(lhs == rhs);
 		}
 
+		Graph::Edge::Edge(const Vertex& start, const IncidentEdge& edge) :
+			startVertex{ start },
+			incidentEdge{ edge }
+		{
+		}
+
+		auto Graph::Edge::start() const -> const Vertex&
+		{
+			return startVertex;
+		}
+
+		auto Graph::Edge::end() const -> const Vertex&
+		{
+			return incidentEdge.get().getIncidentVertex();
+		}
+
+		auto Graph::Edge::weight() const -> Weight
+		{
+			return incidentEdge.get().getWeight();
+		}	
+
 		Graph::Graph(const String& ID) :
 			vertices{ FEWEST_VERTICES_EXPECTED },
 			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
@@ -242,7 +263,7 @@ namespace IDragnev
 			});
 		}
 
-		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, EdgeWeight weight)
+		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
 		{
 			try
 			{
