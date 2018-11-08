@@ -32,7 +32,7 @@ namespace IDragnev
 		}
 
 		Graph::Vertex::Vertex(const String& ID, std::size_t index) :
-			index{ index }
+			members{ std::make_unique<Members>(String{}, index, EdgeList{}) }
 		{
 			setID(ID);
 		}
@@ -41,17 +41,12 @@ namespace IDragnev
 		{
 			if (ID != String{ "" })
 			{
-				id = ID;
+				members->id = ID;
 			}
 			else
 			{
 				throw Exception{ "A Vertex ID must be a valid string" };
 			}
-		}
-
-		const String& Graph::Vertex::getID() const
-		{
-			return id;
 		}
 
 		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
@@ -88,7 +83,6 @@ namespace IDragnev
 		}	
 
 		Graph::Graph(const String& ID) :
-			vertices{ FEWEST_VERTICES_EXPECTED },
 			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
 		{
 			setID(ID);
@@ -104,19 +98,6 @@ namespace IDragnev
 			{
 				throw Exception{ "A Graph ID must be a valid string" };
 			}
-		}
-
-		Graph::~Graph()
-		{
-			for (auto&& v : vertices)
-			{
-				deleteVertex(v);
-			}
-		}
-
-		void Graph::deleteVertex(Vertex* v)
-		{
-			delete v;
 		}
 
 		void Graph::insertVertexWithID(const String& ID)
@@ -140,10 +121,8 @@ namespace IDragnev
 		{
 			try
 			{
-				auto newVertexPtr = createVertex(ID);
-				insert(*newVertexPtr);
-
-				newVertexPtr.release();
+				vertices.push_back(makeVertex(ID));
+				insertInSearchTable(vertices.back());
 			}
 			catch (std::bad_alloc&)
 			{
@@ -151,18 +130,16 @@ namespace IDragnev
 			}
 		}
 
-		std::unique_ptr<Graph::Vertex> Graph::createVertex(const String& ID) const
+		auto Graph::makeVertex(const String& ID) const -> Vertex
 		{
-			return std::make_unique<Vertex>(ID, vertices.getCount());
+			return Vertex{ ID, vertices.size() };
 		}
 
-		void Graph::insert(Vertex& vertex)
+		void Graph::insertInSearchTable(Vertex& vertex)
 		{
-			insertInVertices(vertex);
-
 			try
 			{
-				insertInSearchTable(vertex);
+				verticesSearchTable.insert(vertex);
 			}
 			catch (std::bad_alloc&)
 			{
@@ -171,32 +148,21 @@ namespace IDragnev
 			}
 		}
 
-		void Graph::insertInVertices(Vertex& vertex)
+		void Graph::removeFromVertices(Vertex& vertex)
 		{
-			assert(vertex.index == vertices.getCount());
-			vertices.insert(&vertex);
-		}
+			assert(isOwnerOf(vertex));
 
-		void Graph::insertInSearchTable(Vertex& vertex)
-		{
-			verticesSearchTable.insert(vertex);
-		}
-
-		void Graph::removeFromVertices(const Vertex& vertexToRemove)
-		{
-			assert(isOwnerOf(vertexToRemove));
-
-			auto lastVertexIndex = vertices.getCount() - 1;
-			auto* lastVertex = vertices[lastVertexIndex];
-
-			lastVertex->index = vertexToRemove.index;
-			std::swap(vertices[vertexToRemove.index], vertices[lastVertexIndex]);
-			vertices.removeAt(lastVertexIndex);
+			auto index = vertex.index();
+			vertex = std::move(vertices.back());
+			vertex.setIndex(index);
+			vertices.pop_back();
 		}
 
 		void Graph::removeFromSearchTable(const Vertex& vertex)
 		{
-			verticesSearchTable.remove(vertex.id);
+			assert(isOwnerOf(vertex));
+
+			verticesSearchTable.remove(vertex.ID());
 		}
 
 		void Graph::removeVertex(const String& ID)
@@ -211,8 +177,6 @@ namespace IDragnev
 			removeEdgesEndingIn(vertex);
 			removeFromSearchTable(vertex);
 			removeFromVertices(vertex);
-
-			deleteVertex(&vertex);
 		}
 
 		//
@@ -221,7 +185,7 @@ namespace IDragnev
 		//
 		void Graph::removeEdgesEndingIn(Vertex& vertex)
 		{
-			for (auto& edge : vertex.edges)
+			for (auto& edge : edgesOf(vertex))
 			{
 				auto& neighbour = edge.getIncidentVertex();
 				removeEdgeFromToNoThrow(neighbour, vertex);
@@ -244,7 +208,8 @@ namespace IDragnev
 
 			if (iterator)
 			{
-				from.edges.removeAt(iterator);
+				auto& edges = edgesOf(from);
+				edges.removeAt(iterator);
 			}
 			else if (throwIfEdgeDoesNotExist)
 			{
@@ -256,7 +221,7 @@ namespace IDragnev
 		{
 			using std::begin;
 			using std::end;
-			return std::find_if(begin(from.edges), end(from.edges),
+			return std::find_if(begin(edgesOf(from)), end(edgesOf(from)),
 				[&](const IncidentEdge& edge)
 			{
 				return edge.getIncidentVertex() == to;
@@ -267,7 +232,8 @@ namespace IDragnev
 		{
 			try
 			{
-				from.edges.insert(IncidentEdge{ to, weight });
+				auto& edges = edgesOf(from);
+				edges.insert(IncidentEdge{ to, weight });
 			}
 			catch (std::bad_alloc&)
 			{
@@ -284,14 +250,15 @@ namespace IDragnev
 
 		bool Graph::isOwnerOf(const Vertex& vertex) const
 		{
-			return (vertex.index < vertices.getCount()) && (vertices[vertex.index] == &vertex);
+			auto index = vertex.index();
+			return (index < vertices.size()) && (vertices[index] == vertex);
 		}
 
 		const Graph::Vertex& Graph::getVertex(const String& ID) const
 		{
-			auto* result = verticesSearchTable.search(ID);
+			auto result = verticesSearchTable.search(ID);
 
-			if (result)
+			if (result != nullptr)
 			{
 				return *result;
 			}
@@ -311,7 +278,7 @@ namespace IDragnev
 			assert(isOwnerOf(vertex));
 
 			using std::begin;
-			return makeWrapper(begin(vertex.edges));
+			return makeWrapper(begin(edgesOf(vertex)));
 		}
 
 		auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
@@ -319,13 +286,14 @@ namespace IDragnev
 			assert(isOwnerOf(vertex));
 
 			using std::cbegin;
-			return makeWrapper(cbegin(vertex.edges));
+			return makeWrapper(cbegin(edgesOf(vertex)));
 		}
 
 		Graph::VertexConstIteratorPtr Graph::getIteratorToVertices() const
 		{
 			using std::cbegin;
-			return makeWrapper(cbegin(vertices));
+			using std::cend;
+			return makeWrapper(cbegin(vertices), cend(vertices));
 		}
 
 		const String& Graph::getID() const
@@ -335,7 +303,17 @@ namespace IDragnev
 
 		std::uint32_t Graph::getVerticesCount() const
 		{
-			return vertices.getCount();
+			return vertices.size();
+		}
+
+		auto Graph::edgesOf(const Vertex& v) -> const Vertex::EdgeList&
+		{
+			return v.edges();
+		}
+
+		auto Graph::edgesOf(Vertex& v) -> Vertex::EdgeList&
+		{
+			return v.edges();
 		}
 	}
 }
