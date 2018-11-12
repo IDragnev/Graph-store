@@ -31,8 +31,8 @@ namespace IDragnev
 			{
 			private:
 				friend class SinglyLinkedList<Item>;
-				using ownerPtr = const SinglyLinkedList<Item>*;
-				using nodePtr = std::conditional_t<isConst, const Node<Item>*, Node<Item>*>;
+				using OwnerPtr = const SinglyLinkedList<Item>*;
+				using NodePtr = std::conditional_t<isConst, const Node<Item>*, Node<Item>*>;
 
 			public:
 				using value_type = Item;
@@ -58,11 +58,11 @@ namespace IDragnev
 									   typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& rhs);
 
 			private:
-				SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner);
+				SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner);
 
 			private:
-				nodePtr current;
-				ownerPtr owner;
+				NodePtr current;
+				OwnerPtr owner;
 			};
 
 		public:
@@ -98,7 +98,7 @@ namespace IDragnev
 
 			void empty();
 			bool isEmpty() const;
-			unsigned getCount() const;
+			std::size_t getCount() const;
 
 			iterator begin();
 			iterator end();
@@ -132,7 +132,7 @@ namespace IDragnev
 			bool validateOwnershipOf(const iterator& it) const;
 
 		private:
-			unsigned count;
+			std::size_t count;
 			Node<T>* head;
 			Node<T>* tail;
 		};

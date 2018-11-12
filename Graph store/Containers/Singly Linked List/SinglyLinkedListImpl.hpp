@@ -400,7 +400,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline unsigned SinglyLinkedList<T>::getCount() const
+		inline std::size_t SinglyLinkedList<T>::getCount() const
 		{
 			return count;
 		}

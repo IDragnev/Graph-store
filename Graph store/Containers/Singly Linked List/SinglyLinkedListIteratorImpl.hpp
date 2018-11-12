@@ -5,7 +5,7 @@ namespace IDragnev
 	{
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::SinglyLinkedListIterator(nodePtr startNode, ownerPtr owner) :
+		inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner) :
 			current{ startNode },
 			owner{ owner }
 		{
