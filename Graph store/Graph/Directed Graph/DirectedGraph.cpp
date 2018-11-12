@@ -36,9 +36,9 @@ namespace IDragnev
 		{
 			auto iteratorPtr = getIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](Vertex* neighbour)
+			forEach(*iteratorPtr, [&](Vertex& neighbour)
 			{
-				removeEdgeFromToNoThrow(*neighbour, vertex);
+				removeEdgeFromToNoThrow(neighbour, vertex);
 			});
 		}
 	}

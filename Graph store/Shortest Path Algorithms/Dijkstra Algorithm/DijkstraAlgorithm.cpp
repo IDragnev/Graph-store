@@ -35,9 +35,9 @@ namespace IDragnev
 
 			auto iteratorPtr = graph.getIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex* v)
+			forEach(*iteratorPtr, [&](const Vertex& v)
 			{
-				decorators.insert({ v });
+				decorators.insert({ &v });
 			});
 		}
 
@@ -141,8 +141,8 @@ namespace IDragnev
 
 		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) const -> const PriorityVertex&
 		{
-			auto* result = map.search(v.getID());
-			assert(result);
+			auto result = map.search(v.ID());
+			assert(result != nullptr);
 			return *result;
 		}
 	}

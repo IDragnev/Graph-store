@@ -28,16 +28,16 @@ namespace IDragnev
 		}
 
 		ShortestPathAlgorithm::Path::Path(const VertexDecorator& last) :
-			IDs{},
 			length{ last.distance }
 		{
-			auto* decorator = &last;
+			auto decorator = &last;
 
 			while (decorator)
 			{
-				auto* vertex = decorator->vertex;
-				assert(vertex);
-				IDs.insertAsHead(vertex->getID());
+				auto vertex = decorator->vertex;
+				assert(vertex != nullptr);
+				IDs.insertAsHead(vertex->ID());
+
 				decorator = decorator->predecessor;
 			}
 		}
@@ -97,14 +97,14 @@ namespace IDragnev
 
 		bool ShortestPathAlgorithm::isTheGoal(const VertexDecorator& decorator) const
 		{
-			assert(decorator.vertex);
+			assert(decorator.vertex != nullptr);
 			return *decorator.vertex == *goal;
 		}
 
 	    auto ShortestPathAlgorithm::getEdgesLeaving(const VertexDecorator& decorator) const -> IncidentEdgeConstIteratorPtr
 		{
-			auto* vertex = decorator.vertex;
-			assert(vertex);
+			auto vertex = decorator.vertex;
+			assert(vertex != nullptr);
 
 			return searchedGraph->getConstIteratorToEdgesLeaving(*vertex);
 		}

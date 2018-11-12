@@ -68,9 +68,9 @@ namespace IDragnev
 
 		const Graph& GraphStore::getGraph(const String& ID) const
 		{
-			auto* result = searchGraph(ID);
+			auto result = searchGraph(ID);
 
-			if (result)
+			if (result != nullptr)
 			{
 				return *result;
 			}

@@ -32,7 +32,9 @@ namespace IDragnev
 		{
 			auto& vertex = decoratorOf(source);
 
-			for (auto depthBound = Depth{ 0 }; !isAShortestPathFound && depthBound <= maxDepth; ++depthBound)
+			for (auto depthBound = Depth{ 0 }; 
+				!isAShortestPathFound && depthBound <= maxDepth; 
+				++depthBound)
 			{
 				startDepthLimitedSearch(vertex, depthBound);
 			}

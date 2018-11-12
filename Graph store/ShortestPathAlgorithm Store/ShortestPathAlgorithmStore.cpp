@@ -28,9 +28,9 @@ namespace IDragnev
 
 		ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID)
 		{
-			auto* result = searchAlgorithm(ID);
+			auto result = searchAlgorithm(ID);
 
-			if (result)
+			if (result != nullptr)
 			{
 				return *result;
 			}

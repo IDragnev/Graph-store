@@ -10,9 +10,9 @@ namespace IDragnev
 
 			auto iteratorPtr = graph.getIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex* v)
+			forEach(*iteratorPtr, [&](const Vertex& v)
 			{
-				decorators.try_emplace(v->getID(), v);
+				decorators.try_emplace(v.ID(), &v);
 			});
 
 			initSourceDecorator(decoratorOf(source));
@@ -33,7 +33,7 @@ namespace IDragnev
 
 		auto SearchBasedShortestPathAlgorithm::decoratorOf(const Vertex& v) const -> const MarkableVertex&
 		{
-			auto iterator = decorators.find(v.getID());
+			auto iterator = decorators.find(v.ID());
 			assert(iterator != decorators.cend());
 
 			auto& pair = *iterator;
