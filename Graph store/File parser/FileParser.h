@@ -15,10 +15,10 @@ namespace IDragnev
 			class ParseFail : public Exception
 			{
 			public:
-				ParseFail(const String& filename, const String& reason, unsigned line);
+				ParseFail(const String& filename, const String& reason, std::uint32_t line);
 
 			private:
-				static std::string buildMessage(const String& filename, const String& reason, unsigned line);
+				static std::string buildMessage(const String& filename, const String& reason, std::uint32_t line);
 			};
 
 		public:
@@ -56,7 +56,7 @@ namespace IDragnev
 			void validateState() const;
 
 		private:
-			unsigned currentLine{};
+			std::uint32_t currentLine{};
 			String filename;
 			std::ifstream stream;
 		};

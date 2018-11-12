@@ -5,12 +5,12 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		FileParser::ParseFail::ParseFail(const String& filename, const String& reason, unsigned line) :
+		FileParser::ParseFail::ParseFail(const String& filename, const String& reason, std::uint32_t line) :
 			Exception{ buildMessage(filename, reason, line) }
 		{
 		}
 
-		std::string FileParser::ParseFail::buildMessage(const String& filename, const String& reason, unsigned line)
+		std::string FileParser::ParseFail::buildMessage(const String& filename, const String& reason, std::uint32_t line)
 		{
 			auto message = std::string{ "Error reading " + filename };
 			message += ": ";
@@ -36,7 +36,7 @@ namespace IDragnev
 			stream.open(name);
 			if (stream)
 			{
-				currentLine = 1;
+				currentLine = 1U;
 				filename = name;
 			}
 			else
@@ -104,7 +104,7 @@ namespace IDragnev
 		{
 			validateState();
 
-			char extracted{};
+			auto extracted = char{};
 			do
 			{
 				extracted = stream.get();
