@@ -36,41 +36,29 @@ namespace IDragnev
 				Weight weight;
 			};
 
+		private:
+			using EdgeList = Containers::SinglyLinkedList<IncidentEdge>;
+			using EdgeListsCollection = Containers::SinglyLinkedList<EdgeList>;
+
+		public:
 			class Vertex
 			{
 			private:
 				friend class Graph;
-				using EdgeList = Containers::SinglyLinkedList<IncidentEdge>;
-
-				struct Members
-				{					
-					String id;
-					std::size_t index;
-					EdgeList edges;
-				};
+				using EdgeListIterator = EdgeListsCollection::iterator;
 
 			public:
-				Vertex(const Vertex&) = delete;
-				Vertex(Vertex&& source) = default;
-
-				Vertex& operator=(const Vertex&) = delete;
-				Vertex& operator=(Vertex&& rhs) = default;
-
-				const String& ID() const { return members->id; }
+				const String& ID() const { return id; }
 
 			private:
-				Vertex(const String& ID, std::size_t index);
+				Vertex(const String& ID, std::size_t index, EdgeListIterator edges);
 
 				void setID(const String& ID);
 
-				std::size_t index() const { return members->index; }
-				void setIndex(std::size_t index) { members->index = index; }
-
-				const EdgeList& edges() const { return members->edges; }
-				EdgeList& edges() { return members->edges; }
-
 			private:
-				std::unique_ptr<Members> members;
+				String id;
+				std::size_t index;
+				EdgeListIterator edges;
 			};
 
 			class Edge
@@ -100,7 +88,7 @@ namespace IDragnev
 				template <typename T>
 				const String& operator()(const T& item) const
 				{
-					return item.getID();
+					return item.ID();
 				}
 			};
 
@@ -131,14 +119,14 @@ namespace IDragnev
 
 			using VertexArray = std::vector<Vertex>;
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
-			using IncidentEdgesIterator = Vertex::EdgeList::iterator;
-			using IncidentEdgesConstIterator = Vertex::EdgeList::const_iterator;
+			using IncidentEdgesIterator = EdgeList::iterator;
+			using IncidentEdgesConstIterator = EdgeList::const_iterator;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex>>;
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<IncidentEdge>>;
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 		public:
-			using UniqueEdgesIterator = EdgeIterator<VertexArray::const_iterator, Vertex::EdgeList::const_iterator>;
+			using UniqueEdgesIterator = EdgeIterator<VertexArray::const_iterator, EdgeList::const_iterator>;
 
 			Graph(const String& ID);
 			Graph(const Graph&) = delete;
@@ -177,8 +165,8 @@ namespace IDragnev
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 			static IncidentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
-			static const Vertex::EdgeList& edgesOf(const Vertex& v);
-			static Vertex::EdgeList& edgesOf(Vertex& v);
+			static const EdgeList& edgesOf(const Vertex& v);
+			static EdgeList& edgesOf(Vertex& v);
 
 			void tryToInsertVertexWithID(const String& ID);
 			void insertInSearchTable(Vertex& v);

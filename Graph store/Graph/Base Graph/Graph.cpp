@@ -31,8 +31,9 @@ namespace IDragnev
 			return weight;
 		}
 
-		Graph::Vertex::Vertex(const String& ID, std::size_t index) :
-			members{ std::make_unique<Members>(String{}, index, EdgeList{}) }
+		Graph::Vertex::Vertex(const String& ID, std::size_t index, EdgeListIterator edges) :
+			index{ index },
+			edges{ edges }
 		{
 			setID(ID);
 		}
@@ -41,7 +42,7 @@ namespace IDragnev
 		{
 			if (ID != String{ "" })
 			{
-				members->id = ID;
+				id = ID;
 			}
 			else
 			{
@@ -85,6 +86,7 @@ namespace IDragnev
 		Graph::Graph(const String& ID) :
 			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
 		{
+			//vectices.reserve(FEWEST_VERTICES_EXPECTED);
 			setID(ID);
 		}
 
@@ -132,7 +134,8 @@ namespace IDragnev
 
 		auto Graph::makeVertex(const String& ID) const -> Vertex
 		{
-			return Vertex{ ID, vertices.size() };
+			//make a new EdgeList...
+			return Vertex{ ID, vertices.size(), EdgeListsCollection{}.begin() };
 		}
 
 		void Graph::insertInSearchTable(Vertex& vertex)
@@ -152,9 +155,9 @@ namespace IDragnev
 		{
 			assert(isOwnerOf(vertex));
 
-			auto index = vertex.index();
+			auto index = vertex.index;
 			vertex = std::move(vertices.back());
-			vertex.setIndex(index);
+			vertex.index = index;
 			vertices.pop_back();
 		}
 
@@ -162,7 +165,7 @@ namespace IDragnev
 		{
 			assert(isOwnerOf(vertex));
 
-			verticesSearchTable.remove(vertex.ID());
+			verticesSearchTable.remove(vertex.id);
 		}
 
 		void Graph::removeVertex(const String& ID)
@@ -250,7 +253,7 @@ namespace IDragnev
 
 		bool Graph::isOwnerOf(const Vertex& vertex) const
 		{
-			auto index = vertex.index();
+			auto index = vertex.index;
 			return (index < vertices.size()) && (vertices[index] == vertex);
 		}
 
@@ -306,14 +309,15 @@ namespace IDragnev
 			return vertices.size();
 		}
 
-		auto Graph::edgesOf(const Vertex& v) -> const Vertex::EdgeList&
+		auto Graph::edgesOf(const Vertex& v) -> const EdgeList&
 		{
-			return v.edges();
+			auto& iterator = v.edges;
+			return *iterator;
 		}
 
-		auto Graph::edgesOf(Vertex& v) -> Vertex::EdgeList&
+		auto Graph::edgesOf(Vertex& v) -> EdgeList&
 		{
-			return v.edges();
+			return const_cast<EdgeList&>( edgesOf(static_cast<const Vertex&>(v)) );
 		}
 	}
 }
