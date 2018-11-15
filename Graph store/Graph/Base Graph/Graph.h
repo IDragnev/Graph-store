@@ -51,14 +51,14 @@ namespace IDragnev
 				const String& ID() const { return id; }
 
 			private:
-				Vertex(const String& ID, std::size_t index, EdgeListIterator edges);
+				Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition);
 
 				void setID(const String& ID);
 
 			private:
 				String id;
-				std::size_t index;
-				EdgeListIterator edges;
+				std::size_t position;
+				EdgeListIterator edgesPosition;
 			};
 
 			class Edge
@@ -136,7 +136,7 @@ namespace IDragnev
 
 			void insertVertexWithID(const String& ID);
 			void removeVertex(const String& ID);
-			void removeVertex(Vertex& vertex);
+			void removeVertex(Vertex& v);
 
 			virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight = 1) = 0; 
 			virtual void removeEdge(Vertex& start, Vertex& end) = 0;
@@ -146,20 +146,20 @@ namespace IDragnev
 
 			std::uint32_t getVerticesCount() const;
 			VertexConstIteratorPtr getIteratorToVertices() const;
-			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& vertex);
-			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& vertex) const;
+			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
+			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& v) const;
 			UniqueEdgesIterator getUniqueEdgesIterator() const;
 			const String& getID() const;
 
 		protected:
-			virtual void removeEdgesEndingIn(Vertex& vertex) = 0;
+			virtual void removeEdgesEndingIn(Vertex& v) = 0;
 			static void removeEdgeFromToNoThrow(Vertex& from, Vertex& to);
 			static void removeEdgeFromTo(Vertex& from, Vertex& to);
 			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight);
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 			bool hasVertexWithID(const String& ID) const;
-			bool isOwnerOf(const Vertex& vertex) const;
+			bool isOwnerOf(const Vertex& v) const;
 
 		private:
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
@@ -172,8 +172,13 @@ namespace IDragnev
 			void insertInSearchTable(Vertex& v);
 			void removeFromSearchTable(const Vertex& v);
 			void removeFromVertices(Vertex& v);
+			void removeEdgeListOf(Vertex& v);
 
-			Vertex makeVertex(const String& ID) const;
+			EdgeListsCollection::iterator newestEdgeListPosition();
+			Vertex& newestVertex();
+
+			void makeVertex(const String& ID);
+			void makeEmptyEdgeList();
 
 			void setID(const String& ID);
 
@@ -184,6 +189,7 @@ namespace IDragnev
 			String id;
 			VertexArray vertices;
 			VertexHashTable verticesSearchTable;
+			EdgeListsCollection edgeLists;
 		};
 
 		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);

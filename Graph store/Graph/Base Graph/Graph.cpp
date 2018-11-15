@@ -31,9 +31,9 @@ namespace IDragnev
 			return weight;
 		}
 
-		Graph::Vertex::Vertex(const String& ID, std::size_t index, EdgeListIterator edges) :
-			index{ index },
-			edges{ edges }
+		Graph::Vertex::Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition) :
+			position{ position },
+			edgesPosition{ edgesPosition }
 		{
 			setID(ID);
 		}
@@ -84,10 +84,13 @@ namespace IDragnev
 		}	
 
 		Graph::Graph(const String& ID) :
-			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
+			id{},
+			vertices{},
+			verticesSearchTable{ FEWEST_VERTICES_EXPECTED },
+			edgeLists{}
 		{
-			//vectices.reserve(FEWEST_VERTICES_EXPECTED);
 			setID(ID);
+			vertices.reserve(FEWEST_VERTICES_EXPECTED);
 		}
 
 		void Graph::setID(const String& ID)
@@ -123,8 +126,9 @@ namespace IDragnev
 		{
 			try
 			{
-				vertices.push_back(makeVertex(ID));
-				insertInSearchTable(vertices.back());
+				makeEmptyEdgeList();
+				makeVertex(ID);
+				insertInSearchTable(newestVertex());
 			}
 			catch (std::bad_alloc&)
 			{
@@ -132,40 +136,73 @@ namespace IDragnev
 			}
 		}
 
-		auto Graph::makeVertex(const String& ID) const -> Vertex
+		void Graph::makeEmptyEdgeList()
 		{
-			//make a new EdgeList...
-			return Vertex{ ID, vertices.size(), EdgeListsCollection{}.begin() };
+			edgeLists.insertAsHead({});
 		}
 
-		void Graph::insertInSearchTable(Vertex& vertex)
+		auto Graph::newestVertex() -> Vertex&
 		{
+			return vertices.back();
+		}
+
+		void Graph::makeVertex(const String& ID)
+		{
+			assert(edgeLists.getCount() == vertices.size() + 1);
+
+			auto position = vertices.size();
+			auto edgesPosition = newestEdgeListPosition();
+
 			try
 			{
-				verticesSearchTable.insert(vertex);
+				vertices.push_back({ ID, position, edgesPosition });
 			}
 			catch (std::bad_alloc&)
 			{
-				removeFromVertices(vertex);
+				edgeLists.removeAt(edgesPosition);
 				throw;
 			}
 		}
 
-		void Graph::removeFromVertices(Vertex& vertex)
+		auto Graph::newestEdgeListPosition() -> EdgeListsCollection::iterator
 		{
-			assert(isOwnerOf(vertex));
+			using std::begin;
+			return begin(edgeLists);
+		}
 
-			auto index = vertex.index;
-			vertex = std::move(vertices.back());
-			vertex.index = index;
+		void Graph::insertInSearchTable(Vertex& v)
+		{
+			try
+			{
+				verticesSearchTable.insert(v);
+			}
+			catch (std::bad_alloc&)
+			{
+				removeEdgeListOf(v);
+				removeFromVertices(v);
+				throw;
+			}
+		}
+
+		void Graph::removeEdgeListOf(Vertex& v)
+		{
+			edgeLists.removeAt(v.edgesPosition);
+		}
+
+		void Graph::removeFromVertices(Vertex& v)
+		{
+			assert(isOwnerOf(v));
+
+			auto position = v.position;
+			v = std::move(vertices.back());
+			v.position = position;
 			vertices.pop_back();
 		}
 
-		void Graph::removeFromSearchTable(const Vertex& vertex)
+		void Graph::removeFromSearchTable(const Vertex& v)
 		{
-			assert(isOwnerOf(vertex));
-
-			verticesSearchTable.remove(vertex.id);
+			assert(isOwnerOf(v));
+			verticesSearchTable.remove(v.id);
 		}
 
 		void Graph::removeVertex(const String& ID)
@@ -173,25 +210,26 @@ namespace IDragnev
 			removeVertex(getVertex(ID));
 		}
 
-		void Graph::removeVertex(Vertex& vertex)
+		void Graph::removeVertex(Vertex& v)
 		{
-			assert(isOwnerOf(vertex));
+			assert(isOwnerOf(v));
 
-			removeEdgesEndingIn(vertex);
-			removeFromSearchTable(vertex);
-			removeFromVertices(vertex);
+			removeEdgeListOf(v);
+			removeEdgesEndingIn(v);
+			removeFromSearchTable(v);
+			removeFromVertices(v);
 		}
 
 		//
 		//the default implementation is for an undirected graph:
 		//each of the vertex' neighbours has an edge to it
 		//
-		void Graph::removeEdgesEndingIn(Vertex& vertex)
+		void Graph::removeEdgesEndingIn(Vertex& v)
 		{
-			for (auto& edge : edgesOf(vertex))
+			for (auto& edge : edgesOf(v))
 			{
 				auto& neighbour = edge.getIncidentVertex();
-				removeEdgeFromToNoThrow(neighbour, vertex);
+				removeEdgeFromToNoThrow(neighbour, v);
 			}
 		}
 
@@ -220,15 +258,13 @@ namespace IDragnev
 			}
 		}
 
-		Graph::IncidentEdgesIterator Graph::searchEdgeFromTo(Vertex& from, Vertex& to)
+		auto Graph::searchEdgeFromTo(Vertex& from, Vertex& to) -> IncidentEdgesIterator
 		{
 			using std::begin;
 			using std::end;
-			return std::find_if(begin(edgesOf(from)), end(edgesOf(from)),
-				[&](const IncidentEdge& edge)
-			{
-				return edge.getIncidentVertex() == to;
-			});
+
+			return std::find_if(begin(edgesOf(from)), end(edgesOf(from)), 
+								[&](const IncidentEdge& edge) { return edge.getIncidentVertex() == to; });
 		}
 
 		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
@@ -253,8 +289,8 @@ namespace IDragnev
 
 		bool Graph::isOwnerOf(const Vertex& vertex) const
 		{
-			auto index = vertex.index;
-			return (index < vertices.size()) && (vertices[index] == vertex);
+			auto position = vertex.position;
+			return (position < vertices.size()) && (vertices[position] == vertex);
 		}
 
 		const Graph::Vertex& Graph::getVertex(const String& ID) const
@@ -311,7 +347,7 @@ namespace IDragnev
 
 		auto Graph::edgesOf(const Vertex& v) -> const EdgeList&
 		{
-			auto& iterator = v.edges;
+			auto& iterator = v.edgesPosition;
 			return *iterator;
 		}
 
