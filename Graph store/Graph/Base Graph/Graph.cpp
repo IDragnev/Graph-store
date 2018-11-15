@@ -326,11 +326,18 @@ namespace IDragnev
 			return makeWrapper(cbegin(edgesOf(vertex)));
 		}
 
-		Graph::VertexConstIteratorPtr Graph::getIteratorToVertices() const
+		auto Graph::getConstIteratorToVertices() const -> VertexConstIteratorPtr
 		{
 			using std::cbegin;
 			using std::cend;
 			return makeWrapper(cbegin(vertices), cend(vertices));
+		}
+
+		auto Graph::getIteratorToVertices() -> VertexIteratorPtr
+		{
+			using std::begin;
+			using std::end;
+			return makeWrapper(begin(vertices), end(vertices));
 		}
 
 		const String& Graph::getID() const

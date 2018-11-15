@@ -8,7 +8,7 @@ namespace IDragnev
 		{
 			assert(decorators.empty());
 
-			auto iteratorPtr = graph.getIteratorToVertices();
+			auto iteratorPtr = graph.getConstIteratorToVertices();
 
 			forEach(*iteratorPtr, [&](const Vertex& v)
 			{

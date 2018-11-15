@@ -121,6 +121,7 @@ namespace IDragnev
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
 			using IncidentEdgesIterator = EdgeList::iterator;
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
+			using VertexIteratorPtr = std::unique_ptr<Iterators::Iterator<Vertex>>;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex>>;
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<IncidentEdge>>;
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
@@ -145,7 +146,8 @@ namespace IDragnev
 			const Vertex& getVertex(const String& ID) const;
 
 			std::uint32_t getVerticesCount() const;
-			VertexConstIteratorPtr getIteratorToVertices() const;
+			VertexConstIteratorPtr getConstIteratorToVertices() const;
+			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
 			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& v) const;
 			UniqueEdgesIterator getUniqueEdgesIterator() const;
