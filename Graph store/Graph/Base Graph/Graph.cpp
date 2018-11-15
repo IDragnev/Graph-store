@@ -52,8 +52,6 @@ namespace IDragnev
 
 		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
 		{
-			//vertices are equal if and only if 
-			//they are the same object
 			return &lhs == &rhs;
 		}
 
