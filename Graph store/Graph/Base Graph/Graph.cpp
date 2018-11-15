@@ -212,8 +212,8 @@ namespace IDragnev
 		{
 			assert(isOwnerOf(v));
 
-			removeEdgeListOf(v);
 			removeEdgesEndingIn(v);
+			removeEdgeListOf(v);
 			removeFromSearchTable(v);
 			removeFromVertices(v);
 		}
