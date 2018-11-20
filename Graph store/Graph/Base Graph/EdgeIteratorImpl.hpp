@@ -37,7 +37,8 @@ namespace IDragnev
 			else
 			{
 				auto& currentVertex = *vertexIterator;
-				auto& neighbour = (*edgeIterator).getIncidentVertex();
+				auto& currentEdge = *edgeIterator;
+				auto& neighbour = currentEdge.getIncidentVertex();
 
 				return currentVertex.index > neighbour.index;
 			}
@@ -67,8 +68,9 @@ namespace IDragnev
 		inline void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::updateEdgeIterator()
 		{
 			using std::begin;
+
 			auto& v = *vertexIterator;
-			//edgeIterator = begin(Graph::edgesOf(v));
+			edgeIterator = begin(Graph::edgesOf(v));
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
