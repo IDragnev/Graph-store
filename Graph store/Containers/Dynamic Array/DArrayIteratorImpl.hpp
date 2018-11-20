@@ -5,7 +5,7 @@ namespace IDragnev
 	{
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(typename DArray<T>::size_type startPosition, ownerPtr owner) :
+		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(size_type startPosition, OwnerPtr owner) :
 			current{ startPosition },
 			owner{ owner }
 		{
@@ -33,7 +33,7 @@ namespace IDragnev
 		template <typename Item, bool isConst>
 		inline auto DArray<T>::DArrayIterator<Item, isConst>::operator->() const -> pointer
 		{
-			return &(this->operator*());
+			return std::addressof(this->operator*());
 		}
 
 

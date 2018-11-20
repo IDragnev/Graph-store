@@ -13,14 +13,14 @@ namespace IDragnev
 		class DArray
 		{
 		private:
-			static_assert(std::is_default_constructible<T>::value,
+			static_assert(std::is_default_constructible_v<T>,
 						  "DArray<T> requires T to be default constructible");
-			static_assert(std::is_copy_assignable<T>::value,
+			static_assert(std::is_copy_assignable_v<T>,
 					   	  "DArray<T> requires T to be copy assignable");
 
 			template <typename Iter>
 			using EnableIfItemIterator =
-				std::enable_if_t<std::is_same<typename std::iterator_traits<Iter>::value_type, T>::value>;
+				std::enable_if_t<std::is_same_v<typename std::iterator_traits<Iter>::value_type, T>>;
 
 			using size_type = std::size_t;
 
@@ -29,7 +29,7 @@ namespace IDragnev
 			{
 			private:
 				friend class DArray<Item>;
-				using ownerPtr = std::conditional_t<isConst, const DArray<Item>*, DArray<Item>*>;
+				using OwnerPtr = std::conditional_t<isConst, const DArray<Item>*, DArray<Item>*>;
 
 			public:
 				using value_type = Item;
@@ -52,13 +52,13 @@ namespace IDragnev
 
 				template <typename Item, bool isConst>
 				friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-					typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+									   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 			private:
-				DArrayIterator(size_type startPosition, ownerPtr owner);
+				DArrayIterator(size_type startPosition, OwnerPtr owner);
 
 			private:
-				ownerPtr owner;
+				OwnerPtr owner;
 				size_type current;
 			};
 
@@ -128,7 +128,7 @@ namespace IDragnev
 
 		template <typename Item, bool isConst>
 		bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-			typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+						typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
 
 		template <typename T>
 		bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);

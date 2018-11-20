@@ -11,20 +11,17 @@ namespace IDragnev
 		{
 		}
 
-
 		template <typename T>
 		DArray<T>::DArray(std::initializer_list<T> source) :
 			DArray(source.begin(), source.end())
 		{
 		}
 
-
 		template <typename T>
 		DArray<T>::DArray(const DArray<T>& source) :
 			DArray<T>(source.cbegin(), source.cend())
 		{
 		}
-
 
 		template <typename T>
 		template <typename InputIt, typename>
@@ -37,9 +34,9 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		DArray<T>::DArray(size_type size, size_type count) :
+			count{},
 			size{ size },
 			items{ nullptr }
 		{
@@ -51,14 +48,12 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::setCount(size_type newCount)
 		{
 			assert(newCount <= size);
 			count = newCount;
 		}
-
 
 		template <typename T>
 		DArray<T>::DArray(DArray<T>&& source) :
@@ -69,14 +64,12 @@ namespace IDragnev
 			source.nullifyMembers();
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::nullifyMembers()
 		{
 			size = count = 0;
 			items = nullptr;
 		}
-
 
 		template <typename T>
 		DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
@@ -89,7 +82,6 @@ namespace IDragnev
 			return *this;
 		}
 
-
 		template <typename T>
 		DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
 		{
@@ -101,7 +93,6 @@ namespace IDragnev
 			return *this;
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary)
 		{
@@ -110,20 +101,17 @@ namespace IDragnev
 			std::swap(items, temporary.items);
 		}
 
-
 		template <typename T>
 		inline DArray<T>::~DArray()
 		{
 			destroyItems();
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::destroyItems()
 		{
 			delete[] items;
 		}
-
 
 		template <typename T>
 		void DArray<T>::shrink(size_type newSize)
@@ -140,14 +128,12 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		void DArray<T>::empty()
 		{
 			destroyItems();
 			nullifyMembers();
 		}
-
 
 		template <typename T>
 		void DArray<T>::resize(size_type newSize)
@@ -163,7 +149,6 @@ namespace IDragnev
 			swapContentsWithReconstructedParameter(std::move(temporary));
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::ensureSize(size_type newSize)
 		{
@@ -172,7 +157,6 @@ namespace IDragnev
 				resize(newSize);
 			}
 		}
-
 
 		template <typename T>
 		void DArray<T>::insert(const DArray<T>& other)
@@ -183,7 +167,6 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::insert(const T& newItem)
 		{
@@ -191,14 +174,12 @@ namespace IDragnev
 			items[count++] = newItem;
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::insert(T&& newItem)
 		{
 			enlargeIfFull();
 			items[count++] = std::move(newItem);
 		}
-
 
 		template <typename T>
 		void DArray<T>::enlargeIfFull()
@@ -210,7 +191,6 @@ namespace IDragnev
 				resize(size > 0 ? (GROWTH_FACTOR * size) : DEFAULT_SIZE);
 			}
 		}
-
 
 		template <typename T>
 		void DArray<T>::insertAt(size_type position, const T& newItem)
@@ -230,7 +210,6 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		void DArray<T>::shiftItemsOnePositionRight(size_type start, size_type end)
 		{
@@ -242,14 +221,12 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		inline void DArray<T>::removeAt(size_type position)
 		{
 			assert(hasItemAt(position));
 			shiftItemsOnePositionLeft(position + 1, --count);
 		}
-
 
 		template <typename T>
 		void DArray<T>::shiftItemsOnePositionLeft(size_type start, size_type end)
@@ -262,13 +239,11 @@ namespace IDragnev
 			}
 		}
 
-
 		template <typename T>
 		inline T& DArray<T>::operator[](size_type position)
 		{
 			return const_cast<T&>(static_cast<const DArray<T>&>(*this)[position]);
 		}
-
 
 		template <typename T>
 		inline const T& DArray<T>::operator[](size_type position) const
@@ -277,13 +252,11 @@ namespace IDragnev
 			return items[position];
 		}
 
-
 		template <typename T>
 		inline bool DArray<T>::hasItemAt(size_type position) const
 		{
 			return position < count;
 		}
-
 
 		template <typename T>
 		inline bool DArray<T>::isEmpty() const
@@ -291,13 +264,11 @@ namespace IDragnev
 			return count == 0;
 		}
 
-
 		template <typename T>
 		inline typename DArray<T>::size_type DArray<T>::getCount() const
 		{
 			return count;
 		}
-
 
 		template <typename T>
 		inline typename DArray<T>::size_type DArray<T>::getSize() const
@@ -305,13 +276,11 @@ namespace IDragnev
 			return size;
 		}
 
-
 		template <typename T>
 		inline auto DArray<T>::begin() -> iterator
 		{
 			return iterator{ 0, this };
 		}
-
 
 		template <typename T>
 		inline auto DArray<T>::end() -> iterator
@@ -319,13 +288,11 @@ namespace IDragnev
 			return iterator{ count, this };
 		}
 
-
 		template <typename T>
 		inline auto DArray<T>::begin() const -> const_iterator
 		{
 			return cbegin();
 		}
-
 
 		template <typename T>
 		inline auto DArray<T>::end() const -> const_iterator
@@ -333,13 +300,11 @@ namespace IDragnev
 			return cend();
 		}
 
-
 		template <typename T>
 		inline auto DArray<T>::cbegin() const -> const_iterator
 		{
 			return const_iterator{ 0, this };
 		}
-
 
 		template <typename T>
 		inline auto DArray<T>::cend() const -> const_iterator
@@ -347,14 +312,12 @@ namespace IDragnev
 			return const_iterator{ count, this };
 		}
 
-
 		template <typename T>
 		inline bool operator==(const DArray<T>& lhs, const DArray<T>& rhs)
 		{
 			return std::equal(lhs.cbegin(), lhs.cend(),
 							  rhs.cbegin(), rhs.cend());
 		}
-
 
 		template <typename T>
 		inline bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs)
