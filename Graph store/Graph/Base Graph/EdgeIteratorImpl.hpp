@@ -21,7 +21,7 @@ namespace IDragnev
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
 		void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::skipPassedEdges()
 		{
-			while (vertexIterator && wasCurrentEdgePassed());
+			while (vertexIterator && wasCurrentEdgePassed())
 			{
 				toNextEdge();
 			}
