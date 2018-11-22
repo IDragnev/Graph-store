@@ -312,7 +312,7 @@ namespace IDragnev
 			assert(isOwnerOf(vertex));
 
 			using std::begin;
-			return makeWrapper(begin(edgesOf(vertex)));
+			return makeIteratorWrapper(begin(edgesOf(vertex)));
 		}
 
 		auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
@@ -320,21 +320,21 @@ namespace IDragnev
 			assert(isOwnerOf(vertex));
 
 			using std::cbegin;
-			return makeWrapper(cbegin(edgesOf(vertex)));
+			return makeIteratorWrapper(cbegin(edgesOf(vertex)));
 		}
 
 		auto Graph::getConstIteratorToVertices() const -> VertexConstIteratorPtr
 		{
 			using std::cbegin;
 			using std::cend;
-			return makeWrapper(cbegin(vertices), cend(vertices));
+			return makeIteratorWrapper(cbegin(vertices), cend(vertices));
 		}
 
 		auto Graph::getIteratorToVertices() -> VertexIteratorPtr
 		{
 			using std::begin;
 			using std::end;
-			return makeWrapper(begin(vertices), end(vertices));
+			return makeIteratorWrapper(begin(vertices), end(vertices));
 		}
 
 		auto Graph::getUniqueEdgesConstIterator() const -> UniqueEdgesConstIterator

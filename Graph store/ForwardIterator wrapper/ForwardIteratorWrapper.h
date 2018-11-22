@@ -37,7 +37,7 @@ namespace IDragnev
 		};
 
 		template <typename ForwardIterator, typename EndType = std::false_type>
-		auto makeWrapper(const ForwardIterator& it, const EndType& end = {})
+		auto makeIteratorWrapper(const ForwardIterator& it, const EndType& end = {})
 		{
 			return std::make_unique<ForwardIteratorWrapper<ForwardIterator, EndType>>(it, end);
 		}

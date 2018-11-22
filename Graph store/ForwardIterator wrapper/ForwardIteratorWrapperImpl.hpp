@@ -53,7 +53,7 @@ namespace IDragnev
 		template <typename ForwardIterator, typename EndType>
 		auto ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const -> BaseIteratorPtr
 		{
-			return makeWrapper(iterator, end);
+			return makeIteratorWrapper(iterator, end);
 		}
 	}
 }
