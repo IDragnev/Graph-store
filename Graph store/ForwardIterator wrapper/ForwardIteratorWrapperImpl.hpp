@@ -1,7 +1,7 @@
 
 namespace IDragnev
 {
-	namespace Iterators
+	namespace GraphStore
 	{
 		template <typename ForwardIterator, typename EndType>
 		ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end) :

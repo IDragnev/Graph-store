@@ -5,7 +5,7 @@
 
 namespace IDragnev
 {
-	namespace Iterators
+	namespace GraphStore
 	{
 		template <typename ForwardIterator, typename EndType = std::false_type>
 		class ForwardIteratorWrapper : public BaseIteratorType<ForwardIterator>

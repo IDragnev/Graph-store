@@ -6,7 +6,7 @@
 
 namespace IDragnev
 {
-	namespace Iterators
+	namespace GraphStore
 	{
 		template <typename IteratorType>
 		struct SelectBaseIterator

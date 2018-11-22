@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <algorithm>
 
-using namespace IDragnev::Iterators;
-
 namespace IDragnev
 {
 	namespace GraphStore

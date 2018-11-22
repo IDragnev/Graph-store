@@ -124,12 +124,12 @@ namespace IDragnev
 			using IncidentEdgesIterator = EdgeList::iterator;
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
 			using VertexConstIterator = 
-				Iterators::ForwardIteratorWrapper<VertexArray::const_iterator, VertexArray::const_iterator>;
+				ForwardIteratorWrapper<VertexArray::const_iterator, VertexArray::const_iterator>;
 
-			using VertexIteratorPtr = std::unique_ptr<Iterators::Iterator<Vertex>>;
-			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex>>;
-			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<IncidentEdge>>;
-			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
+			using VertexIteratorPtr = std::unique_ptr<Iterator<Vertex>>;
+			using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex>>;
+			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterator<IncidentEdge>>;
+			using IncidentEdgeConstIteratorPtr = std::unique_ptr<ConstIterator<IncidentEdge>>;
 
 		public:
 			using UniqueEdgesConstIterator = EdgeIterator<VertexConstIterator, IncidentEdgesConstIterator>;
