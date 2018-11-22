@@ -1,6 +1,5 @@
 #include "Graph.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
-#include "..\..\ForwardIterator wrapper\ForwardIteratorWrapper.h"
 #include <assert.h>
 #include <algorithm>
 
@@ -338,6 +337,18 @@ namespace IDragnev
 			using std::begin;
 			using std::end;
 			return makeWrapper(begin(vertices), end(vertices));
+		}
+
+		auto Graph::getUniqueEdgesConstIterator() const -> UniqueEdgesConstIterator
+		{
+			using std::cbegin;
+			using std::cend;
+
+			auto vertexIt = VertexConstIterator{ cbegin(vertices), cend(vertices) };
+			auto& edges = vertexIt ? (edgesOf(*vertexIt)) : EdgeList{};
+			auto edgeIt = cbegin(edges);
+
+			return { vertexIt, edgeIt };
 		}
 
 		const String& Graph::getID() const

@@ -6,6 +6,7 @@
 #include "..\..\String\String.h"
 #include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
 #include "..\..\Iterator abstraction\Iterator.h"
+#include "..\..\ForwardIterator wrapper\ForwardIteratorWrapper.h"
 #include <memory>
 #include <vector>
 
@@ -95,6 +96,7 @@ namespace IDragnev
 			template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
 			class EdgeIterator
 			{
+				friend class Graph;
 			public:
 				const Edge operator*() const;
 				EdgeIterator& operator++();
@@ -121,13 +123,16 @@ namespace IDragnev
 			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
 			using IncidentEdgesIterator = EdgeList::iterator;
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
+			using VertexConstIterator = 
+				Iterators::ForwardIteratorWrapper<VertexArray::const_iterator, VertexArray::const_iterator>;
+
 			using VertexIteratorPtr = std::unique_ptr<Iterators::Iterator<Vertex>>;
 			using VertexConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<Vertex>>;
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterators::Iterator<IncidentEdge>>;
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<Iterators::ConstIterator<IncidentEdge>>;
 
 		public:
-			using UniqueEdgesIterator = EdgeIterator<VertexArray::const_iterator, EdgeList::const_iterator>;
+			using UniqueEdgesConstIterator = EdgeIterator<VertexConstIterator, IncidentEdgesConstIterator>;
 
 			Graph(const String& ID);
 			Graph(const Graph&) = delete;
@@ -150,7 +155,7 @@ namespace IDragnev
 			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
 			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& v) const;
-			UniqueEdgesIterator getUniqueEdgesIterator() const;
+			UniqueEdgesConstIterator getUniqueEdgesConstIterator() const;
 			const String& getID() const;
 
 		protected:

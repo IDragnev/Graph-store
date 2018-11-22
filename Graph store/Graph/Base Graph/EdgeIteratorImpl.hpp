@@ -40,7 +40,7 @@ namespace IDragnev
 				auto& currentEdge = *edgeIterator;
 				auto& neighbour = currentEdge.getIncidentVertex();
 
-				return currentVertex.index > neighbour.index;
+				return currentVertex.position > neighbour.position;
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace IDragnev
 		inline auto Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator*() const -> const Edge
 		{
 			assert(this->operator bool());
-			return Edge{ *vertexIterator, *edgeIterator };
+			return { *vertexIterator, *edgeIterator };
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
