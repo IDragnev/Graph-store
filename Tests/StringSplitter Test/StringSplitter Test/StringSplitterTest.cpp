@@ -2,26 +2,27 @@
 #include "..\..\..\Graph store\Application\StringSplitter\StringSplitter.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace IDragnev::Containers;
 
 namespace StringSplitterTest
 {		
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		using Splitter = IDragnev::StringSplitter<Containers::DArray>;
-		using Container = Containers::DArray<std::string>;
+		using Splitter = IDragnev::StringSplitter<DArray>;
+		using Container = DArray<std::string>;
 
 	public:	
-		TEST_METHOD(testDefaultSplitterHasOnlyWhiteSpaceDelimiter)
+		TEST_METHOD(defaultSplitterHasOnlyWhiteSpaceDelimiter)
 		{
-			auto s = Splitter{};
+			Splitter s;
 
 			auto result = s.split("one two 'three'");
 
 			Assert::IsTrue(result == Container{ "one", "two", "'three'"});
 		}
 
-		TEST_METHOD(testSplittingTheEmptyStringReturnsEmptyContainer)
+		TEST_METHOD(splittingTheEmptyStringReturnsEmptyContainer)
 		{
 			auto s = Splitter{ ' ', '\'' };
 
@@ -30,7 +31,7 @@ namespace StringSplitterTest
 			Assert::IsTrue(result.isEmpty());
 		}
 
-		TEST_METHOD(testWhiteSpacesAreIgnored)
+		TEST_METHOD(whiteSpacesAreIgnored)
 		{
 			auto s = Splitter{ '\"', '\'' };
 
@@ -39,7 +40,7 @@ namespace StringSplitterTest
 			Assert::IsTrue(result == Container{ "one", "", "-two-", "three", "*four*", "five" });
 		}
 
-		TEST_METHOD(testWhiteSpaceIsAlwaysConsideredAsDelimiter)
+		TEST_METHOD(whiteSpaceIsAlwaysConsideredAsDelimiter)
 		{
 			auto s = Splitter{ '\'' };
 
@@ -48,7 +49,7 @@ namespace StringSplitterTest
 			Assert::IsTrue(result == Container{ "one", "two", "three and a half", "*four*" });
 		}
 
-		TEST_METHOD(testWhiteSpaceIsMatchedByNullTerminatingCharacter)
+		TEST_METHOD(whiteSpaceIsMatchedByNullTerminatingCharacter)
 		{
 			auto s = Splitter{ '\'' };
 
@@ -57,7 +58,7 @@ namespace StringSplitterTest
 			Assert::IsTrue(result == Container{ "one", "two" });
 		}
 
-		TEST_METHOD(testUnmatchedDelimiterThrows)
+		TEST_METHOD(unmatchedDelimiterThrows)
 		{
 			auto s = Splitter{ '\'' };
 
