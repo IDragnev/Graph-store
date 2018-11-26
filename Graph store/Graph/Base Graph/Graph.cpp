@@ -211,8 +211,8 @@ namespace IDragnev
 
 			removeEdgesEndingIn(v);
 			removeEdgeListOf(v);
-			removeFromSearchTable(v);
-			removeFromVertices(v);
+			removeFromSearchTable(v); //TODO: it is removed and then the last is moved in its address!
+			removeFromVertices(v);    // <- here
 		}
 
 		//

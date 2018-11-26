@@ -149,6 +149,7 @@ namespace IDragnev
 
 			Vertex& getVertex(const String& ID);
 			const Vertex& getVertex(const String& ID) const;
+			bool hasVertexWithID(const String& ID) const;
 
 			std::uint32_t getVerticesCount() const;
 			VertexConstIteratorPtr getConstIteratorToVertices() const;
@@ -165,7 +166,6 @@ namespace IDragnev
 			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight);
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
-			bool hasVertexWithID(const String& ID) const;
 			bool isOwnerOf(const Vertex& v) const;
 
 		private:
