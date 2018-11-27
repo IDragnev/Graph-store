@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "..\..\..\Graph store\Graph\Directed Graph\DirectedGraph.h"
+#include "..\..\..\Graph store\Graph\Undirected Graph\UndirectedGraph.h"
 #include "..\..\..\Graph store\General Exceptions\Exception.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -8,7 +9,7 @@ using IDragnev::String;
 
 namespace GraphTest
 {		
-	TEST_CLASS(DirectedGraphTest)
+	TEST_CLASS(GraphTest)
 	{
 	private:
 		using IDList = std::vector<String>;
@@ -80,9 +81,20 @@ namespace GraphTest
 		}
 
 	public:
-		TEST_METHOD(CtorMakesEmptyGraph)
+		TEST_METHOD(DirectedGraphCtorMakesEmptyGraph)
 		{
-			DirectedGraph g{ "G" };
+			testCtorMakesEmptyGraph<DirectedGraph>("G");
+		}
+
+		TEST_METHOD(UndirectedGraphCtorMakesEmptyGraph)
+		{
+			testCtorMakesEmptyGraph<UndirectedGraph>("G");
+		}
+
+		template <typename GraphT>
+		static inline void testCtorMakesEmptyGraph(const String& ID)
+		{
+			GraphT g{ "G" };
 
 			auto vertexItPtr = g.getConstIteratorToVertices();
 			auto uniqueEdgesIt = g.getUniqueEdgesConstIterator();
@@ -90,11 +102,22 @@ namespace GraphTest
 			Assert::IsFalse(*vertexItPtr);
 			Assert::IsFalse(uniqueEdgesIt);
 		}
-		TEST_METHOD(GraphsMustHaveValidStringsAsIDs)
+		TEST_METHOD(DirectedGraphsMustHaveValidStringsAsIDs)
+		{
+			testTheEmptyStringIsNotAcceptedAsID<DirectedGraph>();
+		}
+
+		TEST_METHOD(UndirectedGraphsMustHaveValidStringsAsIDs)
+		{
+			testTheEmptyStringIsNotAcceptedAsID<UndirectedGraph>();
+		}
+
+		template <typename GraphT>
+		inline static void testTheEmptyStringIsNotAcceptedAsID()
 		{
 			try
 			{
-				DirectedGraph{ "" };
+				GraphT{ "" };
 				Assert::Fail(L"Ctor did not throw");
 			}
 			catch (Exception& e)
@@ -118,11 +141,22 @@ namespace GraphTest
 				Assert::IsTrue(message == String{ "A Vertex ID must be a valid string" });
 			}
 		}
-		TEST_METHOD(VerticesInAGraphMustHaveUniqueIDs)
+		TEST_METHOD(VerticesInADirectedGraphMustHaveUniqueIDs)
 		{
-			DirectedGraph g{ "G" };
+			testDuplicateVertexIDsAreNotAccepted<DirectedGraph>();
+		}
+
+		TEST_METHOD(VerticesInAnUndirectedGraphMustHaveUniqueIDs)
+		{
+			testDuplicateVertexIDsAreNotAccepted<UndirectedGraph>();
+		}
+
+		template <typename GraphT>
+		static inline void testDuplicateVertexIDsAreNotAccepted()
+		{
+			GraphT g{ "G" };
 			g.insertVertexWithID("v");
-			
+
 			try
 			{
 				g.insertVertexWithID("v");
@@ -134,18 +168,40 @@ namespace GraphTest
 				Assert::IsTrue(message == String{ "A vertex with such ID already exists" });
 			}
 		}
-		TEST_METHOD(VertexInsertion)
+		TEST_METHOD(DirectedGraphVertexInsertion)
 		{
-			DirectedGraph g{ "Cities" };
+			testVertexInsertion<DirectedGraph>();
+		}
+
+		TEST_METHOD(UndirectedGraphVertexInsertion)
+		{
+			testVertexInsertion<UndirectedGraph>();
+		}
+
+		template <typename GraphT>
+		static inline void testVertexInsertion()
+		{
+			GraphT g{ "Cities" };
 
 			insertVerticesWithIDs(g, { "Sofia", "Varna", "Shumen" });
 
 			Assert::IsTrue(hasVertices(g, { "Sofia", "Shumen", "Varna" }));
 		}
 
-		TEST_METHOD(SimpleVertexRemoval)
+		TEST_METHOD(DirectedGraphSimpleVertexRemoval)
 		{
-			DirectedGraph g{ "Cities" };
+			testSimpleVertexRemoval<DirectedGraph>();
+		}
+		
+		TEST_METHOD(UndirectedGraphSimpleVertexRemoval)
+		{
+			testSimpleVertexRemoval<UndirectedGraph>();
+		}
+
+		template <typename GraphT>
+		static inline void testSimpleVertexRemoval()
+		{
+			GraphT g{ "Cities" };
 
 			insertVerticesWithIDs(g, { "Sofia", "Varna", "Shumen", "Plovdiv" });
 			removeVerticesWithIDs(g, { "Varna", "Plovdiv" });
@@ -154,23 +210,34 @@ namespace GraphTest
 			Assert::IsFalse(hasVertices(g, { "Varna", "Plovdiv" }));
 		}
 
-		TEST_METHOD(VertexRemovalRemovesAllEdgesToIt)
+		TEST_METHOD(RemovingAVertexInADirectedGraphRemovesAllEdgesToIt)
 		{
-			DirectedGraph g{ "Cities" };
-			insertVerticesWithIDs(g, { "Sofia", "Varna", "Shumen"});
+			testVertexRemovalRemovesAllEdgesToIt<DirectedGraph>();
+		}
 	
+		TEST_METHOD(RemovingAVertexInAnUndirectedGraphRemovesAllEdgesToIt)
+		{
+			testVertexRemovalRemovesAllEdgesToIt<UndirectedGraph>();
+		}
+
+		template <typename GraphT>
+		static inline void testVertexRemovalRemovesAllEdgesToIt()
+		{
+			GraphT g{ "Cities" };
+			insertVerticesWithIDs(g, { "Sofia", "Varna" });
+
 			auto& toRemove = g.getVertex("Varna");
 			auto& other = g.getVertex("Sofia");
 			auto distance = 330U;
 
-			g.insertEdge(toRemove, other, distance);
 			g.insertEdge(other, toRemove, distance);
 
 			g.removeVertex(toRemove);
 
 			Assert::IsFalse(hasNeighbour(g, other, "Varna"));
 		}
-		TEST_METHOD(EdgeInsertion)
+
+		TEST_METHOD(DirectedGraphEdgeInsertion)
 		{
 			DirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
@@ -185,7 +252,7 @@ namespace GraphTest
 			Assert::IsFalse(existsEdge(g, end, start, distance), L"The opposite edge is also inserted");
 		}
 
-		TEST_METHOD(SingleEdgeAllowedInASpecificDirection)
+		TEST_METHOD(DirectedGraphsAllowSingleEdgeInASpecificDirection)
 		{
 			DirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
@@ -207,7 +274,7 @@ namespace GraphTest
 			}		
 		}
 
-		TEST_METHOD(EdgesWithOppositeDirectionsAreDifferent)
+		TEST_METHOD(DirectedGraphsDifferentiateBetweenEdgesWithOppositeDirections)
 		{
 			DirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
@@ -227,7 +294,7 @@ namespace GraphTest
 			}
 		}
 
-		TEST_METHOD(EdgeRemoval)
+		TEST_METHOD(DirectedGraphEdgeRemoval)
 		{
 			DirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });

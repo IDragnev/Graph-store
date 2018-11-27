@@ -188,12 +188,15 @@ namespace IDragnev
 		{
 			assert(isOwnerOf(v));
 
-			auto position = v.position;
-			v = std::move(vertices.back());
-			v.position = position;
+			if (v != vertices.back())
+			{
+				auto position = v.position;
+				v = std::move(vertices.back());
+				v.position = position;
+				updatePositionInSearchTable(v);
+			}
 
 			vertices.pop_back();
-			updatePositionInSearchTable(v);
 		}
 
 		void Graph::updatePositionInSearchTable(Vertex& v)
@@ -219,8 +222,8 @@ namespace IDragnev
 
 			removeEdgesEndingIn(v);
 			removeEdgeListOf(v);
-			removeFromSearchTable(v); //TODO: it is removed and then the last is moved in its address!
-			removeFromVertices(v);    // <- here
+			removeFromSearchTable(v); 
+			removeFromVertices(v);   
 		}
 
 		//
