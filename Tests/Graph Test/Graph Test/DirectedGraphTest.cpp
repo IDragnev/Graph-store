@@ -60,6 +60,25 @@ namespace GraphTest
 			return result;
 		}
 
+		static bool hasNeighbour(const Graph& g, const Vertex& v, const String& ID) 
+		{
+			auto result = false;
+			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(v);
+
+			forEach(*iteratorPtr, [&](const IncidentEdge& e)
+			{
+				auto& neighbour = e.getIncidentVertex();
+
+				if (neighbour.ID() == ID)
+				{
+					result = true;
+					return;
+				}
+			});
+
+			return result;
+		}
+
 	public:
 		TEST_METHOD(CtorMakesEmptyGraph)
 		{
@@ -133,6 +152,23 @@ namespace GraphTest
 
 			Assert::IsTrue(hasVertices(g, { "Sofia", "Shumen" }));
 			Assert::IsFalse(hasVertices(g, { "Varna", "Plovdiv" }));
+		}
+
+		TEST_METHOD(VertexRemovalRemovesAllEdgesToIt)
+		{
+			DirectedGraph g{ "Cities" };
+			insertVerticesWithIDs(g, { "Sofia", "Varna", "Shumen"});
+	
+			auto& toRemove = g.getVertex("Varna");
+			auto& other = g.getVertex("Sofia");
+			auto distance = 330U;
+
+			g.insertEdge(toRemove, other, distance);
+			g.insertEdge(other, toRemove, distance);
+
+			g.removeVertex(toRemove);
+
+			Assert::IsFalse(hasNeighbour(g, other, "Varna"));
 		}
 		TEST_METHOD(EdgeInsertion)
 		{
