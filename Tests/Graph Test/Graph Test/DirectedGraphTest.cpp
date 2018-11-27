@@ -185,7 +185,7 @@ namespace GraphTest
 				g.insertEdge(start, end, distance);
 				g.insertEdge(end, start, distance);
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
 				Assert::Fail(L"The edge was not accepted");
 			}

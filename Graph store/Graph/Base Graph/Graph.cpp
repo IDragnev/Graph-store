@@ -163,7 +163,7 @@ namespace IDragnev
 		{
 			using std::begin;
 			return begin(edgeLists);
-		}
+		}  
 
 		void Graph::insertInSearchTable(Vertex& v)
 		{
@@ -191,7 +191,15 @@ namespace IDragnev
 			auto position = v.position;
 			v = std::move(vertices.back());
 			v.position = position;
+
 			vertices.pop_back();
+			updatePositionInSearchTable(v);
+		}
+
+		void Graph::updatePositionInSearchTable(Vertex& v)
+		{
+			removeFromSearchTable(v);
+			insertInSearchTable(v);
 		}
 
 		void Graph::removeFromSearchTable(const Vertex& v)

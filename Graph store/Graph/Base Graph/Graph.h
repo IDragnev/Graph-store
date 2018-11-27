@@ -179,6 +179,7 @@ namespace IDragnev
 			void insertInSearchTable(Vertex& v);
 			void removeFromSearchTable(const Vertex& v);
 			void removeFromVertices(Vertex& v);
+			void updatePositionInSearchTable(Vertex& v);
 			void removeEdgeListOf(Vertex& v);
 
 			EdgeListsCollection::iterator newestEdgeListPosition();
