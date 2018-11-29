@@ -265,13 +265,13 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline typename DArray<T>::size_type DArray<T>::getCount() const noexcept
+		inline typename auto DArray<T>::getCount() const noexcept -> size_type
 		{
 			return count;
 		}
 
 		template <typename T>
-		inline typename DArray<T>::size_type DArray<T>::getSize() const noexcept
+		inline typename auto DArray<T>::getSize() const noexcept -> size_type
 		{
 			return size;
 		}
