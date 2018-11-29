@@ -4,7 +4,7 @@ namespace IDragnev
 	namespace Containers
 	{
 		template <typename T>
-		DArray<T>::DArray() :
+		DArray<T>::DArray() noexcept :
 			size{ 0 },
 			count{ 0 },
 			items{ nullptr }
@@ -56,7 +56,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>::DArray(DArray<T>&& source) :
+		DArray<T>::DArray(DArray<T>&& source) noexcept :
 			count{ source.count },
 			size{ source.size },
 			items{ source.items }
@@ -65,7 +65,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::nullifyMembers()
+		inline void DArray<T>::nullifyMembers() noexcept
 		{
 			size = count = 0;
 			items = nullptr;
@@ -83,7 +83,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>& DArray<T>::operator=(DArray<T>&& rhs)
+		DArray<T>& DArray<T>::operator=(DArray<T>&& rhs) noexcept
 		{
 			if (this != &rhs)
 			{
@@ -94,7 +94,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary)
+		inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary) noexcept
 		{
 			std::swap(size, temporary.size);
 			std::swap(count, temporary.count);
@@ -108,7 +108,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::destroyItems()
+		inline void DArray<T>::destroyItems() noexcept
 		{
 			delete[] items;
 		}
@@ -259,68 +259,68 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline bool DArray<T>::isEmpty() const
+		inline bool DArray<T>::isEmpty() const noexcept
 		{
 			return count == 0;
 		}
 
 		template <typename T>
-		inline typename DArray<T>::size_type DArray<T>::getCount() const
+		inline typename DArray<T>::size_type DArray<T>::getCount() const noexcept
 		{
 			return count;
 		}
 
 		template <typename T>
-		inline typename DArray<T>::size_type DArray<T>::getSize() const
+		inline typename DArray<T>::size_type DArray<T>::getSize() const noexcept
 		{
 			return size;
 		}
 
 		template <typename T>
-		inline auto DArray<T>::begin() -> iterator
+		inline auto DArray<T>::begin() noexcept -> iterator
 		{
 			return iterator{ 0, this };
 		}
 
 		template <typename T>
-		inline auto DArray<T>::end() -> iterator
+		inline auto DArray<T>::end() noexcept -> iterator
 		{
 			return iterator{ count, this };
 		}
 
 		template <typename T>
-		inline auto DArray<T>::begin() const -> const_iterator
+		inline auto DArray<T>::begin() const noexcept -> const_iterator
 		{
 			return cbegin();
 		}
 
 		template <typename T>
-		inline auto DArray<T>::end() const -> const_iterator
+		inline auto DArray<T>::end() const noexcept -> const_iterator
 		{
 			return cend();
 		}
 
 		template <typename T>
-		inline auto DArray<T>::cbegin() const -> const_iterator
+		inline auto DArray<T>::cbegin() const noexcept -> const_iterator
 		{
 			return const_iterator{ 0, this };
 		}
 
 		template <typename T>
-		inline auto DArray<T>::cend() const -> const_iterator
+		inline auto DArray<T>::cend() const noexcept -> const_iterator
 		{
 			return const_iterator{ count, this };
 		}
 
 		template <typename T>
-		inline bool operator==(const DArray<T>& lhs, const DArray<T>& rhs)
+		inline bool operator==(const DArray<T>& lhs, const DArray<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()))
 		{
 			return std::equal(lhs.cbegin(), lhs.cend(),
 							  rhs.cbegin(), rhs.cend());
 		}
 
 		template <typename T>
-		inline bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs)
+		inline bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs) noexcept(noexcept(lhs == rhs))
 		{
 			return !(lhs == rhs);
 		}

@@ -66,16 +66,16 @@ namespace IDragnev
 			using iterator = DArrayIterator<T, false>;
 			using const_iterator = DArrayIterator<T, true>;
 
-			DArray();
+			DArray() noexcept;
 			template <typename InputIt, typename = EnableIfItemIterator<InputIt>>
 			DArray(InputIt first, InputIt last);
 			DArray(std::initializer_list<T> source);
 			explicit DArray(size_type size, size_type count = 0);
-			DArray(DArray<T>&& source);
+			DArray(DArray<T>&& source) noexcept;
 			DArray(const DArray<T>& source);
 			~DArray();
 
-			DArray<T>& operator=(DArray<T>&& rhs);
+			DArray<T>& operator=(DArray<T>&& rhs) noexcept;
 			DArray<T>& operator=(const DArray<T>& rhs);
 
 		public:
@@ -88,33 +88,33 @@ namespace IDragnev
 			T& operator[](size_type position);
 			const T& operator[](size_type position) const;
 
-			bool isEmpty() const;
+			bool isEmpty() const noexcept;
 			void empty();
 			void shrink(size_type size);
 			void ensureSize(size_type size);
 
-			iterator begin();
-			iterator end();
-			const_iterator begin() const;
-			const_iterator end() const;
-			const_iterator cbegin() const;
-			const_iterator cend() const;
+			iterator begin() noexcept;
+			iterator end() noexcept;
+			const_iterator begin() const noexcept;
+			const_iterator end() const noexcept;
+			const_iterator cbegin() const noexcept;
+			const_iterator cend() const noexcept;
 
-			size_type getSize() const;
-			size_type getCount() const;
+			size_type getSize() const noexcept;
+			size_type getCount() const noexcept;
 
 		private:
 			void enlargeIfFull();
 			void resize(size_type newSize);
-			void swapContentsWithReconstructedParameter(DArray<T> temp);
+			void swapContentsWithReconstructedParameter(DArray<T> temp) noexcept;
 
 			bool hasItemAt(size_type position) const;
 			void shiftItemsOnePositionLeft(size_type start, size_type end);
 			void shiftItemsOnePositionRight(size_type start, size_type end);
 
 			void setCount(size_type count);
-			void destroyItems();
-			void nullifyMembers();
+			void destroyItems() noexcept;
+			void nullifyMembers() noexcept;
 
 		private:
 			static const size_type GROWTH_FACTOR = 2;
@@ -131,9 +131,9 @@ namespace IDragnev
 						typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept;
 
 		template <typename T>
-		bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);
+		bool operator==(const DArray<T>& lhs, const DArray<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()));
 		template <typename T>
-		bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs);
+		bool operator!=(const DArray<T>& lhs, const DArray<T>& rhs) noexcept(noexcept(lhs == rhs));
 	}
 }
 
