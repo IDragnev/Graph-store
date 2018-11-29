@@ -39,7 +39,7 @@ namespace IDragnev
 				using pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 			public:
-				DArrayIterator(const DArrayIterator<Item, false>& source);
+				DArrayIterator(const DArrayIterator<Item, false>& source) noexcept;
 
 				pointer operator->() const;
 				reference operator*() const;
@@ -47,15 +47,15 @@ namespace IDragnev
 				DArrayIterator<Item, isConst>& operator++();
 				DArrayIterator<Item, isConst> operator++(int);
 
-				operator bool() const;
-				bool operator!() const;
+				operator bool() const noexcept;
+				bool operator!() const noexcept;
 
 				template <typename Item, bool isConst>
 				friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-									   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+									   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept;
 
 			private:
-				DArrayIterator(size_type startPosition, OwnerPtr owner);
+				DArrayIterator(size_type startPosition, OwnerPtr owner) noexcept;
 
 			private:
 				OwnerPtr owner;
@@ -128,7 +128,7 @@ namespace IDragnev
 
 		template <typename Item, bool isConst>
 		bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-						typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs);
+						typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept;
 
 		template <typename T>
 		bool operator==(const DArray<T>& lhs, const DArray<T>& rhs);

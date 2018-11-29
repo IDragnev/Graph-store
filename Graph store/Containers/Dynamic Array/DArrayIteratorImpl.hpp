@@ -5,7 +5,7 @@ namespace IDragnev
 	{
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(size_type startPosition, OwnerPtr owner) :
+		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(size_type startPosition, OwnerPtr owner) noexcept :
 			current{ startPosition },
 			owner{ owner }
 		{
@@ -14,7 +14,7 @@ namespace IDragnev
 
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIterator<Item, false>& source) :
+		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIterator<Item, false>& source) noexcept :
 			DArrayIterator<Item, isConst>{ source.current, source.owner }
 		{
 		}
@@ -59,7 +59,7 @@ namespace IDragnev
 
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline DArray<T>::DArrayIterator<Item, isConst>::operator bool() const
+		inline DArray<T>::DArrayIterator<Item, isConst>::operator bool() const noexcept
 		{
 			return current < owner->getCount();
 		}
@@ -67,7 +67,7 @@ namespace IDragnev
 
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const
+		inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const noexcept
 		{
 			return !(this->operator bool());
 		}
@@ -75,7 +75,7 @@ namespace IDragnev
 
 		template <typename Item, bool isConst>
 		inline bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept
 		{
 			return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 		}
@@ -83,7 +83,7 @@ namespace IDragnev
 
 		template <typename Item, bool isConst>
 		inline bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs)
+							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
