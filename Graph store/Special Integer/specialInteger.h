@@ -13,31 +13,31 @@ namespace IDragnev
 		static_assert(std::numeric_limits<Integer>::is_integer,
 					  "SpecialInteger<T> requires T to be an integer type");
 		template <typename T>
-		using EnableIfFloatingPoint = std::enable_if_t<std::is_floating_point<T>::value>;
+		using EnableIfFloatingPoint = std::enable_if_t<std::is_floating_point_v<T>>;
 
 	public:
-		SpecialInteger();
-		SpecialInteger(Integer value);
+		SpecialInteger() noexcept;
+		SpecialInteger(Integer value) noexcept;
 		SpecialInteger(const SpecialInteger& source) = default;
 		template <typename T, typename = EnableIfFloatingPoint<T>>
 		SpecialInteger(T) = delete;
 
 		template <typename T, typename = EnableIfFloatingPoint<T>>
 		SpecialInteger<Integer>& operator=(T) = delete;
-		SpecialInteger<Integer>& operator=(Integer newValue);
+		SpecialInteger<Integer>& operator=(Integer value) noexcept;
 		SpecialInteger<Integer>& operator=(const SpecialInteger& rhs) = default;
 
-		static const SpecialInteger& Infinity();
+		static const SpecialInteger& Infinity() noexcept;
 
-		SpecialInteger& operator+=(const SpecialInteger& rhs);
+		SpecialInteger& operator+=(const SpecialInteger& rhs) noexcept;
 
-		bool isEqualToInfinity() const;
+		bool isEqualToInfinity() const noexcept;
 		void print(std::ostream& os = std::cout) const;
 
 		template <typename Integer>
-		friend bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+		friend bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 		template <typename Integer>
-		friend bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+		friend bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 
 	private:
 		Integer value;
@@ -45,16 +45,16 @@ namespace IDragnev
 	};
 
 	template <typename Integer>
-	bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+	bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 	template <typename Integer>
-	bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+	bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 	template <typename Integer>
-	bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+	bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 	template <typename Integer>
-	bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+	bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 
 	template <typename Integer>
-	const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs);
+	const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept;
 
 	template <typename Integer>
 	std::ostream& operator<<(std::ostream& os, const SpecialInteger<Integer>& integer);

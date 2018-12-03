@@ -2,14 +2,14 @@
 namespace IDragnev
 {
 	template <typename Integer>
-	inline SpecialInteger<Integer>::SpecialInteger() :
+	inline SpecialInteger<Integer>::SpecialInteger() noexcept :
 		value{ 0 },
 		isInfinity{ true }
 	{
 	}
 
 	template <typename Integer>
-	inline SpecialInteger<Integer>::SpecialInteger(Integer value) :
+	inline SpecialInteger<Integer>::SpecialInteger(Integer value) noexcept :
 		value{ value },
 		isInfinity{ false }
 	{
@@ -21,7 +21,7 @@ namespace IDragnev
 	//(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
 	//
 	template <typename Integer>
-	inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue)
+	inline SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue) noexcept
 	{
 		value = newValue;
 		isInfinity = false;
@@ -30,7 +30,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline const SpecialInteger<Integer> operator+(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		auto temp = lhs;
 		temp += rhs;
@@ -39,7 +39,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialInteger& rhs)
+	SpecialInteger<Integer>& SpecialInteger<Integer>::operator+=(const SpecialInteger& rhs) noexcept
 	{
 		if (!isInfinity)
 		{
@@ -57,7 +57,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	inline const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity()
+	inline const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity() noexcept
 	{
 		static const SpecialInteger infinity;
 
@@ -65,7 +65,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	bool operator<(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		if (!lhs.isInfinity && !rhs.isInfinity)
 		{
@@ -82,31 +82,31 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	inline bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline bool operator>(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		return rhs < lhs;
 	}
 
 	template <typename Integer>
-	inline bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline bool operator>=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		return !(lhs < rhs);
 	}
 
 	template <typename Integer>
-	inline bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline bool operator<=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		return !(lhs > rhs);
 	}
 
 	template <typename Integer>
-	inline bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline bool operator==(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		return !(lhs.isInfinity || rhs.isInfinity) && (lhs.value == rhs.value);
 	}
 
 	template <typename Integer>
-	inline bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs)
+	inline bool operator!=(const SpecialInteger<Integer>& lhs, const SpecialInteger<Integer>& rhs) noexcept
 	{
 		return !(lhs == rhs);
 	}
@@ -132,7 +132,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	inline bool SpecialInteger<Integer>::isEqualToInfinity() const
+	inline bool SpecialInteger<Integer>::isEqualToInfinity() const noexcept
 	{
 		return isInfinity;
 	}
