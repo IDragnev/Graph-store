@@ -10,15 +10,15 @@ namespace IDragnev
 		String(char symbol);
 		String(const char* string);
 		String(const String& source);
-		String(String&& source);
+		String(String&& source) noexcept;
 		~String();
 
-		String& operator=(String&& rhs);
+		String& operator=(String&& rhs) noexcept;
 		String& operator=(const String& rhs);
 
-		operator const char*() const;
+		operator const char*() const noexcept;
 
-		size_t getLength() const;
+		size_t getLength() const noexcept;
 
 		void append(const char* string);
 		void append(char symbol);
@@ -27,7 +27,7 @@ namespace IDragnev
 		String& operator+=(char rhs);
 
 	private:
-		const char* getContent() const;
+		const char* getContent() const noexcept;
 		void setContent(const char* string);
 
 		static char* clone(const char* string);
@@ -40,12 +40,12 @@ namespace IDragnev
 	String operator+(char lhs, const String& rhs);
 	String operator+(const String& lhs, const String& rhs);
 
-	bool operator==(const String& lhs, const String& rhs);
-	bool operator!=(const String& lhs, const String& rhs);
-	bool operator<(const String& lhs, const String& rhs);
-	bool operator<=(const String& lhs, const String& rhs);
-	bool operator>(const String& lhs, const String& rhs);
-	bool operator>=(const String& lhs, const String& rhs);
+	bool operator==(const String& lhs, const String& rhs) noexcept;
+	bool operator!=(const String& lhs, const String& rhs) noexcept;
+	bool operator<(const String& lhs, const String& rhs) noexcept;
+	bool operator<=(const String& lhs, const String& rhs) noexcept;
+	bool operator>(const String& lhs, const String& rhs) noexcept;
+	bool operator>=(const String& lhs, const String& rhs) noexcept;
 }
 
 #endif // __STRING_H_INCLUDED__

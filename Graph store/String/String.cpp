@@ -55,13 +55,13 @@ namespace IDragnev
 		return result;
 	}
 
-	String::String(String&& source) :
+	String::String(String&& source) noexcept :
 		content{ source.content }
 	{
 		source.content = nullptr;
 	}
 
-	String& String::operator=(String&& rhs)
+	String& String::operator=(String&& rhs) noexcept
 	{
 		if (this != &rhs)
 		{
@@ -118,47 +118,47 @@ namespace IDragnev
 		append(buffer);
 	}
 
-	const char* String::getContent() const
+	const char* String::getContent() const noexcept
 	{
 		return (content) ? content : "";
 	}
 
-	String::operator const char *() const
+	String::operator const char *() const noexcept
 	{
 		return getContent();
 	}
 
-	size_t String::getLength() const
+	size_t String::getLength() const noexcept
 	{
 		return strlen(getContent());
 	}
 
-	bool operator==(const String& lhs, const String& rhs)
+	bool operator==(const String& lhs, const String& rhs) noexcept
 	{
 		return strcmp(lhs, rhs) == 0;
 	}
 
-	bool operator!=(const String& lhs, const String& rhs)
+	bool operator!=(const String& lhs, const String& rhs) noexcept
 	{
 		return !(lhs == rhs);
 	}
 
-	bool operator<(const String& lhs, const String& rhs)
+	bool operator<(const String& lhs, const String& rhs) noexcept
 	{
 		return strcmp(lhs, rhs) < 0;
 	}
 
-	bool operator>(const String& lhs, const String& rhs)
+	bool operator>(const String& lhs, const String& rhs) noexcept
 	{
 		return rhs < lhs;
 	}
 
-	bool operator<=(const String& lhs, const String& rhs)
+	bool operator<=(const String& lhs, const String& rhs) noexcept
 	{
 		return !(lhs > rhs);
 	}
 
-	bool operator>=(const String& lhs, const String& rhs)
+	bool operator>=(const String& lhs, const String& rhs) noexcept
 	{
 		return !(lhs < rhs);
 	}
