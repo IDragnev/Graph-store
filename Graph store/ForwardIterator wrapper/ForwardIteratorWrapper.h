@@ -20,13 +20,14 @@ namespace IDragnev
 			using BaseIteratorPtr = std::unique_ptr<BaseIterator>;
 
 		public:
-			ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end = {});
+			ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end = {}) noexcept(std::is_nothrow_copy_constructible_v<ForwardIterator> &&
+																								std::is_nothrow_copy_constructible_v<EndType>);
 
 			reference operator*() const override;
 			pointer operator->() const override;
 			ForwardIteratorWrapper& operator++() override;
-			operator bool() const override;
-			bool operator!() const override;
+			operator bool() const noexcept override;
+			bool operator!() const noexcept override;
 			BaseIteratorPtr clone() const override;
 
 			ForwardIteratorWrapper operator++(int);

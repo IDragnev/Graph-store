@@ -4,7 +4,9 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		template <typename ForwardIterator, typename EndType>
-		ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end) :
+		ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end)  
+			noexcept(std::is_nothrow_copy_constructible_v<ForwardIterator> &&
+					 std::is_nothrow_copy_constructible_v<EndType>) :
 			iterator{ it },
 			end{ end }
 		{
@@ -39,13 +41,13 @@ namespace IDragnev
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		ForwardIteratorWrapper<ForwardIterator, EndType>::operator bool() const
+		ForwardIteratorWrapper<ForwardIterator, EndType>::operator bool() const noexcept
 		{
 			return iterator != end;
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		bool ForwardIteratorWrapper<ForwardIterator, EndType>::operator!() const
+		bool ForwardIteratorWrapper<ForwardIterator, EndType>::operator!() const noexcept
 		{
 			return !(this->operator bool());
 		}
