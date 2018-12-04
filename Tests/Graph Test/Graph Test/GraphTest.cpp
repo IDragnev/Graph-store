@@ -46,38 +46,18 @@ namespace GraphTest
 
 		static bool existsEdge(const Graph& g, const Vertex& start, const Vertex& end, Weight weight)
 		{
-			auto result = false;
 			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(start);
-			
-			forEach(*iteratorPtr, [&](const IncidentEdge& e)
-			{
-				if (e.getIncidentVertex() == end && e.getWeight() == weight)
-				{
-					result = true;
-					return;
-				}
-			});
-
-			return result;
+			auto predicate = [&](const IncidentEdge& e) { return e.getIncidentVertex() == end && e.getWeight() == weight; };
+	
+			return holdsForAny(*iteratorPtr, predicate);
 		}
 
 		static bool hasNeighbour(const Graph& g, const Vertex& v, const String& ID) 
 		{
-			auto result = false;
 			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(v);
-
-			forEach(*iteratorPtr, [&](const IncidentEdge& e)
-			{
-				auto& neighbour = e.getIncidentVertex();
-
-				if (neighbour.ID() == ID)
-				{
-					result = true;
-					return;
-				}
-			});
-
-			return result;
+			auto predicate = [&](const IncidentEdge& e) { return e.getIncidentVertex().ID() == ID; };
+			
+			return holdsForAny(*iteratorPtr, predicate);
 		}
 
 	public:

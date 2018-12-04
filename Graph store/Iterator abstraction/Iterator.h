@@ -12,18 +12,19 @@ namespace IDragnev
 		class IteratorBase
 		{
 		private:
-			using reference = std::conditional_t<isConst, const T&, T&>;
-			using pointer = std::conditional_t<isConst, const T*, T*>;
 			using IteratorPtr = std::unique_ptr<IteratorBase<T, isConst>>;
 
 		public:
+			using reference = std::conditional_t<isConst, const T&, T&>;
+			using pointer = std::conditional_t<isConst, const T*, T*>;
+
 			virtual ~IteratorBase() = default;
 
 			virtual reference operator*() const = 0;
 			virtual pointer operator->() const = 0;
 			virtual IteratorBase& operator++() = 0;
-			virtual operator bool() const = 0;
-			virtual bool operator!() const = 0;
+			virtual operator bool() const noexcept = 0;
+			virtual bool operator!() const noexcept = 0;
 			virtual IteratorPtr clone() const = 0;
 		};
 
@@ -40,6 +41,29 @@ namespace IDragnev
 				f(*it);
 				++it;
 			}
+		}
+
+		template <typename Iterator, typename Predicate>
+		bool holdsForAny(Iterator& it, Predicate p)
+		{
+			while (it)
+			{
+				if (p(*it))
+				{
+					return true;
+				}
+
+				++it;
+			}
+
+			return false;
+		}
+
+		template <typename Iterator, typename Predicate>
+		bool holdsForAll(Iterator& it, Predicate p)
+		{
+			using reference = typename Iterator::reference;
+			return !holdsForAny(it, [&](reference item) { return !p(item); });
 		}
 	}
 }
