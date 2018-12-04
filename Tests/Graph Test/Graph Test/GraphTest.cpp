@@ -229,7 +229,6 @@ namespace GraphTest
 			auto& toRemove = g.getVertex("Varna");
 			auto& other = g.getVertex("Sofia");
 			auto distance = 330U;
-
 			g.insertEdge(other, toRemove, distance);
 
 			g.removeVertex(toRemove);
@@ -249,22 +248,37 @@ namespace GraphTest
 			g.insertEdge(start, end, distance);
 
 			Assert::IsTrue(existsEdge(g, start, end, distance), L"The correct edge is not inserted");
-			Assert::IsFalse(existsEdge(g, end, start, distance), L"The opposite edge is also inserted");
+			Assert::IsFalse(existsEdge(g, end, start, distance), L"The opposite edge is inserted");
+		}
+
+		TEST_METHOD(UndirectedGraphEdgeInsertion)
+		{
+			UndirectedGraph g{ "Debts" };
+			insertVerticesWithIDs(g, { "Ivan", "Peter" });
+
+			auto& start = g.getVertex("Ivan");
+			auto& end = g.getVertex("Peter");
+			auto debt = 330U;
+
+			g.insertEdge(start, end, debt);
+
+			Assert::IsTrue(existsEdge(g, start, end, debt), L"The edge is not inserted");
+			Assert::IsTrue(existsEdge(g, end, start, debt), L"The edge does not exist in the reverse direction");
 		}
 
 		TEST_METHOD(DirectedGraphsAllowSingleEdgeInASpecificDirection)
 		{
-			DirectedGraph g{ "Cities" };
-			insertVerticesWithIDs(g, { "Sofia", "Varna" });
+			DirectedGraph g{ "Debts" };
+			insertVerticesWithIDs(g, { "Ivan", "Stoyan" });
 
-			auto& start = g.getVertex("Sofia");
-			auto& end = g.getVertex("Varna");
-			auto distance = 330U;
+			auto& start = g.getVertex("Ivan");
+			auto& end = g.getVertex("Stoyan");
+			auto debt = 330U;
 
 			try
 			{
-				g.insertEdge(start, end, distance);
-				g.insertEdge(start, end, distance + 1);
+				g.insertEdge(start, end, debt);
+				g.insertEdge(start, end, debt + 1);
 				Assert::Fail(L"The duplicate edge was accepted");
 			}
 			catch (Exception& e)
@@ -274,9 +288,9 @@ namespace GraphTest
 			}		
 		}
 
-		TEST_METHOD(DirectedGraphsDifferentiateBetweenEdgesWithOppositeDirections)
+		TEST_METHOD(UndirectedGraphsAllowSingleEdgeBetweenAnyPairOfVertices)
 		{
-			DirectedGraph g{ "Cities" };
+			UndirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
 
 			auto& start = g.getVertex("Sofia");
@@ -286,7 +300,29 @@ namespace GraphTest
 			try
 			{
 				g.insertEdge(start, end, distance);
-				g.insertEdge(end, start, distance);
+				g.insertEdge(end, start, distance + 1);
+				Assert::Fail(L"The duplicate edge was accepted");
+			}
+			catch (Exception& e)
+			{
+				auto message = String{ e.what() };
+				Assert::IsTrue(message == String{ "Such edge already exists" });
+			}
+		}
+
+		TEST_METHOD(DirectedGraphsDifferentiateBetweenEdgesWithOppositeDirections)
+		{
+			DirectedGraph g{ "Debts" };
+			insertVerticesWithIDs(g, { "Kiril", "Ivaylo" });
+
+			auto& start = g.getVertex("Kiril");
+			auto& end = g.getVertex("Ivaylo");
+			auto debt = 5000U;
+
+			try
+			{
+				g.insertEdge(start, end, debt);
+				g.insertEdge(end, start, debt + 100U);
 			}
 			catch (Exception&)
 			{
@@ -296,19 +332,35 @@ namespace GraphTest
 
 		TEST_METHOD(DirectedGraphEdgeRemoval)
 		{
-			DirectedGraph g{ "Cities" };
+			DirectedGraph g{ "Debts" };
+			insertVerticesWithIDs(g, { "Philip", "George" });
+
+			auto& start = g.getVertex("Philip");
+			auto& end = g.getVertex("George");
+			auto debt = 100U;
+			g.insertEdge(start, end, debt);
+			g.insertEdge(end, start, debt);
+
+			g.removeEdge(start, end);
+
+			Assert::IsFalse(existsEdge(g, start, end, debt), L"The edge is not removed");
+			Assert::IsTrue(existsEdge(g, end, start, debt), L"The opposite edge is also removed");
+		}
+
+		TEST_METHOD(UndirectedGraphEdgeRemoval)
+		{
+			UndirectedGraph g{ "Cities" };
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
 
 			auto& start = g.getVertex("Sofia");
 			auto& end = g.getVertex("Varna");
 			auto distance = 330U;
 			g.insertEdge(start, end, distance);
-			g.insertEdge(end, start, distance);
 
-			g.removeEdge(start, end);
+			g.removeEdge(end, start);
 
-			Assert::IsTrue(existsEdge(g, end, start, distance));
-			Assert::IsFalse(existsEdge(g, start, end, distance));
+			Assert::IsFalse(existsEdge(g, end, start, distance), L"The edge is not removed");
+			Assert::IsFalse(existsEdge(g, start, end, distance), L"There is still an edge in the reverse direction");
 		}
 	};
 }
