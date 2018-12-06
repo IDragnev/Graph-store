@@ -105,12 +105,6 @@ namespace IDragnev
 
 			void swapContentsWithReconstructedParameter(PriorityQueue temporary);
 
-			auto positionOfLastNonLeaf() const
-			{
-				auto asSigned = [](auto x) { return std::make_signed_t<decltype(x)>(x); };
-				return asSigned(elements.size() / 2 - 1U);
-			}
-
 		private:
 			Elements elements;
 			mutable CompareFunction compareFunction;

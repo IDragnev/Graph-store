@@ -1,4 +1,5 @@
 #include <assert.h>
+#include "..\..\UtilityFunctions.h"
 
 namespace IDragnev
 {
@@ -81,7 +82,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 		{
-			auto index = positionOfLastNonLeaf();
+			auto index = asSigned(elements.size() / 2 - 1U);
 
 			while (index >= 0)
 			{
