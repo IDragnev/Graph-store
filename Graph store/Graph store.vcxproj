@@ -235,6 +235,7 @@
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Traits\SelectBaseIterator.h" />
     <ClInclude Include="Traits\Traits.h" />
+    <ClInclude Include="UtilityFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

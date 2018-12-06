@@ -161,6 +161,9 @@
     <Filter Include="Traits">
       <UniqueIdentifier>{55552bf0-7bbb-4c7e-b438-9b83f658275b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility Functions">
+      <UniqueIdentifier>{3b66b410-1266-4bc7-bcc3-6b66447515bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -431,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="Graph\Base Graph\EdgeIteratorImpl.hpp">
       <Filter>Graph\Base Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="UtilityFunctions.h">
+      <Filter>Utility Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

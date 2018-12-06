@@ -13,7 +13,7 @@ namespace IDragnev
 		class SinglyLinkedList
 		{
 		private:
-			static_assert(std::is_copy_constructible<T>::value,
+			static_assert(std::is_copy_constructible_v<T>,
 						  "SinglyLinkedList<T> requires T to be copy constructible");
 
 			template <typename Item>
@@ -42,23 +42,23 @@ namespace IDragnev
 				using pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 			public:
-				SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source);
+				SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source) noexcept;
 
 				pointer operator->() const;
 				reference operator*() const;
 
-				SinglyLinkedListIterator<Item, isConst>& operator++();
-				SinglyLinkedListIterator<Item, isConst> operator++(int);
+				SinglyLinkedListIterator<Item, isConst>& operator++() noexcept;
+				SinglyLinkedListIterator<Item, isConst> operator++(int) noexcept;
 
-				operator bool() const;
-				bool operator!() const;
+				operator bool() const noexcept;
+				bool operator!() const noexcept;
 
 				template <typename Item, bool isConst>
 				friend bool operator==(typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& lhs,
-									   typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& rhs);
+									   typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& rhs) noexcept;
 
 			private:
-				SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner);
+				SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner) noexcept;
 
 			private:
 				NodePtr current;
@@ -144,7 +144,7 @@ namespace IDragnev
 
 		template <typename T, bool isConst>
 		bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
-						typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs);
+						typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs) noexcept;
 	}
 }
 
