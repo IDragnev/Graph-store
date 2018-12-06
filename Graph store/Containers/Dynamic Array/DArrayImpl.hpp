@@ -1,3 +1,4 @@
+#include "..\..\UtilityFunctions.h"
 
 namespace IDragnev
 {
@@ -143,7 +144,7 @@ namespace IDragnev
 
 			for (auto i = size_type{ 0 }; i < newCount; ++i)
 			{
-				temporary.items[i] = items[i];
+				temporary.items[i] = moveIfNothrowMoveAssignable(items[i]);
 			}
 
 			swapContentsWithReconstructedParameter(std::move(temporary));
