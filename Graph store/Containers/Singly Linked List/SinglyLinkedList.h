@@ -69,15 +69,15 @@ namespace IDragnev
 			using iterator = SinglyLinkedListIterator<T, false>;
 			using const_iterator = SinglyLinkedListIterator<T, true>;
 
-			SinglyLinkedList();
+			SinglyLinkedList() noexcept;
 			template <typename InputIt>
 			SinglyLinkedList(InputIt first, InputIt last);
 			SinglyLinkedList(std::initializer_list<T> source);
-			SinglyLinkedList(SinglyLinkedList<T>&& source);
+			SinglyLinkedList(SinglyLinkedList<T>&& source) noexcept;
 			SinglyLinkedList(const SinglyLinkedList<T>& source);
 			~SinglyLinkedList();
 
-			SinglyLinkedList<T>& operator=(SinglyLinkedList<T>&& rhs);
+			SinglyLinkedList<T>& operator=(SinglyLinkedList<T>&& rhs) noexcept;
 			SinglyLinkedList<T>& operator=(const SinglyLinkedList<T>& rhs);
 
 		public:
@@ -93,19 +93,19 @@ namespace IDragnev
 			void removeBefore(iterator& position);
 			void removeAfter(iterator& position);
 
-			void appendList(SinglyLinkedList<T>&& other);
+			void appendList(SinglyLinkedList<T>&& other) noexcept;
 			void appendList(const SinglyLinkedList<T>& other);
 
-			void empty();
-			bool isEmpty() const;
-			std::size_t getCount() const;
+			void empty() noexcept;
+			bool isEmpty() const noexcept;
+			std::size_t getCount() const noexcept;
 
-			iterator begin();
-			iterator end();
-			const_iterator begin() const;
-			const_iterator end() const;
-			const_iterator cbegin() const;
-			const_iterator cend() const;
+			iterator begin() noexcept;
+			iterator end() noexcept;
+			const_iterator begin() const noexcept;
+			const_iterator end() const noexcept;
+			const_iterator cbegin() const noexcept;
+			const_iterator cend() const noexcept;
 
 			void setHead(const T& item);
 			void setTail(const T& item);
@@ -113,7 +113,7 @@ namespace IDragnev
 			const T& getTail() const;
 
 		private:
-			void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other);
+			void swapContentsWithReconstructedParameter(SinglyLinkedList<T> other) noexcept;
 			void appendContentOf(SinglyLinkedList<T>&& source);
 
 			template <typename InputIt>
@@ -121,15 +121,15 @@ namespace IDragnev
 			template <typename InputIt>
 			void buildChain(InputIt first, InputIt last);
 
-			void clearCurrentChain();
-			void nullifyMembers();
+			void clearCurrentChain() noexcept;
+			void nullifyMembers() noexcept;
 
 			void removeAt(Node<T>* node);
 			void insertAfter(Node<T>* node, const T& item);
 			void insertBefore(Node<T>* node, const T& item);
 			Node<T>* findNodeBefore(const Node<T>* node) const;
 
-			bool validateOwnershipOf(const iterator& it) const;
+			bool validateOwnershipOf(const iterator& it) const noexcept;
 
 		private:
 			std::size_t count;
@@ -138,9 +138,9 @@ namespace IDragnev
 		};
 
 		template <typename T>
-		bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
+		bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()));
 		template <typename T>
-		bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs);
+		bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(lhs == rhs));
 
 		template <typename T, bool isConst>
 		bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,

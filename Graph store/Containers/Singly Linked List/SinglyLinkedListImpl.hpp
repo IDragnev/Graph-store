@@ -20,7 +20,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		SinglyLinkedList<T>::SinglyLinkedList() :
+		SinglyLinkedList<T>::SinglyLinkedList() noexcept :
 			count{ 0 },
 			head{ nullptr },
 			tail{ nullptr }
@@ -85,14 +85,14 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void SinglyLinkedList<T>::empty()
+		void SinglyLinkedList<T>::empty() noexcept
 		{
 			clearCurrentChain();
 			nullifyMembers();
 		}
 
 		template <typename T>
-		void SinglyLinkedList<T>::clearCurrentChain()
+		void SinglyLinkedList<T>::clearCurrentChain() noexcept
 		{
 			while (head)
 			{
@@ -103,14 +103,14 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void SinglyLinkedList<T>::nullifyMembers()
+		inline void SinglyLinkedList<T>::nullifyMembers() noexcept
 		{
 			count = 0;
 			head = tail = nullptr;
 		}
 
 		template <typename T>
-		SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) :
+		SinglyLinkedList<T>::SinglyLinkedList(SinglyLinkedList<T>&& source) noexcept :
 			head{ source.head },
 			tail{ source.tail },
 			count{ source.count }
@@ -130,7 +130,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs)
+		SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(SinglyLinkedList<T>&& rhs) noexcept
 		{
 			if (this != &rhs)
 			{
@@ -141,7 +141,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLinkedList<T> temp)
+		inline void SinglyLinkedList<T>::swapContentsWithReconstructedParameter(SinglyLinkedList<T> temp) noexcept
 		{
 			std::swap(head, temp.head);
 			std::swap(tail, temp.tail);
@@ -161,7 +161,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source)
+		void SinglyLinkedList<T>::appendList(SinglyLinkedList<T>&& source) noexcept
 		{
 			if (!source.isEmpty())
 			{
@@ -171,7 +171,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline bool SinglyLinkedList<T>::isEmpty() const
+		inline bool SinglyLinkedList<T>::isEmpty() const noexcept
 		{
 			return count == 0;
 		}
@@ -299,6 +299,7 @@ namespace IDragnev
 		template <typename T>
 		inline void SinglyLinkedList<T>::removeTail()
 		{
+			assert(!isEmpty());
 			removeAt(tail);
 		}
 
@@ -366,7 +367,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline bool SinglyLinkedList<T>::validateOwnershipOf(const iterator& it) const
+		inline bool SinglyLinkedList<T>::validateOwnershipOf(const iterator& it) const noexcept
 		{
 			return it.owner == this;
 		}
@@ -400,56 +401,56 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline std::size_t SinglyLinkedList<T>::getCount() const
+		inline std::size_t SinglyLinkedList<T>::getCount() const noexcept
 		{
 			return count;
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::cbegin() const -> const_iterator
+		inline auto SinglyLinkedList<T>::cbegin() const noexcept -> const_iterator
 		{
 			return const_iterator{ head, this };
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::cend() const -> const_iterator
+		inline auto SinglyLinkedList<T>::cend() const noexcept -> const_iterator
 		{
 			return const_iterator{ nullptr, this };
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::begin() -> iterator
+		inline auto SinglyLinkedList<T>::begin() noexcept -> iterator
 		{
 			return iterator{ head, this };
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::end() -> iterator
+		inline auto SinglyLinkedList<T>::end() noexcept -> iterator
 		{
 			return iterator{ nullptr, this };
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::begin() const -> const_iterator
+		inline auto SinglyLinkedList<T>::begin() const noexcept -> const_iterator
 		{
 			return cbegin();
 		}
 
 		template <typename T>
-		inline auto SinglyLinkedList<T>::end() const -> const_iterator
+		inline auto SinglyLinkedList<T>::end() const noexcept -> const_iterator
 		{
 			return cend();
 		}
 
 		template <typename T>
-		inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs)
+		inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()))
 		{
 			return std::equal(lhs.cbegin(), lhs.cend(),
 							  rhs.cbegin(), rhs.cend());
 		}
 
 		template <typename T>
-		inline bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs)
+		inline bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(lhs == rhs))
 		{
 			return !(lhs == rhs);
 		}
