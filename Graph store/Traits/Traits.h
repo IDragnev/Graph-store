@@ -37,6 +37,12 @@ namespace IDragnev
 		public:
 			static constexpr bool value = std::is_convertible<iterator_category, std::forward_iterator_tag>::value;
 		};
+
+		template <typename Fn, typename... Args>
+		struct IsNothrowInvocable
+		{
+			static constexpr bool value = noexcept(std::declval<Fn>()(std::declval<Args>()...));
+		};
 	}
 }
 
