@@ -32,13 +32,13 @@ namespace PriorityQueueTest
 
 		struct KeyAccessor
 		{
-			void operator()(TestItem& item, unsigned ID) const { item.id = ID; }
-			const unsigned& operator()(const TestItem& item) const { return item.id; }
+			void operator()(TestItem& item, unsigned ID) const noexcept { item.id = ID; }
+			const unsigned& operator()(const TestItem& item) const noexcept { return item.id; }
 		};
 
 		struct HandleSetter
 		{
-			void operator()(TestItem& item, const Handle& handle) const
+			void operator()(TestItem& item, const Handle& handle) const noexcept
 			{
 				item.handle = handle;
 			}

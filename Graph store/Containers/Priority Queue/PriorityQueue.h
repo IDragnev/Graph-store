@@ -11,14 +11,14 @@ namespace IDragnev
 		template <typename T>
 		struct EmptyFunction
 		{
-			void operator()(const T&, const T&) const { }
+			void operator()(const T&, const T&) const noexcept { }
 		};
 
 		template <typename T>
 		struct IdentityAccessor
 		{
-			const T& operator()(const T& item) const { return item; }
-			void operator()(T& item, const T& key) const { item = key; }
+			const T& operator()(const T& item) const noexcept { return item; }
+			void operator()(T& item, const T& key) const noexcept(noexcept(item = key)) { item = key; }
 		};
 
 		template <
@@ -31,7 +31,7 @@ namespace IDragnev
 		{
 		private:
 			using Handle = PriorityQueueHandle;
-
+			
 			class Element
 			{
 			public:
