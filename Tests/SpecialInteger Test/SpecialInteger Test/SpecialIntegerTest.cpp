@@ -3,29 +3,39 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+	
+template <typename Integer>
+inline constexpr IDragnev::SpecialInteger<Integer> increment(IDragnev::SpecialInteger<Integer> integer, Integer val) noexcept
+{
+	integer += val;
+
+	return integer;
+}
+
 namespace SpecialIntegerTest
 {		
+
 	TEST_CLASS(SpecialIntegerTest)
 	{
 	private:
 		using SpecialInteger = IDragnev::SpecialInteger<int>;
 
 	public:
-		TEST_METHOD(testDefaultConstructedIntegerIsEqualToInfinity)
+		TEST_METHOD(DefaultConstructedIntegerIsEqualToInfinity)
 		{
 			SpecialInteger integer;
-			
+
 			Assert::IsTrue(integer.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testConversionCtorConstructsAnIntegerNotEqualToInfinity)
+		TEST_METHOD(ConversionCtorConstructsAnIntegerNotEqualToInfinity)
 		{
 			SpecialInteger integer{ 1 };
 
 			Assert::IsFalse(integer.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAssignmentToNonInfinityFromPrimitiveIntegerLeavesItToNonInfinity)
+		TEST_METHOD(AssignmentToNonInfinityFromPrimitiveIntegerLeavesItToNonInfinity)
 		{
 			SpecialInteger integer{ 0 };
 			
@@ -34,7 +44,7 @@ namespace SpecialIntegerTest
 			Assert::IsFalse(integer.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAssignmentToInfinityFromPrimitiveIntegerConvertsItToNonInfinity)
+		TEST_METHOD(AssignmentToInfinityFromPrimitiveIntegerConvertsItToNonInfinity)
 		{
 			SpecialInteger infinity;
 
@@ -43,7 +53,7 @@ namespace SpecialIntegerTest
 			Assert::IsFalse(infinity.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAssignmentToNonInfinityFromInfinityConvertsItToInfinity)
+		TEST_METHOD(AssignmentToNonInfinityFromInfinityConvertsItToInfinity)
 		{
 			SpecialInteger integer{ 0 };
 
@@ -52,7 +62,7 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(integer.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAssignmentToInfinityFromInfinityLeavesItToInfinity)
+		TEST_METHOD(AssignmentToInfinityFromInfinityLeavesItToInfinity)
 		{
 			SpecialInteger infinity;
 
@@ -61,14 +71,14 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testCopyCtorFromInfinityConstructsInfinity)
+		TEST_METHOD(CopyCtorFromInfinityConstructsInfinity)
 		{
-			SpecialInteger copyOfInfinity = SpecialInteger::Infinity();
+			SpecialInteger integer = SpecialInteger::Infinity();
 
-			Assert::IsTrue(copyOfInfinity.isEqualToInfinity());
+			Assert::IsTrue(integer.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testCopyCtorFromNonInfinityConstructsNonInfinity)
+		TEST_METHOD(CopyCtorFromNonInfinityConstructsNonInfinity)
 		{
 			SpecialInteger source{ 1 };
 			SpecialInteger destination{ source };
@@ -76,7 +86,7 @@ namespace SpecialIntegerTest
 			Assert::IsFalse(destination.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAddingIntegerToInfinityDoesNothing)
+		TEST_METHOD(AddingIntegerToInfinityDoesNothing)
 		{
 			SpecialInteger infinity;
 
@@ -85,7 +95,7 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAddingInfinityToInfinityDoesNothing)
+		TEST_METHOD(AddingInfinityToInfinityDoesNothing)
 		{
 			SpecialInteger infinity;
 
@@ -94,7 +104,7 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(infinity.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAddingInfinityToNonInfinityMakesLHSInfinity)
+		TEST_METHOD(AddingInfinityToNonInfinityConvertsLhsToInfinity)
 		{
 			SpecialInteger lhs{ 1 };
 
@@ -103,17 +113,17 @@ namespace SpecialIntegerTest
 			Assert::IsTrue(lhs.isEqualToInfinity());
 		}
 
-		TEST_METHOD(testAddingNonInfinityToNonInfinityDoesNotMakeItInfinity)
+		TEST_METHOD(AddingNonInfinityToNonInfinityDoesNotMakeItInfinity)
 		{
 			SpecialInteger lhs{ 1 };
 
 			lhs += 1;
 
-			Assert::IsFalse(lhs.isEqualToInfinity(), L"Lhs is equal to infinity after adding non-infinity to it");
-			Assert::IsTrue(lhs == SpecialInteger{ 2 }, L"Lhs has wrong value after calling operator+=");
+			Assert::IsFalse(lhs.isEqualToInfinity(), L"Lhs is equal to infinity");
+			Assert::IsTrue(lhs == SpecialInteger{ 2 }, L"Lhs has incorrect value");
 		}
 
-		TEST_METHOD(testInfinityIsNotSmallerThanInfinity)
+		TEST_METHOD(InfinityIsNotSmallerThanInfinity)
 		{
 			SpecialInteger infinity1;
 			SpecialInteger infinity2;
@@ -121,7 +131,7 @@ namespace SpecialIntegerTest
 			Assert::IsFalse(infinity1 < infinity2);
 		}
 
-		TEST_METHOD(testInfinityIsNotEqualToInfinity)
+		TEST_METHOD(InfinityIsNotEqualToInfinity)
 		{
 			SpecialInteger infinity1;
 			SpecialInteger infinity2;
@@ -129,18 +139,18 @@ namespace SpecialIntegerTest
 			Assert::IsFalse(infinity1 == infinity2);
 		}
 
-		TEST_METHOD(testInfinityIsNotEqualToMaxPrimitiveInteger)
+		TEST_METHOD(InfinityIsNotEqualToMaxBuiltInInteger)
 		{
-			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
+			SpecialInteger maxBuiltIn = std::numeric_limits<int>::max();
 
-			Assert::IsTrue(maxPrimitive != SpecialInteger::Infinity());
+			Assert::IsTrue(maxBuiltIn != SpecialInteger::Infinity());
 		}
 
-		TEST_METHOD(testInfinityIsGreaterThanAllPrimitiveIntegers)
+		TEST_METHOD(InfinityIsGreaterThanAllBuiltIntegers)
 		{
-			SpecialInteger maxPrimitive = std::numeric_limits<int>::max();
+			SpecialInteger maxBuiltIn = std::numeric_limits<int>::max();
 			
-			Assert::IsTrue(maxPrimitive < SpecialInteger::Infinity());
+			Assert::IsTrue(maxBuiltIn < SpecialInteger::Infinity());
 		}
 	};
 }
