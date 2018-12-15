@@ -2,6 +2,7 @@
 #define __PRIORITY_QUEUE_H_INCLUDED__
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
+#include "..\..\Traits\Traits.h"
 #include <vector>
 
 namespace IDragnev
@@ -68,17 +69,17 @@ namespace IDragnev
 			PriorityQueue(const PriorityQueue& source);
 			~PriorityQueue();
 
-			PriorityQueue& operator=(PriorityQueue&& rhs);
+			PriorityQueue& operator=(PriorityQueue&& rhs) noexcept(std::is_nothrow_move_assignable_v<Elements>);
 			PriorityQueue& operator=(const PriorityQueue& rhs);
 
 			void insert(const Item& item);
 			Item extractOptimal();
-			const Item getOptimal() const;
+			const Item getOptimal() const noexcept(std::is_nothrow_copy_constructible_v<Item>);
 
 			void improveKey(const Handle& h, const Key& key);
 
-			bool isEmpty() const;
-			void empty();
+			bool isEmpty() const noexcept;
+			void empty() noexcept;
 
 		private:
 			template <typename InputIt>
@@ -89,21 +90,21 @@ namespace IDragnev
 			void moveAt(std::size_t index, Element&& e);
 			void moveLastToRoot();
 
-			static bool hasParent(std::size_t index);
-			static std::size_t getParentIndex(std::size_t index);
-			static std::size_t getLeftChildIndex(std::size_t index);
+			static bool hasParent(std::size_t index) noexcept;
+			static std::size_t getParentIndex(std::size_t index) noexcept;
+			static std::size_t getLeftChildIndex(std::size_t index) noexcept;
 
-			bool hasChildren(std::size_t index) const;
-			std::size_t getOptimalChildIndex(std::size_t index) const;
-			bool hasOptimalRightSibling(std::size_t index) const;
-			bool hasSmallerPriorityThan(const Element& lhs, const Element& rhs) const;
-			bool hasElementAt(std::size_t index) const;
+			bool hasChildren(std::size_t index) const noexcept;
+			std::size_t getOptimalChildIndex(std::size_t index) const noexcept;
+			bool hasOptimalRightSibling(std::size_t index) const noexcept;
+			bool hasSmallerPriorityThan(const Element& lhs, const Element& rhs) const noexcept;
+			bool hasElementAt(std::size_t index) const noexcept;
 
-			void invalidateHandlesOfAll();
-			void invalidateHandlesOfAll(std::true_type);
-			void invalidateHandlesOfAll(std::false_type);
+			void invalidateHandlesOfAll() noexcept;
+			void invalidateHandlesOfAll(std::true_type) noexcept;
+			void invalidateHandlesOfAll(std::false_type) noexcept;
 
-			void swapContentsWithReconstructedParameter(PriorityQueue temporary);
+			void swapContentsWithReconstructedParameter(PriorityQueue temporary) noexcept;
 
 		private:
 			Elements elements;

@@ -12,7 +12,7 @@ namespace IDragnev
 		KeyAccessor PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::Element::keyAccessor;
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		auto PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue&& rhs) -> PriorityQueue&
+		auto PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue&& rhs) noexcept(std::is_nothrow_move_assignable_v<Elements>) -> PriorityQueue&
 		{
 			if (this != &rhs)
 			{
@@ -37,7 +37,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue temp)
+		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue temp) noexcept
 		{
 			using std::swap;
 			swap(elements, temp.elements);
@@ -115,13 +115,14 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasChildren(std::size_t index) const
+		inline bool 
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasChildren(std::size_t index) const noexcept
 		{
 			return hasElementAt(getLeftChildIndex(index));
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimalChildIndex(std::size_t index) const
+		std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimalChildIndex(std::size_t index) const noexcept
 		{
 			auto result = getLeftChildIndex(index);
 
@@ -129,14 +130,15 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getLeftChildIndex(std::size_t index)
+		inline std::size_t 
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getLeftChildIndex(std::size_t index) noexcept
 		{
 			return 2 * index + 1;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline bool 
-		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasOptimalRightSibling(std::size_t leftChildIndex) const
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasOptimalRightSibling(std::size_t leftChildIndex) const noexcept
 		{
 			return hasElementAt(leftChildIndex + 1) &&
 				   hasSmallerPriorityThan(elements[leftChildIndex], elements[leftChildIndex + 1]);
@@ -144,7 +146,7 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline bool 
-		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Element& lhs, const Element& rhs)  const
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasSmallerPriorityThan(const Element& lhs, const Element& rhs)  const noexcept
 		{
 			return compareFunction(lhs.key(), rhs.key());
 		}
@@ -163,18 +165,18 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll()
+		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll() noexcept
 		{
 			invalidateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction<Item>>{});
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::true_type)
+		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::true_type) noexcept
 		{
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::false_type)
+		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll(std::false_type) noexcept
 		{
 			for (auto&& e : elements)
 			{
@@ -215,13 +217,15 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasParent(std::size_t index)
+		inline bool
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasParent(std::size_t index) noexcept
 		{
 			return index > 0;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline std::size_t PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getParentIndex(std::size_t index)
+		inline std::size_t 
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getParentIndex(std::size_t index) noexcept
 		{
 			return (index - 1) / 2;
 		}
@@ -241,7 +245,8 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline const Item PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const
+		inline const Item 
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const noexcept(std::is_nothrow_copy_constructible_v<Item>)
 		{
 			assert(!isEmpty());
 			return elements[0].wrappedItem();
@@ -255,7 +260,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::isEmpty() const
+		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::isEmpty() const noexcept
 		{
 			return elements.empty();
 		}
@@ -275,13 +280,13 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasElementAt(std::size_t index) const
+		inline bool PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::hasElementAt(std::size_t index) const noexcept
 		{
 			return index < elements.size();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty()
+		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty() noexcept
 		{
 			invalidateHandlesOfAll();
 			elements.clear();

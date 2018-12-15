@@ -109,14 +109,14 @@ namespace PriorityQueueTest
 			}
 		}
 
-		TEST_METHOD(testDefaultConstructedQueueIsEmpty)
+		TEST_METHOD(DefaultConstructedQueueIsEmpty)
 		{
 			MaxPriorityQueue queue;
 			
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(testInsertArrangesTheItemsCorrectly)
+		TEST_METHOD(InsertArrangesTheItemsCorrectly)
 		{
 			MaxPriorityQueue queue;
 			auto middle = TEST_ITEMS_COUNT / 2;
@@ -130,7 +130,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(optimal == testItems[end]);
 		}
 
-		TEST_METHOD(testImproveKeyToOptimalRearangesInsertedItems)
+		TEST_METHOD(ImproveKeyToOptimalRearangesInsertedItems)
 		{
 			auto queue = MaxPriorityQueue{};
 			insertTestItemsInRangeByID(queue, 0, 2);
@@ -142,7 +142,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
-		TEST_METHOD(testImproveKeyToNonOptimalDoesNotChangeTheOptimal)
+		TEST_METHOD(ImproveKeyToNonOptimalDoesNotChangeTheOptimal)
 		{
 			auto queue = MaxPriorityQueue{};
 			insertTestItemsInRangeByID(queue, 0, 3);
@@ -154,7 +154,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
-		TEST_METHOD(testImproveKeyToNewOptimalDoesNotChangeTheOptimal)
+		TEST_METHOD(ImproveKeyToNewOptimalDoesNotChangeTheOptimal)
 		{
 			auto queue = MaxPriorityQueue{};
 			insertTestItemsInRangeByID(queue, 0, 2);
@@ -166,7 +166,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(expectedOptimal == optimal);
 		}
 
-		TEST_METHOD(testExtractOptimalWithJustOneItem)
+		TEST_METHOD(ExtractOptimalWithJustOneItem)
 		{
 			auto queue = MaxPriorityQueue{};
 			insertTestItemsInRangeByID(queue, 0, 0);
@@ -178,7 +178,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(expected == optimal, L"Extracted optimal is different from the only inserted item");
 		}
 
-		TEST_METHOD(testSimpleExtractOptimalWithSeveralItems)
+		TEST_METHOD(SimpleExtractOptimalWithSeveralItems)
 		{
 			auto queue = MaxPriorityQueue{};
 			auto end = TEST_ITEMS_COUNT - 1;
@@ -191,7 +191,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(testItems[end - 1] == newOptimal, L"The new optimal item in the queue is not correct");
 		}
 
-		TEST_METHOD(testCtorFromRange)
+		TEST_METHOD(CtorFromRange)
 		{
 			using std::begin;
 			using std::end;
@@ -201,14 +201,14 @@ namespace PriorityQueueTest
 			Assert::IsTrue(containsItemsInRange(queue, 0, TEST_ITEMS_COUNT - 1));
 		}
 
-		TEST_METHOD(testInitListCtor)
+		TEST_METHOD(InitListCtor)
 		{
 			MaxPriorityQueue queue{ testItems[0], testItems[1], testItems[2] };
 
 			Assert::IsTrue(containsItemsInRange(queue, 0, 2));
 		}
 
-		TEST_METHOD(testMoveCtorFromEmptySource)
+		TEST_METHOD(MoveCtorFromEmptySource)
 		{
 			MaxPriorityQueue source;
 			auto destination = MaxPriorityQueue{ std::move(source) };
@@ -217,7 +217,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(destination.isEmpty(), L"Moved-in queue is not empty");
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmptySource)
+		TEST_METHOD(MoveCtorFromNonEmptySource)
 		{
 			MaxPriorityQueue source;
 			insertTestItemsInRangeByID(source, 1, TEST_ITEMS_COUNT - 1);
@@ -228,7 +228,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(containsItemsInRange(destination, 1, TEST_ITEMS_COUNT - 1), L"Moved-in queue has invalid contents");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromEmptyRhsToEmptyLhs)
+		TEST_METHOD(MoveAssignmentFromEmptyRhsToEmptyLhs)
 		{
 			auto lhs = MaxPriorityQueue{};
 			auto rhs = MaxPriorityQueue{};
@@ -239,7 +239,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(lhs.isEmpty(), L"Moved-in queue is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromEmptyRhsToNonEmptyLhs)
+		TEST_METHOD(MoveAssignmentFromEmptyRhsToNonEmptyLhs)
 		{
 			auto rhs = MaxPriorityQueue{};
 			auto lhs = MaxPriorityQueue{};
@@ -251,7 +251,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(lhs.isEmpty(), L"Moved-in queue is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsToEmptyLhs)
+		TEST_METHOD(MoveAssignmentFromNonEmptyRhsToEmptyLhs)
 		{
 			auto rhs = MaxPriorityQueue{};
 			auto lhs = MaxPriorityQueue{};
@@ -263,7 +263,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(containsItemsInRange(lhs, 1, 3), L"Moved-in queue has invalid contents");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromNonEmptyRhsToNonEmptyLhs)
+		TEST_METHOD(MoveAssignmentFromNonEmptyRhsToNonEmptyLhs)
 		{
 			auto rhs = MaxPriorityQueue{};
 			auto lhs = MaxPriorityQueue{};
@@ -277,7 +277,7 @@ namespace PriorityQueueTest
 		}
 
 		//Queues storing pointers or references do not support copy semantics
-		TEST_METHOD(testCopyAssignmentFromEmptyRhsToEmptyLhs)
+		TEST_METHOD(CopyAssignmentFromEmptyRhsToEmptyLhs)
 		{
 			auto lhs = IntMaxPriorityQueue{};
 			auto rhs = IntMaxPriorityQueue{};
@@ -287,7 +287,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(lhs.isEmpty());
 		}
 
-		TEST_METHOD(testCopyAssignmentFromEmptyRhsToNonEmptyLhs)
+		TEST_METHOD(CopyAssignmentFromEmptyRhsToNonEmptyLhs)
 		{
 			auto lhs = IntMaxPriorityQueue{ 1, 2, 3, 4, 5 };
 			auto rhs = IntMaxPriorityQueue{};
@@ -297,7 +297,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(lhs.isEmpty());
 		}
 
-		TEST_METHOD(testCopyAssignmentFromNonEmptyRhsToEmptyLhs)
+		TEST_METHOD(CopyAssignmentFromNonEmptyRhsToEmptyLhs)
 		{
 			auto lhs = IntMaxPriorityQueue{};
 			auto rhs = IntMaxPriorityQueue{ 2, 1, 4, 3, 5, 6 };
@@ -307,7 +307,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(extractAll(lhs) == IntArray{ 6, 5, 4, 3, 2, 1 });
 		}
 
-		TEST_METHOD(testCopyAssignmentFromNonEmptyRhsToNonEmptyLhs)
+		TEST_METHOD(CopyAssignmentFromNonEmptyRhsToNonEmptyLhs)
 		{
 			auto lhs = IntMaxPriorityQueue{ 4, 5, 6, 7, 8, 9 };
 			auto rhs = IntMaxPriorityQueue{ 2, 1, 4, 3, 5, 6 };
@@ -317,7 +317,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(extractAll(lhs) == IntArray{ 6, 5, 4, 3, 2, 1 });
 		}
 
-		TEST_METHOD(testCopyCtorFromEmptySource)
+		TEST_METHOD(CopyCtorFromEmptySource)
 		{
 			auto source = IntMaxPriorityQueue{};
 			IntMaxPriorityQueue destination{ source };
@@ -325,7 +325,7 @@ namespace PriorityQueueTest
 			Assert::IsTrue(destination.isEmpty());
 		}
 	
-		TEST_METHOD(testCopyCtorFromNonEmptySource)
+		TEST_METHOD(CopyCtorFromNonEmptySource)
 		{
 			auto source = IntMaxPriorityQueue{ 2, 4, 1, 3, 5, 6 };
 			IntMaxPriorityQueue destination{ source };
