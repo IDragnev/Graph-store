@@ -9,12 +9,25 @@ namespace IDragnev
 	{
 		class DirectedGraph : public Graph
 		{
+		private:
+			class DirectedEdgeConstIterator : public EdgeConstIteratorBase
+			{
+				using Base = EdgeConstIteratorBase;
+
+			public:
+				using Base::EdgeConstIterator;
+
+			private:
+				bool wasCurrentEdgeIterated() const override;
+			};
+
 		public:
 			using Graph::Graph;
 
 			void insertEdge(Vertex& start, Vertex& end, Edge::Weight) override;
 			void removeEdge(Vertex& start, Vertex& end) override;
-
+			EdgeConstIteratorPtr getConstIteratorToEdges() const override;
+			
 		private:
 			void removeEdgesEndingIn(Vertex& v) override;
 		};

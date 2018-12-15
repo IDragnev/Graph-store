@@ -9,6 +9,11 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
+		bool DirectedGraph::DirectedEdgeConstIterator::wasCurrentEdgeIterated() const
+		{
+			return !(this->operator bool());
+		}
+
 		void DirectedGraph::insertEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 		{
 			assert(isOwnerOf(start));
@@ -40,6 +45,11 @@ namespace IDragnev
 			{
 				removeEdgeFromToNoThrow(neighbour, vertex);
 			});
+		}
+
+		auto DirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
+		{
+			return makeEdgeConstIterator<DirectedEdgeConstIterator>();
 		}
 	}
 }

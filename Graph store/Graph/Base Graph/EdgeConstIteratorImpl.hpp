@@ -4,7 +4,7 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::EdgeIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt) :
+		Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::EdgeConstIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt) :
 			vertexIterator{ vertexIt },
 			edgeIterator{ edgeIt }
 		{
@@ -13,13 +13,13 @@ namespace IDragnev
 		}
 		
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toFirstEdge()
+		inline void Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toFirstEdge()
 		{
 			skipIteratedEdges();
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::skipIteratedEdges()
+		void Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::skipIteratedEdges()
 		{
 			while (vertexIterator && wasCurrentEdgeIterated())
 			{
@@ -28,7 +28,7 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		bool Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::wasCurrentEdgeIterated() const
+		bool Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::wasCurrentEdgeIterated() const
 		{
 			if (!edgeIterator)
 			{
@@ -45,7 +45,7 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toNextEdge()
+		inline void Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toNextEdge()
 		{
 			++edgeIterator;
 			if (!edgeIterator)
@@ -55,7 +55,7 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toNextVertex()
+		void Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toNextVertex()
 		{
 			++vertexIterator;
 			if (vertexIterator)
@@ -65,7 +65,7 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::updateEdgeIterator()
+		inline void Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::updateEdgeIterator()
 		{
 			using std::begin;
 
@@ -74,7 +74,7 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		auto Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator++() -> EdgeIterator&
+		auto Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator++() -> EdgeConstIterator&
 		{
 			++edgeIterator;
 			skipIteratedEdges();
@@ -84,22 +84,35 @@ namespace IDragnev
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
 		inline auto 
-		Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator*() const -> const Edge
+		Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator*() const -> const Edge
 		{
 			assert(this->operator bool());
 			return { *vertexIterator, *edgeIterator };
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator bool() const
+		inline Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator bool() const
 		{
 			return vertexIterator && edgeIterator;
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline bool Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator!() const
+		inline bool Graph::EdgeConstIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator!() const
 		{
 			return !(this->operator bool());
+		}
+
+		template <typename ConcreteIterator>
+		auto Graph::makeEdgeConstIterator() const -> EdgeConstIteratorPtr
+		{
+			using std::cbegin;
+			using std::cend;
+
+			auto vertexIt = VertexConstIterator{ cbegin(vertices), cend(vertices) };
+			auto& edges = vertexIt ? (edgesOf(*vertexIt)) : EdgeList{};
+			auto edgeIt = cbegin(edges);
+
+			return std::make_unique<ConcreteIterator>(vertexIt, edgeIt);
 		}
 	}
 }

@@ -52,5 +52,10 @@ namespace IDragnev
 		{
 			Graph::removeEdgesEndingIn(vertex);
 		}
+
+		auto UndirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
+		{
+			return makeEdgeConstIterator();
+		}
 	}
 }

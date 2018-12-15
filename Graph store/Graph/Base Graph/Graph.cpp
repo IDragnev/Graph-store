@@ -348,18 +348,6 @@ namespace IDragnev
 			return makeIteratorWrapper(begin(vertices), end(vertices));
 		}
 
-		auto Graph::getUniqueEdgesConstIterator() const -> UniqueEdgesConstIterator
-		{
-			using std::cbegin;
-			using std::cend;
-
-			auto vertexIt = VertexConstIterator{ cbegin(vertices), cend(vertices) };
-			auto& edges = vertexIt ? (edgesOf(*vertexIt)) : EdgeList{};
-			auto edgeIt = cbegin(edges);
-
-			return { vertexIt, edgeIt };
-		}
-
 		const String& Graph::getID() const noexcept
 		{
 			return id;

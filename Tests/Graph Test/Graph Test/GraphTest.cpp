@@ -77,10 +77,10 @@ namespace GraphTest
 			GraphT g{ "G" };
 
 			auto vertexItPtr = g.getConstIteratorToVertices();
-			auto uniqueEdgesIt = g.getUniqueEdgesConstIterator();
+			auto edgesItPtr = g.getConstIteratorToEdges();
 
 			Assert::IsFalse(*vertexItPtr);
-			Assert::IsFalse(uniqueEdgesIt);
+			Assert::IsFalse(*edgesItPtr);
 		}
 		TEST_METHOD(DirectedGraphsMustHaveValidStringsAsIDs)
 		{

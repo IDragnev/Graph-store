@@ -94,19 +94,17 @@ namespace IDragnev
 			};
 
 			template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-			class EdgeIterator
+			class EdgeConstIterator
 			{
 				friend class Graph;
 			public:
-				virtual ~EdgeIterator() = default;
+				EdgeConstIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt);
+				virtual ~EdgeConstIterator() = default;
 
 				const Edge operator*() const;
-				EdgeIterator& operator++();
+				EdgeConstIterator& operator++();
 				operator bool() const;
 				bool operator!() const;
-
-			protected:
-				EdgeIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt);
 
 			private:
 				void toFirstEdge();
@@ -133,8 +131,9 @@ namespace IDragnev
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<ConstIterator<IncidentEdge>>;
 
 		protected:
-			using EdgeConstIterator = EdgeIterator<VertexConstIterator, IncidentEdgesConstIterator>;
-
+			using EdgeConstIteratorBase = EdgeConstIterator<VertexConstIterator, IncidentEdgesConstIterator>;
+			using EdgeConstIteratorPtr = std::unique_ptr<EdgeConstIteratorBase>;
+		
 		public:
 			Graph(const String& ID);
 			Graph(const Graph&) = delete;
@@ -158,7 +157,7 @@ namespace IDragnev
 			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
 			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& v) const;
-			UniqueEdgesConstIterator getUniqueEdgesConstIterator() const;
+			virtual EdgeConstIteratorPtr getConstIteratorToEdges() const = 0;
 			const String& getID() const noexcept;
 
 		protected:
@@ -169,6 +168,9 @@ namespace IDragnev
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
 			bool isOwnerOf(const Vertex& v) const;
+
+			template <typename ConcreteIterator = EdgeConstIteratorBase>
+			EdgeConstIteratorPtr makeEdgeConstIterator() const;
 
 		private:
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
@@ -207,5 +209,5 @@ namespace IDragnev
 	}
 }
 
-#include "EdgeIteratorImpl.hpp"
+#include "EdgeConstIteratorImpl.hpp"
 #endif // __BASE_GRAPH_H_INCLUDED__
