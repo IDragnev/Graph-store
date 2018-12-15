@@ -83,7 +83,8 @@ namespace IDragnev
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		inline auto Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator*() const -> const Edge
+		inline auto 
+		Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator*() const -> const Edge
 		{
 			assert(this->operator bool());
 			return { *vertexIterator, *edgeIterator };

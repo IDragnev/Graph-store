@@ -98,19 +98,21 @@ namespace IDragnev
 			{
 				friend class Graph;
 			public:
+				virtual ~EdgeIterator() = default;
+
 				const Edge operator*() const;
 				EdgeIterator& operator++();
 				operator bool() const;
 				bool operator!() const;
 
-			private:
+			protected:
 				EdgeIterator(VertexForwardIterator vertexIt, IncidentEdgeForwardIterator edgeIt);
 
 			private:
 				void toFirstEdge();
 				void skipIteratedEdges();
 				void toNextEdge();
-				bool wasCurrentEdgeIterated() const;
+				virtual bool wasCurrentEdgeIterated() const;
 				void toNextVertex();
 				void updateEdgeIterator();
 
@@ -130,9 +132,10 @@ namespace IDragnev
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterator<IncidentEdge>>;
 			using IncidentEdgeConstIteratorPtr = std::unique_ptr<ConstIterator<IncidentEdge>>;
 
-		public:
-			using UniqueEdgesConstIterator = EdgeIterator<VertexConstIterator, IncidentEdgesConstIterator>;
+		protected:
+			using EdgeConstIterator = EdgeIterator<VertexConstIterator, IncidentEdgesConstIterator>;
 
+		public:
 			Graph(const String& ID);
 			Graph(const Graph&) = delete;
 			virtual ~Graph() = default;
