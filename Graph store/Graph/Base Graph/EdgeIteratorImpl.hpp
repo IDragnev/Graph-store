@@ -15,20 +15,20 @@ namespace IDragnev
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
 		inline void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::toFirstEdge()
 		{
-			skipPassedEdges();
+			skipIteratedEdges();
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::skipPassedEdges()
+		void Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::skipIteratedEdges()
 		{
-			while (vertexIterator && wasCurrentEdgePassed())
+			while (vertexIterator && wasCurrentEdgeIterated())
 			{
 				toNextEdge();
 			}
 		}
 
 		template <typename VertexForwardIterator, typename IncidentEdgeForwardIterator>
-		bool Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::wasCurrentEdgePassed() const
+		bool Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::wasCurrentEdgeIterated() const
 		{
 			if (!edgeIterator)
 			{
@@ -77,7 +77,7 @@ namespace IDragnev
 		auto Graph::EdgeIterator<VertexForwardIterator, IncidentEdgeForwardIterator>::operator++() -> EdgeIterator&
 		{
 			++edgeIterator;
-			skipPassedEdges();
+			skipIteratedEdges();
 
 			return *this;
 		}

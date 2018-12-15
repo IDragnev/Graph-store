@@ -108,9 +108,9 @@ namespace IDragnev
 
 			private:
 				void toFirstEdge();
-				void skipPassedEdges();
+				void skipIteratedEdges();
 				void toNextEdge();
-				bool wasCurrentEdgePassed() const;
+				bool wasCurrentEdgeIterated() const;
 				void toNextVertex();
 				void updateEdgeIterator();
 
