@@ -125,7 +125,6 @@ namespace IDragnev
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
 			using VertexConstIterator = 
 				ForwardIteratorWrapper<VertexArray::const_iterator, VertexArray::const_iterator>;
-
 			using VertexIteratorPtr = std::unique_ptr<Iterator<Vertex>>;
 			using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex>>;
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterator<IncidentEdge>>;
@@ -157,7 +156,7 @@ namespace IDragnev
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
 			IncidentEdgeConstIteratorPtr getConstIteratorToEdgesLeaving(const Vertex& v) const;
 			UniqueEdgesConstIterator getUniqueEdgesConstIterator() const;
-			const String& getID() const;
+			const String& getID() const noexcept;
 
 		protected:
 			virtual void removeEdgesEndingIn(Vertex& v) = 0;
@@ -200,8 +199,8 @@ namespace IDragnev
 			EdgeListsCollection edgeLists;
 		};
 
-		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
-		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
+		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept;
+		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept;
 	}
 }
 

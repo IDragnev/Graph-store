@@ -47,12 +47,12 @@ namespace IDragnev
 			}
 		}
 
-		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
 		{
 			return &lhs == &rhs;
 		}
 
-		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -360,7 +360,7 @@ namespace IDragnev
 			return { vertexIt, edgeIt };
 		}
 
-		const String& Graph::getID() const
+		const String& Graph::getID() const noexcept
 		{
 			return id;
 		}
