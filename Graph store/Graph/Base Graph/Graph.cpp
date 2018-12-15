@@ -7,23 +7,23 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) :
+		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) noexcept :
 			incidentVertex{ incidentVertex },
 			weight{ weight }
 		{
 		}
 
-		Graph::Vertex& Graph::IncidentEdge::getIncidentVertex()
+		Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() noexcept
 		{
 			return const_cast<Vertex&>( static_cast<const IncidentEdge&>(*this).getIncidentVertex() );
 		}
 
-		const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const
+		const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const noexcept
 		{
 			return incidentVertex;
 		}
 
-		auto Graph::IncidentEdge::getWeight() const -> Weight
+		auto Graph::IncidentEdge::getWeight() const noexcept -> Weight
 		{
 			return weight;
 		}
@@ -57,23 +57,23 @@ namespace IDragnev
 			return !(lhs == rhs);
 		}
 
-		Graph::Edge::Edge(const Vertex& start, const IncidentEdge& edge) :
+		Graph::Edge::Edge(const Vertex& start, const IncidentEdge& edge) noexcept :
 			startVertex{ start },
 			incidentEdge{ edge }
 		{
 		}
 
-		auto Graph::Edge::start() const -> const Vertex&
+		auto Graph::Edge::start() const noexcept -> const Vertex&
 		{
 			return startVertex;
 		}
 
-		auto Graph::Edge::end() const -> const Vertex&
+		auto Graph::Edge::end() const noexcept -> const Vertex&
 		{
 			return incidentEdge.get().getIncidentVertex();
 		}
 
-		auto Graph::Edge::weight() const -> Weight
+		auto Graph::Edge::weight() const noexcept -> Weight
 		{
 			return incidentEdge.get().getWeight();
 		}	

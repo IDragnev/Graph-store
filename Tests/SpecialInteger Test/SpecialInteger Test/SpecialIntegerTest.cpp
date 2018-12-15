@@ -3,15 +3,6 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-	
-template <typename Integer>
-inline constexpr IDragnev::SpecialInteger<Integer> increment(IDragnev::SpecialInteger<Integer> integer, Integer val) noexcept
-{
-	integer += val;
-
-	return integer;
-}
-
 namespace SpecialIntegerTest
 {		
 

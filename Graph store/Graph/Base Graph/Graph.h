@@ -26,11 +26,11 @@ namespace IDragnev
 			public:
 				using Weight = std::uint32_t;
 
-				IncidentEdge(Vertex& incidentVertex, Weight);
+				IncidentEdge(Vertex& incidentVertex, Weight) noexcept;
 
-				Vertex& getIncidentVertex();
-				const Vertex& getIncidentVertex() const;
-				Weight getWeight() const;
+				Vertex& getIncidentVertex() noexcept;
+				const Vertex& getIncidentVertex() const noexcept;
+				Weight getWeight() const noexcept;
 
 			private:
 				VertexRef incidentVertex;
@@ -49,7 +49,7 @@ namespace IDragnev
 				using EdgeListIterator = EdgeListsCollection::iterator;
 
 			public:
-				const String& ID() const { return id; }
+				const String& ID() const noexcept { return id; }
 
 			private:
 				Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition);
@@ -71,12 +71,12 @@ namespace IDragnev
 			public:
 				using Weight = IncidentEdge::Weight;
 				
-				const Vertex& start() const;
-				const Vertex& end() const;
-				Weight weight() const;
+				const Vertex& start() const noexcept;
+				const Vertex& end() const noexcept;
+				Weight weight() const noexcept;
 
 			private:
-				Edge(const Vertex& start, const IncidentEdge& edge); 
+				Edge(const Vertex& start, const IncidentEdge& edge) noexcept;
 
 			private:
 				ConstVertexRef startVertex;
@@ -87,7 +87,7 @@ namespace IDragnev
 			struct IDAccessor
 			{
 				template <typename T>
-				const String& operator()(const T& item) const
+				const String& operator()(const T& item) const noexcept(noexcept(item.ID()))
 				{
 					return item.ID();
 				}
