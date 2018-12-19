@@ -35,6 +35,16 @@ namespace IDragnev
 		private:
 			using Handle = PriorityQueueHandle;
 			
+			static_assert(std::is_nothrow_default_constructible_v<HandleSetter>,
+						  "PriorityQueue requires HandleSetter to be nothrow default constructible");
+			static_assert(std::is_nothrow_default_constructible_v<KeyAccessor>,
+						  "PriorityQueue requires KeyAccessor to be nothrow default constructible");
+			static_assert(std::is_nothrow_default_constructible_v<CompareFunction>,
+						  "PriorityQueue requires CompareFunction to be nothrow default constructible");
+			static_assert(std::is_nothrow_copy_constructible_v<CompareFunction> || std::is_nothrow_move_constructible_v<CompareFunction>,
+						  "PriorityQueue requires CompareFunction to be nothrow copy or move constructible");
+			static_assert(std::is_nothrow_copy_assignable_v<CompareFunction> || std::is_nothrow_move_assignable_v<CompareFunction>,
+				          "PriorityQueue requires CompareFunction to be nothrow copy or move assignable");
 			static_assert(Traits::IsNothrowInvocable<KeyAccessor, const Item&>::value,
 						  "PriorityQueue requires KeyAccessor::operator()(const Item&) to be noexcept");
 			static_assert(Traits::IsNothrowInvocable<KeyAccessor, Item&, const Key&>::value, 
