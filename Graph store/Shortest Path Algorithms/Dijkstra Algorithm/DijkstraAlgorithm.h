@@ -19,29 +19,29 @@ namespace IDragnev
 			struct PriorityVertex : VertexDecorator
 			{
 				using VertexDecorator::VertexDecorator;
-				PriorityVertex() : VertexDecorator{ nullptr } {}
+				PriorityVertex() noexcept : VertexDecorator{ nullptr } {}
 				Handle handle{};
 			};
 		
 			struct DistanceAccessor
 			{
-				void operator()(PriorityVertex& v, const Distance& d) const { v.distance = d; }
-				const Distance& operator()(const PriorityVertex& v) const { return v.distance; }
+				void operator()(PriorityVertex& v, const Distance& d) const noexcept { v.distance = d; }
+				const Distance& operator()(const PriorityVertex& v) const noexcept { return v.distance; }
 			};
 
 			struct HandleSetter
 			{
-				void operator()(PriorityVertex& v, const Handle& h) const { v.handle = h; }
+				void operator()(PriorityVertex& v, const Handle& h) const noexcept { v.handle = h; }
 			};
 
 			struct GreaterThan
 			{
-				bool operator()(const Distance& lhs, const Distance& rhs) const { return lhs > rhs; }
+				bool operator()(const Distance& lhs, const Distance& rhs) const noexcept { return lhs > rhs; }
 			};
 
 			struct IDAccessor
 			{
-				const String& operator()(const PriorityVertex& v) const { return v.vertex->ID(); }
+				const String& operator()(const PriorityVertex& v) const noexcept { return v.vertex->ID(); }
 			};
 
 			using PriorityVertexRef = std::reference_wrapper<PriorityVertex>;
