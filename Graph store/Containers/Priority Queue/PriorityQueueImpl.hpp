@@ -12,7 +12,7 @@ namespace IDragnev
 		KeyAccessor PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::Element::keyAccessor;
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		auto PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue&& rhs) noexcept(std::is_nothrow_move_assignable_v<Elements>) -> PriorityQueue&
+		auto PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(PriorityQueue&& rhs) -> PriorityQueue&
 		{
 			if (this != &rhs)
 			{
@@ -25,7 +25,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		auto PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::operator=(const PriorityQueue& rhs) -> PriorityQueue&
 		{
-			static_assert(!std::is_pointer<Item>::value,
+			static_assert(!std::is_pointer_v<Item>,
 						  "Cannot use copy assignment when storing pointers as handles cannot be unique for each queue");
 
 			if (this != &rhs)
@@ -49,7 +49,7 @@ namespace IDragnev
 			elements{ source.elements },
 			compareFunction{ source.compareFunction }
 		{
-			static_assert(!std::is_pointer<Item>::value,
+			static_assert(!std::is_pointer_v<Item>,
 						  "Cannot use copy constructor when storing pointers as handles cannot be unique for each queue");
 		}
 
