@@ -3,6 +3,7 @@
 #include "..\String\String.h"
 #include "..\General Exceptions\Exception.h"
 #include <assert.h>
+#include <algorithm>
 
 namespace IDragnev
 {
@@ -22,17 +23,18 @@ namespace IDragnev
 
 		void ShortestPathAlgorithmStore::insertAlgorithm(ShortestPathAlgorithm& algorithm)
 		{
-			assert(searchAlgorithm(algorithm.getID()) == nullptr);
+			assert(!searchAlgorithm(algorithm.getID()));
 			algorithms.insert(&algorithm);
 		}
 
 		ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID)
 		{
-			auto result = searchAlgorithm(ID);
+			auto iterator = searchAlgorithm(ID);
 
-			if (result != nullptr)
+			if (iterator)
 			{
-				return *result;
+				auto alg = *iterator;
+				return *alg;
 			}
 			else
 			{
@@ -40,17 +42,14 @@ namespace IDragnev
 			}
 		}
 
-		ShortestPathAlgorithm* ShortestPathAlgorithmStore::searchAlgorithm(const String& ID)
+		auto ShortestPathAlgorithmStore::searchAlgorithm(const String& ID) noexcept -> Collection::iterator
 		{
-			for (auto&& current : algorithms)
-			{
-				if (current->getID() == ID)
-				{
-					return current;
-				}
-			}
+			using std::begin;
+			using std::end;
 
-			return nullptr;
+			return std::find_if(begin(algorithms),
+								end(algorithms), 
+								[&](const ShortestPathAlgorithm* alg) { return alg->getID() == ID; });
 		}
 	}
 }
