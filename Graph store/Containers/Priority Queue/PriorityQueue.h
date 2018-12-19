@@ -19,9 +19,9 @@ namespace IDragnev
 		struct IdentityAccessor
 		{
 			template <typename T>
-			const T& operator()(const T& item) const noexcept { return item; }
+			constexpr const T& operator()(const T& item) const noexcept { return item; }
 			template <typename T, typename U>
-			void operator()(T& item, const U& key) const noexcept(noexcept(item = key)) { item = key; }
+			constexpr void operator()(T& item, const U& key) const noexcept(noexcept(item = key)) { item = key; }
 		};
 
 		template <
