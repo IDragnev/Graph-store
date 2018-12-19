@@ -2,6 +2,7 @@
 #define __PRIORITY_QUEUE_H_INCLUDED__
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
+#include "..\..\UtilityFunctions.h"
 #include "..\..\Traits\Traits.h"
 #include <vector>
 
@@ -9,30 +10,40 @@ namespace IDragnev
 {
 	namespace Containers
 	{
-		template <typename T>
 		struct EmptyFunction
 		{
-			void operator()(const T&, const T&) const noexcept { }
+			template <typename... Args>
+			constexpr void operator()(Args&&...) const noexcept { }
 		};
 
-		template <typename T>
 		struct IdentityAccessor
 		{
+			template <typename T>
 			const T& operator()(const T& item) const noexcept { return item; }
-			void operator()(T& item, const T& key) const noexcept(noexcept(item = key)) { item = key; }
+			template <typename T, typename U>
+			void operator()(T& item, const U& key) const noexcept(noexcept(item = key)) { item = key; }
 		};
 
 		template <
 			typename Item,
 			typename Key = Item,
-			typename KeyAccessor = IdentityAccessor<Item>,
-			typename CompareFunction = std::less<Key>,
-			typename HandleSetter = EmptyFunction<Item>
+			typename KeyAccessor = IdentityAccessor,
+			typename CompareFunction = LessThan,
+			typename HandleSetter = EmptyFunction
 		> class PriorityQueue
 		{
 		private:
 			using Handle = PriorityQueueHandle;
 			
+			static_assert(Traits::IsNothrowInvocable<KeyAccessor, const Item&>::value,
+						  "PriorityQueue requires KeyAccessor::operator()(const Item&) to be noexcept");
+			static_assert(Traits::IsNothrowInvocable<KeyAccessor, Item&, const Key&>::value, 
+						  "PriorityQueue requires KeyAcessor::operator()(Item&, const Key&) to be noexcept");
+			static_assert(Traits::IsNothrowInvocable<CompareFunction, const Key&, const Key&>::value, 
+						  "PriorityQueue requires ComapreFunction::operator()(const Key&, const Key&) to be noexcept");
+			static_assert(Traits::IsNothrowInvocable<HandleSetter, Item&, const Handle&>::value,
+						  "PriorityQueue requires HandleSetter::operator()(Item&, const PriorityQueueHandle&) to be noexcept");
+
 			class Element
 			{
 			public:

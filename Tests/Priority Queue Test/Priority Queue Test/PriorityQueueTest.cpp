@@ -32,15 +32,15 @@ namespace PriorityQueueTest
 
 		struct KeyAccessor
 		{
-			void operator()(TestItem& item, unsigned ID) const noexcept { item.id = ID; }
+			void operator()(TestItem& item, const unsigned& ID) const noexcept { item.id = ID; }
 			const unsigned& operator()(const TestItem& item) const noexcept { return item.id; }
 		};
 
 		struct HandleSetter
 		{
-			void operator()(TestItem& item, const Handle& handle) const noexcept
+			void operator()(TestItem& item, const Handle& h) const noexcept
 			{
-				item.handle = handle;
+				item.handle = h;
 			}
 		};
 
@@ -48,7 +48,7 @@ namespace PriorityQueueTest
 		using IntArray = DArray<int>;
 
 		using TestItemRef = std::reference_wrapper<TestItem>;
-		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, std::less<unsigned>, HandleSetter>;
+		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, IDragnev::LessThan, HandleSetter>;
 		using TestItemArray = DArray<TestItem>;
 
 		static TestItemArray testItems;
