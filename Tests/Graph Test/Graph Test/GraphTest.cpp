@@ -42,6 +42,8 @@ namespace GraphTest
 					return false;
 				}
 			}
+
+			return true;
 		}
 
 		static bool existsEdge(const Graph& g, const Vertex& start, const Vertex& end, Weight weight)

@@ -49,11 +49,18 @@ namespace IDragnev
 				using EdgeListIterator = EdgeListsCollection::iterator;
 
 			public:
+				Vertex(const Vertex&) = default;
+				~Vertex() = default;
+
+				Vertex& operator=(const Vertex&) = default;
+
+				void swap(Vertex& other) noexcept;
+
 				const String& ID() const noexcept { return id; }
 
 			private:
 				Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition);
-
+				
 				void setID(const String& ID);
 
 			private:
@@ -204,6 +211,7 @@ namespace IDragnev
 			EdgeListsCollection edgeLists;
 		};
 
+		void swap(Graph::Vertex& lhs, Graph::Vertex& rhs) noexcept;
 		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept;
 		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept;
 	}

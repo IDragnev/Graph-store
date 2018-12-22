@@ -35,6 +35,14 @@ namespace IDragnev
 			setID(ID);
 		}
 
+		void Graph::Vertex::swap(Vertex& other) noexcept
+		{
+			using std::swap;
+			swap(id, other.id);
+			swap(position, other.position);
+			swap(edgesPosition, other.edgesPosition);
+		}
+
 		void Graph::Vertex::setID(const String& ID)
 		{
 			if (ID != String{ "" })
@@ -45,6 +53,11 @@ namespace IDragnev
 			{
 				throw Exception{ "A Vertex ID must be a valid string" };
 			}
+		}
+
+		void swap(Graph::Vertex& lhs, Graph::Vertex& rhs) noexcept
+		{
+			lhs.swap(rhs);
 		}
 
 		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
@@ -191,7 +204,7 @@ namespace IDragnev
 			if (v != vertices.back())
 			{
 				auto position = v.position;
-				v = std::move(vertices.back());
+				swap(v, vertices.back());
 				v.position = position;
 				updatePositionInSearchTable(v);
 			}
