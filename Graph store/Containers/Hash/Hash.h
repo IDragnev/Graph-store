@@ -3,6 +3,7 @@
 
 #include "..\Dynamic Array\DArray.h"
 #include <assert.h>
+#include <optional>
 
 namespace IDragnev
 {
@@ -11,7 +12,7 @@ namespace IDragnev
 		template <typename T>
 		struct Identity
 		{
-			const T& operator()(const T& item) const { return item; }
+			const T& operator()(const T& item) const noexcept { return item; }
 		};
 
 		template <
@@ -24,13 +25,13 @@ namespace IDragnev
 		{
 		private:
 			using Table = DArray<Item*>;
-
+			
 			class DirectSize
 			{
 			public:
-				explicit DirectSize(std::size_t size) : value{ size } { }
+				constexpr explicit DirectSize(std::size_t size) noexcept : value{ size } { }
 
-				auto get() const { return value; }
+				constexpr auto get() const noexcept { return value; }
 
 			private:
 				std::size_t value;
@@ -66,7 +67,7 @@ namespace IDragnev
 			void resize(std::size_t newSize);
 			void insertAllItemsFrom(Table& table);
 
-			std::int32_t correspondingSlot(const Key& key) const;
+			std::optional<std::size_t> correspondingSlot(const Key& key) const;
 			bool matchesItem(const Key& key, const Item* item) const;
 
 			void rehashClusterStartingAt(std::size_t startingSlot);

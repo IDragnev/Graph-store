@@ -211,7 +211,7 @@ namespace IDragnev
 		inline const Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const
 		{
 			auto slot = correspondingSlot(key);
-			return (slot >= 0) ? table[slot] : nullptr;
+			return (slot) ? table[slot.value()] : nullptr;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -221,7 +221,8 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		std::int32_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::correspondingSlot(const Key& key) const
+		std::optional<std::size_t>
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::correspondingSlot(const Key& key) const
 		{
 			auto slot = computeHashValue(key);
 
@@ -229,13 +230,13 @@ namespace IDragnev
 			{
 				if (matchesItem(key, table[slot]))
 				{
-					return slot;
+					return { slot };
 				}
 
 				slot = followingSlot(slot);
 			}
 
-			return -1;
+			return std::nullopt;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -250,17 +251,17 @@ namespace IDragnev
 		{
 			auto slot = correspondingSlot(key);
 
-			if (slot >= 0)
+			if (slot)
 			{
-				auto item = extractItemAt(slot);
+				auto item = extractItemAt(slot.value());
 
 				if (hasTooManyEmptySlots() && canBeShrinked())
 				{
-					emptySlotAndShrink(slot);
+					emptySlotAndShrink(slot.value());
 				}
 				else
 				{
-					rehashClusterStartingAt(followingSlot(slot));
+					rehashClusterStartingAt(followingSlot(slot.value()));
 				}
 
 				return item;
