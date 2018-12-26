@@ -9,16 +9,16 @@ namespace IDragnev
 {
 	namespace Containers
 	{
-		template <typename T>
 		struct Identity
 		{
+			template <typename T>
 			const T& operator()(const T& item) const noexcept { return item; }
 		};
 
 		template <
 			typename Item,
 			typename Key = Item,
-			typename KeyAccessor = Identity<Key>,
+			typename KeyAccessor = Identity,
 			typename HashFun = std::hash<Key>,
 			typename EqualityPredicate = std::equal_to<Key>
 		> class Hash
