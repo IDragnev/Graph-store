@@ -156,6 +156,19 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		const Item& Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(const Element& element)
+		{
+			if constexpr (isItemPointerType)
+			{
+				return element;
+			}
+			else
+			{
+				return element.value();
+			}
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::computeHashValue(const Key& key) const
 		{
 			return hashFunction(key) % table.getSize();
@@ -274,19 +287,6 @@ namespace IDragnev
 			--count;
 
 			return itemOf(element);
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		const Item& Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(const Element& element)
-		{
-			if constexpr (isItemPointerType)
-			{
-				return element;
-			}
-			else
-			{
-				return element.value();
-			}
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
