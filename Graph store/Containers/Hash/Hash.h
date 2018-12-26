@@ -23,9 +23,11 @@ namespace IDragnev
 			typename EqualityPredicate = std::equal_to<Key>
 		> class Hash
 		{
-		private:
-			using Table = DArray<Item*>;
-			
+		private:	
+			static constexpr bool isItemPointerType = std::is_pointer_v<Item>;
+			using Element = std::conditional_t<isItemPointerType, Item, std::optional<Item>>;
+			using Table = DArray<Element>;
+
 			class DirectSize
 			{
 			public:
@@ -46,12 +48,15 @@ namespace IDragnev
 			Hash(const Hash& source) = default;
 
 			Hash& operator=(Hash&& rhs);
-			Hash& operator=(const Hash& rhs);
+			Hash& operator=(const Hash& rhs) = default;
 
-			void insert(Item& item);
-			Item* remove(const Key& key);
-			Item* search(const Key& key);
-			const Item* search(const Key& key) const;
+			void insert(const Item& item);
+			void remove(const Key& key);
+			Element search(const Key& key) const;
+
+			Item& operator[](const Key& key);
+			const Item& operator[](const Key& key) const;
+			bool contains(const Key& key) const;
 
 			void empty();
 			bool isEmpty() const;
@@ -65,14 +70,18 @@ namespace IDragnev
 			void emptySlotAndShrink(std::size_t slot);
 			void shrink();
 			void resize(std::size_t newSize);
-			void insertAllItemsFrom(Table& table);
+			void insertAllItemsFrom(const Table& table);
+			void insertIfNotEmpty(const Element& element);
+			
+			static const Item& itemOf(const Element& element);
+			static Item itemOf(Element&& element);
 
 			std::optional<std::size_t> correspondingSlot(const Key& key) const;
-			bool matchesItem(const Key& key, const Item* item) const;
+			bool matchesItem(const Key& key, const Element& item) const;
 
 			void rehashClusterStartingAt(std::size_t startingSlot);
-			Item* extractItemAt(std::size_t slot);
-			void fillSlot(std::size_t slot, Item& item);
+			Item extractItemAt(std::size_t slot);
+			void fillSlot(std::size_t slot, const Item& item);
 
 			bool hasTooManyEmptySlots() const;
 			bool canBeShrinked() const;
@@ -87,7 +96,6 @@ namespace IDragnev
 			static const std::size_t GROWTH_FACTOR = 2;
 			static const std::size_t MIN_TABLE_SIZE = 3;
 			static std::size_t calculateSize(std::size_t expectedCount);
-
 			static Table makeEmptyTable(std::size_t size);
 			static void nullify(Table& table);
 

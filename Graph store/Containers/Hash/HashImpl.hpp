@@ -1,5 +1,3 @@
-#include <algorithm>
-
 /*
      MIN_TABLE_SIZE is 3 because it should be small enough to be rarely used in the constructor,
 	 big enough to have empty slots for smaller counts (when the table holds 1 or 2 items),
@@ -21,7 +19,7 @@ namespace IDragnev
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
 			Hash{ std::distance(first, last) }
 		{
-			std::for_each(first, last, [&](Item& item) { insert(item); });
+			for (; first != last; ++first) { insert(*first); }
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -42,7 +40,7 @@ namespace IDragnev
 		{
 			assert(size >= MIN_TABLE_SIZE);
 			auto result = Table(size, size);
-			nullify(result);
+			nullify(result); //redundant call -> DArray initializes with default ctor anyway????
 
 			return result;
 		}
@@ -50,9 +48,9 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::nullify(Table& table)
 		{
-			for (auto&& entry : table)
+			for (auto&& element : table)
 			{
-				entry = nullptr;
+				element = {};
 			}
 		}
 
@@ -93,17 +91,6 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		auto Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::operator=(const Hash& other) -> Hash&
-		{
-			if (this != &other)
-			{
-				swapContentsWithReconstructedParameter(other);
-			}
-
-			return *this;
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::swapContentsWithReconstructedParameter(Hash temp)
 		{
 			using std::swap;
@@ -115,7 +102,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insert(Item& item)
+		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insert(const Item& item)
 		{
 			if (isFillingUp())
 			{
@@ -160,14 +147,20 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(Table& table)
+		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(const Table& table)
 		{
-			for (auto&& itemPtr : table)
+			for (auto&& element : table)
 			{
-				if (itemPtr)
-				{
-					insert(*itemPtr);
-				}
+				insertIfNotEmpty(element);
+			}
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertIfNotEmpty(const Element& element)
+		{
+			if (element)
+			{
+				insert(itemOf(element));
 			}
 		}
 
@@ -189,16 +182,16 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, Item& item)
+		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, const Item& item)
 		{
-			table[slot] = std::addressof(item);
+			table[slot] = item;
 			++count;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty(std::size_t slot) const
 		{
-			return table[slot] == nullptr;
+			return !static_cast<bool>(table[slot]);
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -208,16 +201,11 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline const Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const
+		inline auto
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const -> Element
 		{
 			auto slot = correspondingSlot(key);
-			return (slot) ? table[slot.value()] : nullptr;
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key)
-		{
-			return const_cast<Item*>(static_cast<const Hash&>(*this).search(key));
+			return (slot) ? table[slot.value()] : Element{};
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -241,20 +229,18 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline bool
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Item* item) const
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Element& e) const
 		{
-			return equalityPredicate(key, keyAccessor(*item));
+			return equalityPredicate(key, keyAccessor(itemOf(e)));
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::remove(const Key& key)
+		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::remove(const Key& key)
 		{
 			auto slot = correspondingSlot(key);
 
 			if (slot)
 			{
-				auto item = extractItemAt(slot.value());
-
 				if (hasTooManyEmptySlots() && canBeShrinked())
 				{
 					emptySlotAndShrink(slot.value());
@@ -263,17 +249,13 @@ namespace IDragnev
 				{
 					rehashClusterStartingAt(followingSlot(slot.value()));
 				}
-
-				return item;
 			}
-
-			return nullptr;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::emptySlotAndShrink(std::size_t slot)
 		{
-			table[slot] = nullptr;
+			table[slot] = {};
 
 			try
 			{
@@ -292,15 +274,28 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		Item* Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::extractItemAt(std::size_t slot)
+		Item Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::extractItemAt(std::size_t slot)
 		{
 			assert(slot < table.getSize() && !isEmpty(slot));
 
-			auto item = table[slot];
-			table[slot] = nullptr;
+			auto element = std::move(table[slot]);
+			table[slot] = {};
 			--count;
 
-			return item;
+			return itemOf(element);
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		const Item& Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(const Element& element)
+		{
+			if constexpr (isItemPointerType)
+			{
+				return element;
+			}
+			else
+			{
+				return element.value();
+			}
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -324,8 +319,8 @@ namespace IDragnev
 
 			while (!isEmpty(slotToEmpty))
 			{
-				auto* item = extractItemAt(slotToEmpty);
-				insert(*item);
+				auto item = extractItemAt(slotToEmpty);
+				insert(item);
 
 				slotToEmpty = followingSlot(slotToEmpty);
 			}

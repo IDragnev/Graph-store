@@ -17,11 +17,12 @@ namespace HashTest
 		String key{};
 	};
 
-	bool operator==(const Item& lhs, const Item& rhs) { return lhs.key == rhs.key; }
+	bool operator==(const Item& lhs, const Item& rhs) noexcept { return lhs.key == rhs.key; }
+	bool operator!=(const Item& lhs, const Item& rhs) noexcept { return !(lhs == rhs); }
 
 	struct KeyExtractor
 	{
-		const String& operator()(const Item& item) const { return item.key; }
+		const String& operator()(const Item& item) const noexcept { return item.key; }
 	};
 
 	TEST_CLASS(HashTest)
@@ -36,7 +37,8 @@ namespace HashTest
 		{
 			for (auto&& item : testItems)
 			{
-				if (hash.search(item.key) != &item)
+				if (auto found = hash.search(item.key);
+					!found || found.value() != item)
 				{
 					return false;
 				}
@@ -71,14 +73,10 @@ namespace HashTest
 		{
 			ItemHash hash{ ITEMS_COUNT };
 
-			auto i = 1U;
-			for (auto&& item : testItems)
-			{
-				hash.insert(item);
-				Assert::AreEqual(hash.getCount(), i++);
-			}
+			hash.insert(Item{ "Key" });
+			Assert::AreEqual(hash.getCount(), 1U);
 		}
-
+	
 		TEST_METHOD(testEmptyLeavesTheHashEmpty)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
@@ -88,49 +86,28 @@ namespace HashTest
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(testRemoveReturnsCorrectAddress)
+		TEST_METHOD(searchingAnInsertedItem)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
+			auto& expected = testItems[0];
+			auto found = hash.search(expected.key);
 
-			auto count = ITEMS_COUNT;
-			for (auto&& item : testItems)
-			{
-				Assert::IsTrue(hash.remove(item.key) == &item, L"Invalid address");
-				Assert::AreEqual(hash.getCount(), --count, L"Count is not updated");
-			}
+			Assert::IsTrue(found.has_value(), L"Search returns an empty optional");
+			Assert::IsTrue(found.value() == expected, L"Search returns invalid item");
 		}
 
-		TEST_METHOD(testRemoveReturnsNullptrOnEmptyHash)
+		TEST_METHOD(searchingOnEmptyHashReturnsEmptyOptional)
 		{
 			ItemHash hash{ ITEMS_COUNT };
 
 			for (auto&& item : testItems)
 			{
-				Assert::IsNull(hash.remove(item.key));
+				auto found = hash.search(item.key);
+				Assert::IsFalse(found.has_value());
 			}
 		}
 
-		TEST_METHOD(testSearchReturnsCorrectAddress)
-		{
-			ItemHash hash{ begin(testItems), end(testItems) };
-
-			for (auto&& item : testItems)
-			{
-				Assert::IsTrue(hash.search(item.key) == &item);
-			}
-		}
-
-		TEST_METHOD(testSearchOnEmptyHashReturnsNullptr)
-		{
-			ItemHash hash{ ITEMS_COUNT };
-
-			for (auto&& item : testItems)
-			{
-				Assert::IsNull(hash.search(item.key));
-			}
-		}
-
-		TEST_METHOD(testMoveCtorFromEmptyHash)
+		TEST_METHOD(moveCtorFromEmptyHash)
 		{
 			ItemHash source{ ITEMS_COUNT };
 			ItemHash hash{ std::move(source) };
@@ -139,7 +116,7 @@ namespace HashTest
 			Assert::IsTrue(source.isEmpty(), L"Moved-from hash is not empty");
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmpty)
+		TEST_METHOD(moveCtorFromNonEmpty)
 		{
 			ItemHash source{ begin(testItems), end(testItems) };
 			ItemHash destination{ std::move(source) };
@@ -148,7 +125,7 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(destination), L"Moved-in hash has invalid content");
 		}
 
-		TEST_METHOD(testCopyAssignmentFromEmptyToEmpty)
+		TEST_METHOD(copyAssignmentFromEmptyToEmpty)
 		{
 			ItemHash lhs{ ITEMS_COUNT };
 			ItemHash rhs{ ITEMS_COUNT };
@@ -158,7 +135,7 @@ namespace HashTest
 			Assert::IsTrue(lhs.isEmpty());
 		}
 
-		TEST_METHOD(testCopyAssignmentFromEmptyToNonEmpty)
+		TEST_METHOD(copyAssignmentFromEmptyToNonEmpty)
 		{
 			ItemHash lhs{ begin(testItems), end(testItems) };
 			ItemHash rhs{ ITEMS_COUNT };
@@ -168,7 +145,7 @@ namespace HashTest
 			Assert::IsTrue(lhs.isEmpty());
 		}
 
-		TEST_METHOD(testCopyAssignmentFromNonEmptyToEmpty)
+		TEST_METHOD(copyAssignmentFromNonEmptyToEmpty)
 		{
 			ItemHash lhs{ ITEMS_COUNT };
 			ItemHash rhs{ begin(testItems), end(testItems) };
@@ -178,7 +155,7 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(lhs));
 		}
 
-		TEST_METHOD(testCopyAssignmentFromNonEmptyToNonEmpty)
+		TEST_METHOD(copyAssignmentFromNonEmptyToNonEmpty)
 		{
 			ItemHash lhs{ begin(testItems), end(testItems) };
 			ItemHash rhs{ begin(testItems), end(testItems) };
@@ -191,7 +168,7 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(lhs));
 		}
 
-		TEST_METHOD(testMoveAssignmentFromEmptyToEmpty)
+		TEST_METHOD(moveAssignmentFromEmptyToEmpty)
 		{
 			ItemHash lhs{ ITEMS_COUNT };
 			ItemHash rhs{ ITEMS_COUNT };
@@ -202,7 +179,7 @@ namespace HashTest
 			Assert::IsTrue(lhs.isEmpty(), L"Moved-into hash is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromEmptyToNonEmpty)
+		TEST_METHOD(moveAssignmentFromEmptyToNonEmpty)
 		{
 			ItemHash lhs{ begin(testItems), end(testItems) };
 			ItemHash rhs{ ITEMS_COUNT };
@@ -213,7 +190,7 @@ namespace HashTest
 			Assert::IsTrue(lhs.isEmpty(), L"Moved-into hash is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromNonEmptyToEmpty)
+		TEST_METHOD(moveAssignmentFromNonEmptyToEmpty)
 		{
 			ItemHash lhs{ ITEMS_COUNT };
 			ItemHash rhs{ begin(testItems), end(testItems) };
@@ -224,7 +201,7 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(lhs), L"Moved-in hash has invalid content");
 		}
 
-		TEST_METHOD(testMoveAssignmentFromNonEmptyToNonEmpty)
+		TEST_METHOD(moveAssignmentFromNonEmptyToNonEmpty)
 		{
 			ItemHash lhs{ begin(testItems), end(testItems) };
 			ItemHash rhs{ begin(testItems), end(testItems) };
@@ -238,7 +215,7 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(lhs), L"Moved-in hash has invalid content");
 		}
 
-		TEST_METHOD(testCopyCtorFromEmpty)
+		TEST_METHOD(copyCtorFromEmpty)
 		{
 			ItemHash source{ ITEMS_COUNT };
 			ItemHash destination{ source };
@@ -246,7 +223,7 @@ namespace HashTest
 			Assert::IsTrue(destination.isEmpty());
 		}
 
-		TEST_METHOD(testCopyCtorFromNonEmpty)
+		TEST_METHOD(copyCtorFromNonEmpty)
 		{
 			ItemHash source{ begin(testItems), end(testItems) };
 			ItemHash destination(source);
