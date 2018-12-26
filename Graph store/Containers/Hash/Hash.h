@@ -65,7 +65,7 @@ namespace IDragnev
 		private:
 			Hash(DirectSize);
 
-			void swapContentsWithReconstructedParameter(Hash other);
+			void swapContentsWith(Hash other);
 			void enlarge();
 			void emptySlotAndShrink(std::size_t slot);
 			void shrink();

@@ -75,14 +75,14 @@ namespace IDragnev
 		{
 			if (this != &other)
 			{
-				swapContentsWithReconstructedParameter(std::move(other));
+				swapContentsWith(std::move(other));
 			}
 
 			return *this;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::swapContentsWithReconstructedParameter(Hash temp)
+		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::swapContentsWith(Hash temp)
 		{
 			using std::swap;
 			swap(count, temp.count);
