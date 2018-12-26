@@ -39,19 +39,10 @@ namespace IDragnev
 		auto Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
 		{
 			assert(size >= MIN_TABLE_SIZE);
-			auto result = Table(size, size);
-			nullify(result); //redundant call -> DArray initializes with default ctor anyway????
+			//Table is zero-initialized by default
+			auto result = Table(size, size); 
 
 			return result;
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::nullify(Table& table)
-		{
-			for (auto&& element : table)
-			{
-				element = {};
-			}
 		}
 
 		//
