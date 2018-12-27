@@ -35,6 +35,12 @@ namespace IDragnev
 		constexpr const T& operator()(const T& item) const noexcept { return item; }
 	};
 
+	struct EmptyFunction
+	{
+		template <typename... Args>
+		constexpr void operator()(Args&&...) const noexcept { }
+	};
+
 	template <typename T>
 	constexpr decltype(auto) moveIfNothrowMoveAssignable(T& x) noexcept
 	{

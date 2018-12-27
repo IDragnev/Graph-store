@@ -3,19 +3,12 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "..\..\UtilityFunctions.h"
-#include "..\..\Traits\Traits.h"
 #include <vector>
 
 namespace IDragnev
 {
 	namespace Containers
 	{
-		struct EmptyFunction
-		{
-			template <typename... Args>
-			constexpr void operator()(Args&&...) const noexcept { }
-		};
-
 		struct IdentityAccessor
 		{
 			template <typename T>
@@ -45,13 +38,13 @@ namespace IDragnev
 						  "PriorityQueue requires CompareFunction to be copy constructible");
 			static_assert(std::is_copy_assignable_v<CompareFunction>,
 				          "PriorityQueue requires CompareFunction to be copy assignable");
-			static_assert(Traits::IsNothrowInvocable<KeyAccessor, const Item&>::value,
+			static_assert(std::is_nothrow_invocable_r_v<const Key&, KeyAccessor, const Item&>,
 						  "PriorityQueue requires KeyAccessor::operator()(const Item&) to be noexcept");
-			static_assert(Traits::IsNothrowInvocable<KeyAccessor, Item&, const Key&>::value, 
+			static_assert(std::is_nothrow_invocable_r_v<void, KeyAccessor, Item&, const Key&>, 
 						  "PriorityQueue requires KeyAcessor::operator()(Item&, const Key&) to be noexcept");
-			static_assert(Traits::IsNothrowInvocable<CompareFunction, const Key&, const Key&>::value, 
+			static_assert(std::is_nothrow_invocable_r_v<bool, CompareFunction, const Key&, const Key&>, 
 						  "PriorityQueue requires ComapreFunction::operator()(const Key&, const Key&) to be noexcept");
-			static_assert(Traits::IsNothrowInvocable<HandleSetter, Item&, const Handle&>::value,
+			static_assert(std::is_nothrow_invocable_r_v<void, HandleSetter, Item&, const Handle&>,
 						  "PriorityQueue requires HandleSetter::operator()(Item&, const PriorityQueueHandle&) to be noexcept");
 
 			class Element
