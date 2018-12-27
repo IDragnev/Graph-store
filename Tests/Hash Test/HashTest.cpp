@@ -4,6 +4,7 @@
 #include "../../Graph store/Containers/Hash/HashFunctionStringSpecialization.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using IDragnev::Containers::DArray;
 using IDragnev::String;
 using IDragnev::Containers::Hash;
 using std::begin;
@@ -29,15 +30,28 @@ namespace HashTest
 	{
 	private:
 		using ItemHash = Hash<Item, String, KeyExtractor>;
+		using StringHash = Hash<String>;
+		using StringArray = DArray<String>;
 
 		static const size_t ITEMS_COUNT = 10;
 		static Item testItems[ITEMS_COUNT];
 
 		static bool areAllTestItemsIn(const ItemHash& hash)
 		{
-			for (auto&& item : testItems)
+			return contains(hash, testItems, KeyExtractor{});
+		}
+
+		static bool contains(const StringHash& hash, StringArray values)
+		{
+			return contains(hash, values, IDragnev::Identity{});
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun = std::hash<Key>, typename Container>
+		static bool contains(const Hash<Item, Key, KeyAccessor, HashFun>& hash, const Container& items, KeyAccessor keyOf)
+		{
+			for (auto&& item : items)
 			{
-				if (auto found = hash.search(item.key);
+				if (auto found = hash.search(keyOf(item));
 					!found || found.value() != item)
 				{
 					return false;
@@ -48,36 +62,59 @@ namespace HashTest
 		}
 
 	public:
-		TEST_METHOD(testDefaultCtor)
+		TEST_METHOD(defaultCtor)
 		{
 			ItemHash hash{};
 
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(testConstructorMakesEmptyHash)
+		TEST_METHOD(constructorMakesEmptyHash)
 		{
 			ItemHash hash{ ITEMS_COUNT };
 
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(testRangeCtor)
+		TEST_METHOD(rangeCtor)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
 
 			Assert::IsTrue(areAllTestItemsIn(hash));
 		}
 
-		TEST_METHOD(testInsertUpdatesCount)
+		TEST_METHOD(rangeCtorFromMoveIterator)
+		{
+			auto names = StringArray{ "One", "Two", "Three" };
+			auto first = std::make_move_iterator(begin(names));
+			auto last = std::make_move_iterator(end(names));
+
+			StringHash hash{ first, last };
+
+			Assert::IsTrue(names == StringArray{ "", "", "" }, L"The values are not moved");
+			Assert::IsTrue(contains(hash, { "One", "Two", "Three" }));
+		}
+
+		TEST_METHOD(insertUpdatesCount)
 		{
 			ItemHash hash{ ITEMS_COUNT };
 
 			hash.insert(Item{ "Key" });
 			Assert::AreEqual(hash.getCount(), 1U);
 		}
+
+		TEST_METHOD(insertRValue)
+		{
+			Hash<String> hash;
+			auto str = String{ "Key" };
+
+			hash.insert(std::move(str));
+
+			Assert::IsTrue(str == String{ "" }, L"The rvalue is not moved");
+			Assert::AreEqual(hash.getCount(), 1U, L"Count is not updated");
+		}
 	
-		TEST_METHOD(testEmptyLeavesTheHashEmpty)
+		TEST_METHOD(emptyLeavesTheHashEmpty)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
 

@@ -75,6 +75,7 @@ namespace IDragnev
 			Hash& operator=(const Hash& rhs) = default;
 
 			void insert(const Item& item);
+			void insert(Item&& item);
 			void remove(const Key& key);
 			Element search(const Key& key) const noexcept;
 
@@ -92,10 +93,8 @@ namespace IDragnev
 			void shrink();
 			void resize(std::size_t newSize);
 			void insertAllItemsFrom(const Table& table);
-			void insertIfNotEmpty(const Element& element);
-			
+			void insertIfNotEmpty(const Element& element);		
 			static const Item& itemOf(const Element& element);
-			static Item itemOf(Element&& element);
 
 			std::optional<std::size_t> correspondingSlot(const Key& key) const noexcept;
 			bool matchesItem(const Key& key, const Element& item) const noexcept;
@@ -103,6 +102,7 @@ namespace IDragnev
 			void rehashClusterStartingAt(std::size_t startingSlot);
 			Item extractItemAt(std::size_t slot);
 			void fillSlot(std::size_t slot, const Item& item);
+			void fillSlot(std::size_t slot, Item&& item);
 
 			bool hasTooManyEmptySlots() const noexcept;
 			bool canBeShrinked() const noexcept;
