@@ -32,17 +32,18 @@ namespace IDragnev
 	struct Identity
 	{
 		template <typename T>
-		const T& operator()(const T& item) const noexcept { return item; }
+		constexpr const T& operator()(const T& item) const noexcept { return item; }
 	};
 
 	template <typename T>
-	using AssignmentReference =
-		std::conditional_t<!std::is_nothrow_move_assignable_v<T> && std::is_copy_assignable_v<T>, const T&, T&&>;
-
-	template <typename T>
-	constexpr AssignmentReference<T> moveIfNothrowMoveAssignable(T& x) noexcept
+	constexpr decltype(auto) moveIfNothrowMoveAssignable(T& x) noexcept
 	{
-		return static_cast<AssignmentReference<T>>(x);
+		using ReturnType = 
+			std::conditional_t<!std::is_nothrow_move_assignable_v<T> && std::is_copy_assignable_v<T>, 
+			                   const T&, 
+			                   T&&>;
+
+		return static_cast<ReturnType>(x);
 	}
 }
 
