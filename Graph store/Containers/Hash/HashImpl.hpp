@@ -95,22 +95,25 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insert(const Item& item)
 		{
-			if (isFillingUp())
-			{
-				enlarge();
-			}
-
+			enlargeIfFillingUp();
 			fillSlot(findSlotToInsert(item), item);
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		std::size_t 
+		inline std::size_t 
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findSlotToInsert(const Item& item) const noexcept
 		{
 			auto slot = computeHashValue(keyAccessor(item));  
-			auto emptySlot = findFirstEmptySlotStartingAt(slot);
+			return findFirstEmptySlotStartingAt(slot);
+		}
 
-			return emptySlot;
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::enlargeIfFillingUp()
+		{
+			if (isFillingUp())
+			{
+				enlarge();
+			}
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>

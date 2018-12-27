@@ -86,6 +86,7 @@ namespace IDragnev
 			Hash(DirectSize);
 
 			void swapContentsWith(Hash other);
+			void enlargeIfFillingUp();
 			void enlarge();
 			void emptySlotAndShrink(std::size_t slot);
 			void shrink();
