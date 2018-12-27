@@ -2,28 +2,52 @@
 #define __MY_HASH_HEADER_INCLUDED__
 
 #include "..\Dynamic Array\DArray.h"
+#include "..\..\UtilityFunctions.h"
 #include <assert.h>
 #include <optional>
+#include <type_traits>
 
 namespace IDragnev
 {
 	namespace Containers
 	{
-		struct Identity
-		{
-			template <typename T>
-			const T& operator()(const T& item) const noexcept { return item; }
-		};
-
 		template <
 			typename Item,
 			typename Key = Item,
 			typename KeyAccessor = Identity,
 			typename HashFun = std::hash<Key>,
-			typename EqualityPredicate = std::equal_to<Key>
+			typename EqualityPredicate = EqualTo
 		> class Hash
 		{
-		private:	
+		private:
+			template <typename Fn>
+			struct FunctorRequirements
+			{
+			private:
+				static constexpr bool hasNothrowDefaultCtor = std::is_nothrow_default_constructible_v<Fn>;
+				static constexpr bool hasNothrowCopyCtor = std::is_nothrow_copy_constructible_v<Fn>;
+				static constexpr bool hasNothrowCopyAssignment = std::is_nothrow_copy_assignable_v<Fn>;
+
+			public:
+				static constexpr bool value = hasNothrowCopyAssignment && hasNothrowCopyCtor && hasNothrowDefaultCtor;
+			};
+
+			template <typename Fn>
+			inline static constexpr bool passesFunctorRequirements = FunctorRequirements<Fn>::value;
+
+			static_assert(passesFunctorRequirements<KeyAccessor>,
+						  "Hash requires KeyAccessor to be nothrow default-constructible, nothrow copy-constructible and nothrow copy-assignable");
+			static_assert(passesFunctorRequirements<HashFun>,
+						  "Hash requires HashFun to be nothrow default-constructible, nothrow copy-constructible and nothrow copy-assignable");
+			static_assert(passesFunctorRequirements<EqualityPredicate>,
+						  "Hash requires EqualityPredicate to be nothrow default-constructible, nothrow copy-constructible and nothrow copy-assignable");
+			static_assert(std::is_nothrow_invocable_r_v<const Key&, KeyAccessor, const Item&>, 
+						  "Hash requires KeyAccessor::operator()(const Item&) to be noexcept");
+			static_assert(std::is_nothrow_invocable_r_v<std::size_t, HashFun, const Key&>,
+						  "Hash requires HashFun::operator()(const Key&) to be noexcept");
+			static_assert(std::is_nothrow_invocable_r_v<bool, EqualityPredicate, const Key&, const Key&>,
+						  "Hash requires EqualityPredicate::operator()(const Key&, const Key&) to be noexcept");
+			
 			static constexpr bool isItemPointerType = std::is_pointer_v<Item>;
 			using Element = std::conditional_t<isItemPointerType, Item, std::optional<Item>>;
 			using Table = DArray<Element>;
