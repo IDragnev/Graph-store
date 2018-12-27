@@ -106,7 +106,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isFillingUp() const
+		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isFillingUp() const noexcept
 		{
 			return 3 * count >= 2 * table.getSize();
 		}
@@ -164,18 +164,21 @@ namespace IDragnev
 			}
 			else
 			{
+				assert(element.has_value());
 				return element.value();
 			}
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::computeHashValue(const Key& key) const
+		inline std::size_t 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::computeHashValue(const Key& key) const noexcept
 		{
 			return hashFunction(key) % table.getSize();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findFirstEmptySlotStartingAt(std::size_t slot) const
+		std::size_t 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findFirstEmptySlotStartingAt(std::size_t slot) const noexcept
 		{
 			while (!isEmpty(slot))
 			{
@@ -193,20 +196,21 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty(std::size_t slot) const
+		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty(std::size_t slot) const noexcept
 		{
 			return !static_cast<bool>(table[slot]);
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::followingSlot(std::size_t slot) const
+		inline std::size_t 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::followingSlot(std::size_t slot) const noexcept
 		{
 			return (slot + 1) % table.getSize();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline auto
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const -> Element
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const noexcept -> Element
 		{
 			auto slot = correspondingSlot(key);
 			return (slot) ? table[slot.value()] : Element{};
@@ -214,7 +218,7 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		std::optional<std::size_t>
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::correspondingSlot(const Key& key) const
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::correspondingSlot(const Key& key) const noexcept
 		{
 			auto slot = computeHashValue(key);
 
@@ -233,7 +237,7 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline bool
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Element& e) const
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Element& e) const noexcept
 		{
 			return equalityPredicate(key, keyAccessor(itemOf(e)));
 		}
@@ -290,13 +294,13 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::hasTooManyEmptySlots() const
+		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::hasTooManyEmptySlots() const noexcept
 		{
 			return 6 * count <= table.getSize();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::canBeShrinked() const
+		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::canBeShrinked() const noexcept
 		{
 			return table.getSize() / GROWTH_FACTOR >= MIN_TABLE_SIZE;
 		}
@@ -320,17 +324,19 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::empty()
 		{
-			*this = Hash{};
+			*this = {};
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline bool Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty() const
+		inline bool 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty() const noexcept
 		{
 			return count == 0;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline std::size_t Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::getCount() const
+		inline std::size_t 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::getCount() const noexcept
 		{
 			return count;
 		}
