@@ -78,10 +78,6 @@ namespace IDragnev
 			void remove(const Key& key);
 			Element search(const Key& key) const noexcept;
 
-			Item& operator[](const Key& key);
-			const Item& operator[](const Key& key) const;
-			bool contains(const Key& key) const;
-
 			void empty();
 			bool isEmpty() const noexcept;
 			std::size_t getCount() const noexcept;
