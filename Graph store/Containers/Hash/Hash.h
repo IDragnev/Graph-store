@@ -107,6 +107,7 @@ namespace IDragnev
 			bool canBeShrinked() const noexcept;
 			bool isFillingUp() const noexcept;
 
+			std::size_t findSlotToInsert(const Item& item) const noexcept;
 			std::size_t findFirstEmptySlotStartingAt(std::size_t slot) const noexcept;
 			std::size_t computeHashValue(const Key& key) const noexcept;
 			std::size_t followingSlot(std::size_t slot) const noexcept;

@@ -100,9 +100,17 @@ namespace IDragnev
 				enlarge();
 			}
 
-			auto slot = computeHashValue(keyAccessor(item));
+			fillSlot(findSlotToInsert(item), item);
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		std::size_t 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findSlotToInsert(const Item& item) const noexcept
+		{
+			auto slot = computeHashValue(keyAccessor(item));  
 			auto emptySlot = findFirstEmptySlotStartingAt(slot);
-			fillSlot(emptySlot, item);
+
+			return emptySlot;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
