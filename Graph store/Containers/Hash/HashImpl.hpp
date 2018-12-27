@@ -65,9 +65,9 @@ namespace IDragnev
 			swap(table, source.table);
 			swap(count, source.count);
 
-			hashFunction = std::move(source.hashFunction);
-			keyAccessor = std::move(source.keyAccessor);
-			equalityPredicate = std::move(source.equalityPredicate);
+			hashFunction = moveIfNothrowMoveAssignable(source.hashFunction);
+			keyAccessor = moveIfNothrowMoveAssignable(source.keyAccessor);
+			equalityPredicate = moveIfNothrowMoveAssignable(source.equalityPredicate);
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
