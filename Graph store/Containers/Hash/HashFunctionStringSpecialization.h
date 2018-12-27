@@ -14,7 +14,7 @@ namespace std
 	template <>
 	struct hash<IDragnev::String>
 	{
-		std::size_t operator()(const IDragnev::String& key) const
+		std::size_t operator()(const IDragnev::String& key) const noexcept
 		{
 			const char* input = key;
 			auto result = FNV_OFFSET_BASIS;
