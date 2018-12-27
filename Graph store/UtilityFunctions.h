@@ -20,6 +20,21 @@ namespace IDragnev
 		}
 	};
 
+	struct EqualTo
+	{
+		template <typename T, typename U>
+		constexpr auto operator()(const T& lhs, const U& rhs) const noexcept(noexcept(lhs == rhs))
+		{
+			return lhs == rhs;
+		}
+	};
+
+	struct Identity
+	{
+		template <typename T>
+		const T& operator()(const T& item) const noexcept { return item; }
+	};
+
 	template <typename T>
 	using AssignmentReference =
 		std::conditional_t<!std::is_nothrow_move_assignable_v<T> && std::is_copy_assignable_v<T>, const T&, T&&>;
