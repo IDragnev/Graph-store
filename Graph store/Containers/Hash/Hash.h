@@ -48,8 +48,7 @@ namespace IDragnev
 			static_assert(std::is_nothrow_invocable_r_v<bool, EqualityPredicate, const Key&, const Key&>,
 						  "Hash requires EqualityPredicate::operator()(const Key&, const Key&) to be noexcept");
 			
-			static constexpr bool isItemPointerType = std::is_pointer_v<Item>;
-			using Element = std::conditional_t<isItemPointerType, Item, std::optional<Item>>;
+			using Element = std::conditional_t<std::is_pointer_v<Item>, Item, std::optional<Item>>;
 			using Table = DArray<Element>;
 
 			class DirectSize
@@ -93,8 +92,21 @@ namespace IDragnev
 			void shrink();
 			void resize(std::size_t newSize);
 			void insertAllItemsFrom(const Table& table);
-			void insertIfNotEmpty(const Element& element);		
-			static const Item& itemOf(const Element& element);
+			void insertIfNotEmpty(const Element& element);
+
+			template <typename T>
+			static decltype(auto) itemOf(T&& element)
+			{
+				if constexpr (std::is_pointer_v<std::remove_reference_t<T>>)
+				{
+					return element;
+				}
+				else //std::optional
+				{
+					assert(element.has_value());
+					return std::forward<T>(element).value();
+				}
+			}
 
 			std::optional<std::size_t> correspondingSlot(const Key& key) const noexcept;
 			bool matchesItem(const Key& key, const Element& item) const noexcept;
