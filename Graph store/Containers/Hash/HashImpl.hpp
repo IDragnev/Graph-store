@@ -207,16 +207,10 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, const Item& item)
+		template <typename T>
+		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, T&& item)
 		{
-			table[slot] = item;
-			++count;
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::fillSlot(std::size_t slot, Item&& item)
-		{
-			table[slot] = std::move(item);
+			table[slot] = std::forward<T>(item);
 			++count;
 		}
 

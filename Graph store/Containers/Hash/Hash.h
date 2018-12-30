@@ -101,8 +101,8 @@ namespace IDragnev
 
 			void rehashClusterStartingAt(std::size_t startingSlot);
 			Item extractItemAt(std::size_t slot);
-			void fillSlot(std::size_t slot, const Item& item);
-			void fillSlot(std::size_t slot, Item&& item);
+			template <typename T>
+			void fillSlot(std::size_t slot, T&& item);
 
 			bool hasTooManyEmptySlots() const noexcept;
 			bool canBeShrinked() const noexcept;
