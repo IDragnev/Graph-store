@@ -291,11 +291,11 @@ namespace IDragnev
 		{
 			assert(slot < table.getSize() && !isEmpty(slot));
 
-			auto element = std::move(table[slot]);
+			auto item = itemOf(std::move(table[slot]));
 			table[slot] = {};
 			--count;
 
-			return itemOf(std::move(element));
+			return item;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
