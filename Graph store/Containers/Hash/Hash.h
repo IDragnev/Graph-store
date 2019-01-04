@@ -115,6 +115,7 @@ namespace IDragnev
 			Item extractItemAt(std::size_t slot);
 			template <typename T>
 			void fillSlot(std::size_t slot, T&& item);
+			void empty(std::size_t slot) noexcept;
 
 			bool hasTooManyEmptySlots() const noexcept;
 			bool canBeShrinked() const noexcept;

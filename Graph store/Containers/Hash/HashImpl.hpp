@@ -254,6 +254,8 @@ namespace IDragnev
 
 			if (slot)
 			{
+				extractItemAt(slot.value());
+
 				if (hasTooManyEmptySlots() && canBeShrinked())
 				{
 					emptySlotAndShrink(slot.value());
@@ -268,7 +270,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::emptySlotAndShrink(std::size_t slot)
 		{
-			table[slot] = {};
+			empty(slot);
 
 			try
 			{
@@ -278,6 +280,12 @@ namespace IDragnev
 			{
 				rehashClusterStartingAt(followingSlot(slot));
 			}
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::empty(std::size_t slot) noexcept
+		{
+			table[slot] = {};
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -292,7 +300,7 @@ namespace IDragnev
 			assert(slot < table.getSize() && !isEmpty(slot));
 
 			auto item = itemOf(std::move(table[slot]));
-			table[slot] = {};
+			empty(slot);
 			--count;
 
 			return item;

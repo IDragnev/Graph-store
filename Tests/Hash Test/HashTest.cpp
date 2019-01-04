@@ -114,6 +114,17 @@ namespace HashTest
 			Assert::AreEqual(hash.getCount(), 1U, L"Count is not updated");
 		}
 	
+		TEST_METHOD(removingUniqueItem)
+		{
+			ItemHash hash{ begin(testItems), end(testItems) };
+
+			hash.remove(testItems[0].key);
+			auto found = hash.search(testItems[0].key);
+
+			Assert::IsTrue(hash.getCount() == ITEMS_COUNT - 1, L"Count is not updated");
+			Assert::IsFalse(found.has_value(), L"Item is found after remove");
+		}
+
 		TEST_METHOD(emptyLeavesTheHashEmpty)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
