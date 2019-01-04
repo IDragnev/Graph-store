@@ -26,10 +26,16 @@ namespace HashTest
 		const String& operator()(const Item& item) const noexcept { return item.key; }
 	};
 
+	struct PointerKeyExtractor
+	{
+		const String& operator()(const Item* item) const noexcept { return item->key; }
+	};
+
 	TEST_CLASS(HashTest)
 	{
 	private:
 		using ItemHash = Hash<Item, String, KeyExtractor>;
+		using ItemPtrHash = Hash<const Item*, String, PointerKeyExtractor>;
 		using StringHash = Hash<String>;
 		using StringArray = DArray<String>;
 
@@ -69,7 +75,7 @@ namespace HashTest
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(constructorMakesEmptyHash)
+		TEST_METHOD(expectedCountCtorMakesEmptyHash)
 		{
 			ItemHash hash{ ITEMS_COUNT };
 
@@ -95,6 +101,12 @@ namespace HashTest
 			Assert::IsTrue(contains(hash, { "One", "Two", "Three" }));
 		}
 
+		TEST_METHOD(initListCtor)
+		{
+			StringHash hash{ "One", "Two", "Three" };
+
+			Assert::IsTrue(contains(hash, { "One", "Two", "Three" }));
+		}
 		TEST_METHOD(insertUpdatesCount)
 		{
 			ItemHash hash{ ITEMS_COUNT };
@@ -103,7 +115,7 @@ namespace HashTest
 			Assert::AreEqual(hash.getCount(), 1U);
 		}
 
-		TEST_METHOD(insertRValue)
+		TEST_METHOD(insertingRValue)
 		{
 			Hash<String> hash;
 			auto str = String{ "Key" };
@@ -117,15 +129,27 @@ namespace HashTest
 		TEST_METHOD(removingUniqueItem)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
+			auto& key = testItems[0].key;
 
-			hash.remove(testItems[0].key);
-			auto found = hash.search(testItems[0].key);
+			hash.remove(key);
+			auto found = hash.search(key);
 
 			Assert::IsTrue(hash.getCount() == ITEMS_COUNT - 1, L"Count is not updated");
 			Assert::IsFalse(found.has_value(), L"Item is found after remove");
 		}
 
-		TEST_METHOD(emptyLeavesTheHashEmpty)
+		TEST_METHOD(removingDuplicateItem)
+		{
+			auto duplicate = String{ "duplicate" };
+			StringHash hash{ duplicate, "unique", duplicate };
+
+			hash.remove(duplicate);
+			auto found = hash.search(duplicate);
+
+			Assert::IsTrue(found.has_value(), L"Null optional was found");
+			Assert::IsTrue(found.value() == duplicate, L"Wrong item was found");
+		}
+		TEST_METHOD(empty)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
 
@@ -143,15 +167,36 @@ namespace HashTest
 			Assert::IsTrue(found.has_value(), L"Search returns an empty optional");
 			Assert::IsTrue(found.value() == expected, L"Search returns invalid item");
 		}
-
-		TEST_METHOD(searchingOnEmptyHashReturnsEmptyOptional)
+		TEST_METHOD(searchingAMissingItem)
 		{
-			ItemHash hash{ ITEMS_COUNT };
+			ItemHash hash{};
 
 			for (auto&& item : testItems)
 			{
 				auto found = hash.search(item.key);
 				Assert::IsFalse(found.has_value());
+			}
+		}
+
+		TEST_METHOD(searchingAPointerHashReturnsAPointer)
+		{
+			ItemPtrHash hash{ &testItems[0], &testItems[1], &testItems[2] };
+			auto expected = &testItems[0];
+
+			auto found = hash.search(expected->key);
+
+			Assert::IsNotNull(found, L"Search returns a null pointer");
+			Assert::IsTrue(found == expected, L"Search returns a wrong pointer");
+		}
+
+		TEST_METHOD(searchingAMissingPointerOnAPointerHashReturnsNullptr)
+		{
+			ItemPtrHash hash{};
+
+			for (auto&& item : testItems)
+			{
+				auto found = hash.search(item.key);
+				Assert::IsNull(found);
 			}
 		}
 
