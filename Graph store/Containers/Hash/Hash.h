@@ -110,7 +110,7 @@ namespace IDragnev
 			}
 
 			std::optional<std::size_t> correspondingSlot(const Key& key) const noexcept;
-			bool matchesItem(const Key& key, const Element& item) const noexcept;
+			bool match(const Key& key, const Element& item) const noexcept;
 
 			void rehashClusterStartingAt(std::size_t startingSlot);
 			Item extractItemAt(std::size_t slot);

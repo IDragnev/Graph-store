@@ -234,7 +234,7 @@ namespace IDragnev
 
 			while (!isEmpty(slot))
 			{
-				if (matchesItem(key, table[slot]))
+				if (match(key, table[slot]))
 				{
 					return { slot };
 				}
@@ -247,7 +247,7 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline bool
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matchesItem(const Key& key, const Element& e) const noexcept
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::match(const Key& key, const Element& e) const noexcept
 		{
 			return equalityPredicate(key, keyAccessor(itemOf(e)));
 		}
