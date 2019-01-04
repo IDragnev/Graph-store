@@ -65,6 +65,7 @@ namespace IDragnev
 		public:
 			Hash();
 			explicit Hash(std::size_t expectedCount);
+			Hash(std::initializer_list<Item> source);
 			template <typename InputIt>
 			Hash(InputIt first, InputIt last);
 			Hash(Hash&& source);

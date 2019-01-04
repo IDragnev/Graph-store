@@ -10,21 +10,7 @@ namespace IDragnev
 	{
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash() :
-			Hash{ DirectSize{ MIN_TABLE_SIZE } }
-		{
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		template <typename InputIt>
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
-			Hash{ std::distance(first, last) }
-		{
-			for (; first != last; ++first) { insert(*first); }
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(std::size_t expectedCount) :
-			Hash{ DirectSize{ calculateSize(expectedCount) } }
+			Hash(DirectSize{ MIN_TABLE_SIZE })
 		{
 		}
 
@@ -36,13 +22,31 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		auto Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
+		inline auto 
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
 		{
 			assert(size >= MIN_TABLE_SIZE);
-			//Table is zero-initialized by default
-			auto result = Table(size, size); 
+			return Table(size, size);  //Table is zero-initialized by default
+		}
 
-			return result;
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		inline Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(std::initializer_list<Item> source) :
+			Hash(source.begin(), source.end())
+		{
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		template <typename InputIt>
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
+			Hash(std::distance(first, last))
+		{
+			for (; first != last; ++first) { insert(*first); }
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(std::size_t expectedCount) :
+			Hash(DirectSize{ calculateSize(expectedCount) })
+		{
 		}
 
 		//
