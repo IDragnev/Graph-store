@@ -169,17 +169,23 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::insert(const T& newItem)
+		inline void DArray<T>::insert(const T& item)
 		{
-			enlargeIfFull();
-			items[count++] = newItem;
+			doInsert(item);
 		}
 
 		template <typename T>
-		inline void DArray<T>::insert(T&& newItem)
+		inline void DArray<T>::insert(T&& item)
+		{
+			doInsert(std::move(item));
+		}
+
+		template <typename T>
+		template <typename Item>
+		inline void DArray<T>::doInsert(Item&& item)
 		{
 			enlargeIfFull();
-			items[count++] = std::move(newItem);
+			items[count++] = std::forward<Item>(item);
 		}
 
 		template <typename T>

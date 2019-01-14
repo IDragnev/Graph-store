@@ -108,6 +108,9 @@ namespace IDragnev
 			void resize(size_type newSize);
 			void swapContentsWithReconstructedParameter(DArray<T> temp) noexcept;
 
+			template <typename T>
+			void doInsert(T&& item);
+
 			bool hasItemAt(size_type position) const;
 			void shiftItemsOnePositionLeft(size_type start, size_type end);
 			void shiftItemsOnePositionRight(size_type start, size_type end);
