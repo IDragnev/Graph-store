@@ -41,13 +41,13 @@ namespace IDragnev
 
 			struct IDAccessor
 			{
-				const String& operator()(const PriorityVertex& v) const noexcept { return v.vertex->ID(); }
+				const String& operator()(const PriorityVertex* v) const noexcept { return v->vertex->ID(); }
 			};
 
 			using PriorityVertexRef = std::reference_wrapper<PriorityVertex>;
 			using MinPriorityQueue =
 				Containers::PriorityQueue<PriorityVertexRef, Distance, DistanceAccessor, GreaterThan, HandleSetter>;
-			using DecoratorsMap = Containers::Hash<PriorityVertex, String, IDAccessor>;
+			using DecoratorsMap = Containers::Hash<PriorityVertex*, String, IDAccessor>;
 			using DecoratorsArray = Containers::DArray<PriorityVertex>;
 
 		public:

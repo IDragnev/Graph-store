@@ -46,7 +46,11 @@ namespace IDragnev
 			assert(map.isEmpty());
 			using std::begin;
 			using std::end;
-			map = DecoratorsMap{ begin(decorators), end(decorators) };
+
+			for (auto&& current : decorators)
+			{
+				map.insert(&current);
+			}
 		}
 
 		void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)

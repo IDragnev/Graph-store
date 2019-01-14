@@ -100,7 +100,7 @@ namespace IDragnev
 			{
 				if constexpr (std::is_pointer_v<std::remove_reference_t<T>>)
 				{
-					return element;
+					return std::forward<T>(element);
 				}
 				else //std::optional
 				{

@@ -93,10 +93,9 @@ namespace IDragnev
 		private:
 			struct IDAccessor
 			{
-				template <typename T>
-				const String& operator()(const T& item) const noexcept(noexcept(item.ID()))
+				const String& operator()(const Vertex* v) const noexcept
 				{
-					return item.ID();
+					return v->ID();
 				}
 			};
 
@@ -127,7 +126,7 @@ namespace IDragnev
 			};
 
 			using VertexArray = std::vector<Vertex>;
-			using VertexHashTable = Containers::Hash<Vertex, String, IDAccessor>;
+			using VertexHashTable = Containers::Hash<Vertex*, String, IDAccessor>;
 			using IncidentEdgesIterator = EdgeList::iterator;
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
 			using VertexConstIterator = 

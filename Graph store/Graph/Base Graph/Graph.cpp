@@ -182,7 +182,7 @@ namespace IDragnev
 		{
 			try
 			{
-				verticesSearchTable.insert(v);
+				verticesSearchTable.insert(&v);
 			}
 			catch (std::bad_alloc&)
 			{
