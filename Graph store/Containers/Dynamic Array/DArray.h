@@ -110,7 +110,7 @@ namespace IDragnev
 			template <typename T>
 			void doInsert(T&& item);
 
-			bool hasItemAt(size_type position) const;
+			bool hasItemAt(size_type position) const noexcept;
 			void shiftItemsOnePositionLeft(size_type start, size_type end);
 			void shiftItemsOnePositionRight(size_type start, size_type end);
 

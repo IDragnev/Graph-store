@@ -252,7 +252,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline bool DArray<T>::hasItemAt(size_type position) const
+		inline bool DArray<T>::hasItemAt(size_type position) const noexcept
 		{
 			return position < count;
 		}
