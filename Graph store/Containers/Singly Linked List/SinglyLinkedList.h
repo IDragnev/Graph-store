@@ -19,8 +19,12 @@ namespace IDragnev
 			template <typename Item>
 			struct Node
 			{
-				Node(const Item& data, Node<Item>* next = nullptr);
-				Node(Item&& data, Node<Item>* next = nullptr);
+				template <typename T>
+				Node(T&& data, Node<Item>* next = nullptr) :
+					next{ next },
+					data{ std::forward<T>(data) }
+				{
+				}
 
 				Node<Item>* next;
 				Item data;
