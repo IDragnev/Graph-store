@@ -81,7 +81,6 @@ namespace IDragnev
 		public:
 			void insert(T&& item);
 			void insert(const T& item);
-			void insert(const DArray<T>& other);
 			void insertAt(size_type position, const T& item);
 			void removeAt(size_type position);
 

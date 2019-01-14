@@ -160,15 +160,6 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::insert(const DArray<T>& other)
-		{
-			for (auto i = size_type{ 0 }; i < other.count; ++i)
-			{
-				insert(other[i]);
-			}
-		}
-
-		template <typename T>
 		inline void DArray<T>::insert(const T& item)
 		{
 			doInsert(item);
