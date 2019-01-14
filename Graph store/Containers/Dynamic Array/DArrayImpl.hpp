@@ -176,7 +176,8 @@ namespace IDragnev
 		inline void DArray<T>::doInsert(Item&& item)
 		{
 			enlargeIfFull();
-			items[count++] = std::forward<Item>(item);
+			items[count] = std::forward<Item>(item);
+			++count;
 		}
 
 		template <typename T>
