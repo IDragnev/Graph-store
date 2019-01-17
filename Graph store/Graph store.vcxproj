@@ -160,7 +160,6 @@
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
-    <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="GraphStore\GraphStore.cpp" />
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />

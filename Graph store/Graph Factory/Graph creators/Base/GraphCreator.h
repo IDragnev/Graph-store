@@ -16,14 +16,17 @@ namespace IDragnev
 			using GraphPtr = std::unique_ptr<Graph>;
 
 		public:
-			explicit GraphCreator(const String& graphType);
+			explicit GraphCreator(String graphType) :
+				createdGraphType{ std::move(graphType) }
+			{
+			}
 			GraphCreator(const GraphCreator&) = delete;
 			GraphCreator& operator=(const GraphCreator&) = delete;
 			virtual ~GraphCreator() = default;
 
-			virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
+			virtual GraphPtr createEmptyGraph(String ID) const = 0;
 
-			const String& getCreatedGraphType() const;
+			const String& getCreatedGraphType() const noexcept { return createdGraphType; }
 
 		private:
 			const String createdGraphType;

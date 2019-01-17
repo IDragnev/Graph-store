@@ -15,8 +15,8 @@ namespace IDragnev
 			using Creator = ConcreteGraphCreator<GraphType>;
 
 		public:
-			explicit GraphRegistrator(const String& graphType) :
-				creator{ graphType }
+			explicit GraphRegistrator(String graphType) :
+				creator{ std::move(graphType) }
 			{
 				GraphFactory::instance().registerCreator(&creator);
 			}

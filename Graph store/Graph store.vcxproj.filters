@@ -184,9 +184,6 @@
     <ClCompile Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Graph Factory\Graph creators\Base\GraphCreator.cpp">
-      <Filter>Graph Factory\Graph creators\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory</Filter>
     </ClCompile>
