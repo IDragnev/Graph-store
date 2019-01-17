@@ -59,9 +59,9 @@ namespace IDragnev
 				const String& ID() const noexcept { return id; }
 
 			private:
-				Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition);
+				Vertex(String ID, std::size_t position, EdgeListIterator edgesPosition);
 				
-				void setID(const String& ID);
+				void setID(String&& ID);
 
 			private:
 				String id;
@@ -141,7 +141,7 @@ namespace IDragnev
 			using EdgeConstIteratorPtr = std::unique_ptr<EdgeConstIteratorBase>;
 		
 		public:
-			Graph(const String& ID);
+			Graph(String ID);
 			Graph(const Graph&) = delete;
 			virtual ~Graph() = default;
 
@@ -198,7 +198,7 @@ namespace IDragnev
 			void makeVertex(const String& ID);
 			void makeEmptyEdgeList();
 
-			void setID(const String& ID);
+			void setID(String&& ID);
 
 		private:
 			static const std::size_t FEWEST_VERTICES_EXPECTED = 32;
