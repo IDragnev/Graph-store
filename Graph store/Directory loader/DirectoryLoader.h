@@ -2,7 +2,7 @@
 #define __DIRECTORY_LOADER_H_INCLUDED__
 
 #include "..\DirectoryFlatIterator\DirectoryFlatIterator.h"
-#include "..\Graph Builder\GraphBuilder.h"
+#include "..\Serialization\Graph Builder\GraphBuilder.h"
 #include "..\String\String.h"
 #include <functional>
 #include <memory>

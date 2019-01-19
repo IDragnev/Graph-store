@@ -50,9 +50,6 @@
     <Filter Include="File parser">
       <UniqueIdentifier>{d2939c70-f62b-43db-bd45-8ad46ffc5c84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph Builder">
-      <UniqueIdentifier>{f9081231-d2a1-4240-a2ef-dee1afea673b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Directory FlatIterator">
       <UniqueIdentifier>{a865695d-1da2-4f45-b6f9-26f1a2b13529}</UniqueIdentifier>
     </Filter>
@@ -164,7 +161,13 @@
     <Filter Include="Utility Functions">
       <UniqueIdentifier>{3b66b410-1266-4bc7-bcc3-6b66447515bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph Saver">
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{7f4f3634-77e7-44a3-801c-0315d0e6d27a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization\Graph Builder">
+      <UniqueIdentifier>{f9081231-d2a1-4240-a2ef-dee1afea673b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization\Graph Saver">
       <UniqueIdentifier>{5b9db7ee-86b0-4988-b269-182f93306a20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -192,9 +195,6 @@
     </ClCompile>
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph Builder\GraphBuilder.cpp">
-      <Filter>Graph Builder</Filter>
     </ClCompile>
     <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp">
       <Filter>Directory FlatIterator</Filter>
@@ -254,7 +254,10 @@
       <Filter>Containers\Priority Queue</Filter>
     </ClCompile>
     <ClCompile Include="Serialization\Graph Saver\GraphSaver.cpp">
-      <Filter>Graph Saver</Filter>
+      <Filter>Serialization\Graph Saver</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization\Graph Builder\GraphBuilder.cpp">
+      <Filter>Serialization\Graph Builder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,9 +302,6 @@
     </ClInclude>
     <ClInclude Include="File parser\FileParserImpl.hpp">
       <Filter>File parser</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph Builder\GraphBuilder.h">
-      <Filter>Graph Builder</Filter>
     </ClInclude>
     <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h">
       <Filter>Directory FlatIterator</Filter>
@@ -442,7 +442,13 @@
       <Filter>Utility Functions</Filter>
     </ClInclude>
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h">
-      <Filter>Graph Saver</Filter>
+      <Filter>Serialization\Graph Saver</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializationConstants.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h">
+      <Filter>Serialization\Graph Builder</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

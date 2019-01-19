@@ -1,5 +1,8 @@
 #include "GraphSaver.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
+#include "..\SerializationConstants.h"
+
+using namespace IDragnev::GraphStore::SerializationConstants;
 
 namespace IDragnev
 {
@@ -7,9 +10,17 @@ namespace IDragnev
 	{
 		void GraphSaver::operator()(const Graph& g, const String& filename)
 		{
-			init(g, filename);
-			saveGraph();
-			clear();
+			try
+			{
+				init(g, filename);
+				saveGraphToFile();
+				clear();
+			}
+			catch (std::bad_alloc&)
+			{
+				clear();
+				throw NoMemoryAvailable{};
+			}
 		}
 
 		void GraphSaver::init(const Graph& g, const String& filename)
@@ -19,23 +30,6 @@ namespace IDragnev
 			graph = &g;
 		}
 
-		void GraphSaver::setupCollections(std::size_t verticesCount)
-		{
-			assert(pairs.isEmpty());
-			assert(map.isEmpty());
-
-			try
-			{
-				pairs.ensureSize(verticesCount);
-				map = PairMap{ verticesCount };
-			}
-			catch (std::bad_alloc&)
-			{
-				clear();
-				throw NoMemoryAvailable{};
-			}
-		}
-
 		void GraphSaver::open(const String& filename)
 		{
 			file.open(filename);
@@ -43,6 +37,15 @@ namespace IDragnev
 			{
 				throw Exception{ "Failed to open" + filename + "for writing" };
 			}
+		}
+
+		void GraphSaver::setupCollections(std::size_t verticesCount)
+		{
+			assert(pairs.isEmpty());
+			assert(map.isEmpty());
+
+			pairs.ensureSize(verticesCount);
+			map = PairPtrMap{ verticesCount };
 		}
 
 		void GraphSaver::saveGraphToFile()
@@ -77,22 +80,15 @@ namespace IDragnev
 
 			forEach(*iteratorPtr, [&](const Edge edge)
 			{
-				write(edge);
+				file << EDGE_START
+					 << indexOfID(edge.start())
+					 << EDGE_ATTRIBUTE_DELIMITER
+					 << indexOfID(edge.end())
+					 << EDGE_ATTRIBUTE_DELIMITER
+					 << edge.weight()
+					 << EDGE_END
+					 << '\n';
 			});
-		}
-
-		void GraphSaver::write(const Edge& edge)
-		{
-			/*
-			file << EDGE_START
-				<< indexOfID(edge.start())
-				<< EDGE_ATTRIBUTE_DELIMITER
-				<< indexOfID(edge.end())
-				<< EDGE_ATTRIBUTE_DELIMITER
-				<< edge.weight()
-				<< EDGE_END
-				<< "\n";
-				*/
 		}
 
 		std::size_t GraphSaver::indexOfID(const Vertex& v) const noexcept

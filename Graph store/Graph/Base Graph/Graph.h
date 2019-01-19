@@ -78,12 +78,11 @@ namespace IDragnev
 			public:
 				using Weight = IncidentEdge::Weight;
 				
+				Edge(const Vertex& start, const IncidentEdge& edge) noexcept;
+
 				const Vertex& start() const noexcept;
 				const Vertex& end() const noexcept;
 				Weight weight() const noexcept;
-
-			private:
-				Edge(const Vertex& start, const IncidentEdge& edge) noexcept;
 
 			private:
 				ConstVertexRef startVertex;

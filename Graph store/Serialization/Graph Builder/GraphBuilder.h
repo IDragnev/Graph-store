@@ -1,10 +1,10 @@
 #ifndef __GRAPH_BUILDER_H_INCLUDED__
 #define __GRAPH_BUILDER_H_INCLUDED__
 
-#include "..\String\String.h"
-#include "..\File parser\FileParser.h"
-#include "..\Containers\Dynamic Array\DArray.h"
-#include "..\Graph\Base Graph\Graph.h"
+#include "..\..\String\String.h"
+#include "..\..\File parser\FileParser.h"
+#include "..\..\Containers\Dynamic Array\DArray.h"
+#include "..\..\Graph\Base Graph\Graph.h"
 #include <memory>
 
 namespace IDragnev
@@ -53,12 +53,6 @@ namespace IDragnev
 
 			void handleError(const String& filename, const Exception& e);
 			bool areVerticesInserted() const;
-
-		private:
-			static const char EDGE_START = '(';
-			static const char EDGE_END = ')';
-			static const char EDGE_ATTRIBUTE_DELIMITER = ',';
-			static const char NEW_LINE = '\n';
 
 		private:
 			StringArray vertexIDs;

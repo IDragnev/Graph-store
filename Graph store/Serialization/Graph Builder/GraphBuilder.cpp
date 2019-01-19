@@ -1,8 +1,10 @@
 #include "GraphBuilder.h"
-#include "..\Graph Factory\GraphFactory.h"
-#include "..\Graph\Base Graph\Graph.h"
-#include "..\General Exceptions\NoMemoryAvailable.h"
+#include "..\..\Graph Factory\GraphFactory.h"
+#include "..\..\General Exceptions\NoMemoryAvailable.h"
+#include "..\SerializationConstants.h"
 #include <algorithm>
+
+using namespace IDragnev::GraphStore::SerializationConstants;
 
 namespace IDragnev
 {
@@ -74,7 +76,7 @@ namespace IDragnev
 		void GraphBuilder::parseVertexIDs()
 		{
 			assert(vertexIDs.isEmpty());
-			auto IDsCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+			auto IDsCount = parseUnsignedAndIgnoreUntil('\n');
 			vertexIDs.ensureSize(IDsCount);
 
 			for (auto i = std::size_t{ 0 }; i < IDsCount; ++i)
@@ -94,7 +96,7 @@ namespace IDragnev
 		void GraphBuilder::insertEdges()
 		{
 			assert(areVerticesInserted());
-			auto edgesCount = parseUnsignedAndIgnoreUntil(NEW_LINE);
+			auto edgesCount = parseUnsignedAndIgnoreUntil('\n');
 
 			for (auto i = std::size_t{ 0 }; i < edgesCount; ++i)
 			{
@@ -127,7 +129,7 @@ namespace IDragnev
 			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
 			result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
 			result.weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EDGE_END) };
-			parser.ignoreUntil(NEW_LINE);
+			parser.ignoreUntil('\n');
 
 			return result;
 		}

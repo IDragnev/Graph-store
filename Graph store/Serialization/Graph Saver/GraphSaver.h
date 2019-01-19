@@ -48,7 +48,6 @@ namespace IDragnev
 			void writeVertexIDsBuildingMap();
 			void registerPair(std::size_t index, const String& vertexID);
 			void writeEdges();
-			void write(const Edge& edge);
 			std::size_t indexOfID(const Vertex& v) const noexcept;
 
 			void clear();
