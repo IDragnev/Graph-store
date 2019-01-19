@@ -88,7 +88,7 @@ namespace IDragnev
 			const T& operator[](size_type position) const;
 
 			bool isEmpty() const noexcept;
-			void empty();
+			void empty() noexcept;
 			void shrink(size_type size);
 			void ensureSize(size_type size);
 

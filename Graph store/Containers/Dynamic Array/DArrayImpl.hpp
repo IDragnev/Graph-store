@@ -130,7 +130,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::empty()
+		void DArray<T>::empty() noexcept
 		{
 			destroyItems();
 			nullifyMembers();
