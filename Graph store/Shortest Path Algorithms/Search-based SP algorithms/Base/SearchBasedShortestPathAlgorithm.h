@@ -3,7 +3,8 @@
 
 #include "..\..\Base\ShortestPathAlgorithm.h"
 #include "..\..\..\String\String.h"
-#include <unordered_map>
+#include "..\..\..\Containers\Hash\Hash.h"
+#include "..\..\..\Containers\Dynamic Array\DArray.h"
 
 namespace IDragnev
 {
@@ -15,27 +16,39 @@ namespace IDragnev
 			struct MarkableVertex : VertexDecorator
 			{
 				using VertexDecorator::VertexDecorator;
+				MarkableVertex() noexcept : VertexDecorator{ nullptr } {}
 				bool isVisited = false;
 			};
 
 		private:
-			using ConstStringRef = std::reference_wrapper<const String>;
-			using VertexMap =
-				std::unordered_map<ConstStringRef, MarkableVertex, std::hash<String>, std::equal_to<String>>;
+			struct KeyAccessor
+			{
+				const String& operator()(const MarkableVertex* v) const noexcept { return v->vertex->ID(); }
+			};
 
+			using VertexArray = Containers::DArray<MarkableVertex>;
+			using VertexPtrMap = Containers::Hash<MarkableVertex*, String, KeyAccessor>;
+		
 		public:
 			using ShortestPathAlgorithm::ShortestPathAlgorithm;
 
 		protected:
-			void decorate(const Graph& graph, const Vertex& source);
+			void decorate(const Graph& g, const Vertex& source);
 			virtual void initSourceDecorator(MarkableVertex& source) = 0;
+
 			void cleanDecoratedState();
 
 			MarkableVertex& decoratorOf(const Vertex& v);
 			const MarkableVertex& decoratorOf(const Vertex& v) const;
 
 		private:
-			VertexMap decorators{};
+			void setupCollections(std::size_t verticesCount);
+			void decorateVertices(const Graph& g);
+			void buildMapOfDecoratedVertices();
+
+		private:
+			VertexArray decorators{};
+			VertexPtrMap map{};
 		};
 	}
 }

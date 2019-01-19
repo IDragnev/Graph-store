@@ -4,18 +4,38 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		void SearchBasedShortestPathAlgorithm::decorate(const Graph& graph, const Vertex& source)
+		void SearchBasedShortestPathAlgorithm::decorate(const Graph& g, const Vertex& source)
 		{
-			assert(decorators.empty());
+			setupCollections(g.getVerticesCount());
+			decorateVertices(g);
+			buildMapOfDecoratedVertices();
+			initSourceDecorator(decoratorOf(source));
+		}
 
-			auto iteratorPtr = graph.getConstIteratorToVertices();
+		void SearchBasedShortestPathAlgorithm::setupCollections(std::size_t verticesCount)
+		{
+			assert(decorators.isEmpty());
+			assert(map.isEmpty());
+			decorators.ensureSize(verticesCount);
+			map = VertexPtrMap{ verticesCount };
+		}
+
+		void SearchBasedShortestPathAlgorithm::decorateVertices(const Graph& g)
+		{
+			auto iteratorPtr = g.getConstIteratorToVertices();
 
 			forEach(*iteratorPtr, [&](const Vertex& v)
 			{
-				decorators.try_emplace(v.ID(), &v);
+				decorators.insert({ &v });
 			});
+		}
 
-			initSourceDecorator(decoratorOf(source));
+		void SearchBasedShortestPathAlgorithm::buildMapOfDecoratedVertices()
+		{
+			for (auto&& d : decorators)
+			{
+				map.insert(&d);
+			}
 		}
 
 		void SearchBasedShortestPathAlgorithm::initSourceDecorator(MarkableVertex& source)
@@ -33,16 +53,15 @@ namespace IDragnev
 
 		auto SearchBasedShortestPathAlgorithm::decoratorOf(const Vertex& v) const -> const MarkableVertex&
 		{
-			auto iterator = decorators.find(v.ID());
-			assert(iterator != decorators.cend());
-
-			auto& pair = *iterator;
-			return std::get<1>(pair);
+			auto result = map.search(v.ID());
+			assert(result != nullptr);
+			return *result;
 		}
 
 		void SearchBasedShortestPathAlgorithm::cleanDecoratedState()
 		{
-			decorators.clear();
+			decorators.empty();
+			map.empty();
 		}
 	}
 }
