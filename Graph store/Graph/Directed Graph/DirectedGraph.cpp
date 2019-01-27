@@ -47,6 +47,11 @@ namespace IDragnev
 			});
 		}
 
+		String DirectedGraph::getType() const
+		{
+			return "directed";
+		}
+
 		auto DirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
 		{
 			return makeEdgeConstIterator<DirectedEdgeConstIterator>();

@@ -152,6 +152,7 @@ namespace IDragnev
 
 			virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight = 1) = 0; 
 			virtual void removeEdge(Vertex& start, Vertex& end) = 0;
+			virtual String getType() const = 0;
 
 			Vertex& getVertex(const String& ID);
 			const Vertex& getVertex(const String& ID) const;

@@ -14,6 +14,7 @@ namespace IDragnev
 
 			void insertEdge(Vertex& start, Vertex& end, Edge::Weight) override;
 			void removeEdge(Vertex& start, Vertex& end) override;
+			String getType() const override;
 			EdgeConstIteratorPtr getConstIteratorToEdges() const override;
 
 		private:

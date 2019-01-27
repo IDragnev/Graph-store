@@ -53,6 +53,11 @@ namespace IDragnev
 			Graph::removeEdgesEndingIn(vertex);
 		}
 
+		String UndirectedGraph::getType() const
+		{
+			return "undirected";
+		}
+
 		auto UndirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
 		{
 			return makeEdgeConstIterator();
