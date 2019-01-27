@@ -109,8 +109,7 @@ namespace IDragnev
 			using std::cend;
 
 			auto vertexIt = VertexConstIterator{ cbegin(vertices), cend(vertices) };
-			auto& edges = vertexIt ? (edgesOf(*vertexIt)) : EdgeList{};
-			auto edgeIt = cbegin(edges);
+			auto edgeIt = vertexIt ? cbegin(edgesOf(*vertexIt)) : cbegin(EdgeList{});
 
 			return std::make_unique<ConcreteIterator>(vertexIt, edgeIt);
 		}

@@ -50,7 +50,7 @@ namespace IDragnev
 
 		void GraphSaver::saveGraphToFile()
 		{
-			//writeOnASingleLine(graph->type());
+			writeOnASingleLine(graph->getType());
 			writeOnASingleLine(graph->getVerticesCount());
 			writeVertexIDsBuildingMap();
 			writeEdges();
