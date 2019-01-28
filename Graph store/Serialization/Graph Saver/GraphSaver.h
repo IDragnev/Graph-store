@@ -44,9 +44,11 @@ namespace IDragnev
 			void open(const String& filename); 
 			void setupCollections(std::size_t verticesCount);
 
-			void saveGraphToFile();
-			void writeVertexIDsBuildingMap();
+			void decorateGraph();
 			void registerPair(std::size_t index, const String& vertexID);
+
+			void saveGraphToFile();
+			void writeVertexIDs();
 			void writeEdges();
 			std::size_t indexOfID(const Vertex& v) const noexcept;
 

@@ -13,6 +13,7 @@ namespace IDragnev
 			try
 			{
 				init(g, filename);
+				decorateGraph();
 				saveGraphToFile();
 				clear();
 			}
@@ -43,27 +44,17 @@ namespace IDragnev
 		{
 			assert(pairs.isEmpty());
 			assert(map.isEmpty());
-
 			pairs.ensureSize(verticesCount);
 			map = PairPtrMap{ verticesCount };
 		}
 
-		void GraphSaver::saveGraphToFile()
-		{
-			writeOnASingleLine(graph->getType());
-			writeOnASingleLine(graph->getVerticesCount());
-			writeVertexIDsBuildingMap();
-			writeEdges();
-		}
-
-		void GraphSaver::writeVertexIDsBuildingMap()
+		void GraphSaver::decorateGraph()
 		{
 			auto index = std::size_t{ 0 };
 			auto iteratorPtr = graph->getConstIteratorToVertices();
 
 			forEach(*iteratorPtr, [&](const Vertex& v)
 			{
-				writeOnASingleLine(v.ID());
 				registerPair(index++, v.ID());
 			});
 		}
@@ -72,6 +63,24 @@ namespace IDragnev
 		{
 			pairs.insert({ index, &ID });
 			map.insert(&pairs[index]);
+		}
+
+		void GraphSaver::saveGraphToFile()
+		{
+			writeOnASingleLine(graph->getType());
+			writeOnASingleLine(graph->getVerticesCount());
+			writeVertexIDs();
+			writeEdges();
+		}
+
+		void GraphSaver::writeVertexIDs()
+		{
+			auto iteratorPtr = graph->getConstIteratorToVertices();
+
+			forEach(*iteratorPtr, [&](const Vertex& v)
+			{
+				writeOnASingleLine(v.ID());
+			});
 		}
 
 		void GraphSaver::writeEdges()
