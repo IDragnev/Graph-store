@@ -77,7 +77,7 @@ namespace IDragnev
 		{
 			if (this != &rhs)
 			{
-				swapContentsWithReconstructedParameter(rhs);
+				swapContentsWith(rhs);
 			}
 
 			return *this;
@@ -88,14 +88,14 @@ namespace IDragnev
 		{
 			if (this != &rhs)
 			{
-				swapContentsWithReconstructedParameter(std::move(rhs));
+				swapContentsWith(std::move(rhs));
 			}
 
 			return *this;
 		}
 
 		template <typename T>
-		inline void DArray<T>::swapContentsWithReconstructedParameter(DArray<T> temporary) noexcept
+		inline void DArray<T>::swapContentsWith(DArray<T> temporary) noexcept
 		{
 			std::swap(size, temporary.size);
 			std::swap(count, temporary.count);
@@ -147,7 +147,7 @@ namespace IDragnev
 				temporary.items[i] = moveIfNothrowMoveAssignable(items[i]);
 			}
 
-			swapContentsWithReconstructedParameter(std::move(temporary));
+			swapContentsWith(std::move(temporary));
 		}
 
 		template <typename T>

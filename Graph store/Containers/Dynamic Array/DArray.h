@@ -105,7 +105,7 @@ namespace IDragnev
 		private:
 			void enlargeIfFull();
 			void resize(size_type newSize);
-			void swapContentsWithReconstructedParameter(DArray<T> temp) noexcept;
+			void swapContentsWith(DArray<T> temp) noexcept;
 
 			template <typename T>
 			void doInsert(T&& item);
