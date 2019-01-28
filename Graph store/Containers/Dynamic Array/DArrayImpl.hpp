@@ -216,7 +216,7 @@ namespace IDragnev
 
 			for (auto i = end + 1; i > start; --i)
 			{
-				items[i] = items[i - 1];
+				items[i] = std::move(items[i - 1]);
 			}
 		}
 
@@ -234,7 +234,7 @@ namespace IDragnev
 
 			for (auto i = start - 1; i < end; ++i)
 			{
-				items[i] = items[i + 1];
+				items[i] = std::move(items[i + 1]);
 			}
 		}
 
