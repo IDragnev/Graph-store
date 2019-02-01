@@ -82,10 +82,9 @@ namespace IDragnev
 		{
 			auto loader = DirectoryLoader{ directory };
 
-			loader([&](std::unique_ptr<Graph> graphPtr)
+			loader([&](std::unique_ptr<Graph> ptr)
 			{
-				graphs.insertGraph(*graphPtr);
-				graphPtr.release();
+				graphs.insertGraph(std::move(ptr));
 			});
 
 			Command::setManagedStore(graphs);

@@ -20,44 +20,23 @@ namespace GraphStoretest
 			return strcmp(lhs, rhs) == 0;
 		}
 
-		static void insertGraph(GraphStore& store, const char* ID)
-		{
-			auto graphPtr = createGraph(ID);
-			store.insertGraph(*graphPtr);
-			graphPtr.release();
-		}
-
 		static std::unique_ptr<Graph> createGraph(const char* ID)
 		{
 			return std::make_unique<DirectedGraph>(ID);
 		}
 
 	public:	
-		TEST_METHOD(testInsertWithNonDiplicateGraph)
+		TEST_METHOD(insertWithDuplicateIDThrows)
 		{
 			auto store = GraphStore{};
-			auto graphPtr = createGraph("ID");
-
-			store.insertGraph(*graphPtr);
-			auto* expected = graphPtr.release();
-			auto& actual = store.getGraph(expected->getID());
-
-			Assert::IsTrue(expected == &actual);
-		}
-
-		TEST_METHOD(testInsertWithDuplicateIDThrows)
-		{
-			auto store = GraphStore{};
-			auto graphPtr = createGraph("ID");
 			try
 			{
-				store.insertGraph(*graphPtr);
-				store.insertGraph(*graphPtr);
+				store.insertGraph(createGraph("ID"));
+				store.insertGraph(createGraph("ID"));
 				Assert::Fail(L"insert did not throw");
 			}
 			catch (Exception& e)
 			{
-				graphPtr.release();
 				Assert::IsTrue(areEqual(e.what(), "A graph with ID \'ID\' already exists"));
 			}
 		}
@@ -79,12 +58,11 @@ namespace GraphStoretest
 		TEST_METHOD(testRemove)
 		{
 			auto store = GraphStore{};
-			insertGraph(store, "ID");
+			store.insertGraph(createGraph("ID"));
 			store.removeGraph("ID");
 			try
 			{
 				auto& graph = store.getGraph("ID");
-
 				Assert::Fail(L"removed graph is still in the store");
 			}
 			catch (Exception& e)

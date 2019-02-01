@@ -26,7 +26,7 @@ namespace IDragnev
 			GraphStore& operator=(GraphStore&& rhs);
 			GraphStore& operator=(const GraphStore&) = delete;
 
-			void insertGraph(Graph& graph);
+			void insertGraph(std::unique_ptr<Graph> graph);
 			void removeGraph(const String& ID);
 			Graph& getGraph(const String& ID);
 			const Graph& getGraph(const String& ID) const;

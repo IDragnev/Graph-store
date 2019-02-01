@@ -31,15 +31,15 @@ namespace IDragnev
 			return *this;
 		}
 
-		void GraphStore::insertGraph(Graph& graph)
+		void GraphStore::insertGraph(std::unique_ptr<Graph> graphPtr)
 		{
-			if (!hasGraphWithID(graph.getID()))
+			if (!hasGraphWithID(graphPtr->getID()))
 			{
-				graphs.insert(&graph);
+				graphs.insert(graphPtr.release());
 			}
 			else
 			{
-				throw Exception{ "A graph with ID \'" + graph.getID() + "\' already exists" };
+				throw Exception{ "A graph with ID \'" + graphPtr->getID() + "\' already exists" };
 			}
 		}
 
