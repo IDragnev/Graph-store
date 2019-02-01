@@ -29,7 +29,6 @@ namespace IDragnev
 
 		public:
 			GraphBuilder() = default;
-			~GraphBuilder() = default;
 
 			GraphPtr buildFromFile(const String& filename);
 
