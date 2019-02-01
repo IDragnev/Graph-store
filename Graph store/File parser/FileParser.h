@@ -23,7 +23,7 @@ namespace IDragnev
 
 		public:
 			FileParser() = default;
-			explicit FileParser(const String& filename);
+			explicit FileParser(String filename);
 			FileParser(FileParser&& source);
 			FileParser(const FileParser&) = delete;
 
@@ -32,7 +32,7 @@ namespace IDragnev
 
 			static char endOfFileCharacter();
 
-			void openFile(const String& name);
+			void openFile(String name);
 			void closeFile();
 			bool hasOpenedFile() const;
 			bool hasReachedEnd() const;
@@ -47,7 +47,7 @@ namespace IDragnev
 			char peekNextCharacter();
 
 		private:
-			void swapContentsWithReconstructedParameter(FileParser temp);
+			void swapContentsWith(FileParser temp);
 
 			template <typename ArithmeticType>
 			ArithmeticType parseArithmeticType();

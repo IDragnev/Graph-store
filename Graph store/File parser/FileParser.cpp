@@ -20,13 +20,13 @@ namespace IDragnev
 			return message;
 		}
 
-		FileParser::FileParser(const String& filename) :
+		FileParser::FileParser(String filename) :
 			FileParser{}
 		{
-			openFile(filename);
+			openFile(std::move(filename));
 		}
 
-		void FileParser::openFile(const String& name)
+		void FileParser::openFile(String name)
 		{
 			if (hasOpenedFile())
 			{
@@ -37,7 +37,7 @@ namespace IDragnev
 			if (stream)
 			{
 				currentLine = 1U;
-				filename = name;
+				filename = std::move(name);
 			}
 			else
 			{
@@ -57,13 +57,13 @@ namespace IDragnev
 		{
 			if (this != &rhs)
 			{
-				swapContentsWithReconstructedParameter(std::move(rhs));
+				swapContentsWith(std::move(rhs));
 			}
 
 			return *this;
 		}
 
-		void FileParser::swapContentsWithReconstructedParameter(FileParser temporary)
+		void FileParser::swapContentsWith(FileParser temporary)
 		{
 			std::swap(currentLine, temporary.currentLine);
 			std::swap(filename, temporary.filename);
