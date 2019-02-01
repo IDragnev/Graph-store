@@ -157,7 +157,7 @@
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
     <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Directory loader\DirectoryLoader.cpp" />
-    <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp" />
+    <ClCompile Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="GraphStore\GraphStore.cpp" />
@@ -206,7 +206,7 @@
     <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListImpl.hpp" />
     <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListIteratorImpl.hpp" />
     <ClInclude Include="Directory loader\DirectoryLoader.h" />
-    <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h" />
+    <ClInclude Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h" />
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h" />

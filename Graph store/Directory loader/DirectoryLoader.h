@@ -20,17 +20,15 @@ namespace IDragnev
 
 		public:
 			explicit DirectoryLoader(const String& path);
+			~DirectoryLoader() = default;
 
 			DirectoryLoader(const DirectoryLoader&) = delete;
 			DirectoryLoader& operator=(const DirectoryLoader&) = delete;
 
-			void operator()(Function f);
+			void operator()(Function consumer);
 
 		private:
-			bool hasRemainingFiles() const;
-			std::string currentFileName() const;
-			std::unique_ptr<Graph> loadCurrentFile();
-			void goToNextFile();
+			std::unique_ptr<Graph> load(String&& file);
 
 		private:
 			FlatIterator filesIterator;

@@ -8,51 +8,36 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		DirectoryLoader::DirectoryLoader(const String& path) :
-			filesIterator{ static_cast<const char*>(path + '\\') }
+			filesIterator{ path + '\\' }
 		{
 		}
 
-		void DirectoryLoader::operator()(Function fun)
+		void DirectoryLoader::operator()(Function consumer)
 		{
-			while (hasRemainingFiles())
+			while (filesIterator)
 			{
-				auto result = loadCurrentFile();
+				auto result = load(*filesIterator);
 
-				if (result)
+				if (result != nullptr)
 				{
-					fun(std::move(result));
+					consumer(std::move(result));
 				}
 
-				goToNextFile();
+				++filesIterator;
 			}
 		}
 
-		std::unique_ptr<Graph> DirectoryLoader::loadCurrentFile()
+		std::unique_ptr<Graph> DirectoryLoader::load(String&& file)
 		{
 			try
 			{
-				return builder.buildFromFile(currentFileName());
+				return builder.buildFromFile(std::move(file));
 			}
 			catch (Exception& e)
 			{
 				std::cerr << e.what() << std::endl;
 				return nullptr;
 			}
-		}
-
-		std::string DirectoryLoader:: currentFileName() const
-		{
-			return *filesIterator;
-		}
-
-		bool DirectoryLoader::hasRemainingFiles() const
-		{
-			return static_cast<bool>(filesIterator);
-		}
-
-		void DirectoryLoader::goToNextFile()
-		{
-			++filesIterator;
 		}
 	}
 }

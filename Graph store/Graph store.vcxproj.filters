@@ -196,9 +196,6 @@
     <ClCompile Include="File parser\FileParser.cpp">
       <Filter>File parser</Filter>
     </ClCompile>
-    <ClCompile Include="DirectoryFlatIterator\DirectoryFlatIterator.cpp">
-      <Filter>Directory FlatIterator</Filter>
-    </ClCompile>
     <ClCompile Include="GraphStore\GraphStore.cpp">
       <Filter>GraphStore</Filter>
     </ClCompile>
@@ -259,6 +256,9 @@
     <ClCompile Include="Serialization\Graph Builder\GraphBuilder.cpp">
       <Filter>Serialization\Graph Builder</Filter>
     </ClCompile>
+    <ClCompile Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.cpp">
+      <Filter>Directory FlatIterator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="String\String.h">
@@ -302,9 +302,6 @@
     </ClInclude>
     <ClInclude Include="File parser\FileParserImpl.hpp">
       <Filter>File parser</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectoryFlatIterator\DirectoryFlatIterator.h">
-      <Filter>Directory FlatIterator</Filter>
     </ClInclude>
     <ClInclude Include="GraphStore\GraphStore.h">
       <Filter>GraphStore</Filter>
@@ -449,6 +446,9 @@
     </ClInclude>
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h">
       <Filter>Serialization\Graph Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h">
+      <Filter>Directory FlatIterator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
