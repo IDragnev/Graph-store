@@ -82,7 +82,7 @@ namespace IDragnev
 		{
 			DirectoryLoader loader{ directory };
 
-			loader.load([&](std::unique_ptr<Graph> graphPtr)
+			loader([&](std::unique_ptr<Graph> graphPtr)
 			{
 				graphs.insertGraph(*graphPtr);
 				graphPtr.release();

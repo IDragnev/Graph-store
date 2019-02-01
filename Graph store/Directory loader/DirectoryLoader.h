@@ -1,9 +1,8 @@
 #ifndef __DIRECTORY_LOADER_H_INCLUDED__
 #define __DIRECTORY_LOADER_H_INCLUDED__
 
-#include "..\DirectoryFlatIterator\DirectoryFlatIterator.h"
+#include "..\DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
 #include "..\Serialization\Graph Builder\GraphBuilder.h"
-#include "..\String\String.h"
 #include <functional>
 #include <memory>
 
@@ -17,24 +16,25 @@ namespace IDragnev
 		{
 		private:
 			using Function = std::function<void(std::unique_ptr<Graph>)>;
+			using FlatIterator = DirectoryTextFilesFlatIterator;
 
 		public:
-			explicit DirectoryLoader(const String& directory);
+			explicit DirectoryLoader(const String& path);
 
 			DirectoryLoader(const DirectoryLoader&) = delete;
 			DirectoryLoader& operator=(const DirectoryLoader&) = delete;
 
-			void load(Function f);
+			void operator()(Function f);
 
 		private:
 			bool hasRemainingFiles() const;
-			String getCurrentFileName() const;
+			std::string currentFileName() const;
 			std::unique_ptr<Graph> loadCurrentFile();
 			void goToNextFile();
 
 		private:
-			String directory;
-			DirectoryFlatIterator iterator;
+			std::string directory;
+			FlatIterator filesIterator;
 			GraphBuilder builder;
 		};
 	}

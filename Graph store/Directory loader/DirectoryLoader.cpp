@@ -7,14 +7,13 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		DirectoryLoader::DirectoryLoader(const String& directory) :
-			directory{ directory + '\\' },
-			iterator{ directory },
-			builder{}
+		DirectoryLoader::DirectoryLoader(const String& path) :
+			directory{ path + '\\' },
+			filesIterator{ directory }
 		{
 		}
 
-		void DirectoryLoader::load(Function fun)
+		void DirectoryLoader::operator()(Function fun)
 		{
 			while (hasRemainingFiles())
 			{
@@ -33,7 +32,7 @@ namespace IDragnev
 		{
 			try
 			{
-				return builder.buildFromFile(getCurrentFileName());
+				return builder.buildFromFile(currentFileName());
 			}
 			catch (Exception& e)
 			{
@@ -42,19 +41,19 @@ namespace IDragnev
 			}
 		}
 
-		String DirectoryLoader::getCurrentFileName() const
+		std::string DirectoryLoader:: currentFileName() const
 		{
-			return directory + iterator.getCurrentTextFileName();
+			return directory + *filesIterator;
 		}
 
 		bool DirectoryLoader::hasRemainingFiles() const
 		{
-			return !iterator.isFinished();
+			return static_cast<bool>(filesIterator);
 		}
 
 		void DirectoryLoader::goToNextFile()
 		{
-			iterator.goToNextTextFile();
+			++filesIterator;
 		}
 	}
 }
