@@ -8,8 +8,7 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		DirectoryLoader::DirectoryLoader(const String& path) :
-			directory{ path + '\\' },
-			filesIterator{ directory }
+			filesIterator{ static_cast<const char*>(path + '\\') }
 		{
 		}
 
@@ -43,7 +42,7 @@ namespace IDragnev
 
 		std::string DirectoryLoader:: currentFileName() const
 		{
-			return directory + *filesIterator;
+			return *filesIterator;
 		}
 
 		bool DirectoryLoader::hasRemainingFiles() const

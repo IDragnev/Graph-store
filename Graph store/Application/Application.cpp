@@ -80,7 +80,7 @@ namespace IDragnev
 
 		void Application::load(const String& directory)
 		{
-			DirectoryLoader loader{ directory };
+			auto loader = DirectoryLoader{ directory };
 
 			loader([&](std::unique_ptr<Graph> graphPtr)
 			{

@@ -33,7 +33,6 @@ namespace IDragnev
 			void goToNextFile();
 
 		private:
-			std::string directory;
 			FlatIterator filesIterator;
 			GraphBuilder builder;
 		};
