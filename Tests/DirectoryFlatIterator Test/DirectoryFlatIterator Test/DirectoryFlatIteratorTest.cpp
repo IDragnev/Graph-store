@@ -5,6 +5,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using IDragnev::GraphStore::DirectoryTextFilesFlatIterator;
 using IDragnev::GraphStore::Exception;
+using IDragnev::String;
 
 namespace DirectoryFlatIteratorTest
 {
@@ -37,13 +38,13 @@ namespace DirectoryFlatIteratorTest
 			return allTextFilesWereMatchedExactlyOnce();
 		}
 
-		static void tryToMatchATextFile(const std::string& filename)
+		static void tryToMatchATextFile(const String& filename)
 		{
 			for (auto i = 0U; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				auto& file = textFilesArray[i];
 
-				if (areEqual(filename.c_str(), file.name))
+				if (areEqual(filename, file.name))
 				{
 					++file.timesFound;
 				}

@@ -6,16 +6,16 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		DirectoryTextFilesFlatIterator::DirectoryTextFilesFlatIterator(const Path& path)
+		DirectoryTextFilesFlatIterator::DirectoryTextFilesFlatIterator(const String& path)
 		{
 			try
 			{
-				iterator = DirIterator{ path };
+				iterator = DirIterator{ static_cast<const char*>(path) };
 				toNextTextFile();
 			}
 			catch (std::filesystem::filesystem_error&)
 			{
-				throw Exception{ "No directory with name: " + path.string() };
+				throw Exception{ "No directory with name: " + path };
 			}
 		}
 
@@ -38,10 +38,10 @@ namespace IDragnev
 			return iterator != end;
 		}
 
-		std::string DirectoryTextFilesFlatIterator::operator*() const
+		String DirectoryTextFilesFlatIterator::operator*() const
 		{
 			auto& entry = *iterator;
-			return entry.path().string();
+			return entry.path().string().c_str();
 		}
 
 		DirectoryTextFilesFlatIterator& DirectoryTextFilesFlatIterator::operator++()

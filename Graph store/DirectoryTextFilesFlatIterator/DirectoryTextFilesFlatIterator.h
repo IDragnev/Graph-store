@@ -1,6 +1,7 @@
 #ifndef __DIR_ITERATOR_H_INCLUDED__
 #define __DIR_ITERATOR_H_INCLUDED__
 
+#include "..\String\String.h"
 #include <filesystem>
 
 namespace IDragnev
@@ -15,12 +16,11 @@ namespace IDragnev
 			using DirIterator = std::filesystem::directory_iterator;
 
 		public:
-			using Path = std::filesystem::path;
-			explicit DirectoryTextFilesFlatIterator(const Path& path);
+			explicit DirectoryTextFilesFlatIterator(const String& path);
 	
 			operator bool() const;
 			DirectoryTextFilesFlatIterator& operator++();
-			std::string operator*() const;
+			String operator*() const;
 
 		private:
 			void toNextTextFile();
