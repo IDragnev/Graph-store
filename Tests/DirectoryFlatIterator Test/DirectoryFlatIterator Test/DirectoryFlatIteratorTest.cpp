@@ -1,10 +1,9 @@
 #include "CppUnitTest.h"
-#include "..\..\..\Graph store\DirectoryFlatIterator\DirectoryFlatIterator.h"
+#include "..\..\..\Graph store\DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
 #include "..\..\..\Graph store\General Exceptions\Exception.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using IDragnev::GraphStore::DirectoryFlatIterator;
-using IDragnev::String;
+using IDragnev::GraphStore::DirectoryTextFilesFlatIterator;
 using IDragnev::GraphStore::Exception;
 
 namespace DirectoryFlatIteratorTest
@@ -12,10 +11,12 @@ namespace DirectoryFlatIteratorTest
 	TEST_CLASS(DirectoryFlatIteratorTest)
 	{
 	private:
+		using FlatIterator = DirectoryTextFilesFlatIterator;
+
 		struct TextFile
 		{
 			const char* const name;
-			unsigned short timesFound;
+			std::uint8_t timesFound;
 		};
 
 		static const char TEST_DIRECTORY[];
@@ -25,25 +26,24 @@ namespace DirectoryFlatIteratorTest
 		static TextFile textFilesArray[TEST_DIR_TEXT_FILES_COUNT];
 
 	private:
-		static bool findsEachTextFileOnce(DirectoryFlatIterator& iterator)
+		static bool findsEachTextFileOnce(FlatIterator& iterator)
 		{
-			while (!iterator.isFinished())
+			while (iterator)
 			{
-				tryToMatchATextFile(iterator.getCurrentTextFileName());
-
-				iterator.goToNextTextFile();
+				tryToMatchATextFile(*iterator);
+				++iterator;
 			}
 
 			return allTextFilesWereMatchedExactlyOnce();
 		}
 
-		static void tryToMatchATextFile(const String& filename)
+		static void tryToMatchATextFile(const std::string& filename)
 		{
-			for (size_t i = 0; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			for (auto i = 0U; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				auto& file = textFilesArray[i];
 
-				if (areEqual(filename, file.name))
+				if (areEqual(filename.c_str(), file.name))
 				{
 					++file.timesFound;
 				}
@@ -57,7 +57,7 @@ namespace DirectoryFlatIteratorTest
 
 		static void markAllTextFilesNotFound()
 		{
-			for (auto i = std::size_t{ 0 }; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			for (auto i = 0U; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				textFilesArray[i].timesFound = 0;
 			}
@@ -65,7 +65,7 @@ namespace DirectoryFlatIteratorTest
 
 		static bool allTextFilesWereMatchedExactlyOnce()
 		{
-			for (auto i = std::size_t{ 0 }; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
+			for (auto i = 0U; i < TEST_DIR_TEXT_FILES_COUNT; ++i)
 			{
 				if (textFilesArray[i].timesFound != 1)
 				{
@@ -81,33 +81,33 @@ namespace DirectoryFlatIteratorTest
 		{
 			try
 			{
-				DirectoryFlatIterator iterator{ "Invalid Directory Name" };
+				FlatIterator iterator{ "Invalid Directory Name" };
 				Assert::Fail(L"Constructor did not throw");
 			}
-			catch (Exception& exception)
+			catch (Exception& e)
 			{
-				Assert::IsTrue(areEqual(exception.what(), "Failed to open: Invalid Directory Name"));
+				Assert::IsTrue(areEqual(e.what(), "No directory with name: Invalid Directory Name"));
 			}
 		}
 
 		TEST_METHOD(testIteratorToEmptyDirIsFinished)
 		{
-			DirectoryFlatIterator iterator{ EMPTY_TEST_DIRECTORY };
+			FlatIterator iterator{ EMPTY_TEST_DIRECTORY };
 
-			Assert::IsTrue(iterator.isFinished());
+			Assert::IsFalse(iterator);
 		}
 
 		TEST_METHOD(testIteratorToNonEmptyDir)
 		{
 			markAllTextFilesNotFound();
-			DirectoryFlatIterator iterator{ TEST_DIRECTORY };
+			FlatIterator iterator{ TEST_DIRECTORY };
 
-			Assert::IsFalse(iterator.isFinished(), L"Iterator to non-empty directory is finished after construction");
-			Assert::IsTrue(findsEachTextFileOnce(iterator), L"Iterator does not find all the text files in the directory exactly once");
+			Assert::IsTrue(iterator, L"Iterator right is finished after construction");
+			Assert::IsTrue(findsEachTextFileOnce(iterator), L"Not all text files were found exactly once");
 		}
 	};
 
-	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] { "Test directory" };
-	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] { "Empty test directory" };
-	DirectoryFlatIteratorTest::TextFile DirectoryFlatIteratorTest::textFilesArray[] { { "File1.txt", 0 }, { "File2.txt", 0 }, { "File3.txt", 0 } };
+	const char DirectoryFlatIteratorTest::TEST_DIRECTORY[] = { "Test directory" };
+	const char DirectoryFlatIteratorTest::EMPTY_TEST_DIRECTORY[] = { "Empty test directory" };
+	DirectoryFlatIteratorTest::TextFile DirectoryFlatIteratorTest::textFilesArray[] = { {  "Test directory\\File1.txt", 0 }, {  "Test directory\\File2.txt", 0 }, {  "Test directory\\File3.txt", 0 } };
 }
