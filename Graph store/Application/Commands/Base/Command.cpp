@@ -44,12 +44,10 @@ namespace IDragnev
 			}
 		}
 
-		void Command::insertGraph(std::unique_ptr<Graph> graphPtr)
+		void Command::insertGraph(std::unique_ptr<Graph> ptr)
 		{
 			assert(graphStore);
-
-			graphStore->insertGraph(*graphPtr);
-			graphPtr.release();
+			graphStore->insertGraph(std::move(ptr));
 		}
 
 		void Command::removeGraph(const String& ID)

@@ -68,6 +68,7 @@ namespace IDragnev
 		void GraphSaver::saveGraphToFile()
 		{
 			writeOnASingleLine(graph->getType());
+			writeOnASingleLine(graph->getID());
 			writeOnASingleLine(graph->getVerticesCount());
 			writeVertexIDs();
 			writeEdges();
