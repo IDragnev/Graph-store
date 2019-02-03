@@ -53,7 +53,7 @@ namespace IDragnev
 			auto index = std::size_t{ 0 };
 			auto iteratorPtr = graph->getConstIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex& v)
+			forEach(*iteratorPtr, [this, &index](const Vertex& v)
 			{
 				registerPair(index++, v.ID());
 			});
@@ -78,7 +78,7 @@ namespace IDragnev
 		{
 			auto iteratorPtr = graph->getConstIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex& v)
+			forEach(*iteratorPtr, [this](const Vertex& v)
 			{
 				writeOnASingleLine(v.ID());
 			});
@@ -88,7 +88,7 @@ namespace IDragnev
 		{
 			auto iteratorPtr = graph->getConstIteratorToEdges();
 
-			forEach(*iteratorPtr, [&](const Edge edge)
+			forEach(*iteratorPtr, [this](const Edge edge)
 			{
 				file << EDGE_START
 					 << indexOfID(edge.start())

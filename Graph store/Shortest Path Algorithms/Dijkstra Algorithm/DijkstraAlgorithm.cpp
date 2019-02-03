@@ -35,7 +35,7 @@ namespace IDragnev
 
 			auto iteratorPtr = graph.getConstIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex& v)
+			forEach(*iteratorPtr, [this](const Vertex& v)
 			{
 				decorators.insert({ &v });
 			});
@@ -102,7 +102,7 @@ namespace IDragnev
 		{
 			auto iteratorPtr = getEdgesLeaving(vertex);
 
-			forEach(*iteratorPtr, [&](const IncidentEdge& edge)
+			forEach(*iteratorPtr, [this, &vertex](const IncidentEdge& edge)
 			{
 				relaxEdge(vertex, edge);
 			});

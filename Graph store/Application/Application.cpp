@@ -31,7 +31,7 @@ namespace IDragnev
 		void Application::insertExitCommand()
 		{
 			insertCommand("EXIT", "Exits the application",
-				[&](args::Subparser& parser)
+			[this](args::Subparser& parser)
 			{
 				parser.Parse();
 				receivedExitCommand = true;
@@ -41,7 +41,7 @@ namespace IDragnev
 		void Application::insertHelpCommand()
 		{
 			insertCommand("HELP", "Lists the supported commands",
-				[&](args::Subparser& parser)
+			[this](args::Subparser& parser)
 			{
 				parser.Parse();
 				std::cout << "Supported commands:\n";
@@ -54,7 +54,7 @@ namespace IDragnev
 
 		void Application::insertCommand(Command& command)
 		{
-			insertCommand(command.getName(), command.getDescription(), [&](args::Subparser& parser) { command.execute(parser); });
+			insertCommand(command.getName(), command.getDescription(), [&command](args::Subparser& p) { command.execute(p); });
 		}
 
 		void Application::insertCommand(const char* name, const char* description, Function coroutine)
@@ -82,7 +82,7 @@ namespace IDragnev
 		{
 			auto loader = DirectoryLoader{ directory };
 
-			loader([&](std::unique_ptr<Graph> ptr)
+			loader([this](std::unique_ptr<Graph> ptr)
 			{
 				graphs.insertGraph(std::move(ptr));
 			});

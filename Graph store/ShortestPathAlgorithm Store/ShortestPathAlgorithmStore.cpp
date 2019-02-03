@@ -47,9 +47,8 @@ namespace IDragnev
 			using std::begin;
 			using std::end;
 
-			return std::find_if(begin(algorithms),
-								end(algorithms), 
-								[&](const ShortestPathAlgorithm* alg) { return alg->getID() == ID; });
+			return std::find_if(begin(algorithms), end(algorithms), 
+								[&ID](const ShortestPathAlgorithm* alg) { return alg->getID() == ID; });
 		}
 	}
 }

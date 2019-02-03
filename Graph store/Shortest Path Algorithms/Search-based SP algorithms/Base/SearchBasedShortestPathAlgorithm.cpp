@@ -24,7 +24,7 @@ namespace IDragnev
 		{
 			auto iteratorPtr = g.getConstIteratorToVertices();
 
-			forEach(*iteratorPtr, [&](const Vertex& v)
+			forEach(*iteratorPtr, [this](const Vertex& v)
 			{
 				decorators.insert({ &v });
 			});

@@ -283,7 +283,7 @@ namespace IDragnev
 			using std::end;
 
 			return std::find_if(begin(edgesOf(from)), end(edgesOf(from)), 
-								[&](const IncidentEdge& edge) { return edge.getIncidentVertex() == to; });
+								[&to](const IncidentEdge& edge) { return edge.getIncidentVertex() == to; });
 		}
 
 		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)

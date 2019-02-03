@@ -62,8 +62,10 @@ namespace IDragnev
 		template <typename Iterator, typename Predicate>
 		bool holdsForAll(Iterator& it, Predicate p)
 		{
-			using reference = typename Iterator::reference;
-			return !holdsForAny(it, [&](reference item) { return !p(item); });
+			return !holdsForAny(it, [p](auto&& item)
+			{ 
+				return !p(std::forward<decltype(item)>(item));
+			});
 		}
 	}
 }
