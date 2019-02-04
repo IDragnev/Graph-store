@@ -18,7 +18,7 @@ namespace StringSplitterTest
 			Splitter s;
 
 			auto result = s.split("one two 'three'");
-
+			
 			Assert::IsTrue(result == Container{ "one", "two", "'three'"});
 		}
 

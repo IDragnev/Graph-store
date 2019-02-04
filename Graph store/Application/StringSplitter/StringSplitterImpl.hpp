@@ -1,6 +1,21 @@
 
 namespace IDragnev
 {
+	namespace SplitterDetail
+	{
+		template <typename Container>
+		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.push_back(str))>
+		{
+			c.push_back(std::move(str));
+		}
+
+		template <typename Container, typename = void>
+		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.insert(str))>
+		{
+			c.insert(std::move(str));
+		}
+	}
+
 	template <template <typename...> typename Container>
 	StringSplitter<Container>::StringSplitter(std::initializer_list<char> delimiters) :
 		delimiters{ delimiters }
@@ -84,9 +99,11 @@ namespace IDragnev
 	template <template <typename...> typename Container>
 	void StringSplitter<Container>::insertIfDelimWasMatched(std::string&& word)
 	{
+		using SplitterDetail::insert;
+
 		if (wasDelimMatched())
 		{
-			result.insert(std::move(word));
+			insert(result, std::move(word));
 		}
 		else
 		{

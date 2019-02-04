@@ -11,11 +11,11 @@ namespace IDragnev
 	class StringSplitter
 	{
 	private:
-		static_assert(std::is_default_constructible<Container<std::string>>::value,
+		static_assert(std::is_default_constructible_v<Container<std::string>>,
 					  "StringSplitter requires Container<std::string> to be default constructible");
-		static_assert(std::is_move_constructible<Container<std::string>>::value,
+		static_assert(std::is_move_constructible_v<Container<std::string>>,
 					  "StringSplitter requires Container<std::string> to be move constructible");
-		static_assert(std::is_move_assignable<Container<std::string>>::value,
+		static_assert(std::is_move_assignable_v<Container<std::string>>,
 					  "StringSplitter requires Container<std::string> to be move assignable");
 
 		using Delimiters = Containers::DArray<char>;
