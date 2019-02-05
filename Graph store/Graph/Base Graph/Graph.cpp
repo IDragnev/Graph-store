@@ -125,7 +125,7 @@ namespace IDragnev
 			}
 		}
 
-		bool Graph::hasVertexWithID(const String& ID) const
+		bool Graph::hasVertexWithID(const String& ID) const noexcept
 		{
 			return verticesSearchTable.search(ID) != nullptr;
 		}
@@ -172,7 +172,7 @@ namespace IDragnev
 			}
 		}
 
-		auto Graph::newestEdgeListPosition() -> EdgeListsCollection::iterator
+		auto Graph::newestEdgeListPosition() noexcept -> EdgeListsCollection::iterator
 		{
 			using std::begin;
 			return begin(edgeLists);
@@ -306,7 +306,7 @@ namespace IDragnev
 			return static_cast<bool>(iterator);
 		}
 
-		bool Graph::isOwnerOf(const Vertex& vertex) const
+		bool Graph::isOwnerOf(const Vertex& vertex) const noexcept
 		{
 			auto position = vertex.position;
 			return (position < vertices.size()) && (vertices[position] == vertex);
@@ -366,18 +366,18 @@ namespace IDragnev
 			return id;
 		}
 
-		std::uint32_t Graph::getVerticesCount() const
+		std::size_t Graph::getVerticesCount() const noexcept
 		{
 			return vertices.size();
 		}
 
-		auto Graph::edgesOf(const Vertex& v) -> const EdgeList&
+		auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&
 		{
 			auto& iterator = v.edgesPosition;
 			return *iterator;
 		}
 
-		auto Graph::edgesOf(Vertex& v) -> EdgeList&
+		auto Graph::edgesOf(Vertex& v) noexcept -> EdgeList&
 		{
 			return const_cast<EdgeList&>( edgesOf(static_cast<const Vertex&>(v)) );
 		}

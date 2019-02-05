@@ -156,9 +156,9 @@ namespace IDragnev
 
 			Vertex& getVertex(const String& ID);
 			const Vertex& getVertex(const String& ID) const;
-			bool hasVertexWithID(const String& ID) const;
+			bool hasVertexWithID(const String& ID) const noexcept;
 
-			std::uint32_t getVerticesCount() const;
+			std::size_t getVerticesCount() const noexcept;
 			VertexConstIteratorPtr getConstIteratorToVertices() const;
 			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);
@@ -173,7 +173,7 @@ namespace IDragnev
 			static void insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight);
 			static bool existsEdgeFromTo(Vertex& from, Vertex& to);
 
-			bool isOwnerOf(const Vertex& v) const;
+			bool isOwnerOf(const Vertex& v) const noexcept;
 
 			template <typename ConcreteIterator = EdgeConstIteratorBase>
 			EdgeConstIteratorPtr makeEdgeConstIterator() const;
@@ -182,8 +182,8 @@ namespace IDragnev
 			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
 			static IncidentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
-			static const EdgeList& edgesOf(const Vertex& v);
-			static EdgeList& edgesOf(Vertex& v);
+			static const EdgeList& edgesOf(const Vertex& v) noexcept;
+			static EdgeList& edgesOf(Vertex& v) noexcept;
 
 			void tryToInsertVertexWithID(const String& ID);
 			void insertInSearchTable(Vertex& v);
@@ -192,7 +192,7 @@ namespace IDragnev
 			void updatePositionInSearchTable(Vertex& v);
 			void removeEdgeListOf(Vertex& v);
 
-			EdgeListsCollection::iterator newestEdgeListPosition();
+			EdgeListsCollection::iterator newestEdgeListPosition() noexcept;
 			Vertex& newestVertex();
 
 			void makeVertex(const String& ID);
