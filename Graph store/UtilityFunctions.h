@@ -32,7 +32,7 @@ namespace IDragnev
 	struct Identity
 	{
 		template <typename T>
-		constexpr const T& operator()(const T& item) const noexcept { return item; }
+		constexpr decltype(auto) operator()(T&& item) const noexcept { return std::forward<T>(item); }
 	};
 
 	struct EmptyFunction

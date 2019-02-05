@@ -48,7 +48,7 @@ namespace HashTest
 		}
 
 		static bool contains(const StringHash& hash, StringArray values)
-		{
+		{			
 			return contains(hash, values, IDragnev::Identity{});
 		}
 
