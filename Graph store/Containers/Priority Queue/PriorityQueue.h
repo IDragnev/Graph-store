@@ -9,20 +9,23 @@ namespace IDragnev
 {
 	namespace Containers
 	{
-		struct IdentityAccessor
+		namespace Detail
 		{
-			template <typename T>
-			constexpr const T& operator()(const T& item) const noexcept { return item; }
-			template <typename T, typename U>
-			constexpr void operator()(T& item, const U& key) const noexcept(noexcept(item = key)) { item = key; }
-		};
+			struct IdentityAccessor
+			{
+				template <typename T>
+				constexpr const T& operator()(const T& item) const noexcept { return item; }
+				template <typename T, typename U>
+				constexpr void operator()(T& item, const U& key) const noexcept(noexcept(item = key)) { item = key; }
+			};
+		}
 
 		template <
 			typename Item,
 			typename Key = Item,
-			typename KeyAccessor = IdentityAccessor,
-			typename CompareFunction = LessThan,
-			typename HandleSetter = EmptyFunction
+			typename KeyAccessor = Detail::IdentityAccessor,
+			typename CompareFunction = Utility::LessThan,
+			typename HandleSetter = Utility::EmptyFunction
 		> class PriorityQueue
 		{
 		private:

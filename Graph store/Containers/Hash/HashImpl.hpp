@@ -69,6 +69,7 @@ namespace IDragnev
 			swap(table, source.table);
 			swap(count, source.count);
 
+			using Utility::moveIfNothrowMoveAssignable;
 			hashFunction = moveIfNothrowMoveAssignable(source.hashFunction);
 			keyAccessor = moveIfNothrowMoveAssignable(source.keyAccessor);
 			equalityPredicate = moveIfNothrowMoveAssignable(source.equalityPredicate);

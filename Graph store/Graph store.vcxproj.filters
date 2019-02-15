@@ -247,9 +247,6 @@
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
-      <Filter>Containers\Priority Queue</Filter>
-    </ClCompile>
     <ClCompile Include="Serialization\Graph Saver\GraphSaver.cpp">
       <Filter>Serialization\Graph Saver</Filter>
     </ClCompile>
@@ -258,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.cpp">
       <Filter>Directory FlatIterator</Filter>
+    </ClCompile>
+    <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
+      <Filter>Containers\Priority Queue\PQ Handle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -405,15 +405,6 @@
     <ClInclude Include="Containers\Hash\HashImpl.hpp">
       <Filter>Containers\Linear Probing Hash</Filter>
     </ClInclude>
-    <ClInclude Include="Containers\Priority Queue\PriorityQueue.h">
-      <Filter>Containers\Priority Queue\PQ Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Containers\Priority Queue\PriorityQueueImpl.hpp">
-      <Filter>Containers\Priority Queue\PQ Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
-      <Filter>Containers\Priority Queue</Filter>
-    </ClInclude>
     <ClInclude Include="Containers\Queue\Queue.h">
       <Filter>Containers\Queue</Filter>
     </ClInclude>
@@ -449,6 +440,15 @@
     </ClInclude>
     <ClInclude Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h">
       <Filter>Directory FlatIterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\PriorityQueue.h">
+      <Filter>Containers\Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\PriorityQueueImpl.hpp">
+      <Filter>Containers\Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
+      <Filter>Containers\Priority Queue\PQ Handle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

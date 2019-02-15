@@ -82,6 +82,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 		{
+			using Utility::asSigned;
 			auto index = asSigned(elements.size() / 2 - 1U);
 
 			while (index >= 0)
@@ -167,7 +168,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll() noexcept
 		{
-			invalidateHandlesOfAll(std::is_same<HandleSetter, EmptyFunction>{});
+			invalidateHandlesOfAll(std::is_same<HandleSetter, Utility::EmptyFunction>{});
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
@@ -268,7 +269,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const Handle& handle, const Key& key)
 		{
-			static_assert(!std::is_same<HandleSetter, EmptyFunction>::value,
+			static_assert(!std::is_same<HandleSetter, Utility::EmptyFunction>::value,
 						  "Cannot use handle-related logic with no specific HandleSetter supplied");
 			assert(handle.isValid());
 			assert(hasElementAt(handle));

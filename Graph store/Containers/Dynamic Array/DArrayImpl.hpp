@@ -142,6 +142,7 @@ namespace IDragnev
 			auto newCount = (count <= newSize) ? count : newSize;
 			auto temporary = DArray<T>(newSize, newCount);
 
+			using Utility::moveIfNothrowMoveAssignable;
 			for (auto i = size_type{ 0 }; i < newCount; ++i)
 			{
 				temporary.items[i] = moveIfNothrowMoveAssignable(items[i]);

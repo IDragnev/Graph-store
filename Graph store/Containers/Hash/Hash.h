@@ -14,9 +14,9 @@ namespace IDragnev
 		template <
 			typename Item,
 			typename Key = Item,
-			typename KeyAccessor = Identity,
+			typename KeyAccessor = Utility::Identity,
 			typename HashFun = std::hash<Key>,
-			typename EqualityPredicate = EqualTo
+			typename EqualityPredicate = Utility::EqualTo
 		> class Hash
 		{
 		private:
