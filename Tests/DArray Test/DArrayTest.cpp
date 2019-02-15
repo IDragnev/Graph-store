@@ -42,7 +42,7 @@ namespace DArraytest
 			Assert::IsFalse(constBegin != nonCostEnd);
 		}
 
-		TEST_METHOD(testInitizalizerListCtor)
+		TEST_METHOD(InitizalizerListCtor)
 		{
 			UIntArray dArray{ 1, 2, 3 };
 
@@ -53,7 +53,7 @@ namespace DArraytest
 			}
 		}
 
-		TEST_METHOD(testRangeCtor)
+		TEST_METHOD(RangeCtor)
 		{
 			const UIntArray source{ 1, 2, 3 };
 			UIntArray destination(begin(source), end(source));
@@ -61,7 +61,7 @@ namespace DArraytest
 			Assert::IsTrue(destination == UIntArray{ 1, 2, 3 });
 		}
 
-		TEST_METHOD(testRangeCtorWithMoveIterator)
+		TEST_METHOD(RangeCtorWithMoveIterator)
 		{
 			StringArray source{ "one", "two", "three" };
 			auto&& first = std::make_move_iterator(begin(source));
@@ -73,7 +73,7 @@ namespace DArraytest
 			Assert::IsTrue(source == StringArray{ "", "", "" });
 		}
 
-		TEST_METHOD(testDefaultFilledArrayValueInitializesAll)
+		TEST_METHOD(DefaultFilledArrayValueInitializesAll)
 		{
 			UIntArray dArray(10, 10);
 
@@ -83,7 +83,7 @@ namespace DArraytest
 			}
 		}
 
-		TEST_METHOD(testEnsureSizeEnlargesWhenGivenSizeIsGreater)
+		TEST_METHOD(EnsureSizeEnlargesWhenGivenSizeIsGreater)
 		{
 			UIntArray dArray;
 
@@ -92,7 +92,7 @@ namespace DArraytest
 			Assert::AreEqual(dArray.getSize(), TEST_SIZE);
 		}
 
-		TEST_METHOD(testEnsureSizeDoesNotDoAnythingWhenGivenSizeIsNotGreater)
+		TEST_METHOD(EnsureSizeDoesNotDoAnythingWhenGivenSizeIsNotGreater)
 		{
 			UIntArray dArray(TEST_SIZE);
 
@@ -101,7 +101,7 @@ namespace DArraytest
 			Assert::AreEqual(dArray.getSize(), TEST_SIZE);
 		}
 
-		TEST_METHOD(testShrinkSizeActuallyShrinksTheSize)
+		TEST_METHOD(ShrinkSizeActuallyShrinksTheSize)
 		{
 			UIntArray dArray(TEST_SIZE);
 
@@ -110,7 +110,7 @@ namespace DArraytest
 			Assert::AreEqual(dArray.getSize(), 1U);
 		}
 
-		TEST_METHOD(testEmptyLeavesSizeZero)
+		TEST_METHOD(EmptyLeavesSizeZero)
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
 
@@ -120,7 +120,7 @@ namespace DArraytest
 			Assert::AreEqual(dArray.getSize(), 0U, L"Size is not zero");
 		}
 
-		TEST_METHOD(testCopyCtorFromEmptySource)
+		TEST_METHOD(CopyCtorFromEmptySource)
 		{
 			UIntArray source;
 			UIntArray destination{ source };
@@ -128,7 +128,7 @@ namespace DArraytest
 			Assert::IsTrue(source == destination);
 		}
 
-		TEST_METHOD(testCopyCtorFromNonEmptySource)
+		TEST_METHOD(CopyCtorFromNonEmptySource)
 		{
 			UIntArray source{ 1, 2, 3, 4 };
 			UIntArray destination{ source };
@@ -136,7 +136,7 @@ namespace DArraytest
 			Assert::IsTrue(source == destination);
 		}
 
-		TEST_METHOD(testMoveCtorFromEmptySource)
+		TEST_METHOD(MoveCtorFromEmptySource)
 		{
 			UIntArray source;
 			UIntArray destination{ std::move(source) };
@@ -145,7 +145,7 @@ namespace DArraytest
 			Assert::IsTrue(areSizeAndCountZero(destination), L"Moved-from array is not empty");
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmptySource)
+		TEST_METHOD(MoveCtorFromNonEmptySource)
 		{
 			UIntArray source{ 1, 2, 3, 4 };
 			UIntArray destination{ std::move(source) };
@@ -154,7 +154,7 @@ namespace DArraytest
 			Assert::IsTrue(destination == UIntArray{ 1, 2, 3, 4 }, L"Moved-in array has invalid contents");
 		}
 
-		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
+		TEST_METHOD(CopyAssignmentEmptyToEmpty)
 		{
 			UIntArray lhs;
 			UIntArray rhs;
@@ -164,7 +164,7 @@ namespace DArraytest
 			Assert::IsTrue(areSizeAndCountZero(lhs));
 		}
 
-		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
+		TEST_METHOD(CopyAssignmentEmptyToNonEmpty)
 		{
 			UIntArray lhs{ 1, 2, 3, 4 };
 			UIntArray rhs;
@@ -174,7 +174,7 @@ namespace DArraytest
 			Assert::IsTrue(lhs == rhs);
 		}
 
-		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
+		TEST_METHOD(CopyAssignmentNonEmptyToEmpty)
 		{
 			UIntArray lhs;
 			UIntArray rhs{ 1, 2, 3, 4 };
@@ -184,7 +184,7 @@ namespace DArraytest
 			Assert::IsTrue(lhs == rhs);
 		}
 
-		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(CopyAssignmentNonEmptyToNonEmpty)
 		{
 			UIntArray lhs{ 1, 2, 3, 4 };
 			UIntArray rhs{ 5, 6, 7, 8 };
@@ -193,7 +193,7 @@ namespace DArraytest
 			Assert::IsTrue(lhs == rhs);
 		}
 
-		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
+		TEST_METHOD(MoveAssignmentEmptyToEmpty)
 		{
 			UIntArray lhs;
 			UIntArray rhs;
@@ -204,7 +204,7 @@ namespace DArraytest
 			Assert::IsTrue(areSizeAndCountZero(lhs), L"Moved-in array is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
+		TEST_METHOD(MoveAssignmentEmptyToNonEmpty)
 		{
 			UIntArray lhs{ 1, 2, 3, 4 };
 			UIntArray rhs;
@@ -215,7 +215,7 @@ namespace DArraytest
 			Assert::IsTrue(areSizeAndCountZero(lhs), L"Moved-in array is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
+		TEST_METHOD(MoveAssignmentNonEmptyToEmpty)
 		{
 			UIntArray lhs;
 			UIntArray rhs{ 1, 2, 3, 4 };
@@ -226,7 +226,7 @@ namespace DArraytest
 			Assert::IsTrue(lhs == UIntArray{ 1, 2, 3, 4 }, L"Moved-in array has invalid contents");
 		}
 
-		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(MoveAssignmentNonEmptyToNonEmpty)
 		{
 			UIntArray lhs{ 1, 2, 3, 4 };
 			UIntArray rhs{ 5, 6, 7, 8 };
@@ -237,7 +237,7 @@ namespace DArraytest
 			Assert::IsTrue(lhs == UIntArray{ 5, 6, 7, 8 }, L"Moved-in array has invalid contents");
 		}
 
-		TEST_METHOD(testInsertLValue)
+		TEST_METHOD(InsertLValue)
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
 
@@ -246,7 +246,7 @@ namespace DArraytest
 			Assert::IsTrue(dArray == UIntArray{ 1, 2, 3, 4, 5 });
 		}
 
-		TEST_METHOD(testInsertRValue)
+		TEST_METHOD(InsertRValue)
 		{
 			StringArray dArray{ "one", "two", "three" };
 			std::string str{ "four" };
@@ -257,7 +257,7 @@ namespace DArraytest
 			Assert::IsTrue(str == "", L"The move-inserted string is not moved");
 		}
 
-		TEST_METHOD(testRemoveAtShiftsItemsAfterTheRemovedOne)
+		TEST_METHOD(RemoveAtShiftsItemsAfterTheRemovedOne)
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
 			dArray.removeAt(0);
@@ -266,7 +266,7 @@ namespace DArraytest
 			Assert::IsTrue(dArray == UIntArray{ 2, 3, 4 });
 		}
 
-		TEST_METHOD(testInsertAt)
+		TEST_METHOD(InsertAt)
 		{
 			UIntArray dArray{ 2, 3, 4, 5 };
 
