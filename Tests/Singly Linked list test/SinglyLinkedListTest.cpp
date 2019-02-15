@@ -17,25 +17,35 @@ namespace SinglyLinkedListTest
 		using StringList = SinglyLinkedList<std::string>;
 
 	public:
-		TEST_METHOD(testDefaultConstructedListIsEmpty)
+		TEST_METHOD(DefaultConstructedListIsEmpty)
 		{
 			IntList list;
 
 			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(testInitializerListCtor)
+		TEST_METHOD(IteratorToConstIteratorConversion)
+		{
+			IntList list;
+
+			auto constBegin = cbegin(list);
+			auto nonConstEnd = end(list);
+
+			Assert::IsTrue(constBegin == nonConstEnd);
+			Assert::IsFalse(constBegin != nonConstEnd);
+		}
+		TEST_METHOD(InitializerListCtor)
 		{
 			IntList list{ 0, 1, 2, 3, 4 };
 
 			auto i = 0;
-			for(auto&& current: list)
+			for(auto current: list)
 			{
 				Assert::AreEqual(current, i++);
 			}	
 		}
 
-		TEST_METHOD(testRangeCtor)
+		TEST_METHOD(RangeCtor)
 		{
 			IntList source{ 1, 2, 3, 4 };
 			IntList destination(cbegin(source), cend(source));
@@ -43,7 +53,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(destination == source);
 		}
 
-		TEST_METHOD(testRangeCtorWithMoveIterator)
+		TEST_METHOD(RangeCtorWithMoveIterator)
 		{
 			StringList source{ "one", "two", "three" };
 			StringList destination{ std::make_move_iterator(begin(source)),
@@ -53,7 +63,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(destination == StringList{ "one", "two", "three" }, L"Moved-in list has invalid content");
 		}
 
-		TEST_METHOD(testEmptyListReturnsInvalidIterators)
+		TEST_METHOD(EmptyListReturnsInvalidIterators)
 		{
 			IntList list;
 
@@ -61,7 +71,7 @@ namespace SinglyLinkedListTest
 			Assert::IsFalse(cend(list), L"End iterator of empty list is not null");
 		}
 	
-		TEST_METHOD(testTailInsertionUpdatesCountAndTail)
+		TEST_METHOD(TailInsertionUpdatesCountAndTail)
 		{
 			IntList list;
 
@@ -71,7 +81,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getTail(), 0, L"Tail is not updated");
 		}
 
-		TEST_METHOD(testInsertionAsHeadUpdatesCountAndHead)
+		TEST_METHOD(InsertionAsHeadUpdatesCountAndHead)
 		{
 			IntList list;
 
@@ -81,7 +91,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getHead(), 0, L"Head is not updated");
 		}
 		
-		TEST_METHOD(testAppendListLValue)
+		TEST_METHOD(AppendListLValue)
 		{
 			IntList source{ 4, 5, 6 };
 			IntList destination{ 1, 2, 3 };
@@ -91,7 +101,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(destination == IntList{ 1, 2, 3, 4, 5, 6 });
 		}
 
-		TEST_METHOD(testAppendListRValue)
+		TEST_METHOD(AppendListRValue)
 		{
 			IntList source{ 4, 5, 6 };
 			IntList destination{ 1, 2, 3 };
@@ -102,7 +112,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(source.isEmpty(), L"Move-appended list is not empty");
 		}
 
-		TEST_METHOD(testRemoveHeadUpdatesCountAndHead)
+		TEST_METHOD(RemoveHeadUpdatesCountAndHead)
 		{
 			IntList list{ 1, 2, 3 };
 			
@@ -112,7 +122,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getCount(), 2U, L"Count is not updated");
 		}
 		
-		TEST_METHOD(testRemoveTailUpdatesCoundAndTail)
+		TEST_METHOD(RemoveTailUpdatesCoundAndTail)
 		{
 			IntList list{ 1, 2, 3 };
 
@@ -122,7 +132,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getCount(), 2U, L"Count is not updated");
 		}
 
-		TEST_METHOD(testInsertionAfterNullIteratorInsertsAsTail)
+		TEST_METHOD(InsertionAfterNullIteratorInsertsAsTail)
 		{
 			IntList list{ 10, 11, 12 };
 
@@ -131,7 +141,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getTail(), 1);
 		}
 
-		TEST_METHOD(testInsertionAfterValidIterator)
+		TEST_METHOD(InsertionAfterValidIterator)
 		{
 			IntList list{ 1 };
 
@@ -140,7 +150,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getTail(), 2);
 		}
 
-		TEST_METHOD(testInsertionBetweenElementsWithInsertAfterIterator)
+		TEST_METHOD(InsertionBetweenElementsWithInsertAfterIterator)
 		{
 			IntList list{ 1, 3 };
 			
@@ -149,7 +159,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
-		TEST_METHOD(testInsertionBeforeNullIteratorInsertsAsHead)
+		TEST_METHOD(InsertionBeforeNullIteratorInsertsAsHead)
 		{
 			IntList list{ 10 };
 
@@ -158,7 +168,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getHead(), 1);
 		}
 
-		TEST_METHOD(testInsertionBeforeIterator)
+		TEST_METHOD(InsertionBeforeIterator)
 		{
 			IntList list{ 1 };
 
@@ -167,7 +177,7 @@ namespace SinglyLinkedListTest
 			Assert::AreEqual(list.getHead(), 20);
 		}
 
-		TEST_METHOD(testInsertionBetweenElementsWithInsertBeforeIterator)
+		TEST_METHOD(InsertionBetweenElementsWithInsertBeforeIterator)
 		{
 			IntList list{ 1, 3 };
 			auto iterator = begin(list);
@@ -178,7 +188,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
-		TEST_METHOD(testRemovalAtNullIteratorDoesNothing)
+		TEST_METHOD(RemovalAtNullIteratorDoesNothing)
 		{
 			IntList emptyList;
 
@@ -187,7 +197,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(emptyList.isEmpty());
 		}
 
-		TEST_METHOD(testRemovalAtIterator)
+		TEST_METHOD(RemovalAtIterator)
 		{
 			IntList list{ 1, 2, 3 };
 			auto iterator = begin(list);
@@ -199,7 +209,7 @@ namespace SinglyLinkedListTest
 
 		}
 
-		TEST_METHOD(testCopyCtorFromEmptySource)
+		TEST_METHOD(CopyCtorFromEmptySource)
 		{
 			IntList source;
 			IntList destination{ source };
@@ -207,7 +217,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(source == destination);
 		}
 
-		TEST_METHOD(testCopyCtorFromNonEmptySource)
+		TEST_METHOD(CopyCtorFromNonEmptySource)
 		{
 			IntList source{ 1, 2, 3 };
 			IntList destination{ source };
@@ -215,7 +225,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(source == destination);
 		}
 
-		TEST_METHOD(testMoveCtorFromEmptySource)
+		TEST_METHOD(MoveCtorFromEmptySource)
 		{
 			IntList source;
 			IntList destination{ std::move(source) };
@@ -224,7 +234,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(source.isEmpty(), L"Moved-from list is not empty");
 		}
 
-		TEST_METHOD(testMoveCtorFromNonEmptySource)
+		TEST_METHOD(MoveCtorFromNonEmptySource)
 		{
 			IntList source{ 1, 2, 3, 4 };
 			IntList destination{ std::move(source) };
@@ -233,7 +243,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(source.isEmpty(), L"Moved-from list is not empty");
 		}
 
-		TEST_METHOD(testCopyAssignmentEmptyToEmpty)
+		TEST_METHOD(CopyAssignmentEmptyToEmpty)
 		{
 			IntList lhs;
 			IntList rhs;
@@ -243,7 +253,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(lhs == rhs);
 		}
 
-		TEST_METHOD(testCopyAssignmentNonEmptyToEmpty)
+		TEST_METHOD(CopyAssignmentNonEmptyToEmpty)
 		{
 			IntList lhs;
 			IntList rhs{ 1, 2, 3, 4 };
@@ -253,7 +263,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(lhs == rhs);
 		}
 
-		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(CopyAssignmentNonEmptyToNonEmpty)
 		{
 			IntList lhs{ 1, 2, 3, 4 };
 			IntList rhs{ 12, 13, 14, 15 };
@@ -263,7 +273,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(lhs ==  rhs);
 		}
 
-		TEST_METHOD(testCopyAssignmentEmptyToNonEmpty)
+		TEST_METHOD(CopyAssignmentEmptyToNonEmpty)
 		{
 			IntList lhs{ 1, 2, 3, 4 };
 			IntList rhs;
@@ -273,7 +283,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(lhs == rhs);
 		}
 		
-		TEST_METHOD(testMoveAssignmentEmptyToEmpty)
+		TEST_METHOD(MoveAssignmentEmptyToEmpty)
 		{
 			IntList lhs;
 			IntList rhs;
@@ -284,7 +294,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from list is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
+		TEST_METHOD(MoveAssignmentNonEmptyToEmpty)
 		{
 			IntList lhs;
 			IntList rhs{ 1, 2, 3, 4 };
@@ -295,7 +305,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from list is not empty");
 		}
 		
-		TEST_METHOD(testMoveAssignmentEmptyToNonEmpty)
+		TEST_METHOD(MoveAssignmentEmptyToNonEmpty)
 		{
 			IntList lhs{ 1, 2, 3, 4 };
 			IntList rhs;
@@ -306,7 +316,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(rhs.isEmpty(), L"Moved-from list is not empty");
 		}
 
-		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmpty)
+		TEST_METHOD(MoveAssignmentNonEmptyToNonEmpty)
 		{
 			IntList lhs{ 1, 2, 3, 4 };
 			IntList rhs{ 10, 9, 8, 7 };

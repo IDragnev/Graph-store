@@ -57,10 +57,16 @@ namespace IDragnev
 				operator bool() const noexcept;
 				bool operator!() const noexcept;
 
-				template <typename Item, bool isConst>
-				friend bool operator==(typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& lhs,
-									   typename const SinglyLinkedList<Item>::SinglyLinkedListIterator<Item, isConst>& rhs) noexcept;
+				friend bool operator==(const SinglyLinkedListIterator& lhs, const SinglyLinkedListIterator& rhs) noexcept
+				{
+					return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
+				}
 
+				friend bool operator!=(const SinglyLinkedListIterator& lhs, const SinglyLinkedListIterator& rhs) noexcept
+				{
+					return !(lhs == rhs);
+				}
+									   
 			private:
 				SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner) noexcept;
 

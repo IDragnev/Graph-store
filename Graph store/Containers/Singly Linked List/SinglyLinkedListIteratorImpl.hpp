@@ -67,19 +67,5 @@ namespace IDragnev
 		{
 			return !(this->operator bool());
 		}
-
-		template <typename T, bool isConst>
-		inline bool operator==(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
-						       typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs) noexcept
-		{
-			return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
-		}
-
-		template <typename T, bool isConst>
-		inline bool operator!=(typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& lhs,
-						 	   typename const SinglyLinkedList<T>::SinglyLinkedListIterator<T, isConst>& rhs) noexcept
-		{
-			return !(lhs == rhs);
-		}
 	}
 }
