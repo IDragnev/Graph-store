@@ -14,9 +14,9 @@ namespace IDragnev
 		public:
 			using GraphCreator::GraphCreator;
 
-			GraphPtr createEmptyGraph(String ID) const override
+			GraphPtr createEmptyGraph(const String& ID) const override
 			{
-				return std::make_unique<GraphType>(std::move(ID));
+				return std::make_unique<GraphType>(ID);
 			}
 		};
 	}

@@ -24,7 +24,7 @@ namespace IDragnev
 			GraphCreator& operator=(const GraphCreator&) = delete;
 			virtual ~GraphCreator() = default;
 
-			virtual GraphPtr createEmptyGraph(String ID) const = 0;
+			virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
 
 			const String& getCreatedGraphType() const noexcept { return createdGraphType; }
 
