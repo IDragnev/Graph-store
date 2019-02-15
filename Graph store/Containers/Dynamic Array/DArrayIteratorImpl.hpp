@@ -11,14 +11,12 @@ namespace IDragnev
 		{
 		}
 
-
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIterator<Item, false>& source) noexcept :
 			DArrayIterator<Item, isConst>{ source.current, source.owner }
 		{
 		}
-
 
 		template <typename T>
 		template <typename Item, bool isConst>
@@ -28,14 +26,12 @@ namespace IDragnev
 			return (*owner)[current];
 		}
 
-
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline auto DArray<T>::DArrayIterator<Item, isConst>::operator->() const -> pointer
 		{
 			return std::addressof(this->operator*());
 		}
-
 
 		template <typename T>
 		template <typename Item, bool isConst>
@@ -47,7 +43,6 @@ namespace IDragnev
 			return temp;
 		}
 
-
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline auto DArray<T>::DArrayIterator<Item, isConst>::operator++() -> DArrayIterator&
@@ -56,7 +51,6 @@ namespace IDragnev
 			return *this;
 		}
 
-
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline DArray<T>::DArrayIterator<Item, isConst>::operator bool() const noexcept
@@ -64,28 +58,11 @@ namespace IDragnev
 			return current < owner->getCount();
 		}
 
-
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const noexcept
 		{
 			return !(this->operator bool());
-		}
-
-
-		template <typename Item, bool isConst>
-		inline bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept
-		{
-			return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
-		}
-
-
-		template <typename Item, bool isConst>
-		inline bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-							   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept
-		{
-			return !(lhs == rhs);
 		}
 	}
 }

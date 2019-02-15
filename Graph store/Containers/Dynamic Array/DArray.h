@@ -50,9 +50,15 @@ namespace IDragnev
 				operator bool() const noexcept;
 				bool operator!() const noexcept;
 
-				template <typename Item, bool isConst>
-				friend bool operator==(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-									   typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept;
+				friend bool operator==(const DArrayIterator& lhs, const DArrayIterator& rhs) noexcept 
+				{
+					return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
+				}
+
+				friend bool operator!=(const DArrayIterator& lhs, const DArrayIterator& rhs) noexcept
+				{
+					return !(lhs == rhs);
+				}
 
 			private:
 				DArrayIterator(size_type startPosition, OwnerPtr owner) noexcept;

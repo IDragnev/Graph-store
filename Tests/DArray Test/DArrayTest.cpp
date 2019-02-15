@@ -3,7 +3,9 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using IDragnev::Containers::DArray;
+using std::cbegin;
 using std::begin;
+using std::cend;
 using std::end;
 
 namespace DArraytest
@@ -22,11 +24,22 @@ namespace DArraytest
 		}
 
 	public:
-		TEST_METHOD(testDefaultConstructorConstructsEmptyArray)
+		TEST_METHOD(DefaultConstructorConstructsEmptyArray)
 		{
 			UIntArray dArray;
 
 			Assert::IsTrue(areSizeAndCountZero(dArray));
+		}
+
+		TEST_METHOD(IteratorToConstIteratorConversion)
+		{
+			UIntArray array;
+
+			auto constBegin = cbegin(array);
+			auto nonCostEnd = end(array);
+
+			Assert::IsTrue(constBegin == nonCostEnd);
+			Assert::IsFalse(constBegin != nonCostEnd);
 		}
 
 		TEST_METHOD(testInitizalizerListCtor)
