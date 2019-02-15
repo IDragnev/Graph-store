@@ -8,11 +8,11 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		template <typename ForwardIterator, typename EndType = std::false_type>
-		class ForwardIteratorWrapper : public BaseIteratorType<ForwardIterator>
+		class ForwardIteratorAdaptor : public BaseIteratorType<ForwardIterator>
 		{
 		private:
 			static_assert(Traits::IsForwardIterator<ForwardIterator>::value,
-						  "template <class T> ForwardIteratorWrapper requires T to be a forward iterator");
+						  "template <class T> ForwardIteratorAdaptor requires T to be a forward iterator");
 
 			using pointer = typename std::iterator_traits<ForwardIterator>::pointer;
 			using reference = typename std::iterator_traits<ForwardIterator>::reference;
@@ -20,17 +20,17 @@ namespace IDragnev
 			using BaseIteratorPtr = std::unique_ptr<BaseIterator>;
 
 		public:
-			ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end = {}) noexcept(std::is_nothrow_copy_constructible_v<ForwardIterator> &&
+			ForwardIteratorAdaptor(const ForwardIterator& it, const EndType& end = {}) noexcept(std::is_nothrow_copy_constructible_v<ForwardIterator> &&
 																								std::is_nothrow_copy_constructible_v<EndType>);
 
 			reference operator*() const override;
 			pointer operator->() const override;
-			ForwardIteratorWrapper& operator++() override;
+			ForwardIteratorAdaptor& operator++() override;
 			operator bool() const noexcept override;
 			bool operator!() const noexcept override;
 			BaseIteratorPtr clone() const override;
 
-			ForwardIteratorWrapper operator++(int);
+			ForwardIteratorAdaptor operator++(int);
 
 		private:
 			ForwardIterator iterator;
@@ -38,12 +38,12 @@ namespace IDragnev
 		};
 
 		template <typename ForwardIterator, typename EndType = std::false_type>
-		auto makeIteratorWrapper(const ForwardIterator& it, const EndType& end = {})
+		auto makeIteratorAdaptor(const ForwardIterator& it, const EndType& end = {})
 		{
-			return std::make_unique<ForwardIteratorWrapper<ForwardIterator, EndType>>(it, end);
+			return std::make_unique<ForwardIteratorAdaptor<ForwardIterator, EndType>>(it, end);
 		}
 	}
 }
 
-#include "ForwardIteratorWrapperImpl.hpp"
+#include "ForwardIteratorAdaptorImpl.hpp"
 #endif //__ITERATOR_WRAPPER_H_INCLUDED__

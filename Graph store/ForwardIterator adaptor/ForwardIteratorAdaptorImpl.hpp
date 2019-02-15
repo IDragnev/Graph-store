@@ -4,7 +4,7 @@ namespace IDragnev
 	namespace GraphStore
 	{
 		template <typename ForwardIterator, typename EndType>
-		ForwardIteratorWrapper<ForwardIterator, EndType>::ForwardIteratorWrapper(const ForwardIterator& it, const EndType& end)  
+		ForwardIteratorAdaptor<ForwardIterator, EndType>::ForwardIteratorAdaptor(const ForwardIterator& it, const EndType& end)  
 			noexcept(std::is_nothrow_copy_constructible_v<ForwardIterator> &&
 					 std::is_nothrow_copy_constructible_v<EndType>) :
 			iterator{ it },
@@ -13,19 +13,19 @@ namespace IDragnev
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator*() const -> reference
+		auto ForwardIteratorAdaptor<ForwardIterator, EndType>::operator*() const -> reference
 		{
 			return *iterator;
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator->() const -> pointer
+		auto ForwardIteratorAdaptor<ForwardIterator, EndType>::operator->() const -> pointer
 		{
 			return iterator.operator->();
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator++(int) -> ForwardIteratorWrapper
+		auto ForwardIteratorAdaptor<ForwardIterator, EndType>::operator++(int) -> ForwardIteratorAdaptor
 		{
 			auto temp = *this;
 			++(*this);
@@ -34,28 +34,28 @@ namespace IDragnev
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		auto ForwardIteratorWrapper<ForwardIterator, EndType>::operator++() -> ForwardIteratorWrapper&
+		auto ForwardIteratorAdaptor<ForwardIterator, EndType>::operator++() -> ForwardIteratorAdaptor&
 		{
 			++iterator;
 			return *this;
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		ForwardIteratorWrapper<ForwardIterator, EndType>::operator bool() const noexcept
+		ForwardIteratorAdaptor<ForwardIterator, EndType>::operator bool() const noexcept
 		{
 			return iterator != end;
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		bool ForwardIteratorWrapper<ForwardIterator, EndType>::operator!() const noexcept
+		bool ForwardIteratorAdaptor<ForwardIterator, EndType>::operator!() const noexcept
 		{
 			return !(this->operator bool());
 		}
 
 		template <typename ForwardIterator, typename EndType>
-		auto ForwardIteratorWrapper<ForwardIterator, EndType>::clone() const -> BaseIteratorPtr
+		auto ForwardIteratorAdaptor<ForwardIterator, EndType>::clone() const -> BaseIteratorPtr
 		{
-			return makeIteratorWrapper(iterator, end);
+			return makeIteratorAdaptor(iterator, end);
 		}
 	}
 }

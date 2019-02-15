@@ -209,8 +209,8 @@
     <ClInclude Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h" />
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
-    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h" />
-    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapperImpl.hpp" />
+    <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptor.h" />
+    <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp" />
     <ClInclude Include="General Exceptions\Exception.h" />
     <ClInclude Include="General Exceptions\NoMemoryAvailable.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />

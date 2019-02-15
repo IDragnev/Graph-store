@@ -116,9 +116,6 @@
     <Filter Include="Iterators">
       <UniqueIdentifier>{d262e9af-960f-4a2b-bd9d-9712c837e973}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Iterators\ForwardIterator wrapper">
-      <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Iterators\Iterator interface">
       <UniqueIdentifier>{2311d6fc-14aa-40e6-95fe-a5853599d570}</UniqueIdentifier>
     </Filter>
@@ -169,6 +166,9 @@
     </Filter>
     <Filter Include="Serialization\Graph Saver">
       <UniqueIdentifier>{5b9db7ee-86b0-4988-b269-182f93306a20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Iterators\ForwardIterator adaptor">
+      <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -366,12 +366,6 @@
     <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
       <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
-    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapper.h">
-      <Filter>Iterators\ForwardIterator wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="ForwardIterator wrapper\ForwardIteratorWrapperImpl.hpp">
-      <Filter>Iterators\ForwardIterator wrapper</Filter>
-    </ClInclude>
     <ClInclude Include="Traits\Traits.h">
       <Filter>Traits</Filter>
     </ClInclude>
@@ -449,6 +443,12 @@
     </ClInclude>
     <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h">
       <Filter>Containers\Priority Queue\PQ Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptor.h">
+      <Filter>Iterators\ForwardIterator adaptor</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp">
+      <Filter>Iterators\ForwardIterator adaptor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

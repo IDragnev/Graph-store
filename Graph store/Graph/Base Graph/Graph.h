@@ -6,7 +6,7 @@
 #include "..\..\String\String.h"
 #include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
 #include "..\..\Iterator abstraction\Iterator.h"
-#include "..\..\ForwardIterator wrapper\ForwardIteratorWrapper.h"
+#include "..\..\ForwardIterator adaptor\ForwardIteratorAdaptor.h"
 #include <memory>
 #include <vector>
 
@@ -129,7 +129,7 @@ namespace IDragnev
 			using IncidentEdgesIterator = EdgeList::iterator;
 			using IncidentEdgesConstIterator = EdgeList::const_iterator;
 			using VertexConstIterator = 
-				ForwardIteratorWrapper<VertexArray::const_iterator, VertexArray::const_iterator>;
+				ForwardIteratorAdaptor<VertexArray::const_iterator, VertexArray::const_iterator>;
 			using VertexIteratorPtr = std::unique_ptr<Iterator<Vertex>>;
 			using VertexConstIteratorPtr = std::unique_ptr<ConstIterator<Vertex>>;
 			using IncidentEdgeIteratorPtr = std::unique_ptr<Iterator<IncidentEdge>>;
