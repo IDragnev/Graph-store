@@ -28,18 +28,18 @@ namespace IDragnev
 			return weight;
 		}
 
-		Graph::Vertex::Vertex(String ID, std::size_t position, EdgeListIterator edgesPosition) :
+		Graph::Vertex::Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition) :
 			position{ position },
 			edgesPosition{ edgesPosition }
 		{
-			setID(std::move(ID));
+			setID(ID);
 		}
 
-		void Graph::Vertex::setID(String&& ID)
+		void Graph::Vertex::setID(const String& ID)
 		{
 			if (ID != String{ "" })
 			{
-				id = std::move(ID);
+				id = ID;
 			}
 			else
 			{
@@ -91,21 +91,18 @@ namespace IDragnev
 			return incidentEdge.get().getWeight();
 		}	
 
-		Graph::Graph(String ID) :
-			id{},
-			vertices{},
-			verticesSearchTable{ FEWEST_VERTICES_EXPECTED },
-			edgeLists{}
+		Graph::Graph(const String& ID) :
+			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
 		{
-			setID(std::move(ID));
+			setID(ID);
 			vertices.reserve(FEWEST_VERTICES_EXPECTED);
 		}
 
-		void Graph::setID(String&& ID)
+		void Graph::setID(const String& ID)
 		{
 			if (ID != String{ "" })
 			{
-				id = std::move(ID);
+				id = ID;
 			}
 			else
 			{
