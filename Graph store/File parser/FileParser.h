@@ -23,7 +23,7 @@ namespace IDragnev
 
 		public:
 			FileParser() = default;
-			explicit FileParser(String filename);
+			explicit FileParser(const String& filename);
 			FileParser(FileParser&& source);
 			FileParser(const FileParser&) = delete;
 
@@ -32,7 +32,7 @@ namespace IDragnev
 
 			static char endOfFileCharacter();
 
-			void openFile(String name);
+			void openFile(const String& name);
 			void closeFile();
 			bool hasOpenedFile() const;
 			bool hasReachedEnd() const;
