@@ -236,7 +236,6 @@
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
     <ClInclude Include="String\String.h" />
-    <ClInclude Include="Traits\SelectBaseIterator.h" />
     <ClInclude Include="Traits\Traits.h" />
     <ClInclude Include="UtilityFunctions.h" />
   </ItemGroup>
