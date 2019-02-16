@@ -10,12 +10,19 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		FixedSizeQueue<T>::FixedSizeQueue(std::initializer_list<T> source) :
-			FixedSizeQueue(source.size())
+		inline FixedSizeQueue<T>::FixedSizeQueue(std::initializer_list<T> source) :
+			FixedSizeQueue(source.begin(), source.end())
 		{
-			for (auto& item : source)
+		}
+
+		template <typename T>
+		template <typename InputIt>
+		FixedSizeQueue<T>::FixedSizeQueue(InputIt first, InputIt last) :
+			FixedSizeQueue(std::distance(first, last))
+		{
+			for (; first != last; ++first)
 			{
-				items[tail++] = item;
+				items[tail++] = *first;
 			}
 		}
 

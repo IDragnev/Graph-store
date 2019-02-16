@@ -1,5 +1,5 @@
-#ifndef __SINGLY_LINKED_LIST_ADAPTER_QUEUE_H_INCLUDED__
-#define __SINGLY_LINKED_LIST_ADAPTER_QUEUE_H_INCLUDED__
+#ifndef __FIXED_SIZE_QUEUE_H_INCLUDED__
+#define __FIXED_SIZE_QUEUE_H_INCLUDED__
 
 #include "..\Dynamic Array\DArray.h"
 
@@ -11,6 +11,8 @@ namespace IDragnev
 		class FixedSizeQueue
 		{
 		public:
+			template <typename InputIt>
+			FixedSizeQueue(InputIt first, InputIt last);
 			explicit FixedSizeQueue(std::size_t size);
 			FixedSizeQueue(std::initializer_list<T> source);
 			FixedSizeQueue(const FixedSizeQueue& source) = default;
@@ -43,4 +45,4 @@ namespace IDragnev
 }
 
 #include "FixedSizeQueueImpl.hpp"
-#endif //__SINGLY_LINKED_LIST_ADAPTER_QUEUE_H_INCLUDED__
+#endif //__FIXED_SIZE_QUEUE_H_INCLUDED__
