@@ -8,30 +8,33 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		template <typename T, bool isConst>
-		class IteratorBase
+		namespace Detail
 		{
-		private:
-			using IteratorPtr = std::unique_ptr<IteratorBase<T, isConst>>;
+			template <typename T, bool isConst>
+			class IteratorInterface
+			{
+			private:
+				using IteratorPtr = std::unique_ptr<IteratorInterface<T, isConst>>;
 
-		public:
-			using reference = std::conditional_t<isConst, const T&, T&>;
-			using pointer = std::conditional_t<isConst, const T*, T*>;
+			public:
+				using reference = std::conditional_t<isConst, const T&, T&>;
+				using pointer = std::conditional_t<isConst, const T*, T*>;
 
-			virtual ~IteratorBase() = default;
+				virtual ~IteratorInterface() = default;
 
-			virtual reference operator*() const = 0;
-			virtual pointer operator->() const = 0;
-			virtual IteratorBase& operator++() = 0;
-			virtual operator bool() const noexcept = 0;
-			virtual bool operator!() const noexcept = 0;
-			virtual IteratorPtr clone() const = 0;
-		};
+				virtual reference operator*() const = 0;
+				virtual pointer operator->() const = 0;
+				virtual IteratorInterface& operator++() = 0;
+				virtual operator bool() const noexcept = 0;
+				virtual bool operator!() const noexcept = 0;
+				virtual IteratorPtr clone() const = 0;
+			};
+		}
 
 		template <typename T>
-		using ConstIterator = IteratorBase<T, true>;
+		using ConstIterator = Detail::IteratorInterface<T, true>;
 		template <typename T>
-		using Iterator = IteratorBase<T, false>;
+		using Iterator = Detail::IteratorInterface<T, false>;
 
 		template <typename Iterator, typename Function>
 		void forEach(Iterator& it, Function f)
