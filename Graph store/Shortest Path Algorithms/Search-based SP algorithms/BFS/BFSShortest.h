@@ -2,7 +2,7 @@
 #define __BFS_SHORTEST_PATH_H_INCLUDED__
 
 #include "..\Base\SearchBasedShortestPathAlgorithm.h"
-#include "..\..\..\Containers\Queue\Queue.h"
+#include "..\..\..\Containers\Fixed size queue\FixedSizeQueue.h"
 
 namespace IDragnev
 {
@@ -11,12 +11,11 @@ namespace IDragnev
 		class BFSShortest : public SearchBasedShortestPathAlgorithm
 		{
 		private:
-			using ConstVertexRef = std::reference_wrapper<const MarkableVertex>;
-			using VertexDecoratorsQueue = Containers::Queue<ConstVertexRef>;
 			using Base = SearchBasedShortestPathAlgorithm;
+			using DecoratorsPtrQueue = Containers::FixedSizeQueue<const Base::MarkableVertex*>;
 
 		public:
-			using SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm;
+			using Base::SearchBasedShortestPathAlgorithm;
 
 		private:
 			Path findNonTrivialShortestPath(const Graph& graph,
@@ -34,7 +33,10 @@ namespace IDragnev
 			void initSourceDecorator(MarkableVertex& source) override;
 
 		private:
-			VertexDecoratorsQueue queue{};
+			static const std::size_t INITIAL_QUEUE_SIZE = 32;
+
+		private:
+			DecoratorsPtrQueue queue{ INITIAL_QUEUE_SIZE };
 			Path result{};
 		};
 	}

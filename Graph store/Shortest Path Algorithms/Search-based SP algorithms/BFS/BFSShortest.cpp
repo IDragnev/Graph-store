@@ -48,12 +48,13 @@ namespace IDragnev
 		void BFSShortest::addToFrontier(const MarkableVertex& v)
 		{
 			assert(v.isVisited);
-			queue.enqueue(v);
+			queue.enqueue(&v);
 		}
 
 		auto BFSShortest::extractVertexFromFrontier() -> const MarkableVertex&
 		{
-			return queue.dequeue();
+			auto result = queue.dequeue();
+			return *result;
 		}
 
 		void BFSShortest::expandFrontierFrom(const MarkableVertex& vertex)
