@@ -1,7 +1,10 @@
 #include "Graph.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
+#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 #include <assert.h>
 #include <algorithm>
+
+using namespace fmt::literals;
 
 namespace IDragnev
 {
@@ -43,7 +46,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "A Vertex ID must be a valid string" };
+				throw Exception{ fmt::format("{0} is an invalid vertex ID!", ID) };
 			}
 		}
 
@@ -106,7 +109,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "A Graph ID must be a valid string" };
+				throw Exception{ fmt::format("{0} is an invalid graph ID!", ID) };
 			}
 		}
 
@@ -118,7 +121,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "A vertex with such ID already exists" };
+				throw Exception{ fmt::format("A vertex with ID {0} already exists!", ID) };
 			}
 		}
 
@@ -270,7 +273,7 @@ namespace IDragnev
 			}
 			else if (throwIfEdgeDoesNotExist)
 			{
-				throw Exception{ "No such edge exists" };
+				throw Exception{ fmt::format("No edge from {u} to {v} exists!", "u"_a = from.ID(), "v"_a = to.ID()) };
 			}
 		}
 
@@ -319,7 +322,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "There is no vertex with ID " + ID };
+				throw Exception{ fmt::format("There is no vertex {0}! ", ID) };
 			}
 		}
 

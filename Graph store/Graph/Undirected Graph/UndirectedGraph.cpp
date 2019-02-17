@@ -1,8 +1,10 @@
 #include "UndirectedGraph.h"
 #include "../../Graph Factory/Graph registrator/GraphRegistrator.h"
 #include "../../General Exceptions/NoMemoryAvailable.h"
+#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 
 namespace GS = IDragnev::GraphStore;
+using namespace fmt::literals;
 
 static GS::GraphRegistrator<GS::UndirectedGraph> registrator{ "undirected" };
 
@@ -21,7 +23,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "Such edge already exists" };
+				throw Exception{ fmt::format("And edge from {u} to {v} already exists!", "u"_a = start.ID(), "v"_a = end.ID()) };
 			}
 		}
 

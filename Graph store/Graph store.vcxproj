@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Third party\fmt-5.3.0\src\format.cc" />
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Application\Commands\Base\Command.cpp" />
     <ClCompile Include="Application\Commands\Insert edge\InsertEdgeCommand.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h" />
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Command registrator\CommandRegistrator.h" />
     <ClInclude Include="Application\Commands\Base\Command.h" />

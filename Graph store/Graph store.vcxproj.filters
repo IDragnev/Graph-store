@@ -170,6 +170,9 @@
     <Filter Include="Iterators\ForwardIterator adaptor">
       <UniqueIdentifier>{f9beac44-e3dc-4111-bcc9-10e12a972a4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Third party">
+      <UniqueIdentifier>{f2f102b0-d63f-471c-a8df-aa1e52d65099}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -258,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
       <Filter>Containers\Priority Queue\PQ Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Third party\fmt-5.3.0\src\format.cc">
+      <Filter>Third party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,6 +452,9 @@
     </ClInclude>
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp">
       <Filter>Iterators\ForwardIterator adaptor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h">
+      <Filter>Third party</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

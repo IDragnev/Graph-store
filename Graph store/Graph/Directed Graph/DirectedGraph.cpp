@@ -1,9 +1,12 @@
 #include "DirectedGraph.h"
 #include "..\..\General Exceptions\Exception.h"
 #include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
+#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 
 namespace GS = IDragnev::GraphStore;
 static GS::GraphRegistrator<GS::DirectedGraph> registrator{ "directed" };
+
+using namespace fmt::literals;
 
 namespace IDragnev
 {
@@ -25,7 +28,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "Such edge already exists" };
+				throw Exception{ fmt::format("And edge from {u} to {v} already exists!", "u"_a = start.ID(), "v"_a = end.ID()) };
 			}
 		}
 
