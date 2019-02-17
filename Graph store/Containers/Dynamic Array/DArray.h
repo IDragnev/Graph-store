@@ -15,8 +15,8 @@ namespace IDragnev
 		private:
 			static_assert(std::is_default_constructible_v<T>,
 						  "DArray<T> requires T to be default constructible");
-			static_assert(std::is_copy_assignable_v<T>,
-					   	  "DArray<T> requires T to be copy assignable");
+			static_assert(std::is_copy_assignable_v<T> || std::is_nothrow_move_assignable_v<T>,
+					   	  "DArray<T> requires T to be copy assignable or nothrow move assignable");
 
 			template <typename Iter>
 			using EnableIfItemIterator =
