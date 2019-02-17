@@ -1,7 +1,7 @@
 #ifndef __COMMAND_BASE_H_INCLUDED__
 #define __COMMAND_BASE_H_INCLUDED__
 
-#include "..\..\args.hxx"
+#include "..\..\..\..\Third party\args\args.hxx"
 #include <memory>
 
 namespace IDragnev
