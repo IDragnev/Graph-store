@@ -121,8 +121,6 @@ namespace IDragnev
 			bool hasElementAt(std::size_t index) const noexcept;
 
 			void invalidateHandlesOfAll() noexcept;
-			void invalidateHandlesOfAll(std::true_type) noexcept;
-			void invalidateHandlesOfAll(std::false_type) noexcept;
 
 			void swapContentsWithReconstructedParameter(PriorityQueue temporary) noexcept;
 
