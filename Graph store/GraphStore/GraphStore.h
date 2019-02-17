@@ -15,33 +15,33 @@ namespace IDragnev
 		class GraphStore
 		{
 		private:
-			using GraphCollection = Containers::DArray<Graph*>;
+			using GraphPtr = std::unique_ptr<Graph>;
+			using GraphCollection = Containers::DArray<GraphPtr>;
+			using ConstIterator = GraphCollection::const_iterator;
 
 		public:
 			GraphStore() = default;
 			GraphStore(const GraphStore&) = delete;
 			GraphStore(GraphStore&& source) = default;
-			~GraphStore();
+			~GraphStore() = default;
 
-			GraphStore& operator=(GraphStore&& rhs);
 			GraphStore& operator=(const GraphStore&) = delete;
+			GraphStore& operator=(GraphStore&& rhs) = default;
 
-			void insertGraph(std::unique_ptr<Graph> graph);
+			void insertGraph(GraphPtr graph);
 			void removeGraph(const String& ID);
 			Graph& getGraph(const String& ID);
 			const Graph& getGraph(const String& ID) const;
 
-			bool isEmpty() const;
-			void empty();
+			bool isEmpty() const noexcept;
+			void empty() noexcept;
 
 		private:
+			GraphPtr& getGraphPtr(const String& ID);
+			const GraphPtr& getGraphPtr(const String& ID) const;
 			bool hasGraphWithID(const String& ID) const;
-			const Graph* searchGraph(const String& ID) const;
-
-			void removeGraphAt(std::size_t index);
-			void deleteAllGraphs();
-
-			static void throwNonExistingGraph(const String& ID);
+			ConstIterator searchGraph(const String& ID) const;
+			bool isValid(ConstIterator) const noexcept;
 
 		private:
 			GraphCollection graphs;

@@ -26,9 +26,9 @@ namespace GraphStoretest
 		}
 
 	public:	
-		TEST_METHOD(insertWithDuplicateIDThrows)
+		TEST_METHOD(InsertWithDuplicateIDThrows)
 		{
-			auto store = GraphStore{};
+			GraphStore store;
 			try
 			{
 				store.insertGraph(createGraph("ID"));
@@ -41,11 +41,11 @@ namespace GraphStoretest
 			}
 		}
 
-		TEST_METHOD(testRemoveWithInvalidIDThrows)
+		TEST_METHOD(RemoveWithInvalidIDThrows)
 		{
 			try
 			{
-				auto store = GraphStore{};
+				GraphStore store;
 				store.removeGraph("ID");
 				Assert::Fail(L"remove did not throw");
 			}
@@ -55,9 +55,9 @@ namespace GraphStoretest
 			}
 		}
 
-		TEST_METHOD(testRemove)
+		TEST_METHOD(Remove)
 		{
-			auto store = GraphStore{};
+			GraphStore store;
 			store.insertGraph(createGraph("ID"));
 			store.removeGraph("ID");
 			try

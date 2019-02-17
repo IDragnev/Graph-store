@@ -2,63 +2,41 @@
 #include "..\String\String.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
+#include <algorithm>
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
-		GraphStore::~GraphStore()
+		void GraphStore::insertGraph(GraphPtr graph)
 		{
-			deleteAllGraphs();
-		}
-
-		void GraphStore::deleteAllGraphs()
-		{
-			for (auto&& g : graphs)
+			if (!hasGraphWithID(graph->getID()))
 			{
-				delete g;
-			}
-		}
-
-		GraphStore& GraphStore::operator=(GraphStore&& rhs)
-		{
-			if (this != &rhs)
-			{
-				deleteAllGraphs();
-				graphs = std::move(rhs.graphs);
-			}
-
-			return *this;
-		}
-
-		void GraphStore::insertGraph(std::unique_ptr<Graph> graphPtr)
-		{
-			if (!hasGraphWithID(graphPtr->getID()))
-			{
-				graphs.insert(graphPtr.release());
+				graphs.insert(std::move(graph));
 			}
 			else
 			{
-				throw Exception{ "A graph with ID \'" + graphPtr->getID() + "\' already exists" };
+				throw Exception{ "A graph with ID \'" + graph->getID() + "\' already exists" };
 			}
 		}
 
 		bool GraphStore::hasGraphWithID(const String& ID) const
 		{
-			return searchGraph(ID) != nullptr;
+			return isValid(searchGraph(ID));
 		}
 
-		const Graph* GraphStore::searchGraph(const String& ID) const
+		bool GraphStore::isValid(ConstIterator it) const noexcept 
 		{
-			for (auto&& g : graphs)
-			{
-				if (g->getID() == ID)
-				{
-					return g;
-				}
-			}
+			using std::cend;
+			return it != cend(graphs);
+		}
 
-			return nullptr;
+		auto GraphStore::searchGraph(const String& ID) const -> ConstIterator
+		{
+			using std::cbegin;
+			using std::cend;
+			return std::find_if(cbegin(graphs), cend(graphs), 
+				                [&ID](const GraphPtr& g) { return g->getID() == ID; });
 		}
 
 		Graph& GraphStore::getGraph(const String& ID)
@@ -68,59 +46,42 @@ namespace IDragnev
 
 		const Graph& GraphStore::getGraph(const String& ID) const
 		{
-			auto result = searchGraph(ID);
+			auto& ptr = getGraphPtr(ID);
+			return *ptr;
+		}
 
-			if (result != nullptr)
+		auto GraphStore::getGraphPtr(const String& ID) -> GraphPtr&
+		{
+			return const_cast<GraphPtr&>( static_cast<const GraphStore&>(*this).getGraphPtr(ID) );
+		}
+
+		auto GraphStore::getGraphPtr(const String& ID) const -> const GraphPtr&
+		{
+			if (auto iterator = searchGraph(ID); isValid(iterator))
 			{
-				return *result;
+				return *iterator;
 			}
 			else
 			{
-				throwNonExistingGraph(ID);
+				throw Exception{ "No graph with ID \'" + ID + "\' exists" };
 			}
-		}
-
-		void GraphStore::throwNonExistingGraph(const String& ID)
-		{
-			throw Exception{ "No graph with ID \'" + ID + "\' exists" };
 		}
 
 		void GraphStore::removeGraph(const String& ID)
 		{
-			auto i = std::size_t{ 0 };
-			for (auto&& g : graphs)
-			{
-				if (g->getID() == ID)
-				{
-					removeGraphAt(i);
-					return;
-				}
-
-				++i;
-			}
-
-			return throwNonExistingGraph(ID);
+			auto& graphPtr = getGraphPtr(ID);		
+			auto last = graphs.getCount() - 1;
+			graphPtr = std::move(graphs[last]);
+			graphs.removeAt(last);
 		}
 
-		void GraphStore::removeGraphAt(std::size_t index)
-		{
-			auto* toRemove = graphs[index];
-			auto lastGraphIndex = graphs.getCount() - 1;
-
-			std::swap(graphs[index], graphs[lastGraphIndex]);
-			graphs.removeAt(lastGraphIndex);
-
-			delete toRemove;
-		}
-
-		bool GraphStore::isEmpty() const
+		bool GraphStore::isEmpty() const noexcept
 		{
 			return graphs.isEmpty();
 		}
 
-		void GraphStore::empty()
+		void GraphStore::empty() noexcept
 		{
-			deleteAllGraphs();
 			graphs.empty();
 		}
 	}
