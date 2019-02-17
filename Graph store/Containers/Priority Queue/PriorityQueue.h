@@ -91,7 +91,7 @@ namespace IDragnev
 
 			void insert(const Item& item);
 			Item extractOptimal();
-			const Item getOptimal() const noexcept(std::is_nothrow_copy_constructible_v<Item>);
+			const Item getOptimal() const;
 
 			void improveKey(const Handle& h, const Key& key);
 
@@ -105,8 +105,11 @@ namespace IDragnev
 			void siftDown(std::size_t index);
 			void siftUp(std::size_t index);
 			void moveAt(std::size_t index, Element&& e);
+			
+			Item extractRoot();
 			void moveLastToRoot();
-
+			void siftRootDown();
+				
 			static bool hasParent(std::size_t index) noexcept;
 			static std::size_t getParentIndex(std::size_t index) noexcept;
 			static std::size_t getLeftChildIndex(std::size_t index) noexcept;

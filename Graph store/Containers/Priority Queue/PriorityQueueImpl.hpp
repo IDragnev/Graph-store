@@ -234,23 +234,18 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		Item PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractOptimal()
 		{
-			auto optimal = Element{ getOptimal() };
+			auto optimal = extractRoot();
 			moveLastToRoot();
+			siftRootDown();
 
-			if (!isEmpty())
-			{
-				siftDown(0);
-			}
-
-			return std::move(optimal).wrappedItem();
+			return optimal;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline const Item 
-		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const noexcept(std::is_nothrow_copy_constructible_v<Item>)
+		inline Item PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::extractRoot()
 		{
 			assert(!isEmpty());
-			return elements[0].wrappedItem();
+			return std::move(elements[0]).wrappedItem();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
@@ -258,6 +253,23 @@ namespace IDragnev
 		{
 			moveAt(0, std::move(elements.back()));
 			elements.pop_back();
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::siftRootDown()
+		{
+			if (!isEmpty())
+			{
+				siftDown(0);
+			}
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+		inline const Item 
+		PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getOptimal() const
+		{
+			assert(!isEmpty());
+			return elements[0].wrappedItem();
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>

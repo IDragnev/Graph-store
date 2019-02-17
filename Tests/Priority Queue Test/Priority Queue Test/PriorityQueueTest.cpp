@@ -48,7 +48,7 @@ namespace PriorityQueueTest
 		using IntArray = DArray<int>;
 
 		using TestItemRef = std::reference_wrapper<TestItem>;
-		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, IDragnev::LessThan, HandleSetter>;
+		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, IDragnev::Utility::LessThan, HandleSetter>;
 		using TestItemArray = DArray<TestItem>;
 
 		static TestItemArray testItems;
