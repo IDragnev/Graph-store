@@ -2,21 +2,33 @@
 #include "..\..\..\String\String.h"
 #include "..\..\..\GraphStore\GraphStore.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\..\..\General Exceptions\Exception.h"
-
-namespace GS = IDragnev::GraphStore;
-
-GS::Graph* GS::Command::usedGraph =  nullptr;
-GS::GraphStore* GS::Command::graphStore = nullptr;
+#include "..\MissingArgument exception\MissingArgument.h"
+#include "StringReader/StringReader.h"
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		Graph* Command::usedGraph = nullptr;
+		GraphStore* Command::graphStore = nullptr;
+
 		void Command::execute(args::Subparser& parser)
 		{
 			parseArguments(parser);
 			execute();
+		}
+
+		void Command::setIfMatched(String& str, StringPositional& argument)
+		{
+			if (argument)
+			{
+				using args::get;
+				str = std::move(get(argument));
+			}
+			else
+			{
+				throw MissingArgument{ argument.Name() };
+			}
 		}
 
 		void Command::setManagedStore(GraphStore& store)

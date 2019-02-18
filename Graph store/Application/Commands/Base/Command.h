@@ -27,12 +27,14 @@ namespace IDragnev
 			Command& operator=(const Command&) = delete;
 
 			void execute(args::Subparser& parser);
-			virtual const char* getName() const = 0;
-			virtual const char* getDescription() const = 0;
+			virtual const char* getName() const noexcept = 0;
+			virtual const char* getDescription() const noexcept = 0;
 
 			static void setManagedStore(GraphStore& store);
 
 		protected:
+			static void setIfMatched(String& str, StringPositional& argument);
+
 			static Graph& getUsedGraph();
 			static void useGraph(const String& ID);
 			static void removeGraph(const String& ID);

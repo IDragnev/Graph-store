@@ -13,8 +13,8 @@ namespace IDragnev
 		public:
 			using Command::Command;
 
-			const char* getName() const override;
-			const char* getDescription() const override;
+			const char* getName() const noexcept override;
+			const char* getDescription() const noexcept override;
 
 		private:
 			void parseArguments(args::Subparser& parser) override;

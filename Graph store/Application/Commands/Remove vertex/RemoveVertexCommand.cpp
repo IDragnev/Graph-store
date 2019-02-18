@@ -1,48 +1,33 @@
 #include "RemoveVertexCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
-#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
-
-namespace GS = IDragnev::GraphStore;
-
-static GS::CommandRegistrator<GS::RemoveVertexCommand> registrator;
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static CommandRegistrator <RemoveVertexCommand> registrator;
+
 		void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 		{
 			auto ID = StringPositional{ parser,"ID", "The ID of the vertex to be removed" };
 			parser.Parse();
-			setVertexID(ID);
-		}
-
-		void RemoveVertexCommand::setVertexID(StringPositional& argument)
-		{
-			if (argument)
-			{
-				vertexID = args::get(argument);
-			}
-			else
-			{
-				throw MissingArgument{ argument.Name() };
-			}
+			setIfMatched(vertexID, ID);
 		}
 
 		void RemoveVertexCommand::execute() const
 		{
-			auto& used = Command::getUsedGraph();
-			used.removeVertex(vertexID);
+			auto& graph = Command::getUsedGraph();
+			graph.removeVertex(vertexID);
 		}
 
-		const char* RemoveVertexCommand::getName() const
+		const char* RemoveVertexCommand::getName() const noexcept
 		{
 			return "REMOVE-VERTEX";
 		}
 
-		const char* RemoveVertexCommand::getDescription() const
+		const char* RemoveVertexCommand::getDescription() const noexcept
 		{
 			return "Removes a specified vertex from the currently used graph";
 		}

@@ -13,16 +13,12 @@ namespace IDragnev
 		public:
 			using Command::Command;
 
-			const char* getName() const override;
-			const char* getDescription() const override;
+			const char* getName() const noexcept override;
+			const char* getDescription() const noexcept override;
 
 		private:
 			void parseArguments(args::Subparser& parser) override;
 			void execute() const override;
-
-			void setStartVertexID(StringPositional& argument);
-			void setEndVertexID(StringPositional& argument);
-			void setIfMatched(String& str, StringPositional& argument);
 
 		private:
 			String startVertexID;

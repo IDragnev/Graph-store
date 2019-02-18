@@ -1,33 +1,18 @@
 #include "RemoveGraphCommand.h"
 #include "..\Base\StringReader\StringReader.h"
-#include "..\MissingArgument exception\MissingArgument.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
-
-namespace GS = IDragnev::GraphStore;
-
-static GS::CommandRegistrator<GS::RemoveGraphCommand> registrator;
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static CommandRegistrator<RemoveGraphCommand> registrator;
+
 		void RemoveGraphCommand::parseArguments(args::Subparser& parser)
 		{
 			auto ID = StringPositional{ parser, "ID", "The ID of the graph to be removed" };
-			parser.Parse();
-			setGraphID(ID);
-		}
-
-		void RemoveGraphCommand::setGraphID(StringPositional& argument)
-		{
-			if (argument)
-			{
-				graphID = args::get(argument);
-			}
-			else
-			{
-				throw MissingArgument{ argument.Name() };
-			}
+			parser.Parse();	
+			setIfMatched(graphID, ID);
 		}
 
 		void RemoveGraphCommand::execute() const
@@ -35,12 +20,12 @@ namespace IDragnev
 			Command::removeGraph(graphID);
 		}
 
-		const char* RemoveGraphCommand::getName() const
+		const char* RemoveGraphCommand::getName() const noexcept
 		{
 			return "REMOVE-GRAPH";
 		}
-
-		const char* RemoveGraphCommand::getDescription() const
+		
+		const char* RemoveGraphCommand::getDescription() const noexcept
 		{
 			return "Removes a specified graph";
 		}

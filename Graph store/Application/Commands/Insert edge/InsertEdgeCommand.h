@@ -16,8 +16,8 @@ namespace IDragnev
 		public:
 			using Command::Command;
 
-			const char* getName() const override;
-			const char* getDescription() const override;
+			const char* getName() const noexcept override;
+			const char* getDescription() const noexcept override;
 
 		private:
 			void parseArguments(args::Subparser& parser) override;
@@ -25,15 +25,14 @@ namespace IDragnev
 
 			void setStartVertexID(StringPositional& argument);
 			void setEndVertexID(StringPositional& argument);
-			void setIfMatched(String& str, StringPositional& argument);
 			void setWeight(UnsignedPositional& weight);
 
-			static const std::uint32_t DEFAULT_EDGE_WEIGHT = 1;
+			static const std::size_t DEFAULT_EDGE_WEIGHT = 1;
 
 		private:
 			String startVertexID;
 			String endVertexID;
-			std::uint32_t weight{};
+			std::size_t weight = 0;
 		};
 	}
 }

@@ -3,19 +3,17 @@
 #include "..\..\..\Graph Factory\GraphFactory.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
-#include "..\MissingArgument exception\MissingArgument.h"
 #include <memory>
 
-namespace GS = IDragnev::GraphStore;
-
-static GS::CommandRegistrator<GS::InsertGraphCommand> registrator;
-
-const IDragnev::String GS::InsertGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static CommandRegistrator<InsertGraphCommand> registrator;
+
+		const String InsertGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
+
 		void InsertGraphCommand::parseArguments(args::Subparser& parser)
 		{
 			auto ID = StringPositional{ parser, "ID", "The ID of the graph to be created" };
@@ -28,21 +26,15 @@ namespace IDragnev
 
 		void InsertGraphCommand::setGraphID(StringPositional& argument)
 		{
-			if (argument)
-			{
-				graphID = args::get(argument);
-			}
-			else
-			{
-				throw MissingArgument{ argument.Name() };
-			}
+			setIfMatched(graphID, argument);
 		}
 
 		void InsertGraphCommand::setGraphType(StringPositional& argument)
 		{
 			if (argument)
 			{
-				graphType = args::get(argument);
+				using args::get;
+				graphType = std::move(get(argument));
 			}
 			else
 			{
@@ -59,12 +51,12 @@ namespace IDragnev
 			Command::useGraph(graphID);
 		}
 
-		const char* InsertGraphCommand::getName() const
+		const char* InsertGraphCommand::getName() const noexcept
 		{
 			return "INSERT-GRAPH";
 		}
 
-		const char* InsertGraphCommand::getDescription() const
+		const char* InsertGraphCommand::getDescription() const noexcept
 		{
 			return "Inserts a new graph with specified ID and type";
 		}
