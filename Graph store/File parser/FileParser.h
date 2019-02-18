@@ -12,16 +12,6 @@ namespace IDragnev
 		class FileParser
 		{
 		public:
-			class ParseFail : public Exception
-			{
-			public:
-				ParseFail(const String& filename, const String& reason, std::uint32_t line);
-
-			private:
-				static std::string buildMessage(const String& filename, const String& reason, std::uint32_t line);
-			};
-
-		public:
 			FileParser() = default;
 			explicit FileParser(const String& filename);
 			FileParser(FileParser&& source);
@@ -56,7 +46,7 @@ namespace IDragnev
 			void validateState() const;
 
 		private:
-			std::uint32_t currentLine{};
+			std::size_t currentLine = 0;
 			String filename;
 			std::ifstream stream;
 		};

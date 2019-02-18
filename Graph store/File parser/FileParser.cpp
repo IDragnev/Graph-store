@@ -1,24 +1,35 @@
 #include "FileParser.h"
+#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "..\General Exceptions\Exception.h"
 #include <string>
+
+using namespace fmt::literals;
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
-		FileParser::ParseFail::ParseFail(const String& filename, const String& reason, std::uint32_t line) :
-			Exception{ buildMessage(filename, reason, line) }
+		class FailedToOpen : public Exception
 		{
-		}
+		public:
+			FailedToOpen::FailedToOpen(const String& filename) :
+				Exception{ fmt::format("Failed to open {0} for reading!", filename) }
+			{
+			}
+		};
 
-		std::string FileParser::ParseFail::buildMessage(const String& filename, const String& reason, std::uint32_t line)
+		class ParseFail : public Exception
 		{
-			auto message = std::string{ "Error reading " + filename };
-			message += ": ";
-			message += reason;
-			message += ". Line " + std::to_string(line);
-
-			return message;
-		}
+		public:
+			ParseFail(const String& filename, const String& reason, std::size_t line) :
+				Exception{ fmt::format("Error reading {name}: {reason}! Line {line}.",
+									   "name"_a = filename,
+									   "reason"_a = reason,
+									   "line"_a = line) }
+			{
+			}
+		};
+		
 
 		FileParser::FileParser(const String& filename) :
 			FileParser{}
@@ -41,7 +52,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "Failed to open " + name + " for reading" };
+				throw FailedToOpen{ name };
 			}
 		}
 

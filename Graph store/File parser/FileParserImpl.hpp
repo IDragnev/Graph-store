@@ -8,7 +8,7 @@ namespace IDragnev
 		template <typename ArithmeticType>
 		ArithmeticType FileParser::parseSigned()
 		{
-			static_assert(std::is_signed<ArithmeticType>::value,
+			static_assert(std::is_signed_v<ArithmeticType>,
 						  "template <typename T> T FileParser::parseSigned() requires T to be a signed arithmetic type");
 			validateState();
 
@@ -21,7 +21,7 @@ namespace IDragnev
 		template <typename ArithmeticType>
 		ArithmeticType FileParser::parseUnsigned()
 		{
-			static_assert(std::is_unsigned<ArithmeticType>::value,
+			static_assert(std::is_unsigned_v<ArithmeticType>,
 						  "template <typename T> T FileParser::parseUnsigned() requires T to be an unsigned arithmetic type");
 			validateState();
 
