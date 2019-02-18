@@ -185,7 +185,6 @@
     <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Insert graph\InsertGraphCommand.h" />
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h" />
-    <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h" />
     <ClInclude Include="Application\Commands\Remove edge\RemoveEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h" />
     <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h" />

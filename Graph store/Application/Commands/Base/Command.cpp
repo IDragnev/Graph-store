@@ -2,13 +2,20 @@
 #include "..\..\..\String\String.h"
 #include "..\..\..\GraphStore\GraphStore.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\MissingArgument exception\MissingArgument.h"
-#include "StringReader/StringReader.h"
+#include "StringReader\StringReader.h"
+#include "..\..\..\General Exceptions\Exception.h"
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class MissingArgument : public Exception
+		{
+		public:
+			MissingArgument(const std::string& name) :
+				Exception{ "Missing argument: [" + name + "]" } {}
+		};
+
 		Graph* Command::usedGraph = nullptr;
 		GraphStore* Command::graphStore = nullptr;
 

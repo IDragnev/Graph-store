@@ -110,9 +110,6 @@
     <Filter Include="General exceptions">
       <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Commands\MissingArgument exception">
-      <UniqueIdentifier>{f581e506-4256-4da2-91fb-c95adbe17a8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Iterators">
       <UniqueIdentifier>{d262e9af-960f-4a2b-bd9d-9712c837e973}</UniqueIdentifier>
     </Filter>
@@ -368,9 +365,6 @@
     </ClInclude>
     <ClInclude Include="General Exceptions\NoMemoryAvailable.h">
       <Filter>General exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Commands\MissingArgument exception\MissingArgument.h">
-      <Filter>Application\Commands\MissingArgument exception</Filter>
     </ClInclude>
     <ClInclude Include="Traits\Traits.h">
       <Filter>Traits</Filter>
