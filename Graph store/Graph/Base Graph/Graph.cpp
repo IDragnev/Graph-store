@@ -254,15 +254,16 @@ namespace IDragnev
 
 		void Graph::removeEdgeFromToNoThrow(Vertex& from, Vertex& to)
 		{
-			removeEdgeFromTo(from, to, false);
+			removeEdgeFromTo<false>(from, to);
 		}
 
 		void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
 		{
-			removeEdgeFromTo(from, to, true);
+			removeEdgeFromTo<true>(from, to);
 		}
 
-		void Graph::removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist)
+		template <bool throwIfMissing>
+		void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
 		{
 			auto iterator = searchEdgeFromTo(from, to);
 
@@ -271,7 +272,7 @@ namespace IDragnev
 				auto& edges = edgesOf(from);
 				edges.removeAt(iterator);
 			}
-			else if (throwIfEdgeDoesNotExist)
+			else if (throwIfMissing)
 			{
 				throw Exception{ fmt::format("No edge from {u} to {v} exists!", "u"_a = from.ID(), "v"_a = to.ID()) };
 			}

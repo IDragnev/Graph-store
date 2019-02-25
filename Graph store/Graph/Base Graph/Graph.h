@@ -179,7 +179,8 @@ namespace IDragnev
 			EdgeConstIteratorPtr makeEdgeConstIterator() const;
 
 		private:
-			static void removeEdgeFromTo(Vertex& from, Vertex& to, bool throwIfEdgeDoesNotExist);
+			template <bool throwIfMissing>
+			static void removeEdgeFromTo(Vertex& from, Vertex& to);
 			static IncidentEdgesIterator searchEdgeFromTo(Vertex& from, Vertex& to);
 
 			static const EdgeList& edgesOf(const Vertex& v) noexcept;
