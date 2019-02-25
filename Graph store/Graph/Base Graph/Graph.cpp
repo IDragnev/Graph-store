@@ -10,6 +10,42 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class InvalidID : public Exception
+		{
+		public:
+			InvalidID(const String& ID) :
+				Exception{ fmt::format("{0} is an invalid ID!", ID) }
+			{
+			}
+		};
+
+		class DuplicateVertexID : public Exception
+		{
+		public:
+			DuplicateVertexID(const String& ID) :
+				Exception{ fmt::format("A vertex with ID {0} already exists!", ID) }
+			{
+			}
+		};
+
+		class NoSuchEdge : public Exception
+		{
+		public:
+			NoSuchEdge(const String& from, const String& to) :
+				Exception{ fmt::format("No edge from {0} to {1} exists!", from, to) }
+			{
+			}
+		};
+
+		class NoSuchVertex : public Exception
+		{
+		public:
+			NoSuchVertex(const String& ID) : 
+				Exception{ fmt::format("There is no vertex {0}! ", ID) }
+			{
+			}
+		};
+
 		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) noexcept :
 			incidentVertex{ incidentVertex },
 			weight{ weight }
@@ -46,7 +82,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ fmt::format("{0} is an invalid vertex ID!", ID) };
+				throw InvalidID{ ID };
 			}
 		}
 
@@ -109,7 +145,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ fmt::format("{0} is an invalid graph ID!", ID) };
+				throw InvalidID{ ID };
 			}
 		}
 
@@ -121,7 +157,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ fmt::format("A vertex with ID {0} already exists!", ID) };
+				throw DuplicateVertexID{ ID };
 			}
 		}
 
@@ -274,7 +310,7 @@ namespace IDragnev
 			}
 			else if (throwIfMissing)
 			{
-				throw Exception{ fmt::format("No edge from {u} to {v} exists!", "u"_a = from.ID(), "v"_a = to.ID()) };
+				throw NoSuchEdge{ from.ID(), to.ID() };
 			}
 		}
 
@@ -323,7 +359,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ fmt::format("There is no vertex {0}! ", ID) };
+				throw NoSuchVertex{ ID };
 			}
 		}
 
