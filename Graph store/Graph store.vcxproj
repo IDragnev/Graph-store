@@ -221,6 +221,7 @@
     <ClInclude Include="GraphStore\GraphStore.h" />
     <ClInclude Include="Graph\Base Graph\EdgeIteratorImpl.hpp" />
     <ClInclude Include="Graph\Base Graph\Graph.h" />
+    <ClInclude Include="Graph\Base Graph\GraphUtilities.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />

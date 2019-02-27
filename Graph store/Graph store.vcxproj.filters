@@ -450,5 +450,8 @@
     <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h">
       <Filter>Third party</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\Base Graph\GraphUtilities.h">
+      <Filter>Graph\Base Graph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
