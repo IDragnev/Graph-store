@@ -54,6 +54,14 @@ namespace IDragnev
 			auto iteratorPtr = g.getIteratorToEdgesLeaving(v);
 			forEach(*iteratorPtr, f);
 		}
+
+		template <typename Callable>
+		inline void forEachEdge(const Graph& g, Callable f)
+		{
+			static_assert(Detail::readsValue<Callable, Graph::Edge>, "Trying to modify edges of a const Graph");
+		    auto iteratorPtr = g.getConstIteratorToEdges();
+			forEach(*iteratorPtr, f);
+		}
 	}
 }
 
