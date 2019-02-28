@@ -2,9 +2,7 @@
 #include "..\..\General Exceptions\Exception.h"
 #include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
 #include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
-
-namespace GS = IDragnev::GraphStore;
-static GS::GraphRegistrator<GS::DirectedGraph> registrator{ "directed" };
+#include "..\Base Graph\GraphUtilities.h"
 
 using namespace fmt::literals;
 
@@ -12,6 +10,8 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static GraphRegistrator<DirectedGraph> registrator{ "directed" };
+
 		bool DirectedGraph::DirectedEdgeConstIterator::wasCurrentEdgeIterated() const
 		{
 			return !(this->operator bool());
@@ -40,13 +40,11 @@ namespace IDragnev
 			Graph::removeEdgeFromTo(start, end);
 		}
 
-		void DirectedGraph::removeEdgesEndingIn(Vertex& vertex)
+		void DirectedGraph::removeEdgesEndingIn(Vertex& v)
 		{
-			auto iteratorPtr = getIteratorToVertices();
-
-			forEach(*iteratorPtr, [&vertex](Vertex& neighbour)
+			forEachVertex(*this, [&to = v](Vertex& from)
 			{
-				removeEdgeFromToNoThrow(neighbour, vertex);
+				removeEdgeFromToNoThrow(from, to);
 			});
 		}
 
