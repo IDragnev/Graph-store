@@ -1,6 +1,7 @@
 #include "GraphSaver.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
 #include "..\SerializationConstants.h"
+#include "..\..\Graph\Base Graph\GraphUtilities.h"
 
 using namespace IDragnev::GraphStore::SerializationConstants;
 
@@ -50,10 +51,7 @@ namespace IDragnev
 
 		void GraphSaver::decorateGraph()
 		{
-			auto index = std::size_t{ 0 };
-			auto iteratorPtr = graph->getConstIteratorToVertices();
-
-			forEach(*iteratorPtr, [this, &index](const Vertex& v)
+			forEachVertex(*graph, [this, index = 0ull](const Vertex& v) mutable
 			{
 				registerPair(index++, v.ID());
 			});
@@ -76,9 +74,7 @@ namespace IDragnev
 
 		void GraphSaver::writeVertexIDs()
 		{
-			auto iteratorPtr = graph->getConstIteratorToVertices();
-
-			forEach(*iteratorPtr, [this](const Vertex& v)
+			forEachVertex(*graph, [this](const Vertex& v)
 			{
 				writeOnASingleLine(v.ID());
 			});
@@ -86,19 +82,19 @@ namespace IDragnev
 
 		void GraphSaver::writeEdges()
 		{
-			auto iteratorPtr = graph->getConstIteratorToEdges();
+			forEachEdge(*graph, write);
+		}
 
-			forEach(*iteratorPtr, [this](const Edge edge)
-			{
-				file << EDGE_START
-					 << indexOfID(edge.start())
-					 << EDGE_ATTRIBUTE_DELIMITER
-					 << indexOfID(edge.end())
-					 << EDGE_ATTRIBUTE_DELIMITER
-					 << edge.weight()
-					 << EDGE_END
-					 << '\n';
-			});
+		void GraphSaver::write(const Edge edge)
+		{
+			file << EDGE_START
+				 << indexOfID(edge.start())
+				 << EDGE_ATTRIBUTE_DELIMITER
+				 << indexOfID(edge.end())
+				 << EDGE_ATTRIBUTE_DELIMITER
+				 << edge.weight()
+				 << EDGE_END
+				 << '\n';
 		}
 
 		std::size_t GraphSaver::indexOfID(const Vertex& v) const noexcept

@@ -50,6 +50,7 @@ namespace IDragnev
 			void saveGraphToFile();
 			void writeVertexIDs();
 			void writeEdges();
+			void write(const Edge e);
 			std::size_t indexOfID(const Vertex& v) const noexcept;
 
 			void clear();
