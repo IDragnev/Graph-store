@@ -17,14 +17,14 @@ namespace IDragnev
 			inline static constexpr bool modifiesLvalueVertex = !readsVertex<Callable> && std::is_invocable_v<Callable, Graph::Vertex&>;
 
 			template <typename Callable>
-			using ReadsVertex = std::enable_if_t<readsVertex<Callable>>;
+			using EnableIfReadsVertex = std::enable_if_t<readsVertex<Callable>>;
 
 			template <typename Callable>
-			using ModifiesLvalueVertex = std::enable_if_t<modifiesLvalueVertex<Callable>>;
+			using EnableIfModifiesLvalueVertex = std::enable_if_t<modifiesLvalueVertex<Callable>>;
 		}
 
 		template <typename Callable,
-			      typename = Detail::ReadsVertex<Callable>>
+			      typename = Detail::EnableIfReadsVertex<Callable>>
 		inline void forEachVertex(const Graph& g, Callable f) 
 		{
 			auto iteratorPtr = g.getConstIteratorToVertices();
@@ -32,7 +32,7 @@ namespace IDragnev
 		}
 
 		template <typename Callable,
-			      typename = Detail::ModifiesLvalueVertex<Callable>>
+			      typename = Detail::EnableIfModifiesLvalueVertex<Callable>>
 		inline void forEachVertex(Graph& g, Callable f)
 		{
 			auto iteratorPtr = g.getIteratorToVertices();
