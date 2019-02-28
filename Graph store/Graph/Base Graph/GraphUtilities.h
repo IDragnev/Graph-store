@@ -10,17 +10,17 @@ namespace IDragnev
 	{
 		namespace Detail
 		{
-			template <typename Callable>
-			inline static constexpr bool readsVertex = std::is_invocable_v<Callable, const Graph::Vertex>;
+			template <typename Callable, typename T>
+			inline static constexpr bool readsValue = std::is_invocable_v<Callable, const T>;
+
+			template <typename Callable, typename T>
+			inline static constexpr bool modifiesLvalue = !readsValue<Callable, T> && std::is_invocable_v<Callable, T&>;
 
 			template <typename Callable>
-			inline static constexpr bool modifiesLvalueVertex = !readsVertex<Callable> && std::is_invocable_v<Callable, Graph::Vertex&>;
+			using EnableIfReadsVertex = std::enable_if_t<readsValue<Callable, Graph::Vertex>>;
 
 			template <typename Callable>
-			using EnableIfReadsVertex = std::enable_if_t<readsVertex<Callable>>;
-
-			template <typename Callable>
-			using EnableIfModifiesLvalueVertex = std::enable_if_t<modifiesLvalueVertex<Callable>>;
+			using EnableIfModifiesLvalueVertex = std::enable_if_t<modifiesLvalue<Callable, Graph::Vertex>>;
 		}
 
 		template <typename Callable,
