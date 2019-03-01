@@ -45,12 +45,12 @@ namespace IDragnev
 			void setupCollections(std::size_t verticesCount);
 
 			void decorateGraph();
-			void registerPair(std::size_t index, const String& vertexID);
+			void registerVertex(const Vertex& v);
 
 			void saveGraphToFile();
 			void writeVertexIDs();
 			void writeEdges();
-			void write(const Edge e);
+			void writeToFile(const Edge& e);
 			std::size_t indexOfID(const Vertex& v) const noexcept;
 
 			void clear();

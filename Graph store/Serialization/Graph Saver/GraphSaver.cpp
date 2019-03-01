@@ -2,8 +2,10 @@
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
 #include "..\SerializationConstants.h"
 #include "..\..\Graph\Base Graph\GraphUtilities.h"
+#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 
 using namespace IDragnev::GraphStore::SerializationConstants;
+using namespace fmt::literals;
 
 namespace IDragnev
 {
@@ -37,7 +39,7 @@ namespace IDragnev
 			file.open(filename);
 			if (!file.good())
 			{
-				throw Exception{ "Failed to open" + filename + "for writing" };
+				throw Exception{ fmt::format("Failed to open {0} for writing", filename) };
 			}
 		}
 
@@ -51,15 +53,13 @@ namespace IDragnev
 
 		void GraphSaver::decorateGraph()
 		{
-			forEachVertex(*graph, [this, index = 0ull](const Vertex& v) mutable
-			{
-				registerPair(index++, v.ID());
-			});
+			forEachVertex(*graph, [this](const Vertex& v) { registerVertex(v); });
 		}
 
-		void GraphSaver::registerPair(std::size_t index, const String& ID)
+		void GraphSaver::registerVertex(const Vertex& v)
 		{
-			pairs.insert({ index, &ID });
+			auto index = pairs.getCount();
+			pairs.insert({ index, &v.ID() });
 			map.insert(&pairs[index]);
 		}
 
@@ -74,19 +74,17 @@ namespace IDragnev
 
 		void GraphSaver::writeVertexIDs()
 		{
-			forEachVertex(*graph, [this](const Vertex& v)
-			{
-				writeOnASingleLine(v.ID());
-			});
+			forEachVertex(*graph, [this](const Vertex& v) { writeOnASingleLine(v.ID()); });
 		}
 
 		void GraphSaver::writeEdges()
 		{
-			forEachEdge(*graph, write);
+			forEachEdge(*graph, [this](const Edge edge) { writeToFile(edge); });
 		}
 
-		void GraphSaver::write(const Edge edge)
+		void GraphSaver::writeToFile(const Edge& edge)
 		{
+			//TODO: use fmt::print
 			file << EDGE_START
 				 << indexOfID(edge.start())
 				 << EDGE_ATTRIBUTE_DELIMITER
