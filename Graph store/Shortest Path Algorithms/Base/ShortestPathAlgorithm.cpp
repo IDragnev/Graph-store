@@ -101,14 +101,6 @@ namespace IDragnev
 			return *decorator.vertex == *goal;
 		}
 
-	    auto ShortestPathAlgorithm::getEdgesLeaving(const VertexDecorator& decorator) const -> IncidentEdgeConstIteratorPtr
-		{
-			auto vertex = decorator.vertex;
-			assert(vertex != nullptr);
-
-			return searchedGraph->getConstIteratorToEdgesLeaving(*vertex);
-		}
-
 		const String& ShortestPathAlgorithm::getID() const
 		{
 			return id;

@@ -1,14 +1,13 @@
 #include "BFSShortest.h"
 #include "..\..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 
-namespace GS = IDragnev::GraphStore;
-
-static GS::ShortestPathAlgorithmRegistrator<GS::BFSShortest> registrator{ "BFS" };
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
+
 		ShortestPathAlgorithm::Path
 		BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 		{
@@ -59,9 +58,7 @@ namespace IDragnev
 
 		void BFSShortest::expandFrontierFrom(const MarkableVertex& vertex)
 		{
-			auto iteratorPtr = getEdgesLeaving(vertex);
-
-			forEach(*iteratorPtr, [this, &vertex](const IncidentEdge& edge)
+			forEachIncidentEdgeOf(vertex, [this, &vertex](const IncidentEdge& edge)
 			{
 				auto& neighbour = decoratorOf(edge.getIncidentVertex());
 

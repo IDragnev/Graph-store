@@ -3,14 +3,12 @@
 #include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <memory>
 
-namespace GS = IDragnev::GraphStore;
-
-static GS::ShortestPathAlgorithmRegistrator<GS::DijkstraAlgorithm> registrator{ "Dijkstra" };
-
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator{ "Dijkstra" };
+
 		ShortestPathAlgorithm::Path
 		DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 		{
@@ -32,22 +30,14 @@ namespace IDragnev
 		void DijkstraAlgorithm::decorate(const Graph& graph)
 		{
 			assert(decorators.isEmpty());
-
-			auto iteratorPtr = graph.getConstIteratorToVertices();
-
-			forEach(*iteratorPtr, [this](const Vertex& v)
-			{
-				decorators.insert({ &v });
-			});
+			forEachVertex(graph, [this](const Vertex& v) { decorators.insert({ &v }); });
 		}
 
 		void DijkstraAlgorithm::buildDecoratorsMap()
 		{
 			assert(map.isEmpty());
-			using std::begin;
-			using std::end;
 
-			for (auto&& current : decorators)
+			for (auto& current : decorators)
 			{
 				map.insert(&current);
 			}
@@ -98,14 +88,9 @@ namespace IDragnev
 			return queue.extractOptimal();
 		}
 
-		void DijkstraAlgorithm::relaxEdgesLeaving(const PriorityVertex& vertex)
+		void DijkstraAlgorithm::relaxEdgesLeaving(const PriorityVertex& v)
 		{
-			auto iteratorPtr = getEdgesLeaving(vertex);
-
-			forEach(*iteratorPtr, [this, &vertex](const IncidentEdge& edge)
-			{
-				relaxEdge(vertex, edge);
-			});
+			forEachIncidentEdgeOf(v, [this, &v](const IncidentEdge& edge) { relaxEdge(v, edge); });
 		}
 
 		void DijkstraAlgorithm::relaxEdge(const PriorityVertex& vertex, const IncidentEdge& edge)

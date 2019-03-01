@@ -1,4 +1,5 @@
 #include "SearchBasedShortestPathAlgorithm.h"
+#include "..\..\..\Graph\Base Graph\GraphUtilities.h"
 
 namespace IDragnev
 {
@@ -22,12 +23,7 @@ namespace IDragnev
 
 		void SearchBasedShortestPathAlgorithm::decorateVertices(const Graph& g)
 		{
-			auto iteratorPtr = g.getConstIteratorToVertices();
-
-			forEach(*iteratorPtr, [this](const Vertex& v)
-			{
-				decorators.insert({ &v });
-			});
+			forEachVertex(g, [this](const Vertex& v) { decorators.insert({ &v }); });
 		}
 
 		void SearchBasedShortestPathAlgorithm::buildMapOfDecoratedVertices()

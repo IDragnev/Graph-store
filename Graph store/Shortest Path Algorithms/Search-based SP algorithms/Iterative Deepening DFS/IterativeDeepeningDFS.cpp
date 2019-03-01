@@ -2,15 +2,12 @@
 #include "..\..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <assert.h>
 
-namespace GS = IDragnev::GraphStore;
-
-static GS::ShortestPathAlgorithmRegistrator<GS::IterativeDeepeningDFS> registrator{ "DFS" };
-
-
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator{ "DFS" };
+
 		ShortestPathAlgorithm::Path
 		IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
 		{
@@ -60,9 +57,7 @@ namespace IDragnev
 
 		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
 		{
-			auto iteratorPtr = getEdgesLeaving(vertex);
-
-			forEach(*iteratorPtr, [this, &vertex, depthBound](const IncidentEdge& edge)
+			forEachIncidentEdgeOf(vertex, [this, &vertex, depthBound](const IncidentEdge& edge)
 			{
 				auto& neighbour = decoratorOf(edge.getIncidentVertex());
 

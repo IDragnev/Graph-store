@@ -3,6 +3,7 @@
 
 #include "..\..\String\String.h"
 #include "..\..\Graph\Base Graph\Graph.h"
+#include "..\..\Graph\Base Graph\GraphUtilities.h"
 #include "..\..\Special Integer\specialInteger.h"
 #include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
 
@@ -16,7 +17,6 @@ namespace IDragnev
 			using IncidentEdge = Graph::IncidentEdge;
 			using Vertex = Graph::Vertex;
 			using Distance = SpecialInteger<Graph::Edge::Weight>;
-			using IncidentEdgeConstIteratorPtr = std::unique_ptr<ConstIterator<IncidentEdge>>;
 
 			struct VertexDecorator
 			{
@@ -63,7 +63,12 @@ namespace IDragnev
 
 		protected:
 			bool isTheGoal(const VertexDecorator& v) const;
-			IncidentEdgeConstIteratorPtr getEdgesLeaving(const VertexDecorator& v) const;
+			
+			template <typename Callable>
+			void forEachIncidentEdgeOf(const VertexDecorator& decorator, Callable f) const
+			{
+				forEachIncidentEdge(*searchedGraph, *decorator.vertex, f);
+			}
 
 		private:
 			virtual Path findNonTrivialShortestPath(const Graph& graph,
