@@ -1,24 +1,19 @@
 #include "BFSShortest.h"
 #include "..\..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 
-
 namespace IDragnev
 {
 	namespace GraphStore
 	{
 		static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
 
-		ShortestPathAlgorithm::Path
-		BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
+		auto BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 		{
 			decorate(graph, source);
-			findShortestPath(source, goal);
-			clean();
-
-			return std::move(result);
+			return findShortestPath(source, goal);
 		}
 
-		void BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal)
+		auto BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal) -> Path
 		{
 			assert(isFrontierEmpty());
 			addToFrontier(decoratorOf(source));
@@ -29,14 +24,15 @@ namespace IDragnev
 
 				if (isTheGoal(vertex))
 				{
-					result = Path{ vertex };
-					break;
+					return Path{ vertex };
 				}
 				else
 				{
 					expandFrontierFrom(vertex);
 				}
 			}
+
+			return Path{};
 		}
 
 		bool BFSShortest::isFrontierEmpty() const
@@ -77,10 +73,10 @@ namespace IDragnev
 			to.distance = from.distance + Distance{ 1 };
 		}
 
-		void BFSShortest::clean()
+		void BFSShortest::clear()
 		{
 			queue.empty();
-			cleanDecoratedState();
+			Base::clear();
 		}
 
 		void BFSShortest::initSourceDecorator(MarkableVertex& source)

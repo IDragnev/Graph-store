@@ -22,22 +22,21 @@ namespace IDragnev
 											const Vertex& source,
 											const Vertex& goal) override;
 
-			void findShortestPath(const Vertex& source, const Vertex& goal);
+			Path findShortestPath(const Vertex& source, const Vertex& goal);
 			bool isFrontierEmpty() const;
 			const MarkableVertex& extractVertexFromFrontier();
 			void expandFrontierFrom(const MarkableVertex& v);
 			void addToFrontier(const MarkableVertex& v);
 			static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
-			void clean();
-
+			
+			void clear() override;
 			void initSourceDecorator(MarkableVertex& source) override;
 
 		private:
-			static const std::size_t INITIAL_QUEUE_SIZE = 32;
+			static constexpr std::size_t INITIAL_QUEUE_SIZE = 32;
 
 		private:
 			DecoratorsPtrQueue queue{ INITIAL_QUEUE_SIZE };
-			Path result{};
 		};
 	}
 }
