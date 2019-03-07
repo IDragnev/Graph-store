@@ -8,13 +8,11 @@ namespace IDragnev
 	{
 		static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator{ "DFS" };
 
-		ShortestPathAlgorithm::Path
-		IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
+		auto IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 		{
 			initState(graph);
 			decorate(graph, source);
 			findShortestPath(source, goal);
-			cleanDecoratedState();
 
 			return std::move(result);
 		}
@@ -55,6 +53,7 @@ namespace IDragnev
 			vertex.isVisited = false;
 		}
 
+		//TODO: even after the path is found, the rest edges are still iterated
 		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
 		{
 			forEachIncidentEdgeOf(vertex, [this, &vertex, depthBound](const IncidentEdge& edge)

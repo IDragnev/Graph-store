@@ -26,11 +26,10 @@ namespace IDragnev
 			static void extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to);
 
 			void initSourceDecorator(MarkableVertex& source) override;
-
 			void initState(const Graph& graph);
 
 		private:
-			Depth maxDepth{};
+			Depth maxDepth = 0;
 			Path result{};
 			bool isAShortestPathFound = false;
 		};
