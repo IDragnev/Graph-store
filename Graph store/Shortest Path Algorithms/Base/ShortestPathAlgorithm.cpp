@@ -12,14 +12,13 @@ namespace IDragnev
 			source.length = Distance::Infinity();
 		}
 
-		ShortestPathAlgorithm::Path&
-		ShortestPathAlgorithm::Path::operator=(Path&& rhs)
+		auto ShortestPathAlgorithm::Path::operator=(Path&& rhs) -> Path&
 		{
 			if (this != &rhs)
 			{
 				using std::swap;
 
-				auto temp = Path{ std::move(rhs) };
+				auto temp = std::move(rhs);
 				swap(IDs, temp.IDs);
 				swap(length, temp.length);
 			}
@@ -30,27 +29,24 @@ namespace IDragnev
 		ShortestPathAlgorithm::Path::Path(const VertexDecorator& last) :
 			length{ last.distance }
 		{
-			auto decorator = &last;
-
-			while (decorator)
+			for(auto decorator = &last;
+				decorator != nullptr;
+				decorator = decorator->predecessor)
 			{
 				auto vertex = decorator->vertex;
 				assert(vertex != nullptr);
 				IDs.insertAsHead(vertex->ID());
-
-				decorator = decorator->predecessor;
 			}
 		}
 
-		const ShortestPathAlgorithm::Distance&
-		ShortestPathAlgorithm::Path::getLength() const
+		auto ShortestPathAlgorithm::Path::getLength() const -> const Distance&
 		{
 			return length;
 		}
 
 		void ShortestPathAlgorithm::Path::print() const
 		{
-			for (auto&& ID : IDs)
+			for (const auto& ID : IDs)
 			{
 				std::cout << ID << ' ';
 			}
@@ -66,13 +62,14 @@ namespace IDragnev
 			assert(id != String{ "" });
 		}
 
-		ShortestPathAlgorithm::Path
-		ShortestPathAlgorithm::findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
+		auto ShortestPathAlgorithm::findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 		{
 			if (source != goal)
 			{
 				init(graph, goal);
-				return findNonTrivialShortestPath(graph, source, goal);
+				auto result = findNonTrivialShortestPath(graph, source, goal);
+				clear();
+				return result;
 			}
 			else
 			{
@@ -86,13 +83,12 @@ namespace IDragnev
 			this->goal = &goal;
 		}
 
-		ShortestPathAlgorithm::Path
-		ShortestPathAlgorithm::buildTrivialPath(const Vertex& v)
+		auto ShortestPathAlgorithm::buildTrivialPath(const Vertex& v) -> Path
 		{
 			auto decorator = VertexDecorator{ &v };
 			decorator.distance = 0;
 
-			return Path{ decorator };
+			return { decorator };
 		}
 
 		bool ShortestPathAlgorithm::isTheGoal(const VertexDecorator& decorator) const

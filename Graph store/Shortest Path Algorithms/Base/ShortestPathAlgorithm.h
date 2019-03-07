@@ -74,6 +74,8 @@ namespace IDragnev
 			virtual Path findNonTrivialShortestPath(const Graph& graph,
 													const Vertex& source,
 													const Vertex& goal) = 0;
+			virtual void clear() = 0;
+
 			static Path buildTrivialPath(const Vertex& v);
 
 			void init(const Graph& graph, const Vertex& goal);
