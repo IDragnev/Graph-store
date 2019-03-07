@@ -9,25 +9,21 @@ namespace IDragnev
 	{
 		static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator{ "Dijkstra" };
 
-		ShortestPathAlgorithm::Path
-		DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal)
+		auto DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 		{
 			decorate(graph, source);
-			findShortestPath();
-			clearState();
-
-			return std::move(result);
+			return findShortestPath();
 		}
 
 		void DijkstraAlgorithm::decorate(const Graph& graph, const Vertex& source)
 		{
-			decorate(graph);
+			decorateVertices(graph);
 			buildDecoratorsMap();
 			initSourceDecorator(decoratorOf(source));
 			buildPriorityQueue();
 		}
 
-		void DijkstraAlgorithm::decorate(const Graph& graph)
+		void DijkstraAlgorithm::decorateVertices(const Graph& graph)
 		{
 			assert(decorators.isEmpty());
 			forEachVertex(graph, [this](const Vertex& v) { decorators.insert({ &v }); });
@@ -58,7 +54,7 @@ namespace IDragnev
 			queue = MinPriorityQueue{ begin(decorators), end(decorators) };
 		}
 
-		void DijkstraAlgorithm::findShortestPath()
+		auto DijkstraAlgorithm::findShortestPath() -> Path
 		{
 			assert(existsVertexWithUndeterminedDistance());
 
@@ -68,14 +64,15 @@ namespace IDragnev
 
 				if (isTheGoal(vertex))
 				{
-					result = Path{ vertex };
-					break;
+					return Path{ vertex };
 				}
 				else
 				{
 					relaxEdgesLeaving(vertex);
 				}
 			}
+
+			return Path{};
 		}
 
 		bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
@@ -116,7 +113,7 @@ namespace IDragnev
 			queue.improveKey(v.handle, d);
 		}
 
-		void DijkstraAlgorithm::clearState()
+		void DijkstraAlgorithm::clear()
 		{
 			map.empty();
 			queue.empty();

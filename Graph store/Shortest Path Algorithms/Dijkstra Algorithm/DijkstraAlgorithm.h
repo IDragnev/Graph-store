@@ -58,7 +58,7 @@ namespace IDragnev
 											const Vertex& source,
 											const Vertex& goal) override;
 
-			void findShortestPath();
+			Path findShortestPath();
 			bool existsVertexWithUndeterminedDistance() const;
 			const PriorityVertex& closestToSourceFromUndetermined();
 			void relaxEdgesLeaving(const PriorityVertex& v);
@@ -67,11 +67,11 @@ namespace IDragnev
 			void updateDistanceOf(PriorityVertex& v, const Distance& d);
 
 			void decorate(const Graph& g, const Vertex& source);
-			void decorate(const Graph& g);
+			void decorateVertices(const Graph& g);
 			void buildDecoratorsMap();
 			void initSourceDecorator(PriorityVertex& source);
 			void buildPriorityQueue();
-			void clearState();
+			void clear() override;
 
 			PriorityVertex& decoratorOf(const Vertex& v);
 			const PriorityVertex& decoratorOf(const Vertex& v) const;
@@ -80,7 +80,6 @@ namespace IDragnev
 			DecoratorsArray decorators{};
 			MinPriorityQueue queue{};
 			DecoratorsMap map{};
-			Path result{};
 		};
 	}
 }
