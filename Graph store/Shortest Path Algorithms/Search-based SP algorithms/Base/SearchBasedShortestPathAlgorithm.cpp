@@ -9,7 +9,7 @@ namespace IDragnev
 		{
 			setupCollections(g.getVerticesCount());
 			decorateVertices(g);
-			buildMapOfDecoratedVertices();
+			buildDecoratorsMap();
 			initSourceDecorator(decoratorOf(source));
 		}
 
@@ -26,7 +26,7 @@ namespace IDragnev
 			forEachVertex(g, [this](const Vertex& v) { decorators.insert({ &v }); });
 		}
 
-		void SearchBasedShortestPathAlgorithm::buildMapOfDecoratedVertices()
+		void SearchBasedShortestPathAlgorithm::buildDecoratorsMap()
 		{
 			for (auto&& d : decorators)
 			{
@@ -54,7 +54,7 @@ namespace IDragnev
 			return *result;
 		}
 
-		void SearchBasedShortestPathAlgorithm::cleanDecoratedState()
+		void SearchBasedShortestPathAlgorithm::clear()
 		{
 			decorators.empty();
 			map.empty();

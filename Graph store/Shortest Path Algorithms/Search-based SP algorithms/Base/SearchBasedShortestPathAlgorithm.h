@@ -35,8 +35,7 @@ namespace IDragnev
 		protected:
 			void decorate(const Graph& g, const Vertex& source);
 			virtual void initSourceDecorator(MarkableVertex& source) = 0;
-
-			void cleanDecoratedState();
+			void clear() override;
 
 			MarkableVertex& decoratorOf(const Vertex& v);
 			const MarkableVertex& decoratorOf(const Vertex& v) const;
@@ -44,7 +43,7 @@ namespace IDragnev
 		private:
 			void setupCollections(std::size_t verticesCount);
 			void decorateVertices(const Graph& g);
-			void buildMapOfDecoratedVertices();
+			void buildDecoratorsMap();
 
 		private:
 			VertexArray decorators{};
