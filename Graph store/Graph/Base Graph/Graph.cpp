@@ -308,7 +308,7 @@ namespace IDragnev
 				auto& edges = edgesOf(from);
 				edges.removeAt(iterator);
 			}
-			else if (throwIfMissing)
+			else if constexpr (throwIfMissing)
 			{
 				throw NoSuchEdge{ from.ID(), to.ID() };
 			}

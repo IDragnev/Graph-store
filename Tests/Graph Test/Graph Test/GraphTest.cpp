@@ -102,10 +102,8 @@ namespace GraphTest
 				GraphT{ "" };
 				Assert::Fail(L"Ctor did not throw");
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
-				auto message = String{ e.what() };
-				Assert::IsTrue(message == String{ "A Graph ID must be a valid string" });
 			}
 		}
 		TEST_METHOD(VerticesMustHaveValidStringsAsIDs)
@@ -117,10 +115,8 @@ namespace GraphTest
 				g.insertVertexWithID("");
 				Assert::Fail(L"The empty string was accepted");
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
-				auto message = String{ e.what() };
-				Assert::IsTrue(message == String{ "A Vertex ID must be a valid string" });
 			}
 		}
 		TEST_METHOD(VerticesInADirectedGraphMustHaveUniqueIDs)
@@ -144,10 +140,8 @@ namespace GraphTest
 				g.insertVertexWithID("v");
 				Assert::Fail(L"The duplicate ID was accepted");
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
-				auto message = String{ e.what() };
-				Assert::IsTrue(message == String{ "A vertex with such ID already exists" });
 			}
 		}
 		TEST_METHOD(DirectedGraphVertexInsertion)
@@ -263,10 +257,8 @@ namespace GraphTest
 				g.insertEdge(start, end, debt + 1);
 				Assert::Fail(L"The duplicate edge was accepted");
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
-				auto message = String{ e.what() };
-				Assert::IsTrue(message == String{ "Such edge already exists" });
 			}		
 		}
 
@@ -285,10 +277,8 @@ namespace GraphTest
 				g.insertEdge(end, start, distance + 1);
 				Assert::Fail(L"The duplicate edge was accepted");
 			}
-			catch (Exception& e)
+			catch (Exception&)
 			{
-				auto message = String{ e.what() };
-				Assert::IsTrue(message == String{ "Such edge already exists" });
 			}
 		}
 
