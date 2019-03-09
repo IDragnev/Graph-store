@@ -39,14 +39,25 @@ namespace IDragnev
 
 	namespace PolymorphicRanges
 	{
-		template <typename Iterator, typename Function>
-		inline void forEach(Iterator& it, Function f)
+		template <typename Iterator, typename Callable>
+		void forEach(Iterator& it, Callable f)
 		{
-			for (; it; ++it) { f(*it); }
+			while (it)
+			{
+				f(*it);
+				++it;
+			}
 		}
 
-		template <typename Iterator, typename Predicate>
-		bool holdsForAny(Iterator& it, Predicate p);
+		template <typename Iterator, typename Callable, typename Predicate>
+		void forEachUntil(Iterator& it, Callable f, Predicate p)
+		{
+			while(it && p(*it))
+			{
+				f(*it);
+				++it;
+			}
+		}
 
 		template <typename Iterator, typename Predicate>
 		bool holdsForAny(Iterator& it, Predicate p)
