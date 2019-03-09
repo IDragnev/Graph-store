@@ -37,14 +37,13 @@ namespace IDragnev
 		using Iterator = Detail::IteratorInterface<T, false>;
 
 		template <typename Iterator, typename Function>
-		void forEach(Iterator& it, Function f)
+		inline void forEach(Iterator& it, Function f)
 		{
-			while (it)
-			{
-				f(*it);
-				++it;
-			}
+			for (; it; ++it) { f(*it); }
 		}
+
+		template <typename Iterator, typename Predicate>
+		bool holdsForAny(Iterator& it, Predicate p);
 
 		template <typename Iterator, typename Predicate>
 		bool holdsForAny(Iterator& it, Predicate p)
@@ -63,7 +62,7 @@ namespace IDragnev
 		}
 
 		template <typename Iterator, typename Predicate>
-		bool holdsForAll(Iterator& it, Predicate p)
+		inline bool holdsForAll(Iterator& it, Predicate p)
 		{
 			return !holdsForAny(it, [p](auto&& item)
 			{ 
