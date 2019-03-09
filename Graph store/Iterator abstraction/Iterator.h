@@ -35,7 +35,10 @@ namespace IDragnev
 		using ConstIterator = Detail::IteratorInterface<T, true>;
 		template <typename T>
 		using Iterator = Detail::IteratorInterface<T, false>;
+	}
 
+	namespace PolymorphicRanges
+	{
 		template <typename Iterator, typename Function>
 		inline void forEach(Iterator& it, Function f)
 		{
@@ -65,7 +68,7 @@ namespace IDragnev
 		inline bool holdsForAll(Iterator& it, Predicate p)
 		{
 			return !holdsForAny(it, [p](auto&& item)
-			{ 
+			{
 				return !p(std::forward<decltype(item)>(item));
 			});
 		}

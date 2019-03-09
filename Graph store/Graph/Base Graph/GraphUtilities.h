@@ -23,9 +23,9 @@ namespace IDragnev
 			using EnableIfModifiesLvalue = std::enable_if_t<modifiesLvalue<Callable, T>>;
 
 			template <typename IteratorPtr, typename Callable>
-			inline void adaptedForEach(IteratorPtr ptr, Callable f)
+			inline void forEach(IteratorPtr ptr, Callable f)
 			{
-				forEach(*ptr, f);
+				PolymorphicRanges::forEach(*ptr, f);
 			}
 		}
 
@@ -33,35 +33,35 @@ namespace IDragnev
 			      typename = Detail::EnableIfReads<Callable, Graph::Vertex>>
 		inline void forEachVertex(const Graph& g, Callable f) 
 		{
-			Detail::adaptedForEach(g.getConstIteratorToVertices(), f);
+			Detail::forEach(g.getConstIteratorToVertices(), f);
 		}
 
 		template <typename Callable,
 			      typename = Detail::EnableIfModifiesLvalue<Callable, Graph::Vertex>>
 		inline void forEachVertex(Graph& g, Callable f)
 		{
-			Detail::adaptedForEach(g.getIteratorToVertices(), f);
+			Detail::forEach(g.getIteratorToVertices(), f);
 		}
 
 		template <typename Callable,
 			      typename = Detail::EnableIfReads<Callable, Graph::IncidentEdge>>
 		inline void forEachIncidentEdge(const Graph& g, const Graph::Vertex& v, Callable f)
 		{
-			Detail::adaptedForEach(g.getConstIteratorToEdgesLeaving(v), f);
+			Detail::forEach(g.getConstIteratorToEdgesLeaving(v), f);
 		}
 
 		template <typename Callable,
 			      typename = Detail::EnableIfModifiesLvalue<Callable, Graph::IncidentEdge>>
 		inline void forEachIncidentEdge(Graph& g, Graph::Vertex& v, Callable f)
 		{
-			Detail::adaptedForEach(g.getIteratorToEdgesLeaving(v), f);
+			Detail::forEach(g.getIteratorToEdgesLeaving(v), f);
 		}
 
 		template <typename Callable>
 		inline void forEachEdge(const Graph& g, Callable f)
 		{
 			static_assert(Detail::readsValue<Callable, Graph::Edge>, "Trying to modify edges of a const Graph");
-			Detail::adaptedForEach(g.getConstIteratorToEdges(), f);
+			Detail::forEach(g.getConstIteratorToEdges(), f);
 		}
 	}
 }
