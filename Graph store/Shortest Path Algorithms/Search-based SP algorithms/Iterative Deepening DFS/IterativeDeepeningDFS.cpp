@@ -53,10 +53,11 @@ namespace IDragnev
 			vertex.isVisited = false;
 		}
 
-		//TODO: even after the path is found, the rest edges are still iterated
 		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
 		{
-			forEachIncidentEdgeOf(vertex, [this, &vertex, depthBound](const IncidentEdge& edge)
+			auto pathWasFound = [this](const auto&) { return isAShortestPathFound; };			
+			
+			auto proceedWithNeighbour = [this, &vertex, depthBound](const IncidentEdge& edge)
 			{
 				auto& neighbour = decoratorOf(edge.getIncidentVertex());
 
@@ -64,13 +65,10 @@ namespace IDragnev
 				{
 					extendCurrentPathFromTo(vertex, neighbour);
 					startDepthLimitedSearch(neighbour, depthBound);
-
-					if (isAShortestPathFound)
-					{
-						return;
-					}
 				}
-			});
+			};
+
+			forEachIncidentEdgeOfUntil(vertex, proceedWithNeighbour, pathWasFound);
 		}
 
 		void IterativeDeepeningDFS::extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to)
