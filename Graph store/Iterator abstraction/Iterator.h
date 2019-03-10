@@ -52,7 +52,7 @@ namespace IDragnev
 		template <typename Iterator, typename Callable, typename Predicate>
 		void forEachUntil(Iterator& it, Callable f, Predicate p)
 		{
-			while(it && p(*it))
+			while(it && !p(*it))
 			{
 				f(*it);
 				++it;
