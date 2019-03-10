@@ -27,6 +27,12 @@ namespace IDragnev
 			{
 				PolymorphicRanges::forEach(*ptr, f);
 			}
+
+			template <typename IteratorPtr, typename Callable, typename Predicate>
+			inline void forEachUntil(IteratorPtr ptr, Callable f, Predicate p)
+			{
+				PolymorphicRanges::forEachUntil(*ptr, f, p);
+			}
 		}
 
 		template <typename Callable,
@@ -62,6 +68,22 @@ namespace IDragnev
 		{
 			static_assert(Detail::readsValue<Callable, Graph::Edge>, "Trying to modify edges of a const Graph");
 			Detail::forEach(g.getConstIteratorToEdges(), f);
+		}
+
+		template <typename Callable,
+			      typename Predicate,
+				  typename = Detail::EnableIfReads<Callable, Graph::IncidentEdge>>
+		inline void forEachIncidentEdgeUntil(const Graph& g, const Graph::Vertex& v, Callable f, Predicate p)
+		{
+			Detail::forEachUntil(g.getConstIteratorToEdgesLeaving(v), f, p);
+		}
+
+		template <typename Callable,
+				  typename Predicate,
+				  typename = Detail::EnableIfModifiesLvalue<Callable, Graph::IncidentEdge>>
+		inline void forEachIncidentEdgeUntil(Graph& g, Graph::Vertex& v, Callable f, Predicate p)
+		{
+			Detail::forEachUntil(g.getIteratorToEdgesLeaving(v), f, p);
 		}
 	}
 }
