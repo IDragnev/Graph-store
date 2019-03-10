@@ -65,9 +65,15 @@ namespace IDragnev
 			bool isTheGoal(const VertexDecorator& v) const;
 			
 			template <typename Callable>
-			void forEachIncidentEdgeOf(const VertexDecorator& decorator, Callable f) const
+			void forEachIncidentEdgeOf(const VertexDecorator& d, Callable f) const
 			{
-				forEachIncidentEdge(*searchedGraph, *decorator.vertex, f);
+				forEachIncidentEdge(*searchedGraph, *d.vertex, f);
+			}
+
+			template <typename Callable, typename Predicate>
+			void forEachIncidentEdgeOfUntil(const VertexDecorator& d, Callable f, Predicate p) const
+			{
+				forEachIncidentEdgeUntil(*searchedGraph, *d.vertex, f, p);
 			}
 
 		private:
