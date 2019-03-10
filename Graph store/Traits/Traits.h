@@ -17,7 +17,7 @@ namespace IDragnev
 				using RawType = std::remove_reference_t<T>;
 
 			public:
-				static constexpr bool value = std::is_const<RawType>::value;
+				static constexpr bool value = std::is_const_v<RawType>;
 			};
 
 			template <typename Iterator>
@@ -37,7 +37,7 @@ namespace IDragnev
 				using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
 
 			public:
-				static constexpr bool value = std::is_convertible<iterator_category, std::forward_iterator_tag>::value;
+				static constexpr bool value = std::is_convertible_v<iterator_category, std::forward_iterator_tag>;
 			};
 		}
 
