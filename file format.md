@@ -1,4 +1,4 @@
-## The file format is:
+# The file format is:
 \<graph type\>  
 \<graph id\>  
 \<N: number of vertices\>  
@@ -16,7 +16,7 @@
   .  
 \<edgeK\>   
   
-# Where:  
+## Where:  
  - \<graph type\> must be either directed or undirected  
  - \<graph id\> and \<vertex id\> must be valid strings  
  - the edge format is: (startIDNumber, endIDNumber, weight)  
@@ -24,8 +24,8 @@
    	- each IDNumber is a non-negative integer and corresponds to the vertex with id \<vertex(IDNumber) id\>  
  - the name of the (text) file must be identical to the name of the graph  
   
-## Example:    
-#*my graph.txt  
+# Example:    
+## *my graph.txt*  
 undirected  
 my graph  
 6  
