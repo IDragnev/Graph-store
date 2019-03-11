@@ -1,15 +1,29 @@
 # Graph-store
 
-An application which lets the user build [graphs](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) and search [paths](https://en.wikipedia.org/wiki/Path_(graph_theory)) within them. 
-The graph can be directed or undirected. 
+A CLI application which lets the user build [graphs](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) and search [paths](https://en.wikipedia.org/wiki/Path_(graph_theory)) within them. 
+The graphs can be directed or undirected. 
 All graphs are weighted, with the edge weights being positive integers and the default weight being 1.
 
 A graph can be built by inserting vertices and inserting edges between vertices.
 In a graph there can be at most one edge between any two vertices.
 
-To start the application, the user must specify a directory (as a command line argument) in which the graphs are (to be) stored.
-It is then run via command-line interface, supported thanks to https://github.com/Taywee/args.
-Arguments are delimited by whitespaces. If an argument consists of multiple words, it must be surrounded by single quotation marks: 'multiple words argument'.
+The application has no automated build system.   
+In order to start it, the user must specify a directory (as a command line argument) in which the graphs are (to be) stored.  
+The command-line interface is supported using [Taywee/args](https://github.com/Taywee/args).
+Arguments are delimited by whitespaces. If an argument consists of multiple words, it must be surrounded by single quotation marks: 'multiple words argument'.  
+Formatting is done using [{fmt}](https://github.com/fmtlib/fmt).  
+**A c++17 compliant compiler is needed!**
+
+## EXAMPLE
+INSERT-GRAPH G directed  
+INSERT-VERTEX v1  
+INSERT-VERTEX v2  
+INSERT-VERTEX v3  
+INSERT-EDGE v1 v2 100  
+INSERT-EDGE v2 v3   
+INSERT-EDGE v1 v3 10000  
+SEARCH-PATH v1 v3 Dijkstra  
+*finds the path v1->v2->v3 with length 101.*  
 
 ## General commands
  - **HELP**
