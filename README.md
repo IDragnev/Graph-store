@@ -4,7 +4,8 @@ A CLI application which lets the user build [graphs](https://en.wikipedia.org/wi
 The graphs can be directed or undirected. 
 All graphs are weighted, with the edge weights being positive integers and the default weight being 1.
 
-A graph can be built by inserting vertices and inserting edges between vertices.
+A graph can be built by inserting vertices and inserting edges between vertices.  
+Graphs can also be built directly with text files, see the format [here](https://github.com/IDragnev/Graph-store/blob/refactoring/file%20format.md).  
 In a graph there can be at most one edge between any two vertices.
 
 The application has no automated build system.   
