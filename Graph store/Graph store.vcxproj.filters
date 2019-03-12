@@ -170,6 +170,9 @@
     <Filter Include="Third party">
       <UniqueIdentifier>{f2f102b0-d63f-471c-a8df-aa1e52d65099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Functional">
+      <UniqueIdentifier>{6b9b3088-83e7-44ab-ae6a-f0ff86bd3047}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -452,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="Serialization\SerializationConstants.h">
       <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Functional\Functional.h">
+      <Filter>Functional</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

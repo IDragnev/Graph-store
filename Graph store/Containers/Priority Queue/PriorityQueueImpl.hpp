@@ -1,5 +1,4 @@
 #include <assert.h>
-#include "..\..\UtilityFunctions.h"
 
 namespace IDragnev
 {
@@ -168,7 +167,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll() noexcept
 		{
-			using Utility::EmptyFunction;
+			using Functional::EmptyFunction;
 			if constexpr (!std::is_same_v<HandleSetter, EmptyFunction>)
 			{
 				for (auto& e : elements)
@@ -274,7 +273,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const Handle& handle, const Key& key)
 		{
-			static_assert(!std::is_same_v<HandleSetter, Utility::EmptyFunction>,
+			static_assert(!std::is_same_v<HandleSetter, Functional::EmptyFunction>,
 						  "Cannot use handle-related logic with no specific HandleSetter supplied");
 			assert(handle.isValid());
 			assert(hasElementAt(handle));

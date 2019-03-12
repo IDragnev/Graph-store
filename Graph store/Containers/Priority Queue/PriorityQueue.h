@@ -3,6 +3,7 @@
 
 #include "Priority Queue Handle\PriorityQueueHandle.h"
 #include "..\..\UtilityFunctions.h"
+#include "..\..\Functional\Functional.h"
 #include <vector>
 
 namespace IDragnev
@@ -24,8 +25,8 @@ namespace IDragnev
 			typename Item,
 			typename Key = Item,
 			typename KeyAccessor = Detail::IdentityAccessor,
-			typename CompareFunction = Utility::LessThan,
-			typename HandleSetter = Utility::EmptyFunction
+			typename CompareFunction = Functional::LessThan,
+			typename HandleSetter = Functional::EmptyFunction
 		> class PriorityQueue
 		{
 		private:

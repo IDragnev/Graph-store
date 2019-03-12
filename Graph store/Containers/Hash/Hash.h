@@ -2,7 +2,7 @@
 #define __MY_HASH_HEADER_INCLUDED__
 
 #include "..\Dynamic Array\DArray.h"
-#include "..\..\UtilityFunctions.h"
+#include "..\..\Functional\Functional.h"
 #include <assert.h>
 #include <optional>
 #include <type_traits>
@@ -14,9 +14,9 @@ namespace IDragnev
 		template <
 			typename Item,
 			typename Key = Item,
-			typename KeyAccessor = Utility::Identity,
+			typename KeyAccessor = Functional::Identity,
 			typename HashFun = std::hash<Key>,
-			typename EqualityPredicate = Utility::EqualTo
+			typename EqualityPredicate = Functional::EqualTo
 		> class Hash
 		{
 		private:

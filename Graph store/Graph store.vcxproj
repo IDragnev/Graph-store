@@ -212,6 +212,7 @@
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptor.h" />
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp" />
+    <ClInclude Include="Functional\Functional.h" />
     <ClInclude Include="General Exceptions\Exception.h" />
     <ClInclude Include="General Exceptions\NoMemoryAvailable.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
