@@ -34,6 +34,25 @@ namespace IDragnev
 			template <typename... Args>
 			constexpr void operator()(Args&&...) const noexcept { }
 		};
+
+		template <typename F, typename... Gs>
+		auto superpose(F f, Gs... funs)
+		{
+			static_assert(sizeof...(funs) > 0, "Cannot superpose a function with zero functions");
+			return [f, funs...](const auto&... args) { return f(funs(args...)...); };
+		}
+
+		template <typename F, typename G>
+		auto compose(F f, G g)
+		{
+			return superpose(f, g);
+		}
+
+		template <typename F, typename G, typename... Gs>
+		auto compose(F f, G g, Gs... funs)
+		{
+			return compose(compose(f, g), std::move(funs)...);
+		}
 	}
 }
 
