@@ -53,6 +53,12 @@ namespace IDragnev
 
 			return static_cast<ReturnType>(x);
 		}
+
+		template <typename... Args>
+		void print(const Args&... args)
+		{
+			(std::cout << ... << args);
+		}
 	}
 }
 

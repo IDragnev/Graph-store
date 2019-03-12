@@ -1,4 +1,5 @@
 #include "ShortestPathAlgorithm.h"
+#include "..\..\UtilityFunctions.h"
 #include <assert.h>
 
 namespace IDragnev
@@ -46,12 +47,14 @@ namespace IDragnev
 
 		void ShortestPathAlgorithm::Path::print() const
 		{
+			using Utility::print;
+
 			for (const auto& ID : IDs)
 			{
-				std::cout << ID << ' ';
+				print(ID, ' ');
 			}
 
-			std::cout << "Length: " << length << std::endl;
+			print("Length: ", length, "\n");
 		}
 
 		ShortestPathAlgorithm::ShortestPathAlgorithm(const String& ID) :

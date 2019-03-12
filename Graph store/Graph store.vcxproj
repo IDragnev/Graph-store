@@ -225,9 +225,9 @@
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
-    <ClInclude Include="SerializationConstants.h" />
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h" />
+    <ClInclude Include="Serialization\SerializationConstants.h" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h" />

@@ -423,9 +423,6 @@
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h">
       <Filter>Serialization\Graph Saver</Filter>
     </ClInclude>
-    <ClInclude Include="SerializationConstants.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h">
       <Filter>Serialization\Graph Builder</Filter>
     </ClInclude>
@@ -452,6 +449,9 @@
     </ClInclude>
     <ClInclude Include="Graph\Base Graph\GraphUtilities.h">
       <Filter>Graph\Base Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\SerializationConstants.h">
+      <Filter>Serialization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

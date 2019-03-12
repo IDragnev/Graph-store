@@ -5,6 +5,7 @@
 #include "StringSplitter\StringSplitter.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
+#include "..\UtilityFunctions.h"
 #include <iostream> 
 
 namespace IDragnev
@@ -43,11 +44,13 @@ namespace IDragnev
 			insertCommand("HELP", "Lists the supported commands",
 			[this](args::Subparser& parser)
 			{
+				using Utility::print;
+
 				parser.Parse();
-				std::cout << "Supported commands:\n";
+				print("Supported commands:\n");
 				for (auto&& c : commands)
 				{
-					std::cout << '\t' << c.Name() << '\t' << c.Help() << '\n';
+					print('\t', c.Name(), '\t', c.Help(), '\n');
 				}
 			});
 		}
@@ -94,7 +97,7 @@ namespace IDragnev
 		{
 			do
 			{
-				std::cout << '$';
+				Utility::print('$');
 				invokeCommand(receiveInput());
 			} while (!receivedExitCommand);
 		}
