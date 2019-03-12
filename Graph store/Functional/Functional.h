@@ -53,6 +53,12 @@ namespace IDragnev
 		{
 			return compose(compose(f, g), std::move(funs)...);
 		}
+
+		template <typename T>
+		auto equalTo(T key)
+		{
+			return [lhs = std::move(key)](const auto& rhs) { return lhs == rhs; };
+		}
 	}
 }
 
