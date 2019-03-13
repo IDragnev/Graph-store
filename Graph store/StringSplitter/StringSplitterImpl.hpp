@@ -62,17 +62,9 @@ namespace IDragnev
 	template <template <typename...> typename Container>
 	void StringSplitter<Container>::chooseDelimiter()
 	{
-		auto currentSymbol = stream.peek();
-		currentDelim = ' ';
-
-		for (const auto& d : delimiters)
-		{
-			if (d == currentSymbol)
-			{
-				currentDelim = d;
-				return;
-			}
-		}
+		using Functional::equalTo;
+		auto it = std::find_if(delimiters.cbegin(), delimiters.cend(), equalTo(stream.peek()));
+		currentDelim = it ? *it : ' ';
 	}
 
 	template <template <typename...> typename Container>
@@ -101,7 +93,7 @@ namespace IDragnev
 	{
 		using SplitterDetail::insert;
 
-		if (wasDelimMatched())
+		if (delimWasMatched())
 		{
 			insert(result, std::move(word));
 		}
@@ -112,7 +104,7 @@ namespace IDragnev
 	}
 
 	template <template <typename...> typename Container>
-	bool StringSplitter<Container>::wasDelimMatched()
+	bool StringSplitter<Container>::delimWasMatched()
 	{
 		if (currentDelim == ' ')
 		{

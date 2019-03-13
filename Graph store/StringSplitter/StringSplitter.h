@@ -1,9 +1,11 @@
 #ifndef __STRING_SPLITTER_H_INCLUDED__
 #define __STRING_SPLITTER_H_INCLUDED__
 
+#include "..\Containers\Dynamic Array\DArray.h"
+#include "..\Functional\Functional.h"
 #include <sstream>
 #include <utility>
-#include "..\..\Containers\Dynamic Array\DArray.h"
+#include <algorithm>
 
 namespace IDragnev
 {
@@ -39,7 +41,7 @@ namespace IDragnev
 		void advanceIfDelimIsNotWhiteSpace();
 		void extractWord();
 		void insertIfDelimWasMatched(std::string&& word);
-		bool wasDelimMatched();
+		bool delimWasMatched();
 
 	private:
 		std::istringstream stream;
