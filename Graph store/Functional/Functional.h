@@ -35,10 +35,12 @@ namespace IDragnev
 			constexpr void operator()(Args&&...) const noexcept { }
 		};
 
+		template <typename F>
+		F superpose(F&&) = delete;
+
 		template <typename F, typename... Gs>
 		auto superpose(F f, Gs... funs)
 		{
-			static_assert(sizeof...(funs) > 0, "Cannot superpose a function with zero functions");
 			return [f, funs...](const auto&... args) -> decltype(auto) { return f(funs(args...)...); };
 		}
 
