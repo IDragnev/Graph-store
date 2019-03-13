@@ -41,6 +41,28 @@ namespace FunctionalTest
 			Assert::AreEqual(superpose(sum, multiply, sum)(10, 20), 230);
 		}
 
+		TEST_METHOD(superpositionAndCompositionHandleReferences)
+		{
+			auto source = "123"s;
+			auto copy = source;
+			auto f = superpose(Identity{}, Identity{});
+			auto g = compose(f, f);
+
+			Assert::AreSame(source, f(source));
+			Assert::AreNotSame(source, f(copy));
+			Assert::AreSame(source, g(source));
+			Assert::AreNotSame(source, g(copy));
+		}
+
+		TEST_METHOD(superpositionReturnType)
+		{
+			auto x = "123"s;
+			auto y = x;
+			auto f = superpose(Identity{}, Identity{});
+			Assert::AreSame(x, f(x));
+			Assert::AreNotSame(x, f(y));
+		}
+
 		TEST_METHOD(composition)
 		{
 			auto g = compose(plus(8), plus(10), plus(35), Identity{}, plus(100));
