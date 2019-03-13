@@ -2,12 +2,31 @@
 #include "..\String\String.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
+#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 #include <algorithm>
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class DuplicateGraphID : public Exception
+		{
+		public:
+			DuplicateGraphID(const String& ID) :
+				Exception{ fmt::format("A graph with ID {0} already exists", ID) }
+			{
+			}
+		};
+
+		class NoSuchGraph : public Exception
+		{
+		public:
+			NoSuchGraph(const String& ID) :
+				Exception{ fmt::format("No graph with ID {0} exists", ID) }
+			{
+			}
+		};
+
 		void GraphStore::insertGraph(GraphPtr graph)
 		{
 			if (!hasGraphWithID(graph->getID()))
@@ -16,7 +35,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ "A graph with ID \'" + graph->getID() + "\' already exists" };
+				throw DuplicateGraphID{ graph->getID() };
 			}
 		}
 
@@ -57,13 +76,14 @@ namespace IDragnev
 
 		auto GraphStore::getGraphPtr(const String& ID) const -> const GraphPtr&
 		{
-			if (auto iterator = searchGraph(ID); isValid(iterator))
+			if (auto iterator = searchGraph(ID); 
+				isValid(iterator))
 			{
 				return *iterator;
 			}
 			else
 			{
-				throw Exception{ "No graph with ID \'" + ID + "\' exists" };
+				throw NoSuchGraph{ ID };
 			}
 		}
 

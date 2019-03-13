@@ -14,7 +14,7 @@ namespace IDragnev
 			class IteratorInterface
 			{
 			private:
-				using IteratorPtr = std::unique_ptr<IteratorInterface<T, isConst>>;
+				using IteratorPtr = std::unique_ptr<IteratorInterface>;
 
 			public:
 				using reference = std::conditional_t<isConst, const T&, T&>;
