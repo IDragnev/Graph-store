@@ -39,7 +39,7 @@ namespace IDragnev
 		auto superpose(F f, Gs... funs)
 		{
 			static_assert(sizeof...(funs) > 0, "Cannot superpose a function with zero functions");
-			return [f, funs...](const auto&... args) { return f(funs(args...)...); };
+			return [f, funs...](const auto&... args) -> decltype(auto) { return f(funs(args...)...); };
 		}
 
 		template <typename F, typename G>

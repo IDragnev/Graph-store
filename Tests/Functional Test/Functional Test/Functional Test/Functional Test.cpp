@@ -28,6 +28,9 @@ namespace FunctionalTest
 
 			Assert::AreEqual(1, Identity{}(1));
 			Assert::AreNotEqual(2, Identity{}(1));
+			auto x = 0;
+			Assert::AreSame(x, Identity{}(x));
+			Assert::AreNotSame(0, Identity{}(x));
 		}
 
 		TEST_METHOD(superposition)
