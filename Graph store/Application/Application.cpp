@@ -2,11 +2,12 @@
 #include "..\String\String.h"
 #include "Commands\Base\Command.h"
 #include "..\Graph\Base Graph\Graph.h"
-#include "StringSplitter\StringSplitter.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
 #include "..\UtilityFunctions.h"
 #include <iostream> 
+
+using IDragnev::Utility::print;
 
 namespace IDragnev
 {
@@ -44,8 +45,6 @@ namespace IDragnev
 			insertCommand("HELP", "Lists the supported commands",
 			[this](args::Subparser& parser)
 			{
-				using Utility::print;
-
 				parser.Parse();
 				print("Supported commands:\n");
 				for (auto&& c : commands)
@@ -77,7 +76,7 @@ namespace IDragnev
 			}
 			catch (Exception& e)
 			{
-				std::cerr << e.what() << std::endl;
+				print(std::cerr, e.what(), "\n");
 			}
 		}
 
@@ -97,7 +96,7 @@ namespace IDragnev
 		{
 			do
 			{
-				Utility::print('$');
+				print('$');
 				invokeCommand(receiveInput());
 			} while (!receivedExitCommand);
 		}
@@ -122,7 +121,7 @@ namespace IDragnev
 			}
 			catch (std::runtime_error& e)
 			{
-				std::cerr << e.what() << std::endl;
+				print(std::cerr, e.what(), "\n");
 			}
 		}
 	}

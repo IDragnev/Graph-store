@@ -190,8 +190,6 @@
     <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h" />
     <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h" />
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
-    <ClInclude Include="Application\StringSplitter\StringSplitter.h" />
-    <ClInclude Include="Application\StringSplitter\StringSplitterImpl.hpp" />
     <ClInclude Include="Containers\Dynamic Array\DArray.h" />
     <ClInclude Include="Containers\Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Containers\Dynamic Array\DArrayIteratorImpl.hpp" />
@@ -238,6 +236,8 @@
     <ClInclude Include="ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h" />
     <ClInclude Include="Special Integer\SpecialInteger.h" />
     <ClInclude Include="Special Integer\SpecialIntegerImpl.hpp" />
+    <ClInclude Include="StringSplitter\StringSplitter.h" />
+    <ClInclude Include="StringSplitter\StringSplitterImpl.hpp" />
     <ClInclude Include="String\String.h" />
     <ClInclude Include="Traits\Traits.h" />
     <ClInclude Include="UtilityFunctions.h" />

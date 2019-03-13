@@ -3,7 +3,7 @@
 
 #include "..\..\Third party\args\args.hxx"
 #include "..\GraphStore\GraphStore.h"
-#include "StringSplitter\StringSplitter.h"
+#include "..\StringSplitter\StringSplitter.h"
 #include <forward_list>
 
 namespace Containers

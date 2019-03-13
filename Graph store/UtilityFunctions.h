@@ -25,9 +25,15 @@ namespace IDragnev
 		}
 
 		template <typename... Args>
+		void print(std::ostream& out, const Args&... args)
+		{
+			(out << ... << args);
+		}
+
+		template <typename... Args>
 		void print(const Args&... args)
 		{
-			(std::cout << ... << args);
+			print(std::cout, args...);
 		}
 	}
 }

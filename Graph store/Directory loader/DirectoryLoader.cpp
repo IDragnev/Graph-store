@@ -1,6 +1,7 @@
 #include "DirectoryLoader.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
+#include "..\UtilityFunctions.h"
 #include <iostream>
 
 namespace IDragnev
@@ -35,7 +36,7 @@ namespace IDragnev
 			}
 			catch (Exception& e)
 			{
-				std::cerr << e.what() << std::endl;
+				Utility::print(std::cerr, e.what(), "\n");
 				return nullptr;
 			}
 		}
