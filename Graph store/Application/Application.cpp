@@ -5,9 +5,11 @@
 #include "..\General Exceptions\Exception.h"
 #include "..\Directory loader\DirectoryLoader.h"
 #include "..\UtilityFunctions.h"
+#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 #include <iostream> 
 
 using IDragnev::Utility::print;
+using namespace fmt::literals;
 
 namespace IDragnev
 {
@@ -42,15 +44,14 @@ namespace IDragnev
 
 		void Application::insertHelpCommand()
 		{
+			auto list = [](const auto& c) { fmt::print(" - {name:<15} {descr}\n", "name"_a = c.Name(), "descr"_a = c.Help()); };
+
 			insertCommand("HELP", "Lists the supported commands",
-			[this](args::Subparser& parser)
+			[this, list](args::Subparser& parser)
 			{
 				parser.Parse();
 				print("Supported commands:\n");
-				for (auto&& c : commands)
-				{
-					print('\t', c.Name(), '\t', c.Help(), '\n');
-				}
+				std::for_each(commands.cbegin(), commands.cend(), list);
 			});
 		}
 
