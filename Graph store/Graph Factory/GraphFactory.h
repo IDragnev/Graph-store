@@ -36,7 +36,7 @@ namespace IDragnev
 
 		private:
 			const GraphCreator& getCreator(const String& graphType) const;
-			const GraphCreator* searchCreator(const String& graphType) const;
+			CreatorsCollection::const_iterator searchCreator(const String& graphType) const;
 			void registerCreator(const GraphCreator* creator);
 
 			static const std::size_t EXPECTED_CREATORS_COUNT = 2;

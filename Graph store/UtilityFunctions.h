@@ -53,13 +53,11 @@ namespace IDragnev
 			}
 		};
 
-		using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;
-		
-		auto matches(ConstStringIDRef ID) noexcept
+		using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;	
+
+		auto matches(ConstStringIDRef ID)
 		{
-			using Functional::compose;
-			using Functional::equalTo;
-			return compose(equalTo(ID), [](const auto& id) { return ConstStringIDRef(id); }, getID);
+			return Functional::matches(ID, getID);
 		}
 	}
 }

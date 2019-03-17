@@ -3,6 +3,8 @@
 #include "Graph creators\Base\GraphCreator.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\String\String.h"
+#include "..\UtilityFunctions.h"
+#include <algorithm>
 
 namespace IDragnev
 {
@@ -23,17 +25,16 @@ namespace IDragnev
 		GraphFactory::GraphPtr GraphFactory::createEmptyGraph(const String& type, const String& ID) const
 		{
 			auto& creator = getCreator(type);
-
 			return creator.createEmptyGraph(ID);
 		}
 
 		const GraphCreator& GraphFactory::getCreator(const String& graphType) const
 		{
-			auto creator = searchCreator(graphType);
-
-			if (creator)
+			if (auto iterator = searchCreator(graphType); 
+				iterator)
 			{
-				return *creator;
+				auto creatorPtr = *iterator;
+				return *creatorPtr;
 			}
 			else
 			{
@@ -41,23 +42,23 @@ namespace IDragnev
 			}
 		}
 
-		const GraphCreator* GraphFactory::searchCreator(const String& graphType) const
+		auto matches(const String& type)
 		{
-			for (auto&& c : creators)
-			{
-				if (c->getCreatedGraphType() == graphType)
-				{
-					return c;
-				}
-			}
+			using GraphType = Utility::ConstStringIDRef;
+			using Functional::matches;
+			
+			auto extractor = [](const auto& creator) -> decltype(auto) { return creator->getCreatedGraphType(); };
+			return matches(GraphType(type), extractor);
+		}
 
-			return nullptr;
+		auto GraphFactory::searchCreator(const String& graphType) const -> CreatorsCollection::const_iterator
+		{
+			return std::find_if(creators.cbegin(), creators.cend(), matches(graphType));
 		}
 
 		void GraphFactory::registerCreator(const GraphCreator* creator)
 		{
-			assert(searchCreator(creator->getCreatedGraphType()) == nullptr);
-
+			assert(!searchCreator(creator->getCreatedGraphType()));
 			creators.insert(creator);
 		}
 	}
