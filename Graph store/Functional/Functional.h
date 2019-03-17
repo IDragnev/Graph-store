@@ -61,6 +61,13 @@ namespace IDragnev
 		{
 			return [lhs = std::move(key)](const auto& rhs) { return lhs == rhs; };
 		}
+
+		template <typename Key, typename KeyExtractor>
+		auto matches(Key key, KeyExtractor extract)
+		{
+			auto wrap = [](auto&& key) { return Key(std::forward<decltype(key)>(key)); };
+			return compose(equalTo(std::move(key)), wrap, extract);
+		}
 	}
 }
 
