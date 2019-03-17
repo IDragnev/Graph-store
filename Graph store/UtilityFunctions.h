@@ -2,6 +2,9 @@
 #define __UTILITY_FUNCTIONS_H_INCLUDED__
 
 #include <type_traits>
+#include "..\Third party\NamedType\named_type.hpp"
+#include "Functional\Functional.h"
+#include "String\String.h"
 
 namespace IDragnev
 {
@@ -34,6 +37,29 @@ namespace IDragnev
 		void print(const Args&... args)
 		{
 			print(std::cout, args...);
+		}
+
+		inline auto getID = [](const auto& item) -> decltype(auto)
+		{
+			using RawType = std::decay_t<decltype(item)>;
+
+			if constexpr (std::is_pointer_v<RawType>)
+			{
+				return item->getID();
+			}
+			else
+			{
+				return item.getID();
+			}
+		};
+
+		using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;
+		
+		auto matches(ConstStringIDRef ID) noexcept
+		{
+			using Functional::compose;
+			using Functional::equalTo;
+			return compose(equalTo(ID), [](const auto& id) { return ConstStringIDRef(id); }, getID);
 		}
 	}
 }
