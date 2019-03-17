@@ -30,7 +30,7 @@ namespace IDragnev
 			ShortestPathAlgorithmStore& operator=(const ShortestPathAlgorithmStore&) = delete;
 
 		private:
-			Collection::iterator searchAlgorithm(const String& ID) noexcept;
+			Collection::iterator searchAlgorithm(const String& ID);
 
 			static const std::size_t INITIAL_COLLECTION_SIZE = 3;
 

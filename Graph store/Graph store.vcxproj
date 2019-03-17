@@ -178,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h" />
+    <ClInclude Include="..\Third party\NamedType\named_type.hpp" />
+    <ClInclude Include="..\Third party\NamedType\named_type_impl.hpp" />
+    <ClInclude Include="..\Third party\NamedType\underlying_functionalities.hpp" />
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Command registrator\CommandRegistrator.h" />
     <ClInclude Include="Application\Commands\Base\Command.h" />

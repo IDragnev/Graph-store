@@ -173,6 +173,12 @@
     <Filter Include="StringSplitter">
       <UniqueIdentifier>{cc8795f6-6ebb-4242-9a55-020cdc9c1000}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Third party\fmt">
+      <UniqueIdentifier>{d745a67d-c407-46ce-b3fc-a82961440951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Third party\NamedType">
+      <UniqueIdentifier>{3ead64b2-64c6-4379-900c-2969c83b9f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -263,7 +269,7 @@
       <Filter>Containers\Priority Queue\PQ Handle</Filter>
     </ClCompile>
     <ClCompile Include="..\Third party\fmt-5.3.0\src\format.cc">
-      <Filter>Third party</Filter>
+      <Filter>Third party\fmt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,9 +447,6 @@
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp">
       <Filter>Iterators\ForwardIterator adaptor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h">
-      <Filter>Third party</Filter>
-    </ClInclude>
     <ClInclude Include="Graph\Base Graph\GraphUtilities.h">
       <Filter>Graph\Base Graph</Filter>
     </ClInclude>
@@ -458,6 +461,18 @@
     </ClInclude>
     <ClInclude Include="StringSplitter\StringSplitterImpl.hpp">
       <Filter>StringSplitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Third party\fmt-5.3.0\include\fmt\format.h">
+      <Filter>Third party\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Third party\NamedType\named_type.hpp">
+      <Filter>Third party\NamedType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Third party\NamedType\named_type_impl.hpp">
+      <Filter>Third party\NamedType</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Third party\NamedType\underlying_functionalities.hpp">
+      <Filter>Third party\NamedType</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
