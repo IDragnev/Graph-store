@@ -92,6 +92,7 @@ namespace IDragnev
 	void StringSplitter<Container>::insertIfDelimWasMatched(std::string&& word)
 	{
 		using SplitterDetail::insert;
+		using namespace std::string_literals;
 
 		if (delimWasMatched())
 		{
@@ -99,7 +100,7 @@ namespace IDragnev
 		}
 		else
 		{
-			throw std::runtime_error{ "Unmatched delimiter: " + std::string{ currentDelim } };
+			throw std::runtime_error{ "Unmatched delimiter: "s + currentDelim };
 		}
 	}
 
