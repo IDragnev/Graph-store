@@ -41,21 +41,13 @@ namespace IDragnev
 
 		bool GraphStore::hasGraphWithID(const String& ID) const
 		{
-			return isValid(searchGraph(ID));
-		}
-
-		bool GraphStore::isValid(ConstIterator it) const noexcept 
-		{
-			using std::cend;
-			return it != cend(graphs);
+			return static_cast<bool>(searchGraph(ID));
 		}
 
 		auto GraphStore::searchGraph(const String& ID) const -> ConstIterator
 		{
-			using std::cbegin;
-			using std::cend;
-			return std::find_if(cbegin(graphs), cend(graphs), 
-				                [&ID](const GraphPtr& g) { return g->getID() == ID; });
+			using GraphID = Utility::ConstStringIDRef;
+			return std::find_if(graphs.cbegin(), graphs.cend(), matches(GraphID(ID)));
 		}
 
 		Graph& GraphStore::getGraph(const String& ID)
@@ -77,7 +69,7 @@ namespace IDragnev
 		auto GraphStore::getGraphPtr(const String& ID) const -> const GraphPtr&
 		{
 			if (auto iterator = searchGraph(ID); 
-				isValid(iterator))
+				iterator)
 			{
 				return *iterator;
 			}

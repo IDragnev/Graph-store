@@ -42,13 +42,13 @@ namespace IDragnev
 			}
 		}
 
-		auto matches(const String& type)
+		auto matches(const String& graphType)
 		{
 			using GraphType = Utility::ConstStringIDRef;
 			using Functional::matches;
 			
 			auto extractor = [](const auto& creator) -> decltype(auto) { return creator->getCreatedGraphType(); };
-			return matches(GraphType(type), extractor);
+			return matches(GraphType(graphType), extractor);
 		}
 
 		auto GraphFactory::searchCreator(const String& graphType) const -> CreatorsCollection::const_iterator

@@ -41,7 +41,6 @@ namespace IDragnev
 			const GraphPtr& getGraphPtr(const String& ID) const;
 			bool hasGraphWithID(const String& ID) const;
 			ConstIterator searchGraph(const String& ID) const;
-			bool isValid(ConstIterator) const noexcept;
 
 		private:
 			GraphCollection graphs;

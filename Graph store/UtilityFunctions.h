@@ -42,8 +42,9 @@ namespace IDragnev
 		inline auto getID = [](const auto& item) -> decltype(auto)
 		{
 			using RawType = std::decay_t<decltype(item)>;
-
-			if constexpr (std::is_pointer_v<RawType>)
+			
+			if constexpr (std::is_pointer_v<RawType> || 
+				          std::is_same_v<RawType, std::unique_ptr<GraphStore::Graph>>)
 			{
 				return item->getID();
 			}
