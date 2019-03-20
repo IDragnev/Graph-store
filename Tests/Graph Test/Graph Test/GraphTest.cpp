@@ -2,100 +2,56 @@
 #include "..\..\..\Graph store\Graph\Directed Graph\DirectedGraph.h"
 #include "..\..\..\Graph store\Graph\Undirected Graph\UndirectedGraph.h"
 #include "..\..\..\Graph store\General Exceptions\Exception.h"
+#include "..\..\..\Graph store\Graph\Base Graph\GraphUtilities.h"
+#include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace IDragnev::GraphStore;
 using IDragnev::String;
+using namespace IDragnev::PolymorphicRanges;
 
 namespace GraphTest
 {		
 	TEST_CLASS(GraphTest)
 	{
-	private:
-		using IDList = std::vector<String>;
-		using Vertex = Graph::Vertex;
-		using IncidentEdge = Graph::IncidentEdge;
-		using Weight = IncidentEdge::Weight;
-
-		static void insertVerticesWithIDs(Graph& g, IDList IDs)
-		{
-			for (const auto& ID : IDs)
-			{
-				g.insertVertexWithID(ID);
-			}
-		}
-
-		static void removeVerticesWithIDs(Graph& g, IDList IDs)
-		{
-			for (const auto& ID : IDs)
-			{
-				g.removeVertex(ID);
-			}
-		}
-
-		static bool hasVertices(const Graph& g, IDList IDs)
-		{
-			for (const auto& ID : IDs)
-			{
-				if (!g.hasVertexWithID(ID))
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		static bool existsEdge(const Graph& g, const Vertex& start, const Vertex& end, Weight weight)
-		{
-			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(start);
-			auto predicate = [&](const IncidentEdge& e) { return e.getIncidentVertex() == end && e.getWeight() == weight; };
-	
-			return holdsForAny(*iteratorPtr, predicate);
-		}
-
-		static bool hasNeighbour(const Graph& g, const Vertex& v, const String& ID) 
-		{
-			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(v);
-			auto predicate = [&](const IncidentEdge& e) { return e.getIncidentVertex().ID() == ID; };
-			
-			return holdsForAny(*iteratorPtr, predicate);
-		}
-
 	public:
 		TEST_METHOD(DirectedGraphCtorMakesEmptyGraph)
 		{
-			testCtorMakesEmptyGraph<DirectedGraph>("G");
+			assertCtorMakesEmptyGraph<DirectedGraph>();
 		}
 
 		TEST_METHOD(UndirectedGraphCtorMakesEmptyGraph)
 		{
-			testCtorMakesEmptyGraph<UndirectedGraph>("G");
+			assertCtorMakesEmptyGraph<UndirectedGraph>();
 		}
 
 		template <typename GraphT>
-		static inline void testCtorMakesEmptyGraph(const String& ID)
+		inline void assertCtorMakesEmptyGraph()
 		{
-			GraphT g{ "G" };
+			GraphT g("G");
+			assertIsEmpty(g);
+		}
 
+		static void assertIsEmpty(const Graph& g)
+		{
 			auto vertexItPtr = g.getConstIteratorToVertices();
 			auto edgesItPtr = g.getConstIteratorToEdges();
 
 			Assert::IsFalse(*vertexItPtr);
 			Assert::IsFalse(*edgesItPtr);
 		}
+
 		TEST_METHOD(DirectedGraphsMustHaveValidStringsAsIDs)
 		{
-			testTheEmptyStringIsNotAcceptedAsID<DirectedGraph>();
+			assertTheEmptyStringIsNotAcceptedAsID<DirectedGraph>();
 		}
-
 		TEST_METHOD(UndirectedGraphsMustHaveValidStringsAsIDs)
 		{
-			testTheEmptyStringIsNotAcceptedAsID<UndirectedGraph>();
+			assertTheEmptyStringIsNotAcceptedAsID<UndirectedGraph>();
 		}
 
 		template <typename GraphT>
-		inline static void testTheEmptyStringIsNotAcceptedAsID()
+		inline static void assertTheEmptyStringIsNotAcceptedAsID()
 		{
 			try
 			{
@@ -121,18 +77,23 @@ namespace GraphTest
 		}
 		TEST_METHOD(VerticesInADirectedGraphMustHaveUniqueIDs)
 		{
-			testDuplicateVertexIDsAreNotAccepted<DirectedGraph>();
+			assertDuplicateVertexIDsAreNotAccepted<DirectedGraph>();
 		}
 
 		TEST_METHOD(VerticesInAnUndirectedGraphMustHaveUniqueIDs)
 		{
-			testDuplicateVertexIDsAreNotAccepted<UndirectedGraph>();
+			assertDuplicateVertexIDsAreNotAccepted<UndirectedGraph>();
 		}
 
 		template <typename GraphT>
-		static inline void testDuplicateVertexIDsAreNotAccepted()
+		inline void assertDuplicateVertexIDsAreNotAccepted()
 		{
 			GraphT g{ "G" };
+			assertDuplicateVertexIDsAreNotAccepted(g);
+		}
+
+		static void assertDuplicateVertexIDsAreNotAccepted(Graph& g)
+		{
 			g.insertVertexWithID("v");
 
 			try
@@ -168,7 +129,7 @@ namespace GraphTest
 		{
 			testSimpleVertexRemoval<DirectedGraph>();
 		}
-		
+
 		TEST_METHOD(UndirectedGraphSimpleVertexRemoval)
 		{
 			testSimpleVertexRemoval<UndirectedGraph>();
@@ -177,8 +138,12 @@ namespace GraphTest
 		template <typename GraphT>
 		static inline void testSimpleVertexRemoval()
 		{
-			GraphT g{ "Cities" };
+			GraphT g("Cities");
+			testSimpleVertexRemoval(g);
+		}
 
+		static void testSimpleVertexRemoval(Graph& g)
+		{
 			insertVerticesWithIDs(g, { "Sofia", "Varna", "Shumen", "Plovdiv" });
 			removeVerticesWithIDs(g, { "Varna", "Plovdiv" });
 
@@ -188,23 +153,28 @@ namespace GraphTest
 
 		TEST_METHOD(RemovingAVertexInADirectedGraphRemovesAllEdgesToIt)
 		{
-			testVertexRemovalRemovesAllEdgesToIt<DirectedGraph>();
+			assertReomvingAVertexRemovesAllEdgesToIt<DirectedGraph>();
 		}
-	
+
 		TEST_METHOD(RemovingAVertexInAnUndirectedGraphRemovesAllEdgesToIt)
 		{
-			testVertexRemovalRemovesAllEdgesToIt<UndirectedGraph>();
+			assertReomvingAVertexRemovesAllEdgesToIt<UndirectedGraph>();
 		}
 
 		template <typename GraphT>
-		static inline void testVertexRemovalRemovesAllEdgesToIt()
+		static inline void assertReomvingAVertexRemovesAllEdgesToIt()
 		{
 			GraphT g{ "Cities" };
+			assertReomvingAVertexRemovesAllEdgesToIt(g);
+		}
+
+		static void assertReomvingAVertexRemovesAllEdgesToIt(Graph& g)
+		{
 			insertVerticesWithIDs(g, { "Sofia", "Varna" });
 
 			auto& toRemove = g.getVertex("Varna");
 			auto& other = g.getVertex("Sofia");
-			auto distance = 330U;
+			auto distance = 330u;
 			g.insertEdge(other, toRemove, distance);
 
 			g.removeVertex(toRemove);
@@ -241,7 +211,6 @@ namespace GraphTest
 			Assert::IsTrue(existsEdge(g, start, end, debt), L"The edge is not inserted");
 			Assert::IsTrue(existsEdge(g, end, start, debt), L"The edge does not exist in the reverse direction");
 		}
-
 		TEST_METHOD(DirectedGraphsAllowSingleEdgeInASpecificDirection)
 		{
 			DirectedGraph g{ "Debts" };
@@ -259,7 +228,7 @@ namespace GraphTest
 			}
 			catch (Exception&)
 			{
-			}		
+			}
 		}
 
 		TEST_METHOD(UndirectedGraphsAllowSingleEdgeBetweenAnyPairOfVertices)
@@ -333,6 +302,49 @@ namespace GraphTest
 
 			Assert::IsFalse(existsEdge(g, end, start, distance), L"The edge is not removed");
 			Assert::IsFalse(existsEdge(g, start, end, distance), L"There is still an edge in the reverse direction");
+		}
+
+	private:
+		using IDList = std::vector<String>;
+		using Vertex = Graph::Vertex;
+		using IncidentEdge = Graph::IncidentEdge;
+		using Weight = IncidentEdge::Weight;
+
+		static void insertVerticesWithIDs(Graph& g, IDList IDs)
+		{
+			for (const auto& ID : IDs)
+			{
+				g.insertVertexWithID(ID);
+			}
+		}
+
+		static void removeVerticesWithIDs(Graph& g, IDList IDs)
+		{
+			for (const auto& ID : IDs)
+			{
+				g.removeVertex(ID);
+			}
+		}
+
+		static bool hasVertices(const Graph& g, IDList IDs)
+		{
+			return std::all_of(IDs.cbegin(), IDs.cend(), [&g](const auto& ID) { return g.hasVertexWithID(ID); });
+		}
+
+		static bool existsEdge(const Graph& g, const Vertex& start, const Vertex& end, Weight w)
+		{
+			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(start);
+			auto isWantedEdge = [w, &end](const auto& edge) { return edge.getIncidentVertex() == end && edge.getWeight() == w; };
+
+			return holdsForAny(*iteratorPtr, isWantedEdge);
+		}
+
+		static bool hasNeighbour(const Graph& g, const Vertex& v, const String& ID)
+		{
+			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(v);
+			auto predicate = [&ID](const auto& edge) { return edge.getIncidentVertex().ID() == ID; };
+
+			return holdsForAny(*iteratorPtr, predicate);
 		}
 	};
 }
