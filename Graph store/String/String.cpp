@@ -4,10 +4,9 @@
 
 namespace IDragnev
 {
-	String::String(char symbol) :
-		String{}
+	String::String(char c)
 	{
-		content = new char[2]{ symbol, '\0' };
+		content = new char[2]{ c, '\0' };
 	}
 
 	String::String(const String& other) :
@@ -15,8 +14,7 @@ namespace IDragnev
 	{
 	}
 
-	String::String(const char* string) :
-		String{}
+	String::String(const char* string)
 	{
 		setContent(string);
 	}
@@ -33,22 +31,18 @@ namespace IDragnev
 
 	void String::setContent(const char* string)
 	{
-		if (string)
-		{
-			auto copy = clone(string);
-			delete[] content;
-			content = copy;
-		}
-		else
-		{
-			delete[] content;
-			content = nullptr;
-		}
+		string != nullptr ? resetContentWith(clone(string)) : resetContentWith(nullptr);
+	}
+
+	void String::resetContentWith(char* string)
+	{
+		delete[] content;
+		content = string;
 	}
 
 	char* String::clone(const char* string)
 	{
-		auto size = strlen(string) + 1;
+		auto size = std::strlen(string) + 1;
 		auto result = new char[size];
 		strcpy_s(result, size, string);
 
@@ -65,8 +59,8 @@ namespace IDragnev
 	{
 		if (this != &rhs)
 		{
-			auto temporary = String{ std::move(rhs) };
-			std::swap(content, temporary.content);
+			auto temp = std::move(rhs);
+			std::swap(content, temp.content);
 		}
 
 		return *this;
@@ -93,9 +87,9 @@ namespace IDragnev
 
 	void String::append(const char* string)
 	{
-		if (string)
+		if (string != nullptr)
 		{
-			auto size = strlen(string);
+			auto size = std::strlen(string);
 
 			if (size > 0)
 			{
@@ -106,21 +100,20 @@ namespace IDragnev
 				strcpy_s(buffer, size, this->getContent());
 				strcat_s(buffer, size, string);
 
-				delete[] content;
-				content = buffer;
+				resetContentWith(buffer);
 			}
 		}
 	}
 
-	void String::append(char symbol)
+	void String::append(char c)
 	{
-		char buffer[]{ symbol, '\0' };
+		char buffer[]{ c, '\0' };
 		append(buffer);
 	}
 
 	const char* String::getContent() const noexcept
 	{
-		return (content) ? content : "";
+		return (content != nullptr) ? content : "";
 	}
 
 	String::operator const char *() const noexcept
@@ -130,12 +123,12 @@ namespace IDragnev
 
 	size_t String::getLength() const noexcept
 	{
-		return strlen(getContent());
+		return std::strlen(getContent());
 	}
 
 	bool operator==(const String& lhs, const String& rhs) noexcept
 	{
-		return strcmp(lhs, rhs) == 0;
+		return std::strcmp(lhs, rhs) == 0;
 	}
 
 	bool operator!=(const String& lhs, const String& rhs) noexcept
@@ -145,7 +138,7 @@ namespace IDragnev
 
 	bool operator<(const String& lhs, const String& rhs) noexcept
 	{
-		return strcmp(lhs, rhs) < 0;
+		return std::strcmp(lhs, rhs) < 0;
 	}
 
 	bool operator>(const String& lhs, const String& rhs) noexcept

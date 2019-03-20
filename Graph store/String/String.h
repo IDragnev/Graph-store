@@ -29,6 +29,7 @@ namespace IDragnev
 	private:
 		const char* getContent() const noexcept;
 		void setContent(const char* string);
+		void resetContentWith(char* string);
 
 		static char* clone(const char* string);
 
