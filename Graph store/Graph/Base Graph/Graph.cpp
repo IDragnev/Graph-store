@@ -314,13 +314,18 @@ namespace IDragnev
 			}
 		}
 
+		auto matches(const Graph::Vertex& v)
+		{
+			using Functional::matches;
+			
+			auto extractor = [](const auto& edge) { return &edge.getIncidentVertex(); };
+			return matches(&v, extractor);
+		}
+
 		auto Graph::searchEdgeFromTo(Vertex& from, Vertex& to) -> IncidentEdgesIterator
 		{
-			using std::begin;
-			using std::end;
-
-			return std::find_if(begin(edgesOf(from)), end(edgesOf(from)), 
-								[&to](const IncidentEdge& edge) { return edge.getIncidentVertex() == to; });
+			auto& edges = edgesOf(from);
+			return std::find_if(std::begin(edges), std::end(edges), matches(to));
 		}
 
 		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
@@ -372,30 +377,24 @@ namespace IDragnev
 		{
 			assert(isOwnerOf(vertex));
 
-			using std::begin;
-			return makeIteratorAdaptor(begin(edgesOf(vertex)));
+			return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
 		}
 
 		auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
 		{
 			assert(isOwnerOf(vertex));
 
-			using std::cbegin;
-			return makeIteratorAdaptor(cbegin(edgesOf(vertex)));
+			return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
 		}
 
 		auto Graph::getConstIteratorToVertices() const -> VertexConstIteratorPtr
 		{
-			using std::cbegin;
-			using std::cend;
-			return makeIteratorAdaptor(cbegin(vertices), cend(vertices));
+			return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
 		}
 
 		auto Graph::getIteratorToVertices() -> VertexIteratorPtr
 		{
-			using std::begin;
-			using std::end;
-			return makeIteratorAdaptor(begin(vertices), end(vertices));
+			return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
 		}
 
 		const String& Graph::getID() const noexcept
