@@ -55,7 +55,7 @@ namespace IDragnev
 		};
 
 		template <typename ForwardIterator, typename EndType = std::false_type>
-		auto makeIteratorAdaptor(ForwardIterator it, EndType end = {})
+		inline auto makeIteratorAdaptor(ForwardIterator it, EndType end = {})
 		{
 			return std::make_unique<ForwardIteratorAdaptor<ForwardIterator, EndType>>(it, end);
 		}

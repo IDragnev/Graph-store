@@ -39,31 +39,31 @@ namespace IDragnev
 		F superpose(F&&) = delete;
 
 		template <typename F, typename... Gs>
-		auto superpose(F f, Gs... funs)
+		inline auto superpose(F f, Gs... funs)
 		{
 			return [f, funs...](const auto&... args) -> decltype(auto) { return f(funs(args...)...); };
 		}
 
 		template <typename F, typename G>
-		auto compose(F f, G g)
+		inline auto compose(F f, G g)
 		{
 			return superpose(f, g);
 		}
 
 		template <typename F, typename G, typename... Gs>
-		auto compose(F f, G g, Gs... funs)
+		inline auto compose(F f, G g, Gs... funs)
 		{
 			return compose(compose(f, g), funs...);
 		}
 
 		template <typename T>
-		auto equalTo(T key)
+		inline auto equalTo(T key)
 		{
 			return [lhs = std::move(key)](const auto& rhs) { return lhs == rhs; };
 		}
 
 		template <typename Key, typename KeyExtractor>
-		auto matches(Key key, KeyExtractor extractKey)
+		inline auto matches(Key key, KeyExtractor extractKey)
 		{
 			return compose(equalTo(std::move(key)), std::move(extractKey));
 		}

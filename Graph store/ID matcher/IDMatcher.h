@@ -27,7 +27,7 @@ namespace IDragnev
 			}
 		};
 
-		auto matches(ConstStringIDRef ID)
+		inline auto matches(ConstStringIDRef ID)
 		{
 			return Functional::matches(ID, getID);
 		}
