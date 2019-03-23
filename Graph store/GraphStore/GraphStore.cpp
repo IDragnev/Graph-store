@@ -47,7 +47,7 @@ namespace IDragnev
 		auto GraphStore::searchGraph(const String& ID) const -> ConstIterator
 		{
 			using GraphID = Utility::ConstStringIDRef;
-			return std::find_if(graphs.cbegin(), graphs.cend(), matches(GraphID(ID)));
+			return std::find_if(std::begin(graphs), std::end(graphs), matches(GraphID(ID)));
 		}
 
 		Graph& GraphStore::getGraph(const String& ID)

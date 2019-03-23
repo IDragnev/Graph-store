@@ -39,22 +39,25 @@ namespace IDragnev
 			print(std::cout, args...);
 		}
 
-		inline auto getID = [](const auto& item) -> decltype(auto)
+		template <typename Tag>
+		using ConstStringRef = fluent::NamedType<const String&, Tag, fluent::Comparable>;
+		
+		using ConstStringIDRef = ConstStringRef<struct StringIdTag>;
+		
+		inline auto getID = [](const auto& item)
 		{
 			using RawType = std::decay_t<decltype(item)>;
 			
 			if constexpr (std::is_pointer_v<RawType> || 
 				          std::is_same_v<RawType, std::unique_ptr<GraphStore::Graph>>)
 			{
-				return item->getID();
+				return ConstStringIDRef{ item->getID() };
 			}
 			else
 			{
-				return item.getID();
+				return ConstStringIDRef{ item.getID() };
 			}
 		};
-
-		using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;	
 
 		auto matches(ConstStringIDRef ID)
 		{

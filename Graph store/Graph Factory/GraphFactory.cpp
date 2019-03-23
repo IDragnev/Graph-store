@@ -44,16 +44,16 @@ namespace IDragnev
 
 		auto matches(const String& graphType)
 		{
-			using GraphType = Utility::ConstStringIDRef;
 			using Functional::matches;
+			using GraphTypeRef = Utility::ConstStringRef<struct GraphTypeTag>;
 			
-			auto extractor = [](const auto& creator) -> decltype(auto) { return creator->getCreatedGraphType(); };
-			return matches(GraphType(graphType), extractor);
+			auto extractor = [](const auto& creator) { return GraphTypeRef(creator->getCreatedGraphType()); };
+			return matches(GraphTypeRef(graphType), extractor);
 		}
 
 		auto GraphFactory::searchCreator(const String& graphType) const -> CreatorsCollection::const_iterator
 		{
-			return std::find_if(creators.cbegin(), creators.cend(), matches(graphType));
+			return std::find_if(std::begin(creators), std::end(creators), matches(graphType));
 		}
 
 		void GraphFactory::registerCreator(const GraphCreator* creator)

@@ -46,7 +46,7 @@ namespace IDragnev
 		{
 			using AlgorithmID = Utility::ConstStringIDRef;
 			using Utility::matches;
-			return std::find_if(algorithms.begin(), algorithms.end(), matches(AlgorithmID(ID)));
+			return std::find_if(std::begin(algorithms), std::end(algorithms), matches(AlgorithmID(ID)));
 		}
 	}
 }
