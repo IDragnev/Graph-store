@@ -70,12 +70,25 @@ namespace FunctionalTest
 			Assert::AreEqual(compose(plus("789"s), plus("456"s), toString)(123), "123456789"s);
 		}
 
-		TEST_METHOD(equalToFunctionMaker)
+		TEST_METHOD(higherOrderEqualTo)
 		{
 			Assert::IsTrue(equalTo(1)(1));
 			Assert::IsFalse(equalTo(2u)(3u));
 			Assert::IsTrue(equalTo("123"s)("123"s));
 			Assert::IsFalse(equalTo("lhs"s)("rhs"s));
+		}
+
+		TEST_METHOD(matchingByKey)
+		{
+			struct Item
+			{
+				std::string key = "target";
+			} first, second{ "s" };
+			auto extractKey = [](const auto& x) { return x.key; };
+			auto matchesKey = matches(first.key, extractKey);
+
+			Assert::IsTrue(matchesKey(first));
+			Assert::IsFalse(matchesKey(second));
 		}
 	};
 }
