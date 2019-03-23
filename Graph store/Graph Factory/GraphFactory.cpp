@@ -3,7 +3,7 @@
 #include "Graph creators\Base\GraphCreator.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\String\String.h"
-#include "..\UtilityFunctions.h"
+#include "..\..\Third party\NamedType\named_type.hpp"
 #include <algorithm>
 
 namespace IDragnev
@@ -45,7 +45,8 @@ namespace IDragnev
 		auto matches(const String& graphType)
 		{
 			using Functional::matches;
-			using GraphTypeRef = Utility::ConstStringRef<struct GraphTypeTag>;
+			using namespace fluent;
+			using GraphTypeRef = NamedType<const String&, struct GraphTypeTag, Comparable>;
 			
 			auto extractor = [](const auto& creator) { return GraphTypeRef(creator->getCreatedGraphType()); };
 			return matches(GraphTypeRef(graphType), extractor);

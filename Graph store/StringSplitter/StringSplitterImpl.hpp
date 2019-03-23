@@ -63,7 +63,7 @@ namespace IDragnev
 	void StringSplitter<Container>::chooseDelimiter()
 	{
 		using Functional::equalTo;
-		auto it = std::find_if(delimiters.cbegin(), delimiters.cend(), equalTo(stream.peek()));
+		auto it = std::find_if(std::cbegin(delimiters), std::cend(delimiters), equalTo(stream.peek()));
 		currentDelim = it ? *it : ' ';
 	}
 

@@ -2,7 +2,7 @@
 #include "..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
 #include "..\String\String.h"
 #include "..\General Exceptions\Exception.h"
-#include "..\UtilityFunctions.h"
+#include "..\ID matcher\IDMatcher.h"
 #include <assert.h>
 #include <algorithm>
 
@@ -44,8 +44,7 @@ namespace IDragnev
 
 		auto ShortestPathAlgorithmStore::searchAlgorithm(const String& ID) -> Collection::iterator
 		{
-			using AlgorithmID = Utility::ConstStringIDRef;
-			using Utility::matches;
+			using AlgorithmID = ConstStringIDRef;
 			return std::find_if(std::begin(algorithms), std::end(algorithms), matches(AlgorithmID(ID)));
 		}
 	}

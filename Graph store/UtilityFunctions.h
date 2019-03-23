@@ -2,9 +2,7 @@
 #define __UTILITY_FUNCTIONS_H_INCLUDED__
 
 #include <type_traits>
-#include "..\Third party\NamedType\named_type.hpp"
-#include "Functional\Functional.h"
-#include "String\String.h"
+#include <iostream>
 
 namespace IDragnev
 {
@@ -37,31 +35,6 @@ namespace IDragnev
 		void print(const Args&... args)
 		{
 			print(std::cout, args...);
-		}
-
-		template <typename Tag>
-		using ConstStringRef = fluent::NamedType<const String&, Tag, fluent::Comparable>;
-		
-		using ConstStringIDRef = ConstStringRef<struct StringIdTag>;
-		
-		inline auto getID = [](const auto& item)
-		{
-			using RawType = std::decay_t<decltype(item)>;
-			
-			if constexpr (std::is_pointer_v<RawType> || 
-				          std::is_same_v<RawType, std::unique_ptr<GraphStore::Graph>>)
-			{
-				return ConstStringIDRef{ item->getID() };
-			}
-			else
-			{
-				return ConstStringIDRef{ item.getID() };
-			}
-		};
-
-		auto matches(ConstStringIDRef ID)
-		{
-			return Functional::matches(ID, getID);
 		}
 	}
 }

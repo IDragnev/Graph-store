@@ -179,6 +179,9 @@
     <Filter Include="Third party\NamedType">
       <UniqueIdentifier>{3ead64b2-64c6-4379-900c-2969c83b9f1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ID matcher">
+      <UniqueIdentifier>{e63b4f41-ecd0-41b4-87e8-19a0a22829f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="..\Third party\NamedType\underlying_functionalities.hpp">
       <Filter>Third party\NamedType</Filter>
+    </ClInclude>
+    <ClInclude Include="ID matcher\IDMatcher.h">
+      <Filter>ID matcher</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

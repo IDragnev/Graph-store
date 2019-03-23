@@ -3,6 +3,7 @@
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "..\ID matcher\IDMatcher.h"
 #include <algorithm>
 
 namespace IDragnev
@@ -46,7 +47,7 @@ namespace IDragnev
 
 		auto GraphStore::searchGraph(const String& ID) const -> ConstIterator
 		{
-			using GraphID = Utility::ConstStringIDRef;
+			using GraphID = ConstStringIDRef;
 			return std::find_if(std::begin(graphs), std::end(graphs), matches(GraphID(ID)));
 		}
 
