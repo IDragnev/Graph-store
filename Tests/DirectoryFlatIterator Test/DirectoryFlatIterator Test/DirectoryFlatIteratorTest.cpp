@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "..\..\..\Graph store\DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
+#include "..\..\..\Graph store\String\String.h"
 #include "..\..\..\Graph store\General Exceptions\Exception.h"
 #include "..\..\..\Graph store\Iterator abstraction\Iterator.h"
 #include <algorithm>
@@ -47,7 +48,7 @@ namespace DirectoryFlatIteratorTest
 			markAllTextFilesNotFound();
 			FlatIterator iterator{ TEST_DIRECTORY };
 
-			Assert::IsTrue(iterator, L"Iterator is finished after construction");
+			Assert::IsTrue(iterator, L"Iterator is finished");
 			Assert::IsTrue(findsEachTextFileOnce(iterator), L"Not all text files were found exactly once");
 		}
 
@@ -66,17 +67,20 @@ namespace DirectoryFlatIteratorTest
 			return allTextFilesWereMatchedExactlyOnce();
 		}
 
-		static void markMatchingFiles(const String& filename)
+		static auto markIfMatches(const String& filename)
 		{
-			auto markIfFound = [&filename](auto& file)
+			return [&filename](auto& file)
 			{
 				if (areEqual(filename, file.name))
 				{
 					++file.timesFound;
 				}
 			};
+		}
 
-			std::for_each(std::begin(textFiles), std::end(textFiles), markIfFound);
+		static void markMatchingFiles(String filename)
+		{
+			std::for_each(std::begin(textFiles), std::end(textFiles), markIfMatches(filename));
 		}
 
 		static bool areEqual(const char* lhs, const char* rhs)

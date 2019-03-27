@@ -1,34 +1,36 @@
 #ifndef __DIR_ITERATOR_H_INCLUDED__
 #define __DIR_ITERATOR_H_INCLUDED__
 
-#include "..\String\String.h"
 #include <filesystem>
 
 namespace IDragnev
 {
+	class String;
+
 	namespace GraphStore
 	{
-		class Exception;
-
 		class DirectoryTextFilesFlatIterator
 		{
 		private:
-			using DirIterator = std::filesystem::directory_iterator;
+			using Iterator = std::filesystem::directory_iterator;
+			using Self = DirectoryTextFilesFlatIterator;
 
 		public:
 			explicit DirectoryTextFilesFlatIterator(const String& path);
-	
+			DirectoryTextFilesFlatIterator(Self&& source) = default;
+
+			Self& operator=(Self&& rhs) = default;
+
 			operator bool() const;
-			DirectoryTextFilesFlatIterator& operator++();
+			Self& operator++();
 			String operator*() const;
 
 		private:
 			void toNextTextFile();
-			bool isCurrentEntryATextFile() const;
 
 		private:
-			DirIterator iterator;
-			DirIterator end;
+			Iterator current;
+			Iterator end;
 		};
 	}
 }

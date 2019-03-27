@@ -1,46 +1,57 @@
 #include "DirectoryTextFilesFlatIterator.h"
 #include "..\General Exceptions\Exception.h"
+#include "..\Functional\Functional.h"
+#include "..\String\String.h"
 #include <assert.h>
+#include <algorithm>
+#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+
+namespace fs = std::filesystem;
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class NoSuchDirectory : public Exception
+		{
+		public:
+			NoSuchDirectory(const String& path) :
+				Exception{ fmt::format("No directory '{}' was found", path) }
+			{
+			}
+		};
+
 		DirectoryTextFilesFlatIterator::DirectoryTextFilesFlatIterator(const String& path)
 		{
 			try
 			{
-				iterator = DirIterator{ static_cast<const char*>(path) };
+				current = Iterator{ static_cast<const char*>(path) };
 				toNextTextFile();
 			}
-			catch (std::filesystem::filesystem_error&)
+			catch (fs::filesystem_error&)
 			{
-				throw Exception{ "No directory with name: " + path };
+				throw NoSuchDirectory{ path };
 			}
 		}
 
 		void DirectoryTextFilesFlatIterator::toNextTextFile()
 		{
-			while (*this && !isCurrentEntryATextFile())
-			{
-				++iterator;
-			}
-		}
+			using Functional::matches;
 
-		bool DirectoryTextFilesFlatIterator::isCurrentEntryATextFile() const
-		{
-			auto& entry = *iterator;
-			return entry.path().extension() == ".txt";
+			auto isTextFile = matches(".txt", [](const auto& entry) { return entry.path().extension(); });
+			current = std::find_if(current, end, isTextFile);
 		}
 
 		DirectoryTextFilesFlatIterator::operator bool() const
 		{
-			return iterator != end;
+			return current != end;
 		}
 
 		String DirectoryTextFilesFlatIterator::operator*() const
 		{
-			auto& entry = *iterator;
+			assert(*this);
+
+			auto& entry = *current;
 			return entry.path().string().c_str();
 		}
 
@@ -48,7 +59,7 @@ namespace IDragnev
 		{
 			assert(*this);
 
-			++iterator;
+			++current;
 			toNextTextFile();
 			
 			return *this;
