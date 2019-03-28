@@ -22,18 +22,18 @@ namespace IDragnev
 
 			struct RawEdge
 			{
-				std::size_t startVertexIDIndex{};
-				std::size_t endVertexIDIndex{};
-				EdgeWeight weight{};
+				std::size_t startVertexIDIndex = 0;
+				std::size_t endVertexIDIndex = 0;
+				EdgeWeight weight = 0;
 			};
 
 		public:
 			GraphBuilder() = default;
 
-			GraphPtr buildFromFile(const String& filename);
+			GraphPtr operator()(const String& filename);
 
 		private:
-			GraphBuilder(const GraphBuilder&) = delete;;
+			GraphBuilder(const GraphBuilder&) = delete;
 			GraphBuilder& operator=(const GraphBuilder&) = delete;
 
 			void init(const String& filename);

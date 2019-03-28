@@ -2,6 +2,7 @@
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\UtilityFunctions.h"
+#include "..\Iterator abstraction\Iterator.h"
 #include <iostream>
 
 namespace IDragnev
@@ -13,26 +14,26 @@ namespace IDragnev
 		{
 		}
 
-		void DirectoryLoader::operator()(Function consumer)
+		void DirectoryLoader::operator()(Function consume)
 		{
-			while (filesIterator)
+			using PolymorphicRanges::forEach;
+			
+			forEach(filesIterator, [this, consume](String&& file)
 			{
-				auto result = load(*filesIterator);
+				auto result = load(std::move(file));
 
 				if (result != nullptr)
 				{
-					consumer(std::move(result));
+					consume(std::move(result));
 				}
-
-				++filesIterator;
-			}
+			});
 		}
 
 		std::unique_ptr<Graph> DirectoryLoader::load(String&& file)
 		{
 			try
 			{
-				return builder.buildFromFile(std::move(file));
+				return builder(std::move(file));
 			}
 			catch (Exception& e)
 			{

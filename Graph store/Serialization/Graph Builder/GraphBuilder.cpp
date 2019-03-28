@@ -10,7 +10,7 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		GraphBuilder::GraphPtr GraphBuilder::buildFromFile(const String& filename)
+		auto GraphBuilder::operator()(const String& filename) -> GraphPtr
 		{
 			try
 			{
