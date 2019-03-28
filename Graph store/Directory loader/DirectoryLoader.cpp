@@ -3,6 +3,7 @@
 #include "..\General Exceptions\Exception.h"
 #include "..\UtilityFunctions.h"
 #include "..\Iterator abstraction\Iterator.h"
+#include "..\Functional\Functional.h"
 #include <iostream>
 
 namespace IDragnev
@@ -14,22 +15,18 @@ namespace IDragnev
 		{
 		}
 
-		void DirectoryLoader::operator()(Function consume)
+		void DirectoryLoader::operator()(Function f)
 		{
 			using PolymorphicRanges::forEach;
-			
-			forEach(filesIterator, [this, consume](String&& file)
-			{
-				auto result = load(std::move(file));
+			using Functional::compose;
 
-				if (result != nullptr)
-				{
-					consume(std::move(result));
-				}
-			});
+			auto loadFile = [this](const auto& file) { return load(file); };
+			auto consume = [f](auto result) { if (result != nullptr) f(std::move(result)); };
+
+			forEach(filesIterator, compose(consume, loadFile));
 		}
 
-		std::unique_ptr<Graph> DirectoryLoader::load(String&& file)
+		std::unique_ptr<Graph> DirectoryLoader::load(const String& file)
 		{
 			try
 			{

@@ -28,7 +28,7 @@ namespace IDragnev
 			void operator()(Function consumer);
 
 		private:
-			std::unique_ptr<Graph> load(String&& file);
+			std::unique_ptr<Graph> load(const String& file);
 
 		private:
 			FlatIterator filesIterator;
