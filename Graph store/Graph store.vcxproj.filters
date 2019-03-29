@@ -182,6 +182,9 @@
     <Filter Include="ID matcher">
       <UniqueIdentifier>{e63b4f41-ecd0-41b4-87e8-19a0a22829f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Commands\Save">
+      <UniqueIdentifier>{cc89fa2c-0342-4c33-954d-4fb72b5d786f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -273,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="..\Third party\fmt-5.3.0\src\format.cc">
       <Filter>Third party\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Commands\Save\SaveCommand.cpp">
+      <Filter>Application\Commands\Save</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -479,6 +485,9 @@
     </ClInclude>
     <ClInclude Include="ID matcher\IDMatcher.h">
       <Filter>ID matcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Commands\Save\SaveCommand.h">
+      <Filter>Application\Commands\Save</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

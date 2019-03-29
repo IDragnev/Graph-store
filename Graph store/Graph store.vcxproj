@@ -154,6 +154,7 @@
     <ClCompile Include="Application\Commands\Remove edge\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove graph\RemoveGraphCommand.cpp" />
     <ClCompile Include="Application\Commands\Remove vertex\RemoveVertexCommand.cpp" />
+    <ClCompile Include="Application\Commands\Save\SaveCommand.cpp" />
     <ClCompile Include="Application\Commands\Search path\SearchPathCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
     <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Application\Commands\Remove edge\RemoveEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h" />
     <ClInclude Include="Application\Commands\Remove vertex\RemoveVertexCommand.h" />
+    <ClInclude Include="Application\Commands\Save\SaveCommand.h" />
     <ClInclude Include="Application\Commands\Search path\SearchPathCommand.h" />
     <ClInclude Include="Application\Commands\Use graph\UseGraphCommand.h" />
     <ClInclude Include="Containers\Dynamic Array\DArray.h" />
