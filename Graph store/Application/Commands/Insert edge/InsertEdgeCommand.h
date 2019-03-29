@@ -11,7 +11,7 @@ namespace IDragnev
 		class InsertEdgeCommand : public Command
 		{
 		private:
-			using UnsignedPositional = args::Positional<unsigned>;
+			using UnsignedPositional = Positional<unsigned>;
 
 		public:
 			using Command::Command;

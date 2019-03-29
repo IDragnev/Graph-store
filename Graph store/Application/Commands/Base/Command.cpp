@@ -4,6 +4,7 @@
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "StringReader\StringReader.h"
 #include "..\..\..\General Exceptions\Exception.h"
+#include "..\..\..\..\Third party\args\args.hxx"
 
 namespace IDragnev
 {

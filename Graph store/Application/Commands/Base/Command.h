@@ -1,8 +1,17 @@
 #ifndef __COMMAND_BASE_H_INCLUDED__
 #define __COMMAND_BASE_H_INCLUDED__
 
-#include "..\..\..\..\Third party\args\args.hxx"
 #include <memory>
+
+namespace args
+{
+	class Subparser;
+	
+	struct ValueReader;
+
+	template <typename T, typename Reader>
+	class Positional;	
+}
 
 namespace IDragnev
 {
@@ -17,6 +26,8 @@ namespace IDragnev
 		class Command
 		{
 		protected:
+			template <typename T>
+			using Positional = args::Positional<T, args::ValueReader>;
 			using StringPositional = args::Positional<String, StringReader>;
 
 		public:

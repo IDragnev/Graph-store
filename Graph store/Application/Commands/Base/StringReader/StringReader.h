@@ -10,7 +10,7 @@ namespace IDragnev
 	{
 		struct StringReader
 		{
-			void operator()(const std::string& name, const std::string& value, String& destination) const
+			void operator()(const std::string&, const std::string& value, String& destination) const
 			{
 				destination = value.c_str();
 			}
