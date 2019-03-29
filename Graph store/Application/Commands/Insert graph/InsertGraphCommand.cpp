@@ -5,7 +5,6 @@
 #include "..\..\Command registrator\CommandRegistrator.h"
 #include <memory>
 
-
 namespace IDragnev
 {
 	namespace GraphStore
@@ -24,22 +23,15 @@ namespace IDragnev
 			setGraphType(type);
 		}
 
-		void InsertGraphCommand::setGraphID(StringPositional& argument)
+		void InsertGraphCommand::setGraphID(StringPositional& ID)
 		{
-			setIfMatched(graphID, argument);
+			setIfMatched(graphID, ID);
 		}
 
-		void InsertGraphCommand::setGraphType(StringPositional& argument)
+		void InsertGraphCommand::setGraphType(StringPositional& type)
 		{
-			if (argument)
-			{
-				using args::get;
-				graphType = std::move(get(argument));
-			}
-			else
-			{
-				graphType = DEFAULT_GRAPH_TYPE;
-			}
+			using args::get;
+			graphType = type.Matched() ? std::move(get(type)) : DEFAULT_GRAPH_TYPE;
 		}
 
 		void InsertGraphCommand::execute() const

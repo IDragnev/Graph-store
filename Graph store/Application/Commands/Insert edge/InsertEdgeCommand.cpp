@@ -33,14 +33,7 @@ namespace IDragnev
 
 		void InsertEdgeCommand::setWeight(UnsignedPositional& weight)
 		{
-			if (weight)
-			{
-				this->weight = args::get(weight);
-			}
-			else
-			{
-				this->weight = DEFAULT_EDGE_WEIGHT;
-			}
+			this->weight = weight.Matched() ? args::get(weight) : DEFAULT_EDGE_WEIGHT;
 		}
 
 		void InsertEdgeCommand::execute() const

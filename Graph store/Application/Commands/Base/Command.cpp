@@ -28,7 +28,7 @@ namespace IDragnev
 
 		void Command::setIfMatched(String& str, StringPositional& argument)
 		{
-			if (argument)
+			if (argument.Matched())
 			{
 				using args::get;
 				str = std::move(get(argument));
