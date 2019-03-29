@@ -20,17 +20,17 @@ namespace IDragnev
 			using PolymorphicRanges::forEach;
 			using Functional::compose;
 
-			auto loadFile = [this](const auto& file) { return load(file); };
+			auto load = [this](const auto& file) { return this->load(file); };
 			auto consume = [f](auto result) { if (result != nullptr) f(std::move(result)); };
 
-			forEach(filesIterator, compose(consume, loadFile));
+			forEach(filesIterator, compose(consume, load));
 		}
 
 		std::unique_ptr<Graph> DirectoryLoader::load(const String& file)
 		{
 			try
 			{
-				return builder(std::move(file));
+				return builder(file);
 			}
 			catch (Exception& e)
 			{
