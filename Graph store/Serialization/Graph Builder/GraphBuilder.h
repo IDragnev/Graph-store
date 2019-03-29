@@ -1,7 +1,6 @@
 #ifndef __GRAPH_BUILDER_H_INCLUDED__
 #define __GRAPH_BUILDER_H_INCLUDED__
 
-#include "..\..\String\String.h"
 #include "..\..\File parser\FileParser.h"
 #include "..\..\Containers\Dynamic Array\DArray.h"
 #include "..\..\Graph\Base Graph\Graph.h"
@@ -11,8 +10,6 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
-		class Exception;
-
 		class GraphBuilder
 		{
 		private:
@@ -29,15 +26,14 @@ namespace IDragnev
 
 		public:
 			GraphBuilder() = default;
+			GraphBuilder(const GraphBuilder&) = delete;
+
+			GraphBuilder& operator=(const GraphBuilder&) = delete;
 
 			GraphPtr operator()(const String& filename);
 
 		private:
-			GraphBuilder(const GraphBuilder&) = delete;
-			GraphBuilder& operator=(const GraphBuilder&) = delete;
-
 			void init(const String& filename);
-
 			void build();
 			void createEmptyGraph();
 			void insertVertices();
@@ -45,10 +41,10 @@ namespace IDragnev
 			void insertEdges();
 			void insertSingleEdge(const RawEdge& edge);
 			RawEdge parseSingleEdge();
-			std::uint32_t parseUnsignedAndIgnoreUntil(char symbol);
+			std::size_t parseUnsignedAndIgnoreUntil(char symbol);
 			Graph::Vertex& getVertex(std::size_t idIndex);
 
-			void clean();
+			void clear();
 
 			void handleError(const String& filename, const Exception& e);
 			bool areVerticesInserted() const;

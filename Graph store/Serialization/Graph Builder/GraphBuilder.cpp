@@ -2,21 +2,34 @@
 #include "..\..\Graph Factory\GraphFactory.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
 #include "..\SerializationConstants.h"
+#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 #include <algorithm>
 
 using namespace IDragnev::GraphStore::SerializationConstants;
+using namespace fmt::literals;
 
 namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class FailedToLoad : public Exception
+		{
+		public:
+			FailedToLoad(const String& filename, const Exception& e) :
+				Exception{ fmt::format("Failed to load {file} : {reason}",
+									   "file"_a = filename,
+									   "reason"_a = e.what()) }
+			{
+			}
+		};
+
 		auto GraphBuilder::operator()(const String& filename) -> GraphPtr
 		{
 			try
 			{
 				init(filename);
 				build();
-				clean();
+				clear();
 
 				return std::move(result);
 			}
@@ -35,17 +48,17 @@ namespace IDragnev
 			parser.openFile(filename);
 		}
 
-		void GraphBuilder::clean()
+		void GraphBuilder::clear()
 		{
 			vertexIDs.empty();
 			parser.closeFile();
 		}
 
-		void GraphBuilder::handleError(const String& filename, const Exception& exception)
+		void GraphBuilder::handleError(const String& filename, const Exception& e)
 		{
-			clean();
+			clear();
 			result = nullptr;
-			throw Exception{ "Failed to load" + filename + " : " + exception.what() };
+			throw FailedToLoad{ filename, e };
 		}
 
 		void GraphBuilder::build()
@@ -76,18 +89,20 @@ namespace IDragnev
 		void GraphBuilder::parseVertexIDs()
 		{
 			assert(vertexIDs.isEmpty());
+
 			auto IDsCount = parseUnsignedAndIgnoreUntil('\n');
 			vertexIDs.ensureSize(IDsCount);
 
-			for (auto i = std::size_t{ 0 }; i < IDsCount; ++i)
+			while (IDsCount > 0)
 			{
 				vertexIDs.insert(parser.parseLine());
+				--IDsCount;
 			}
 		}
 
-		std::uint32_t GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
+		std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
 		{
-			auto result = parser.parseUnsigned<std::uint32_t>();
+			auto result = parser.parseUnsigned<std::size_t>();
 			parser.ignoreUntil(symbol);
 
 			return result;
@@ -96,11 +111,13 @@ namespace IDragnev
 		void GraphBuilder::insertEdges()
 		{
 			assert(areVerticesInserted());
+
 			auto edgesCount = parseUnsignedAndIgnoreUntil('\n');
 
-			for (auto i = std::size_t{ 0 }; i < edgesCount; ++i)
+			while (edgesCount > 0)
 			{
 				insertSingleEdge(parseSingleEdge());
+				--edgesCount;
 			}
 		}
 
@@ -123,7 +140,7 @@ namespace IDragnev
 
 		GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
 		{
-			auto result = RawEdge{};
+			RawEdge result{};
 
 			parser.ignoreUntil(EDGE_START);
 			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
