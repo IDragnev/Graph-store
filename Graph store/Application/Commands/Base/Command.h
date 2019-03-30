@@ -47,13 +47,14 @@ namespace IDragnev
 			static void setIfMatched(String& str, StringPositional& argument);
 
 			static Graph& getUsedGraph();
+			static Graph& getGraph(const String& ID);
 			static void useGraph(const String& ID);
 			static void removeGraph(const String& ID);
 			static void insertGraph(std::unique_ptr<Graph> graphPtr);
-
+			
 		private:
 			virtual void parseArguments(args::Subparser& parser) = 0;
-			virtual void execute() const = 0;
+			virtual void execute() = 0;
 
 		private:
 			static Graph* usedGraph;

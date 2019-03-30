@@ -18,7 +18,7 @@ namespace IDragnev
 
 		private:
 			void parseArguments(args::Subparser& parser) override;
-			void execute() const override;
+			void execute() override;
 
 			void setGraphID(StringPositional& argument);
 			void setGraphType(StringPositional& argument);

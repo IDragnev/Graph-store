@@ -15,7 +15,7 @@ namespace IDragnev
 			setIfMatched(graphID, ID);
 		}
 
-		void UseGraphCommand::execute() const
+		void UseGraphCommand::execute()
 		{
 			Command::useGraph(graphID);
 		}

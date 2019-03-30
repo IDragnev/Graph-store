@@ -47,9 +47,13 @@ namespace IDragnev
 
 		void Command::useGraph(const String& ID)
 		{
-			assert(graphStore);
+			usedGraph = &getGraph(ID);
+		}
 
-			usedGraph = &graphStore->getGraph(ID);
+		Graph& Command::getGraph(const String& ID)
+		{
+			assert(graphStore);
+			return graphStore->getGraph(ID);
 		}
 
 		Graph& Command::getUsedGraph()

@@ -16,7 +16,7 @@ namespace IDragnev
 			setIfMatched(vertexID, ID);
 		}
 
-		void RemoveVertexCommand::execute() const
+		void RemoveVertexCommand::execute()
 		{
 			auto& graph = Command::getUsedGraph();
 			graph.removeVertex(vertexID);

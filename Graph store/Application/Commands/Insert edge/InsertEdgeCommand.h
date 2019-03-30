@@ -21,7 +21,7 @@ namespace IDragnev
 
 		private:
 			void parseArguments(args::Subparser& parser) override;
-			void execute() const override;
+			void execute() override;
 
 			void setStartVertexID(StringPositional& argument);
 			void setEndVertexID(StringPositional& argument);

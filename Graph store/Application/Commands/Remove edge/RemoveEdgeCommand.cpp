@@ -19,7 +19,7 @@ namespace IDragnev
 			setIfMatched(endVertexID, endID);
 		}
 
-		void RemoveEdgeCommand::execute() const
+		void RemoveEdgeCommand::execute()
 		{
 			auto& graph = Command::getUsedGraph();
 			auto& start = graph.getVertex(startVertexID);

@@ -36,7 +36,7 @@ namespace IDragnev
 			this->weight = weight.Matched() ? args::get(weight) : DEFAULT_EDGE_WEIGHT;
 		}
 
-		void InsertEdgeCommand::execute() const
+		void InsertEdgeCommand::execute()
 		{
 			auto& graph = Command::getUsedGraph();
 			auto& start = graph.getVertex(startVertexID);

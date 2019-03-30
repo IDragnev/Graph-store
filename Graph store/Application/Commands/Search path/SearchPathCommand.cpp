@@ -23,7 +23,7 @@ namespace IDragnev
 			setIfMatched(algorithmID, algorithm);
 		}
 
-		void SearchPathCommand::execute() const
+		void SearchPathCommand::execute()
 		{
 			auto& graph = Command::getUsedGraph();
 			auto& start = graph.getVertex(startVertexID);

@@ -34,7 +34,7 @@ namespace IDragnev
 			graphType = type.Matched() ? std::move(get(type)) : DEFAULT_GRAPH_TYPE;
 		}
 
-		void InsertGraphCommand::execute() const
+		void InsertGraphCommand::execute()
 		{
 			auto& factory = GraphFactory::instance();
 			auto graphPtr = factory.createEmptyGraph(graphType, graphID);

@@ -16,7 +16,7 @@ namespace IDragnev
 			setIfMatched(vertexID, ID);
 		}
 
-		void InsertVertexCommand::execute() const
+		void InsertVertexCommand::execute()
 		{
 			auto& graph = Command::getUsedGraph();
 			graph.insertVertexWithID(vertexID);

@@ -15,7 +15,7 @@ namespace IDragnev
 			setIfMatched(graphID, ID);
 		}
 
-		void RemoveGraphCommand::execute() const
+		void RemoveGraphCommand::execute()
 		{
 			Command::removeGraph(graphID);
 		}
