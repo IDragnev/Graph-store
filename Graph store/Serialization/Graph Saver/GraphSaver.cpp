@@ -11,6 +11,27 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class FailedToOpen : public Exception
+		{
+		public:
+			FailedToOpen(const String& file) :
+				Exception{ fmt::format("Failed to open {} for writing", file) }
+			{
+			}
+		};
+
+		//All members are set when entering operator() and cleared when leaving it.
+		//Thus they act like local variables and need not be copied!
+		GraphSaver::GraphSaver(const GraphSaver&) :
+			GraphSaver{}
+		{
+		}
+
+		GraphSaver& GraphSaver::operator=(const GraphSaver&)
+		{
+			return *this;
+		}
+
 		void GraphSaver::operator()(const Graph& g, const String& filename)
 		{
 			try
@@ -39,7 +60,7 @@ namespace IDragnev
 			file.open(filename);
 			if (!file.good())
 			{
-				throw Exception{ fmt::format("Failed to open {0} for writing", filename) };
+				throw FailedToOpen{ filename };
 			}
 		}
 

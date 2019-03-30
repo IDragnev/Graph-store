@@ -34,8 +34,8 @@ namespace IDragnev
 			GraphSaver() = default;
 			~GraphSaver() = default;
 
-			GraphSaver(const GraphSaver&) = delete;
-			GraphSaver& operator=(const GraphSaver&) = delete;
+			GraphSaver(const GraphSaver& source);
+			GraphSaver& operator=(const GraphSaver& rhs);
 
 			void operator()(const Graph& g, const String& filename); 
 
