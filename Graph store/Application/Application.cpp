@@ -8,6 +8,7 @@
 #include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
 #include <iostream> 
 
+namespace fs = std::filesystem;
 using IDragnev::Utility::print;
 using namespace fmt::literals;
 
@@ -15,6 +16,15 @@ namespace IDragnev
 {
 	namespace GraphStore
 	{
+		class FailedToSetDirectory : public Exception 
+		{
+		public:
+			FailedToSetDirectory(const String& path) :
+				Exception{ fmt::format("Failed to set working directory to {}", path) }
+			{
+			}
+		};
+
 		Application& Application::instance()
 		{
 			static Application theOnlyInstance;
@@ -72,12 +82,25 @@ namespace IDragnev
 		{
 			try
 			{
+				setWorkingDirectory(directory);
 				load(directory);
 				run();
 			}
 			catch (Exception& e)
 			{
 				print(std::cerr, e.what(), "\n");
+			}
+		}
+
+		void Application::setWorkingDirectory(const String& path)
+		{
+			try
+			{
+				fs::current_path(static_cast<const char*>(path));
+			}
+			catch (fs::filesystem_error&)
+			{
+				throw FailedToSetDirectory{ path };
 			}
 		}
 

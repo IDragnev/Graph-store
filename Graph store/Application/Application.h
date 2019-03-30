@@ -44,6 +44,7 @@ namespace IDragnev
 			void insertHelpCommand();
 			void insertCommand(const char* name, const char* description, Function coroutine);
 
+			void setWorkingDirectory(const String& directory);
 			void load(const String& directory);
 			void run();
 			void invokeCommand(const std::string& rawInput);
