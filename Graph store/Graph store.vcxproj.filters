@@ -68,9 +68,6 @@
     <Filter Include="Application\Commands\Use graph">
       <UniqueIdentifier>{1c66de44-bf19-4c01-bf26-e02663261f91}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application\Commands\Base\StringReader">
-      <UniqueIdentifier>{45ccd508-2d30-42f3-bebb-5126470d8de1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Commands\Insert vertex">
       <UniqueIdentifier>{c5626bd5-7fc8-41be-bafb-6bddfd486256}</UniqueIdentifier>
     </Filter>
@@ -335,9 +332,6 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Base\Command.h">
       <Filter>Application\Commands\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h">
-      <Filter>Application\Commands\Base\StringReader</Filter>
     </ClInclude>
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h">
       <Filter>Application\Commands\Insert vertex</Filter>

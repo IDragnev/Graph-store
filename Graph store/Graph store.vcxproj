@@ -185,7 +185,6 @@
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Application\Command registrator\CommandRegistrator.h" />
     <ClInclude Include="Application\Commands\Base\Command.h" />
-    <ClInclude Include="Application\Commands\Base\StringReader\StringReader.h" />
     <ClInclude Include="Application\Commands\Insert edge\InsertEdgeCommand.h" />
     <ClInclude Include="Application\Commands\Insert graph\InsertGraphCommand.h" />
     <ClInclude Include="Application\Commands\Insert vertex\InsertVertexCommand.h" />

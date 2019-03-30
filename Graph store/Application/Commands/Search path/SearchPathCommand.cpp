@@ -1,6 +1,5 @@
 #include "SearchPathCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 #include "..\..\..\ShortestPathAlgorithm Store\ShortestPathAlgorithmStore.h"
 #include "..\..\..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"

@@ -1,6 +1,5 @@
 #include "RemoveVertexCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 namespace IDragnev

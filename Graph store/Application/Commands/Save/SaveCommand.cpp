@@ -1,6 +1,5 @@
 #include "SaveCommand.h"
 #include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 #include "..\..\..\Serialization\Graph Saver\GraphSaver.h"
 #include "..\..\..\Functional\Functional.h"

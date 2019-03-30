@@ -21,11 +21,19 @@ namespace IDragnev
 	{
 		class Graph;
 		class GraphStore;
-		struct StringReader;
 
 		class Command
 		{
 		protected:
+			struct StringReader
+			{
+				template <typename Name, typename Source, typename Destination>
+				void operator()(const Name&, const Source& value, Destination& dest) const
+				{
+					dest = value.c_str();
+				}
+			};
+
 			template <typename T>
 			using Positional = args::Positional<T, args::ValueReader>;
 			using StringPositional = args::Positional<String, StringReader>;

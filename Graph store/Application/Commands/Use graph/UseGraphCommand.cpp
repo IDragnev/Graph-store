@@ -1,5 +1,4 @@
 #include "UseGraphCommand.h"
-#include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
 
 namespace IDragnev
