@@ -67,6 +67,16 @@ namespace IDragnev
 		{
 			return compose(equalTo(std::move(key)), std::move(extractKey));
 		}
+
+		template <typename T>
+		inline auto plus(T rhs)
+		{
+			return [rhs = std::move(rhs)](auto&& lhs)
+			{
+				using F = decltype(lhs);
+				return std::forward<F>(lhs) + rhs;
+			};
+		}
 	}
 }
 

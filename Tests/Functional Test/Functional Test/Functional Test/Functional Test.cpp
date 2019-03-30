@@ -8,8 +8,6 @@ using namespace IDragnev::Functional;
 
 namespace FunctionalTest
 {		
-	template <typename T>
-	auto plus(T n) { return [n](auto x) { return x + n; }; }
 	auto sum = [](auto x, auto y) { return x + y; };
 	auto multiply = [](auto x, auto y) { return x * y; };
 	auto toString = [](auto num) { return std::to_string(num); };
