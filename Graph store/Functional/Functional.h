@@ -26,7 +26,10 @@ namespace IDragnev
 		struct Identity
 		{
 			template <typename T>
-			constexpr decltype(auto) operator()(T&& item) const noexcept { return std::forward<T>(item); }
+			constexpr decltype(auto) operator()(T&& item) const noexcept 
+			{ 
+				return std::forward<T>(item); 
+			}
 		};
 
 		struct EmptyFunction
@@ -41,7 +44,10 @@ namespace IDragnev
 		template <typename F, typename... Gs>
 		inline auto superpose(F f, Gs... funs)
 		{
-			return [f, funs...](const auto&... args) -> decltype(auto) { return f(funs(args...)...); };
+			return [f, funs...](const auto&... args) mutable -> decltype(auto) 
+			{ 
+				return f(funs(args...)...); 
+			};
 		}
 
 		template <typename F, typename G>
