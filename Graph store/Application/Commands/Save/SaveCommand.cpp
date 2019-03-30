@@ -2,6 +2,8 @@
 #include "..\..\..\Graph\Base Graph\Graph.h"
 #include "..\Base\StringReader\StringReader.h"
 #include "..\..\Command registrator\CommandRegistrator.h"
+#include "..\..\..\Serialization\Graph Saver\GraphSaver.h"
+#include "..\..\..\Functional\Functional.h"
 
 namespace IDragnev
 {
@@ -22,7 +24,25 @@ namespace IDragnev
 			graphIDs = IDs.Matched() ? std::move(get(IDs)) : IDList{ getUsedGraph().getID() };
 		}
 
-		//TODO : ADD A CLEAR FUNCTION TO THE TEMPLATE METHOD AND OVERRIDE IT HERE
+		void SaveCommand::execute()
+		{
+			save();
+			clear();
+		}
+
+		void SaveCommand::save() const
+		{
+			using Functional::superpose;
+			using Functional::plus;
+
+			auto saveGraph = superpose(GraphSaver{}, getGraph, plus(".txt"));
+			std::for_each(std::cbegin(graphIDs), std::cend(graphIDs), saveGraph);
+		}
+
+		void SaveCommand::clear()
+		{
+			graphIDs.clear();
+		}
 
 		const char* SaveCommand::getName() const noexcept
 		{
