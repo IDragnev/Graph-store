@@ -2,11 +2,13 @@
 #include "../../Graph store/String/String.h"
 #include "../../Graph store/Containers/Hash/Hash.h"
 #include "../../Graph store/Containers/Hash/HashFunctionStringSpecialization.h"
+#include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using IDragnev::Containers::DArray;
 using IDragnev::String;
 using IDragnev::Containers::Hash;
+using IDragnev::Functional::Identity;
 using std::begin;
 using std::end;
 
@@ -49,22 +51,18 @@ namespace HashTest
 
 		static bool contains(const StringHash& hash, StringArray values)
 		{			
-			return contains(hash, values, IDragnev::Identity{});
+			return contains(hash, values, Identity{});
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun = std::hash<Key>, typename Container>
 		static bool contains(const Hash<Item, Key, KeyAccessor, HashFun>& hash, const Container& items, KeyAccessor keyOf)
 		{
-			for (auto&& item : items)
-			{
-				if (auto found = hash.search(keyOf(item));
-					!found || found.value() != item)
-				{
-					return false;
-				}
-			}
+			using IDragnev::Functional::superpose;
 
-			return true;
+			auto search = [&hash, keyOf](const auto& item) { return hash.search(keyOf(item)); };
+			auto match = [](const auto& item, auto result) { return result.has_value() && result.value() == item; };
+
+			return std::all_of(std::begin(items), std::end(items), superpose(match, Identity{}, search));
 		}
 
 	public:

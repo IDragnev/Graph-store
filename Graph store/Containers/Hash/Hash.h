@@ -3,6 +3,7 @@
 
 #include "..\Dynamic Array\DArray.h"
 #include "..\..\Functional\Functional.h"
+#include "..\..\..\Third party\NamedType\named_type.hpp"
 #include <assert.h>
 #include <optional>
 #include <type_traits>
@@ -50,17 +51,7 @@ namespace IDragnev
 			
 			using Element = std::conditional_t<std::is_pointer_v<Item>, Item, std::optional<Item>>;
 			using Table = DArray<Element>;
-
-			class DirectSize
-			{
-			public:
-				constexpr explicit DirectSize(std::size_t size) noexcept : value{ size } { }
-
-				constexpr auto get() const noexcept { return value; }
-
-			private:
-				std::size_t value;
-			};
+			using DirectSize = fluent::NamedType<std::size_t, struct SizeTag>;	
 
 		public:
 			Hash();
@@ -96,19 +87,8 @@ namespace IDragnev
 			void insertIfNotEmpty(const Element& element);
 
 			template <typename T>
-			static decltype(auto) itemOf(T&& element)
-			{
-				if constexpr (std::is_pointer_v<std::remove_reference_t<T>>)
-				{
-					return std::forward<T>(element);
-				}
-				else //std::optional
-				{
-					assert(element.has_value());
-					return std::forward<T>(element).value();
-				}
-			}
-
+			static decltype(auto) itemOf(T&& element);
+			
 			std::optional<std::size_t> correspondingSlot(const Key& key) const noexcept;
 			bool match(const Key& key, const Element& item) const noexcept;
 
@@ -132,10 +112,9 @@ namespace IDragnev
 			static const std::size_t GROWTH_FACTOR = 2;
 			static const std::size_t MIN_TABLE_SIZE = 3;
 			static std::size_t calculateSize(std::size_t expectedCount);
-			static Table makeEmptyTable(std::size_t size);
 
 		private:
-			std::size_t count{};
+			std::size_t count = 0;
 			Table table;
 			mutable HashFun hashFunction;
 			mutable KeyAccessor keyAccessor;

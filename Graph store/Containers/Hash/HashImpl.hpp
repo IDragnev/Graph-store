@@ -16,17 +16,8 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(DirectSize size) :
-			count{ 0 },
-			table{ makeEmptyTable(size.get()) }
+			table{ Table(size.get(), size.get()) }
 		{
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline auto 
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::makeEmptyTable(std::size_t size) -> Table
-		{
-			assert(size >= MIN_TABLE_SIZE);
-			return Table(size, size);  //Table is zero-initialized by default
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -138,7 +129,7 @@ namespace IDragnev
 			//must have at least one empty position after resize
 			assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
-			auto oldState = Hash{ std::move(*this) };
+			auto oldState = std::move(*this);
 
 			try
 			{
@@ -147,7 +138,7 @@ namespace IDragnev
 			}
 			catch (std::bad_alloc&)
 			{
-				*this = Hash{ std::move(oldState) };
+				*this = std::move(oldState);
 				throw;
 			}
 		}
@@ -167,6 +158,21 @@ namespace IDragnev
 			if (element)
 			{
 				insert(itemOf(element));
+			}
+		}
+
+		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
+		template <typename T>
+		static decltype(auto) Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(T&& element)
+		{
+			if constexpr (std::is_pointer_v<std::remove_reference_t<T>>)
+			{
+				return std::forward<T>(element);
+			}
+			else //std::optional
+			{
+				assert(element.has_value());
+				return std::forward<T>(element).value();
 			}
 		}
 
