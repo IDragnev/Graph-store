@@ -90,6 +90,7 @@ namespace IDragnev
 			writeOnASingleLine(graph->getID());
 			writeOnASingleLine(graph->getVerticesCount());
 			writeVertexIDs();
+			writeOnASingleLine(graph->getEdgesCount());
 			writeEdges();
 		}
 
@@ -105,15 +106,14 @@ namespace IDragnev
 
 		void GraphSaver::writeToFile(const Edge& edge)
 		{
-			//TODO: use fmt::print
-			file << EDGE_START
-				 << indexOfID(edge.start())
-				 << EDGE_ATTRIBUTE_DELIMITER
-				 << indexOfID(edge.end())
-				 << EDGE_ATTRIBUTE_DELIMITER
-				 << edge.weight()
-				 << EDGE_END
-				 << '\n';
+			auto result = fmt::format("{edgeStart}{startIndex}{delim}{endIndex}{delim}{weight}{edgeEnd}\n",
+								 	  "edgeStart"_a = EDGE_START,
+									  "startIndex"_a = indexOfID(edge.start()),
+									  "delim"_a = EDGE_ATTRIBUTE_DELIMITER,
+									  "endIndex"_a = indexOfID(edge.end()),
+									  "weight"_a = edge.weight(),
+									  "edgeEnd"_a = EDGE_END);
+			file << result;
 		}
 
 		std::size_t GraphSaver::indexOfID(const Vertex& v) const noexcept
