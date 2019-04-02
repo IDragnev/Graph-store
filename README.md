@@ -52,6 +52,9 @@ The currently used graph can be switched via the USE GRAPH command.
 
 ## The following commands can only be used if a graph is (present and) selected as the currently used one.
 
+ - **SAVE { \<graphId\> }**
+   - Saves the specified graphs. If no arguments are supplied, the currently used graph is saved.
+   
  - **INSERT-VERTEX \<id\>**
    - Creates and inserts a vertex in the currently used graph. 
 All vertices in a graph must have unique IDs. The ID must be a valid string.
