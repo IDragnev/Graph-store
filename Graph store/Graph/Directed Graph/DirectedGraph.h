@@ -27,8 +27,9 @@ namespace IDragnev
 			void insertEdge(Vertex& start, Vertex& end, Edge::Weight) override;
 			void removeEdge(Vertex& start, Vertex& end) override;
 			String getType() const override;
+			std::size_t getEdgesCount() const noexcept override;
 			EdgeConstIteratorPtr getConstIteratorToEdges() const override;
-			
+
 		private:
 			void removeEdgesEndingIn(Vertex& v) override;
 		};

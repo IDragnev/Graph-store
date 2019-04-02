@@ -152,6 +152,7 @@ namespace IDragnev
 
 			virtual void insertEdge(Vertex& start, Vertex& end, Edge::Weight = 1) = 0; 
 			virtual void removeEdge(Vertex& start, Vertex& end) = 0;
+			
 			virtual String getType() const = 0;
 
 			Vertex& getVertex(const String& ID);
@@ -159,7 +160,8 @@ namespace IDragnev
 			bool hasVertexWithID(const String& ID) const noexcept;
 
 			std::size_t getVerticesCount() const noexcept;
-			std::size_t getEdgesCount() const noexcept;
+			virtual std::size_t getEdgesCount() const noexcept = 0;
+
 			VertexConstIteratorPtr getConstIteratorToVertices() const;
 			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);

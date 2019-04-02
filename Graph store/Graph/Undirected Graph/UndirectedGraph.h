@@ -16,6 +16,7 @@ namespace IDragnev
 			void removeEdge(Vertex& start, Vertex& end) override;
 			String getType() const override;
 			EdgeConstIteratorPtr getConstIteratorToEdges() const override;
+			std::size_t getEdgesCount() const noexcept override;
 
 		private:
 			void removeEdgesEndingIn(Vertex& vertex) override;

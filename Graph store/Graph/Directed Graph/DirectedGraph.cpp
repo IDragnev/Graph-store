@@ -57,5 +57,10 @@ namespace IDragnev
 		{
 			return makeEdgeConstIterator<DirectedEdgeConstIterator>();
 		}
+
+		std::size_t DirectedGraph::getEdgesCount() const noexcept
+		{
+			return Graph::getEdgesCount();
+		}
 	}
 }
