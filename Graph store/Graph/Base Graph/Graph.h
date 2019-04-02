@@ -24,7 +24,7 @@ namespace IDragnev
 				using VertexRef = std::reference_wrapper<Vertex>;
 
 			public:
-				using Weight = std::uint32_t;
+				using Weight = std::size_t;
 
 				IncidentEdge(Vertex& incidentVertex, Weight) noexcept;
 
@@ -159,6 +159,7 @@ namespace IDragnev
 			bool hasVertexWithID(const String& ID) const noexcept;
 
 			std::size_t getVerticesCount() const noexcept;
+			std::size_t getEdgesCount() const noexcept;
 			VertexConstIteratorPtr getConstIteratorToVertices() const;
 			VertexIteratorPtr getIteratorToVertices();
 			IncidentEdgeIteratorPtr getIteratorToEdgesLeaving(Vertex& v);

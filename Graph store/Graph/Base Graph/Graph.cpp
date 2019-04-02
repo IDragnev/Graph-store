@@ -407,6 +407,18 @@ namespace IDragnev
 			return vertices.size();
 		}
 
+		std::size_t Graph::getEdgesCount() const noexcept
+		{
+			std::size_t result = 0u;
+
+			for (const auto& edges : edgeLists)
+			{
+				result += edges.getCount();
+			}
+
+			return result;
+		}
+
 		auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&
 		{
 			auto& iterator = v.edgesPosition;
