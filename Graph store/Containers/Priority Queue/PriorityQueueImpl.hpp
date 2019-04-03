@@ -15,7 +15,7 @@ namespace IDragnev
 		{
 			if (this != &rhs)
 			{
-				swapContentsWithReconstructedParameter(std::move(rhs));
+				swapContentsWith(std::move(rhs));
 			}
 
 			return *this;
@@ -29,14 +29,14 @@ namespace IDragnev
 
 			if (this != &rhs)
 			{
-				swapContentsWithReconstructedParameter(rhs);
+				swapContentsWith(rhs);
 			}
 
 			return *this;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWithReconstructedParameter(PriorityQueue temp) noexcept
+		inline void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::swapContentsWith(PriorityQueue temp) noexcept
 		{
 			using std::swap;
 			swap(elements, temp.elements);
@@ -82,7 +82,7 @@ namespace IDragnev
 		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 		{
 			using Utility::asSigned;
-			auto index = asSigned(elements.size() / 2 - 1U);
+			auto index = asSigned(elements.size() / 2u - 1u);
 
 			while (index >= 0)
 			{

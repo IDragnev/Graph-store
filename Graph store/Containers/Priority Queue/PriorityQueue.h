@@ -123,7 +123,7 @@ namespace IDragnev
 
 			void invalidateHandlesOfAll() noexcept;
 
-			void swapContentsWithReconstructedParameter(PriorityQueue temporary) noexcept;
+			void swapContentsWith(PriorityQueue temp) noexcept;
 
 		private:
 			Elements elements;

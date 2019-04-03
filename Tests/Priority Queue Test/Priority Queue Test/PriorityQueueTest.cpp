@@ -16,7 +16,7 @@ namespace PriorityQueueTest
 
 		struct TestItem
 		{
-			unsigned id{};
+			unsigned id = 0;
 			Handle handle{};
 
 			friend bool operator==(const TestItem& lhs, const TestItem& rhs)
@@ -48,62 +48,17 @@ namespace PriorityQueueTest
 		using IntArray = DArray<int>;
 
 		using TestItemRef = std::reference_wrapper<TestItem>;
-		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, IDragnev::Utility::LessThan, HandleSetter>;
+		using MaxPriorityQueue = PriorityQueue<TestItemRef, unsigned, KeyAccessor, IDragnev::Functional::LessThan, HandleSetter>;
 		using TestItemArray = DArray<TestItem>;
 
 		static TestItemArray testItems;
 		static const size_t TEST_ITEMS_COUNT = 8;
 
-	private:
-		static void insertTestItemsInRangeByID(MaxPriorityQueue& queue, int smallest, int biggest)
-		{
-			assert(isValidRange(smallest, biggest));
-
-			for (int i = smallest; i <= biggest; ++i)
-			{
-				queue.insert(testItems[i]);
-			}
-		}
-
-		static bool containsItemsInRange(MaxPriorityQueue& queue, int smallest, int biggest)
-		{
-			assert(isValidRange(smallest, biggest));
-
-			for (int i = biggest; i >= smallest; --i)
-			{
-				auto extracted = queue.extractOptimal();
-
-				if (extracted != testItems[i])
-				{
-					return false;
-				}
-			}
-
-			return queue.isEmpty();
-		}
-
-		static bool isValidRange(int smallest, int biggest)
-		{
-			return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
-		}
-
-		static auto extractAll(IntMaxPriorityQueue& queue)
-		{
-			auto result = IntArray{};
-
-			while (!queue.isEmpty())
-			{
-				result.insert(queue.extractOptimal());
-			}
-
-			return result;
-		}
-
 	public:	
 		TEST_METHOD_INITIALIZE(initializeItemsWithIncreasingIDs)
 		{
-			auto i = std::size_t{ 0 };
-			for (auto&& item : testItems)
+			auto i = 0u;
+			for (auto& item : testItems)
 			{
 				item.id = i++;
 			}
@@ -332,6 +287,51 @@ namespace PriorityQueueTest
 
 			Assert::IsTrue(extractAll(destination) == IntArray{ 6, 5, 4, 3, 2, 1 });
 		}
+
+		private:
+			static void insertTestItemsInRangeByID(MaxPriorityQueue& queue, int smallest, int biggest)
+			{
+				assert(isValidRange(smallest, biggest));
+
+				for (int i = smallest; i <= biggest; ++i)
+				{
+					queue.insert(testItems[i]);
+				}
+			}
+
+			static bool containsItemsInRange(MaxPriorityQueue& queue, int smallest, int biggest)
+			{
+				assert(isValidRange(smallest, biggest));
+
+				for (auto i = biggest; i >= smallest; --i)
+				{
+					auto extracted = queue.extractOptimal();
+
+					if (extracted != testItems[i])
+					{
+						return false;
+					}
+				}
+
+				return queue.isEmpty();
+			}
+
+			static bool isValidRange(int smallest, int biggest)
+			{
+				return smallest <= biggest && biggest < TEST_ITEMS_COUNT;
+			}
+
+			static IntArray extractAll(IntMaxPriorityQueue& queue)
+			{
+				auto result = IntArray{};
+
+				while (!queue.isEmpty())
+				{
+					result.insert(queue.extractOptimal());
+				}
+
+				return result;
+			}
 	};
 
 	PriorityQueueTest::TestItemArray PriorityQueueTest::testItems(TEST_ITEMS_COUNT, TEST_ITEMS_COUNT);
