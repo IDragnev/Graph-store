@@ -4,33 +4,38 @@
 #include "..\..\Third party\NamedType\named_type.hpp"
 #include "..\Functional\Functional.h"
 #include "..\String\String.h"
-#include <type_traits>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;
+
+	class IdGetter
 	{
-		using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;
-
-		inline auto getID = [](const auto& item)
+	public:
+		template <typename T>
+		ConstStringIDRef operator()(const T& item) const
 		{
-			using RawType = std::decay_t<decltype(item)>;
-
-			if constexpr (std::is_pointer_v<RawType> ||
-						  std::is_same_v<RawType, std::unique_ptr<Graph>>)
-			{
-				return ConstStringIDRef{ item->getID() };
-			}
-			else
-			{
-				return ConstStringIDRef{ item.getID() };
-			}
-		};
-
-		inline auto matches(ConstStringIDRef ID)
-		{
-			return Functional::matches(ID, getID);
+			return ConstStringIDRef{ idOf(item) };
 		}
+
+	private:
+		template <typename T>
+		static auto idOf(const T& item) -> decltype(item->getID())
+		{
+			return item->getID();
+		}
+
+		template <typename T>
+		static auto idOf(const T& item) -> decltype(item.getID())
+		{
+			return item.getID();
+		}
+	};
+
+	inline auto matches(ConstStringIDRef ID)
+	{
+		return Functional::matches(ID, IdGetter{});
 	}
 }
+
 #endif //__ID_MATHCER_H_INCLUDED__
