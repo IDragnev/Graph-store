@@ -28,7 +28,7 @@ namespace IDragnev
 			}
 			else
 			{
-				throw Exception{ fmt::format("And edge from {u} to {v} already exists!", "u"_a = start.ID(), "v"_a = end.ID()) };
+				throw Exception{ fmt::format("And edge from {u} to {v} already exists!", "u"_a = start.getID(), "v"_a = end.getID()) };
 			}
 		}
 

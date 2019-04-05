@@ -176,11 +176,11 @@
     <Filter Include="Third party\NamedType">
       <UniqueIdentifier>{3ead64b2-64c6-4379-900c-2969c83b9f1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ID matcher">
-      <UniqueIdentifier>{e63b4f41-ecd0-41b4-87e8-19a0a22829f9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application\Commands\Save">
       <UniqueIdentifier>{cc89fa2c-0342-4c33-954d-4fb72b5d786f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IdGetter">
+      <UniqueIdentifier>{e63b4f41-ecd0-41b4-87e8-19a0a22829f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -475,13 +475,16 @@
       <Filter>Third party\NamedType</Filter>
     </ClInclude>
     <ClInclude Include="ID matcher\IDMatcher.h">
-      <Filter>ID matcher</Filter>
+      <Filter>IdGetter</Filter>
     </ClInclude>
     <ClInclude Include="Application\Commands\Save\SaveCommand.h">
       <Filter>Application\Commands\Save</Filter>
     </ClInclude>
     <ClInclude Include="Serialization\EdgeFormat.h">
       <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="IdGetter\IdGetter.h">
+      <Filter>IdGetter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

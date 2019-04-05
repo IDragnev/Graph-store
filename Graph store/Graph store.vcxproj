@@ -228,6 +228,7 @@
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="ID matcher\IDMatcher.h" />
+    <ClInclude Include="IdGetter\IdGetter.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h" />

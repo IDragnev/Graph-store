@@ -36,7 +36,7 @@ namespace IDragnev
 			{
 				auto vertex = decorator->vertex;
 				assert(vertex != nullptr);
-				IDs.insertAsHead(vertex->ID());
+				IDs.insertAsHead(vertex->getID());
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace IDragnev
 			return *decorator.vertex == *goal;
 		}
 
-		const String& ShortestPathAlgorithm::getID() const
+		const String& ShortestPathAlgorithm::getID() const noexcept
 		{
 			return id;
 		}

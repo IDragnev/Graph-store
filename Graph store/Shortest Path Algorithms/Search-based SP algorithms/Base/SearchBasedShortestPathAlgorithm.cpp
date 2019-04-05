@@ -49,7 +49,7 @@ namespace IDragnev
 
 		auto SearchBasedShortestPathAlgorithm::decoratorOf(const Vertex& v) const -> const MarkableVertex&
 		{
-			auto result = map.search(v.ID());
+			auto result = map.search(v.getID());
 			assert(result != nullptr);
 			return *result;
 		}

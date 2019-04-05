@@ -23,7 +23,7 @@ namespace IDragnev
 		private:
 			struct KeyAccessor
 			{
-				const String& operator()(const MarkableVertex* v) const noexcept { return v->vertex->ID(); }
+				const String& operator()(const MarkableVertex* v) const noexcept { return v->vertex->getID(); }
 			};
 
 			using VertexArray = Containers::DArray<MarkableVertex>;

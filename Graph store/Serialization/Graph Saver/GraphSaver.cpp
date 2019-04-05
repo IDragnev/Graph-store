@@ -77,7 +77,7 @@ namespace IDragnev::GraphStore
 	void GraphSaver::registerVertex(const Vertex& v)
 	{
 		auto index = pairs.getCount();
-		pairs.insert({ index, &v.ID() });
+		pairs.insert({ index, &v.getID() });
 		map.insert(&pairs[index]);
 	}
 
@@ -93,7 +93,7 @@ namespace IDragnev::GraphStore
 
 	void GraphSaver::writeVertexIDs()
 	{
-		forEachVertex(*graph, [this](const Vertex& v) { writeOnASingleLine(v.ID()); });
+		forEachVertex(*graph, [this](const Vertex& v) { writeOnASingleLine(v.getID()); });
 	}
 
 	void GraphSaver::writeEdges()
@@ -118,7 +118,7 @@ namespace IDragnev::GraphStore
 
 	std::size_t GraphSaver::indexOfID(const Vertex& v) const noexcept
 	{
-		auto result = map.search(v.ID());
+		auto result = map.search(v.getID());
 		assert(result != nullptr);
 		return result->index;
 	}

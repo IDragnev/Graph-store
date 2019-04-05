@@ -41,7 +41,7 @@ namespace IDragnev
 
 			struct IDAccessor
 			{
-				const String& operator()(const PriorityVertex* v) const noexcept { return v->vertex->ID(); }
+				const String& operator()(const PriorityVertex* v) const noexcept { return v->vertex->getID(); }
 			};
 
 			using PriorityVertexRef = std::reference_wrapper<PriorityVertex>;

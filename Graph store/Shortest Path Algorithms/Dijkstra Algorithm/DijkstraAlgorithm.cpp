@@ -127,7 +127,7 @@ namespace IDragnev
 
 		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) const -> const PriorityVertex&
 		{
-			auto result = map.search(v.ID());
+			auto result = map.search(v.getID());
 			assert(result != nullptr);
 			return *result;
 		}

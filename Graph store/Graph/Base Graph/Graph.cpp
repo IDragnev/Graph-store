@@ -6,428 +6,425 @@
 
 using namespace fmt::literals;
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class InvalidID : public Exception
 	{
-		class InvalidID : public Exception
-		{
-		public:
-			InvalidID(const String& ID) :
-				Exception{ fmt::format("{0} is an invalid ID!", ID) }
-			{
-			}
-		};
-
-		class DuplicateVertexID : public Exception
-		{
-		public:
-			DuplicateVertexID(const String& ID) :
-				Exception{ fmt::format("A vertex with ID {0} already exists!", ID) }
-			{
-			}
-		};
-
-		class NoSuchEdge : public Exception
-		{
-		public:
-			NoSuchEdge(const String& from, const String& to) :
-				Exception{ fmt::format("No edge from {0} to {1} exists!", from, to) }
-			{
-			}
-		};
-
-		class NoSuchVertex : public Exception
-		{
-		public:
-			NoSuchVertex(const String& ID) : 
-				Exception{ fmt::format("There is no vertex {0}! ", ID) }
-			{
-			}
-		};
-
-		Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) noexcept :
-			incidentVertex{ incidentVertex },
-			weight{ weight }
+	public:
+		InvalidID(const String& ID) :
+			Exception{ fmt::format("{0} is an invalid ID!", ID) }
 		{
 		}
+	};
 
-		Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() noexcept
-		{
-			return const_cast<Vertex&>( static_cast<const IncidentEdge&>(*this).getIncidentVertex() );
-		}
-
-		const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const noexcept
-		{
-			return incidentVertex;
-		}
-
-		auto Graph::IncidentEdge::getWeight() const noexcept -> Weight
-		{
-			return weight;
-		}
-
-		Graph::Vertex::Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition) :
-			position{ position },
-			edgesPosition{ edgesPosition }
-		{
-			setID(ID);
-		}
-
-		void Graph::Vertex::setID(const String& ID)
-		{
-			if (ID != String{ "" })
-			{
-				id = ID;
-			}
-			else
-			{
-				throw InvalidID{ ID };
-			}
-		}
-
-		void Graph::Vertex::swap(Vertex& other) noexcept
-		{
-			using std::swap;
-			swap(id, other.id);
-			swap(position, other.position);
-			swap(edgesPosition, other.edgesPosition);
-		}
-
-		void swap(Graph::Vertex& lhs, Graph::Vertex& rhs) noexcept
-		{
-			lhs.swap(rhs);
-		}
-
-		bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
-		{
-			return &lhs == &rhs;
-		}
-
-		bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
-		{
-			return !(lhs == rhs);
-		}
-
-		Graph::Edge::Edge(const Vertex& start, const IncidentEdge& edge) noexcept :
-			startVertex{ start },
-			incidentEdge{ edge }
+	class DuplicateVertexID : public Exception
+	{
+	public:
+		DuplicateVertexID(const String& ID) :
+			Exception{ fmt::format("A vertex with ID {0} already exists!", ID) }
 		{
 		}
+	};
 
-		auto Graph::Edge::start() const noexcept -> const Vertex&
+	class NoSuchEdge : public Exception
+	{
+	public:
+		NoSuchEdge(const String& from, const String& to) :
+			Exception{ fmt::format("No edge from {0} to {1} exists!", from, to) }
 		{
-			return startVertex;
 		}
+	};
 
-		auto Graph::Edge::end() const noexcept -> const Vertex&
+	class NoSuchVertex : public Exception
+	{
+	public:
+		NoSuchVertex(const String& ID) :
+			Exception{ fmt::format("There is no vertex {0}! ", ID) }
 		{
-			return incidentEdge.get().getIncidentVertex();
 		}
+	};
 
-		auto Graph::Edge::weight() const noexcept -> Weight
-		{
-			return incidentEdge.get().getWeight();
-		}	
+	Graph::IncidentEdge::IncidentEdge(Vertex& incidentVertex, Weight weight) noexcept :
+		incidentVertex{ incidentVertex },
+		weight{ weight }
+	{
+	}
 
-		Graph::Graph(const String& ID) :
-			verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
+	Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() noexcept
+	{
+		return const_cast<Vertex&>(static_cast<const IncidentEdge&>(*this).getIncidentVertex());
+	}
+
+	const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const noexcept
+	{
+		return incidentVertex;
+	}
+
+	auto Graph::IncidentEdge::getWeight() const noexcept -> Weight
+	{
+		return weight;
+	}
+
+	Graph::Vertex::Vertex(const String& ID, std::size_t position, EdgeListIterator edgesPosition) :
+		position{ position },
+		edgesPosition{ edgesPosition }
+	{
+		setID(ID);
+	}
+
+	void Graph::Vertex::setID(const String& ID)
+	{
+		if (ID != String{ "" })
 		{
-			setID(ID);
-			vertices.reserve(FEWEST_VERTICES_EXPECTED);
+			id = ID;
 		}
-
-		void Graph::setID(const String& ID)
+		else
 		{
-			if (ID != String{ "" })
-			{
-				id = ID;
-			}
-			else
-			{
-				throw InvalidID{ ID };
-			}
+			throw InvalidID{ ID };
 		}
+	}
 
-		void Graph::insertVertexWithID(const String& ID)
+	void Graph::Vertex::swap(Vertex& other) noexcept
+	{
+		using std::swap;
+		swap(id, other.id);
+		swap(position, other.position);
+		swap(edgesPosition, other.edgesPosition);
+	}
+
+	void swap(Graph::Vertex& lhs, Graph::Vertex& rhs) noexcept
+	{
+		lhs.swap(rhs);
+	}
+
+	bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
+	{
+		return &lhs == &rhs;
+	}
+
+	bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs) noexcept
+	{
+		return !(lhs == rhs);
+	}
+
+	Graph::Edge::Edge(const Vertex& start, const IncidentEdge& edge) noexcept :
+		startVertex{ start },
+		incidentEdge{ edge }
+	{
+	}
+
+	auto Graph::Edge::start() const noexcept -> const Vertex&
+	{
+		return startVertex;
+	}
+
+	auto Graph::Edge::end() const noexcept -> const Vertex&
+	{
+		return incidentEdge.get().getIncidentVertex();
+	}
+
+	auto Graph::Edge::weight() const noexcept -> Weight
+	{
+		return incidentEdge.get().getWeight();
+	}
+
+	Graph::Graph(const String& ID) :
+		verticesSearchTable{ FEWEST_VERTICES_EXPECTED }
+	{
+		setID(ID);
+		vertices.reserve(FEWEST_VERTICES_EXPECTED);
+	}
+
+	void Graph::setID(const String& ID)
+	{
+		if (ID != String{ "" })
 		{
-			if (!hasVertexWithID(ID))
-			{
-				tryToInsertVertexWithID(ID);
-			}
-			else
-			{
-				throw DuplicateVertexID{ ID };
-			}
+			id = ID;
 		}
-
-		bool Graph::hasVertexWithID(const String& ID) const noexcept
+		else
 		{
-			return verticesSearchTable.search(ID) != nullptr;
+			throw InvalidID{ ID };
 		}
+	}
 
-		void Graph::tryToInsertVertexWithID(const String& ID)
+	void Graph::insertVertexWithID(const String& ID)
+	{
+		if (!hasVertexWithID(ID))
 		{
-			try
-			{
-				makeEmptyEdgeList();
-				makeVertex(ID);
-				insertInSearchTable(newestVertex());
-			}
-			catch (std::bad_alloc&)
-			{
-				throw NoMemoryAvailable{};
-			}
+			tryToInsertVertexWithID(ID);
 		}
-
-		void Graph::makeEmptyEdgeList()
+		else
 		{
-			edgeLists.insertAsHead({});
+			throw DuplicateVertexID{ ID };
 		}
+	}
 
-		auto Graph::newestVertex() -> Vertex&
+	bool Graph::hasVertexWithID(const String& ID) const noexcept
+	{
+		return verticesSearchTable.search(ID) != nullptr;
+	}
+
+	void Graph::tryToInsertVertexWithID(const String& ID)
+	{
+		try
 		{
-			return vertices.back();
+			makeEmptyEdgeList();
+			makeVertex(ID);
+			insertInSearchTable(newestVertex());
 		}
-
-		void Graph::makeVertex(const String& ID)
+		catch (std::bad_alloc&)
 		{
-			assert(edgeLists.getCount() == vertices.size() + 1);
-
-			auto position = vertices.size();
-			auto edgesPosition = newestEdgeListPosition();
-
-			try
-			{
-				vertices.push_back({ ID, position, edgesPosition });
-			}
-			catch (std::bad_alloc&)
-			{
-				edgeLists.removeAt(edgesPosition);
-				throw;
-			}
+			throw NoMemoryAvailable{};
 		}
+	}
 
-		auto Graph::newestEdgeListPosition() noexcept -> EdgeListsCollection::iterator
-		{
-			using std::begin;
-			return begin(edgeLists);
-		}  
+	void Graph::makeEmptyEdgeList()
+	{
+		edgeLists.insertAsHead({});
+	}
 
-		void Graph::insertInSearchTable(Vertex& v)
+	auto Graph::newestVertex() -> Vertex&
+	{
+		return vertices.back();
+	}
+
+	void Graph::makeVertex(const String& ID)
+	{
+		assert(edgeLists.getCount() == vertices.size() + 1);
+
+		auto position = vertices.size();
+		auto edgesPosition = newestEdgeListPosition();
+
+		try
 		{
-			try
-			{
-				verticesSearchTable.insert(&v);
-			}
-			catch (std::bad_alloc&)
-			{
-				removeEdgeListOf(v);
-				removeFromVertices(v);
-				throw;
-			}
+			vertices.push_back({ ID, position, edgesPosition });
 		}
-
-		void Graph::removeEdgeListOf(Vertex& v)
+		catch (std::bad_alloc&)
 		{
-			edgeLists.removeAt(v.edgesPosition);
+			edgeLists.removeAt(edgesPosition);
+			throw;
 		}
+	}
 
-		void Graph::removeFromVertices(Vertex& v)
+	auto Graph::newestEdgeListPosition() noexcept -> EdgeListsCollection::iterator
+	{
+		using std::begin;
+		return begin(edgeLists);
+	}
+
+	void Graph::insertInSearchTable(Vertex& v)
+	{
+		try
 		{
-			assert(isOwnerOf(v));
-
-			if (v != vertices.back())
-			{
-				auto position = v.position;
-				swap(v, vertices.back());
-				v.position = position;
-				updatePositionInSearchTable(v);
-			}
-
-			vertices.pop_back();
+			verticesSearchTable.insert(&v);
 		}
-
-		void Graph::updatePositionInSearchTable(Vertex& v)
+		catch (std::bad_alloc&)
 		{
-			removeFromSearchTable(v);
-			insertInSearchTable(v);
-		}
-
-		void Graph::removeFromSearchTable(const Vertex& v)
-		{
-			assert(isOwnerOf(v));
-			verticesSearchTable.remove(v.id);
-		}
-
-		void Graph::removeVertex(const String& ID)
-		{
-			removeVertex(getVertex(ID));
-		}
-
-		void Graph::removeVertex(Vertex& v)
-		{
-			assert(isOwnerOf(v));
-
-			removeEdgesEndingIn(v);
 			removeEdgeListOf(v);
-			removeFromSearchTable(v); 
-			removeFromVertices(v);   
+			removeFromVertices(v);
+			throw;
 		}
+	}
 
-		//
-		//the default implementation is for an undirected graph:
-		//each of the vertex' neighbours has an edge to it
-		//
-		void Graph::removeEdgesEndingIn(Vertex& v)
+	void Graph::removeEdgeListOf(Vertex& v)
+	{
+		edgeLists.removeAt(v.edgesPosition);
+	}
+
+	void Graph::removeFromVertices(Vertex& v)
+	{
+		assert(isOwnerOf(v));
+
+		if (v != vertices.back())
 		{
-			for (auto& edge : edgesOf(v))
-			{
-				auto& neighbour = edge.getIncidentVertex();
-				removeEdgeFromToNoThrow(neighbour, v);
-			}
+			auto position = v.position;
+			swap(v, vertices.back());
+			v.position = position;
+			updatePositionInSearchTable(v);
 		}
 
-		void Graph::removeEdgeFromToNoThrow(Vertex& from, Vertex& to)
+		vertices.pop_back();
+	}
+
+	void Graph::updatePositionInSearchTable(Vertex& v)
+	{
+		removeFromSearchTable(v);
+		insertInSearchTable(v);
+	}
+
+	void Graph::removeFromSearchTable(const Vertex& v)
+	{
+		assert(isOwnerOf(v));
+		verticesSearchTable.remove(v.id);
+	}
+
+	void Graph::removeVertex(const String& ID)
+	{
+		removeVertex(getVertex(ID));
+	}
+
+	void Graph::removeVertex(Vertex& v)
+	{
+		assert(isOwnerOf(v));
+
+		removeEdgesEndingIn(v);
+		removeEdgeListOf(v);
+		removeFromSearchTable(v);
+		removeFromVertices(v);
+	}
+
+	//
+	//the default implementation is for an undirected graph:
+	//each of the vertex' neighbours has an edge to it
+	//
+	void Graph::removeEdgesEndingIn(Vertex& v)
+	{
+		for (auto& edge : edgesOf(v))
 		{
-			removeEdgeFromTo<false>(from, to);
+			auto& neighbour = edge.getIncidentVertex();
+			removeEdgeFromToNoThrow(neighbour, v);
 		}
+	}
 
-		void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
-		{
-			removeEdgeFromTo<true>(from, to);
-		}
+	void Graph::removeEdgeFromToNoThrow(Vertex& from, Vertex& to)
+	{
+		removeEdgeFromTo<false>(from, to);
+	}
 
-		template <bool throwIfMissing>
-		void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
-		{
-			auto iterator = searchEdgeFromTo(from, to);
+	void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
+	{
+		removeEdgeFromTo<true>(from, to);
+	}
 
-			if (iterator)
-			{
-				auto& edges = edgesOf(from);
-				edges.removeAt(iterator);
-			}
-			else if constexpr (throwIfMissing)
-			{
-				throw NoSuchEdge{ from.ID(), to.ID() };
-			}
-		}
+	template <bool throwIfMissing>
+	void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
+	{
+		auto iterator = searchEdgeFromTo(from, to);
 
-		auto matches(const Graph::Vertex& v)
-		{
-			using Functional::matches;
-			
-			auto extractor = [](const auto& edge) { return &edge.getIncidentVertex(); };
-			return matches(&v, extractor);
-		}
-
-		auto Graph::searchEdgeFromTo(Vertex& from, Vertex& to) -> IncidentEdgesIterator
+		if (iterator)
 		{
 			auto& edges = edgesOf(from);
-			return std::find_if(std::begin(edges), std::end(edges), matches(to));
+			edges.removeAt(iterator);
 		}
-
-		void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
+		else if constexpr (throwIfMissing)
 		{
-			try
-			{
-				auto& edges = edgesOf(from);
-				edges.insert(IncidentEdge{ to, weight });
-			}
-			catch (std::bad_alloc&)
-			{
-				throw NoMemoryAvailable{};
-			}
+			throw NoSuchEdge{ from.getID(), to.getID() };
 		}
+	}
 
-		bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
+	auto matches(const Graph::Vertex& v)
+	{
+		using Functional::matches;
+
+		auto extractor = [](const auto& edge) { return &edge.getIncidentVertex(); };
+		return matches(&v, extractor);
+	}
+
+	auto Graph::searchEdgeFromTo(Vertex& from, Vertex& to) -> IncidentEdgesIterator
+	{
+		auto& edges = edgesOf(from);
+		return std::find_if(std::begin(edges), std::end(edges), matches(to));
+	}
+
+	void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)
+	{
+		try
 		{
-			auto iterator = searchEdgeFromTo(from, to);
-
-			return static_cast<bool>(iterator);
+			auto& edges = edgesOf(from);
+			edges.insert(IncidentEdge{ to, weight });
 		}
-
-		bool Graph::isOwnerOf(const Vertex& vertex) const noexcept
+		catch (std::bad_alloc&)
 		{
-			auto position = vertex.position;
-			return (position < vertices.size()) && (vertices[position] == vertex);
+			throw NoMemoryAvailable{};
 		}
+	}
 
-		const Graph::Vertex& Graph::getVertex(const String& ID) const
+	bool Graph::existsEdgeFromTo(Vertex& from, Vertex& to)
+	{
+		auto iterator = searchEdgeFromTo(from, to);
+
+		return static_cast<bool>(iterator);
+	}
+
+	bool Graph::isOwnerOf(const Vertex& vertex) const noexcept
+	{
+		auto position = vertex.position;
+		return (position < vertices.size()) && (vertices[position] == vertex);
+	}
+
+	const Graph::Vertex& Graph::getVertex(const String& ID) const
+	{
+		auto result = verticesSearchTable.search(ID);
+
+		if (result != nullptr)
 		{
-			auto result = verticesSearchTable.search(ID);
-
-			if (result != nullptr)
-			{
-				return *result;
-			}
-			else
-			{
-				throw NoSuchVertex{ ID };
-			}
+			return *result;
 		}
-
-		Graph::Vertex& Graph::getVertex(const String& ID)
+		else
 		{
-			return const_cast<Vertex&>( static_cast<const Graph&>(*this).getVertex(ID) );
+			throw NoSuchVertex{ ID };
 		}
+	}
 
-		auto Graph::getIteratorToEdgesLeaving(Vertex& vertex) -> IncidentEdgeIteratorPtr
+	Graph::Vertex& Graph::getVertex(const String& ID)
+	{
+		return const_cast<Vertex&>(static_cast<const Graph&>(*this).getVertex(ID));
+	}
+
+	auto Graph::getIteratorToEdgesLeaving(Vertex& vertex) -> IncidentEdgeIteratorPtr
+	{
+		assert(isOwnerOf(vertex));
+
+		return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
+	}
+
+	auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
+	{
+		assert(isOwnerOf(vertex));
+
+		return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
+	}
+
+	auto Graph::getConstIteratorToVertices() const -> VertexConstIteratorPtr
+	{
+		return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
+	}
+
+	auto Graph::getIteratorToVertices() -> VertexIteratorPtr
+	{
+		return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
+	}
+
+	const String& Graph::getID() const noexcept
+	{
+		return id;
+	}
+
+	std::size_t Graph::getVerticesCount() const noexcept
+	{
+		return vertices.size();
+	}
+
+	std::size_t Graph::getEdgesCount() const noexcept
+	{
+		std::size_t result = 0u;
+
+		for (const auto& edges : edgeLists)
 		{
-			assert(isOwnerOf(vertex));
-
-			return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
+			result += edges.getCount();
 		}
 
-		auto Graph::getConstIteratorToEdgesLeaving(const Vertex& vertex) const -> IncidentEdgeConstIteratorPtr
-		{
-			assert(isOwnerOf(vertex));
+		return result;
+	}
 
-			return makeIteratorAdaptor(std::begin(edgesOf(vertex)));
-		}
+	auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&
+	{
+		auto& iterator = v.edgesPosition;
+		return *iterator;
+	}
 
-		auto Graph::getConstIteratorToVertices() const -> VertexConstIteratorPtr
-		{
-			return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
-		}
-
-		auto Graph::getIteratorToVertices() -> VertexIteratorPtr
-		{
-			return makeIteratorAdaptor(std::begin(vertices), std::end(vertices));
-		}
-
-		const String& Graph::getID() const noexcept
-		{
-			return id;
-		}
-
-		std::size_t Graph::getVerticesCount() const noexcept
-		{
-			return vertices.size();
-		}
-
-		std::size_t Graph::getEdgesCount() const noexcept
-		{
-			std::size_t result = 0u;
-
-			for (const auto& edges : edgeLists)
-			{
-				result += edges.getCount();
-			}
-
-			return result;
-		}
-
-		auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&
-		{
-			auto& iterator = v.edgesPosition;
-			return *iterator;
-		}
-
-		auto Graph::edgesOf(Vertex& v) noexcept -> EdgeList&
-		{
-			return const_cast<EdgeList&>( edgesOf(static_cast<const Vertex&>(v)) );
-		}
+	auto Graph::edgesOf(Vertex& v) noexcept -> EdgeList&
+	{
+		return const_cast<EdgeList&>(edgesOf(static_cast<const Vertex&>(v)));
 	}
 }

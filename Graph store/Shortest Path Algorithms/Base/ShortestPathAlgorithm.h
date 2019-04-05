@@ -59,7 +59,7 @@ namespace IDragnev
 
 			Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal);
 
-			const String& getID() const;
+			const String& getID() const noexcept;
 
 		protected:
 			bool isTheGoal(const VertexDecorator& v) const;
