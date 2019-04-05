@@ -231,7 +231,7 @@
     <ClInclude Include="Iterator abstraction\Iterator.h" />
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h" />
-    <ClInclude Include="Serialization\SerializationConstants.h" />
+    <ClInclude Include="Serialization\EdgeFormat.h" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h" />

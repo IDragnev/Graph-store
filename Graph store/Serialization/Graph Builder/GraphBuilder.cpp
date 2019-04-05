@@ -1,11 +1,11 @@
 #include "GraphBuilder.h"
 #include "..\..\Graph Factory\GraphFactory.h"
 #include "..\..\General Exceptions\NoMemoryAvailable.h"
-#include "..\SerializationConstants.h"
+#include "..\EdgeFormat.h"
 #include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "..\..\UtilityFunctions.h"
 #include <algorithm>
 
-using namespace IDragnev::GraphStore::SerializationConstants;
 using namespace fmt::literals;
 
 namespace IDragnev
@@ -142,13 +142,25 @@ namespace IDragnev
 		{
 			RawEdge result{};
 
-			parser.ignoreUntil(EDGE_START);
-			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-			result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EDGE_ATTRIBUTE_DELIMITER);
-			result.weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EDGE_END) };
-			parser.ignoreUntil('\n');
+			ignoreUntil(EdgeFormat::edgeStart);
+			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
+			result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
+			result.weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EdgeFormat::edgeEnd) };
+			ignoreUntil(EdgeFormat::edgeDelimiter);
 
 			return result;
+		}
+
+		std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(EdgeFormat symbol)
+		{
+			using Utility::toUnderlyingType;
+			return parseUnsignedAndIgnoreUntil(toUnderlyingType(symbol));
+		}
+
+		void GraphBuilder::ignoreUntil(EdgeFormat symbol)
+		{
+			using Utility::toUnderlyingType;
+			parser.ignoreUntil(toUnderlyingType(symbol));
 		}
 	}
 }

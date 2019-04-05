@@ -453,9 +453,6 @@
     <ClInclude Include="Graph\Base Graph\GraphUtilities.h">
       <Filter>Graph\Base Graph</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization\SerializationConstants.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="Functional\Functional.h">
       <Filter>Functional</Filter>
     </ClInclude>
@@ -482,6 +479,9 @@
     </ClInclude>
     <ClInclude Include="Application\Commands\Save\SaveCommand.h">
       <Filter>Application\Commands\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\EdgeFormat.h">
+      <Filter>Serialization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
