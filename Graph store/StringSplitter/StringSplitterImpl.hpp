@@ -23,7 +23,7 @@ namespace IDragnev
 	}
 
 	template <template <typename...> typename Container>
-	Container<std::string> StringSplitter<Container>::split(const std::string& str)
+	Container<std::string> StringSplitter<Container>::operator()(const std::string& str)
 	{
 		init(str);
 		split();

@@ -6,12 +6,6 @@
 #include "..\StringSplitter\StringSplitter.h"
 #include <forward_list>
 
-namespace Containers
-{
-	template <typename T>
-	class DArray;
-}
-
 namespace IDragnev
 {
 	class String;
@@ -25,7 +19,7 @@ namespace IDragnev
 		private:
 			using Commands = std::forward_list<args::Command>;
 			using Function = std::function<void(args::Subparser&)>;
-			using StringSplitter = StringSplitter<Containers::DArray>;
+			using StringSplitter = StringSplitter<>;
 
 		public:
 			static Application& instance();

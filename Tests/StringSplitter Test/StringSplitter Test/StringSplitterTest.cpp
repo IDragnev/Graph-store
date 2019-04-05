@@ -9,69 +9,61 @@ namespace StringSplitterTest
 	TEST_CLASS(StringSplitterTest)
 	{
 	private:
-		using Splitter = IDragnev::StringSplitter<DArray>;
-		using Container = DArray<std::string>;
+		using Splitter = IDragnev::StringSplitter<>;
+		using Container = decltype(Splitter{}("s"));
 
 	public:	
 		TEST_METHOD(defaultSplitterHasOnlyWhiteSpaceDelimiter)
 		{
-			Splitter s;
-
-			auto result = s.split("one two 'three'");
-			
-			Assert::IsTrue(result == Container{ "one", "two", "'three'"});
+			Assert::IsTrue(Splitter{}("one two 'three'") == Container{ "one", "two", "'three'"});
 		}
 
 		TEST_METHOD(splittingTheEmptyStringReturnsEmptyContainer)
 		{
-			auto s = Splitter{ ' ', '\'' };
+			Splitter splitter{ ' ', '\'' };
 
-			auto result = s.split("");
+			auto result = splitter("");
 
 			Assert::IsTrue(result.isEmpty());
 		}
 
 		TEST_METHOD(whiteSpacesAreIgnored)
 		{
-			auto s = Splitter{ '\"', '\'' };
+			Splitter splitter{ '\"', '\'' };
 
-			auto result = s.split("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
+			auto result = splitter("     'one'     ''  \"-two-\"    \"three\"      '*four*'         \"five\"");
 
 			Assert::IsTrue(result == Container{ "one", "", "-two-", "three", "*four*", "five" });
 		}
 
 		TEST_METHOD(whiteSpaceIsAlwaysConsideredAsDelimiter)
 		{
-			auto s = Splitter{ '\'' };
+			Splitter splitter{ '\'' };
 
-			auto result = s.split("     'one'   two   'three and a half'      *four*  ");
+			auto result = splitter("     'one'   two   'three and a half'      *four*  ");
 
 			Assert::IsTrue(result == Container{ "one", "two", "three and a half", "*four*" });
 		}
 
 		TEST_METHOD(whiteSpaceIsMatchedByNullTerminatingCharacter)
 		{
-			auto s = Splitter{ '\'' };
+			Splitter splitter{ '\'' };
 
-			auto result = s.split(" one two");
-
-			Assert::IsTrue(result == Container{ "one", "two" });
+			Assert::IsTrue(splitter(" one two") == Container{ "one", "two" });
 		}
 
 		TEST_METHOD(unmatchedDelimiterThrows)
 		{
-			auto s = Splitter{ '\'' };
+			Splitter splitter{ '\'' };
 
 			try
 			{
-				s.split(" one 'two  ");
+				splitter(" one 'two  ");
 
-				Assert::Fail(L"split did not throw");
+				Assert::Fail(L"splitter did not throw");
 			}
-			catch (std::runtime_error& e)
+			catch (std::runtime_error&)
 			{
-				auto message = std::string{ e.what() };
-				Assert::IsTrue(message == "Unmatched delimiter: \'");
 			}
 		}
 	};

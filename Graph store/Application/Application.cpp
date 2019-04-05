@@ -6,6 +6,7 @@
 #include "..\Directory loader\DirectoryLoader.h"
 #include "..\UtilityFunctions.h"
 #include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "..\StringSplitter\StringSplitter.h"
 #include <iostream> 
 
 namespace fs = std::filesystem;
@@ -140,8 +141,7 @@ namespace IDragnev
 		{
 			try
 			{
-				auto input = splitter.split(rawInput);
-				parser.ParseArgs(input);
+				parser.ParseArgs(splitter(rawInput));
 			}
 			catch (std::runtime_error& e)
 			{

@@ -31,7 +31,7 @@ namespace IDragnev
 		StringSplitter& operator=(const StringSplitter&) = delete;
 		StringSplitter& operator=(StringSplitter&& rhs) = default;
 
-		Container<std::string> split(const std::string& str);
+		Container<std::string> operator()(const std::string& str);
 
 	private:
 		void init(const std::string& str);
