@@ -2,7 +2,7 @@
 #define __BASE_GRAPH_H_INCLUDED__
 
 #include "..\..\Containers\Hash\Hash.h"
-#include "..\..\Containers\Hash\HashFunctionStringSpecialization.h"
+#include "..\..\HashFunction\HashFunction.h"
 #include "..\..\String\String.h"
 #include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
 #include "..\..\Iterator abstraction\Iterator.h"

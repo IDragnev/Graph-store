@@ -166,6 +166,7 @@
     <ClCompile Include="Graph\Base Graph\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
+    <ClCompile Include="HashFunction\HashFunction.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Serialization\Graph Builder\GraphBuilder.cpp" />
     <ClCompile Include="Serialization\Graph Saver\GraphSaver.cpp" />
@@ -198,7 +199,6 @@
     <ClInclude Include="Containers\Dynamic Array\DArrayImpl.hpp" />
     <ClInclude Include="Containers\Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="Containers\Hash\Hash.h" />
-    <ClInclude Include="Containers\Hash\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Containers\Hash\HashImpl.hpp" />
     <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h" />
     <ClInclude Include="Containers\Priority Queue\PriorityQueue.h" />
@@ -227,6 +227,7 @@
     <ClInclude Include="Graph\Base Graph\GraphUtilities.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
+    <ClInclude Include="HashFunction\HashFunction.h" />
     <ClInclude Include="ID matcher\IDMatcher.h" />
     <ClInclude Include="IdGetter\IdGetter.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />

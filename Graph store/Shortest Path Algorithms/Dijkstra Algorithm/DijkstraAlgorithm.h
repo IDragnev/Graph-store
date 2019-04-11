@@ -5,7 +5,7 @@
 #include "..\..\Containers\Priority Queue\PriorityQueue.h"
 #include "..\..\Containers\Dynamic Array\DArray.h"
 #include "..\..\Containers\Hash\Hash.h"
-#include "..\..\Containers\Hash\HashFunctionStringSpecialization.h"
+#include "..\..\HashFunction\HashFunction.h"
 
 namespace IDragnev
 {

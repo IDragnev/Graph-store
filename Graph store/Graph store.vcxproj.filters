@@ -182,6 +182,9 @@
     <Filter Include="IdGetter">
       <UniqueIdentifier>{e63b4f41-ecd0-41b4-87e8-19a0a22829f9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HashFunction">
+      <UniqueIdentifier>{38273b39-f228-47d8-a74d-28a84fc43c71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -276,6 +279,9 @@
     </ClCompile>
     <ClCompile Include="Application\Commands\Save\SaveCommand.cpp">
       <Filter>Application\Commands\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="HashFunction\HashFunction.cpp">
+      <Filter>HashFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -399,9 +405,6 @@
     <ClInclude Include="Containers\Hash\Hash.h">
       <Filter>Containers\Linear Probing Hash</Filter>
     </ClInclude>
-    <ClInclude Include="Containers\Hash\HashFunctionStringSpecialization.h">
-      <Filter>Containers\Linear Probing Hash</Filter>
-    </ClInclude>
     <ClInclude Include="Containers\Hash\HashImpl.hpp">
       <Filter>Containers\Linear Probing Hash</Filter>
     </ClInclude>
@@ -485,6 +488,9 @@
     </ClInclude>
     <ClInclude Include="IdGetter\IdGetter.h">
       <Filter>IdGetter</Filter>
+    </ClInclude>
+    <ClInclude Include="HashFunction\HashFunction.h">
+      <Filter>HashFunction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
