@@ -31,7 +31,10 @@ namespace IDragnev
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
 			Hash(std::distance(first, last))
 		{
-			for (; first != last; ++first) { insert(*first); }
+			for (; first != last; ++first) 
+			{
+				insert(*first);
+			}
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -146,18 +149,12 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(const Table& table)
 		{
-			for (auto&& element : table)
+			for (auto&& entry : table)
 			{
-				insertIfNotEmpty(element);
-			}
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertIfNotEmpty(const Element& element)
-		{
-			if (element)
-			{
-				insert(itemOf(element));
+				if (entry != nullEntry)
+				{
+					insert(itemOf(entry));
+				}
 			}
 		}
 
@@ -177,7 +174,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline std::size_t
+		std::size_t
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::findSlotToInsert(const Item& item) const noexcept
 		{
 			auto slot = computeHashValue(keyAccessor(item));
@@ -207,7 +204,7 @@ namespace IDragnev
 		inline bool 
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty(std::size_t slot) const noexcept
 		{
-			return !static_cast<bool>(table[slot]);
+			return table[slot] == nullEntry;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -230,7 +227,7 @@ namespace IDragnev
 		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::search(const Key& key) const noexcept -> Element
 		{
 			auto slot = correspondingSlot(key);
-			return (slot.has_value()) ? table[slot.value()] : Element{};
+			return (slot.has_value()) ? table[slot.value()] : nullEntry;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -241,7 +238,7 @@ namespace IDragnev
 
 			while (!isEmpty(slot))
 			{
-				if (match(key, table[slot]))
+				if (matches(key, table[slot]))
 				{
 					return { slot };
 				}
@@ -254,7 +251,7 @@ namespace IDragnev
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline bool
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::match(const Key& key, const Element& e) const noexcept
+		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::matches(const Key& key, const Element& e) const noexcept
 		{
 			return equalityPredicate(key, keyAccessor(itemOf(e)));
 		}
@@ -294,7 +291,7 @@ namespace IDragnev
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::empty(std::size_t slot) noexcept
 		{
-			table[slot] = {};
+			table[slot] = nullEntry;
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>

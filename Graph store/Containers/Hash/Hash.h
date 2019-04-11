@@ -83,14 +83,13 @@ namespace IDragnev
 			void emptySlotAndShrink(std::size_t slot);
 			void shrink();
 			void resize(std::size_t newSize);
-			void insertAllItemsFrom(const Table& table);
-			void insertIfNotEmpty(const Element& element);
+			void insertAllItemsFrom(const Table& t);
 
 			template <typename T>
 			static decltype(auto) itemOf(T&& element);
 			
 			std::optional<std::size_t> correspondingSlot(const Key& key) const noexcept;
-			bool match(const Key& key, const Element& item) const noexcept;
+			bool matches(const Key& key, const Element& item) const noexcept;
 
 			void rehashClusterStartingAt(std::size_t startingSlot);
 			Item extractItemAt(std::size_t slot);
@@ -109,8 +108,9 @@ namespace IDragnev
 			bool isEmpty(std::size_t slot) const noexcept;
 
 		private:
-			static const std::size_t GROWTH_FACTOR = 2;
-			static const std::size_t MIN_TABLE_SIZE = 3;
+			static constexpr std::size_t GROWTH_FACTOR = 2;
+			static constexpr std::size_t MIN_TABLE_SIZE = 3;
+			static inline Element nullEntry{};
 			static std::size_t calculateSize(std::size_t expectedCount);
 
 		private:
