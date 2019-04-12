@@ -49,8 +49,8 @@ namespace IDragnev::Containers
 			pointer operator->() const;
 			reference operator*() const;
 
-			SinglyLinkedListIterator<Item, isConst>& operator++() noexcept;
-			SinglyLinkedListIterator<Item, isConst> operator++(int) noexcept;
+			SinglyLinkedListIterator& operator++() noexcept;
+			SinglyLinkedListIterator operator++(int) noexcept;
 
 			operator bool() const noexcept;
 			bool operator!() const noexcept;
@@ -89,23 +89,24 @@ namespace IDragnev::Containers
 		SinglyLinkedList<T>& operator=(const SinglyLinkedList& rhs);
 
 	public:
-		void insert(const T& item);
-		void insertAsHead(const T& item);
-		void insertAsTail(const T& item);
+		void insertFront(const T& item);
+		void insertBack(const T& item);
 		void insertAfter(iterator& position, const T& item);
 		void insertBefore(iterator& position, const T& item);
 
-		void removeHead();
-		void removeTail();
+		void removeFront();
+		void removeBack();
 		void removeAt(iterator& position);
 		void removeBefore(iterator& position);
 		void removeAfter(iterator& position);
 
 		void appendList(SinglyLinkedList other) noexcept;
 
-		void empty() noexcept;
+		void clear() noexcept;
 		bool isEmpty() const noexcept;
 		std::size_t getCount() const noexcept;
+		const T& getFront() const;
+		const T& getBack() const;
 
 		iterator begin() noexcept;
 		iterator end() noexcept;
@@ -113,11 +114,6 @@ namespace IDragnev::Containers
 		const_iterator end() const noexcept;
 		const_iterator cbegin() const noexcept;
 		const_iterator cend() const noexcept;
-
-		void setHead(const T& item);
-		void setTail(const T& item);
-		const T& getHead() const;
-		const T& getTail() const;
 
 	private:
 		void swapContentsWith(SinglyLinkedList other) noexcept;
@@ -132,6 +128,7 @@ namespace IDragnev::Containers
 		void nullifyMembers() noexcept;
 
 		void removeAt(Node<T>* node);
+		void removeNonHead(Node<T>* node);
 		void insertAfter(Node<T>* node, const T& item);
 		void insertBefore(Node<T>* node, const T& item);
 		Node<T>* findNodeBefore(const Node<T>* node) const;

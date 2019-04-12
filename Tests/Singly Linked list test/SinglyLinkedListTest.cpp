@@ -71,27 +71,27 @@ namespace SinglyLinkedListTest
 			Assert::IsFalse(cend(list), L"End iterator of empty list is not null");
 		}
 	
-		TEST_METHOD(TailInsertionUpdatesCountAndTail)
+		TEST_METHOD(InsertBack)
 		{
 			IntList list;
 
-			list.insertAsTail(0);
+			list.insertBack(0);
 
 			Assert::AreEqual(list.getCount(), 1U, L"Count is not updated");
-			Assert::AreEqual(list.getTail(), 0, L"Tail is not updated");
+			Assert::AreEqual(list.getBack(), 0, L"Tail is not updated");
 		}
 
-		TEST_METHOD(InsertionAsHeadUpdatesCountAndHead)
+		TEST_METHOD(InsertFront)
 		{
 			IntList list;
 
-			list.insertAsHead(0);
+			list.insertFront(0);
 
 			Assert::AreEqual(list.getCount(), 1U, L"Count is not updated");
-			Assert::AreEqual(list.getHead(), 0, L"Head is not updated");
+			Assert::AreEqual(list.getFront(), 0, L"Head is not updated");
 		}
 		
-		TEST_METHOD(AppendListLValue)
+		TEST_METHOD(AppendList)
 		{
 			IntList source{ 4, 5, 6 };
 			IntList destination{ 1, 2, 3 };
@@ -101,44 +101,33 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(destination == IntList{ 1, 2, 3, 4, 5, 6 });
 		}
 
-		TEST_METHOD(AppendListRValue)
-		{
-			IntList source{ 4, 5, 6 };
-			IntList destination{ 1, 2, 3 };
-
-			destination.appendList(std::move(source));
-
-			Assert::IsTrue(destination == IntList{ 1, 2, 3, 4, 5, 6 }, L"Appended-to list has invalid contents");
-			Assert::IsTrue(source.isEmpty(), L"Move-appended list is not empty");
-		}
-
-		TEST_METHOD(RemoveHeadUpdatesCountAndHead)
+		TEST_METHOD(RemoveFront)
 		{
 			IntList list{ 1, 2, 3 };
 			
-			list.removeHead();
+			list.removeFront();
 
-			Assert::AreEqual(list.getHead(), 2, L"Head is not updated");
-			Assert::AreEqual(list.getCount(), 2U, L"Count is not updated");
+			Assert::AreEqual(list.getFront(), 2, L"Head is not updated");
+			Assert::AreEqual(list.getCount(), 2u, L"Count is not updated");
 		}
 		
-		TEST_METHOD(RemoveTailUpdatesCoundAndTail)
+		TEST_METHOD(RemoveBack)
 		{
 			IntList list{ 1, 2, 3 };
 
-			list.removeTail();
+			list.removeBack();
 
-			Assert::AreEqual(list.getTail(), 2, L"Tail is not updated");
+			Assert::AreEqual(list.getBack(), 2, L"Tail is not updated");
 			Assert::AreEqual(list.getCount(), 2U, L"Count is not updated");
 		}
 
-		TEST_METHOD(InsertionAfterNullIteratorInsertsAsTail)
+		TEST_METHOD(InsertionAfterNullIteratorInsertsBack)
 		{
 			IntList list{ 10, 11, 12 };
 
 			list.insertAfter(end(list), 1);
 
-			Assert::AreEqual(list.getTail(), 1);
+			Assert::AreEqual(list.getBack(), 1);
 		}
 
 		TEST_METHOD(InsertionAfterValidIterator)
@@ -147,7 +136,7 @@ namespace SinglyLinkedListTest
 
 			list.insertAfter(begin(list), 2);
 
-			Assert::AreEqual(list.getTail(), 2);
+			Assert::AreEqual(list.getBack(), 2);
 		}
 
 		TEST_METHOD(InsertionBetweenElementsWithInsertAfterIterator)
@@ -159,22 +148,22 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
-		TEST_METHOD(InsertionBeforeNullIteratorInsertsAsHead)
+		TEST_METHOD(InsertionBeforeNullIteratorInsertsFront)
 		{
 			IntList list{ 10 };
 
 			list.insertBefore(end(list), 1);
 
-			Assert::AreEqual(list.getHead(), 1);
+			Assert::AreEqual(list.getFront(), 1);
 		}
 
-		TEST_METHOD(InsertionBeforeIterator)
+		TEST_METHOD(InsertionBeforeValidIterator)
 		{
 			IntList list{ 1 };
 
 			list.insertBefore(begin(list), 20);
 
-			Assert::AreEqual(list.getHead(), 20);
+			Assert::AreEqual(list.getFront(), 20);
 		}
 
 		TEST_METHOD(InsertionBetweenElementsWithInsertBeforeIterator)
@@ -188,7 +177,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(list == IntList{ 1, 2, 3 });
 		}
 
-		TEST_METHOD(RemovalAtNullIteratorDoesNothing)
+		TEST_METHOD(RemovingAtNullIteratorDoesNothing)
 		{
 			IntList emptyList;
 
@@ -197,7 +186,7 @@ namespace SinglyLinkedListTest
 			Assert::IsTrue(emptyList.isEmpty());
 		}
 
-		TEST_METHOD(RemovalAtIterator)
+		TEST_METHOD(RemovingAtValidIterator)
 		{
 			IntList list{ 1, 2, 3 };
 			auto iterator = begin(list);
@@ -206,7 +195,6 @@ namespace SinglyLinkedListTest
 			list.removeAt(iterator);
 
 			Assert::IsTrue(list == IntList{ 1, 3 });
-
 		}
 
 		TEST_METHOD(CopyCtorFromEmptySource)

@@ -43,7 +43,7 @@ namespace IDragnev::Containers
 		}
 		catch (...)
 		{
-			empty();
+			clear();
 			throw;
 		}
 	}
@@ -68,7 +68,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	void SinglyLinkedList<T>::empty() noexcept
+	void SinglyLinkedList<T>::clear() noexcept
 	{
 		clearCurrentChain();
 		nullifyMembers();
@@ -173,13 +173,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	inline void SinglyLinkedList<T>::insert(const T& item)
-	{
-		insertAsTail(item);
-	}
-
-	template <typename T>
-	void SinglyLinkedList<T>::insertAsTail(const T& item)
+	void SinglyLinkedList<T>::insertBack(const T& item)
 	{
 		auto newTail = new Node<T>{ item };
 
@@ -197,7 +191,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	void SinglyLinkedList<T>::insertAsHead(const T& item)
+	void SinglyLinkedList<T>::insertFront(const T& item)
 	{
 		auto newHead = new Node<T>{ item, head };
 
@@ -215,7 +209,7 @@ namespace IDragnev::Containers
 	{
 		if (!node || node == tail)
 		{
-			insertAsTail(item);
+			insertBack(item);
 		}
 		else
 		{
@@ -231,7 +225,7 @@ namespace IDragnev::Containers
 	{
 		if (!node || node == head)
 		{
-			insertAsHead(item);
+			insertFront(item);
 		}
 		else
 		{
@@ -257,7 +251,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	void SinglyLinkedList<T>::removeHead()
+	void SinglyLinkedList<T>::removeFront()
 	{
 		assert(!isEmpty());
 
@@ -274,7 +268,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	inline void SinglyLinkedList<T>::removeTail()
+	inline void SinglyLinkedList<T>::removeBack()
 	{
 		assert(!isEmpty());
 		removeAt(tail);
@@ -289,22 +283,28 @@ namespace IDragnev::Containers
 		}
 		else if (node == head)
 		{
-			removeHead();
+			removeFront();
 		}
 		else
 		{
-			auto nodeBefore = findNodeBefore(node);
-			assert(nodeBefore);
-
-			if (node == tail)
-			{
-				tail = nodeBefore;
-			}
-
-			nodeBefore->next = node->next;
-			delete node;
-			--count;
+			removeNonHead(node);
 		}
+	}
+
+	template <typename T>
+	void SinglyLinkedList<T>::removeNonHead(Node<T>* node)
+	{
+		auto nodeBefore = findNodeBefore(node);
+		assert(nodeBefore);
+
+		if (node == tail)
+		{
+			tail = nodeBefore;
+		}
+
+		nodeBefore->next = node->next;
+		delete node;
+		--count;
 	}
 
 	template <typename T>
@@ -350,31 +350,17 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	inline const T& SinglyLinkedList<T>::getHead() const
+	inline const T& SinglyLinkedList<T>::getFront() const
 	{
 		assert(!isEmpty());
 		return head->data;
 	}
 
 	template <typename T>
-	inline const T& SinglyLinkedList<T>::getTail() const
+	inline const T& SinglyLinkedList<T>::getBack() const
 	{
 		assert(!isEmpty());
 		return tail->data;
-	}
-
-	template <typename T>
-	inline void SinglyLinkedList<T>::setHead(const T& data)
-	{
-		assert(!isEmpty());
-		head->data = data;
-	}
-
-	template <typename T>
-	inline void SinglyLinkedList<T>::setTail(const T& data)
-	{
-		assert(!isEmpty());
-		tail->data = data;
 	}
 
 	template <typename T>
