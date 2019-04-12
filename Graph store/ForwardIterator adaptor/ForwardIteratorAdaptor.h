@@ -14,7 +14,7 @@ namespace IDragnev
 			struct BaseIteratorSelector
 			{
 			private:
-				static constexpr bool isConst = Traits::IsConstIterator<IteratorType>;
+				static constexpr bool isConst = Traits::isConstIterator<IteratorType>;
 				using value_type = typename std::iterator_traits<IteratorType>::value_type;
 
 			public:
@@ -29,7 +29,7 @@ namespace IDragnev
 		class ForwardIteratorAdaptor : public Detail::BaseIterator<ForwardIterator>
 		{
 		private:
-			static_assert(Traits::IsForwardIterator<ForwardIterator>,
+			static_assert(Traits::isForwardIterator<ForwardIterator>,
 						  "template <class T> ForwardIteratorAdaptor requires T to be a forward iterator");
 
 			using pointer = typename std::iterator_traits<ForwardIterator>::pointer;
