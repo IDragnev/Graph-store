@@ -327,7 +327,7 @@ namespace PriorityQueueTest
 
 				while (!queue.isEmpty())
 				{
-					result.insert(queue.extractOptimal());
+					result.insertBack(queue.extractOptimal());
 				}
 
 				return result;

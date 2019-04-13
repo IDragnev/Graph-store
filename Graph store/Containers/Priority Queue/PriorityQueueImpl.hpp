@@ -291,7 +291,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::empty() noexcept
+		void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::clear() noexcept
 		{
 			invalidateHandlesOfAll();
 			elements.clear();

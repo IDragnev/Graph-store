@@ -97,7 +97,7 @@ namespace IDragnev
 			void improveKey(const Handle& h, const Key& key);
 
 			bool isEmpty() const noexcept;
-			void empty() noexcept;
+			void clear() noexcept;
 
 		private:
 			template <typename InputIt>
