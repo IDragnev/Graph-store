@@ -16,13 +16,6 @@ namespace DArraytest
 		using StringArray = DArray<std::string>;
 		using UIntArray = DArray<unsigned>;
 
-		static const size_t TEST_SIZE = 25;
-
-		static bool areSizeAndCountZero(const UIntArray& dArray)
-		{
-			return dArray.getCount() == 0 && dArray.getSize() == 0;
-		}
-
 	public:
 		TEST_METHOD(DefaultConstructorConstructsEmptyArray)
 		{
@@ -114,7 +107,7 @@ namespace DArraytest
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
 
-			dArray.empty();
+			dArray.clear();
 
 			Assert::IsTrue(dArray.isEmpty(), L"Array is not empty");
 			Assert::AreEqual(dArray.getSize(), 0U, L"Size is not zero");
@@ -241,7 +234,7 @@ namespace DArraytest
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
 
-			dArray.insert(5);
+			dArray.insertBack(5);
 
 			Assert::IsTrue(dArray == UIntArray{ 1, 2, 3, 4, 5 });
 		}
@@ -251,7 +244,7 @@ namespace DArraytest
 			StringArray dArray{ "one", "two", "three" };
 			std::string str{ "four" };
 			
-			dArray.insert(std::move(str));
+			dArray.insertBack(std::move(str));
 
 			Assert::IsTrue(dArray == StringArray{"one", "two", "three", "four"}, L"The array has invalid contents");
 			Assert::IsTrue(str == "", L"The move-inserted string is not moved");
@@ -274,5 +267,13 @@ namespace DArraytest
 			
 			Assert::IsTrue(dArray == UIntArray{ 1, 2, 3, 4, 5 });
 		}
+
+		private:
+			static const std::size_t TEST_SIZE = 25;
+
+			static bool areSizeAndCountZero(const UIntArray& dArray)
+			{
+				return dArray.getCount() == 0 && dArray.getSize() == 0;
+			}
 	};
 }

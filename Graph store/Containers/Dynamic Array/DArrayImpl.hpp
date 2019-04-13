@@ -6,8 +6,8 @@ namespace IDragnev
 	{
 		template <typename T>
 		DArray<T>::DArray() noexcept :
-			size{ 0 },
 			count{ 0 },
+			size{ 0 },
 			items{ nullptr }
 		{
 		}
@@ -20,7 +20,7 @@ namespace IDragnev
 
 		template <typename T>
 		DArray<T>::DArray(const DArray<T>& source) :
-			DArray<T>(source.cbegin(), source.cend())
+			DArray(source.cbegin(), source.cend())
 		{
 		}
 
@@ -29,15 +29,17 @@ namespace IDragnev
 		DArray<T>::DArray(InputIt first, InputIt last) :
 			DArray(std::distance(first, last))
 		{
-			for (; first != last; ++first)
+			for (auto current = first; 
+				 current != last; 
+				 ++current)
 			{
-				items[count++] = *first;
+				items[count++] = *current;
 			}
 		}
 
 		template <typename T>
 		DArray<T>::DArray(size_type size, size_type count) :
-			count{},
+			count{ 0 },
 			size{ size },
 			items{ nullptr }
 		{
@@ -57,7 +59,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>::DArray(DArray<T>&& source) noexcept :
+		DArray<T>::DArray(DArray&& source) noexcept :
 			count{ source.count },
 			size{ source.size },
 			items{ source.items }
@@ -73,7 +75,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>& DArray<T>::operator=(const DArray<T>& rhs)
+		DArray<T>& DArray<T>::operator=(const DArray& rhs)
 		{
 			if (this != &rhs)
 			{
@@ -84,7 +86,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>& DArray<T>::operator=(DArray<T>&& rhs) noexcept
+		DArray<T>& DArray<T>::operator=(DArray&& rhs) noexcept
 		{
 			if (this != &rhs)
 			{
@@ -95,7 +97,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::swapContentsWith(DArray<T> temporary) noexcept
+		inline void DArray<T>::swapContentsWith(DArray temporary) noexcept
 		{
 			std::swap(size, temporary.size);
 			std::swap(count, temporary.count);
@@ -121,7 +123,7 @@ namespace IDragnev
 
 			if (newSize == 0)
 			{
-				empty();
+				clear();
 			}
 			else if (newSize != size)
 			{
@@ -130,7 +132,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::empty() noexcept
+		void DArray<T>::clear() noexcept
 		{
 			destroyItems();
 			nullifyMembers();
@@ -140,10 +142,10 @@ namespace IDragnev
 		void DArray<T>::resize(size_type newSize)
 		{
 			auto newCount = (count <= newSize) ? count : newSize;
-			auto temporary = DArray<T>(newSize, newCount);
+			auto temporary = DArray(newSize, newCount);
 
 			using Utility::moveIfNothrowMoveAssignable;
-			for (auto i = size_type{ 0 }; i < newCount; ++i)
+			for (size_type i = 0; i < newCount; ++i)
 			{
 				temporary.items[i] = moveIfNothrowMoveAssignable(items[i]);
 			}
@@ -161,20 +163,20 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::insert(const T& item)
+		inline void DArray<T>::insertBack(const T& item)
 		{
-			doInsert(item);
+			doInsertBack(item);
 		}
 
 		template <typename T>
-		inline void DArray<T>::insert(T&& item)
+		inline void DArray<T>::insertBack(T&& item)
 		{
-			doInsert(std::move(item));
+			doInsertBack(std::move(item));
 		}
 
 		template <typename T>
 		template <typename Item>
-		inline void DArray<T>::doInsert(Item&& item)
+		void DArray<T>::doInsertBack(Item&& item)
 		{
 			enlargeIfFull();
 			items[count] = std::forward<Item>(item);
@@ -206,7 +208,7 @@ namespace IDragnev
 			}
 			else
 			{
-				insert(newItem);
+				insertBack(newItem);
 			}
 		}
 
@@ -242,7 +244,7 @@ namespace IDragnev
 		template <typename T>
 		inline T& DArray<T>::operator[](size_type position)
 		{
-			return const_cast<T&>(static_cast<const DArray<T>&>(*this)[position]);
+			return const_cast<T&>(static_cast<const DArray&>(*this)[position]);
 		}
 
 		template <typename T>

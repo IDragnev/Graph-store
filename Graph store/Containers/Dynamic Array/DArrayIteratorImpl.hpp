@@ -14,7 +14,7 @@ namespace IDragnev
 		template <typename T>
 		template <typename Item, bool isConst>
 		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(const DArrayIterator<Item, false>& source) noexcept :
-			DArrayIterator<Item, isConst>{ source.current, source.owner }
+			DArrayIterator{ source.current, source.owner }
 		{
 		}
 

@@ -44,8 +44,8 @@ namespace IDragnev
 				pointer operator->() const;
 				reference operator*() const;
 
-				DArrayIterator<Item, isConst>& operator++();
-				DArrayIterator<Item, isConst> operator++(int);
+				DArrayIterator& operator++();
+				DArrayIterator operator++(int);
 
 				operator bool() const noexcept;
 				bool operator!() const noexcept;
@@ -77,16 +77,16 @@ namespace IDragnev
 			DArray(InputIt first, InputIt last);
 			DArray(std::initializer_list<T> source);
 			explicit DArray(size_type size, size_type count = 0);
-			DArray(DArray<T>&& source) noexcept;
-			DArray(const DArray<T>& source);
+			DArray(DArray&& source) noexcept;
+			DArray(const DArray& source);
 			~DArray();
 
-			DArray<T>& operator=(DArray<T>&& rhs) noexcept;
-			DArray<T>& operator=(const DArray<T>& rhs);
+			DArray& operator=(DArray&& rhs) noexcept;
+			DArray& operator=(const DArray& rhs);
 
 		public:
-			void insert(T&& item);
-			void insert(const T& item);
+			void insertBack(T&& item);
+			void insertBack(const T& item);
 			void insertAt(size_type position, const T& item);
 			void removeAt(size_type position);
 
@@ -94,7 +94,7 @@ namespace IDragnev
 			const T& operator[](size_type position) const;
 
 			bool isEmpty() const noexcept;
-			void empty() noexcept;
+			void clear() noexcept;
 			void shrink(size_type size);
 			void ensureSize(size_type size);
 
@@ -111,10 +111,10 @@ namespace IDragnev
 		private:
 			void enlargeIfFull();
 			void resize(size_type newSize);
-			void swapContentsWith(DArray<T> temp) noexcept;
+			void swapContentsWith(DArray temp) noexcept;
 
 			template <typename T>
-			void doInsert(T&& item);
+			void doInsertBack(T&& item);
 
 			bool hasItemAt(size_type position) const noexcept;
 			void shiftItemsOnePositionLeft(size_type start, size_type end);
@@ -125,18 +125,14 @@ namespace IDragnev
 			void nullifyMembers() noexcept;
 
 		private:
-			static const size_type GROWTH_FACTOR = 2;
-			static const size_type DEFAULT_SIZE = 8;
+			static constexpr size_type GROWTH_FACTOR = 2;
+			static constexpr size_type DEFAULT_SIZE = 8;
 
 		private:
 			size_type count;
 			size_type size;
 			T* items;
 		};
-
-		template <typename Item, bool isConst>
-		bool operator!=(typename const DArray<Item>::DArrayIterator<Item, isConst>& lhs,
-						typename const DArray<Item>::DArrayIterator<Item, isConst>& rhs) noexcept;
 
 		template <typename T>
 		bool operator==(const DArray<T>& lhs, const DArray<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()));
