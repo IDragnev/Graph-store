@@ -110,7 +110,7 @@ namespace IDragnev
 		private:
 			static constexpr std::size_t GROWTH_FACTOR = 2;
 			static constexpr std::size_t MIN_TABLE_SIZE = 3;
-			static inline Element nullEntry{};
+			static inline const Element nullEntry{};
 			static std::size_t calculateSize(std::size_t expectedCount);
 
 		private:
