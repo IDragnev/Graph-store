@@ -6,8 +6,8 @@ namespace IDragnev
 	{
 		template <typename T>
 		DArray<T>::DArray() noexcept :
-			count{ 0 },
 			size{ 0 },
+			count{ 0 },
 			items{ nullptr }
 		{
 		}
@@ -38,24 +38,11 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		DArray<T>::DArray(size_type size, size_type count) :
-			count{ 0 },
+		DArray<T>::DArray(std::size_t size, std::size_t count) :
 			size{ size },
-			items{ nullptr }
+			count{ [count, size] { assert(count <= size); return count; }() },
+			items{ [size] { return size > 0 ? new T[size]{} : nullptr; }() }
 		{
-			setCount(count);
-
-			if (size > 0)
-			{
-				items = new T[size]{};
-			}
-		}
-
-		template <typename T>
-		inline void DArray<T>::setCount(size_type newCount)
-		{
-			assert(newCount <= size);
-			count = newCount;
 		}
 
 		template <typename T>
@@ -117,7 +104,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::shrink(size_type newSize)
+		void DArray<T>::shrink(std::size_t newSize)
 		{
 			assert(newSize <= size);
 
@@ -139,13 +126,13 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::resize(size_type newSize)
+		void DArray<T>::resize(std::size_t newSize)
 		{
 			auto newCount = (count <= newSize) ? count : newSize;
 			auto temporary = DArray(newSize, newCount);
 
 			using Utility::moveIfNothrowMoveAssignable;
-			for (size_type i = 0; i < newCount; ++i)
+			for (std::size_t i = 0; i < newCount; ++i)
 			{
 				temporary.items[i] = moveIfNothrowMoveAssignable(items[i]);
 			}
@@ -154,7 +141,7 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline void DArray<T>::ensureSize(size_type newSize)
+		inline void DArray<T>::ensureSize(std::size_t newSize)
 		{
 			if (newSize > size)
 			{
@@ -195,67 +182,72 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		void DArray<T>::insertAt(size_type position, const T& newItem)
+		inline void DArray<T>::insertAt(std::size_t position, const T& item)
+		{
+			doInsertAt(position, item);
+		}
+
+		template <typename T>
+		inline void DArray<T>::insertAt(std::size_t position, T&& item)
+		{
+			doInsertAt(position, std::move(item));
+		}
+
+		template <typename T>
+		template <typename Item>
+		void DArray<T>::doInsertAt(std::size_t position, Item&& item)
 		{
 			if (position != count)
 			{
 				assert(hasItemAt(position));
 				enlargeIfFull();
 
-				shiftItemsOnePositionRight(position, count - 1);
-				items[position] = newItem;
+				shiftOnePositionRight(position, count - 1);
+				items[position] = std::forward<Item>(item);
 				++count;
 			}
 			else
 			{
-				insertBack(newItem);
+				insertBack(std::forward<Item>(item));
 			}
 		}
 
 		template <typename T>
-		void DArray<T>::shiftItemsOnePositionRight(size_type start, size_type end)
+		inline void DArray<T>::shiftOnePositionRight(std::size_t start, std::size_t end)
 		{
 			assert(end + 1 < size);
-
-			for (auto i = end + 1; i > start; --i)
-			{
-				items[i] = std::move(items[i - 1]);
-			}
+			std::move_backward(items + start, items + (end + 1), items + (end + 2));
 		}
 
 		template <typename T>
-		inline void DArray<T>::removeAt(size_type position)
+		inline void DArray<T>::removeAt(std::size_t position)
 		{
 			assert(hasItemAt(position));
-			shiftItemsOnePositionLeft(position + 1, --count);
+			shiftOnePositionLeft(position + 1, --count);
 		}
 
 		template <typename T>
-		void DArray<T>::shiftItemsOnePositionLeft(size_type start, size_type end)
+		inline void DArray<T>::shiftOnePositionLeft(std::size_t start, std::size_t end)
 		{
 			assert(start > 0 && end < size);
-
-			for (auto i = start - 1; i < end; ++i)
-			{
-				items[i] = std::move(items[i + 1]);
-			}
+			std::move(items + start, items + (end + 1), items + (start - 1));
 		}
 
 		template <typename T>
-		inline T& DArray<T>::operator[](size_type position)
+		inline T& DArray<T>::operator[](std::size_t position)
 		{
 			return const_cast<T&>(static_cast<const DArray&>(*this)[position]);
 		}
 
 		template <typename T>
-		inline const T& DArray<T>::operator[](size_type position) const
+		inline const T& DArray<T>::operator[](std::size_t position) const
 		{
 			assert(hasItemAt(position));
 			return items[position];
 		}
 
 		template <typename T>
-		inline bool DArray<T>::hasItemAt(size_type position) const noexcept
+		inline bool DArray<T>::hasItemAt(std::size_t position) const noexcept
 		{
 			return position < count;
 		}
@@ -267,13 +259,13 @@ namespace IDragnev
 		}
 
 		template <typename T>
-		inline typename auto DArray<T>::getCount() const noexcept -> size_type
+		inline typename auto DArray<T>::getCount() const noexcept -> std::size_t
 		{
 			return count;
 		}
 
 		template <typename T>
-		inline typename auto DArray<T>::getSize() const noexcept -> size_type
+		inline typename auto DArray<T>::getSize() const noexcept -> std::size_t
 		{
 			return size;
 		}

@@ -22,8 +22,6 @@ namespace IDragnev
 			using EnableIfItemIterator =
 				std::enable_if_t<std::is_same_v<typename std::iterator_traits<Iter>::value_type, T>>;
 
-			using size_type = std::size_t;
-
 			template <typename Item, bool isConst = false>
 			class DArrayIterator
 			{
@@ -61,11 +59,11 @@ namespace IDragnev
 				}
 
 			private:
-				DArrayIterator(size_type startPosition, OwnerPtr owner) noexcept;
+				DArrayIterator(std::size_t startPosition, OwnerPtr owner) noexcept;
 
 			private:
 				OwnerPtr owner;
-				size_type current;
+				std::size_t current;
 			};
 
 		public:
@@ -76,7 +74,7 @@ namespace IDragnev
 			template <typename InputIt, typename = EnableIfItemIterator<InputIt>>
 			DArray(InputIt first, InputIt last);
 			DArray(std::initializer_list<T> source);
-			explicit DArray(size_type size, size_type count = 0);
+			explicit DArray(std::size_t size, std::size_t count = 0);
 			DArray(DArray&& source) noexcept;
 			DArray(const DArray& source);
 			~DArray();
@@ -87,16 +85,17 @@ namespace IDragnev
 		public:
 			void insertBack(T&& item);
 			void insertBack(const T& item);
-			void insertAt(size_type position, const T& item);
-			void removeAt(size_type position);
+			void insertAt(std::size_t position, T&& item);
+			void insertAt(std::size_t position, const T& item);
+			void removeAt(std::size_t position);
 
-			T& operator[](size_type position);
-			const T& operator[](size_type position) const;
+			T& operator[](std::size_t position);
+			const T& operator[](std::size_t position) const;
 
 			bool isEmpty() const noexcept;
 			void clear() noexcept;
-			void shrink(size_type size);
-			void ensureSize(size_type size);
+			void shrink(std::size_t size);
+			void ensureSize(std::size_t size);
 
 			iterator begin() noexcept;
 			iterator end() noexcept;
@@ -105,32 +104,33 @@ namespace IDragnev
 			const_iterator cbegin() const noexcept;
 			const_iterator cend() const noexcept;
 
-			size_type getSize() const noexcept;
-			size_type getCount() const noexcept;
+			std::size_t getSize() const noexcept;
+			std::size_t getCount() const noexcept;
 
 		private:
 			void enlargeIfFull();
-			void resize(size_type newSize);
+			void resize(std::size_t newSize);
 			void swapContentsWith(DArray temp) noexcept;
 
 			template <typename T>
 			void doInsertBack(T&& item);
+			template <typename T>
+			void doInsertAt(std::size_t position, T&& item);
 
-			bool hasItemAt(size_type position) const noexcept;
-			void shiftItemsOnePositionLeft(size_type start, size_type end);
-			void shiftItemsOnePositionRight(size_type start, size_type end);
+			bool hasItemAt(std::size_t position) const noexcept;
+			void shiftOnePositionLeft(std::size_t start, std::size_t end);
+			void shiftOnePositionRight(std::size_t start, std::size_t end);
 
-			void setCount(size_type count);
 			void destroyItems() noexcept;
 			void nullifyMembers() noexcept;
 
 		private:
-			static constexpr size_type GROWTH_FACTOR = 2;
-			static constexpr size_type DEFAULT_SIZE = 8;
+			static constexpr std::size_t GROWTH_FACTOR = 2;
+			static constexpr std::size_t DEFAULT_SIZE = 8;
 
 		private:
-			size_type count;
-			size_type size;
+			std::size_t size;
+			std::size_t count;
 			T* items;
 		};
 

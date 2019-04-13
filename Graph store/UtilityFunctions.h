@@ -37,13 +37,13 @@ namespace IDragnev::Utility
 	}
 
 	template <typename... Args>
-	inline void print(std::ostream& out, const Args&... args)
+	void print(std::ostream& out, const Args&... args)
 	{
 		(out << ... << args);
 	}
 
 	template <typename... Args>
-	inline void print(const Args&... args)
+	void print(const Args&... args)
 	{
 		print(std::cout, args...);
 	}

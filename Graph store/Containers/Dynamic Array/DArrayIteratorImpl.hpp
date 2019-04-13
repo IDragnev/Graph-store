@@ -5,7 +5,7 @@ namespace IDragnev
 	{
 		template <typename T>
 		template <typename Item, bool isConst>
-		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(size_type startPosition, OwnerPtr owner) noexcept :
+		inline DArray<T>::DArrayIterator<Item, isConst>::DArrayIterator(std::size_t startPosition, OwnerPtr owner) noexcept :
 			current{ startPosition },
 			owner{ owner }
 		{

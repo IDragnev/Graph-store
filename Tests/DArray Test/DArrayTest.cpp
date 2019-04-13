@@ -253,10 +253,10 @@ namespace DArraytest
 		TEST_METHOD(RemoveAtShiftsItemsAfterTheRemovedOne)
 		{
 			UIntArray dArray{ 1, 2, 3, 4 };
-			dArray.removeAt(0);
+			dArray.removeAt(1);
 
-			Assert::AreEqual(dArray.getCount(), 3U, L"Count is not updated");
-			Assert::IsTrue(dArray == UIntArray{ 2, 3, 4 });
+			Assert::AreEqual(dArray.getCount(), 3u, L"Count is not updated");
+			Assert::IsTrue(dArray == UIntArray{ 1, 3, 4 });
 		}
 
 		TEST_METHOD(InsertAt)
