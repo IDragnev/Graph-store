@@ -8,48 +8,36 @@ namespace IDragnev::Traits
 {
 	namespace Detail
 	{
-		template <typename T>
-		struct IsConstReferenceImpl
-		{
-		private:
-			using RawType = std::remove_reference_t<T>;
-
-		public:
-			static constexpr bool value = std::is_const_v<RawType>;
-		};
+		template <typename Iterator>
+		using IteratorCategory = typename std::iterator_traits<Iterator>::iterator_category;
 
 		template <typename Iterator>
-		struct IsConstIteratorImpl
-		{
-		private:
-			using reference = typename std::iterator_traits<Iterator>::reference;
-
-		public:
-			static constexpr bool value = IsConstReferenceImpl<reference>::value;
-		};
-
-		template <typename Iterator>
-		struct IsForwardIteratorImpl
-		{
-		private:
-			using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
-
-		public:
-			static constexpr bool value = std::is_convertible_v<iterator_category, std::forward_iterator_tag>;
-		};
+		using IteratorReference = typename std::iterator_traits<Iterator>::reference;
 	}
 
 	template <typename T>
-	inline constexpr bool isConstReference = Detail::IsConstReferenceImpl<T>::value;
+	struct IsConstReference : std::is_const<std::remove_reference_t<T>> { };
 
 	template <typename T>
-	inline constexpr bool isConstIterator = Detail::IsConstIteratorImpl<T>::value;
+	inline constexpr bool isConstReference = IsConstReference<T>::value;
 
-	template <typename T>
-	inline constexpr bool isForwardIterator = Detail::IsForwardIteratorImpl<T>::value;
+	template <typename Iterator>
+	struct IsConstIterator : IsConstReference<Detail::IteratorReference<Iterator>> { };
+
+	template <typename Iterator>
+	inline constexpr bool isConstIterator = IsConstIterator<Iterator>::value;
+
+	template <typename Iterator>
+	struct IsForwardIterator : std::is_convertible<Detail::IteratorCategory<Iterator>, std::forward_iterator_tag> { };
+
+	template <typename Iterator>
+	inline constexpr bool isForwardIterator = IsForwardIterator<Iterator>::value;
 
 	template <template <typename...> typename Predicate, typename... Ts>
-	inline constexpr bool allOf = (Predicate<Ts>::value && ...);
+	struct AllOf : std::conditional_t<(Predicate<Ts>::value && ...), std::true_type, std::false_type> { };
+
+	template <template <typename...> typename Predicate, typename... Ts>
+	inline constexpr bool allOf = AllOf<Predicate, Ts...>::value;
 }
 
 #endif //__TRAITS_H_INCLUDED__
