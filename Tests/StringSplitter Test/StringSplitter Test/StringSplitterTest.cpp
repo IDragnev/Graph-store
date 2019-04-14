@@ -2,7 +2,7 @@
 #include "..\..\..\Graph store\StringSplitter\StringSplitter.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace IDragnev::Containers;
+using namespace std::string_literals;
 
 namespace StringSplitterTest
 {		
@@ -13,14 +13,14 @@ namespace StringSplitterTest
 		using Container = decltype(Splitter{}("s"));
 
 	public:	
-		TEST_METHOD(defaultSplitterHasOnlyWhiteSpaceDelimiter)
+		TEST_METHOD(defaultSplitterDelimitsByWhiteSpace)
 		{
 			Assert::IsTrue(Splitter{}("one two 'three'") == Container{ "one", "two", "'three'"});
 		}
 
-		TEST_METHOD(splittingTheEmptyStringReturnsEmptyContainer)
+		TEST_METHOD(splittingTheEmptyStringReturnsEmptyResult)
 		{
-			Splitter splitter{ ' ', '\'' };
+			Splitter splitter{ ' ', '*' };
 
 			auto result = splitter("");
 
@@ -49,7 +49,7 @@ namespace StringSplitterTest
 		{
 			Splitter splitter{ '\'' };
 
-			Assert::IsTrue(splitter(" one two") == Container{ "one", "two" });
+			Assert::IsTrue(splitter(" 'one' two") == Container{ "one", "two" });
 		}
 
 		TEST_METHOD(unmatchedDelimiterThrows)
@@ -65,6 +65,52 @@ namespace StringSplitterTest
 			catch (std::runtime_error&)
 			{
 			}
+		}
+
+		TEST_METHOD(movedFromSplitterDelimitsAsDefaultConstructed)
+		{
+			Splitter source{ '@', '*' };
+			auto destination = std::move(source);
+			auto input = "@one@ *two* three"s;
+
+			Assert::IsTrue(source(input) == Container{ "@one@", "*two*", "three" }, L"moved-from splitter has invalid result");
+			Assert::IsTrue(destination(input) == Container{ "one", "two", "three" }, L"moved-in splitter has invalid result");
+		}
+
+		TEST_METHOD(copyConstructor)
+		{
+			Splitter source{ '@', '*' };
+			auto destination = source;
+			auto input = "@one@ *two* three"s;
+			auto expected = Container{ "one", "two", "three" };
+
+			Assert::IsTrue(source(input) == expected);
+			Assert::IsTrue(destination(input) == expected);
+		}
+
+		TEST_METHOD(moveAssignedFromSplitterDelimitsAsDefaultConstructed)
+		{
+			Splitter rhs{ '@', '*' };
+			Splitter lhs;
+			auto input = "@one@ *two* three"s;
+
+			lhs = std::move(rhs);
+
+			Assert::IsTrue(lhs(input) == Container{ "one", "two", "three" }, L"moved-in splitter has invalid result");
+			Assert::IsTrue(rhs(input) == Container{ "@one@", "*two*", "three" }, L"moved-from splitter has invalid result");
+		}
+
+		TEST_METHOD(copyAssignment)
+		{
+			Splitter rhs{ '@', '*' };
+			Splitter lhs;
+			auto string = "@one@ *two* three"s;
+			auto expected = Container{ "one", "two", "three" };
+
+			lhs = rhs;
+
+			Assert::IsTrue(lhs(string) == expected);
+			Assert::IsTrue(rhs(string) == expected);
 		}
 	};
 }

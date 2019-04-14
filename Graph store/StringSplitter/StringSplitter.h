@@ -17,28 +17,30 @@ namespace IDragnev
 		static_assert(std::is_default_constructible_v<Container<std::string>>,
 					  "StringSplitter requires Container<std::string> to be default constructible");
 		static_assert(std::is_move_constructible_v<Container<std::string>>,
-					  "StringSplitter requires Container<std::string> to be move constructible");
+			          "StringSplitter requires Container<std::string> to be move constructible");
 		static_assert(std::is_move_assignable_v<Container<std::string>>,
-					  "StringSplitter requires Container<std::string> to be move assignable");
-		static_assert(std::is_invocable_v<Inserter, Container<std::string>&, std::string&&>,
-			          "Incompatible Inserter supplied to StringSplitter");
+			          "StringSplitter requires Container<std::string> to be move assignable");
 		static_assert(std::is_default_constructible_v<Inserter>,
 			          "StringSplitter requires Inserter to be default constructible");
+		static_assert(std::is_invocable_v<Inserter, Container<std::string>&, std::string&&>,
+			          "Incompatible Inserter supplied to StringSplitter");
 
 		using Delimiters = Containers::DArray<char>;
 
 	public:
 		StringSplitter() = default;
 		StringSplitter(std::initializer_list<char> delimiters);
-		StringSplitter(const StringSplitter&) = delete;
-		StringSplitter(StringSplitter&& source) = default;
+		StringSplitter(StringSplitter&& source);
+		StringSplitter(const StringSplitter& source);
+		~StringSplitter() = default;
 
-		StringSplitter& operator=(const StringSplitter&) = delete;
-		StringSplitter& operator=(StringSplitter&& rhs) = default;
+		StringSplitter& operator=(StringSplitter&& rhs);
+		StringSplitter& operator=(const StringSplitter& rhs);
 
 		Container<std::string> operator()(const std::string& str);
 
 	private:
+		void swapDelimsWith(StringSplitter temp);
 		void init(const std::string& str);
 		void split();
 		void skipWhiteSpaces();
@@ -47,6 +49,7 @@ namespace IDragnev
 		void extractWord();
 		void insertIfDelimWasMatched(std::string&& word);
 		bool delimWasMatched();
+		void clear();
 
 	private:
 		std::istringstream stream;

@@ -7,6 +7,49 @@ namespace IDragnev
 	{
 	}
 
+	//all members except for delimiters act like local variables
+	//and thus need not be copied
+	template <template <typename...> typename Container, typename Inserter>
+	StringSplitter<Container, Inserter>::StringSplitter(const StringSplitter& source) :
+		delimiters{ source.delimiters }
+	{
+	}
+
+	template <template <typename...> typename Container, typename Inserter>
+	StringSplitter<Container, Inserter>::StringSplitter(StringSplitter&& source) :
+		delimiters{ std::move(source.delimiters) }
+	{
+	}
+
+	template <template <typename...> typename Container, typename Inserter>
+	auto StringSplitter<Container, Inserter>::operator=(const StringSplitter& rhs) -> StringSplitter&
+	{
+		if (this != &rhs)
+		{
+			swapDelimsWith(rhs);
+		}
+
+		return *this;
+	}
+
+	template <template <typename...> typename Container, typename Inserter>
+	auto StringSplitter<Container, Inserter>::operator=(StringSplitter&& rhs) -> StringSplitter&
+	{
+		if (this != &rhs)
+		{
+			swapDelimsWith(std::move(rhs));
+		}
+
+		return *this;
+	}
+
+	template <template <typename...> typename Container, typename Inserter>
+	inline void StringSplitter<Container, Inserter>::swapDelimsWith(StringSplitter temp)
+	{
+		using std::swap;
+		swap(delimiters, temp.delimiters);
+	}
+
 	template <template <typename...> typename Container, typename Inserter>
 	Container<std::string> StringSplitter<Container, Inserter>::operator()(const std::string& str)
 	{
