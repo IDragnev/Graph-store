@@ -65,7 +65,7 @@ namespace IDragnev
 	{
 		auto deleter = [this](auto)
 		{ 
-			stream.clear();
+			stream.str({});
 			result.clear();
 			currentDelim = ' ';
 		};
@@ -78,6 +78,7 @@ namespace IDragnev
 	template <template <typename...> typename Container, typename Inserter>
 	inline void StringSplitter<Container, Inserter>::init(const std::string& str)
 	{
+		stream.clear();
 		stream.str(str);
 	}
 
