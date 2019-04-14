@@ -101,6 +101,15 @@ namespace IDragnev::Functional
 			return std::forward<F>(lhs) + rhs;
 		};
 	}
+
+	template <typename Predicate>
+	inline auto inverse(Predicate p)
+	{
+		return [p](auto&&... args)
+		{
+			return !p(std::forward<decltype(args)>(args)...);
+		};
+	}
 }
 
 #endif //__FUNCTIONAL_H_INCLUDED__

@@ -1,6 +1,8 @@
 #include "CppUnitTest.h"
 #include "..\..\..\..\Graph store\Functional\Functional.h"
+#include <algorithm>
 #include <string>
+#include <vector>
 
 using namespace std::string_literals;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -52,15 +54,6 @@ namespace FunctionalTest
 			Assert::AreNotSame(source, g(copy));
 		}
 
-		TEST_METHOD(superpositionReturnType)
-		{
-			auto x = "123"s;
-			auto y = x;
-			auto f = superpose(Identity{}, Identity{});
-			Assert::AreSame(x, f(x));
-			Assert::AreNotSame(x, f(y));
-		}
-
 		TEST_METHOD(composition)
 		{
 			auto g = compose(plus(8), plus(10), plus(35), Identity{}, plus(100));
@@ -87,6 +80,27 @@ namespace FunctionalTest
 
 			Assert::IsTrue(matchesKey(first));
 			Assert::IsFalse(matchesKey(second));
+		}
+		
+		TEST_METHOD(inversingAPredicate)
+		{
+			auto predicate = [](int x) { return x >= 0; };
+			auto nums = { 1, 2, -1, 2 };
+
+			auto it = std::find_if(nums.begin(), nums.end(), inverse(predicate));
+
+			Assert::IsNotNull(it);
+			Assert::AreEqual(-1, *it);
+		}
+
+		TEST_METHOD(Plus)
+		{
+			using Ints = std::vector<int>;
+			auto nums = Ints{ 1, 2, 3, 4 };
+	
+			std::transform(std::begin(nums), std::end(nums), std::begin(nums), plus(5));
+
+			Assert::IsTrue(nums == Ints{6, 7, 8, 9});
 		}
 	};
 }

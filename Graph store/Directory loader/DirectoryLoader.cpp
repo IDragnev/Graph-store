@@ -2,7 +2,7 @@
 #include "..\Graph\Base Graph\Graph.h"
 #include "..\General Exceptions\Exception.h"
 #include "..\UtilityFunctions.h"
-#include "..\Iterator abstraction\Iterator.h"
+#include "..\Ranges\Ranges.h"
 #include "..\Functional\Functional.h"
 #include <iostream>
 
@@ -17,7 +17,7 @@ namespace IDragnev
 
 		void DirectoryLoader::operator()(Function f)
 		{
-			using PolymorphicRanges::forEach;
+			using Ranges::forEach;
 			using Functional::compose;
 
 			auto load = [this](const auto& file) { return this->load(file); };

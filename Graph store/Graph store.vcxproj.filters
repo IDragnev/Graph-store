@@ -185,6 +185,9 @@
     <Filter Include="HashFunction">
       <UniqueIdentifier>{38273b39-f228-47d8-a74d-28a84fc43c71}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Ranges">
+      <UniqueIdentifier>{fd5cb747-b205-494d-bb7b-98fd02fbb14e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="HashFunction\HashFunction.h">
       <Filter>HashFunction</Filter>
+    </ClInclude>
+    <ClInclude Include="Ranges\Ranges.h">
+      <Filter>Ranges</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

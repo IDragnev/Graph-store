@@ -231,6 +231,7 @@
     <ClInclude Include="ID matcher\IDMatcher.h" />
     <ClInclude Include="IdGetter\IdGetter.h" />
     <ClInclude Include="Iterator abstraction\Iterator.h" />
+    <ClInclude Include="Ranges\Ranges.h" />
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h" />
     <ClInclude Include="Serialization\EdgeFormat.h" />
