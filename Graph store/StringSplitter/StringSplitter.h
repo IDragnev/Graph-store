@@ -11,22 +11,20 @@ namespace IDragnev
 {
 	template <template <typename...> typename Container = Containers::DArray,
 	          typename Inserter = Functional::BackInserter>
-	class StringSplitter
+		class StringSplitter
 	{
 	private:
 		static_assert(std::is_default_constructible_v<Container<std::string>>,
-					  "StringSplitter requires Container<std::string> to be default constructible");
-		static_assert(std::is_move_constructible_v<Container<std::string>>,
-			          "StringSplitter requires Container<std::string> to be move constructible");
-		static_assert(std::is_move_assignable_v<Container<std::string>>,
-			          "StringSplitter requires Container<std::string> to be move assignable");
+			          "StringSplitter requires Container<std::string> to be default constructible");
+		static_assert(std::is_nothrow_move_constructible_v<Container<std::string>>,
+			          "StringSplitter requires Container<std::string> to be nothrow move constructible");
 		static_assert(std::is_default_constructible_v<Inserter>,
 			          "StringSplitter requires Inserter to be default constructible");
 		static_assert(std::is_invocable_v<Inserter, Container<std::string>&, std::string&&>,
 			          "Incompatible Inserter supplied to StringSplitter");
 
 		using Delimiters = Containers::DArray<char>;
-
+		
 	public:
 		StringSplitter() = default;
 		StringSplitter(std::initializer_list<char> delimiters);
@@ -49,8 +47,8 @@ namespace IDragnev
 		void extractWord();
 		void insertIfDelimWasMatched(std::string&& word);
 		bool delimWasMatched();
-		void clear();
-
+		auto makeScopedClear() noexcept;
+		
 	private:
 		std::istringstream stream;
 		Container<std::string> result;
