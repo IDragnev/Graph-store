@@ -147,11 +147,11 @@ namespace HashTest
 			Assert::IsTrue(found.has_value(), L"Null optional was found");
 			Assert::IsTrue(found.value() == duplicate, L"Wrong item was found");
 		}
-		TEST_METHOD(empty)
+		TEST_METHOD(clear)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
 
-			hash.empty();
+			hash.clear();
 
 			Assert::IsTrue(hash.isEmpty());
 		}

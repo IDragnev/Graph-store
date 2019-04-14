@@ -36,7 +36,7 @@ namespace IDragnev
 			{
 				auto vertex = decorator->vertex;
 				assert(vertex != nullptr);
-				IDs.insertAsHead(vertex->getID());
+				IDs.insertFront(vertex->getID());
 			}
 		}
 

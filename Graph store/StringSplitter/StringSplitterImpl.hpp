@@ -10,9 +10,9 @@ namespace IDragnev
 		}
 
 		template <typename Container, typename = void>
-		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.insert(str))>
+		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.insertBack(str))>
 		{
-			c.insert(std::move(str));
+			c.insertBack(std::move(str));
 		}
 	}
 

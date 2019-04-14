@@ -26,7 +26,7 @@ namespace IDragnev
 		void DijkstraAlgorithm::decorateVertices(const Graph& graph)
 		{
 			assert(decorators.isEmpty());
-			forEachVertex(graph, [this](const Vertex& v) { decorators.insert({ &v }); });
+			forEachVertex(graph, [this](const Vertex& v) { decorators.insertBack({ &v }); });
 		}
 
 		void DijkstraAlgorithm::buildDecoratorsMap()
@@ -115,9 +115,9 @@ namespace IDragnev
 
 		void DijkstraAlgorithm::clear()
 		{
-			map.empty();
-			queue.empty();
-			decorators.empty();
+			map.clear();
+			queue.clear();
+			decorators.clear();
 		}
 
 		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) -> PriorityVertex&

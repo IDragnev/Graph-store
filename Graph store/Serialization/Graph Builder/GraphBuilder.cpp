@@ -50,7 +50,7 @@ namespace IDragnev
 
 		void GraphBuilder::clear()
 		{
-			vertexIDs.empty();
+			vertexIDs.clear();
 			parser.closeFile();
 		}
 
@@ -95,7 +95,7 @@ namespace IDragnev
 
 			while (IDsCount > 0)
 			{
-				vertexIDs.insert(parser.parseLine());
+				vertexIDs.insertBack(parser.parseLine());
 				--IDsCount;
 			}
 		}

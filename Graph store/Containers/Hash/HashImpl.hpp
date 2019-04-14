@@ -344,7 +344,7 @@ namespace IDragnev
 		}
 
 		template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::empty()
+		inline void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::clear()
 		{
 			*this = {};
 		}

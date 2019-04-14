@@ -60,7 +60,7 @@ namespace IDragnev
 		void GraphFactory::registerCreator(const GraphCreator* creator)
 		{
 			assert(!searchCreator(creator->getCreatedGraphType()));
-			creators.insert(creator);
+			creators.insertBack(creator);
 		}
 	}
 }

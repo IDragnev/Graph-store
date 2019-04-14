@@ -32,7 +32,7 @@ namespace IDragnev
 		{
 			if (!hasGraphWithID(graph->getID()))
 			{
-				graphs.insert(std::move(graph));
+				graphs.insertBack(std::move(graph));
 			}
 			else
 			{
@@ -95,7 +95,7 @@ namespace IDragnev
 
 		void GraphStore::empty() noexcept
 		{
-			graphs.empty();
+			graphs.clear();
 		}
 	}
 }

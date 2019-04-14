@@ -23,7 +23,7 @@ namespace IDragnev
 
 		void SearchBasedShortestPathAlgorithm::decorateVertices(const Graph& g)
 		{
-			forEachVertex(g, [this](const Vertex& v) { decorators.insert({ &v }); });
+			forEachVertex(g, [this](const Vertex& v) { decorators.insertBack({ &v }); });
 		}
 
 		void SearchBasedShortestPathAlgorithm::buildDecoratorsMap()
@@ -56,8 +56,8 @@ namespace IDragnev
 
 		void SearchBasedShortestPathAlgorithm::clear()
 		{
-			decorators.empty();
-			map.empty();
+			decorators.clear();
+			map.clear();
 		}
 	}
 }

@@ -77,7 +77,7 @@ namespace IDragnev::GraphStore
 	void GraphSaver::registerVertex(const Vertex& v)
 	{
 		auto index = pairs.getCount();
-		pairs.insert({ index, &v.getID() });
+		pairs.insertBack({ index, &v.getID() });
 		map.insert(&pairs[index]);
 	}
 
@@ -127,7 +127,7 @@ namespace IDragnev::GraphStore
 	{
 		graph = nullptr;
 		file.close();
-		pairs.empty();
-		map.empty();
+		pairs.clear();
+		map.clear();
 	}
 }

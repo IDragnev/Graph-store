@@ -25,7 +25,7 @@ namespace IDragnev
 		void ShortestPathAlgorithmStore::insertAlgorithm(ShortestPathAlgorithm& algorithm)
 		{
 			assert(!searchAlgorithm(algorithm.getID()));
-			algorithms.insert(&algorithm);
+			algorithms.insertBack(&algorithm);
 		}
 
 		ShortestPathAlgorithm& ShortestPathAlgorithmStore::getAlgorithm(const String& ID)

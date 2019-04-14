@@ -180,7 +180,7 @@ namespace IDragnev::GraphStore
 
 	void Graph::makeEmptyEdgeList()
 	{
-		edgeLists.insertAsHead({});
+		edgeLists.insertFront({});
 	}
 
 	auto Graph::newestVertex() -> Vertex&
@@ -331,7 +331,7 @@ namespace IDragnev::GraphStore
 		try
 		{
 			auto& edges = edgesOf(from);
-			edges.insert(IncidentEdge{ to, weight });
+			edges.insertBack(IncidentEdge{ to, weight });
 		}
 		catch (std::bad_alloc&)
 		{

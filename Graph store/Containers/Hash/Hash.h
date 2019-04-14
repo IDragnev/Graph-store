@@ -70,7 +70,7 @@ namespace IDragnev
 			void remove(const Key& key);
 			Element search(const Key& key) const noexcept;
 
-			void empty();
+			void clear();
 			bool isEmpty() const noexcept;
 			std::size_t getCount() const noexcept;
 
