@@ -8,7 +8,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace IDragnev::GraphStore;
 using IDragnev::String;
-using namespace IDragnev::PolymorphicRanges;
+using namespace IDragnev::Ranges;
 
 namespace GraphTest
 {		
@@ -336,15 +336,15 @@ namespace GraphTest
 			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(start);
 			auto isWantedEdge = [w, &end](const auto& edge) { return edge.getIncidentVertex() == end && edge.getWeight() == w; };
 
-			return holdsForAny(*iteratorPtr, isWantedEdge);
+			return anyOf(*iteratorPtr, isWantedEdge);
 		}
 
 		static bool hasNeighbour(const Graph& g, const Vertex& v, const String& ID)
 		{
 			auto iteratorPtr = g.getConstIteratorToEdgesLeaving(v);
-			auto predicate = [&ID](const auto& edge) { return edge.getIncidentVertex().ID() == ID; };
+			auto predicate = [&ID](const auto& edge) { return edge.getIncidentVertex().getID() == ID; };
 
-			return holdsForAny(*iteratorPtr, predicate);
+			return anyOf(*iteratorPtr, predicate);
 		}
 	};
 }
