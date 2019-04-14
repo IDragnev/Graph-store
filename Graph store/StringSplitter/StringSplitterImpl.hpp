@@ -1,29 +1,14 @@
 
 namespace IDragnev
 {
-	namespace SplitterDetail
-	{
-		template <typename Container>
-		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.push_back(str))>
-		{
-			c.push_back(std::move(str));
-		}
-
-		template <typename Container, typename = void>
-		auto insert(Container& c, std::string&& str) -> std::void_t<decltype(c.insertBack(str))>
-		{
-			c.insertBack(std::move(str));
-		}
-	}
-
-	template <template <typename...> typename Container>
-	StringSplitter<Container>::StringSplitter(std::initializer_list<char> delimiters) :
+	template <template <typename...> typename Container, typename Inserter>
+	StringSplitter<Container, Inserter>::StringSplitter(std::initializer_list<char> delimiters) :
 		delimiters{ delimiters }
 	{
 	}
 
-	template <template <typename...> typename Container>
-	Container<std::string> StringSplitter<Container>::operator()(const std::string& str)
+	template <template <typename...> typename Container, typename Inserter>
+	Container<std::string> StringSplitter<Container, Inserter>::operator()(const std::string& str)
 	{
 		init(str);
 		split();
@@ -31,15 +16,15 @@ namespace IDragnev
 		return std::move(result);
 	}
 
-	template <template <typename...> typename Container>
-	inline void StringSplitter<Container>::init(const std::string& str)
+	template <template <typename...> typename Container, typename Inserter>
+	inline void StringSplitter<Container, Inserter>::init(const std::string& str)
 	{
 		stream.clear();
 		stream.str(str);
 	}
 
-	template <template <typename...> typename Container>
-	void StringSplitter<Container>::split()
+	template <template <typename...> typename Container, typename Inserter>
+	void StringSplitter<Container, Inserter>::split()
 	{
 		do
 		{
@@ -50,8 +35,8 @@ namespace IDragnev
 		} while (stream.good());
 	}
 
-	template <template <typename...> typename Container>
-	void StringSplitter<Container>::skipWhiteSpaces()
+	template <template <typename...> typename Container, typename Inserter>
+	void StringSplitter<Container, Inserter>::skipWhiteSpaces()
 	{
 		while (stream.peek() == ' ')
 		{
@@ -59,16 +44,17 @@ namespace IDragnev
 		}
 	}
 
-	template <template <typename...> typename Container>
-	void StringSplitter<Container>::chooseDelimiter()
+	template <template <typename...> typename Container, typename Inserter>
+	void StringSplitter<Container, Inserter>::chooseDelimiter()
 	{
 		using Functional::equalTo;
+
 		auto it = std::find_if(std::cbegin(delimiters), std::cend(delimiters), equalTo(stream.peek()));
 		currentDelim = it ? *it : ' ';
 	}
 
-	template <template <typename...> typename Container>
-	inline void StringSplitter<Container>::advanceIfDelimIsNotWhiteSpace()
+	template <template <typename...> typename Container, typename Inserter>
+	inline void StringSplitter<Container, Inserter>::advanceIfDelimIsNotWhiteSpace()
 	{
 		if (currentDelim != ' ')
 		{
@@ -76,8 +62,8 @@ namespace IDragnev
 		}
 	}
 
-	template <template <typename...> typename Container>
-	void StringSplitter<Container>::extractWord()
+	template <template <typename...> typename Container, typename Inserter>
+	void StringSplitter<Container, Inserter>::extractWord()
 	{
 		auto word = std::string{};
 		std::getline(stream, word, currentDelim);
@@ -88,15 +74,14 @@ namespace IDragnev
 		}
 	}
 
-	template <template <typename...> typename Container>
-	void StringSplitter<Container>::insertIfDelimWasMatched(std::string&& word)
+	template <template <typename...> typename Container, typename Inserter>
+	void StringSplitter<Container, Inserter>::insertIfDelimWasMatched(std::string&& word)
 	{
-		using SplitterDetail::insert;
 		using namespace std::string_literals;
 
 		if (delimWasMatched())
 		{
-			insert(result, std::move(word));
+			Inserter{}(result, std::move(word));
 		}
 		else
 		{
@@ -104,8 +89,8 @@ namespace IDragnev
 		}
 	}
 
-	template <template <typename...> typename Container>
-	bool StringSplitter<Container>::delimWasMatched()
+	template <template <typename...> typename Container, typename Inserter>
+	bool StringSplitter<Container, Inserter>::delimWasMatched()
 	{
 		if (currentDelim == ' ')
 		{

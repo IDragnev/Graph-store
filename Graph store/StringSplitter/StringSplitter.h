@@ -9,7 +9,8 @@
 
 namespace IDragnev
 {
-	template <template <typename...> typename Container = Containers::DArray>
+	template <template <typename...> typename Container = Containers::DArray,
+	          typename Inserter = Functional::BackInserter>
 	class StringSplitter
 	{
 	private:
@@ -19,6 +20,10 @@ namespace IDragnev
 					  "StringSplitter requires Container<std::string> to be move constructible");
 		static_assert(std::is_move_assignable_v<Container<std::string>>,
 					  "StringSplitter requires Container<std::string> to be move assignable");
+		static_assert(std::is_invocable_v<Inserter, Container<std::string>&, std::string&&>,
+			          "Incompatible Inserter supplied to StringSplitter");
+		static_assert(std::is_default_constructible_v<Inserter>,
+			          "StringSplitter requires Inserter to be default constructible");
 
 		using Delimiters = Containers::DArray<char>;
 
