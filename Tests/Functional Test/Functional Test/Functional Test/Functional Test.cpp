@@ -93,14 +93,15 @@ namespace FunctionalTest
 			Assert::AreEqual(-1, *it);
 		}
 
-		TEST_METHOD(Plus)
+		TEST_METHOD(plusTakesLhs)
 		{
-			using Ints = std::vector<int>;
-			auto nums = Ints{ 1, 2, 3, 4 };
-	
-			std::transform(std::begin(nums), std::end(nums), std::begin(nums), plus(5));
+			using Strings = std::vector<std::string>;
+			auto strings = Strings{ "a", "b", "c" };
+			auto expected = Strings{ "a!", "b!", "c!" };
 
-			Assert::IsTrue(nums == Ints{6, 7, 8, 9});
+			std::transform(std::begin(strings), std::end(strings), std::begin(strings), plus("!"));
+
+			Assert::IsTrue(strings == expected);
 		}
 	};
 }
