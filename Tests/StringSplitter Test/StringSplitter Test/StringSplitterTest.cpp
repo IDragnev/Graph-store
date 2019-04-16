@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "..\..\..\Graph store\StringSplitter\StringSplitter.h"
+#include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std::string_literals;
@@ -111,6 +112,21 @@ namespace StringSplitterTest
 
 			Assert::IsTrue(lhs(string) == expected);
 			Assert::IsTrue(rhs(string) == expected);
+		}
+
+		TEST_METHOD(multipleCalls)
+		{
+			using Containers = std::vector<Container>;
+
+			Splitter splitter{ '*', '@' };
+			auto input = { "a *b*", "@c@ d", "@e@ f" };
+			auto expected = Containers{ {"a", "b"}, {"c", "d"}, {"e", "f"} };
+			auto actual = Containers{};
+
+			std::transform(std::begin(input), std::end(input),
+				           std::back_inserter(actual), splitter);
+
+			Assert::IsTrue(expected == actual);
 		}
 	};
 }
