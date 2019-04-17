@@ -63,22 +63,22 @@ namespace IDragnev
 	template <template <typename...> typename Container, typename Inserter>
 	auto StringSplitter<Container, Inserter>::makeScopedClear() noexcept
 	{
-		auto deleter = [this](auto)
+		auto deleter = [](auto ptr)
 		{ 
-			stream.str({});
-			result.clear();
-			currentDelim = ' ';
+			ptr->stream.str({});
+			ptr->stream.clear();
+			ptr->result.clear();
+			ptr->currentDelim = ' ';
 		};
 		
-		using ScopedClear = std::unique_ptr<int, decltype(deleter)>;
+		using ScopedClear = std::unique_ptr<StringSplitter, decltype(deleter)>;
 		
-		return ScopedClear{ nullptr, deleter };
+		return ScopedClear{ this, deleter };
 	}
 
 	template <template <typename...> typename Container, typename Inserter>
 	inline void StringSplitter<Container, Inserter>::init(const std::string& str)
 	{
-		stream.clear();
 		stream.str(str);
 	}
 
