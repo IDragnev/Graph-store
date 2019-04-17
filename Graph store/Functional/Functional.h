@@ -78,9 +78,9 @@ namespace IDragnev::Functional
 	}
 
 	template <typename T>
-	inline auto equalTo(T key)
+	inline auto equalTo(T key) noexcept(noexcept(T(std::move(key))))
 	{
-		return [lhs = std::move(key)](const auto& rhs)
+		return[lhs = std::move(key)](const auto& rhs)
 		{ 
 			return lhs == rhs;
 		};
@@ -93,7 +93,7 @@ namespace IDragnev::Functional
 	}
 
 	template <typename T>
-	inline auto plus(T rhs)
+	inline auto plus(T rhs) noexcept(noexcept(T(std::move(rhs))))
 	{
 		return[rhs = std::move(rhs)](auto&& lhs)
 		{
@@ -103,9 +103,9 @@ namespace IDragnev::Functional
 	}
 
 	template <typename Predicate>
-	inline auto inverse(Predicate p)
+	inline auto inverse(Predicate p) noexcept(std::is_nothrow_copy_constructible_v<Predicate>)
 	{
-		return [p](auto&&... args)
+		return [p](auto&&... args) noexcept(std::is_nothrow_invocable_v<decltype(p), decltype(args)...>)
 		{
 			return !p(std::forward<decltype(args)>(args)...);
 		};
