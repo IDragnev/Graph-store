@@ -23,6 +23,18 @@ namespace IDragnev
 			}
 		};
 
+		//all members act like local variables
+		//and need not be copied
+		GraphBuilder::GraphBuilder(const GraphBuilder&) :
+			GraphBuilder{}
+		{
+		}
+
+		GraphBuilder& GraphBuilder::operator=(const GraphBuilder&)
+		{
+			return *this;
+		}
+
 		auto GraphBuilder::operator()(const String& filename) -> GraphPtr
 		{
 			auto clear = makeScopedClear();

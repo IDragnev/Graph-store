@@ -26,9 +26,10 @@ namespace IDragnev::GraphStore
 
 	public:
 		GraphBuilder() = default;
-		GraphBuilder(const GraphBuilder&) = delete;
+		GraphBuilder(const GraphBuilder& source);
+		~GraphBuilder() = default;
 
-		GraphBuilder& operator=(const GraphBuilder&) = delete;
+		GraphBuilder& operator=(const GraphBuilder& rhs);
 
 		GraphPtr operator()(const String& filename);
 
