@@ -25,21 +25,26 @@ namespace IDragnev
 
 		auto GraphBuilder::operator()(const String& filename) -> GraphPtr
 		{
+			auto clear = makeScopedClear();
+			tryToBuildFrom(filename);
+
+			return std::move(result);
+		}
+
+		void GraphBuilder::tryToBuildFrom(const String& filename)
+		{
 			try
 			{
 				init(filename);
 				build();
-				clear();
-
-				return std::move(result);
 			}
 			catch (Exception& e)
 			{
-				handleError(filename, e);
+				throw FailedToLoad{ filename, e };
 			}
 			catch (std::bad_alloc&)
 			{
-				handleError(filename, NoMemoryAvailable{});
+				throw FailedToLoad{ filename, NoMemoryAvailable{} };
 			}
 		}
 
@@ -52,13 +57,7 @@ namespace IDragnev
 		{
 			vertexIDs.clear();
 			parser.closeFile();
-		}
-
-		void GraphBuilder::handleError(const String& filename, const Exception& e)
-		{
-			clear();
 			result = nullptr;
-			throw FailedToLoad{ filename, e };
 		}
 
 		void GraphBuilder::build()

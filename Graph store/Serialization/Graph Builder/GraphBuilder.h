@@ -33,6 +33,7 @@ namespace IDragnev::GraphStore
 		GraphPtr operator()(const String& filename);
 
 	private:
+		void tryToBuildFrom(const String& filename);
 		void init(const String& filename);
 		void build();
 		void createEmptyGraph();
@@ -47,8 +48,14 @@ namespace IDragnev::GraphStore
 		Graph::Vertex& getVertex(std::size_t idIndex);
 
 		void clear();
+		auto makeScopedClear() noexcept
+		{
+			auto deleter = [](auto ptr) { ptr->clear(); };
+			using ScopedClear = std::unique_ptr<GraphBuilder, decltype(deleter)>;
 
-		void handleError(const String& filename, const Exception& e);
+			return ScopedClear{ this, deleter };
+		}
+
 		bool areVerticesInserted() const;
 
 	private:
