@@ -10,7 +10,7 @@ namespace IDragnev
 			IDs{ std::move(source.IDs) },
 			length{ source.length }
 		{
-			source.length = Distance::Infinity();
+			source.length = {};
 		}
 
 		auto ShortestPathAlgorithm::Path::operator=(Path&& rhs) -> Path&
@@ -69,9 +69,9 @@ namespace IDragnev
 		{
 			if (source != goal)
 			{
+				auto clear = makeScopedClear();
 				init(graph, goal);
 				auto result = findNonTrivialShortestPath(graph, source, goal);
-				clear();
 				return result;
 			}
 			else

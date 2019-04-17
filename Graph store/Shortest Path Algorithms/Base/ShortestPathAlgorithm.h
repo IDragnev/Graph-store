@@ -24,7 +24,7 @@ namespace IDragnev
 
 				const Vertex* vertex = nullptr;
 				const VertexDecorator* predecessor = nullptr;
-				Distance distance = Distance::Infinity();
+				Distance distance{};
 			};
 
 		public:
@@ -47,7 +47,7 @@ namespace IDragnev
 
 			private:
 				Collection IDs;
-				Distance length = Distance::Infinity();
+				Distance length{};
 			};
 
 		public:
@@ -81,6 +81,12 @@ namespace IDragnev
 													const Vertex& source,
 													const Vertex& goal) = 0;
 			virtual void clear() = 0;
+			auto makeScopedClear() noexcept
+			{
+				auto deleter = [](auto ptr) { ptr->clear(); };
+				using ScopedClear = std::unique_ptr<ShortestPathAlgorithm, decltype(deleter)>;
+				return ScopedClear{ this, deleter };
+			}
 
 			static Path buildTrivialPath(const Vertex& v);
 
