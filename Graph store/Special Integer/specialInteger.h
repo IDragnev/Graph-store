@@ -16,6 +16,8 @@ namespace IDragnev
 		using EnableIfFloatingPoint = std::enable_if_t<std::is_floating_point_v<T>>;
 
 	public:
+		using UnderlyingType = Integer;
+
 		constexpr SpecialInteger() noexcept;
 		constexpr SpecialInteger(Integer value) noexcept;
 		constexpr SpecialInteger(const SpecialInteger& source) = default;
@@ -27,11 +29,9 @@ namespace IDragnev
 		constexpr SpecialInteger<Integer>& operator=(Integer value) noexcept;
 		constexpr SpecialInteger<Integer>& operator=(const SpecialInteger& rhs) = default;
 
-		static constexpr const SpecialInteger& Infinity() noexcept;
-
 		constexpr SpecialInteger& operator+=(const SpecialInteger& rhs) noexcept;
 
-		constexpr bool isEqualToInfinity() const noexcept;
+		constexpr bool isInfinite() const noexcept;
 		void print(std::ostream& os = std::cout) const;
 
 		template <typename Integer>
@@ -40,7 +40,6 @@ namespace IDragnev
 		template <typename Integer>
 		friend constexpr bool operator==(const SpecialInteger<Integer>& lhs, 
 										 const SpecialInteger<Integer>& rhs) noexcept;
-
 	private:
 		Integer value;
 		bool isInfinity;

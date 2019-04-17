@@ -17,11 +17,9 @@ namespace IDragnev
 	{
 	}
 
-	//
 	//this overload of operator= cannot be called with an object (it will choose the defaulted overload)
 	//so isInfinity must be made false
 	//(isInfinity can be made true only through the defaulted overload with an obejct x such that x.isInfinity = true)
-	//
 	template <typename Integer>
 	inline constexpr
 	SpecialInteger<Integer>& SpecialInteger<Integer>::operator=(Integer newValue) noexcept
@@ -54,20 +52,11 @@ namespace IDragnev
 			}
 			else
 			{
-				*this = Infinity();
+				*this = rhs;
 			}
 		}
 
 		return *this;
-	}
-
-	template <typename Integer>
-	inline constexpr
-	const SpecialInteger<Integer>& SpecialInteger<Integer>::Infinity() noexcept
-	{
-		static constexpr SpecialInteger infinity;
-
-		return infinity;
 	}
 
 	template <typename Integer>
@@ -144,8 +133,7 @@ namespace IDragnev
 	}
 
 	template <typename Integer>
-	inline constexpr
-	bool SpecialInteger<Integer>::isEqualToInfinity() const noexcept
+	inline constexpr bool SpecialInteger<Integer>::isInfinite() const noexcept
 	{
 		return isInfinity;
 	}
