@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
-#include "..\..\..\Graph store\DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
-#include "..\..\..\Graph store\String\String.h"
-#include "..\..\..\Graph store\General Exceptions\Exception.h"
-#include "..\..\..\Graph store\Iterator abstraction\Iterator.h"
+#include "DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
+#include "String\String.h"
+#include "General Exceptions\Exception.h"
+#include "Ranges\Ranges.h"
 #include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -24,6 +24,11 @@ namespace DirectoryFlatIteratorTest
 		};
 
 	public:
+		TEST_METHOD(defaultIteratorIsFinished)
+		{
+			Assert::IsFalse(FlatIterator{});
+		}
+
 		TEST_METHOD(ctorFromInvalidDirectoryThrows)
 		{
 			try
@@ -36,7 +41,7 @@ namespace DirectoryFlatIteratorTest
 			}
 		}
 
-		TEST_METHOD(iteratorToEmptyDirectoryIsDone)
+		TEST_METHOD(iteratorToEmptyDirectoryIsFinished)
 		{
 			FlatIterator iterator{ EMPTY_TEST_DIRECTORY };
 
@@ -60,27 +65,24 @@ namespace DirectoryFlatIteratorTest
 
 		static bool findsEachTextFileOnce(FlatIterator& it)
 		{
-			using IDragnev::PolymorphicRanges::forEach;
+			using IDragnev::Ranges::forEach;
 
 			forEach(it, markMatchingFiles);
 
 			return allTextFilesWereMatchedExactlyOnce();
 		}
 
-		static auto markIfMatches(const String& filename)
+		static void markMatchingFiles(String filename)
 		{
-			return [&filename](auto& file)
+			auto markIfMatched = [&filename](auto& file)
 			{
 				if (areEqual(filename, file.name))
 				{
 					++file.timesFound;
 				}
 			};
-		}
 
-		static void markMatchingFiles(String filename)
-		{
-			std::for_each(std::begin(textFiles), std::end(textFiles), markIfMatches(filename));
+			std::for_each(std::begin(textFiles), std::end(textFiles), markIfMatched);
 		}
 
 		static bool areEqual(const char* lhs, const char* rhs)

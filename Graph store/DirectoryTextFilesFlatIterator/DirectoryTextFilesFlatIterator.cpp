@@ -1,10 +1,10 @@
 #include "DirectoryTextFilesFlatIterator.h"
-#include "..\General Exceptions\Exception.h"
-#include "..\Functional\Functional.h"
-#include "..\String\String.h"
+#include "General Exceptions\Exception.h"
+#include "Functional\Functional.h"
+#include "String\String.h"
 #include <assert.h>
 #include <algorithm>
-#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
 
 namespace fs = std::filesystem;
 

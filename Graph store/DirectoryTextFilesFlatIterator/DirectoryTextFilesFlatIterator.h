@@ -16,8 +16,10 @@ namespace IDragnev
 			using Self = DirectoryTextFilesFlatIterator;
 
 		public:
+			DirectoryTextFilesFlatIterator() = default;
 			explicit DirectoryTextFilesFlatIterator(const String& path);
 			DirectoryTextFilesFlatIterator(Self&& source) = default;
+			~DirectoryTextFilesFlatIterator() = default;
 
 			Self& operator=(Self&& rhs) = default;
 
