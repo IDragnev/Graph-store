@@ -1,40 +1,37 @@
 #ifndef __DIRECTORY_LOADER_H_INCLUDED__
 #define __DIRECTORY_LOADER_H_INCLUDED__
 
-#include "..\DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h"
-#include "..\Serialization\Graph Builder\GraphBuilder.h"
+#include "Serialization\Graph Builder\GraphBuilder.h"
 #include <functional>
 #include <memory>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class DirectoryTextFilesFlatIterator;
+
+	class DirectoryLoader
 	{
-		class Graph;
+	private:
+		using Function = std::function<void(std::unique_ptr<Graph>)>;
+		using DirectoryIterator = DirectoryTextFilesFlatIterator;
 
-		class DirectoryLoader
-		{
-		private:
-			using Function = std::function<void(std::unique_ptr<Graph>)>;
-			using FlatIterator = DirectoryTextFilesFlatIterator;
+	public:
+		DirectoryLoader() = default;
+		DirectoryLoader(const DirectoryLoader& source);
+		~DirectoryLoader() = default;
 
-		public:
-			explicit DirectoryLoader(const String& path);
-			~DirectoryLoader() = default;
+		DirectoryLoader& operator=(const DirectoryLoader& rhs);
 
-			DirectoryLoader(const DirectoryLoader&) = delete;
-			DirectoryLoader& operator=(const DirectoryLoader&) = delete;
+		void operator()(const String& path, Function consumer);
 
-			void operator()(Function consumer);
+	private:
+		void loadFiles(DirectoryIterator iterator, Function consumer);
+		DirectoryIterator makeDirectoryIterator(const String& path);
+		std::unique_ptr<Graph> load(const String& file);
 
-		private:
-			std::unique_ptr<Graph> load(const String& file);
-
-		private:
-			FlatIterator filesIterator;
-			GraphBuilder builder;
-		};
-	}
+	private:
+		GraphBuilder builder;
+	};
 }
 
 #endif //__DIRECTORY_LOADER_H_INCLUDED__

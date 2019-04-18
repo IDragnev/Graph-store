@@ -14,14 +14,14 @@ namespace IDragnev::GraphStore
 
 	private:
 		template <typename T>
-		static auto idOf(const T& item) -> decltype(item->getID())
+		static auto idOf(const T& item) noexcept -> decltype(item->getID())
 		{
 			static_assert(noexcept(item->getID()));
 			return item->getID();
 		}
 
 		template <typename T>
-		static auto idOf(const T& item) -> decltype(item.getID())
+		static auto idOf(const T& item) noexcept -> decltype(item.getID())
 		{
 			static_assert(noexcept(item.getID()));
 			return item.getID();
