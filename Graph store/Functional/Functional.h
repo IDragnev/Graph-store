@@ -1,7 +1,7 @@
 #ifndef __FUNCTIONAL_H_INCLUDED__
 #define __FUNCTIONAL_H_INCLUDED__
 
-#include "..\Traits\Traits.h"
+#include "Traits\Traits.h"
 
 namespace IDragnev::Functional
 {
@@ -57,22 +57,24 @@ namespace IDragnev::Functional
 	F superpose(F&&) = delete;
 
 	template <typename F, typename... Gs>
-	inline auto superpose(F f, Gs... funs) noexcept(Detail::areNothrowCopyConstructible<F, Gs...>)
+	constexpr inline 
+	auto superpose(F f, Gs... funs) noexcept(Detail::areNothrowCopyConstructible<F, Gs...>)
 	{
-		return[f, funs...](const auto&... args) mutable -> decltype(auto)
+		return [f, funs...](const auto&... args) constexpr mutable -> decltype(auto)
 		{
 			return f(funs(args...)...);
 		};
 	}
 
 	template <typename F, typename G>
-	inline auto compose(F f, G g) noexcept(noexcept(superpose(f, g)))
+	constexpr inline 
+	auto compose(F f, G g) noexcept(noexcept(superpose(f, g)))
 	{
 		return superpose(f, g);
 	}
 
 	template <typename F, typename G, typename... Gs>
-	inline auto compose(F f, G g, Gs... funs) noexcept(noexcept(compose(f, g)))
+	constexpr auto compose(F f, G g, Gs... funs) noexcept(noexcept(compose(f, g)))
 	{
 		return compose(compose(f, g), funs...);
 	}
@@ -80,7 +82,7 @@ namespace IDragnev::Functional
 	template <typename T>
 	inline auto equalTo(T key) noexcept(noexcept(T(std::move(key))))
 	{
-		return[lhs = std::move(key)](const auto& rhs)
+		return [lhs = std::move(key)](const auto& rhs)
 		{ 
 			return lhs == rhs;
 		};
