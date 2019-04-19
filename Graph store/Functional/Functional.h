@@ -105,9 +105,10 @@ namespace IDragnev::Functional
 	}
 
 	template <typename Predicate>
-	inline auto inverse(Predicate p) noexcept(std::is_nothrow_copy_constructible_v<Predicate>)
+	constexpr inline 
+	auto inverse(Predicate p) noexcept(std::is_nothrow_copy_constructible_v<Predicate>)
 	{
-		return [p](auto&&... args) noexcept(std::is_nothrow_invocable_v<decltype(p), decltype(args)...>)
+		return [p](auto&&... args) constexpr noexcept(std::is_nothrow_invocable_v<decltype(p), decltype(args)...>)
 		{
 			return !p(std::forward<decltype(args)>(args)...);
 		};

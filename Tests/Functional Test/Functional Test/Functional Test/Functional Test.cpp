@@ -55,6 +55,23 @@ namespace FunctionalTest
 
 			Assert::IsTrue(strings == expected);
 		}
+
+		TEST_METHOD(inversingAPredicate)
+		{
+			auto predicate = [](int x) { return x >= 0; };
+			auto nums = { 1, 2, -1, 2 };
+
+			auto it = std::find_if(std::begin(nums), std::end(nums), inverse(predicate));
+
+			Assert::IsNotNull(it);
+			Assert::AreEqual(-1, *it);
+		}
+
+		TEST_METHOD(inverseCanComputAtCompileTime)
+		{
+			constexpr auto isZero = [](auto x) constexpr { return x == 0; };
+			static_assert(inverse(isZero)(1));
+		}
 		TEST_METHOD(superposition)
 		{
 			auto f = [](auto x, auto y) { return x >= y; };
@@ -123,17 +140,6 @@ namespace FunctionalTest
 
 			Assert::IsTrue(matchesTarget(first));
 			Assert::IsFalse(matchesTarget(second));
-		}
-		
-		TEST_METHOD(inversingAPredicate)
-		{
-			auto predicate = [](int x) { return x >= 0; };
-			auto nums = { 1, 2, -1, 2 };
-
-			auto it = std::find_if(std::begin(nums), std::end(nums), inverse(predicate));
-
-			Assert::IsNotNull(it);
-			Assert::AreEqual(-1, *it);
 		}
 	};
 }
