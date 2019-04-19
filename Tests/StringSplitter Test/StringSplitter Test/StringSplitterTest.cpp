@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "..\..\..\Graph store\StringSplitter\StringSplitter.h"
+#include "StringSplitter\StringSplitter.h"
 #include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

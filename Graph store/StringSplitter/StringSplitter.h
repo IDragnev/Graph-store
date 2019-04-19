@@ -1,8 +1,8 @@
 #ifndef __STRING_SPLITTER_H_INCLUDED__
 #define __STRING_SPLITTER_H_INCLUDED__
 
-#include "..\Containers\Dynamic Array\DArray.h"
-#include "..\Functional\Functional.h"
+#include "Containers\Dynamic Array\DArray.h"
+#include "Functional\Functional.h"
 #include <sstream>
 #include <utility>
 #include <algorithm>
@@ -11,7 +11,7 @@ namespace IDragnev
 {
 	template <template <typename...> typename Container = Containers::DArray,
 	          typename Inserter = Functional::BackInserter>
-		class StringSplitter
+	class StringSplitter
 	{
 	private:
 		static_assert(std::is_default_constructible_v<Container<std::string>>,
