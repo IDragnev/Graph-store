@@ -17,7 +17,7 @@ namespace IDragnev::Traits
 
 	template <typename T>
 	struct IsConstReference : std::is_const<std::remove_reference_t<T>> { };
-
+	
 	template <typename T>
 	inline constexpr bool isConstReference = IsConstReference<T>::value;
 
@@ -34,7 +34,7 @@ namespace IDragnev::Traits
 	inline constexpr bool isForwardIterator = IsForwardIterator<Iterator>::value;
 
 	template <template <typename...> typename Predicate, typename... Ts>
-	struct AllOf : std::conditional_t<(Predicate<Ts>::value && ...), std::true_type, std::false_type> { };
+	struct AllOf : std::bool_constant<(Predicate<Ts>::value && ...)> { };
 
 	template <template <typename...> typename Predicate, typename... Ts>
 	inline constexpr bool allOf = AllOf<Predicate, Ts...>::value;
