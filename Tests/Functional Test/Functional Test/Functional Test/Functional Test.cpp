@@ -18,31 +18,39 @@ namespace FunctionalTest
 	TEST_CLASS(FunctionalTest)
 	{
 	public:
-		TEST_METHOD(trivialFunctors)
+		TEST_METHOD(lessThan)
 		{
 			Assert::IsTrue(LessThan{}(1, 2));
 			Assert::IsFalse(LessThan{}(1, 1));
 			Assert::IsFalse(LessThan{}(2, 1));
-
+		}
+		TEST_METHOD(functorEqualTo)
+		{
 			Assert::IsTrue(EqualTo{}(1, 1));
 			Assert::IsFalse(EqualTo{}(1, 2));
-
-			constexpr auto x = LessThan{}(1, 2) && EqualTo{}(1, 2);
 		}
 
 		TEST_METHOD(identity)
 		{
-			Assert::AreEqual(1, Identity{}(1));
-			Assert::AreNotEqual(2, Identity{}(1));
+			auto id = Identity{};
 
-			auto x = 0;
-			Assert::AreSame(x, Identity{}(x));
-			Assert::AreNotSame(0, Identity{}(x));
+			Assert::AreEqual(1, id(1));
+			Assert::AreNotEqual(2, id(1));
+		}
 
-			struct A{ };
-			A&& a = Identity{}(A{});
+		TEST_METHOD(identityUsesPerfectForwarding)
+		{
+			std::string str = "s";
+			std::string&& ref = Identity{}(std::move(str));
 
-			constexpr auto y = Identity{}(1);
+			Assert::AreSame(ref, str);
+		}
+
+		TEST_METHOD(lessThanEqualToAndIdentityCanComputeAtCompileTime)
+		{
+			using TrueType = std::bool_constant<LessThan{}(1, 2)>;
+			using FalseType = std::bool_constant<EqualTo{}(1, 2)>;
+			using ArrayOfSizeOne = std::array<int, Identity{}(1)>;
 		}
 
 		TEST_METHOD(plusTakesLeftOperand)
@@ -85,48 +93,58 @@ namespace FunctionalTest
 		TEST_METHOD(composition)
 		{
 			auto f = compose(plus("789"s), plus("456"s), toString, Identity{});
-			
+
 			Assert::AreEqual(f(123), "123456789"s);
 		}
 
-		TEST_METHOD(superpositionAndCompositionHandleReferences)
+		TEST_METHOD(superpositionHandlesReferenceReturnTypes)
+		{
+			auto id = Identity{};
+			testHandlesReferenceReturnTypes(superpose(id, id));
+		}
+
+		TEST_METHOD(compositionHandlesReferenceReturnTypes)
+		{
+			auto id = Identity{};
+			testHandlesReferenceReturnTypes(compose(id, id));
+		}
+
+	private:
+		template <typename Callable>
+		void testHandlesReferenceReturnTypes(Callable f)
 		{
 			auto source = "123"s;
 			auto copy = source;
-			auto f = superpose(Identity{}, Identity{});
-			auto g = compose(f, f);
 
 			Assert::AreSame(source, f(source));
 			Assert::AreNotSame(source, f(copy));
-			Assert::AreSame(source, g(source));
-			Assert::AreNotSame(source, g(copy));
 		}
 
+	public:
 		TEST_METHOD(superpositionAndCompositionCanComputeAtCompileTime)
 		{
 			constexpr auto plusOne = [](auto x) constexpr { return x + 1; };
 			constexpr auto minusOne = [](auto x) constexpr { return x - 1; };
 			constexpr auto areEqual = [](auto x, auto y) constexpr { return x == y; };
 
-			using ArrayOfSizeTwo = std::array<int, superpose(areEqual, plusOne, minusOne)(4) + 2>;
+			using FalseType = std::bool_constant<superpose(areEqual, plusOne, minusOne)(4)>;
 			using ArrayOfSizeOne = std::array<int, compose(minusOne, plusOne)(1)>;
 		}
-
 		TEST_METHOD(higherOrderEqualTo)
 		{
-			Assert::IsTrue(equalTo(1)(1));
-			Assert::IsFalse(equalTo(2u)(3u));
-
 			Assert::IsTrue(equalTo("123"s)("123"s));
 			Assert::IsFalse(equalTo("lhs"s)("rhs"s));
+		}
 
-			struct X 
+		TEST_METHOD(higherOrderEqualToAllowsImplicitTypeConversions)
+		{
+			struct X
 			{
 				int x = 1;
 				operator int() const { return x; }
-			};
+			} x;
 
-			Assert::IsTrue(equalTo(1)(X{}));
+			Assert::IsTrue(equalTo(1)(x));
 		}
 
 		TEST_METHOD(matchingByKey)

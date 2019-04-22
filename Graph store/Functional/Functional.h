@@ -80,7 +80,7 @@ namespace IDragnev::Functional
 	}
 
 	template <typename T>
-	inline auto equalTo(T key) noexcept(noexcept(T(std::move(key))))
+	inline auto equalTo(T key) noexcept(std::is_nothrow_move_constructible_v<T>)
 	{
 		return [lhs = std::move(key)](const auto& rhs)
 		{ 
@@ -89,15 +89,15 @@ namespace IDragnev::Functional
 	}
 
 	template <typename Key, typename KeyExtractor>
-	inline auto matches(Key key, KeyExtractor extractKey)
+	inline auto matches(Key key, KeyExtractor extractKey) 
 	{
 		return compose(equalTo(std::move(key)), std::move(extractKey));
 	}
 
 	template <typename T>
-	inline auto plus(T rhs) noexcept(noexcept(T(std::move(rhs))))
+	inline auto plus(T rhs) noexcept(std::is_nothrow_move_constructible_v<T>)
 	{
-		return[rhs = std::move(rhs)](auto&& lhs)
+		return[rhs = std::move(rhs)](auto&& lhs) -> decltype(auto)
 		{
 			using F = decltype(lhs);
 			return std::forward<F>(lhs) + rhs;
