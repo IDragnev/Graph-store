@@ -3,6 +3,7 @@
 #include "Serialization\Serialization.h"
 #include "Functional\Functional.h"
 #include "String\String.h"
+#include "UtilityFunctions.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -34,8 +35,10 @@ namespace IDragnev::GraphStore
 
 	void RemoveGraphCommand::execute()
 	{
+		using Utility::CallOnDestruction;
+ 
+		auto safeClear = CallOnDestruction{ [this]() noexcept { clear(); } };
 		removeGraphsAndTheirFiles();
-		clear();
 	}
 
 	void RemoveGraphCommand::removeGraphsAndTheirFiles() const

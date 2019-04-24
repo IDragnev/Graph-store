@@ -4,6 +4,7 @@
 #include "Serialization\Graph Saver\GraphSaver.h"
 #include "Functional\Functional.h"
 #include "Serialization\Serialization.h"
+#include "UtilityFunctions.h"
 
 namespace IDragnev::GraphStore
 {
@@ -24,8 +25,10 @@ namespace IDragnev::GraphStore
 
 	void SaveCommand::execute()
 	{
+		using Utility::CallOnDestruction;
+
+		auto safeClear = CallOnDestruction{ [this]() noexcept { clear(); } };
 		saveGraphs();
-		clear();
 	}
 
 	void SaveCommand::saveGraphs() const
