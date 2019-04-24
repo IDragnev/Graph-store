@@ -47,6 +47,27 @@ namespace IDragnev::Utility
 	{
 		print(std::cout, args...);
 	}
+
+	template <typename Callable>
+	class CallOnDestruction
+	{
+	private:
+		static_assert(std::is_nothrow_invocable_v<Callable>);
+		static_assert(std::is_nothrow_move_constructible_v<Callable>);
+
+	public:
+		CallOnDestruction(Callable f) noexcept :
+			f{ std::move(f) }
+		{
+		}
+		~CallOnDestruction() { f(); }
+
+		CallOnDestruction(const CallOnDestruction&) = delete;
+		CallOnDestruction& operator=(const CallOnDestruction&) = delete;
+
+	private:
+		Callable f;
+	};
 }
 
 #endif //__UTILITY_FUNCTIONS_H_INCLUDED__
