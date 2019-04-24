@@ -2,8 +2,7 @@
 #define __FILE_PARSER_H_INCLUDED__
 
 #include <fstream>
-#include "..\String\String.h"
-#include "..\General Exceptions\Exception.h"
+#include "String\String.h"
 
 namespace IDragnev
 {

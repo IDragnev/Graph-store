@@ -2,7 +2,7 @@
 #include "String\String.h"
 #include "Commands\Base\Command.h"
 #include "Graph\Base Graph\Graph.h"
-#include "General Exceptions\Exception.h"
+#include "Exceptions\Exceptions.h"
 #include "Directory loader\DirectoryLoader.h"
 #include "UtilityFunctions.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"

@@ -1,5 +1,5 @@
 #include "DirectoryTextFilesFlatIterator.h"
-#include "General Exceptions\Exception.h"
+#include "Exceptions\Exceptions.h"
 #include "Functional\Functional.h"
 #include "String\String.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"

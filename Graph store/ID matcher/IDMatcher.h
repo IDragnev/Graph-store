@@ -10,7 +10,7 @@ namespace IDragnev::GraphStore
 {
 	using ConstStringIDRef = fluent::NamedType<const String&, struct StringIdTag, fluent::Comparable>;
 
-	inline auto matches(ConstStringIDRef ID)
+	auto matches(ConstStringIDRef ID)
 	{
 		using Functional::compose;
 		using Functional::matches;

@@ -1,8 +1,8 @@
 #include "ShortestPathAlgorithmStore.h"
 #include "..\Shortest Path Algorithms\Base\ShortestPathAlgorithm.h"
 #include "..\String\String.h"
-#include "..\General Exceptions\Exception.h"
-#include "..\ID matcher\IDMatcher.h"
+#include "Exceptions\Exceptions.h"
+#include "ID matcher\IDMatcher.h"
 #include <assert.h>
 #include <algorithm>
 

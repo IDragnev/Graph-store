@@ -1,9 +1,9 @@
 #include "GraphStore.h"
 #include "..\String\String.h"
 #include "..\Graph\Base Graph\Graph.h"
-#include "..\General Exceptions\Exception.h"
-#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
-#include "..\ID matcher\IDMatcher.h"
+#include "Exceptions\Exceptions.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "ID matcher\IDMatcher.h"
 #include <algorithm>
 
 namespace IDragnev

@@ -1,6 +1,6 @@
 #include "DirectoryLoader.h"
 #include "Graph\Base Graph\Graph.h"
-#include "General Exceptions\Exception.h"
+#include "Exceptions\Exceptions.h"
 #include "UtilityFunctions.h"
 #include "Ranges\Ranges.h"
 #include "Functional\Functional.h"

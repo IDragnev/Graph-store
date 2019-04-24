@@ -1,6 +1,6 @@
 #include "FileParser.h"
 #include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
-#include "..\General Exceptions\Exception.h"
+#include "Exceptions\Exceptions.h"
 #include <string>
 
 using namespace fmt::literals;

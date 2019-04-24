@@ -1,9 +1,9 @@
 #include "GraphFactory.h"
 #include "..\Graph\Base Graph\Graph.h"
 #include "Graph creators\Base\GraphCreator.h"
-#include "..\General Exceptions\Exception.h"
-#include "..\String\String.h"
-#include "..\..\Third party\NamedType\named_type.hpp"
+#include "Exceptions\Exceptions.h"
+#include "String\String.h"
+#include "Third party\NamedType\named_type.hpp"
 #include <algorithm>
 
 namespace IDragnev
