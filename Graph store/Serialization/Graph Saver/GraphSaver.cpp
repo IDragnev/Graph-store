@@ -3,8 +3,10 @@
 #include "Serialization\Serialization.h"
 #include "Graph\Base Graph\GraphUtilities.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "UtilityFunctions.h"
 
 using namespace fmt::literals;
+using IDragnev::Utility::CallOnDestruction;
 
 namespace IDragnev::GraphStore
 {
@@ -17,8 +19,7 @@ namespace IDragnev::GraphStore
 		}
 	};
 
-	//All members are set when entering operator() and cleared when leaving it.
-	//Thus they act like local variables and need not be copied!
+	//All members act like local variables and need not be copied
 	GraphSaver::GraphSaver(const GraphSaver&) :
 		GraphSaver{}
 	{
@@ -31,16 +32,20 @@ namespace IDragnev::GraphStore
 
 	void GraphSaver::operator()(const Graph& g, const String& filename)
 	{
+		auto safeClear = CallOnDestruction{ [this]() noexcept { clear(); } };
+		tryToSave(g, filename);
+	}
+
+	void GraphSaver::tryToSave(const Graph& g, const String& filename)
+	{
 		try
 		{
 			init(g, filename);
 			decorateGraph();
 			saveGraphToFile();
-			clear();
 		}
 		catch (std::bad_alloc&)
 		{
-			clear();
 			throw NoMemoryAvailable{};
 		}
 	}
@@ -124,10 +129,11 @@ namespace IDragnev::GraphStore
 		return result->index;
 	}
 
-	void GraphSaver::clear()
+	void GraphSaver::clear() noexcept
 	{
 		graph = nullptr;
 		file.close();
+		file.clear();
 		pairs.clear();
 		map.clear();
 	}

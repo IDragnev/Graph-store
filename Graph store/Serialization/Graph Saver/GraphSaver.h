@@ -38,6 +38,7 @@ namespace IDragnev::GraphStore
 		void operator()(const Graph& g, const String& filename);
 
 	private:
+		void tryToSave(const Graph& g, const String& filename);
 		void init(const Graph& g, const String& filename);
 		void open(const String& filename);
 		void setupCollections(std::size_t verticesCount);
@@ -51,7 +52,7 @@ namespace IDragnev::GraphStore
 		void writeToFile(const Edge& e);
 		std::size_t indexOfID(const Vertex& v) const noexcept;
 
-		void clear();
+		void clear() noexcept;
 
 		template <typename T>
 		void writeOnASingleLine(const T& item) { file << item << "\n"; }
