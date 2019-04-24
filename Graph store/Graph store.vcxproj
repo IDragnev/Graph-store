@@ -211,13 +211,12 @@
     <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListIteratorImpl.hpp" />
     <ClInclude Include="Directory loader\DirectoryLoader.h" />
     <ClInclude Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.h" />
+    <ClInclude Include="Exceptions\Exceptions.h" />
     <ClInclude Include="File parser\FileParser.h" />
     <ClInclude Include="File parser\FileParserImpl.hpp" />
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptor.h" />
     <ClInclude Include="ForwardIterator adaptor\ForwardIteratorAdaptorImpl.hpp" />
     <ClInclude Include="Functional\Functional.h" />
-    <ClInclude Include="General Exceptions\Exception.h" />
-    <ClInclude Include="General Exceptions\NoMemoryAvailable.h" />
     <ClInclude Include="Graph Factory\Graph creators\Base\GraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph registrator\GraphRegistrator.h" />
@@ -235,7 +234,7 @@
     <ClInclude Include="Ranges\Ranges.h" />
     <ClInclude Include="Serialization\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Serialization\Graph Saver\GraphSaver.h" />
-    <ClInclude Include="Serialization\EdgeFormat.h" />
+    <ClInclude Include="Serialization\Serialization.h" />
     <ClInclude Include="Shortest Path Algorithms\Base\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Search-based SP algorithms\Base\SearchBasedShortestPathAlgorithm.h" />

@@ -1,8 +1,8 @@
 #include "GraphSaver.h"
-#include "..\..\General Exceptions\NoMemoryAvailable.h"
-#include "..\EdgeFormat.h"
-#include "..\..\Graph\Base Graph\GraphUtilities.h"
-#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Exceptions\Exceptions.h"
+#include "Serialization\Serialization.h"
+#include "Graph\Base Graph\GraphUtilities.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
 
 using namespace fmt::literals;
 
@@ -104,6 +104,7 @@ namespace IDragnev::GraphStore
 	void GraphSaver::writeToFile(const Edge& edge)
 	{
 		using Utility::toUnderlyingType;
+		using Serialization::EdgeFormat;
 
 		auto result = fmt::format("{edgeStart}{startIndex}{attrDelim}{endIndex}{attrDelim}{weight}{edgeEnd}{edgeDelim}",
 			"edgeStart"_a = toUnderlyingType(EdgeFormat::edgeStart),

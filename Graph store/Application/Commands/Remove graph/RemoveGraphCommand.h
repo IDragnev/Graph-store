@@ -1,29 +1,43 @@
 #ifndef __REMOVE_GRAPH_COMMAND_H_INCLUDED__
 #define __REMOVE_GRAPH_COMMAND_H_INCLUDED__
 
-#include "..\Base\Command.h"
-#include "..\..\..\String\String.h"
+#include "Application\Commands\Base\Command.h"
+#include <vector>
 
-namespace IDragnev
+namespace args
 {
-	namespace GraphStore
+	template <typename T,
+		      template <typename...> class List,
+		      typename Reader>
+	class PositionalList;
+}
+
+namespace IDragnev::GraphStore
+{
+	class RemoveGraphCommand : public Command
 	{
-		class RemoveGraphCommand : public Command
-		{
-		public:
-			using Command::Command;
+	private:
+		using IDList = std::vector<String>;
+		using PositionalList = args::PositionalList<String, std::vector, StringReader>;
 
-			const char* getName() const noexcept override;
-			const char* getDescription() const noexcept override;
+	public:
+		using Command::Command;
 
-		private:
-			void parseArguments(args::Subparser& parser) override;
-			void execute() override;
+		const char* getName() const noexcept override;
+		const char* getDescription() const noexcept override;
 
-		private:
-			String graphID;
-		};
-	}
+	private:
+		void parseArguments(args::Subparser& parser) override;
+		void execute() override;
+
+		void removeGraphsAndTheirFiles() const;
+		void clear() noexcept;
+
+		void setIDs(PositionalList& args);
+
+	private:
+		IDList graphIDs;
+	};
 }
 
 #endif //__REMOVE_GRAPH_COMMAND_H_INCLUDED__

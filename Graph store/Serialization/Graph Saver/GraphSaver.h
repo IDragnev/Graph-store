@@ -1,10 +1,10 @@
 #ifndef __GRAPH_SAVER_H_INCLUDED__
 #define __GRAPH_SAVER_H_INCLUDED__
 
-#include "..\..\Graph\Base Graph\Graph.h"
-#include "..\..\Containers\Hash\Hash.h"
-#include "..\..\Containers\Dynamic Array\DArray.h"
-#include "..\..\HashFunction\HashFunction.h"
+#include "Graph\Base Graph\Graph.h"
+#include "Containers\Hash\Hash.h"
+#include "Containers\Dynamic Array\DArray.h"
+#include "HashFunction\HashFunction.h"
 #include <fstream>
 
 namespace IDragnev::GraphStore

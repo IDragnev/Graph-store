@@ -1,14 +1,17 @@
 #ifndef __GRAPH_BUILDER_H_INCLUDED__
 #define __GRAPH_BUILDER_H_INCLUDED__
 
-#include "..\..\File parser\FileParser.h"
-#include "..\..\Containers\Dynamic Array\DArray.h"
-#include "..\..\Graph\Base Graph\Graph.h"
+#include "File parser\FileParser.h"
+#include "Containers\Dynamic Array\DArray.h"
+#include "Graph\Base Graph\Graph.h"
 #include <memory>
 
 namespace IDragnev::GraphStore
 {
-	enum class EdgeFormat : char;
+	namespace Serialization
+	{
+		enum class EdgeFormat : char;
+	}
 
 	class GraphBuilder
 	{
@@ -16,6 +19,7 @@ namespace IDragnev::GraphStore
 		using GraphPtr = std::unique_ptr<Graph>;
 		using StringArray = Containers::DArray<String>;
 		using EdgeWeight = Graph::Edge::Weight;
+		using EdgeFormat = Serialization::EdgeFormat;
 
 		struct RawEdge
 		{

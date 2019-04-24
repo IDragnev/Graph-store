@@ -1,6 +1,6 @@
 #include "Graph.h"
-#include "..\..\General Exceptions\NoMemoryAvailable.h"
-#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Exceptions\Exceptions.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
 #include <assert.h>
 #include <algorithm>
 

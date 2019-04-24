@@ -101,9 +101,6 @@
     <Filter Include="Application\Commands\Remove graph">
       <UniqueIdentifier>{5dcb8d79-73ba-4d0b-816a-0750abf314ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="General exceptions">
-      <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Iterators">
       <UniqueIdentifier>{d262e9af-960f-4a2b-bd9d-9712c837e973}</UniqueIdentifier>
     </Filter>
@@ -187,6 +184,9 @@
     </Filter>
     <Filter Include="Ranges">
       <UniqueIdentifier>{fd5cb747-b205-494d-bb7b-98fd02fbb14e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -375,12 +375,6 @@
     <ClInclude Include="Application\Commands\Remove graph\RemoveGraphCommand.h">
       <Filter>Application\Commands\Remove graph</Filter>
     </ClInclude>
-    <ClInclude Include="General Exceptions\Exception.h">
-      <Filter>General exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="General Exceptions\NoMemoryAvailable.h">
-      <Filter>General exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="Traits\Traits.h">
       <Filter>Traits</Filter>
     </ClInclude>
@@ -486,9 +480,6 @@
     <ClInclude Include="Application\Commands\Save\SaveCommand.h">
       <Filter>Application\Commands\Save</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization\EdgeFormat.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="IdGetter\IdGetter.h">
       <Filter>IdGetter</Filter>
     </ClInclude>
@@ -497,6 +488,12 @@
     </ClInclude>
     <ClInclude Include="Ranges\Ranges.h">
       <Filter>Ranges</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization\Serialization.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\Exceptions.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

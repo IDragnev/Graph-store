@@ -1,7 +1,7 @@
 #ifndef __SAVE_COMMAND_H_INCLUDED__
 #define __SAVE_COMMAND_H_INCLUDED__
 
-#include "..\Base\Command.h"
+#include "Application\Commands\Base\Command.h"
 #include <vector>
 
 namespace args
@@ -12,35 +12,32 @@ namespace args
 	class PositionalList;
 }
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class SaveCommand : public Command
 	{
-		class SaveCommand : public Command
-		{
-		private:
-			using IDList = std::vector<String>;
-			using PositionalList = args::PositionalList<String, std::vector, StringReader>;
+	private:
+		using IDList = std::vector<String>;
+		using PositionalList = args::PositionalList<String, std::vector, StringReader>;
 
-		public:
-			using Command::Command;
+	public:
+		using Command::Command;
 
-			const char* getName() const noexcept override;
-			const char* getDescription() const noexcept override;
+		const char* getName() const noexcept override;
+		const char* getDescription() const noexcept override;
 
-		private:
-			void parseArguments(args::Subparser& parser) override;
-			void execute() override;
+	private:
+		void parseArguments(args::Subparser& parser) override;
+		void execute() override;
 
-			void save() const;
-			void clear();
+		void saveGraphs() const;
+		void clear() noexcept;
+		
+		void setIDs(PositionalList& args);
 
-			void setIDs(PositionalList& args);
-
-		private:
-			IDList graphIDs;
-		};
-	}
+	private:
+		IDList graphIDs;
+	};
 }
 
 #endif //__SAVE_COMMAND_H_INCLUDED__

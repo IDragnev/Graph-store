@@ -1,13 +1,13 @@
 #ifndef __BASE_GRAPH_H_INCLUDED__
 #define __BASE_GRAPH_H_INCLUDED__
 
-#include "..\..\Containers\Hash\Hash.h"
-#include "..\..\HashFunction\HashFunction.h"
-#include "..\..\String\String.h"
-#include "..\..\Containers\Singly Linked List\SinglyLinkedList.h"
-#include "..\..\Iterator abstraction\Iterator.h"
-#include "..\..\ForwardIterator adaptor\ForwardIteratorAdaptor.h"
-#include "..\..\IdGetter\IdGetter.h"
+#include "Containers\Hash\Hash.h"
+#include "HashFunction\HashFunction.h"
+#include "String\String.h"
+#include "Containers\Singly Linked List\SinglyLinkedList.h"
+#include "Iterator abstraction\Iterator.h"
+#include "ForwardIterator adaptor\ForwardIteratorAdaptor.h"
+#include "IdGetter\IdGetter.h"
 #include <memory>
 #include <vector>
 
@@ -23,7 +23,7 @@ namespace IDragnev::GraphStore
 			using VertexRef = std::reference_wrapper<Vertex>;
 
 		public:
-			using Weight = std::size_t;
+			using Weight = std::uint64_t;
 
 			IncidentEdge(Vertex& incidentVertex, Weight) noexcept;
 

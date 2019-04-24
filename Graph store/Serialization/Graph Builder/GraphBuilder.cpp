@@ -1,9 +1,9 @@
 #include "GraphBuilder.h"
-#include "..\..\Graph Factory\GraphFactory.h"
-#include "..\..\General Exceptions\NoMemoryAvailable.h"
-#include "..\EdgeFormat.h"
-#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
-#include "..\..\UtilityFunctions.h"
+#include "Graph Factory\GraphFactory.h"
+#include "Serialization\Serialization.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "UtilityFunctions.h"
+#include "Exceptions\Exceptions.h"
 #include <algorithm>
 
 using namespace fmt::literals;

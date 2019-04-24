@@ -1,32 +1,69 @@
 #include "RemoveGraphCommand.h"
-#include "..\..\Command registrator\CommandRegistrator.h"
+#include "Application\Command registrator\CommandRegistrator.h"
+#include "Serialization\Serialization.h"
+#include "Functional\Functional.h"
+#include "String\String.h"
+#include <filesystem>
 
-namespace IDragnev
+namespace fs = std::filesystem;
+
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static CommandRegistrator<RemoveGraphCommand> registrator;
+
+	void RemoveGraphCommand::parseArguments(args::Subparser& parser)
 	{
-		static CommandRegistrator<RemoveGraphCommand> registrator;
+		auto arguments = PositionalList{ parser, "IDs", "The IDs of all the graphs to be removed" };
+		parser.Parse();
+		setIDs(arguments);
+	}
 
-		void RemoveGraphCommand::parseArguments(args::Subparser& parser)
-		{
-			auto ID = StringPositional{ parser, "ID", "The ID of the graph to be removed" };
-			parser.Parse();	
-			setIfMatched(graphID, ID);
-		}
+	void RemoveGraphCommand::setIDs(PositionalList& IDs)
+	{
+		using args::get;
 
-		void RemoveGraphCommand::execute()
+		if (IDs.Matched())
 		{
-			Command::removeGraph(graphID);
+			graphIDs = std::move(get(IDs));
 		}
+		else
+		{
+			throw MissingArgument{ IDs.Name() };
+		}
+	}
 
-		const char* RemoveGraphCommand::getName() const noexcept
+	void RemoveGraphCommand::execute()
+	{
+		removeGraphsAndTheirFiles();
+		clear();
+	}
+
+	void RemoveGraphCommand::removeGraphsAndTheirFiles() const
+	{
+		auto removeGraphAndItsFile = [](const auto& graphID)
 		{
-			return "REMOVE-GRAPH";
-		}
+			using Serialization::correspondingGraphFile;
+
+			removeGraph(graphID);
+			auto filename = correspondingGraphFile(graphID);
+			fs::remove(static_cast<const char*>(filename));
+		};
 		
-		const char* RemoveGraphCommand::getDescription() const noexcept
-		{
-			return "Removes a specified graph";
-		}
+		std::for_each(std::begin(graphIDs), std::end(graphIDs), removeGraphAndItsFile);
+	}
+
+	void RemoveGraphCommand::clear() noexcept
+	{
+		graphIDs.clear();
+	}
+
+	const char* RemoveGraphCommand::getName() const noexcept
+	{
+		return "REMOVE-GRAPH";
+	}
+
+	const char* RemoveGraphCommand::getDescription() const noexcept
+	{
+		return "Removes the specified graphs";
 	}
 }
