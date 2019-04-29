@@ -7,172 +7,168 @@
 #include <algorithm>
 
 using namespace fmt::literals;
+using IDragnev::Utility::CallOnDestruction;
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class FailedToLoad : public Exception
 	{
-		class FailedToLoad : public Exception
-		{
-		public:
-			FailedToLoad(const String& filename, const Exception& e) :
-				Exception{ fmt::format("Failed to load {file} : {reason}",
-									   "file"_a = filename,
-									   "reason"_a = e.what()) }
-			{
-			}
-		};
-
-		//all members act like local variables
-		//and need not be copied
-		GraphBuilder::GraphBuilder(const GraphBuilder&) :
-			GraphBuilder{}
+	public:
+		FailedToLoad(const String& filename, const Exception& e) :
+			Exception{ fmt::format("Failed to load {file} : {reason}",
+								   "file"_a = filename,
+								   "reason"_a = e.what()) }
 		{
 		}
+	};
 
-		GraphBuilder& GraphBuilder::operator=(const GraphBuilder&)
+	//all members act like local variables
+	//and need not be copied
+	GraphBuilder::GraphBuilder(const GraphBuilder&) :
+		GraphBuilder{}
+	{
+	}
+
+	GraphBuilder& GraphBuilder::operator=(const GraphBuilder&)
+	{
+		return *this;
+	}
+
+	auto GraphBuilder::operator()(const String& filename) -> GraphPtr
+	{
+		auto safeClear = CallOnDestruction{ [this]() noexcept { clear(); } };
+		tryToBuildFrom(filename);
+
+		return std::move(result);
+	}
+
+	void GraphBuilder::clear() noexcept
+	{
+		vertexIDs.clear();
+		parser.closeFile();
+		result = nullptr;
+	}
+
+	void GraphBuilder::tryToBuildFrom(const String& filename)
+	{
+		try
 		{
-			return *this;
+			init(filename);
+			build();
 		}
-
-		auto GraphBuilder::operator()(const String& filename) -> GraphPtr
+		catch (Exception& e)
 		{
-			auto clear = makeScopedClear();
-			tryToBuildFrom(filename);
-
-			return std::move(result);
+			throw FailedToLoad{ filename, e };
 		}
-
-		void GraphBuilder::tryToBuildFrom(const String& filename)
+		catch (std::bad_alloc&)
 		{
-			try
-			{
-				init(filename);
-				build();
-			}
-			catch (Exception& e)
-			{
-				throw FailedToLoad{ filename, e };
-			}
-			catch (std::bad_alloc&)
-			{
-				throw FailedToLoad{ filename, NoMemoryAvailable{} };
-			}
+			throw FailedToLoad{ filename, NoMemoryAvailable{} };
 		}
+	}
 
-		void GraphBuilder::init(const String& filename)
+	void GraphBuilder::init(const String& filename)
+	{
+		parser.openFile(filename);
+	}
+
+	void GraphBuilder::build()
+	{
+		createEmptyGraph();
+		insertVertices();
+		insertEdges();
+	}
+
+	void GraphBuilder::createEmptyGraph()
+	{
+		auto graphType = parser.parseLine();
+		auto graphID = parser.parseLine();
+
+		result = GraphFactory::instance().createEmptyGraph(graphType, graphID);
+	}
+
+	void GraphBuilder::insertVertices()
+	{
+		parseVertexIDs();
+
+		for (auto&& ID : vertexIDs)
 		{
-			parser.openFile(filename);
+			result->insertVertexWithID(ID);
 		}
+	}
 
-		void GraphBuilder::clear()
+	void GraphBuilder::parseVertexIDs()
+	{
+		assert(vertexIDs.isEmpty());
+
+		auto IDsCount = parseUnsignedAndIgnoreUntil('\n');
+		vertexIDs.ensureSize(IDsCount);
+
+		while (IDsCount > 0)
 		{
-			vertexIDs.clear();
-			parser.closeFile();
-			result = nullptr;
+			vertexIDs.insertBack(parser.parseLine());
+			--IDsCount;
 		}
+	}
 
-		void GraphBuilder::build()
+	std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
+	{
+		auto result = parser.parseUnsigned<std::size_t>();
+		parser.ignoreUntil(symbol);
+
+		return result;
+	}
+
+	void GraphBuilder::insertEdges()
+	{
+		assert(areVerticesInserted());
+
+		auto edgesCount = parseUnsignedAndIgnoreUntil('\n');
+
+		while (edgesCount > 0)
 		{
-			createEmptyGraph();
-			insertVertices();
-			insertEdges();
+			insertSingleEdge(parseSingleEdge());
+			--edgesCount;
 		}
+	}
 
-		void GraphBuilder::createEmptyGraph()
-		{
-			auto graphType = parser.parseLine();
-			auto graphID = parser.parseLine();
+	bool GraphBuilder::areVerticesInserted() const noexcept
+	{
+		return result->getVerticesCount() == vertexIDs.getCount();
+	}
 
-			result = GraphFactory::instance().createEmptyGraph(graphType, graphID);
-		}
+	void GraphBuilder::insertSingleEdge(const RawEdge& edge)
+	{
+		auto& start = getVertex(edge.startVertexIDIndex);
+		auto& end = getVertex(edge.endVertexIDIndex);
+		result->insertEdge(start, end, edge.weight);
+	}
 
-		void GraphBuilder::insertVertices()
-		{
-			parseVertexIDs();
+	Graph::Vertex& GraphBuilder::getVertex(std::size_t idIndex)
+	{
+		return result->getVertex(vertexIDs[idIndex]);
+	}
 
-			for (auto&& ID : vertexIDs)
-			{
-				result->insertVertexWithID(ID);
-			}
-		}
+	GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
+	{
+		ignoreUntil(EdgeFormat::edgeStart);
+		auto startIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
+		auto endIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
+		auto weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EdgeFormat::edgeEnd) };
+		ignoreUntil(EdgeFormat::edgeDelimiter);
 
-		void GraphBuilder::parseVertexIDs()
-		{
-			assert(vertexIDs.isEmpty());
+		return { startIDIndex, endIDIndex, weight };
+	}
 
-			auto IDsCount = parseUnsignedAndIgnoreUntil('\n');
-			vertexIDs.ensureSize(IDsCount);
+	std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(EdgeFormat symbol)
+	{
+		using Utility::toUnderlyingType;
+		return parseUnsignedAndIgnoreUntil(toUnderlyingType(symbol));
+	}
 
-			while (IDsCount > 0)
-			{
-				vertexIDs.insertBack(parser.parseLine());
-				--IDsCount;
-			}
-		}
-
-		std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(char symbol)
-		{
-			auto result = parser.parseUnsigned<std::size_t>();
-			parser.ignoreUntil(symbol);
-
-			return result;
-		}
-
-		void GraphBuilder::insertEdges()
-		{
-			assert(areVerticesInserted());
-
-			auto edgesCount = parseUnsignedAndIgnoreUntil('\n');
-
-			while (edgesCount > 0)
-			{
-				insertSingleEdge(parseSingleEdge());
-				--edgesCount;
-			}
-		}
-
-		bool GraphBuilder::areVerticesInserted() const
-		{
-			return result->getVerticesCount() == vertexIDs.getCount();
-		}
-
-		void GraphBuilder::insertSingleEdge(const RawEdge& edge)
-		{
-			auto& start = getVertex(edge.startVertexIDIndex);
-			auto& end = getVertex(edge.endVertexIDIndex);
-			result->insertEdge(start, end, edge.weight);
-		}
-
-		Graph::Vertex& GraphBuilder::getVertex(std::size_t idIndex)
-		{
-			return result->getVertex(vertexIDs[idIndex]);
-		}
-
-		GraphBuilder::RawEdge GraphBuilder::parseSingleEdge()
-		{
-			RawEdge result{};
-
-			ignoreUntil(EdgeFormat::edgeStart);
-			result.startVertexIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
-			result.endVertexIDIndex = parseUnsignedAndIgnoreUntil(EdgeFormat::attributeDelimiter);
-			result.weight = EdgeWeight{ parseUnsignedAndIgnoreUntil(EdgeFormat::edgeEnd) };
-			ignoreUntil(EdgeFormat::edgeDelimiter);
-
-			return result;
-		}
-
-		std::size_t GraphBuilder::parseUnsignedAndIgnoreUntil(EdgeFormat symbol)
-		{
-			using Utility::toUnderlyingType;
-			return parseUnsignedAndIgnoreUntil(toUnderlyingType(symbol));
-		}
-
-		void GraphBuilder::ignoreUntil(EdgeFormat symbol)
-		{
-			using Utility::toUnderlyingType;
-			parser.ignoreUntil(toUnderlyingType(symbol));
-		}
+	void GraphBuilder::ignoreUntil(EdgeFormat symbol)
+	{
+		using Utility::toUnderlyingType;
+		parser.ignoreUntil(toUnderlyingType(symbol));
 	}
 }
 

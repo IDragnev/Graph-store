@@ -52,16 +52,8 @@ namespace IDragnev::GraphStore
 		void ignoreUntil(EdgeFormat symbol);
 		Graph::Vertex& getVertex(std::size_t idIndex);
 
-		void clear();
-		auto makeScopedClear() noexcept
-		{
-			auto deleter = [](auto ptr) { ptr->clear(); };
-			using ScopedClear = std::unique_ptr<GraphBuilder, decltype(deleter)>;
-
-			return ScopedClear{ this, deleter };
-		}
-
-		bool areVerticesInserted() const;
+		void clear() noexcept;
+		bool areVerticesInserted() const noexcept;
 
 	private:
 		StringArray vertexIDs;
