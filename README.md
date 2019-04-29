@@ -41,10 +41,10 @@ SEARCH-PATH v1 v3 Dijkstra
   The type of the graph can be *directed* or *undirected*. If no type is specified, it is 
   undirected.
 
- - **REMOVE-GRAPH \<id\>**
-   - Removes the specified graph. 
-If this was the currently used graph, there is no currently used graph after executing the command.
-The currently used graph can be switched via the USE GRAPH command.
+ - **REMOVE-GRAPH {\<id\>}<sup>+<sup>**
+   - Removes the specified graphs.   
+If the currently used graph was among them, there is no currently used graph after executing the command.
+The currently used graph can be switched via the USE-GRAPH command.
 
  - **USE-GRAPH \<id\>**
    - Switches the currently used graph with the specified graph.
