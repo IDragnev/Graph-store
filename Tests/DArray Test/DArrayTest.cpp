@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../../Graph store/Containers/Dynamic Array/DArray.h"
+#include "Containers\Dynamic Array\DArray.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using IDragnev::Containers::DArray;
