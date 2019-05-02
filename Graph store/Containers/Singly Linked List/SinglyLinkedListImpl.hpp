@@ -1,7 +1,6 @@
 
 namespace IDragnev::Containers
 {
-
 	template <typename T>
 	SinglyLinkedList<T>::SinglyLinkedList() noexcept :
 		count{ 0 },
@@ -23,7 +22,7 @@ namespace IDragnev::Containers
 	}
 
 	template <typename T>
-	template <typename InputIt>
+	template <typename InputIt, typename>
 	SinglyLinkedList<T>::SinglyLinkedList(InputIt first, InputIt last) :
 		SinglyLinkedList()
 	{
@@ -403,18 +402,5 @@ namespace IDragnev::Containers
 	inline auto SinglyLinkedList<T>::end() const noexcept -> const_iterator
 	{
 		return cend();
-	}
-
-	template <typename T>
-	inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()))
-	{
-		return std::equal(lhs.cbegin(), lhs.cend(),
-			              rhs.cbegin(), rhs.cend());
-	}
-
-	template <typename T>
-	inline bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(lhs == rhs))
-	{
-		return !(lhs == rhs);
 	}
 }

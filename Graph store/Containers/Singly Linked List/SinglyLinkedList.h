@@ -1,6 +1,7 @@
 #ifndef __SINGLY_LINKED_LIST_H_INCLUDED__
 #define __SINGLY_LINKED_LIST_H_INCLUDED__
 
+#include "Traits\Traits.h"
 #include <utility>
 #include <assert.h>
 #include <iterator>
@@ -13,6 +14,9 @@ namespace IDragnev::Containers
 	private:
 		static_assert(std::is_copy_constructible_v<T>,
 			          "SinglyLinkedList<T> requires T to be copy constructible");
+
+		template <typename Iterator>
+		using EnableIfInputIt = std::enable_if_t<Traits::isInputIterator<Iterator>>;
 
 		template <typename Item>
 		struct Node
@@ -78,7 +82,7 @@ namespace IDragnev::Containers
 		using const_iterator = SinglyLinkedListIterator<T, true>;
 
 		SinglyLinkedList() noexcept;
-		template <typename InputIt>
+		template <typename InputIt, typename = EnableIfInputIt<InputIt>>
 		SinglyLinkedList(InputIt first, InputIt last);
 		SinglyLinkedList(std::initializer_list<T> source);
 		SinglyLinkedList(SinglyLinkedList&& source) noexcept;
@@ -142,9 +146,17 @@ namespace IDragnev::Containers
 	};
 
 	template <typename T>
-	bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()));
+	inline bool operator==(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(std::declval<T>() == std::declval<T>()))
+	{
+		return std::equal(lhs.cbegin(), lhs.cend(),
+			              rhs.cbegin(), rhs.cend());
+	}
+
 	template <typename T>
-	bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(lhs == rhs));
+	inline bool operator!=(const SinglyLinkedList<T>& lhs, const SinglyLinkedList<T>& rhs) noexcept(noexcept(lhs == rhs))
+	{
+		return !(lhs == rhs);
+	}
 }
 
 #include "SinglyLinkedListImpl.hpp"
