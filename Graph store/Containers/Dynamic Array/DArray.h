@@ -2,6 +2,7 @@
 #define __D_ARRAY_H_INCLDUED__
 
 #include "UtilityFunctions.h"
+#include "Traits\Traits.h"
 #include <utility>
 #include <assert.h>
 #include <iterator>
@@ -18,8 +19,7 @@ namespace IDragnev::Containers
 			          "DArray<T> requires T to be copy assignable or nothrow move assignable");
 
 		template <typename Iterator>
-		using EnableIfInputIterator = 
-			std::enable_if_t<std::is_convertible_v<typename std::iterator_traits<Iterator>::iterator_category, std::input_iterator_tag>>;
+		using EnableIfInputIterator = std::enable_if_t<Traits::isInputIterator<Iterator>>;
 
 		template <typename Item, bool isConst = false>
 		class DArrayIterator
