@@ -73,7 +73,7 @@ If specified **weight** must be a positive integer, else it is 1.
 If the graph is directed, the edge from **startVertexId** to **endVertexId** is deleted.
 If the graph is undirected, the order of the sent vertex IDs does not matter.
 
-- **SEARCH \<startVertexId\> \<endVertexId\> \<algorithm\>**
+- **SEARCH-PATH \<startVertexId\> \<endVertexId\> \<algorithm\>**
   - Searches a shortest path starting from **startVertexId** and finishing at **endVertexId** in the 
 currently used graph.
 If such path is found, its constituent vertices are listed along with the path length, else a message is shown.
