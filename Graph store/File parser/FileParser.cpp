@@ -1,170 +1,201 @@
 #include "FileParser.h"
-#include "..\..\Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
 #include "Exceptions\Exceptions.h"
 #include <string>
 
 using namespace fmt::literals;
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class FailedToOpen : public Exception
 	{
-		class FailedToOpen : public Exception
+	public:
+		FailedToOpen::FailedToOpen(const String& filename) :
+			Exception{ fmt::format("Failed to open {0} for reading", filename) }
 		{
-		public:
-			FailedToOpen::FailedToOpen(const String& filename) :
-				Exception{ fmt::format("Failed to open {0} for reading!", filename) }
-			{
-			}
-		};
+		}
+	};
 
-		class ParseFail : public Exception
+	class NoFileOpened : public Exception
+	{
+	public:
+		NoFileOpened::NoFileOpened() :
+			Exception{ "No file associated with parser" }
 		{
-		public:
-			ParseFail(const String& filename, const String& reason, std::size_t line) :
-				Exception{ fmt::format("Error reading {name}: {reason}! Line {line}.",
-									   "name"_a = filename,
-									   "reason"_a = reason,
-									   "line"_a = line) }
-			{
-			}
-		};
+		}
+	};
+
+	class ReachedEnd : public Exception
+	{
+	public:
+		ReachedEnd::ReachedEnd(const String& filename) :
+			Exception{ fmt::format("End of {0} reached prematurely", filename) }
+		{
+		}
+	};
+
+	class ParseFail : public Exception
+	{
+	public:
+		ParseFail(const String& filename, const String& reason, std::size_t line) :
+			Exception{ fmt::format("Error reading {name}: {reason}! Line {line}.",
+								   "name"_a = filename,
+								   "reason"_a = reason,
+								   "line"_a = line) }
+		{
+		}
+	};
+
+	FileParser::FileParser(const String& filename) :
+		FileParser{}
+	{
+		openFile(filename);
+	}
+
+	void FileParser::openFile(const String& filename)
+	{
+		closeFile();
+		open(filename);
+	}
+
+	void FileParser::closeFile()
+	{
+		if (hasOpenedFile())
+		{
+			filename = "";
+			currentLine = 0;
+			stream.close();
+			stream.clear();
+		}
+	}
+
+	bool FileParser::hasOpenedFile() const
+	{
+		return stream.is_open();
+	}
+
+	void FileParser::open(const String& file)
+	{
+		stream.open(file);
+		if (stream)
+		{
+			currentLine = 1u;
+			filename = file;
+		}
+		else
+		{
+			throw FailedToOpen{ file };
+		}
+	}
+
+	FileParser::FileParser(FileParser&& source) :
+		currentLine{ source.currentLine },
+		filename{ std::move(source.filename) },
+		stream{ std::move(source.stream) }
+	{
+		source.currentLine = 0;
+	}
+
+	FileParser& FileParser::operator=(FileParser&& rhs)
+	{
+		if (this != &rhs)
+		{
+			swapContentsWith(std::move(rhs));
+		}
+
+		return *this;
+	}
+
+	void FileParser::swapContentsWith(FileParser temporary)
+	{
+		std::swap(currentLine, temporary.currentLine);
+		std::swap(filename, temporary.filename);
+		std::swap(stream, temporary.stream);
+	}
+
+	String FileParser::parseLine()
+	{
+		validateState();
 		
+		auto result = doParseLine();
+		++currentLine;
 
-		FileParser::FileParser(const String& filename) :
-			FileParser{}
+		return result;
+	}
+
+	String FileParser::doParseLine()
+	{
+		static const std::size_t bufferSize = 512;
+		
+		char buffer[bufferSize];
+		stream.getline(buffer, bufferSize);
+		
+		throwIfParseFailed("No characters left in the file");
+
+		return buffer;
+	}
+
+	void FileParser::validateState() const
+	{
+		if (!hasOpenedFile())
 		{
-			openFile(filename);
+			throw NoFileOpened{};
 		}
-
-		void FileParser::openFile(const String& name)
+		else if (hasReachedEnd())
 		{
-			if (hasOpenedFile())
+			throw ReachedEnd{ filename };
+		}
+		else if (stream.fail())
+		{
+			throw Exception{ "Using parser in failed state" };
+		}
+	}
+
+	void FileParser::throwIfParseFailed(const char* reason) const
+	{
+		if (stream.fail())
+		{
+			throw ParseFail{ filename, reason, currentLine };
+		}
+	}
+
+	void FileParser::ignoreUntil(char symbol)
+	{
+		validateState();
+
+		char extracted;
+		do
+		{
+			extracted = stream.get();
+
+			if (extracted == '\n')
 			{
-				closeFile();
+				++currentLine;
 			}
+		} while (!(hasReachedEnd() || extracted == symbol));
+	}
 
-			stream.open(name);
-			if (stream)
-			{
-				currentLine = 1U;
-				filename = name;
-			}
-			else
-			{
-				throw FailedToOpen{ name };
-			}
-		}
+	char FileParser::peekNextCharacter()
+	{
+		validateState();
+		return stream.peek();
+	}
 
-		FileParser::FileParser(FileParser&& source) :
-			currentLine{ source.currentLine },
-			filename{ std::move(source.filename) },
-			stream{ std::move(source.stream) }
+	bool FileParser::hasReachedEnd() const
+	{
+		if (!hasOpenedFile())
 		{
-			source.currentLine = 0;
+			throw NoFileOpened{};
 		}
+		
+		return stream.eof();
+	}
 
-		FileParser& FileParser::operator=(FileParser&& rhs)
+	void FileParser::invalidateStreamIfSigned()
+	{
+		if (peekNextCharacter() == '-')
 		{
-			if (this != &rhs)
-			{
-				swapContentsWith(std::move(rhs));
-			}
-
-			return *this;
-		}
-
-		void FileParser::swapContentsWith(FileParser temporary)
-		{
-			std::swap(currentLine, temporary.currentLine);
-			std::swap(filename, temporary.filename);
-			std::swap(stream, temporary.stream);
-		}
-
-		String FileParser::parseLine()
-		{
-			validateState();
-
-			static const std::size_t bufferSize = 512;
-			char buffer[bufferSize];
-			stream.getline(buffer, bufferSize);
-
-			throwIfParseFailed("No characters left in the file");
-
-			++currentLine;
-
-			return buffer;
-		}
-
-		void FileParser::validateState() const
-		{
-			assert(hasOpenedFile());
-			assert(!hasReachedEnd());
-			assert(!stream.fail());
-		}
-
-		void FileParser::throwIfParseFailed(const char* reason) const
-		{
-			if (stream.fail())
-			{
-				throw ParseFail{ filename, reason, currentLine };
-			}
-		}
-
-		void FileParser::ignoreUntil(char symbol)
-		{
-			validateState();
-
-			auto extracted = char{};
-			do
-			{
-				extracted = stream.get();
-
-				if (extracted == '\n')
-				{
-					++currentLine;
-				}
-			} while (!(hasReachedEnd() || extracted == symbol));
-		}
-
-		char FileParser::peekNextCharacter()
-		{
-			validateState();
-			return stream.peek();
-		}
-
-		bool FileParser::hasOpenedFile() const
-		{
-			return stream.is_open();
-		}
-
-		void FileParser::closeFile()
-		{
-			if (hasOpenedFile())
-			{
-				filename = "";
-				currentLine = 0;
-				stream.close();
-			}
-		}
-
-		bool FileParser::hasReachedEnd() const
-		{
-			assert(hasOpenedFile());
-			return stream.eof();
-		}
-
-		char FileParser::endOfFileCharacter()
-		{
-			return EOF;
-		}
-
-		void FileParser::invalidateStreamIfSigned()
-		{
-			if (peekNextCharacter() == '-')
-			{
-				stream.setstate(stream.rdstate() | std::ios::failbit);
-			}
+			stream.setstate(stream.rdstate() | std::ios::failbit);
 		}
 	}
 }
