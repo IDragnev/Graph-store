@@ -6,12 +6,11 @@ namespace IDragnev::GraphStore
 	{
 		static_assert(std::is_signed_v<ArithmeticType>,
 			          "template <typename T> T FileParser::parseSigned() requires T to be a signed arithmetic type");
-		validateState();
+		
+		auto prepare = [] {};
+		auto message = "Invalid signed number format";
 
-		auto result = parseArithmeticType<ArithmeticType>();
-		throwIfParseFailed("Invalid signed number format");
-
-		return result;
+		return parseArithmeticType<ArithmeticType>(message, prepare);
 	}
 
 	template <typename ArithmeticType>
@@ -19,11 +18,21 @@ namespace IDragnev::GraphStore
 	{
 		static_assert(std::is_unsigned_v<ArithmeticType>,
 			          "template <typename T> T FileParser::parseUnsigned() requires T to be an unsigned arithmetic type");
+		
+		auto prepare = [this] { invalidateStreamIfSigned(); };
+		auto message = "Invalid unsigned number format";
+		
+		return parseArithmeticType<ArithmeticType>(message, prepare);
+	}
+
+	template <typename ArithmeticType, typename Callable>
+	ArithmeticType FileParser::parseArithmeticType(const char* messageOnError, Callable prepare)
+	{
 		validateState();
 
-		invalidateStreamIfSigned();
+		prepare();
 		auto result = parseArithmeticType<ArithmeticType>();
-		throwIfParseFailed("Invalid unsigned number format");
+		throwIfParseFailed(messageOnError);
 
 		return result;
 	}
@@ -31,7 +40,7 @@ namespace IDragnev::GraphStore
 	template <typename ArithmeticType>
 	ArithmeticType FileParser::parseArithmeticType()
 	{
-		auto result = ArithmeticType{ 0 };
+		ArithmeticType result = 0;
 		stream >> result;
 
 		return result;

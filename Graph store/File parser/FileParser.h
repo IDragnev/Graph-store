@@ -41,6 +41,8 @@ namespace IDragnev::GraphStore
 		void open(const String& filename);
 		String doParseLine();
 
+		template <typename ArithmeticType, typename Callable>
+		ArithmeticType parseArithmeticType(const char* messageOnFail, Callable prepare);
 		template <typename ArithmeticType>
 		ArithmeticType parseArithmeticType();
 		void invalidateStreamIfSigned();

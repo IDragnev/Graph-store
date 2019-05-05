@@ -12,44 +12,6 @@ namespace FileParserTest
 {
 	TEST_CLASS(FileParserTest)
 	{
-	private:
-		static bool areEqual(const char* lhs, const char* rhs)
-		{
-			return std::strcmp(lhs, rhs) == 0;
-		}
-
-		static void writeToFirstFile(const char* content)
-		{
-			openTruncated(firstFile, FIRST_FILE_NAME);
-			writeTo(firstFile, content);
-			firstFile.close();
-		}
-
-		static void writeToSecondFile(const char* content)
-		{
-			openTruncated(secondFile, SECOND_FILE_NAME);
-			writeTo(secondFile, content);
-			secondFile.close();
-		}
-
-		static void openTruncated(std::ofstream& file, const char* name)
-		{
-			assert(!file.is_open());
-			file.open(name, std::ios::out | std::ios::trunc);
-			assert(file);
-		}
-
-		static void writeTo(std::ofstream& output, const char* content)
-		{
-			assert(output.is_open());
-			output << content;
-		}
-
-		static std::ofstream firstFile;
-		static std::ofstream secondFile;
-		static const char FIRST_FILE_NAME[];
-		static const char SECOND_FILE_NAME[];
-
 	public:
 		TEST_METHOD(defaultParserOpensNoFile)
 		{
@@ -293,7 +255,7 @@ namespace FileParserTest
 
 private:
 		template <typename R>
-		void testParsingInvalidInput(R(FileParser::* parse)(), const char* input)
+		static void testParsingInvalidInput(R(FileParser::* parse)(), const char* input)
 		{
 			writeToFirstFile(input);
 			FileParser p{ FIRST_FILE_NAME };
@@ -307,6 +269,43 @@ private:
 			{
 			}
 		}
+
+		static bool areEqual(const char* lhs, const char* rhs)
+		{
+			return std::strcmp(lhs, rhs) == 0;
+		}
+
+		static void writeToFirstFile(const char* content)
+		{
+			openTruncated(firstFile, FIRST_FILE_NAME);
+			writeTo(firstFile, content);
+			firstFile.close();
+		}
+
+		static void writeToSecondFile(const char* content)
+		{
+			openTruncated(secondFile, SECOND_FILE_NAME);
+			writeTo(secondFile, content);
+			secondFile.close();
+		}
+
+		static void openTruncated(std::ofstream& file, const char* name)
+		{
+			assert(!file.is_open());
+			file.open(name, std::ios::out | std::ios::trunc);
+			assert(file);
+		}
+
+		static void writeTo(std::ofstream& output, const char* content)
+		{
+			assert(output.is_open());
+			output << content;
+		}
+
+		static std::ofstream firstFile;
+		static std::ofstream secondFile;
+		static const char FIRST_FILE_NAME[];
+		static const char SECOND_FILE_NAME[];
 	};
 
 	std::ofstream FileParserTest::firstFile;
