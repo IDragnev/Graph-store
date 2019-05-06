@@ -1,6 +1,7 @@
 #ifndef __BASE_GRAPH_H_INCLUDED__
 #define __BASE_GRAPH_H_INCLUDED__
 
+#include "Exceptions\Exceptions.h"
 #include "Containers\Hash\Hash.h"
 #include "HashFunction\HashFunction.h"
 #include "String\String.h"
@@ -15,6 +16,13 @@ namespace IDragnev::GraphStore
 {
 	class Graph
 	{
+	protected:
+		class DuplicateEdge : public Exception
+		{
+		public:
+			DuplicateEdge(const String& start, const String& end);
+		};
+
 	public:
 		class Vertex;
 		class IncidentEdge

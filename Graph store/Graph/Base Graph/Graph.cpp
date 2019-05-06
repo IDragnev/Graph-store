@@ -8,6 +8,13 @@ using namespace fmt::literals;
 
 namespace IDragnev::GraphStore
 {
+	Graph::DuplicateEdge::DuplicateEdge(const String& start, const String& end) :
+		Exception{ fmt::format("And edge from {u} to {v} already exists!",
+							   "u"_a = start,
+							   "v"_a = end) }
+	{
+	}
+
 	class InvalidID : public Exception
 	{
 	public:
@@ -312,18 +319,13 @@ namespace IDragnev::GraphStore
 		}
 	}
 
-	auto matches(const Graph::Vertex& v)
-	{
-		using Functional::matches;
-
-		auto extractor = [](const auto& edge) { return &edge.getIncidentVertex(); };
-		return matches(&v, extractor);
-	}
-
 	auto Graph::searchEdgeFromTo(Vertex& from, Vertex& to) -> IncidentEdgesIterator
 	{
+		auto extractor = [](const auto& edge) { return &edge.getIncidentVertex(); };
+		auto matchesTo = Functional::matches(&to, extractor);
 		auto& edges = edgesOf(from);
-		return std::find_if(std::begin(edges), std::end(edges), matches(to));
+
+		return std::find_if(std::begin(edges), std::end(edges), matchesTo);
 	}
 
 	void Graph::insertEdgeFromToWithWeight(Vertex& from, Vertex& to, Edge::Weight weight)

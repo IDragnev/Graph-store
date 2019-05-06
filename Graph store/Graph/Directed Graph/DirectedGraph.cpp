@@ -1,66 +1,63 @@
 #include "DirectedGraph.h"
 #include "Exceptions\Exceptions.h"
-#include "..\..\Graph Factory\Graph registrator\GraphRegistrator.h"
-#include "..\..\..\Third party\fmt-5.3.0\include\fmt\format.h"
-#include "..\Base Graph\GraphUtilities.h"
+#include "Graph Factory\Graph registrator\GraphRegistrator.h"
+#include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Graph\Base Graph\GraphUtilities.h"
 
 using namespace fmt::literals;
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static GraphRegistrator<DirectedGraph> registrator{ "directed" };
+
+	bool DirectedGraph::DirectedEdgeConstIterator::wasCurrentEdgeIterated() const
 	{
-		static GraphRegistrator<DirectedGraph> registrator{ "directed" };
+		return !(this->operator bool());
+	}
 
-		bool DirectedGraph::DirectedEdgeConstIterator::wasCurrentEdgeIterated() const
+	void DirectedGraph::insertEdge(Vertex& start, Vertex& end, Edge::Weight weight)
+	{
+		assert(isOwnerOf(start));
+		assert(isOwnerOf(end));
+
+		if (!existsEdgeFromTo(start, end))
 		{
-			return !(this->operator bool());
+			Graph::insertEdgeFromToWithWeight(start, end, weight);
 		}
-
-		void DirectedGraph::insertEdge(Vertex& start, Vertex& end, Edge::Weight weight)
+		else
 		{
-			assert(isOwnerOf(start));
-			assert(isOwnerOf(end));
-
-			if (!existsEdgeFromTo(start, end))
-			{
-				Graph::insertEdgeFromToWithWeight(start, end, weight);
-			}
-			else
-			{
-				throw Exception{ fmt::format("And edge from {u} to {v} already exists!", "u"_a = start.getID(), "v"_a = end.getID()) };
-			}
+			throw DuplicateEdge{ start.getID(), end.getID() };
 		}
+	}
 
-		void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
+	void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
+	{
+		assert(isOwnerOf(start));
+		assert(isOwnerOf(end));
+
+		Graph::removeEdgeFromTo(start, end);
+	}
+
+	void DirectedGraph::removeEdgesEndingIn(Vertex& v)
+	{
+		forEachVertex(*this, [&to = v](Vertex& from)
 		{
-			assert(isOwnerOf(start));
-			assert(isOwnerOf(end));
+			removeEdgeFromToNoThrow(from, to);
+		});
+	}
 
-			Graph::removeEdgeFromTo(start, end);
-		}
+	String DirectedGraph::getType() const
+	{
+		return "directed";
+	}
 
-		void DirectedGraph::removeEdgesEndingIn(Vertex& v)
-		{
-			forEachVertex(*this, [&to = v](Vertex& from)
-			{
-				removeEdgeFromToNoThrow(from, to);
-			});
-		}
+	auto DirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
+	{
+		return makeEdgeConstIterator<DirectedEdgeConstIterator>();
+	}
 
-		String DirectedGraph::getType() const
-		{
-			return "directed";
-		}
-
-		auto DirectedGraph::getConstIteratorToEdges() const -> EdgeConstIteratorPtr
-		{
-			return makeEdgeConstIterator<DirectedEdgeConstIterator>();
-		}
-
-		std::size_t DirectedGraph::getEdgesCount() const noexcept
-		{
-			return Graph::getEdgesCount();
-		}
+	std::size_t DirectedGraph::getEdgesCount() const noexcept
+	{
+		return Graph::getEdgesCount();
 	}
 }
