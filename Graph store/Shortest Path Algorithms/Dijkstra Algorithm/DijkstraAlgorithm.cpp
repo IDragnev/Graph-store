@@ -1,135 +1,130 @@
 #include "DijkstraAlgorithm.h"
-#include "..\..\Graph\Base Graph\Graph.h"
-#include "..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include "Graph\Base Graph\Graph.h"
+#include "ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <memory>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator{ "Dijkstra" };
+
+	auto DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 	{
-		static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator{ "Dijkstra" };
+		decorate(graph, source);
+		return findShortestPath();
+	}
 
-		auto DijkstraAlgorithm::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
+	void DijkstraAlgorithm::decorate(const Graph& graph, const Vertex& source)
+	{
+		decorateVertices(graph);
+		buildDecoratorsMap();
+		initSourceDecorator(decoratorOf(source));
+		buildPriorityQueue();
+	}
+
+	void DijkstraAlgorithm::decorateVertices(const Graph& graph)
+	{
+		assert(decorators.isEmpty());
+		forEachVertex(graph, [this](const Vertex& v) { decorators.insertBack({ &v }); });
+	}
+
+	void DijkstraAlgorithm::buildDecoratorsMap()
+	{
+		assert(map.isEmpty());
+
+		for (auto& current : decorators)
 		{
-			decorate(graph, source);
-			return findShortestPath();
+			map.insert(&current);
 		}
+	}
 
-		void DijkstraAlgorithm::decorate(const Graph& graph, const Vertex& source)
+	void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)
+	{
+		assert(queue.isEmpty());
+		source.distance = 0;
+		source.predecessor = nullptr;
+	}
+
+	void DijkstraAlgorithm::buildPriorityQueue()
+	{
+		assert(queue.isEmpty());
+		queue = MinPriorityQueue{ std::begin(decorators), std::end(decorators) };
+	}
+
+	auto DijkstraAlgorithm::findShortestPath() -> Path
+	{
+		assert(existsVertexWithUndeterminedDistance());
+
+		while (existsVertexWithUndeterminedDistance())
 		{
-			decorateVertices(graph);
-			buildDecoratorsMap();
-			initSourceDecorator(decoratorOf(source));
-			buildPriorityQueue();
-		}
+			auto& vertex = closestToSourceFromUndetermined();
 
-		void DijkstraAlgorithm::decorateVertices(const Graph& graph)
-		{
-			assert(decorators.isEmpty());
-			forEachVertex(graph, [this](const Vertex& v) { decorators.insertBack({ &v }); });
-		}
-
-		void DijkstraAlgorithm::buildDecoratorsMap()
-		{
-			assert(map.isEmpty());
-
-			for (auto& current : decorators)
+			if (isTheGoal(vertex))
 			{
-				map.insert(&current);
+				return Path{ vertex };
+			}
+			else
+			{
+				relaxEdgesLeaving(vertex);
 			}
 		}
 
-		void DijkstraAlgorithm::initSourceDecorator(PriorityVertex& source)
+		return Path{};
+	}
+
+	bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
+	{
+		return !queue.isEmpty();
+	}
+
+	auto DijkstraAlgorithm::closestToSourceFromUndetermined() -> const PriorityVertex&
+	{
+		return queue.extractOptimal();
+	}
+
+	void DijkstraAlgorithm::relaxEdgesLeaving(const PriorityVertex& v)
+	{
+		forEachIncidentEdgeOf(v, [this, &v](const auto& edge) { relaxEdge(v, edge); });
+	}
+
+	void DijkstraAlgorithm::relaxEdge(const PriorityVertex& vertex, const IncidentEdge& edge)
+	{
+		auto& neighbour = decoratorOf(edge.getIncidentVertex());
+		auto distanceBetween = Distance{ edge.getWeight() };
+		auto distanceTakingThisPath = vertex.distance + distanceBetween;
+
+		if (distanceTakingThisPath < neighbour.distance)
 		{
-			assert(queue.isEmpty());
-			source.distance = 0;
-			source.predecessor = nullptr;
+			extendCurrentPath(vertex, neighbour, distanceTakingThisPath);
 		}
+	}
 
-		void DijkstraAlgorithm::buildPriorityQueue()
-		{
-			assert(queue.isEmpty());
-			using std::begin;
-			using std::end;
-			queue = MinPriorityQueue{ begin(decorators), end(decorators) };
-		}
+	void DijkstraAlgorithm::extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d)
+	{
+		to.predecessor = &from;
+		updateDistanceOf(to, d);
+	}
 
-		auto DijkstraAlgorithm::findShortestPath() -> Path
-		{
-			assert(existsVertexWithUndeterminedDistance());
+	void  DijkstraAlgorithm::updateDistanceOf(PriorityVertex& v, const Distance& d)
+	{
+		queue.improveKey(v.handle, d);
+	}
 
-			while (existsVertexWithUndeterminedDistance())
-			{
-				auto& vertex = closestToSourceFromUndetermined();
+	void DijkstraAlgorithm::clear()
+	{
+		map.clear();
+		queue.clear();
+		decorators.clear();
+	}
 
-				if (isTheGoal(vertex))
-				{
-					return Path{ vertex };
-				}
-				else
-				{
-					relaxEdgesLeaving(vertex);
-				}
-			}
+	auto DijkstraAlgorithm::decoratorOf(const Vertex& v) -> PriorityVertex&
+	{
+		return const_cast<PriorityVertex&>(static_cast<const DijkstraAlgorithm&>(*this).decoratorOf(v));
+	}
 
-			return Path{};
-		}
-
-		bool DijkstraAlgorithm::existsVertexWithUndeterminedDistance() const
-		{
-			return !queue.isEmpty();
-		}
-
-		auto DijkstraAlgorithm::closestToSourceFromUndetermined() -> const PriorityVertex&
-		{
-			return queue.extractOptimal();
-		}
-
-		void DijkstraAlgorithm::relaxEdgesLeaving(const PriorityVertex& v)
-		{
-			forEachIncidentEdgeOf(v, [this, &v](const IncidentEdge& edge) { relaxEdge(v, edge); });
-		}
-
-		void DijkstraAlgorithm::relaxEdge(const PriorityVertex& vertex, const IncidentEdge& edge)
-		{
-			auto& neighbour = decoratorOf(edge.getIncidentVertex());
-			auto distanceBetween = Distance{ edge.getWeight() };
-			auto distanceTakingThisPath = vertex.distance + distanceBetween;
-
-			if (distanceTakingThisPath < neighbour.distance)
-			{
-				extendCurrentPath(vertex, neighbour, distanceTakingThisPath);
-			}
-		}
-
-		void DijkstraAlgorithm::extendCurrentPath(const PriorityVertex& from, PriorityVertex& to, const Distance& d)
-		{
-			to.predecessor = &from;
-			updateDistanceOf(to, d);
-		}
-
-		void  DijkstraAlgorithm::updateDistanceOf(PriorityVertex& v, const Distance& d)
-		{
-			queue.improveKey(v.handle, d);
-		}
-
-		void DijkstraAlgorithm::clear()
-		{
-			map.clear();
-			queue.clear();
-			decorators.clear();
-		}
-
-		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) -> PriorityVertex&
-		{
-			return const_cast<PriorityVertex&>( static_cast<const DijkstraAlgorithm&>(*this).decoratorOf(v) );
-		}
-
-		auto DijkstraAlgorithm::decoratorOf(const Vertex& v) const -> const PriorityVertex&
-		{
-			auto result = map.search(v.getID());
-			assert(result != nullptr);
-			return *result;
-		}
+	auto DijkstraAlgorithm::decoratorOf(const Vertex& v) const -> const PriorityVertex&
+	{
+		auto result = map.search(v.getID());
+		assert(result != nullptr);
+		return *result;
 	}
 }

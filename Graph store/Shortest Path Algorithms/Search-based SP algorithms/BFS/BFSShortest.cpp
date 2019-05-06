@@ -1,87 +1,84 @@
 #include "BFSShortest.h"
-#include "..\..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include "ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
+
+	auto BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 	{
-		static ShortestPathAlgorithmRegistrator<BFSShortest> registrator{ "BFS" };
+		decorate(graph, source);
+		return findShortestPath(source, goal);
+	}
 
-		auto BFSShortest::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
+	auto BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal) -> Path
+	{
+		assert(isFrontierEmpty());
+		addToFrontier(decoratorOf(source));
+
+		while (!isFrontierEmpty())
 		{
-			decorate(graph, source);
-			return findShortestPath(source, goal);
-		}
+			auto& vertex = extractVertexFromFrontier();
 
-		auto BFSShortest::findShortestPath(const Vertex& source, const Vertex& goal) -> Path
-		{
-			assert(isFrontierEmpty());
-			addToFrontier(decoratorOf(source));
-
-			while (!isFrontierEmpty())
+			if (isTheGoal(vertex))
 			{
-				auto& vertex = extractVertexFromFrontier();
-
-				if (isTheGoal(vertex))
-				{
-					return Path{ vertex };
-				}
-				else
-				{
-					expandFrontierFrom(vertex);
-				}
+				return Path{ vertex };
 			}
-
-			return Path{};
-		}
-
-		bool BFSShortest::isFrontierEmpty() const
-		{
-			return queue.isEmpty();
-		}
-
-		void BFSShortest::addToFrontier(const MarkableVertex& v)
-		{
-			assert(v.isVisited);
-			queue.enqueue(&v);
-		}
-
-		auto BFSShortest::extractVertexFromFrontier() -> const MarkableVertex&
-		{
-			auto result = queue.dequeue();
-			return *result;
-		}
-
-		void BFSShortest::expandFrontierFrom(const MarkableVertex& vertex)
-		{
-			forEachIncidentEdgeOf(vertex, [this, &vertex](const IncidentEdge& edge)
+			else
 			{
-				auto& neighbour = decoratorOf(edge.getIncidentVertex());
-
-				if (!neighbour.isVisited)
-				{
-					neighbour.isVisited = true;
-					extendCurrentPathFromTo(vertex, neighbour);
-					addToFrontier(neighbour);
-				}
-			});
+				expandFrontierFrom(vertex);
+			}
 		}
 
-		void BFSShortest::extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to)
+		return Path{};
+	}
+
+	bool BFSShortest::isFrontierEmpty() const
+	{
+		return queue.isEmpty();
+	}
+
+	void BFSShortest::addToFrontier(const MarkableVertex& v)
+	{
+		assert(v.isVisited);
+		queue.enqueue(&v);
+	}
+
+	auto BFSShortest::extractVertexFromFrontier() -> const MarkableVertex&
+	{
+		auto result = queue.dequeue();
+		return *result;
+	}
+
+	void BFSShortest::expandFrontierFrom(const MarkableVertex& vertex)
+	{
+		forEachIncidentEdgeOf(vertex, [this, &vertex](const auto& edge)
 		{
-			to.predecessor = &from;
-			to.distance = from.distance + Distance{ 1 };
-		}
+			auto& neighbour = decoratorOf(edge.getIncidentVertex());
 
-		void BFSShortest::clear()
-		{
-			queue.empty();
-			Base::clear();
-		}
+			if (!neighbour.isVisited)
+			{
+				neighbour.isVisited = true;
+				extendCurrentPathFromTo(vertex, neighbour);
+				addToFrontier(neighbour);
+			}
+		});
+	}
 
-		void BFSShortest::initSourceDecorator(MarkableVertex& source)
-		{
-			Base::initSourceDecorator(source);
-		}
+	void BFSShortest::extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to)
+	{
+		to.predecessor = &from;
+		to.distance = from.distance + Distance{ 1 };
+	}
+
+	void BFSShortest::clear()
+	{
+		queue.empty();
+		Base::clear();
+	}
+
+	void BFSShortest::initSourceDecorator(MarkableVertex& source)
+	{
+		Base::initSourceDecorator(source);
 	}
 }

@@ -1,87 +1,84 @@
 #include "IterativeDeepeningDFS.h"
-#include "..\..\..\ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
+#include "ShortestPathAlgorithm Store\Algorithm registrator\ShortestPathAlgorithmRegistrator.h"
 #include <assert.h>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator{ "DFS" };
+
+	auto IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
 	{
-		static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator{ "DFS" };
+		initState(graph);
+		decorate(graph, source);
+		findShortestPath(source, goal);
 
-		auto IterativeDeepeningDFS::findNonTrivialShortestPath(const Graph& graph, const Vertex& source, const Vertex& goal) -> Path
+		return std::move(result);
+	}
+
+	void IterativeDeepeningDFS::initState(const Graph& graph)
+	{
+		maxDepth = graph.getVerticesCount() - 1;  //|V| - 1 because shortest paths are unique
+		isAShortestPathFound = false;
+	}
+
+	void IterativeDeepeningDFS::findShortestPath(const Vertex& source, const Vertex& goal)
+	{
+		auto& vertex = decoratorOf(source);
+
+		for (auto depthBound = Depth{ 0 };
+			!isAShortestPathFound && depthBound <= maxDepth;
+			++depthBound)
 		{
-			initState(graph);
-			decorate(graph, source);
-			findShortestPath(source, goal);
+			startDepthLimitedSearch(vertex, depthBound);
+		}
+	}
 
-			return std::move(result);
+	void IterativeDeepeningDFS::startDepthLimitedSearch(MarkableVertex& vertex, Depth depthBound)
+	{
+		assert(!vertex.isVisited);
+		vertex.isVisited = true;
+
+		if (depthBound == 0 && isTheGoal(vertex))
+		{
+			result = Path{ vertex };
+			isAShortestPathFound = true;
+		}
+		else if (depthBound > 0)
+		{
+			proceedWithNeighboursOf(vertex, depthBound - 1);
 		}
 
-		void IterativeDeepeningDFS::initState(const Graph& graph)
-		{
-			maxDepth = graph.getVerticesCount() - 1;  //|V| - 1 because shortest paths are unique
-			isAShortestPathFound = false;
-		}
+		vertex.isVisited = false;
+	}
 
-		void IterativeDeepeningDFS::findShortestPath(const Vertex& source, const Vertex& goal)
-		{
-			auto& vertex = decoratorOf(source);
+	void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
+	{
+		auto pathWasFound = [this](const auto&) { return isAShortestPathFound; };
 
-			for (auto depthBound = Depth{ 0 }; 
-				!isAShortestPathFound && depthBound <= maxDepth; 
-				++depthBound)
+		auto proceedWithNeighbour = [this, &vertex, depthBound](const auto& edge)
+		{
+			auto& neighbour = decoratorOf(edge.getIncidentVertex());
+
+			if (!neighbour.isVisited)
 			{
-				startDepthLimitedSearch(vertex, depthBound);
+				extendCurrentPathFromTo(vertex, neighbour);
+				startDepthLimitedSearch(neighbour, depthBound);
 			}
-		}
+		};
 
-		void IterativeDeepeningDFS::startDepthLimitedSearch(MarkableVertex& vertex, Depth depthBound)
-		{
-			assert(!vertex.isVisited);
-			vertex.isVisited = true;
+		forEachIncidentEdgeOfUntil(vertex, proceedWithNeighbour, pathWasFound);
+	}
 
-			if (depthBound == 0 && isTheGoal(vertex))
-			{
-				result = Path{ vertex };
-				isAShortestPathFound = true;
-			}
-			else if (depthBound > 0)
-			{
-				proceedWithNeighboursOf(vertex, depthBound - 1);
-			}
+	void IterativeDeepeningDFS::extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to)
+	{
+		to.predecessor = &from;
+		to.distance = from.distance + Distance{ 1 };
+	}
 
-			vertex.isVisited = false;
-		}
-
-		void IterativeDeepeningDFS::proceedWithNeighboursOf(const MarkableVertex& vertex, Depth depthBound)
-		{
-			auto pathWasFound = [this](const auto&) { return isAShortestPathFound; };			
-			
-			auto proceedWithNeighbour = [this, &vertex, depthBound](const IncidentEdge& edge)
-			{
-				auto& neighbour = decoratorOf(edge.getIncidentVertex());
-
-				if (!neighbour.isVisited)
-				{
-					extendCurrentPathFromTo(vertex, neighbour);
-					startDepthLimitedSearch(neighbour, depthBound);
-				}
-			};
-
-			forEachIncidentEdgeOfUntil(vertex, proceedWithNeighbour, pathWasFound);
-		}
-
-		void IterativeDeepeningDFS::extendCurrentPathFromTo(const MarkableVertex& from, MarkableVertex& to)
-		{
-			to.predecessor = &from;
-			to.distance = from.distance + Distance{ 1 };
-		}
-
-		void IterativeDeepeningDFS::initSourceDecorator(MarkableVertex& source)
-		{
-			source.distance = 0;
-			source.predecessor = nullptr;
-			source.isVisited = false;
-		}
+	void IterativeDeepeningDFS::initSourceDecorator(MarkableVertex& source)
+	{
+		source.distance = 0;
+		source.predecessor = nullptr;
+		source.isVisited = false;
 	}
 }
