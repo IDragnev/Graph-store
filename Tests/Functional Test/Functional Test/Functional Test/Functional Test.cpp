@@ -24,6 +24,7 @@ namespace FunctionalTest
 			Assert::IsFalse(LessThan{}(1, 1));
 			Assert::IsFalse(LessThan{}(2, 1));
 		}
+
 		TEST_METHOD(functorEqualTo)
 		{
 			Assert::IsTrue(EqualTo{}(1, 1));
@@ -57,11 +58,21 @@ namespace FunctionalTest
 		{
 			using Strings = std::vector<std::string>;
 			auto strings = Strings{ "a", "b", "c" };
-			auto expected = Strings{ "a!", "b!", "c!" };
+			const auto expected = Strings{ "a!", "b!", "c!" };
 
 			std::transform(std::begin(strings), std::end(strings), std::begin(strings), plus("!"));
 
 			Assert::IsTrue(strings == expected);
+		}
+
+		TEST_METHOD(plusForwardsItsArgument)
+		{
+			auto source = "123"s;
+			
+			auto result = plus("456")(std::move(source));
+
+			Assert::IsTrue(result == "123456"s);
+			Assert::IsTrue(source == ""s);
 		}
 
 		TEST_METHOD(inversingAPredicate)
@@ -80,6 +91,7 @@ namespace FunctionalTest
 			constexpr auto isZero = [](auto x) constexpr { return x == 0; };
 			static_assert(inverse(isZero)(1));
 		}
+
 		TEST_METHOD(superposition)
 		{
 			auto f = [](auto x, auto y) { return x >= y; };
@@ -130,6 +142,7 @@ namespace FunctionalTest
 			using FalseType = std::bool_constant<superpose(areEqual, plusOne, minusOne)(4)>;
 			using ArrayOfSizeOne = std::array<int, compose(minusOne, plusOne)(1)>;
 		}
+
 		TEST_METHOD(higherOrderEqualTo)
 		{
 			Assert::IsTrue(equalTo("123"s)("123"s));
