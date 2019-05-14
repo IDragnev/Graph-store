@@ -30,12 +30,12 @@ namespace IDragnev::Containers
 			          "Hash requires HashFun to be nothrow default-constructible, nothrow copy-constructible and nothrow copy-assignable");
 		static_assert(passesFunctorRequirements<EqualityPredicate>,
 			          "Hash requires EqualityPredicate to be nothrow default-constructible, nothrow copy-constructible and nothrow copy-assignable");
-		static_assert(std::is_nothrow_invocable_r_v<const Key&, KeyAccessor, const Item&>,
-			          "Hash requires KeyAccessor::operator()(const Item&) to be noexcept");
-		static_assert(std::is_nothrow_invocable_r_v<std::size_t, HashFun, const Key&>,
-			          "Hash requires HashFun::operator()(const Key&) to be noexcept");
-		static_assert(std::is_nothrow_invocable_r_v<bool, EqualityPredicate, const Key&, const Key&>,
-			          "Hash requires EqualityPredicate::operator()(const Key&, const Key&) to be noexcept");
+		static_assert(std::is_nothrow_invocable_r_v<const Key&, const KeyAccessor, const Item&>,
+			          "Hash requires KeyAccessor::operator()(const Item&) to be const and noexcept");
+		static_assert(std::is_nothrow_invocable_r_v<std::size_t, const HashFun, const Key&>,
+			          "Hash requires HashFun::operator()(const Key&) to be const and noexcept");
+		static_assert(std::is_nothrow_invocable_r_v<bool, const EqualityPredicate, const Key&, const Key&>,
+			          "Hash requires EqualityPredicate::operator()(const Key&, const Key&) to be const and noexcept");
 
 		template <typename Iterator>
 		using EnableIfInputIt = std::enable_if_t<Traits::isInputIterator<Iterator>>;
@@ -106,9 +106,9 @@ namespace IDragnev::Containers
 	private:
 		std::size_t count = 0;
 		Table table;
-		mutable HashFun hashFunction;
-		mutable KeyAccessor keyAccessor;
-		mutable EqualityPredicate equalityPredicate;
+		HashFun hashFunction;
+		KeyAccessor keyAccessor;
+		EqualityPredicate equalityPredicate;
 	};
 }
 
