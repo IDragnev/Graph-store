@@ -45,8 +45,8 @@ namespace IDragnev::Containers
 			          "PriorityQueue requires KeyAccessor::operator()(const Item&) to be noexcept");
 		static_assert(std::is_nothrow_invocable_r_v<void, KeyAccessor, Item&, const Key&>,
 			          "PriorityQueue requires KeyAcessor::operator()(Item&, const Key&) to be noexcept");
-		static_assert(std::is_nothrow_invocable_r_v<bool, CompareFunction, const Key&, const Key&>,
-			          "PriorityQueue requires ComapreFunction::operator()(const Key&, const Key&) to be noexcept");
+		static_assert(std::is_nothrow_invocable_r_v<bool, const CompareFunction, const Key&, const Key&>,
+			          "PriorityQueue requires ComapreFunction::operator()(const Key&, const Key&) to be const and noexcept");
 		static_assert(std::is_nothrow_invocable_r_v<void, HandleSetter, Item&, const Handle&>,
 			          "PriorityQueue requires HandleSetter::operator()(Item&, const PriorityQueueHandle&) to be noexcept");
 
@@ -128,7 +128,7 @@ namespace IDragnev::Containers
 
 	private:
 		Elements elements;
-		mutable CompareFunction compareFunction;
+		CompareFunction compareFunction;
 	};
 }
 
