@@ -69,10 +69,13 @@ namespace IDragnev::Containers
 	template <typename InputIt>
 	void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::directlyInsertAll(InputIt first, InputIt last)
 	{
-		auto index = std::size_t{ 0 };
-		for (; first != last; ++first)
+		Handle::UnderlyingType index = 0;
+
+		for (auto current = first;
+			current != last; 
+			++current)
 		{
-			elements.emplace_back(*first, Handle(index++));
+			elements.emplace_back(*current, Handle{ index++ });
 		}
 	}
 
@@ -179,7 +182,7 @@ namespace IDragnev::Containers
 	void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::insert(const Item& item)
 	{
 		auto index = elements.size();
-		elements.emplace_back(item, Handle(index));
+		elements.emplace_back(item, Handle{ index });
 		siftUp(index);
 	}
 
@@ -273,7 +276,7 @@ namespace IDragnev::Containers
 	{
 		static_assert(!std::is_same_v<HandleSetter, Functional::EmptyFunction>,
 			          "Cannot use handle-related logic with no specific HandleSetter supplied");
-		assert(handle.isValid());
+		assert(handle.isValid);
 		assert(hasElementAt(handle));
 
 		auto& element = elements[handle];

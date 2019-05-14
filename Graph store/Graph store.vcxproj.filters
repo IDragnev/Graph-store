@@ -277,9 +277,6 @@
     <ClCompile Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.cpp">
       <Filter>Directory FlatIterator</Filter>
     </ClCompile>
-    <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp">
-      <Filter>Containers\Priority Queue\PQ Handle</Filter>
-    </ClCompile>
     <ClCompile Include="..\Third party\fmt-5.3.0\src\format.cc">
       <Filter>Third party\fmt</Filter>
     </ClCompile>

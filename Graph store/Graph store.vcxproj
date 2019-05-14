@@ -158,7 +158,6 @@
     <ClCompile Include="Application\Commands\Save\SaveCommand.cpp" />
     <ClCompile Include="Application\Commands\Search path\SearchPathCommand.cpp" />
     <ClCompile Include="Application\Commands\Use graph\UseGraphCommand.cpp" />
-    <ClCompile Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.cpp" />
     <ClCompile Include="Directory loader\DirectoryLoader.cpp" />
     <ClCompile Include="DirectoryTextFilesFlatIterator\DirectoryTextFilesFlatIterator.cpp" />
     <ClCompile Include="File parser\FileParser.cpp" />

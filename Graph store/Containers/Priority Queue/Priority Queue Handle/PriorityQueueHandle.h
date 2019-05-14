@@ -1,29 +1,41 @@
 #ifndef __PRIORITY_QUEUE_HANDLE_H_INLCUDED__
 #define __PRIORITY_QUEUE_HANDLE_H_INLCUDED__
 
-#include <cstdint>
+#include <cstddef>
+#include <assert.h>
 
-namespace IDragnev
+namespace IDragnev::Containers
 {
-	namespace Containers
+	class PriorityQueueHandle
 	{
-		class PriorityQueueHandle
+	private:
+		template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+		friend class PriorityQueue;
+
+		using UnderlyingType = std::size_t;
+
+	public:
+		PriorityQueueHandle() noexcept : PriorityQueueHandle{ 0u, false }
 		{
-			template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
-			friend class PriorityQueue;
-		public:
-			PriorityQueueHandle() = default;
+		}
 
-		private:
-			PriorityQueueHandle(std::int32_t value);
+	private:
+		PriorityQueueHandle(UnderlyingType value, bool isValid = true) noexcept : 
+			value{ value },
+			isValid{ isValid }
+		{
+		}
 
-			bool isValid() const;
-			operator std::int32_t() const;
+		operator UnderlyingType() const noexcept 
+		{
+			assert(isValid);
+			return value;
+		}
 
-		private:
-			std::int32_t value = -1;
-		};
-	}
+	private:
+		UnderlyingType value;
+		bool isValid;
+	};
 }
 
 #endif //__PRIORITY_QUEUE_HANDLE_H_INLCUDED__
