@@ -3,6 +3,7 @@
 
 #include "UtilityFunctions.h"
 #include "Traits\Traits.h"
+#include "Containers\Iterator\ContainerIterator.h"
 #include <utility>
 #include <assert.h>
 #include <iterator>
@@ -22,30 +23,19 @@ namespace IDragnev::Containers
 		using EnableIfInputIterator = std::enable_if_t<Traits::isInputIterator<Iterator>>;
 
 		template <typename Item, bool isConst = false>
-		class DArrayIterator
+		class DArrayIterator : public IteratorFacade<DArrayIterator<Item, isConst>,
+                                                     std::conditional_t<isConst, const Item, Item>,
+			                                         std::bidirectional_iterator_tag>
 		{
 		private:
 			friend class DArray<Item>;
-			using OwnerPtr = std::conditional_t<isConst, const DArray<Item>*, DArray<Item>*>;
+			friend class IteratorFacadeAccess;
 
-		public:
-			using value_type = Item;
-			using difference_type = std::ptrdiff_t;
-			using iterator_category = std::forward_iterator_tag;
-			using reference = std::conditional_t<isConst, const Item&, Item&>;
-			using pointer = std::conditional_t<isConst, const Item*, Item*>;
+			using OwnerPtr = std::conditional_t<isConst, const DArray<Item>*, DArray<Item>*>;
+			using Ref = std::conditional_t<isConst, const Item&, Item&>;
 
 		public:
 			DArrayIterator(const DArrayIterator<Item, false>& source) noexcept;
-
-			pointer operator->() const;
-			reference operator*() const;
-
-			DArrayIterator& operator++();
-			DArrayIterator operator++(int);
-
-			operator bool() const noexcept;
-			bool operator!() const noexcept;
 
 			friend bool operator==(const DArrayIterator& lhs, const DArrayIterator& rhs) noexcept
 			{
@@ -59,6 +49,11 @@ namespace IDragnev::Containers
 
 		private:
 			DArrayIterator(std::size_t startPosition, OwnerPtr owner) noexcept;
+
+			Ref dereference() const;
+			DArrayIterator& increment();
+			DArrayIterator& decrement();
+			bool isValid() const noexcept;
 
 		private:
 			OwnerPtr owner;

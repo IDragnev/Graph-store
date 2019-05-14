@@ -18,7 +18,7 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline auto DArray<T>::DArrayIterator<Item, isConst>::operator*() const -> reference
+	inline auto DArray<T>::DArrayIterator<Item, isConst>::dereference() const -> Ref
 	{
 		assert(this->operator bool());
 		return (*owner)[current];
@@ -26,24 +26,7 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline auto DArray<T>::DArrayIterator<Item, isConst>::operator->() const -> pointer
-	{
-		return std::addressof(this->operator*());
-	}
-
-	template <typename T>
-	template <typename Item, bool isConst>
-	auto DArray<T>::DArrayIterator<Item, isConst>::operator++(int) -> DArrayIterator
-	{
-		auto temp = *this;
-		++(*this);
-
-		return temp;
-	}
-
-	template <typename T>
-	template <typename Item, bool isConst>
-	inline auto DArray<T>::DArrayIterator<Item, isConst>::operator++() -> DArrayIterator&
+	inline auto DArray<T>::DArrayIterator<Item, isConst>::increment() -> DArrayIterator&
 	{
 		++current;
 		return *this;
@@ -51,15 +34,18 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline DArray<T>::DArrayIterator<Item, isConst>::operator bool() const noexcept
+	inline auto DArray<T>::DArrayIterator<Item, isConst>::decrement() -> DArrayIterator&
 	{
-		return current < owner->getCount();
+		assert(current > 0u);
+		--current;
+
+		return *this;
 	}
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline bool DArray<T>::DArrayIterator<Item, isConst>::operator!() const noexcept
+	inline bool DArray<T>::DArrayIterator<Item, isConst>::isValid() const noexcept
 	{
-		return !(this->operator bool());
+		return current < owner->getCount();
 	}
 }
