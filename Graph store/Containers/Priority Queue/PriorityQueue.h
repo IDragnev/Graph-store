@@ -127,6 +127,8 @@ namespace IDragnev::Containers
 
 		void swapContentsWith(PriorityQueue temp) noexcept;
 
+		static inline constexpr bool isHandleSetterSupplied = !std::is_same_v<HandleSetter, Functional::EmptyFunction>;
+
 	private:
 		Elements elements;
 		CompareFunction compareFunction;

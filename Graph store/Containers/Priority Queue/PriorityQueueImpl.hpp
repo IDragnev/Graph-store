@@ -175,8 +175,7 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 	void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::invalidateHandlesOfAll() noexcept
 	{
-		using Functional::EmptyFunction;
-		if constexpr (!std::is_same_v<HandleSetter, EmptyFunction>)
+		if constexpr (isHandleSetterSupplied)
 		{
 			for (auto& e : elements)
 			{
@@ -281,7 +280,7 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 	void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::improveKey(const Handle& handle, const Key& key)
 	{
-		static_assert(!std::is_same_v<HandleSetter, Functional::EmptyFunction>,
+		static_assert(isHandleSetterSupplied,
 			          "Cannot use handle-related logic with no specific HandleSetter supplied");
 		assert(handle.isValid);
 		assert(hasElementAt(handle));
