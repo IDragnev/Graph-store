@@ -82,13 +82,20 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
 	void PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::buildHeap()
 	{
-		using Utility::asSigned;
-		auto index = asSigned(elements.size() / 2u - 1u);
+		auto index = getLastNonLeafIndex();
 
 		while (index >= 0)
 		{
 			siftDown(index--);
 		}
+	}
+
+	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>
+	inline auto
+	PriorityQueue<Item, Key, KeyAccessor, CompareFunction, HandleSetter>::getLastNonLeafIndex() const noexcept
+	{
+		using Utility::asSigned;
+		return asSigned(elements.size() / 2u - 1u);
 	}
 
 	template <typename Item, typename Key, typename KeyAccessor, typename CompareFunction, typename HandleSetter>

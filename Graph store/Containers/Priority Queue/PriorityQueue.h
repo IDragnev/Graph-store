@@ -115,7 +115,8 @@ namespace IDragnev::Containers
 		static bool hasParent(std::size_t index) noexcept;
 		static std::size_t getParentIndex(std::size_t index) noexcept;
 		static std::size_t getLeftChildIndex(std::size_t index) noexcept;
-
+		
+		auto getLastNonLeafIndex() const noexcept;
 		bool hasChildren(std::size_t index) const noexcept;
 		std::size_t getOptimalChildIndex(std::size_t index) const noexcept;
 		bool hasOptimalRightSibling(std::size_t index) const noexcept;
