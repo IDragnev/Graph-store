@@ -2,9 +2,9 @@
 #define __SINGLY_LINKED_LIST_H_INCLUDED__
 
 #include "Traits\Traits.h"
+#include "Containers\Iterator\ContainerIterator.h"
 #include <utility>
 #include <assert.h>
-#include <iterator>
 
 namespace IDragnev::Containers
 {
@@ -33,31 +33,20 @@ namespace IDragnev::Containers
 		};
 
 		template <typename Item, bool isConst = false>
-		class SinglyLinkedListIterator
+		class SinglyLinkedListIterator : public IteratorFacade<SinglyLinkedListIterator<Item, isConst>,
+			                                                   std::conditional_t<isConst, const Item, Item>,
+			                                                   std::forward_iterator_tag>
 		{
 		private:
+			friend class IteratorFacadeAccess;
 			friend class SinglyLinkedList<Item>;
+
 			using OwnerPtr = const SinglyLinkedList<Item>*;
 			using NodePtr = std::conditional_t<isConst, const Node<Item>*, Node<Item>*>;
-
-		public:
-			using value_type = Item;
-			using difference_type = std::ptrdiff_t;
-			using iterator_category = std::forward_iterator_tag;
-			using reference = std::conditional_t<isConst, const Item&, Item&>;
-			using pointer = std::conditional_t<isConst, const Item*, Item*>;
+			using Ref = std::conditional_t<isConst, const Item&, Item&>;
 
 		public:
 			SinglyLinkedListIterator(const SinglyLinkedListIterator<Item, false>& source) noexcept;
-
-			pointer operator->() const;
-			reference operator*() const;
-
-			SinglyLinkedListIterator& operator++() noexcept;
-			SinglyLinkedListIterator operator++(int) noexcept;
-
-			operator bool() const noexcept;
-			bool operator!() const noexcept;
 
 			friend bool operator==(const SinglyLinkedListIterator& lhs, const SinglyLinkedListIterator& rhs) noexcept
 			{
@@ -71,6 +60,10 @@ namespace IDragnev::Containers
 
 		private:
 			SinglyLinkedListIterator(NodePtr startNode, OwnerPtr owner) noexcept;
+
+			bool isValid() const noexcept;
+			SinglyLinkedListIterator& increment() noexcept;
+			Ref dereference() const;
 
 		private:
 			NodePtr current;

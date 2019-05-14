@@ -188,6 +188,9 @@
     <Filter Include="Exceptions">
       <UniqueIdentifier>{815756d9-22d7-486c-9e6e-2f44d5500ca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Containers\Iterator">
+      <UniqueIdentifier>{2431a2fc-839d-40f6-a513-dcd67655c90f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -494,6 +497,12 @@
     </ClInclude>
     <ClInclude Include="Exceptions\Exceptions.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Iterator\ContainerIterator.h">
+      <Filter>Containers\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\Iterator\IteratorFacadeAccessImpl.hpp">
+      <Filter>Containers\Iterator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

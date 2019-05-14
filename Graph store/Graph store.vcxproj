@@ -201,6 +201,8 @@
     <ClInclude Include="Containers\Dynamic Array\DArrayIteratorImpl.hpp" />
     <ClInclude Include="Containers\Hash\Hash.h" />
     <ClInclude Include="Containers\Hash\HashImpl.hpp" />
+    <ClInclude Include="Containers\Iterator\ContainerIterator.h" />
+    <ClInclude Include="Containers\Iterator\IteratorFacadeAccessImpl.hpp" />
     <ClInclude Include="Containers\Priority Queue\Priority Queue Handle\PriorityQueueHandle.h" />
     <ClInclude Include="Containers\Priority Queue\PriorityQueue.h" />
     <ClInclude Include="Containers\Priority Queue\PriorityQueueImpl.hpp" />

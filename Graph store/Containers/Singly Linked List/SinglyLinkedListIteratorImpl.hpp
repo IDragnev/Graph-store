@@ -18,7 +18,7 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator*() const -> reference
+	inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::dereference() const -> Ref
 	{
 		assert(*this);
 		return current->data;
@@ -26,24 +26,7 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator->() const -> pointer
-	{
-		return std::addressof(this->operator*());
-	}
-
-	template <typename T>
-	template <typename Item, bool isConst>
-	auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++(int) noexcept -> SinglyLinkedListIterator
-	{
-		auto temp = *this;
-		++(*this);
-
-		return temp;
-	}
-
-	template <typename T>
-	template <typename Item, bool isConst>
-	inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator++() noexcept -> SinglyLinkedListIterator&
+	inline auto SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::increment() noexcept -> SinglyLinkedListIterator&
 	{
 		if (*this)
 		{
@@ -55,15 +38,8 @@ namespace IDragnev::Containers
 
 	template <typename T>
 	template <typename Item, bool isConst>
-	inline SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator bool() const noexcept
+	inline bool SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::isValid() const noexcept
 	{
 		return current != nullptr;
-	}
-
-	template <typename T>
-	template <typename Item, bool isConst>
-	inline bool SinglyLinkedList<T>::SinglyLinkedListIterator<Item, isConst>::operator!() const noexcept
-	{
-		return !(this->operator bool());
 	}
 }

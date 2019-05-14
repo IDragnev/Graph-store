@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../../Graph store/Containers/Singly Linked List/SinglyLinkedList.h"
+#include "Containers\Singly Linked List\SinglyLinkedList.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using IDragnev::Containers::SinglyLinkedList;
