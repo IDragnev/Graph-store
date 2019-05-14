@@ -14,7 +14,7 @@ namespace IDragnev::Containers
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(DirectSize size) :
-		table{ Table(size.get(), size.get()) }
+		table(size.get(), size.get()) //DArray uses zero-initialization by default
 	{
 	}
 
