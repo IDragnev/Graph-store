@@ -29,9 +29,11 @@ namespace IDragnev::Containers
 	Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::Hash(InputIt first, InputIt last) :
 		Hash(std::distance(first, last))
 	{
-		for (; first != last; ++first)
+		for (auto current = first;
+			current != last;
+			++current)
 		{
-			insert(*first);
+			insert(*current);
 		}
 	}
 
@@ -41,16 +43,15 @@ namespace IDragnev::Containers
 	{
 	}
 
-	//
+
 	// ( 3 * expectedSize ) / 2 is used because if all the expected items
 	// are inserted, the load factor will be 2/3 
-	// 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	inline std::size_t
-		Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::calculateSize(std::size_t expectedCount)
+	Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::calculateSize(std::size_t expectedCount)
 	{
-		assert(expectedCount > 0);
-		return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3 * expectedCount) / 2;
+		assert(expectedCount > 0u);
+		return (expectedCount < MIN_TABLE_SIZE) ? MIN_TABLE_SIZE : (3u * expectedCount) / 2u;
 	}
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -127,7 +128,7 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::resize(std::size_t newSize)
 	{
-		//must have at least one empty position after resize
+		//must have at least one empty slot after resize
 		assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
 		auto oldState = std::move(*this);
@@ -147,7 +148,7 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(const Table& table)
 	{
-		for (auto&& entry : table)
+		for (const auto& entry : table)
 		{
 			if (entry != nullEntry)
 			{
@@ -209,7 +210,7 @@ namespace IDragnev::Containers
 	inline std::size_t
 	Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::followingSlot(std::size_t slot) const noexcept
 	{
-		return (slot + 1) % table.getSize();
+		return (slot + 1u) % table.getSize();
 	}
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
@@ -257,9 +258,8 @@ namespace IDragnev::Containers
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::remove(const Key& key)
 	{
-		auto slot = correspondingSlot(key);
-
-		if (slot.has_value())
+		if (auto slot = correspondingSlot(key); 
+			slot.has_value())
 		{
 			extractItemAt(slot.value());
 
