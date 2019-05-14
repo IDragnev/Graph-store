@@ -73,7 +73,7 @@ namespace IDragnev::Containers
 		void emptySlotAndShrink(std::size_t slot);
 		void shrink();
 		void resize(std::size_t newSize);
-		void insertAllItemsFrom(const Table& t);
+		void insertAllItemsTo(Hash& other) const;
 
 		template <typename T>
 		static decltype(auto) itemOf(T&& element);

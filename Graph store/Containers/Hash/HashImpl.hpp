@@ -131,28 +131,19 @@ namespace IDragnev::Containers
 		//must have at least one empty slot after resize
 		assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
-		auto oldState = std::move(*this);
-
-		try
-		{
-			*this = Hash{ DirectSize{ newSize } };
-			insertAllItemsFrom(oldState.table);
-		}
-		catch (std::bad_alloc&)
-		{
-			*this = std::move(oldState);
-			throw;
-		}
+		auto temp = Hash{ DirectSize{ newSize } };
+		insertAllItemsTo(temp);		
+		swapContentsWith(temp);
 	}
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
-	void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsFrom(const Table& table)
+	void Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::insertAllItemsTo(Hash& other) const
 	{
 		for (const auto& entry : table)
 		{
 			if (entry != nullEntry)
 			{
-				insert(itemOf(entry));
+				other.insert(itemOf(entry));
 			}
 		}
 	}
@@ -351,7 +342,7 @@ namespace IDragnev::Containers
 	inline bool
 	Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::isEmpty() const noexcept
 	{
-		return count == 0;
+		return count == 0u;
 	}
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
