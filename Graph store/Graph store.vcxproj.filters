@@ -501,5 +501,8 @@
     <ClInclude Include="Containers\Iterator\IteratorFacadeAccessImpl.hpp">
       <Filter>Containers\Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="Containers\Iterator\ProjectionIterator.h">
+      <Filter>Containers\Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
