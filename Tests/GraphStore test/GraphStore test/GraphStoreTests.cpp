@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
-#include "..\..\..\Graph store\GraphStore\GraphStore.h"
-#include "..\..\..\Graph store\Graph\Directed Graph\DirectedGraph.h"
-#include "..\..\..\Graph store\General Exceptions\Exception.h"
+#include "GraphStore\GraphStore.h"
+#include "Graph\Directed Graph\DirectedGraph.h"
+#include "Exceptions\Exceptions.h"
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
