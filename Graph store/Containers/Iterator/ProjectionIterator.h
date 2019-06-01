@@ -24,7 +24,7 @@ namespace IDragnev::Containers
 		friend class IteratorFacadeAccess;
 
 	public:
-		ProjectionIterator(Iterator it, Extractor extractor = {}) :
+		explicit ProjectionIterator(Iterator it, Extractor extractor = {}) :
 			iterator(it),
 			extractor(extractor)
 		{
