@@ -44,7 +44,7 @@ namespace IDragnev::GraphStore
 	Graph& Command::getGraph(const String& ID)
 	{
 		assert(graphStore);
-		return graphStore->getGraph(ID);
+		return (*graphStore)[ID];
 	}
 
 	Graph& Command::getUsedGraph()
@@ -62,7 +62,7 @@ namespace IDragnev::GraphStore
 	void Command::insertGraph(std::unique_ptr<Graph> ptr)
 	{
 		assert(graphStore);
-		graphStore->insertGraph(std::move(ptr));
+		graphStore->insert(std::move(ptr));
 	}
 
 	void Command::removeGraph(const String& ID)
@@ -74,6 +74,6 @@ namespace IDragnev::GraphStore
 			usedGraph = nullptr;
 		}
 
-		graphStore->removeGraph(ID);
+		graphStore->remove(ID);
 	}
 }

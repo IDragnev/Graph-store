@@ -108,7 +108,7 @@ namespace IDragnev::GraphStore
 	{
 		auto consumeGraph = [this](std::unique_ptr<Graph>&& ptr)
 		{
-			graphs.insertGraph(std::move(ptr));
+			graphs.insert(std::move(ptr));
 		};
 
 		DirectoryLoader{}(path, consumeGraph);
