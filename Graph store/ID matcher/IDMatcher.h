@@ -1,10 +1,10 @@
 #ifndef __ID_MATHCER_H_INCLUDED__
 #define __ID_MATHCER_H_INCLUDED__
 
-#include "..\..\Third party\NamedType\named_type.hpp"
-#include "..\Functional\Functional.h"
-#include "..\IdGetter\IdGetter.h"
-#include "..\String\String.h"
+#include "Third party\NamedType\named_type.hpp"
+#include "Functional\Functional.h"
+#include "IdGetter\IdGetter.h"
+#include "String\String.h"
 
 namespace IDragnev::GraphStore
 {
@@ -13,11 +13,11 @@ namespace IDragnev::GraphStore
 	auto matches(ConstStringIDRef ID)
 	{
 		using Functional::compose;
-		using Functional::matches;
 
-		auto keyExtractor = compose([](const auto& id) { return ConstStringIDRef{ id }; }, IdGetter{});
+		auto wrapID = [](const auto& id) { return ConstStringIDRef{ id }; };
+		auto keyExtractor = compose(wrapID, IdGetter{});
 
-		return matches(ID, keyExtractor);
+		return Functional::matches(ID, keyExtractor);
 	}
 }
 
