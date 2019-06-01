@@ -1,32 +1,29 @@
 #include "UseGraphCommand.h"
-#include "..\..\Command registrator\CommandRegistrator.h"
+#include "Application\Command registrator\CommandRegistrator.h"
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static CommandRegistrator<UseGraphCommand> registrator;
+
+	void UseGraphCommand::parseArguments(args::Subparser& parser)
 	{
-		static CommandRegistrator<UseGraphCommand> registrator;
+		auto ID = StringPositional{ parser, "ID", "the ID of the graph to be used" };
+		parser.Parse();
+		setIfMatched(graphID, ID);
+	}
 
-		void UseGraphCommand::parseArguments(args::Subparser& parser)
-		{
-			auto ID = StringPositional{ parser, "ID", "the ID of the graph to be used" };
-			parser.Parse();
-			setIfMatched(graphID, ID);
-		}
+	void UseGraphCommand::execute()
+	{
+		Command::useGraph(graphID);
+	}
 
-		void UseGraphCommand::execute()
-		{
-			Command::useGraph(graphID);
-		}
+	const char* UseGraphCommand::getName() const noexcept
+	{
+		return "USE-GRAPH";
+	}
 
-		const char* UseGraphCommand::getName() const noexcept
-		{
-			return "USE-GRAPH";
-		}
-
-		const char* UseGraphCommand::getDescription() const noexcept
-		{
-			return "Changes the used graph";
-		}
+	const char* UseGraphCommand::getDescription() const noexcept
+	{
+		return "Changes the used graph";
 	}
 }

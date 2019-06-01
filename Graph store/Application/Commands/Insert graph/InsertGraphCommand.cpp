@@ -1,58 +1,55 @@
 #include "InsertGraphCommand.h"
-#include "..\..\..\Graph Factory\GraphFactory.h"
-#include "..\..\..\Graph\Base Graph\Graph.h"
-#include "..\..\Command registrator\CommandRegistrator.h"
+#include "Graph Factory\GraphFactory.h"
+#include "Graph\Base Graph\Graph.h"
+#include "Application\Command registrator\CommandRegistrator.h"
 #include <memory>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	static CommandRegistrator<InsertGraphCommand> registrator;
+
+	const String InsertGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
+
+	void InsertGraphCommand::parseArguments(args::Subparser& parser)
 	{
-		static CommandRegistrator<InsertGraphCommand> registrator;
+		auto ID = StringPositional{ parser, "ID", "The ID of the graph to be created" };
+		auto type = StringPositional{ parser, "type", "The type of the graph to be created" };
+		parser.Parse();
 
-		const String InsertGraphCommand::DEFAULT_GRAPH_TYPE{ "undirected" };
+		setGraphID(ID);
+		setGraphType(type);
+	}
 
-		void InsertGraphCommand::parseArguments(args::Subparser& parser)
-		{
-			auto ID = StringPositional{ parser, "ID", "The ID of the graph to be created" };
-			auto type = StringPositional{ parser, "type", "The type of the graph to be created" };
-			parser.Parse();
+	void InsertGraphCommand::setGraphID(StringPositional& ID)
+	{
+		setIfMatched(graphID, ID);
+	}
 
-			setGraphID(ID);
-			setGraphType(type);
-		}
+	void InsertGraphCommand::setGraphType(StringPositional& type)
+	{
+		using args::get;
+		graphType = type.Matched() ? std::move(get(type)) : DEFAULT_GRAPH_TYPE;
+	}
 
-		void InsertGraphCommand::setGraphID(StringPositional& ID)
-		{
-			setIfMatched(graphID, ID);
-		}
+	void InsertGraphCommand::execute()
+	{
+		using GraphTypeRef = GraphFactory::GraphTypeRef;
+		using GraphIDRef = GraphFactory::GraphIDRef;
 
-		void InsertGraphCommand::setGraphType(StringPositional& type)
-		{
-			using args::get;
-			graphType = type.Matched() ? std::move(get(type)) : DEFAULT_GRAPH_TYPE;
-		}
+		auto& factory = GraphFactory::instance();
+		auto graphPtr = factory.createEmptyGraph(GraphTypeRef{ graphType }, GraphIDRef{ graphID });
 
-		void InsertGraphCommand::execute()
-		{
-			using GraphTypeRef = GraphFactory::GraphTypeRef;
-			using GraphIDRef = GraphFactory::GraphIDRef;
+		Command::insertGraph(std::move(graphPtr));
+		Command::useGraph(graphID);
+	}
 
-			auto& factory = GraphFactory::instance();
-			auto graphPtr = factory.createEmptyGraph(GraphTypeRef{ graphType }, GraphIDRef{ graphID });
+	const char* InsertGraphCommand::getName() const noexcept
+	{
+		return "INSERT-GRAPH";
+	}
 
-			Command::insertGraph(std::move(graphPtr));
-			Command::useGraph(graphID);
-		}
-
-		const char* InsertGraphCommand::getName() const noexcept
-		{
-			return "INSERT-GRAPH";
-		}
-
-		const char* InsertGraphCommand::getDescription() const noexcept
-		{
-			return "Inserts a new graph with specified ID and type";
-		}
+	const char* InsertGraphCommand::getDescription() const noexcept
+	{
+		return "Inserts a new graph with specified ID and type";
 	}
 }
