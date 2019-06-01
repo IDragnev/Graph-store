@@ -1,32 +1,30 @@
 #ifndef __GRAPH_REGISTRATOR_H_INCLUDED__
 #define __GRAPH_REGISTRATOR_H_INCLUDED__
 
-#include "..\Graph creators\Concrete creator\ConcreteGraphCreator.h"
-#include "..\GraphFactory.h"
+#include "Graph Factory\Graph creators\Concrete creator\ConcreteGraphCreator.h"
+#include "Graph Factory\GraphFactory.h"
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	template <typename GraphType>
+	class GraphRegistrator
 	{
-		template <typename GraphType>
-		class GraphRegistrator
+	private:
+		using Creator = ConcreteGraphCreator<GraphType>;
+
+	public:
+		explicit GraphRegistrator(String graphType) :
+			creator{ std::move(graphType) }
 		{
-		private:
-			using Creator = ConcreteGraphCreator<GraphType>;
+			GraphFactory::instance().registerCreator(&creator);
+		}
 
-		public:
-			explicit GraphRegistrator(String graphType) :
-				creator{ std::move(graphType) }
-			{
-				GraphFactory::instance().registerCreator(&creator);
-			}
+		GraphRegistrator(const GraphRegistrator&) = delete;
+		GraphRegistrator& operator=(const GraphRegistrator&) = delete;
 
-			GraphRegistrator(const GraphRegistrator&) = delete;
-			GraphRegistrator& operator=(const GraphRegistrator&) = delete;
-
-		private:
-			const Creator creator;
-		};
-	}
+	private:
+		const Creator creator;
+	};
 }
+
 #endif //__GRAPH_REGISTRATOR_H_INCLUDED__

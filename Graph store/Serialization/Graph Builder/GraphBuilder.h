@@ -42,6 +42,7 @@ namespace IDragnev::GraphStore
 		void init(const String& filename);
 		void build();
 		void createEmptyGraph();
+		std::pair<String, String> parseTypeAndID();
 		void insertVertices();
 		void parseVertexIDs();
 		void insertEdges();

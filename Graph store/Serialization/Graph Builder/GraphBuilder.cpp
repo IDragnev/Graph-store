@@ -80,17 +80,28 @@ namespace IDragnev::GraphStore
 
 	void GraphBuilder::createEmptyGraph()
 	{
-		auto graphType = parser.parseLine();
-		auto graphID = parser.parseLine();
+		using GraphIDRef = GraphFactory::GraphIDRef;
+		using GraphTypeRef = GraphFactory::GraphTypeRef;
 
-		result = GraphFactory::instance().createEmptyGraph(graphType, graphID);
+		auto[type, id] = parseTypeAndID();
+		auto& factory = GraphFactory::instance();
+
+		result = factory.createEmptyGraph(GraphTypeRef{ type }, GraphIDRef{ id });
+	}
+
+	std::pair<String, String> GraphBuilder::parseTypeAndID()
+	{
+		auto type = parser.parseLine();
+		auto id = parser.parseLine();
+
+		return { std::move(type), std::move(id) };
 	}
 
 	void GraphBuilder::insertVertices()
 	{
 		parseVertexIDs();
 
-		for (auto&& ID : vertexIDs)
+		for (const auto& ID : vertexIDs)
 		{
 			result->insertVertexWithID(ID);
 		}
@@ -103,7 +114,7 @@ namespace IDragnev::GraphStore
 		auto IDsCount = parseUnsignedAndIgnoreUntil('\n');
 		vertexIDs.ensureSize(IDsCount);
 
-		while (IDsCount > 0)
+		while (IDsCount > 0u)
 		{
 			vertexIDs.insertBack(parser.parseLine());
 			--IDsCount;

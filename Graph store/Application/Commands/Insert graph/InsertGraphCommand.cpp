@@ -35,8 +35,11 @@ namespace IDragnev
 
 		void InsertGraphCommand::execute()
 		{
+			using GraphTypeRef = GraphFactory::GraphTypeRef;
+			using GraphIDRef = GraphFactory::GraphIDRef;
+
 			auto& factory = GraphFactory::instance();
-			auto graphPtr = factory.createEmptyGraph(graphType, graphID);
+			auto graphPtr = factory.createEmptyGraph(GraphTypeRef{ graphType }, GraphIDRef{ graphID });
 
 			Command::insertGraph(std::move(graphPtr));
 			Command::useGraph(graphID);
