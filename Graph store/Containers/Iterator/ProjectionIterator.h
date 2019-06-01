@@ -18,8 +18,8 @@ namespace IDragnev::Containers
 		
 		static_assert(std::is_lvalue_reference_v<Reference>,
 			          "ProjectionIterator requires Extractor to return an lvalue reference");
-		static_assert(std::is_copy_constructible_v<Extractor>,
-			          "ProjectionIterator requires Extractor to be copy constructible");
+		static_assert(std::is_copy_constructible_v<Extractor> && std::is_copy_assignable_v<Extractor>,
+			          "ProjectionIterator requires Extractor to be copy constructible and copy assignable");
 
 		friend class IteratorFacadeAccess;
 
@@ -28,15 +28,6 @@ namespace IDragnev::Containers
 			iterator(it),
 			extractor(extractor)
 		{
-		}
-
-		ProjectionIterator(const ProjectionIterator& other) = default;
-		~ProjectionIterator() = default;
-
-		ProjectionIterator& operator=(const ProjectionIterator& rhs)
-		{
-			iterator = rhs.iterator;
-			return *this;
 		}
 
 	private:
