@@ -29,6 +29,16 @@ namespace IDragnev::GraphStore
 		}
 	};
 
+	const Graph& GraphStore::Extractor::operator()(GraphCollection::const_iterator it) const
+	{
+		return extractGraph(it);
+	}
+
+	Graph& GraphStore::Extractor::operator()(GraphCollection::iterator it) const
+	{
+		return extractGraph(it);
+	}
+
 	void GraphStore::insert(GraphPtr graph)
 	{
 		if (!hasGraphWithID(graph->getID()))
@@ -43,9 +53,13 @@ namespace IDragnev::GraphStore
 
 	bool GraphStore::hasGraphWithID(const String& ID) const
 	{
-		auto it = std::find_if(cbegin(), cend(), matches(GraphID(ID)));
-		
+		auto it = searchGraph(ID);	
 		return static_cast<bool>(it);
+	}
+
+	auto GraphStore::searchGraph(const String& ID) const -> const_iterator
+	{
+		return std::find_if(cbegin(), cend(), matches(GraphID(ID)));
 	}
 
 	void GraphStore::remove(const String& ID)
@@ -81,7 +95,7 @@ namespace IDragnev::GraphStore
 
 	const Graph& GraphStore::operator[](const String& ID) const
 	{
-		if (auto it = std::find_if(begin(), end(), matches(GraphID(ID)));
+		if (auto it = searchGraph(ID);
 			it)
 		{
 			return *it;
@@ -97,29 +111,29 @@ namespace IDragnev::GraphStore
 		return graphs.isEmpty();
 	}
 
-	void GraphStore::empty() noexcept
+	void GraphStore::clear() noexcept
 	{
 		graphs.clear();
 	}
 
 	auto GraphStore::begin() noexcept -> iterator
 	{
-		return std::begin(graphs);
+		return iterator{ std::begin(graphs) };
 	}
 
 	auto GraphStore::end() noexcept -> iterator
 	{
-		return std::end(graphs);
+		return iterator{ std::end(graphs) };
 	}
 
 	auto GraphStore::begin() const noexcept -> const_iterator
 	{
-		return std::cbegin(graphs);
+		return const_iterator{ std::cbegin(graphs) };
 	}
 
 	auto GraphStore::end() const noexcept -> const_iterator
 	{
-		return std::cend(graphs);
+		return const_iterator{ std::cend(graphs) };
 	}
 
 	auto GraphStore::cbegin() const noexcept -> const_iterator

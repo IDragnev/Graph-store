@@ -17,7 +17,6 @@ namespace IDragnev
 namespace IDragnev::GraphStore
 {
 	class Graph;
-	class Exception;
 
 	class GraphStore
 	{
@@ -28,22 +27,14 @@ namespace IDragnev::GraphStore
 		class Extractor
 		{
 		public:
-			const Graph& operator()(GraphCollection::const_iterator it)
-			{
-				return extractGraph(it);
-			}
-
-			Graph& operator()(GraphCollection::iterator it)
-			{
-				return extractGraph(it);
-			}
+			const Graph& operator()(GraphCollection::const_iterator it) const;
+			Graph& operator()(GraphCollection::iterator it) const;
 
 		private:
 			template <typename Iterator>
 			static decltype(auto) extractGraph(Iterator it)
 			{
-				auto& ptr = *it;
-				return *ptr;
+				return *(it->get());
 			}
 		};
 
@@ -73,10 +64,12 @@ namespace IDragnev::GraphStore
 		void remove(const String& ID);
 
 		bool isEmpty() const noexcept;
-		void empty() noexcept;
+		void clear() noexcept;
 
 	private:
 		bool hasGraphWithID(const String& ID) const;
+		const_iterator searchGraph(const String& ID) const;
+
 		GraphPtr& getGraphPtr(const String& ID);
 		GraphCollection::iterator searchGraphPtr(const String& ID);
 
