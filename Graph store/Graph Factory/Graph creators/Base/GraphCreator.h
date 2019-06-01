@@ -1,37 +1,34 @@
 #ifndef __GRAPH_CREATOR_H_INCLUDED__
 #define __GRAPH_CREATOR_H_INCLUDED__
 
-#include "..\..\..\String\String.h"
+#include "String\String.h"
 #include <memory>
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	class Graph;
+
+	class GraphCreator
 	{
-		class Graph;
+	protected:
+		using GraphPtr = std::unique_ptr<Graph>;
 
-		class GraphCreator
+	public:
+		explicit GraphCreator(String graphType) :
+			createdGraphType{ std::move(graphType) }
 		{
-		protected:
-			using GraphPtr = std::unique_ptr<Graph>;
+		}
+		GraphCreator(const GraphCreator&) = delete;
+		GraphCreator& operator=(const GraphCreator&) = delete;
+		virtual ~GraphCreator() = default;
 
-		public:
-			explicit GraphCreator(String graphType) :
-				createdGraphType{ std::move(graphType) }
-			{
-			}
-			GraphCreator(const GraphCreator&) = delete;
-			GraphCreator& operator=(const GraphCreator&) = delete;
-			virtual ~GraphCreator() = default;
+		virtual GraphPtr operator()(const String& ID) const = 0;
 
-			virtual GraphPtr createEmptyGraph(const String& ID) const = 0;
+		const String& getCreatedGraphType() const noexcept { return createdGraphType; }
 
-			const String& getCreatedGraphType() const noexcept { return createdGraphType; }
-
-		private:
-			const String createdGraphType;
-		};
-	}
+	private:
+		const String createdGraphType;
+	};
 }
 
 #endif //__GRAPH_CREATOR_H_INCLUDED__

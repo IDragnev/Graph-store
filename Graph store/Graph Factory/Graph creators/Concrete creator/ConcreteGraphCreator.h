@@ -1,25 +1,21 @@
 #ifndef __CONCRETE_GRAPH_CREATOR__
 #define __CONCRETE_GRAPH_CREATOR__
 
-#include "..\Base\GraphCreator.h"
-#include "..\..\..\Graph\Base Graph\Graph.h"
+#include "Graph Factory\Graph creators\Base\GraphCreator.h"
 
-namespace IDragnev
+namespace IDragnev::GraphStore
 {
-	namespace GraphStore
+	template <typename GraphType>
+	class ConcreteGraphCreator : public GraphCreator
 	{
-		template <typename GraphType>
-		class ConcreteGraphCreator : public GraphCreator
-		{
-		public:
-			using GraphCreator::GraphCreator;
+	public:
+		using GraphCreator::GraphCreator;
 
-			GraphPtr createEmptyGraph(const String& ID) const override
-			{
-				return std::make_unique<GraphType>(ID);
-			}
-		};
-	}
+		GraphPtr operator()(const String& ID) const override
+		{
+			return std::make_unique<GraphType>(ID);
+		}
+	};
 }
 
 #endif //__CONCRETE_GRAPH_CREATOR__
