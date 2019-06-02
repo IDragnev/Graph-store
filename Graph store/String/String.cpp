@@ -1,12 +1,13 @@
 #include "String.h"
 #include <cstring>
+#include <algorithm>
 #include <utility>
 
 namespace IDragnev
 {
-	String::String(char c)
+	String::String(char c) :
+		content{ new char[2]{ c, '\0' } }
 	{
-		content = new char[2]{ c, '\0' };
 	}
 
 	String::String(const String& other) :
@@ -31,7 +32,7 @@ namespace IDragnev
 
 	void String::setContent(const char* string)
 	{
-		string != nullptr ? resetContentWith(clone(string)) : resetContentWith(nullptr);
+		resetContentWith(string != nullptr ? clone(string) : nullptr);
 	}
 
 	void String::resetContentWith(char* string)
@@ -42,9 +43,9 @@ namespace IDragnev
 
 	char* String::clone(const char* string)
 	{
-		auto size = std::strlen(string) + 1;
+		auto size = std::strlen(string) + 1u;
 		auto result = new char[size];
-		strcpy_s(result, size, string);
+		std::copy_n(string, size, result);
 
 		return result;
 	}
@@ -87,21 +88,18 @@ namespace IDragnev
 
 	void String::append(const char* string)
 	{
-		if (string != nullptr)
+		if (string == nullptr) return;
+
+		if (auto sourceLength = std::strlen(string);
+			sourceLength > 0u)
 		{
-			auto size = std::strlen(string);
+			auto currentLength = getLength();
+			auto buffer = new char[sourceLength + currentLength + 1u];
 
-			if (size > 0)
-			{
-				size += (this->getLength() + 1);
-				auto buffer = new char[size];
+			std::copy_n(this->content, currentLength, buffer);
+			std::copy_n(string, sourceLength + 1u, buffer + currentLength);
 
-				//getContent() because this->content could be null
-				strcpy_s(buffer, size, this->getContent());
-				strcat_s(buffer, size, string);
-
-				resetContentWith(buffer);
-			}
+			resetContentWith(buffer);
 		}
 	}
 
@@ -128,7 +126,7 @@ namespace IDragnev
 
 	bool operator==(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs, rhs) == 0;
+		return std::strcmp(lhs, rhs) == 0u;
 	}
 
 	bool operator!=(const String& lhs, const String& rhs) noexcept
@@ -138,7 +136,7 @@ namespace IDragnev
 
 	bool operator<(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs, rhs) < 0;
+		return std::strcmp(lhs, rhs) < 0u;
 	}
 
 	bool operator>(const String& lhs, const String& rhs) noexcept
