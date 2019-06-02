@@ -3,6 +3,7 @@
 #include "Serialization\Serialization.h"
 #include "Graph\Base Graph\GraphUtilities.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include "UtilityFunctions.h"
 
 using namespace fmt::literals;
@@ -59,7 +60,7 @@ namespace IDragnev::GraphStore
 
 	void GraphSaver::open(const String& filename)
 	{
-		file.open(filename);
+		file.open(static_cast<const char*>(filename));
 		if (!file.good())
 		{
 			throw FailedToOpen{ filename };

@@ -3,6 +3,7 @@
 #include "Graph\Base Graph\Graph.h"
 #include "Exceptions\Exceptions.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include "ID matcher\IDMatcher.h"
 #include "Containers\Iterator\ProjectionIterator.h"
 #include <algorithm>

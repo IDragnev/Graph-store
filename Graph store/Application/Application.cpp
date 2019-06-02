@@ -6,6 +6,7 @@
 #include "Directory loader\DirectoryLoader.h"
 #include "UtilityFunctions.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include "StringSplitter\StringSplitter.h"
 #include <iostream> 
 #include <filesystem>

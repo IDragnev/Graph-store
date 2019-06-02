@@ -2,6 +2,7 @@
 #include "Graph Factory\GraphFactory.h"
 #include "Serialization\Serialization.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include "UtilityFunctions.h"
 #include "Exceptions\Exceptions.h"
 #include <algorithm>

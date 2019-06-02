@@ -1,5 +1,6 @@
 #include "FileParser.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include "Exceptions\Exceptions.h"
 #include <string>
 
@@ -76,7 +77,7 @@ namespace IDragnev::GraphStore
 
 	void FileParser::open(const String& file)
 	{
-		stream.open(file);
+		stream.open(static_cast<const char*>(file));
 		if (stream)
 		{
 			currentLine = 1u;

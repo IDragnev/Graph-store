@@ -42,7 +42,7 @@ namespace IDragnev::GraphStore
 
 	auto GraphFactory::searchCreator(GraphTypeRef graphType) const -> CreatorsCollection::const_iterator
 	{
-		auto extractCreatedType = [](const auto& creator) { return GraphTypeRef(creator->getCreatedGraphType()); };
+		auto extractCreatedType = [](auto creator) { return GraphTypeRef(creator->getCreatedGraphType()); };
 		auto matchesGraphType = Functional::matches(graphType, extractCreatedType);
 
 		return std::find_if(std::begin(creators), std::end(creators), matchesGraphType);

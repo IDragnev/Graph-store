@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "Exceptions\Exceptions.h"
 #include "Third party\fmt-5.3.0\include\fmt\format.h"
+#include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include <assert.h>
 #include <algorithm>
 

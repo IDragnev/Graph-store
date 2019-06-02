@@ -7,7 +7,7 @@ namespace std
 {
 	std::size_t hash<String>::operator()(const String& key) const noexcept
 	{
-		const char* input = key;
+		auto input = static_cast<const char*>(key);
 		auto result = FNV_OFFSET_BASIS;
 
 		while (*input)
