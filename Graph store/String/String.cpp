@@ -127,7 +127,7 @@ namespace IDragnev
 
 	bool operator==(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs.getContent(), rhs.getContent()) == 0u;
+		return std::strcmp(lhs.getContent(), rhs.getContent()) == 0;
 	}
 
 	bool operator!=(const String& lhs, const String& rhs) noexcept
@@ -137,7 +137,7 @@ namespace IDragnev
 
 	bool operator<(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs.getContent(), rhs.getContent()) < 0u;
+		return std::strcmp(lhs.getContent(), rhs.getContent()) < 0;
 	}
 
 	bool operator>(const String& lhs, const String& rhs) noexcept
