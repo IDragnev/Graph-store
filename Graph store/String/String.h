@@ -16,18 +16,18 @@ namespace IDragnev
 		String& operator=(String&& rhs) noexcept;
 		String& operator=(const String& rhs);
 
-		operator const char*() const noexcept;
+		explicit operator const char*() const noexcept;
+		const char* getContent() const noexcept;
 
 		size_t getLength() const noexcept;
 
-		void append(const char* string);
-		void append(char symbol);
-
+		String& operator+=(const String& rhs);
 		String& operator+=(const char* rhs);
 		String& operator+=(char rhs);
 
 	private:
-		const char* getContent() const noexcept;
+		void append(const char* string);
+
 		void setContent(const char* string);
 		void resetContentWith(char* string);
 

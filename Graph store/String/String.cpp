@@ -1,7 +1,6 @@
 #include "String.h"
 #include <cstring>
 #include <algorithm>
-#include <utility>
 
 namespace IDragnev
 {
@@ -72,6 +71,13 @@ namespace IDragnev
 		delete[] content;
 	}
 
+	String& String::operator+=(const String& string)
+	{
+		append(string.getContent());
+
+		return *this;
+	}
+
 	String& String::operator+=(const char* string)
 	{
 		append(string);
@@ -79,9 +85,10 @@ namespace IDragnev
 		return *this;
 	}
 
-	String& String::operator+=(char symbol)
+	String& String::operator+=(char c)
 	{
-		append(symbol);
+		char buffer[]{ c, '\0' };
+		append(buffer);
 
 		return *this;
 	}
@@ -103,12 +110,6 @@ namespace IDragnev
 		}
 	}
 
-	void String::append(char c)
-	{
-		char buffer[]{ c, '\0' };
-		append(buffer);
-	}
-
 	const char* String::getContent() const noexcept
 	{
 		return (content != nullptr) ? content : "";
@@ -126,7 +127,7 @@ namespace IDragnev
 
 	bool operator==(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs, rhs) == 0u;
+		return std::strcmp(lhs.getContent(), rhs.getContent()) == 0u;
 	}
 
 	bool operator!=(const String& lhs, const String& rhs) noexcept
@@ -136,7 +137,7 @@ namespace IDragnev
 
 	bool operator<(const String& lhs, const String& rhs) noexcept
 	{
-		return std::strcmp(lhs, rhs) < 0u;
+		return std::strcmp(lhs.getContent(), rhs.getContent()) < 0u;
 	}
 
 	bool operator>(const String& lhs, const String& rhs) noexcept
