@@ -178,4 +178,10 @@ namespace IDragnev
 
 		return result;
 	}
+
+	std::ostream& operator<<(std::ostream& out, const String& s)
+	{
+		out << s.getContent();
+		return out;
+	}
 }

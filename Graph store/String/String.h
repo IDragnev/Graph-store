@@ -1,6 +1,8 @@
 #ifndef __STRING_H_INCLUDED__
 #define __STRING_H_INCLUDED__
 
+#include <iostream>
+
 namespace IDragnev
 {
 	class String
@@ -47,6 +49,8 @@ namespace IDragnev
 	bool operator<=(const String& lhs, const String& rhs) noexcept;
 	bool operator>(const String& lhs, const String& rhs) noexcept;
 	bool operator>=(const String& lhs, const String& rhs) noexcept;
+
+	std::ostream& operator<<(std::ostream& out, const String& s);
 }
 
 #endif // __STRING_H_INCLUDED__
