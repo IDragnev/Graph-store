@@ -4,6 +4,7 @@
 #include "Third party\fmt-5.3.0\include\fmt\ostream.h"
 #include <assert.h>
 #include <algorithm>
+#include <numeric>
 
 using namespace fmt::literals;
 
@@ -410,14 +411,15 @@ namespace IDragnev::GraphStore
 
 	std::size_t Graph::getEdgesCount() const noexcept
 	{
-		std::size_t result = 0u;
-
-		for (const auto& edges : edgeLists)
+		auto accumulator = [](auto result, const auto& edges)
 		{
-			result += edges.getCount();
-		}
+			return result + edges.getCount();
+		};
 
-		return result;
+		return std::accumulate(std::cbegin(edgeLists),
+			                   std::cend(edgeLists),
+			                   0u, 
+			                   accumulator);
 	}
 
 	auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&

@@ -4,7 +4,7 @@
 #include "Traits\Traits.h"
 
 namespace IDragnev::Functional
-{
+{	
 	struct LessThan
 	{
 		template <typename T, typename U>
