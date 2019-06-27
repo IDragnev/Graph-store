@@ -36,8 +36,9 @@ namespace IDragnev::GraphStore
 	void DirectoryTextFilesFlatIterator::toNextTextFile()
 	{
 		using Functional::matches;
+		using namespace std::string_literals;
 
-		auto isTextFile = matches(".txt", [](const auto& entry) { return entry.path().extension(); });
+		auto isTextFile = matches(".txt"s, [](const auto& entry) { return entry.path().extension(); });
 		current = std::find_if(current, end, isTextFile);
 	}
 
