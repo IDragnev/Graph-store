@@ -358,9 +358,8 @@ namespace IDragnev::GraphStore
 
 	const Graph::Vertex& Graph::getVertex(const String& ID) const
 	{
-		auto result = verticesSearchTable.search(ID);
-
-		if (result != nullptr)
+		if (auto result = verticesSearchTable.search(ID); 
+			result != nullptr)
 		{
 			return *result;
 		}
