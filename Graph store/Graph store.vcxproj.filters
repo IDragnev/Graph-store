@@ -420,9 +420,6 @@
     <ClInclude Include="Containers\Singly Linked List\SinglyLinkedListIteratorImpl.hpp">
       <Filter>Containers\Singly Linked List</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\Base Graph\EdgeIteratorImpl.hpp">
-      <Filter>Graph\Base Graph</Filter>
-    </ClInclude>
     <ClInclude Include="UtilityFunctions.h">
       <Filter>Utility Functions</Filter>
     </ClInclude>

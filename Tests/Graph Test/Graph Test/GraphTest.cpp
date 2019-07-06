@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
-#include "..\..\..\Graph store\Graph\Directed Graph\DirectedGraph.h"
-#include "..\..\..\Graph store\Graph\Undirected Graph\UndirectedGraph.h"
-#include "..\..\..\Graph store\General Exceptions\Exception.h"
-#include "..\..\..\Graph store\Graph\Base Graph\GraphUtilities.h"
+#include "Graph\Directed Graph\DirectedGraph.h"
+#include "Graph\Undirected Graph\UndirectedGraph.h"
+#include "Exceptions\Exceptions.h"
+#include "Graph\Base Graph\GraphUtilities.h"
 #include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -328,7 +328,9 @@ namespace GraphTest
 
 		static bool hasVertices(const Graph& g, IDList IDs)
 		{
-			return std::all_of(IDs.cbegin(), IDs.cend(), [&g](const auto& ID) { return g.hasVertexWithID(ID); });
+			return std::all_of(std::cbegin(IDs), 
+				               std::cend(IDs), 
+				               [&g](const auto& ID) { return g.hasVertexWithID(ID); });
 		}
 
 		static bool existsEdge(const Graph& g, const Vertex& start, const Vertex& end, Weight w)

@@ -61,7 +61,7 @@ namespace IDragnev::GraphStore
 
 	Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() noexcept
 	{
-		return const_cast<Vertex&>(static_cast<const IncidentEdge&>(*this).getIncidentVertex());
+		return const_cast<Vertex&>(std::as_const(*this).getIncidentVertex());
 	}
 
 	const Graph::Vertex& Graph::IncidentEdge::getIncidentVertex() const noexcept
@@ -217,8 +217,7 @@ namespace IDragnev::GraphStore
 
 	auto Graph::newestEdgeListPosition() noexcept -> EdgeListsCollection::iterator
 	{
-		using std::begin;
-		return begin(edgeLists);
+		return std::begin(edgeLists);
 	}
 
 	void Graph::insertInSearchTable(Vertex& v)
@@ -308,12 +307,11 @@ namespace IDragnev::GraphStore
 	template <bool throwIfMissing>
 	void Graph::removeEdgeFromTo(Vertex& from, Vertex& to)
 	{
-		auto iterator = searchEdgeFromTo(from, to);
-
-		if (iterator)
+		if (auto it = searchEdgeFromTo(from, to);
+			it)
 		{
 			auto& edges = edgesOf(from);
-			edges.removeAt(iterator);
+			edges.removeAt(it);
 		}
 		else if constexpr (throwIfMissing)
 		{
@@ -429,6 +427,6 @@ namespace IDragnev::GraphStore
 
 	auto Graph::edgesOf(Vertex& v) noexcept -> EdgeList&
 	{
-		return const_cast<EdgeList&>(edgesOf(static_cast<const Vertex&>(v)));
+		return const_cast<EdgeList&>(edgesOf(std::as_const(v)));
 	}
 }
