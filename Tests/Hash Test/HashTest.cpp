@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
-#include "../../Graph store/String/String.h"
-#include "../../Graph store/Containers/Hash/Hash.h"
-#include "../../Graph store/HashFunction/HashFunction.h"
+#include "String\String.h"
+#include "Containers\Hash\Hash.h"
+#include "HashFunction\HashFunction.h"
 #include <algorithm>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -35,36 +35,6 @@ namespace HashTest
 
 	TEST_CLASS(HashTest)
 	{
-	private:
-		using ItemHash = Hash<Item, String, KeyExtractor>;
-		using ItemPtrHash = Hash<const Item*, String, PointerKeyExtractor>;
-		using StringHash = Hash<String>;
-		using StringArray = DArray<String>;
-
-		static const size_t ITEMS_COUNT = 10;
-		static Item testItems[ITEMS_COUNT];
-
-		static bool areAllTestItemsIn(const ItemHash& hash)
-		{
-			return contains(hash, testItems, KeyExtractor{});
-		}
-
-		static bool contains(const StringHash& hash, StringArray values)
-		{			
-			return contains(hash, values, Identity{});
-		}
-
-		template <typename Item, typename Key, typename KeyAccessor, typename HashFun = std::hash<Key>, typename Container>
-		static bool contains(const Hash<Item, Key, KeyAccessor, HashFun>& hash, const Container& items, KeyAccessor keyOf)
-		{
-			using IDragnev::Functional::superpose;
-
-			auto search = [&hash, keyOf](const auto& item) { return hash.search(keyOf(item)); };
-			auto match = [](const auto& item, auto result) { return result.has_value() && result.value() == item; };
-
-			return std::all_of(std::begin(items), std::end(items), superpose(match, Identity{}, search));
-		}
-
 	public:
 		TEST_METHOD(defaultCtor)
 		{
@@ -123,7 +93,7 @@ namespace HashTest
 			Assert::IsTrue(str == String{ "" }, L"The rvalue is not moved");
 			Assert::AreEqual(hash.getCount(), 1U, L"Count is not updated");
 		}
-	
+
 		TEST_METHOD(removingUniqueItem)
 		{
 			ItemHash hash{ begin(testItems), end(testItems) };
@@ -169,7 +139,7 @@ namespace HashTest
 		{
 			ItemHash hash{};
 
-			for (auto&& item : testItems)
+			for (const auto& item : testItems)
 			{
 				auto found = hash.search(item.key);
 				Assert::IsFalse(found.has_value());
@@ -191,7 +161,7 @@ namespace HashTest
 		{
 			ItemPtrHash hash{};
 
-			for (auto&& item : testItems)
+			for (const auto& item : testItems)
 			{
 				auto found = hash.search(item.key);
 				Assert::IsNull(found);
@@ -322,6 +292,42 @@ namespace HashTest
 			Assert::IsTrue(areAllTestItemsIn(destination));
 		}
 
+	private:
+		using ItemHash = Hash<Item, String, KeyExtractor>;
+		using ItemPtrHash = Hash<const Item*, String, PointerKeyExtractor>;
+		using StringHash = Hash<String>;
+		using StringArray = DArray<String>;
+
+		static const size_t ITEMS_COUNT = 10;
+		static Item testItems[ITEMS_COUNT];
+
+		static bool areAllTestItemsIn(const ItemHash& hash)
+		{
+			return contains(hash, testItems, KeyExtractor{});
+		}
+
+		static bool contains(const StringHash& hash, StringArray values)
+		{
+			return contains(hash, values, Identity{});
+		}
+
+		template <typename Item,
+			      typename Key, 
+			      typename KeyAccessor, 
+			      typename HashFun, 
+			      typename Container
+		> static bool
+		contains(const Hash<Item, Key, KeyAccessor, HashFun>& hash, const Container& items, KeyAccessor keyOf)
+		{
+			using IDragnev::Functional::superpose;
+
+			auto search = [&hash, keyOf](const auto& item) { return hash.search(keyOf(item)); };
+			auto match = [](const auto& item, auto result) { return result.has_value() && result.value() == item; };
+
+			return std::all_of(std::begin(items),
+				               std::end(items), 
+				               superpose(match, Identity{}, search));
+		}
 	};
 
 	Item HashTest::testItems[10]{ { "some key" }, { "other key" }, { "keeeey" }, { "New York" }, { "Lambda" }, { "No idea" }, { "Creative" }, { "Sofia" }, { "123" }, { "Last" } };

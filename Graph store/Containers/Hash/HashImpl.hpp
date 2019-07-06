@@ -150,7 +150,7 @@ namespace IDragnev::Containers
 
 	template <typename Item, typename Key, typename KeyAccessor, typename HashFun, typename EqualityPredicate>
 	template <typename T>
-	static decltype(auto) Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(T&& element)
+	decltype(auto) Hash<Item, Key, KeyAccessor, HashFun, EqualityPredicate>::itemOf(T&& element)
 	{
 		if constexpr (std::is_pointer_v<std::remove_reference_t<T>>)
 		{
