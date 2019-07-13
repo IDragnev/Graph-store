@@ -172,5 +172,17 @@ namespace FunctionalTest
 			Assert::IsTrue(matchesTarget(first));
 			Assert::IsFalse(matchesTarget(second));
 		}
+
+		TEST_METHOD(curryingAFunction)
+		{
+			auto f = [](auto x, auto y, auto z) { return x + y + z; };
+			
+			auto curriedF = curry(f);		
+
+			Assert::AreEqual(curriedF(1, 2, 3), 6);
+			Assert::AreEqual(curriedF(1, 2)(3), 6);
+			Assert::AreEqual(curriedF(1)(2, 3), 6);
+			Assert::AreEqual(curriedF(1)(2)(3), 6);
+		}
 	};
 }
