@@ -184,5 +184,15 @@ namespace FunctionalTest
 			Assert::AreEqual(curriedF(1)(2, 3), 6);
 			Assert::AreEqual(curriedF(1)(2)(3), 6);
 		}
+
+		TEST_METHOD(theCurriedFunctionMovesTheAlreadyBoundArgumentsAndForwardsTheRest)
+		{
+			auto f = [](char&& x, std::string&& y, std::string z) { return x; };
+
+			auto curriedF = curry(f);
+			auto fWithBoundXY = curriedF('x', "y"s);
+
+			Assert::AreEqual(fWithBoundXY("z"), 'x');
+		}
 	};
 }
