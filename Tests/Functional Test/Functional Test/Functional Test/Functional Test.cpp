@@ -194,5 +194,22 @@ namespace FunctionalTest
 
 			Assert::AreEqual(fWithBoundXY("z"), 'x');
 		}
+
+		TEST_METHOD(passingNonCopiableTypesByRefToTheCurriedFunction)
+		{
+			struct NonCopiable
+			{
+				int sum(int y, int z) const { return x + y + z; }
+
+				const int x = 10;
+			} nonCopiable;
+
+			auto f = [](const NonCopiable& x, int y, int z) { return x.sum(y, z); };
+
+			auto curriedF = curry(f);
+			auto fWithBoundX = curriedF(std::cref(nonCopiable));
+
+			Assert::AreEqual(fWithBoundX(1, 2), 13);
+		}
 	};
 }
