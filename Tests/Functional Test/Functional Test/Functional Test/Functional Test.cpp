@@ -185,14 +185,14 @@ namespace FunctionalTest
 			Assert::AreEqual(curriedF(1)(2)(3), 6);
 		}
 
-		TEST_METHOD(theCurriedFunctionMovesTheAlreadyBoundArgumentsAndForwardsTheRest)
+		TEST_METHOD(theCurriedFunctionCapturesByForwardingAndThenMovesAllTheArgumentsOnInvocation)
 		{
-			auto f = [](char&& x, std::string&& y, std::string z) { return x; };
+			auto f = [](int&& x, std::string&& y) { return x; };
+			const auto x = 1;
 
 			auto curriedF = curry(f);
-			auto fWithBoundXY = curriedF('x', "y"s);
 
-			Assert::AreEqual(fWithBoundXY("z"), 'x');
+			Assert::AreEqual(curriedF(x)("y"s), x);
 		}
 
 		TEST_METHOD(passingNonCopiableTypesByRefToTheCurriedFunction)
@@ -203,7 +203,7 @@ namespace FunctionalTest
 
 				const int x = 10;
 			} nonCopiable;
-
+			
 			auto f = [](const NonCopiable& x, int y, int z) { return x.sum(y, z); };
 
 			auto curriedF = curry(f);
