@@ -211,5 +211,10 @@ namespace FunctionalTest
 
 			Assert::AreEqual(fWithBoundX(1, 2), 13);
 		}
+
+		TEST_METHOD(flippingABinaryFunction)
+		{
+			static_assert(flip(LessThan{})(2, 1));
+		}
 	};
 }

@@ -149,6 +149,18 @@ namespace IDragnev::Functional
 	{
 		return Detail::curryImpl(f, {});
 	}
+
+	template <typename BinaryFunction>
+	constexpr auto flip(BinaryFunction f) noexcept
+	{
+		return[f](auto&& x, auto&& y) constexpr noexcept(std::is_invocable_v<decltype(f), decltype(y), decltype(x)>)
+		-> decltype(auto)
+		{
+			using X = decltype(x);
+			using Y = decltype(y);
+			return f(std::forward<Y>(y), std::forward<X>(x));
+		};
+	}
 }
 
 #endif //__FUNCTIONAL_H_INCLUDED__
