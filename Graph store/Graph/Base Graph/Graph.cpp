@@ -408,15 +408,11 @@ namespace IDragnev::GraphStore
 
 	std::size_t Graph::getEdgesCount() const noexcept
 	{
-		auto accumulator = [](auto result, const auto& edges)
-		{
-			return result + edges.getCount();
-		};
-
-		return std::accumulate(std::cbegin(edgeLists),
-			                   std::cend(edgeLists),
-			                   0u, 
-			                   accumulator);
+		return std::transform_reduce(std::cbegin(edgeLists),
+							         std::cend(edgeLists),
+			                         0u,
+			                         std::plus{},
+			                         [](const auto& list) { return list.getCount(); });
 	}
 
 	auto Graph::edgesOf(const Vertex& v) noexcept -> const EdgeList&
